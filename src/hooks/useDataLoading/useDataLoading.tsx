@@ -7,9 +7,13 @@ const useDataLoading = () => {
 
   const loadGameServers = async () => {
     dispatch(gameServerConfigurationSliceActions.setState("loading"));
-    const gameServers = await getAllGameServers();
-    dispatch(gameServerConfigurationSliceActions.setState("idle"));
-    dispatch(gameServerConfigurationSliceActions.setGameServerConfigurations(gameServers));
+    try {
+      const gameServers = await getAllGameServers();
+      dispatch(gameServerConfigurationSliceActions.setState("idle"));
+      dispatch(gameServerConfigurationSliceActions.setGameServerConfigurations(gameServers));
+    } catch (error) {
+      dispatch(gameServerConfigurationSliceActions.setState("failed"));
+    }
   }
 
   return {
