@@ -10,7 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as RedirectedCounterRouteImport } from './routes/redirected.$counter'
+import { Route as RedirectedCounterRouteImport } from './routes/redirected_.$counter'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -18,7 +18,7 @@ const IndexRoute = IndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const RedirectedCounterRoute = RedirectedCounterRouteImport.update({
-  id: '/redirected/$counter',
+  id: '/redirected_/$counter',
   path: '/redirected/$counter',
   getParentRoute: () => rootRouteImport,
 } as any)
@@ -34,14 +34,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/redirected/$counter': typeof RedirectedCounterRoute
+  '/redirected_/$counter': typeof RedirectedCounterRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths: '/' | '/redirected/$counter'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/redirected/$counter'
-  id: '__root__' | '/' | '/redirected/$counter'
+  id: '__root__' | '/' | '/redirected_/$counter'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -58,8 +58,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/redirected/$counter': {
-      id: '/redirected/$counter'
+    '/redirected_/$counter': {
+      id: '/redirected_/$counter'
       path: '/redirected/$counter'
       fullPath: '/redirected/$counter'
       preLoaderRoute: typeof RedirectedCounterRouteImport
