@@ -95,6 +95,7 @@ If the backend API has been updated, you need to sync the changes to the fronten
 **Pro Tip:** If you are on Mac/Linux (or use Git Bash), you can do this in one line:
 ```sh
 curl http://localhost:8080/api/v3/api-docs > openapi-backend.json && bunx orval
+```
 
 #### Tanstack Router Error
 Hot reloading for new routes does not work currently. When you run `bun run dev`, tanstack router generates a new route tree for you which should fix the issue.
