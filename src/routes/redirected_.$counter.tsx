@@ -1,12 +1,14 @@
 import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
-export const Route = createFileRoute("/redirected/$counter")({
+export const Route = createFileRoute("/redirected_/$counter")({
   component: Redirected,
 });
 
 function Redirected() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const { counter } = Route.useParams();
@@ -35,18 +37,18 @@ function Redirected() {
       >
         {counter > 0 ? (
           <p className="text-center">
-            I told you not to click!
+            {t("redirected.warning")}
             <br />
-            That cost you all your {counter} clicks!
+            {t("redirected.consequence", { counter })}
           </p>
         ) : (
           <p className="text-center">
-            I told you not to click!
+            {t("redirected.warning")}
             <br />
-            You didn't even have any clicks to repay your wrongdoings!
+            {t("redirected.noConsequence")}
           </p>
         )}
-        <Button onClick={goBack}>Earn some more clicks</Button>
+        <Button onClick={goBack}>{t("redirected.earnMoreClicks")}</Button>
       </Card>
     </div>
   );

@@ -2,12 +2,14 @@ import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/")({
   component: Index,
 });
 
 function Index() {
+  const { t } = useTranslation();
   const [counter, setCounter] = useState(0);
   const navigate = useNavigate();
 
@@ -48,7 +50,9 @@ function Index() {
             items-center
             "
       >
-        <span>Clicks: {counter}</span>
+        <span>
+          {t("index.clickCounter")}: {counter}
+        </span>
         <div
           className="
           flex
@@ -56,8 +60,8 @@ function Index() {
           gap-5
         "
         >
-          <Button onClick={increaseCounter}>Click me!</Button>
-          <Button onClick={redirectUser}>Don't click me!</Button>
+          <Button onClick={increaseCounter}>{t("index.clickBtn")}</Button>
+          <Button onClick={redirectUser}>{t("index.dontClickBtn")}</Button>
         </div>
       </Card>
     </div>
