@@ -13,6 +13,7 @@
     "lint:fix": "biome lint --write"
   },
   "dependencies": {
+    "@cursorify/react": "^0.0.43",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-separator": "^1.1.8",

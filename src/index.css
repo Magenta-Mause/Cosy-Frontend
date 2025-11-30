@@ -1,1 +1,13 @@
 @import "../styles/globals.css";
+
+@font-face {
+    font-family: 'Stardew Valley';
+    src: url('./assets/StardewValley.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+body {
+    font-family: 'Stardew Valley', sans-serif;
+}
