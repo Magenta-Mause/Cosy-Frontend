@@ -1,3 +1,4 @@
+import CreateGameServer from "@components/CreateGameServer/CreateGameServer";
 import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -60,6 +61,7 @@ function Index() {
           <Button onClick={redirectUser}>Don't click me!</Button>
         </div>
       </Card>
+      <CreateGameServer />
     </div>
   );
 }
