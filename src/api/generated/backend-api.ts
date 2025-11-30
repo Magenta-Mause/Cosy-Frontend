@@ -23,7 +23,7 @@ import type {
   GameServerConfigurationEntity
 } from './model';
 
-import { customInstance } from '../axios-instance';
+import { customInstance } from '../axiosInstance.ts';
 type AwaitedInput<T> = PromiseLike<T> | T;
 
       type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
