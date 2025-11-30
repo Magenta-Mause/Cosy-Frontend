@@ -5,30 +5,30 @@
  * It is included in `src/index.html`.
  */
 
-import {StrictMode} from "react";
-import {createRoot} from "react-dom/client";
-import {RouterProvider, createRouter} from "@tanstack/react-router";
-import {routeTree} from "@/routeTree.gen";
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { routeTree } from "@/routeTree.gen";
 import "@/index.css";
 import Providers from "@components/technical/Providers/Providers.tsx";
 import "@/i18n/i18n";
 
-const router = createRouter({routeTree});
+const router = createRouter({ routeTree });
 
 const elem = document.getElementById("root")!;
 const app = (
-    <StrictMode>
-        <Providers>
-            <RouterProvider router={router}/>
-        </Providers>
-    </StrictMode>
+  <StrictMode>
+    <Providers>
+      <RouterProvider router={router} />
+    </Providers>
+  </StrictMode>
 );
 
 if (import.meta.hot) {
-    // With hot module reloading, `import.meta.hot.data` is persisted.
-    const root = (import.meta.hot.data.root ??= createRoot(elem));
-    root.render(app);
+  // With hot module reloading, `import.meta.hot.data` is persisted.
+  const root = (import.meta.hot.data.root ??= createRoot(elem));
+  root.render(app);
 } else {
-    // The hot module reloading API is not available in production.
-    createRoot(elem).render(app);
+  // The hot module reloading API is not available in production.
+  createRoot(elem).render(app);
 }
