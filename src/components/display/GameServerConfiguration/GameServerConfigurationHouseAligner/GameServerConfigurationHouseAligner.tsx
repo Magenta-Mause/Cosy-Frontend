@@ -1,14 +1,12 @@
-import GameServerConfigurationHouse
-  from "@components/display/GameServerConfiguration/GameServerConfigurationHouse/GameServerConfigurationHouse.tsx";
-import type {GameServerConfigurationEntity} from "@/api/generated/model";
-import calculateCoordinate
-  from "@components/display/GameServerConfiguration/GameServerConfigurationHouseAligner/calculateCoordinate.ts";
+import GameServerConfigurationHouse from "@components/display/GameServerConfiguration/GameServerConfigurationHouse/GameServerConfigurationHouse.tsx";
+import calculateCoordinate from "@components/display/GameServerConfiguration/GameServerConfigurationHouseAligner/calculateCoordinate.ts";
+import type { GameServerConfigurationEntity } from "@/api/generated/model";
 
 const GameServerConfigurationHouseAligner = (props: {
   gameServers: GameServerConfigurationEntity[];
 }) => {
   const getStyle = (index: number): React.CSSProperties => {
-    const {x, y} = calculateCoordinate(index);
+    const { x, y } = calculateCoordinate(index);
 
     return {
       position: "absolute",
@@ -29,6 +27,5 @@ const GameServerConfigurationHouseAligner = (props: {
     </div>
   );
 };
-
 
 export default GameServerConfigurationHouseAligner;

@@ -1,7 +1,7 @@
 import { Button } from "@components/ui/button";
 import { Dialog, DialogTrigger } from "@components/ui/dialog";
-import CreateGameServerModal from "./CreateGameServerModal";
 import { useState } from "react";
+import CreateGameServerModal from "./CreateGameServerModal";
 
 export default function createGameServer() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -9,7 +9,7 @@ export default function createGameServer() {
   return (
     <Dialog open={modalOpen} onOpenChange={setModalOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">Open Dialog</Button>
+        <Button variant="outline">Create new Game Server</Button>
       </DialogTrigger>
       <CreateGameServerModal setModalOpen={setModalOpen} />
     </Dialog>
