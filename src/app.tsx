@@ -15,6 +15,7 @@ import "@/i18n/i18n";
 
 const router = createRouter({ routeTree });
 
+// biome-ignore lint: default template stuff
 const elem = document.getElementById("root")!;
 const app = (
   <StrictMode>
@@ -26,6 +27,7 @@ const app = (
 
 if (import.meta.hot) {
   // With hot module reloading, `import.meta.hot.data` is persisted.
+  // biome-ignore lint: default template stuff
   const root = (import.meta.hot.data.root ??= createRoot(elem));
   root.render(app);
 } else {
