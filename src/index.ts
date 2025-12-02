@@ -1,6 +1,6 @@
-import { serve } from "bun";
+import {serve} from "bun";
 import index from "./index.html";
-import { API_TARGET } from "@config";
+import {API_TARGET} from "@config";
 
 const server = serve({
   routes: {
