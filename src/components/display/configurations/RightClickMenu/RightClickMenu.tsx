@@ -8,8 +8,9 @@ import { type ReactNode, useState } from "react";
 
 export interface RightClickAction {
   label: string;
-  onClick: () => Promise<void> | void;
+  onClick?: () => Promise<void> | void; // Make onClick optional
   children?: RightClickAction[];
+  render?: ReactNode; // Add render prop
 }
 
 interface RightClickMenuProps {
@@ -42,18 +43,27 @@ const RightClickMenu = (props: RightClickMenuProps) => {
     <ContextMenu>
       <ContextMenuTrigger asChild>{props.children}</ContextMenuTrigger>
       <ContextMenuContent>
-        {props.actions.map((action) => (
-          <ContextMenuItem
-            key={action.label}
-            onSelect={async (e) => {
-              e.preventDefault();
-              await handleAsync(action.onClick);
-            }}
-            className={"font-['VT323']"}
-            disabled={loading}
-          >
-            {action.label}
-          </ContextMenuItem>
+        {props.actions.map((action, index) => (
+          action.render ? (
+            // If a render prop is provided, render it directly
+            <div key={action.label || index}>
+              {action.render}
+            </div>
+          ) : (
+            <ContextMenuItem
+              key={action.label}
+              onSelect={async (e) => {
+                e.preventDefault();
+                if (action.onClick) {
+                  await handleAsync(action.onClick);
+                }
+              }}
+              className={"font-['VT323']"}
+              disabled={loading}
+            >
+              {action.label}
+            </ContextMenuItem>
+          )
         ))}
       </ContextMenuContent>
     </ContextMenu>

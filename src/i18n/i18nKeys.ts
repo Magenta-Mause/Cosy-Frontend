@@ -15,6 +15,13 @@ export type i18nLanguage = {
     refreshGameServersSuccess: string;
     refreshGameServersError: string;
   };
+  deleteGameServerDialog: {
+    title: ContainsVariable<"serverName">;
+    description: string;
+    inputLabel: string;
+    cancel: string;
+    confirm: string;
+  };
   aria: {
     createNewGameServer: string;
     gameServerConfiguration: ContainsVariable<"serverName">;

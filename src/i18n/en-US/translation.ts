@@ -17,6 +17,14 @@ const translation: i18nLanguage = {
     refreshGameServersSuccess: "Game Server Configurations refreshed successfully!",
     refreshGameServersError: "Failed to refresh Game Server Configurations!",
   },
+  deleteGameServerDialog: {
+    title: "Are you absolutely sure you want to delete {{serverName}}?",
+    description:
+      "This action cannot be undone. This will permanently delete your game server configuration and remove its data from the server.",
+    inputLabel: "Enter the name of the game server to be sure:",
+    cancel: "Cancel",
+    confirm: "Delete",
+  },
   aria: {
     createNewGameServer: "Create a new Game Server Configuration",
     gameServerConfiguration: "Game Server Configuration: {{serverName}}",

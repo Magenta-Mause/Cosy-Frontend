@@ -17,6 +17,14 @@ const translation: i18nLanguage = {
     refreshGameServersSuccess: "Gameserver-Konfigurationen erfolgreich aktualisiert!",
     refreshGameServersError: "Fehler beim Aktualisieren der Gameserver-Konfigurationen!",
   },
+  deleteGameServerDialog: {
+    title: "Möchten Sie {{serverName}} wirklich löschen?",
+    description:
+      "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
+    inputLabel: "Geben Sie den Namen des Gameservers ein, um sicherzugehen:",
+    cancel: "Abbrechen",
+    confirm: "Löschen",
+  },
   aria: {
     createNewGameServer: "Erstelle eine neue Gameserver-Konfiguration",
     gameServerConfiguration: "Gameserver-Konfiguration: {{serverName}}",

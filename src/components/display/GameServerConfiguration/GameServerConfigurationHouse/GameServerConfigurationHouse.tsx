@@ -1,6 +1,8 @@
 import RightClickMenu from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
+import { DeleteGameServerAlertDialog } from "@components/display/GameServerConfiguration/DeleteGameServerAlertDialog.tsx";
 import GameSign from "@components/display/GameServerConfiguration/GameSign/GameSign.tsx";
 import Link from "@components/ui/Link.tsx";
+import { ContextMenuItem } from "@components/ui/context-menu.tsx";
 import type { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -26,9 +28,16 @@ const GameServerConfigurationHouse = (props: {
     },
     {
       label: t("rightClickMenu.delete"),
-      onClick: async () => {
-        deleteGameServer(props.gameServer.uuid ?? "");
-      },
+      render: (
+        <DeleteGameServerAlertDialog
+          serverName={props.gameServer.server_name ?? ""}
+          onConfirm={() => deleteGameServer(props.gameServer.uuid ?? "")}
+        >
+          <ContextMenuItem className={"font-['VT323']"} onSelect={(e) => e.preventDefault()}>
+            {t("rightClickMenu.delete")}
+          </ContextMenuItem>
+        </DeleteGameServerAlertDialog>
+      ),
     },
   ];
 
