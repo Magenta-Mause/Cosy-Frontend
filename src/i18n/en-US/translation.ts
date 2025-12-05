@@ -39,7 +39,6 @@ const translation: i18nLanguage = {
     continueMeansAccept: "By signing in, you accept our",
     legal: "Privacy Policy",
   },
-  consequence: "asd{{counter}}ajskod",
 };
 
 export default translation;

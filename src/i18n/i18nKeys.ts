@@ -36,7 +36,6 @@ export type i18nLanguage = {
     continueMeansAccept: string;
     legal: string;
   };
-  consequence: ContainsVariable<"counter">; // example
 };
 
 type ContainsVariable<T extends string> = `${string}{{${T}}}${string}`;
