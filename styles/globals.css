@@ -37,7 +37,7 @@
     --color-card: var(--card);
     --color-link: var(--link);
     --color-primary-modal-background: var(--primary-modal-background);
-    --color-primary-banner: var(--primary-banner); 
+    --color-primary-banner: var(--primary-banner);
     --color-button: var(--button);
 
     /* RADIUS: Stardew is pixel art, so we want small, blocky corners.

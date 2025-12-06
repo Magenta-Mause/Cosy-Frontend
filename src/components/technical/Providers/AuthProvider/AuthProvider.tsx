@@ -57,42 +57,46 @@ const AuthProvider = (props: { children: ReactNode }) => {
     }
   }, []);
 
-  const updateAuthState = useCallback(
+  const analyseToken = useCallback(
     (token: string | null) => {
+      const emptyResponse = {
+        identityToken: null,
+        authorized: false,
+        username: null,
+        tokenExpirationDate: null,
+      };
       if (!token) {
-        setIdentityToken(null);
-        setAuthorized(false);
-        setUsername(null);
-        setTokenExpirationDate(null);
-        return;
+        return emptyResponse;
       }
-
       const decoded = parseToken(token);
       if (!decoded) {
-        setIdentityToken(null);
-        setAuthorized(false);
-        setUsername(null);
-        setTokenExpirationDate(null);
-        return;
+        return emptyResponse;
       }
-
       const expirationMs = decoded.exp * 1000;
       const isExpired = Date.now() >= expirationMs;
 
       if (isExpired) {
-        setIdentityToken(null);
-        setAuthorized(false);
-        setUsername(null);
-        setTokenExpirationDate(null);
-        return;
+        return emptyResponse;
       }
 
-      setIdentityToken(token);
-      setAuthorized(true);
-      setUsername(decoded.sub);
-      setTokenExpirationDate(expirationMs);
+      return {
+        identityToken: token,
+        authorized: true,
+        username: decoded.sub,
+        tokenExpirationDate: expirationMs,
+      };
     },
     [parseToken],
+  );
+  const updateAuthState = useCallback(
+    (token: string | null) => {
+      const response = analyseToken(token);
+      setIdentityToken(response.identityToken);
+      setAuthorized(response.authorized);
+      setUsername(response.username);
+      setTokenExpirationDate(response.tokenExpirationDate);
+    },
+    [analyseToken],
   );
 
   const refreshIdentityToken = useCallback(async () => {
@@ -112,12 +116,14 @@ const AuthProvider = (props: { children: ReactNode }) => {
 
   const logout = useCallback(() => {
     updateAuthState(null);
+    setAuthToken(null);
     // await logoutApi();
   }, [updateAuthState]);
 
   const setToken = useCallback(
     (token: string) => {
       updateAuthState(token);
+      setAuthToken(token);
     },
     [updateAuthState],
   );

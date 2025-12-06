@@ -24,8 +24,8 @@ const LoginDisplay = () => {
       await refreshIdentityToken();
 
       setOpen(false);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Login failed");
+    } catch {
+      setError(t("signIn.incorrectCredentials"));
     } finally {
       setIsLoggingIn(false);
     }
@@ -38,7 +38,7 @@ const LoginDisplay = () => {
           <LoginBanner setOpen={setOpen} />
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent className="bg-primary-modal-background text- w-100">
+          <DialogContent className="bg-primary-modal-background w-100">
             <DialogTitle className="text-3xl">{t("signIn.signIn")}</DialogTitle>
             <DialogDescription className="text-lg -my-5">{t("signIn.desc")}</DialogDescription>
             <LoginForm loginCallback={handleLogin} error={error} isLoading={isLoggingIn} />

@@ -1,6 +1,6 @@
-import * as React from "react"
-import * as FormPrimitive from "@radix-ui/react-form"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import * as FormPrimitive from "@radix-ui/react-form";
+import { cn } from "@/lib/utils";
 
 function Form({
   ...props

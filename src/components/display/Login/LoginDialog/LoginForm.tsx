@@ -47,41 +47,41 @@ const LoginForm = (props: {
             required
           />
         </FormControl>
-
-        <FormField name="password">
-          <FormLabel
-            htmlFor="password"
-            className={`text-button-accent ${props.error ? "text-red-700" : ""}`}
-          >
-            {t("signIn.password")}
-          </FormLabel>
-          <FormControl asChild className="text-2xl">
-            <Input
-              type="password"
-              id="password"
-              name="password"
-              className={`bg-primary-banner [box-shadow:inset_0_1_2_2px_rgba(132,66,57,0.4)] ${props.error ? "border-red-700" : ""}`}
-              required
-            />
-          </FormControl>
-          {props.error && (
-            <FormMessage className="text-error text-red-700 mt-1">{props.error}</FormMessage>
-          )}
-        </FormField>
-
-        <div className="flex flex-col gap-4 mt-4">
-          <FormMessage className="underline flex justify-end text-link -my-2">
-            {t("signIn.resetPassword")}
-          </FormMessage>
-          <FormSubmit type="submit" disabled={props.isLoading}>
-            {props.isLoading ? t("signIn.loading") : t("signIn.signIn")}
-          </FormSubmit>
-          <FormMessage className="text-button-accent leading-none">
-            {t("signIn.continueMeansAccept")}{" "}
-            <span className="underline text-link">{t("signIn.legal")}</span>
-          </FormMessage>
-        </div>
       </FormField>
+
+      <FormField name="password">
+        <FormLabel
+          htmlFor="password"
+          className={`text-button-accent ${props.error ? "text-red-700" : ""}`}
+        >
+          {t("signIn.password")}
+        </FormLabel>
+        <FormControl asChild className="text-2xl">
+          <Input
+            type="password"
+            id="password"
+            name="password"
+            className={`bg-primary-banner [box-shadow:inset_0_1_2_2px_rgba(132,66,57,0.4)] ${props.error ? "border-red-700" : ""}`}
+            required
+          />
+        </FormControl>
+        {props.error && (
+          <FormMessage className="text-error text-red-700 mt-1">{props.error}</FormMessage>
+        )}
+      </FormField>
+
+      <a href="#test" className="underline flex justify-end text-link text-xl">
+        {t("signIn.resetPassword")}
+      </a>
+      <FormSubmit type="submit" disabled={props.isLoading} className="w-full text-xl my-2">
+        {props.isLoading ? t("signIn.loading") : t("signIn.signIn")}
+      </FormSubmit>
+      <p className="text-button-accent leading-none text-xl">
+        {t("signIn.continueMeansAccept")}{" "}
+        <a href="#test" className="underline text-link text-xl">
+          {t("signIn.legal")}
+        </a>
+      </p>
     </Form>
   );
 };
