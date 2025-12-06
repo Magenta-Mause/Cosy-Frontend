@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button.tsx";
+import {Button} from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -7,20 +7,22 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import { Input } from "@components/ui/input.tsx";
-import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
-import { useGetUserInvite, useLogin, useUseInvite } from "@/api/generated/backend-api";
+import {Input} from "@components/ui/input.tsx";
+import {Loader2} from "lucide-react";
+import {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
+import {toast} from "sonner";
+import {useGetUserInvite, useLogin, useUseInvite} from "@/api/generated/backend-api";
+import type {InvalidRequestError} from "@/types/errors.ts";
 
 interface InviteRedemptionModalProps {
   inviteToken: string;
   onClose: () => void;
 }
 
-export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemptionModalProps) {
-  const { t } = useTranslation();
+
+export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionModalProps) {
+  const {t} = useTranslation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -39,10 +41,10 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
   });
 
   // Mutation to register the user
-  const { mutate: registerUser, isPending: isRegistering } = useUseInvite();
+  const {mutate: registerUser, isPending: isRegistering} = useUseInvite();
 
   // Mutation to auto-login after registration (optional, but good UX)
-  const { mutate: login } = useLogin();
+  const {mutate: login} = useLogin();
 
   useEffect(() => {
     if (inviteData?.username) {
@@ -71,28 +73,16 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
     registerUser(
       {
         secretKey: inviteToken,
-        data: { username, password },
+        data: {username, password},
       },
       {
         onSuccess: () => {
           toast.success(t("toasts.accountCreatedSuccess"));
-          // Attempt auto-login
-          login(
-            { data: { username, password } },
-            {
-              onSuccess: () => {
-                toast.success(t("inviteRedemption.loginSuccess"));
-                window.location.reload(); // Reload to refresh app state/auth context
-              },
-              onError: () => {
-                toast.info(t("inviteRedemption.loginInfo"));
-                handleClose();
-              },
-            },
-          );
         },
-        onError: () => {
-          toast.error(t("toasts.accountCreateError"));
+        onError: (e) => {
+          const typedError = e as InvalidRequestError;
+          const error = Object.entries(typedError.response?.data.data)[0];
+          toast.error(t("toasts.accountCreateError", {error: error ? error[1] : "Unknown error"}));
         },
       },
     );
@@ -111,7 +101,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
 
         {isLoadingInvite ? (
           <div className="flex justify-center py-8">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <Loader2 className="h-8 w-8 animate-spin text-primary"/>
           </div>
         ) : isInviteError ? (
           <div className="py-4 text-center space-y-4">
@@ -124,7 +114,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
           <form onSubmit={handleSubmit} className="space-y-4 py-2">
             {inviteData?.invited_by && (
               <p className="text-sm text-muted-foreground text-center mb-4">
-                {t("inviteRedemption.invitedBy", { username: inviteData.invited_by })}
+                {t("inviteRedemption.invitedBy", {username: inviteData.invited_by})}
               </p>
             )}
 
@@ -192,7 +182,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
               <Button type="submit" disabled={isRegistering}>
                 {isRegistering ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
                     {t("inviteRedemption.creating")}
                   </>
                 ) : (

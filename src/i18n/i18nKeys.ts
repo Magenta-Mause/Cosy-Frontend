@@ -15,14 +15,14 @@ export type i18nLanguage = {
     refreshGameServersSuccess: string;
     refreshGameServersError: string;
     inviteCreatedSuccess: string;
-    inviteCreateError: string;
+    inviteCreateError: ContainsVariable<"error">;
     inviteRevokedSuccess: string;
     inviteRevokeError: string;
     copyClipboardSuccess: string;
     passwordsDoNotMatch: string;
     usernameRequired: string;
     accountCreatedSuccess: string;
-    accountCreateError: string;
+    accountCreateError: ContainsVariable<"error">;
   };
   userModal: {
     title: string;
