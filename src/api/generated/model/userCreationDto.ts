@@ -7,8 +7,15 @@
  */
 
 export interface UserCreationDto {
-  /** @minLength 1 */
-  username: string;
-  /** @minLength 1 */
+  /**
+   * @minLength 3
+   * @maxLength 50
+   * @pattern ^[a-zA-Z0-9_-]*$
+   */
+  username?: string;
+  /**
+   * @minLength 8
+   * @maxLength 2147483647
+   */
   password: string;
 }

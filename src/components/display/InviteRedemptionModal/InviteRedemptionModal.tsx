@@ -115,7 +115,7 @@ export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionMo
           <form onSubmit={handleSubmit} className="space-y-4 py-2">
             {inviteData?.invited_by && (
               <p className="text-sm text-muted-foreground text-center mb-4">
-                {t("inviteRedemption.invitedBy", {username: inviteData.invited_by})}
+                {t("inviteRedemption.invitedBy", {username: inviteData.invite_by_username})}
               </p>
             )}
 
@@ -176,11 +176,11 @@ export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionMo
               />
             </div>
 
-            <DialogFooter className="mt-6">
-              <Button type="button" variant="ghost" onClick={handleClose} disabled={isRegistering}>
+            <DialogFooter className="mt-6 flex gap-5">
+              <Button type="button" variant="ghost" onClick={handleClose} disabled={isRegistering} className={"h-15"}>
                 {t("inviteRedemption.cancel")}
               </Button>
-              <Button type="submit" disabled={isRegistering}>
+              <Button type="submit" disabled={isRegistering} className={"h-15"}>
                 {isRegistering ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin"/>

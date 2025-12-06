@@ -10,6 +10,7 @@ export interface UserInviteDto {
   uuid?: string;
   username?: string;
   invited_by?: string;
+  invite_by_username?: string;
   secret_key?: string;
   created_at?: string;
 }

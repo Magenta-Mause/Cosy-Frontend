@@ -1,7 +1,7 @@
 export interface InvalidRequestError {
   response: {
     data: {
-      data: Record<string, string>;
-    }
+      data: Record<string, string> | string;
+    };
   }
 }

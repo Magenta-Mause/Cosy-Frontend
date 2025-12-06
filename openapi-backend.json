@@ -397,7 +397,10 @@
         "type": "object",
         "properties": {
           "username": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 3,
+            "pattern": "^[a-zA-Z0-9_-]*$"
           }
         }
       },
@@ -411,6 +414,9 @@
             "type": "string"
           },
           "invited_by": {
+            "type": "string"
+          },
+          "invite_by_username": {
             "type": "string"
           },
           "secret_key": {
@@ -427,16 +433,18 @@
         "properties": {
           "username": {
             "type": "string",
-            "minLength": 1
+            "maxLength": 50,
+            "minLength": 3,
+            "pattern": "^[a-zA-Z0-9_-]*$"
           },
           "password": {
             "type": "string",
-            "minLength": 1
+            "maxLength": 2147483647,
+            "minLength": 8
           }
         },
         "required": [
-          "password",
-          "username"
+          "password"
         ]
       },
       "UserEntityDto": {
