@@ -180,11 +180,11 @@ export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionMo
                 variant="ghost"
                 onClick={handleClose}
                 disabled={isRegistering}
-                className={"h-15"}
+                className={"h-16"}
               >
                 {t("inviteRedemption.cancel")}
               </Button>
-              <Button type="submit" disabled={isRegistering} className={"h-15"}>
+              <Button type="submit" disabled={isRegistering} className={"h-16"}>
                 {isRegistering ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
