@@ -130,6 +130,7 @@ export function InviteRedemptionModal({inviteToken, onClose}: InviteRedemptionMo
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder={t("inviteRedemption.usernamePlaceholder")}
                 disabled={!!inviteData?.username || isRegistering} // Disable if pre-set by invite
+                required={!inviteData?.username}
               />
               {inviteData?.username && (
                 <p className="text-[0.8em] text-muted-foreground">
