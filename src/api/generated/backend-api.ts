@@ -41,7 +41,7 @@ export const login = (
 ) => {
       
       
-      return customInstance<string>(
+      return customInstance<void>(
       {url: `/auth/login`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: loginDto, signal
