@@ -6,7 +6,11 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface PortMapping {
-  instance_port?: number;
-  container_port?: number;
+export interface UserCreationDto {
+  username?: string;
+  /**
+   * @minLength 8
+   * @maxLength 2147483647
+   */
+  password: string;
 }
