@@ -1,6 +1,6 @@
-import CreateGameServer from "@components/CreateGameServer/CreateGameServer";
-import GameServerConfigurationsDisplay from "@components/display/GameServerConfiguration/GameServerConfigurationsDisplay/GameServerConfigurationsDisplay.tsx";
+import GameServerDisplay from "@components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import { createFileRoute } from "@tanstack/react-router";
+import bgImage from "@/assets/ai-generated/main-page/background.png";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 
 export const Route = createFileRoute("/")({
@@ -8,21 +8,25 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const gameServers = useTypedSelector((state) => state.gameServerConfigurationSliceReducer.data);
+  const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
 
   return (
     <div
       className="
-    h-screen
-    w-screen
-    flex
-    flex-row
-    justify-center
-    items-center
-    "
+                  h-screen
+                  w-screen
+                  flex
+                  flex-row
+                  justify-center
+                  items-center
+            "
+      style={{
+        backgroundImage: bgImage ? `url(${bgImage})` : undefined,
+        backgroundSize: "100% auto",
+        backgroundPosition: "center top",
+      }}
     >
-      <GameServerConfigurationsDisplay gameServerConfigurations={gameServers} />
-      <CreateGameServer />
+      <GameServerDisplay gameServerConfigurations={gameServers} />
     </div>
   );
 }

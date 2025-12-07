@@ -1,16 +1,32 @@
 export type i18nLanguage = {
-  index: {
-    clickCounter: string;
-    clickBtn: string;
-    dontClickBtn: string;
+  overviewPage: {
+    createNewServer: string;
   };
-
-  redirected: {
-    warning: string;
-    consequence: ContainsVariable<"counter">;
-    noConsequence: string;
-    earnMoreClicks: string;
+  rightClickMenu: {
+    edit: string;
+    delete: string;
+    refresh: string;
+    createNewGameserver: string;
   };
+  toasts: {
+    notImplemented: string;
+    deleteGameServerSuccess: string;
+    deleteGameServerError: string;
+    refreshGameServersSuccess: string;
+    refreshGameServersError: string;
+  };
+  deleteGameServerDialog: {
+    title: ContainsVariable<"serverName">;
+    description: string;
+    inputLabel: string;
+    cancel: string;
+    confirm: string;
+  };
+  aria: {
+    createNewGameServer: string;
+    gameServer: ContainsVariable<"serverName">;
+  };
+  consequence: ContainsVariable<"counter">; // example
 
   components: {
     CreateGameServer: {

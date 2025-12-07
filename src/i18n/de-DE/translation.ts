@@ -1,17 +1,35 @@
 import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
-  index: {
-    clickCounter: "Klicks",
-    clickBtn: "Klick mich!",
-    dontClickBtn: "Klick mich nicht!",
+  overviewPage: {
+    createNewServer: "Neuer Game Server",
   },
-  redirected: {
-    warning: "Du solltest doch nicht klicken!",
-    consequence: "Das hat dich all deine {{counter}} Klicks gekostet!",
-    noConsequence: "Du hattest nichtmal Klicks als Entschädigung!",
-    earnMoreClicks: "Mehr Klicks verdienen",
+  rightClickMenu: {
+    edit: "Bearbeiten",
+    delete: "Löschen",
+    refresh: "Aktualisieren",
+    createNewGameserver: "Neuen Gameserver erstellen",
   },
+  toasts: {
+    notImplemented: "Noch nicht implementiert!",
+    deleteGameServerSuccess: "Gameserver-Konfiguration erfolgreich gelöscht!",
+    deleteGameServerError: "Fehler beim Löschen der Gameserver-Konfiguration!",
+    refreshGameServersSuccess: "Gameserver-Konfigurationen erfolgreich aktualisiert!",
+    refreshGameServersError: "Fehler beim Aktualisieren der Gameserver-Konfigurationen!",
+  },
+  deleteGameServerDialog: {
+    title: "Möchten Sie {{serverName}} wirklich löschen?",
+    description:
+      "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
+    inputLabel: "Geben Sie den Namen des Gameservers ein, um sicherzugehen:",
+    cancel: "Abbrechen",
+    confirm: "Löschen",
+  },
+  aria: {
+    createNewGameServer: "Erstelle eine neue Gameserver-Konfiguration",
+    gameServer: "Gameserver-Konfiguration: {{serverName}}",
+  },
+  consequence: "asd{{counter}}ajskod",
 };
 
 export default translation;

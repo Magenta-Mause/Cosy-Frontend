@@ -5,27 +5,29 @@
  * It is included in `src/index.html`.
  */
 
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "@/routeTree.gen";
 import "@/index.css";
-import Providers from "@components/technical/Providers/Providers.tsx";
+import ProviderCollection from "@components/technical/Providers/ProviderCollection.tsx";
 import "@/i18n/i18n";
 
 const router = createRouter({ routeTree });
 
+// biome-ignore lint: default template stuff
 const elem = document.getElementById("root")!;
 const app = (
   <StrictMode>
-    <Providers>
+    <ProviderCollection>
       <RouterProvider router={router} />
-    </Providers>
+    </ProviderCollection>
   </StrictMode>
 );
 
 if (import.meta.hot) {
   // With hot module reloading, `import.meta.hot.data` is persisted.
+  // biome-ignore lint: default template stuff
   const root = (import.meta.hot.data.root ??= createRoot(elem));
   root.render(app);
 } else {
