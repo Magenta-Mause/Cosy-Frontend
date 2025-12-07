@@ -49,9 +49,6 @@ const GenericGameServerCreationPage = (props: { children: ReactNode }) => {
   useEffect(() => {
     const allValid = Object.values(attributesValid).every((isValid) => isValid);
     const allTouched = Object.values(attributesTouched).every((isTouched) => isTouched);
-
-    console.log(attributesValid);
-
     setCurrentPageValid(allValid && allTouched);
   }, [attributesValid, attributesTouched, setCurrentPageValid]);
 
