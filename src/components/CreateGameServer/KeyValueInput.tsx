@@ -3,7 +3,7 @@ import { Field, FieldDescription, FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
 import { CircleAlertIcon } from "lucide-react";
-import { useCallback, useContext, useEffect, useState, useTransition } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import type { ZodType } from "zod";
 import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
