@@ -1,6 +1,8 @@
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
 import { Button } from "@components/ui/button.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.tsx";
 import { GlobeIcon } from "lucide-react";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.ts";
 
