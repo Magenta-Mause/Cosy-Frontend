@@ -1,6 +1,7 @@
 import { Button } from "@components/ui/button.tsx";
 import { DialogContent, DialogFooter } from "@components/ui/dialog.tsx";
 import { createContext, useCallback, useState } from "react";
+import { parse as parseCommand } from "shell-quote";
 import type { GameServerCreationDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
@@ -36,7 +37,10 @@ const CreateGameServerModal = () => {
 
   const handleNextPage = () => {
     if (isLastPage) {
-      createGameServer(gameServerState as GameServerCreationDto);
+      createGameServer({
+        ...gameServerState,
+        execution_command: parseCommand(gameServerState.execution_command as unknown as string),
+      } as GameServerCreationDto);
       return;
     }
 
