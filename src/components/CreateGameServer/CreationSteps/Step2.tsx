@@ -21,7 +21,7 @@ export default function Step2() {
         errorLabel={t("templateSelection.errorLabel")}
       />
       <GenericGameServerCreationInputField
-        attribute="serverName"
+        attribute="server_name"
         validator={z.string().min(1)}
         placeholder="My Game Server"
         label={t("serverNameSelection.title")}

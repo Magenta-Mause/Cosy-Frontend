@@ -8,6 +8,7 @@
 import type { UserEntityDtoRole } from './userEntityDtoRole';
 
 export interface UserEntityDto {
+  uuid?: string;
   username?: string;
   role?: UserEntityDtoRole;
 }

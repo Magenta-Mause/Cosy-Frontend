@@ -6,8 +6,11 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface VolumeMountConfiguration {
+export interface UserInviteDto {
   uuid?: string;
-  hostPath?: string;
-  containerPath?: string;
+  username?: string;
+  invited_by?: string;
+  invite_by_username?: string;
+  secret_key?: string;
+  created_at?: string;
 }

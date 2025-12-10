@@ -11,7 +11,8 @@
     "build:opt": "tsr generate && biome lint && bun run build.ts --minify --splitting",
     "lint": "biome lint",
     "lint:fix": "biome lint --write",
-    "lint:fix:unsafe": "biome check --write --unsafe"
+    "lint:fix:unsafe": "biome check --write --unsafe",
+    "gen:api": "curl http://localhost:8080/api/v3/api-docs > openapi-backend.json && bunx orval"
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.15",

@@ -7,6 +7,6 @@
  */
 
 export interface PortMapping {
-  instancePort?: number;
-  containerPort?: number;
+  instance_port?: number;
+  container_port?: number;
 }

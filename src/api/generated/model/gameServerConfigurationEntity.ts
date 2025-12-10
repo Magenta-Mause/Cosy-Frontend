@@ -12,15 +12,16 @@ import type { VolumeMountConfiguration } from './volumeMountConfiguration';
 
 export interface GameServerConfigurationEntity {
   uuid?: string;
-  serverName?: string;
-  ownerId?: string;
+  server_name?: string;
+  owner_id?: string;
   status?: GameServerConfigurationEntityStatus;
-  timestampLastStarted?: string;
-  gameUuid?: string;
-  dockerImageName?: string;
-  dockerImageTag?: string;
-  dockerExecutionCommand?: string[];
-  portMappings?: PortMapping[];
-  environmentVariables?: EnvironmentVariableConfiguration[];
-  volumeMounts?: VolumeMountConfiguration[];
+  timestamp_last_started?: string;
+  game_uuid?: string;
+  docker_image_name?: string;
+  docker_image_tag?: string;
+  template?: string;
+  docker_execution_command?: string[];
+  port_mappings?: PortMapping[];
+  environment_variables?: EnvironmentVariableConfiguration[];
+  volume_mounts?: VolumeMountConfiguration[];
 }

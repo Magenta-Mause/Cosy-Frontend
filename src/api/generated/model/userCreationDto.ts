@@ -6,8 +6,11 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface VolumeMountConfiguration {
-  uuid?: string;
-  hostPath?: string;
-  containerPath?: string;
+export interface UserCreationDto {
+  username?: string;
+  /**
+   * @minLength 8
+   * @maxLength 2147483647
+   */
+  password: string;
 }

@@ -26,7 +26,7 @@ export default function Step3() {
         />
 
         <GenericGameServerCreationInputField
-          attribute="dockerImageTag"
+          attribute="docker_image_tag"
           validator={z.string().min(1)}
           placeholder="latest"
           label={t("imageTagSelection.title")}
@@ -36,7 +36,7 @@ export default function Step3() {
       </div>
 
       <GenericGameServerCreationInputField
-        attribute="port"
+        attribute="port_mappings"
         validator={z.number().min(1).max(65535)}
         placeholder="4433"
         label={t("portSelection.title")}
@@ -46,7 +46,7 @@ export default function Step3() {
       />
 
       <KeyValueInput
-        attribute="environmentVariables"
+        attribute="environment_variables"
         fieldLabel={t("environmentVariablesSelection.title")}
         fieldDescription={t("environmentVariablesSelection.description")}
         errorLabel={t("environmentVariablesSelection.errorLabel")}
@@ -57,7 +57,7 @@ export default function Step3() {
       />
 
       <GenericGameServerCreationInputField
-        attribute="executionCommand"
+        attribute="execution_command"
         validator={z.string().min(1)}
         placeholder="./start.sh"
         label={t("executionCommandSelection.title")}
@@ -66,7 +66,7 @@ export default function Step3() {
       />
 
       <KeyValueInput
-        attribute="volumeMounts"
+        attribute="volume_mounts"
         fieldLabel={t("hostPathSelection.title")}
         fieldDescription={t("hostPathSelection.description")}
         errorLabel={t("hostPathSelection.errorLabel")}

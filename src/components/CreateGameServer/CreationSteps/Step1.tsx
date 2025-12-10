@@ -11,7 +11,7 @@ const GameServerCreationGameNamePage = () => {
     <GenericGameServerCreationPage>
       <DialogTitle>{t("title")}</DialogTitle>
       <GenericGameServerCreationInputField
-        attribute="gameUuid"
+        attribute="game_uuid"
         validator={z.string().min(1)}
         placeholder="Minecraft Server"
         label={t("gameSelection.title")}
