@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 import plugin from "bun-plugin-tailwind";
-import { existsSync } from "fs";
-import { rm } from "fs/promises";
+import {existsSync} from "fs";
+import {rm} from "fs/promises";
 import path from "path";
 
 if (process.argv.includes("--help") || process.argv.includes("-h")) {
@@ -33,6 +33,7 @@ Example:
   process.exit(0);
 }
 
+// @ts-expect-error missing type
 const toCamelCase = (str: string): string => str.replace(/-([a-z])/g, g => g[1].toUpperCase());
 
 const parseValue = (value: string): any => {
@@ -58,12 +59,14 @@ function parseArgs(): Partial<Bun.BuildConfig> {
 
     if (arg.startsWith("--no-")) {
       const key = toCamelCase(arg.slice(5));
+      // @ts-expect-error missing type
       config[key] = false;
       continue;
     }
 
     if (!arg.includes("=") && (i === args.length - 1 || args[i + 1]?.startsWith("--"))) {
       const key = toCamelCase(arg.slice(2));
+      // @ts-expect-error missing type
       config[key] = true;
       continue;
     }
@@ -82,9 +85,12 @@ function parseArgs(): Partial<Bun.BuildConfig> {
 
     if (key.includes(".")) {
       const [parentKey, childKey] = key.split(".");
+      // @ts-expect-error missing type
       config[parentKey] = config[parentKey] || {};
+      // @ts-expect-error missing type
       config[parentKey][childKey] = parseValue(value);
     } else {
+      // @ts-expect-error missing type
       config[key] = parseValue(value);
     }
   }
@@ -112,7 +118,7 @@ const outdir = cliConfig.outdir || path.join(process.cwd(), "dist");
 
 if (existsSync(outdir)) {
   console.log(`🗑️ Cleaning previous build at ${outdir}`);
-  await rm(outdir, { recursive: true, force: true });
+  await rm(outdir, {recursive: true, force: true});
 }
 
 const start = performance.now();
