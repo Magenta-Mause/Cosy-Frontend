@@ -38,7 +38,26 @@
     --color-link: var(--link);
     --color-primary-modal-background: var(--primary-modal-background);
     --color-primary-banner: var(--primary-banner);
-    --color-button: var(--button);
+
+    --color-button-cocoa-primary: var(--button-cocoa-primary);
+    --color-button-cocoa-secondary: var(--button-cocoa-secondary);
+    --color-button-cocoa-destructive: var(--button-cocoa-destructive);
+
+    --color-button-rust-primary: var(--button-rust-primary);
+    --color-button-rust-secondary: var(--button-rust-secondary);
+    --color-button-rust-destructive: var(--button-rust-destructive);
+
+    --color-button-dark-primary: var(--button-dark-primary);
+    --color-button-dark-secondary: var(--button-dark-secondary);
+    --color-button-dark-destructive: var(--button-dark-destructive);
+
+    --color-button-lavender-primary: var(--button-lavender-primary);
+    --color-button-lavender-secondary: var(--button-lavender-secondary);
+    --color-button-lavender-destructive: var(--button-lavender-destructive);
+
+    --color-button-mocha-primary: var(--button-mocha-primary);
+    --color-button-mocha-secondary: var(--button-mocha-secondary);
+    --color-button-mocha-destructive: var(--button-mocha-destructive);
 
     /* RADIUS: Stardew is pixel art, so we want small, blocky corners.
        4px is basically "2 game pixels" */
@@ -114,7 +133,25 @@
     --sidebar-ring: oklch(0.68 0.16 65);
 
     /* BUTTON */
-    --button: oklch(0.3784 0.1014 23.26);
+    --button-cocoa-primary: oklch(0.3784 0.1014 23.26);
+    --button-cocoa-secondary: oklch(0.7961 0.113 58.2);
+    --button-cocoa-destructive: oklch(0.5584 0.2089 17.13);
+
+    --button-rust-primary: oklch(0.5046 0.1213 29.72);
+    --button-rust-secondary: oklch(0.8829 0.0757 58.81);
+    --button-rust-destructive: oklch(0.6178 0.0868 5.38);
+
+    --button-dark-primary: oklch(0.2973 0.0922 24.71);
+    --button-dark-secondary: oklch(0.7299 0.1323 56.21);
+    --button-dark-destructive: oklch(0.4251 0.1455 13.66);
+
+    --button-lavender-primary: oklch(0.6784 0.0818 317.75);
+    --button-lavender-secondary: oklch(0.864 0.0578 324.23);
+    --button-lavender-destructive: oklch(0.8528 0.0563 4.38);
+    
+    --button-mocha-primary: oklch(0.3784 0.1014 23.26);
+    --button-mocha-secondary: oklch(0.7961 0.113 58.2);
+    --button-mocha-destructive: oklch(0.5584 0.2089 17.13);
 
     /* LINK */
     --link: oklch(0.4317 0.2069 291.76);

@@ -10,6 +10,22 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        cocoaPrimary: "bg-button-cocoa-primary",
+        cocoaSecondary: "bg-button-cocoa-secondary",
+        cocoaDestructive: "bg-button-cocoa-destructive",
+        rustPrimary: "bg-button-rust-primary",
+        rustSecondary: "bg-button-rust-secondary",
+        rustDestructive: "bg-button-rust-destructive",
+        darkPrimary: "bg-button-dark-primary",
+        darkSecondary: "bg-button-dark-secondary",
+        darkDestructive: "bg-button-dark-destructive",
+        lavenderPrimary: "bg-button-lavender-primary",
+        lavenderSecondary: "bg-button-lavender-secondary",
+        lavenderDestructive: "bg-button-lavender-destructive",
+        mochaPrimary: "bg-button-mocha-primary",
+        mochaSecondary: "bg-button-mocha-secondary",
+        mochaDestructive: "bg-button-mocha-destructive",
+
         default: "bg-primary text-primary-foreground hover:bg-primary/90 rounded-[0.4vw]",
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60 rounded-[0.4vw]",
