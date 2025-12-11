@@ -75,7 +75,19 @@ export type i18nLanguage = {
     createNewGameServer: string;
     gameServer: ContainsVariable<"serverName">;
   };
-  consequence: ContainsVariable<"counter">; // example
+  signIn: {
+    signIn: string;
+    desc: string;
+    username: string;
+    password: string;
+    resetPassword: string;
+    question: string;
+    continueMeansAccept: string;
+    legal: string;
+    incorrectCredentials: string;
+    loading: string;
+    logout: string;
+  };
 };
 
 type ContainsVariable<T extends string> = `${string}{{${T}}}${string}`;

@@ -7,10 +7,7 @@
       "name": "Cosy Team",
       "url": "https://github.com/magenta-mause"
     },
-    "license": {
-      "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT"
-    },
+    "license": { "name": "MIT", "url": "https://opensource.org/licenses/MIT" },
     "version": "v1.0"
   },
   "servers": [
@@ -19,17 +16,11 @@
       "description": "Generated server url"
     }
   ],
-  "security": [
-    {
-      "Bearer Authentication": []
-    }
-  ],
+  "security": [{ "Bearer Authentication": [] }],
   "paths": {
     "/user-invites": {
       "get": {
-        "tags": [
-          "user-invite-controller"
-        ],
+        "tags": ["user-invite-controller"],
         "operationId": "getAllUserInvites",
         "responses": {
           "200": {
@@ -38,9 +29,7 @@
               "*/*": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserInviteDto"
-                  }
+                  "items": { "$ref": "#/components/schemas/UserInviteDto" }
                 }
               }
             }
@@ -48,16 +37,12 @@
         }
       },
       "post": {
-        "tags": [
-          "user-invite-controller"
-        ],
+        "tags": ["user-invite-controller"],
         "operationId": "createInvite",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserInviteCreationDto"
-              }
+              "schema": { "$ref": "#/components/schemas/UserInviteCreationDto" }
             }
           },
           "required": true
@@ -67,9 +52,7 @@
             "description": "OK",
             "content": {
               "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserInviteDto"
-                }
+                "schema": { "$ref": "#/components/schemas/UserInviteDto" }
               }
             }
           }
@@ -78,26 +61,20 @@
     },
     "/user-invites/use/{secretKey}": {
       "post": {
-        "tags": [
-          "user-invite-controller"
-        ],
+        "tags": ["user-invite-controller"],
         "operationId": "useInvite",
         "parameters": [
           {
             "name": "secretKey",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UserCreationDto"
-              }
+              "schema": { "$ref": "#/components/schemas/UserCreationDto" }
             }
           },
           "required": true
@@ -107,52 +84,45 @@
             "description": "OK",
             "content": {
               "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserEntityDto"
-                }
+                "schema": { "$ref": "#/components/schemas/UserEntityDto" }
               }
             }
           }
         }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["authorization-controller"],
+        "operationId": "logout",
+        "responses": { "200": { "description": "OK" } }
       }
     },
     "/auth/login": {
       "post": {
-        "tags": [
-          "authorization-controller"
-        ],
+        "tags": ["authorization-controller"],
         "operationId": "login",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginDto"
-              }
+              "schema": { "$ref": "#/components/schemas/LoginDto" }
             }
           },
           "required": true
         },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": { "200": { "description": "OK" } }
       }
     },
     "/user-invites/{secretKey}": {
       "get": {
-        "tags": [
-          "user-invite-controller"
-        ],
+        "tags": ["user-invite-controller"],
         "operationId": "getUserInvite",
         "parameters": [
           {
             "name": "secretKey",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -160,9 +130,7 @@
             "description": "OK",
             "content": {
               "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserInviteDto"
-                }
+                "schema": { "$ref": "#/components/schemas/UserInviteDto" }
               }
             }
           }
@@ -171,9 +139,7 @@
     },
     "/user-entity": {
       "get": {
-        "tags": [
-          "user-entity-controller"
-        ],
+        "tags": ["user-entity-controller"],
         "operationId": "getAllUserEntities",
         "responses": {
           "200": {
@@ -182,9 +148,7 @@
               "*/*": {
                 "schema": {
                   "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/UserEntityDto"
-                  }
+                  "items": { "$ref": "#/components/schemas/UserEntityDto" }
                 }
               }
             }
@@ -194,18 +158,14 @@
     },
     "/user-entity/{uuid}": {
       "get": {
-        "tags": [
-          "user-entity-controller"
-        ],
+        "tags": ["user-entity-controller"],
         "operationId": "getUserEntity",
         "parameters": [
           {
             "name": "uuid",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -213,41 +173,29 @@
             "description": "OK",
             "content": {
               "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserEntityDto"
-                }
+                "schema": { "$ref": "#/components/schemas/UserEntityDto" }
               }
             }
           }
         }
       },
       "delete": {
-        "tags": [
-          "user-entity-controller"
-        ],
+        "tags": ["user-entity-controller"],
         "operationId": "deleteUserEntity",
         "parameters": [
           {
             "name": "uuid",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": { "200": { "description": "OK" } }
       }
     },
     "/game-server-configurations": {
       "get": {
-        "tags": [
-          "game-server-configuration-controller"
-        ],
+        "tags": ["game-server-configuration-controller"],
         "operationId": "getAllGameServers",
         "responses": {
           "200": {
@@ -268,18 +216,14 @@
     },
     "/game-server-configurations/{uuid}": {
       "get": {
-        "tags": [
-          "game-server-configuration-controller"
-        ],
+        "tags": ["game-server-configuration-controller"],
         "operationId": "getGameServerById",
         "parameters": [
           {
             "name": "uuid",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
@@ -296,98 +240,64 @@
         }
       },
       "delete": {
-        "tags": [
-          "game-server-configuration-controller"
-        ],
+        "tags": ["game-server-configuration-controller"],
         "operationId": "deleteGameServerById",
         "parameters": [
           {
             "name": "uuid",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": { "200": { "description": "OK" } }
       }
     },
     "/auth/token": {
       "get": {
-        "tags": [
-          "authorization-controller"
-        ],
+        "tags": ["authorization-controller"],
         "operationId": "fetchToken",
         "parameters": [
           {
             "name": "refreshToken",
             "in": "cookie",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
+            "content": { "*/*": { "schema": { "type": "string" } } }
           }
         }
       }
     },
     "/": {
       "get": {
-        "tags": [
-          "root-controller"
-        ],
+        "tags": ["root-controller"],
         "operationId": "root",
         "responses": {
           "200": {
             "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
+            "content": { "*/*": { "schema": { "type": "string" } } }
           }
         }
       }
     },
     "/user-invites/{uuid}": {
       "delete": {
-        "tags": [
-          "user-invite-controller"
-        ],
+        "tags": ["user-invite-controller"],
         "operationId": "revokeInvite",
         "parameters": [
           {
             "name": "uuid",
             "in": "path",
             "required": true,
-            "schema": {
-              "type": "string"
-            }
+            "schema": { "type": "string" }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
+        "responses": { "200": { "description": "OK" } }
       }
     }
   },
@@ -395,116 +305,60 @@
     "schemas": {
       "UserInviteCreationDto": {
         "type": "object",
-        "properties": {
-          "username": {
-            "type": "string",
-            "maxLength": 50,
-            "minLength": 3,
-            "pattern": "^[a-zA-Z0-9_-]*$"
-          }
-        }
+        "properties": { "username": { "type": "string" } }
       },
       "UserInviteDto": {
         "type": "object",
         "properties": {
-          "uuid": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
-          "invited_by": {
-            "type": "string"
-          },
-          "invite_by_username": {
-            "type": "string"
-          },
-          "secret_key": {
-            "type": "string"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time"
-          }
+          "uuid": { "type": "string" },
+          "username": { "type": "string" },
+          "invited_by": { "type": "string" },
+          "invite_by_username": { "type": "string" },
+          "secret_key": { "type": "string" },
+          "created_at": { "type": "string", "format": "date-time" }
         }
       },
       "UserCreationDto": {
         "type": "object",
         "properties": {
-          "username": {
-            "type": "string",
-            "maxLength": 50,
-            "minLength": 3,
-            "pattern": "^[a-zA-Z0-9_-]*$"
-          },
+          "username": { "type": "string" },
           "password": {
             "type": "string",
             "maxLength": 2147483647,
             "minLength": 8
           }
         },
-        "required": [
-          "password"
-        ]
+        "required": ["password"]
       },
       "UserEntityDto": {
         "type": "object",
         "properties": {
-          "uuid": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "OWNER",
-              "QUOTA_USER"
-            ]
-          }
+          "uuid": { "type": "string" },
+          "username": { "type": "string" },
+          "role": { "type": "string", "enum": ["OWNER", "QUOTA_USER"] }
         }
       },
       "LoginDto": {
         "type": "object",
         "properties": {
-          "username": {
-            "type": "string",
-            "minLength": 1
-          },
-          "password": {
-            "type": "string",
-            "minLength": 1
-          }
+          "username": { "type": "string", "minLength": 1 },
+          "password": { "type": "string", "minLength": 1 }
         },
-        "required": [
-          "password",
-          "username"
-        ]
+        "required": ["password", "username"]
       },
       "EnvironmentVariableConfiguration": {
         "type": "object",
         "properties": {
-          "key": {
-            "type": "string"
-          },
-          "value": {
-            "type": "string"
-          }
+          "key": { "type": "string" },
+          "value": { "type": "string" }
         }
       },
       "GameServerConfigurationEntity": {
         "type": "object",
         "properties": {
-          "uuid": {
-            "type": "string"
-          },
-          "server_name": {
-            "type": "string"
-          },
-          "owner_id": {
-            "type": "string"
-          },
+          "uuid": { "type": "string" },
+          "server_name": { "type": "string" },
+          "owner_id": { "type": "string" },
           "status": {
             "type": "string",
             "enum": [
@@ -515,30 +369,17 @@
               "FAILED"
             ]
           },
-          "timestamp_last_started": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "game_uuid": {
-            "type": "string"
-          },
-          "docker_image_name": {
-            "type": "string"
-          },
-          "docker_image_tag": {
-            "type": "string"
-          },
+          "timestamp_last_started": { "type": "string", "format": "date-time" },
+          "game_uuid": { "type": "string" },
+          "docker_image_name": { "type": "string" },
+          "docker_image_tag": { "type": "string" },
           "docker_execution_command": {
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "type": "string" }
           },
           "port_mappings": {
             "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PortMapping"
-            }
+            "items": { "$ref": "#/components/schemas/PortMapping" }
           },
           "environment_variables": {
             "type": "array",
@@ -551,14 +392,8 @@
       "PortMapping": {
         "type": "object",
         "properties": {
-          "instance_port": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "container_port": {
-            "type": "integer",
-            "format": "int32"
-          }
+          "instance_port": { "type": "integer", "format": "int32" },
+          "container_port": { "type": "integer", "format": "int32" }
         }
       }
     },
