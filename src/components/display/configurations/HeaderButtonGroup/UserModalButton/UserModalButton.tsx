@@ -78,7 +78,7 @@ const UserModalButton = (props: { className?: string }) => {
             {view === "invite" && t("userModal.inviteUserTitle")}
             {view === "result" && t("userModal.inviteCreatedTitle")}
             {view === "list" && (
-              <Button size="sm" variant="outline" onClick={() => setView("invite")}>
+              <Button size="sm" onClick={() => setView("invite")}>
                 <UserPlus className="w-4 h-4 mr-2" />
                 {t("userModal.inviteBtn")}
               </Button>

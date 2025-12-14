@@ -69,7 +69,7 @@ const LoginForm = (props: {
           {t("signIn.resetPassword")}
         </a>
 
-        <Button type="submit" disabled={props.isLoading} variant={"stardewDark"} className="w-full">
+        <Button type="submit" disabled={props.isLoading} className="w-full">
           {props.isLoading ? t("signIn.loading") : t("signIn.signIn")}
         </Button>
 
