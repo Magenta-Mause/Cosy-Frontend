@@ -80,14 +80,14 @@ export default function KeyValueInput({
       }
 
       const preProcessedKey = preProcessValue(key);
-      const preProcessedValue= preProcessValue(value);
+      const preProcessedValue = preProcessValue(value);
 
       const keyValid = (key: string | number) => keyValidator.safeParse(key).success;
       const valueValid = (value: string | number) => valueValidator.safeParse(value).success;
 
       return keyValid(preProcessedKey) && valueValid(preProcessedValue);
     },
-    [keyValidator, valueValidator, required],
+    [keyValidator, valueValidator, required, preProcessValue],
   );
 
   useEffect(() => {
@@ -95,30 +95,34 @@ export default function KeyValueInput({
       attribute,
       keyValuePairs.every((keyValuePair) => keyValuePair.valid),
     );
-  }, [attribute, keyValuePairs, setAttributeValid, preProcessValue]);
+  }, [attribute, keyValuePairs, setAttributeValid]);
 
   const changeCallback = useCallback(
     (key: string, uuid: string) => (value: string) => {
       setKeyValuePairs((prev) =>
-        prev.map((item) =>
-          item.uuid === uuid
-            ? {
-                ...item,
-                [key]: preProcessValue(value),
-                valid: validateKeyValuePair(
-                  key === objectKey ? value : (item[objectKey] as string | undefined),
-                  key === objectValue ? value : (item[objectValue] as string | undefined),
-                ),
-              }
-            : item,
-        ),
+        prev.map((item) => {
+          if (item.uuid !== uuid) {
+            return item;
+          }
+
+          return {
+            ...item,
+            [key]: preProcessValue(value),
+            valid: validateKeyValuePair(
+              key === objectKey ? value : (item[objectKey] as string | undefined),
+              key === objectValue ? value : (item[objectValue] as string | undefined),
+            ),
+          };
+        }),
       );
       setAttributeTouched(attribute, true);
       setGameServerState(attribute)(
         keyValuePairs
           .filter((keyValuePair) => keyValuePair.valid)
           .map((keyValuePair) =>
-            keyValuePair.uuid === uuid ? { ...keyValuePair, [key]: preProcessValue(value) } : keyValuePair,
+            keyValuePair.uuid === uuid
+              ? { ...keyValuePair, [key]: preProcessValue(value) }
+              : keyValuePair,
           ) as {
           [objectKey]: string;
           [objectValue]: string;
@@ -157,7 +161,7 @@ export default function KeyValueInput({
                 value={(keyValuePair[objectKey] as string | undefined) || ""}
                 onChange={(e) => changeCallback(objectKey, keyValuePair.uuid)(e.target.value)}
                 type={inputType}
-              />  
+              />
               <Input
                 className={rowError ? "border-red-500" : ""}
                 id={`key-value-input-value-${keyValuePair.uuid}`}
