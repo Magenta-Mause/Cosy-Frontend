@@ -38,9 +38,9 @@ const LoginDisplay = () => {
           <LoginBanner setOpen={setOpen} />
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent className="bg-primary-modal-background w-100">
-            <DialogTitle className="text-3xl">{t("signIn.signIn")}</DialogTitle>
-            <DialogDescription className="text-lg -my-5">{t("signIn.desc")}</DialogDescription>
+          <DialogContent className="w-100">
+            <DialogTitle>{t("signIn.signIn")}</DialogTitle>
+            <DialogDescription className="-my-5">{t("signIn.desc")}</DialogDescription>
             <LoginForm loginCallback={handleLogin} error={error} isLoading={isLoggingIn} />
           </DialogContent>
         </Dialog>

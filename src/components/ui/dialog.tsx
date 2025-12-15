@@ -93,7 +93,7 @@ function DialogMain({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="dialog-main"
       className={cn(
-        "bg-secondary-background border-3 rounded-xl p-5",
+        "bg-secondary-background border-3 rounded-xl p-5 text-xl",
         className
       )}
       {...props}
@@ -121,7 +121,7 @@ function DialogTitle({
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"
-      className={cn("text-lg leading-none font-semibold", className)}
+      className={cn("text-3xl leading-none font-semibold", className)}
       {...props}
     />
   )
@@ -134,7 +134,7 @@ function DialogDescription({
   return (
     <DialogPrimitive.Description
       data-slot="dialog-description"
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("text-muted-foreground text-lg", className)}
       {...props}
     />
   )
