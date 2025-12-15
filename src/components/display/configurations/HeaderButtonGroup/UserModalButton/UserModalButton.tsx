@@ -1,4 +1,13 @@
-import GenericModal, { type ModalButton } from "@components/ui/GenericModal/GenericModal";
+import { Button } from "@components/ui/button.tsx";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogMain,
+  DialogTitle,
+  DialogTrigger,
+} from "@components/ui/dialog.tsx";
 import { ArrowLeft, UserPlus, Users } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -47,90 +56,78 @@ const UserModalButton = (props: { className?: string }) => {
     setGeneratedKey(null);
   }, []);
 
-  const header = (() => {
-    switch (view) {
-      case "list":
-        return t("userModal.title");
-      case "invite":
-        return t("userModal.inviteUserTitle");
-      case "result":
-        return t("userModal.inviteCreatedTitle");
-      default:
-        return "";
-    }
-  })();
-
-  const buttons = ((): ModalButton[] => {
-    switch (view) {
-      case "list":
-        return [
-          {
-            label: t("userModal.inviteBtn"),
-            icon: <UserPlus className="w-4 h-4 mr-2" />,
-            onClick: () => setView("invite"),
-          },
-        ];
-
-      case "invite":
-        return [
-          {
-            label: t("userModal.cancel"),
-            onClick: () => setView("list"),
-            variant: "outline",
-          },
-          {
-            label: isCreating ? t("userModal.creating") : t("userModal.generateInvite"),
-            onClick: handleCreateInvite,
-            disable: isCreating,
-            variant: "default",
-          },
-        ];
-
-      case "result":
-        return [
-          {
-            label: t("userModal.backToUsers"),
-            icon: <ArrowLeft className="w-4 h-4 mr-2" />,
-            onClick: resetView,
-            variant: "ghost",
-          },
-        ];
-
-      default:
-        return [];
-    }
-  })();
-
   return (
-    <GenericModal
+    <Dialog
       onOpenChange={(open) => {
         if (open) {
           resetView();
         }
         return !open;
       }}
-      modalTrigger={{
-        icon: <Users className="h-[1.5vw]! p-0 w-auto! aspect-square" />,
-        className: cn("h-auto p-[.5vw] aspect-square", props.className),
-      }}
-      header={header}
-      footerButtons={buttons}
     >
-      {view === "list" && <UserList onRevoke={revokeInvite} />}
-      {view === "invite" && (
-        <InviteForm
-          username={inviteUsername}
-          onUsernameChange={setInviteUsername}
-          onCancel={() => setView("list")}
-          onSubmit={handleCreateInvite}
-          isCreating={isCreating}
-        />
-      )}
+      <DialogTrigger asChild>
+        <Button
+          className={cn("h-auto p-[.5vw] aspect-square", props.className)}
+          aria-label={t("userModal.title")}
+        >
+          <Users className="h-[1.5vw]! p-0 w-auto! aspect-square" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className={"font-['VT323']"}>
+        <DialogHeader>
+          <DialogTitle className="flex items-center justify-between">
+            {view === "list" && t("userModal.title")}
+            {view === "invite" && t("userModal.inviteUserTitle")}
+            {view === "result" && t("userModal.inviteCreatedTitle")}
+          </DialogTitle>
+        </DialogHeader>
+        <DialogMain>
+          {view === "list" && <UserList onRevoke={revokeInvite} />}
 
-      {view === "result" && (
-        <InviteResult generatedKey={generatedKey} onCopyLink={handleCopyLink} onBack={resetView} />
-      )}
-    </GenericModal>
+          {view === "invite" && (
+            <InviteForm
+              username={inviteUsername}
+              onUsernameChange={setInviteUsername}
+              onCancel={() => setView("list")}
+              onSubmit={handleCreateInvite}
+              isCreating={isCreating}
+            />
+          )}
+
+          {view === "result" && (
+            <InviteResult
+              generatedKey={generatedKey}
+              onCopyLink={handleCopyLink}
+              onBack={resetView}
+            />
+          )}
+        </DialogMain>
+        <DialogFooter>
+          {view === "list" && (
+            <Button size="sm" variant="outline" onClick={() => setView("invite")}>
+              <UserPlus className="w-4 h-4 mr-2" />
+              {t("userModal.inviteBtn")}
+            </Button>
+          )}
+          {view === "invite" && (
+            <>
+              <Button onClick={() => setView("list")} variant="outline">
+                {t("userModal.cancel")}
+              </Button>
+              <Button onClick={handleCreateInvite} disabled={isCreating}>
+                {isCreating ? t("userModal.creating") : t("userModal.generateInvite")}
+              </Button>
+            </>
+          )}
+          {view === "result" && (
+            <Button onClick={resetView} variant="ghost">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              {t("userModal.backToUsers")}
+            </Button>
+          )}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 

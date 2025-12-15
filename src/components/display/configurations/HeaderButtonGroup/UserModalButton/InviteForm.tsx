@@ -15,9 +15,7 @@ export const InviteForm = ({ username, onUsernameChange, onSubmit }: InviteFormP
   return (
     <div className="flex flex-col gap-4 py-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium" htmlFor="invite-username">
-          {t("userModal.usernameLabel")}
-        </label>
+        <label htmlFor="invite-username">{t("userModal.usernameLabel")}</label>
         <Input
           id="invite-username"
           placeholder={t("userModal.usernamePlaceholder")}
