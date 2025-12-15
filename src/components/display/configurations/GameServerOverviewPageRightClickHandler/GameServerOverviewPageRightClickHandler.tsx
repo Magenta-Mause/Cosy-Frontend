@@ -11,7 +11,7 @@ const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode })
   const { t } = useTranslation();
   const { loadGameServers } = useDataLoading();
 
-  const [openGameServerCreationModal, setOpenGameServerCreationModal] = useState(false);
+  const [openIsGameServerCreationModalOpen, setIsOpenGameServerCreationModalOpen] = useState(false);
 
   const actions: RightClickAction[] = [
     {
@@ -27,7 +27,7 @@ const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode })
     {
       label: t("rightClickMenu.createNewGameserver"),
       onClick: () => {
-        setOpenGameServerCreationModal(true);
+        setIsOpenGameServerCreationModalOpen(true);
       },
     },
   ];
@@ -36,8 +36,8 @@ const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode })
     <RightClickMenu actions={actions}>
       <div>
         <CreateGameServer
-          openModal={openGameServerCreationModal}
-          setOpenModal={setOpenGameServerCreationModal}
+          isModalOpen={openIsGameServerCreationModalOpen}
+          setIsModalOpen={setIsOpenGameServerCreationModalOpen}
         />
         {props.children}
       </div>

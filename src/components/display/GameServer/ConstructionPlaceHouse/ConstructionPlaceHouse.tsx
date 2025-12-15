@@ -12,13 +12,13 @@ import GameSign from "../GameSign/GameSign";
 const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperties }) => {
   const { t } = useTranslation();
 
-  const [openGameServerCreationModal, setOpenGameServerCreationModal] = useState(false);
+  const [isGameServerCreationModalOpen, setIsOpenGameServerCreationModalOpen] = useState(false);
 
   const actions: RightClickAction[] = [
     {
       label: t("rightClickMenu.createNewGameserver"),
       onClick: () => {
-        setOpenGameServerCreationModal(true);
+        setIsOpenGameServerCreationModalOpen(true);
       },
     },
   ];
@@ -27,8 +27,8 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
     <RightClickMenu actions={actions}>
       <div>
         <CreateGameServer
-          openModal={openGameServerCreationModal}
-          setOpenModal={setOpenGameServerCreationModal}
+          isModalOpen={isGameServerCreationModalOpen}
+          setIsModalOpen={setIsOpenGameServerCreationModalOpen}
         />
         <Link
           className={cn(
@@ -38,7 +38,7 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
           aria-label={t("aria.createNewGameServer")}
           to={"/"}
           style={props.style}
-          onClick={() => setOpenGameServerCreationModal((open) => !open)}
+          onClick={() => setIsOpenGameServerCreationModalOpen((open) => !open)}
         >
           <img
             className="h-full object-cover max-w-[initial] absolute top-0 left-0"
