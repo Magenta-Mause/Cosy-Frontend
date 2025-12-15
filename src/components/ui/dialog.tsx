@@ -93,7 +93,7 @@ function DialogMain({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="dialog-main"
       className={cn(
-        "bg-secondary-background border-3 rounded-xl p-4",
+        "bg-secondary-background border-3 rounded-xl p-5",
         className
       )}
       {...props}
