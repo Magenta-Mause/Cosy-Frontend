@@ -149,9 +149,9 @@ const translation: i18nLanguage = {
               "Entweder müssen sowohl Schlüssel als auch Wert angegeben werden oder keiner von beiden.",
           },
           executionCommandSelection: {
-            title: "Ausführungskommando",
-            description: "Kommando zum Starten Ihres Servers",
-            errorLabel: "Bitte geben Sie ein gültiges Ausführungskommando ein.",
+            title: "Ausführungsbefehl",
+            description: "Befehl zum Starten Ihres Servers",
+            errorLabel: "Bitte geben Sie ein gültiges Ausführungsbefehl ein.",
           },
           hostPathSelection: {
             title: "Volume-Mount",
