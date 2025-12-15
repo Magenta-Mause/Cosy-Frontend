@@ -58,7 +58,7 @@ const GenericModal = (props: {
       )}
 
       <DialogContent
-        className={cn("bg-[#F3AA71] font-mono", props.modalClassName)}
+        className={cn("bg-[#F3AA71] font-mono min-w-1/3", props.modalClassName)}
       >
         <DialogHeader>
           <DialogTitle className="text-[1.5rem] text-[#6E2727]">

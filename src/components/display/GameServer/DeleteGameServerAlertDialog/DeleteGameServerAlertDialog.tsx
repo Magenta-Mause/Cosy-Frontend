@@ -75,6 +75,10 @@ export function DeleteGameServerAlertDialog({
           {t("deleteGameServerDialog.description")}
           <div>
             <Label htmlFor="serverName">{t("deleteGameServerDialog.inputLabel")}</Label>
+            <br />
+            <span className={"text-sm text-muted-foreground"}>
+              (<span className={"select-all"}>{serverName}</span>)
+            </span>
           </div>
           <Input
             id="serverName"

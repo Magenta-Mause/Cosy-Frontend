@@ -68,8 +68,8 @@ const translation: i18nLanguage = {
     loginInfo: "Bitte loggen Sie sich mit Ihrem neuen Konto ein.",
   },
   deleteGameServerDialog: {
-    title: "Möchten Sie {{serverName}} wirklich löschen?",
-    subheader: "Diese Aktion kann nicht rückgängig gemacht werden.",
+    title: "Sind Sie sicher?",
+    subheader: "Diese Aktion kann nicht rückgängig gemacht werden!",
     description:
       "Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
     inputLabel: "Geben Sie den Namen des Gameservers ein, um sicherzugehen:",
