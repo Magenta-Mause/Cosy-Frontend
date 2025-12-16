@@ -1,12 +1,8 @@
 name: Type Check
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
+    branches: [ "main" ]
   workflow_dispatch:
   workflow_call:
 
@@ -30,3 +26,4 @@ jobs:
 
       - name: Run Type Check
         run: bunx tsc --noEmit
+
