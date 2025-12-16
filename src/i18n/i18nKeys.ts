@@ -64,7 +64,8 @@ export type i18nLanguage = {
     loginInfo: string;
   };
   deleteGameServerDialog: {
-    title: ContainsVariable<"serverName">;
+    title: string;
+    explanation: string;
     description: string;
     inputLabel: string;
     cancel: string;
@@ -86,6 +87,9 @@ export type i18nLanguage = {
     incorrectCredentials: string;
     loading: string;
     logout: string;
+  };
+  genericModal: {
+    cancel: string;
   };
 };
 

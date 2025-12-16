@@ -2,11 +2,13 @@ import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
+  DialogMain,
   DialogTitle,
   DialogTrigger,
 } from "@components/ui/dialog.tsx";
-import { UserPlus, Users } from "lucide-react";
+import { ArrowLeft, UserPlus, Users } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -68,7 +70,7 @@ const UserModalButton = (props: { className?: string }) => {
           className={cn("h-auto p-[.5vw] aspect-square", props.className)}
           aria-label={t("userModal.title")}
         >
-          <Users className="!h-[1.5vw] p-0 !w-auto aspect-square" />
+          <Users className="h-[1.5vw]! p-0 w-auto! aspect-square" />
         </Button>
       </DialogTrigger>
       <DialogContent className={"font-['VT323']"}>
@@ -77,34 +79,53 @@ const UserModalButton = (props: { className?: string }) => {
             {view === "list" && t("userModal.title")}
             {view === "invite" && t("userModal.inviteUserTitle")}
             {view === "result" && t("userModal.inviteCreatedTitle")}
-            {view === "list" && (
-              <Button size="sm" onClick={() => setView("invite")}>
-                <UserPlus className="w-4 h-4" />
-                {t("userModal.inviteBtn")}
-              </Button>
-            )}
           </DialogTitle>
         </DialogHeader>
+        <DialogMain>
+          {view === "list" && <UserList onRevoke={revokeInvite} />}
 
-        {view === "list" && <UserList onRevoke={revokeInvite} />}
+          {view === "invite" && (
+            <InviteForm
+              username={inviteUsername}
+              onUsernameChange={setInviteUsername}
+              onCancel={() => setView("list")}
+              onSubmit={handleCreateInvite}
+              isCreating={isCreating}
+            />
+          )}
 
-        {view === "invite" && (
-          <InviteForm
-            username={inviteUsername}
-            onUsernameChange={setInviteUsername}
-            onCancel={() => setView("list")}
-            onSubmit={handleCreateInvite}
-            isCreating={isCreating}
-          />
-        )}
-
-        {view === "result" && (
-          <InviteResult
-            generatedKey={generatedKey}
-            onCopyLink={handleCopyLink}
-            onBack={resetView}
-          />
-        )}
+          {view === "result" && (
+            <InviteResult
+              generatedKey={generatedKey}
+              onCopyLink={handleCopyLink}
+              onBack={resetView}
+            />
+          )}
+        </DialogMain>
+        <DialogFooter>
+          {view === "list" && (
+            <Button size="sm" onClick={() => setView("invite")}>
+              <UserPlus className="w-4 h-4 mr-2" />
+              {t("userModal.inviteBtn")}
+            </Button>
+          )}
+          {view === "invite" && (
+            <>
+              <Button size="sm" onClick={() => setView("list")} variant="secondary">
+                {t("userModal.cancel")}
+              </Button>
+              <Button size="sm" onClick={handleCreateInvite} disabled={isCreating}>
+                {isCreating ? t("userModal.creating") : t("userModal.generateInvite")}
+              </Button>
+            </>
+          )}
+          {view === "result" && (
+            <Button size="sm" onClick={resetView} variant="secondary">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              {t("userModal.backToUsers")}
+            </Button>
+          )}
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
