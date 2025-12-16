@@ -86,12 +86,15 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
             <div>{PAGES[currentPage]}</div>
           </DialogMain>
           <DialogFooter className="shrink-0 pt-4">
-            <Button
-              onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
-              disabled={currentPage === 0}
-            >
-              {t("components.CreateGameServer.backButton")}
-            </Button>
+            {currentPage > 0 && (
+              <Button
+                variant="secondary"
+                onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
+                disabled={currentPage === 0}
+              >
+                {t("components.CreateGameServer.backButton")}
+              </Button>
+            )}
             <Button
               type="button"
               variant="primary"
