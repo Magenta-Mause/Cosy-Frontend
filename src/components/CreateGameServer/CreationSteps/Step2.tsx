@@ -1,4 +1,4 @@
-import { DialogDescription, DialogTitle } from "@components/ui/dialog";
+import { DialogDescription } from "@components/ui/dialog";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField";
@@ -9,7 +9,6 @@ export default function Step2() {
 
   return (
     <GenericGameServerCreationPage>
-      <DialogTitle>{t("title")}</DialogTitle>
       <DialogDescription>{t("description")}</DialogDescription>
 
       <GenericGameServerCreationInputField

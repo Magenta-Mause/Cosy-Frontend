@@ -1,6 +1,5 @@
 import GenericGameServerCreationInputField from "@components/CreateGameServer/GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "@components/CreateGameServer/GenericGameServerCreationPage.tsx";
-import { DialogTitle } from "@components/ui/dialog.tsx";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
@@ -9,7 +8,6 @@ const GameServerCreationGameNamePage = () => {
 
   return (
     <GenericGameServerCreationPage>
-      <DialogTitle>{t("title")}</DialogTitle>
       <GenericGameServerCreationInputField
         attribute="game_uuid"
         validator={z.string().min(1)}

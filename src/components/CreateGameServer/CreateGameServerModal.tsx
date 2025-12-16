@@ -1,10 +1,10 @@
 import { Button } from "@components/ui/button.tsx";
-import { DialogContent, DialogFooter } from "@components/ui/dialog.tsx";
+import { DialogContent, DialogFooter, DialogMain, DialogTitle } from "@components/ui/dialog.tsx";
 import { createContext, type Dispatch, type SetStateAction, useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { parse as parseCommand } from "shell-quote";
 import type { GameServerCreationDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import Step1 from "./CreationSteps/Step1";
 import Step2 from "./CreationSteps/Step2";
 import Step3 from "./CreationSteps/Step3";
@@ -37,7 +37,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
   const [isPageValid, setPageValid] = useState<{ [key: number]: boolean }>({});
   const [currentPage, setCurrentPage] = useState(0);
   const isLastPage = currentPage === PAGES.length - 1;
-  const { t } = useTranslationPrefix("components.CreateGameServer");
+  const { t } = useTranslation();
 
   const handleNextPage = () => {
     if (isLastPage) {
@@ -79,18 +79,22 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
         }}
       >
         <div className="flex flex-col max-h-[80vh] p-4">
-          <div className="overflow-auto p-6">{PAGES[currentPage]}</div>
-
+          <DialogTitle>
+            {t(`components.CreateGameServer.steps.step${currentPage + 1}.title`)}
+          </DialogTitle>
+          <DialogMain className="overflow-auto p-6">
+            <div>{PAGES[currentPage]}</div>
+          </DialogMain>
           <DialogFooter className="shrink-0 pt-4">
             <Button
-              variant="primary"
               onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
               disabled={currentPage === 0}
             >
-              {t("backButton")}
+              {t("components.CreateGameServer.backButton")}
             </Button>
             <Button
               type="button"
+              variant="primary"
               onClick={handleNextPage}
               className={
                 isLastPage
@@ -99,7 +103,9 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
               }
               disabled={!isPageValid[currentPage]}
             >
-              {isLastPage ? t("createServerButton") : t("nextStepButton")}
+              {isLastPage
+                ? t("components.CreateGameServer.createServerButton")
+                : t("components.CreateGameServer.nextStepButton")}
             </Button>
           </DialogFooter>
         </div>

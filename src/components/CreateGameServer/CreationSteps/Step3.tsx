@@ -1,5 +1,5 @@
 import KeyValueInput, { InputType } from "@components/CreateGameServer/KeyValueInput";
-import { DialogDescription, DialogTitle } from "@components/ui/dialog";
+import { DialogDescription } from "@components/ui/dialog";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField";
@@ -10,7 +10,6 @@ export default function Step3() {
 
   return (
     <GenericGameServerCreationPage>
-      <DialogTitle>{t("title")}</DialogTitle>
       <DialogDescription>{t("description")}</DialogDescription>
 
       <div className="grid grid-cols-2 gap-4">
