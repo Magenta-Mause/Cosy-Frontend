@@ -1,4 +1,4 @@
-import { buttonVariants } from "@components/ui/button.tsx";
+import { Button, buttonVariants } from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogClose,
@@ -93,18 +93,19 @@ export function DeleteGameServerAlertDialog({
         </DialogHeader>
         <DialogFooter className={"flex gap-8 justify-end items-center"}>
           <DialogClose asChild>
-            <button type={"button"} className={cn(buttonVariants(), "h-[50px]")} disabled={loading}>
+            <Button className="h-[50px]" variant="secondary" disabled={loading}>
               {t("deleteGameServerDialog.cancel")}
-            </button>
+            </Button>
           </DialogClose>
-          <button
+          <Button
             type="button"
+            variant={"destructive"}
             onClick={handleConfirm}
-            className={cn(buttonVariants(), "h-[50px]")}
+            className={"h-[50px]"}
             disabled={isConfirmButtonDisabled}
           >
             {t("deleteGameServerDialog.confirm")}
-          </button>
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
