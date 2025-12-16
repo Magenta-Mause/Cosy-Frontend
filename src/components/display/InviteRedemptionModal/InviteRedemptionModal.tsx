@@ -5,6 +5,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
 import { Input } from "@components/ui/input.tsx";
@@ -97,11 +98,10 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
           <DialogTitle>{t("inviteRedemption.title")}</DialogTitle>
           <DialogDescription>{t("inviteRedemption.description")}</DialogDescription>
         </DialogHeader>
-
         {isLoadingInvite ? (
-          <div className="flex justify-center py-8">
+          <DialogMain className="flex justify-center">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          </div>
+          </DialogMain>
         ) : isInviteError ? (
           <div className="py-4 text-center space-y-4">
             <p className="text-destructive font-medium">{t("inviteRedemption.invalidLink")}</p>
@@ -110,70 +110,72 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
             </Button>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4 py-2">
-            {inviteData?.invite_by_username && (
-              <p className="text-sm text-muted-foreground text-center mb-4">
-                {t("inviteRedemption.invitedBy", { username: inviteData.invite_by_username })}
-              </p>
-            )}
-
-            <div className="space-y-2">
-              <label
-                htmlFor="username"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {t("inviteRedemption.usernameLabel")}
-              </label>
-              <Input
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder={t("inviteRedemption.usernamePlaceholder")}
-                disabled={!!inviteData?.username || isRegistering} // Disable if pre-set by invite
-                required={!inviteData?.username}
-              />
-              {inviteData?.username && (
-                <p className="text-[0.8em] text-muted-foreground">
-                  {t("inviteRedemption.usernameSetByInviter")}
+          <form onSubmit={handleSubmit}>
+            <DialogMain>
+              {inviteData?.invite_by_username && (
+                <p className="text-sm text-muted-foreground text-center mb-4">
+                  {t("inviteRedemption.invitedBy", { username: inviteData.invite_by_username })}
                 </p>
               )}
-            </div>
 
-            <div className="space-y-2">
-              <label
-                htmlFor="password"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {t("inviteRedemption.passwordLabel")}
-              </label>
-              <Input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder={t("inviteRedemption.passwordPlaceholder")}
-                required
-                disabled={isRegistering}
-              />
-            </div>
+              <div className="space-y-2">
+                <label
+                  htmlFor="username"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {t("inviteRedemption.usernameLabel")}
+                </label>
+                <Input
+                  id="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder={t("inviteRedemption.usernamePlaceholder")}
+                  disabled={!!inviteData?.username || isRegistering} // Disable if pre-set by invite
+                  required={!inviteData?.username}
+                />
+                {inviteData?.username && (
+                  <p className="text-[0.8em] text-muted-foreground">
+                    {t("inviteRedemption.usernameSetByInviter")}
+                  </p>
+                )}
+              </div>
 
-            <div className="space-y-2">
-              <label
-                htmlFor="confirmPassword"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {t("inviteRedemption.confirmPasswordLabel")}
-              </label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder={t("inviteRedemption.confirmPasswordPlaceholder")}
-                required
-                disabled={isRegistering}
-              />
-            </div>
+              <div className="space-y-2">
+                <label
+                  htmlFor="password"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {t("inviteRedemption.passwordLabel")}
+                </label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder={t("inviteRedemption.passwordPlaceholder")}
+                  required
+                  disabled={isRegistering}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="confirmPassword"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {t("inviteRedemption.confirmPasswordLabel")}
+                </label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder={t("inviteRedemption.confirmPasswordPlaceholder")}
+                  required
+                  disabled={isRegistering}
+                />
+              </div>
+            </DialogMain>
 
             <DialogFooter className="mt-6 flex gap-5">
               <Button

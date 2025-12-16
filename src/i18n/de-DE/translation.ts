@@ -71,9 +71,10 @@ const translation: i18nLanguage = {
     createGameServerError: "Fehler beim Erstellen des Gameservers!",
   },
   deleteGameServerDialog: {
-    title: "Möchten Sie {{serverName}} wirklich löschen?",
-    description:
-      "Diese Aktion kann nicht rückgängig gemacht werden. Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
+    title: "Sind Sie sicher?",
+    description: "Diese Aktion kann nicht rückgängig gemacht werden!",
+    explanation:
+      "Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
     inputLabel: "Geben Sie den Namen des Gameservers ein, um sicherzugehen:",
     cancel: "Abbrechen",
     confirm: "Löschen",
@@ -163,6 +164,9 @@ const translation: i18nLanguage = {
         },
       },
     },
+  },
+  genericModal: {
+    cancel: "Abbrechen",
   },
 };
 

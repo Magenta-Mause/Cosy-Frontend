@@ -70,9 +70,10 @@ const translation: i18nLanguage = {
     createGameServerError: "Failed to create Game Server!",
   },
   deleteGameServerDialog: {
-    title: "Are you absolutely sure you want to delete {{serverName}}?",
-    description:
-      "This action cannot be undone. This will permanently delete your Game Server Configuration and remove its data from the server.",
+    title: "Are you sure?",
+    description: "This action cannot be undone!",
+    explanation:
+      "This will permanently delete your Game Server Configuration and remove its data from the server.",
     inputLabel: "Enter the name of the game server to be sure:",
     cancel: "Cancel",
     confirm: "Delete",
@@ -161,6 +162,9 @@ const translation: i18nLanguage = {
     },
   },
   consequence: "asd{{counter}}ajskod",
+  genericModal: {
+    cancel: "Cancel",
+  },
 };
 
 export default translation;

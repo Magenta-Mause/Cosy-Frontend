@@ -6,6 +6,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
 import { Input } from "@components/ui/input.tsx";
@@ -70,27 +71,29 @@ export function DeleteGameServerAlertDialog({
         <DialogHeader>
           <DialogTitle>{t("title", { serverName })}</DialogTitle>
           <DialogDescription>{t("description")}</DialogDescription>
-          <div className="grid gap-4 py-4">
-            <div className="flex flex-col items-start gap-4">
-              <div>
-                <Label htmlFor="serverName">{t("inputLabel")}</Label>
-                <br />
-                <span className={"text-sm text-muted-foreground"}>
-                  (<span className={"select-all"}>{serverName}</span>)
-                </span>
-              </div>
-              <Input
-                id="serverName"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={serverName}
-                disabled={loading}
-              />
-            </div>
-          </div>
         </DialogHeader>
-        <DialogFooter className={"flex gap-8 justify-end items-center"}>
+
+        <DialogMain>
+          <div className="flex flex-col items-start gap-4">
+            {t("explanation")}
+            <div>
+              <Label htmlFor="serverName">{t("inputLabel")}</Label>
+              <br />
+              <span className={"text-sm text-muted-foreground"}>
+                (<span className={"select-all"}>{serverName}</span>)
+              </span>
+            </div>
+            <Input
+              id="serverName"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={serverName}
+              disabled={loading}
+            />
+          </div>
+        </DialogMain>
+        <DialogFooter>
           <DialogClose asChild>
             <Button className="h-[50px]" variant="secondary" disabled={loading}>
               {t("cancel")}
