@@ -9,6 +9,7 @@ import type { GameServerConfigurationEntity } from "@/api/generated/model";
 import serverHouseImage from "@/assets/ai-generated/main-page/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
+import EditGameServerModal from "../EditGameServer/EditGameServerModal";
 import GameSign from "../GameSign/GameSign";
 
 const GameServerHouse = (props: {
@@ -19,13 +20,15 @@ const GameServerHouse = (props: {
   const { t } = useTranslation();
   const { deleteGameServer } = useDataInteractions();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const actions = [
     {
       label: t("rightClickMenu.edit"),
       onClick: () => {
-        toast.info(t("toasts.notImplemented"));
+        setIsEditDialogOpen(true);
       },
+      closeOnClick: false,
     },
     {
       label: t("rightClickMenu.delete"),
@@ -71,6 +74,7 @@ const GameServerHouse = (props: {
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
       />
+      <EditGameServerModal open={isEditDialogOpen} />
     </>
   );
 };

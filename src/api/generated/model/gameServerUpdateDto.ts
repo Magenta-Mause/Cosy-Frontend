@@ -9,13 +9,11 @@ import type { PortMapping } from './portMapping';
 import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
 import type { VolumeMountConfigurationCreationDto } from './volumeMountConfigurationCreationDto';
 
-export interface GameServerCreationDto {
+export interface GameServerUpdateDto {
   /** @minLength 1 */
   game_uuid: string;
   /** @minLength 1 */
   server_name: string;
-  /** @minLength 1 */
-  template: string;
   /** @minLength 1 */
   docker_image_name: string;
   /** @minLength 1 */

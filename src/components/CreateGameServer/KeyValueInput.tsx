@@ -180,6 +180,16 @@ export default function KeyValueInput({
                   <CircleX className="w-full h-full" />
                 </Button>
               )}
+              {index === keyValuePairs.length - 1 && (
+                <Button
+                  className="ml-2"
+                  onClick={() =>
+                    setKeyValuePairs((prev) => [...prev, { uuid: uuidv7(), valid: true }])
+                  }
+                >
+                  {t("keyValueInputAddButton")}
+                </Button>
+              )}
 
               {rowError && (
                 <Tooltip>
@@ -193,12 +203,6 @@ export default function KeyValueInput({
           );
         })}
       </div>
-      <Button
-        className="ml-2"
-        onClick={() => setKeyValuePairs((prev) => [...prev, { uuid: uuidv7(), valid: true }])}
-      >
-        {t("keyValueInputAddButton")}
-      </Button>
       <FieldDescription>{fieldDescription}</FieldDescription>
     </Field>
   );

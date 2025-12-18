@@ -12,6 +12,7 @@ export * from './gameServerConfigurationEntityStatus';
 export * from './gameServerCreationDto';
 export * from './gameServerDto';
 export * from './gameServerDtoStatus';
+export * from './gameServerUpdateDto';
 export * from './loginDto';
 export * from './loginDto';
 export * from './portMapping';
