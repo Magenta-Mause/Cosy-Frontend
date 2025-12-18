@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from "@components/ui/button.tsx";
+import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogClose,
@@ -13,8 +13,7 @@ import { Input } from "@components/ui/input.tsx";
 import { Label } from "@radix-ui/react-label";
 import type { KeyboardEvent } from "react";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { cn } from "@/lib/utils.ts";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 interface DeleteGameServerAlertDialogProps {
   serverName: string;
@@ -29,7 +28,7 @@ export function DeleteGameServerAlertDialog({
   open,
   onOpenChange,
 }: DeleteGameServerAlertDialogProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslationPrefix("deleteGameServerDialog");
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
   const isConfirmButtonDisabled = inputValue !== serverName || loading;
@@ -70,15 +69,15 @@ export function DeleteGameServerAlertDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className={"font-mono"}>
         <DialogHeader>
-          <DialogTitle>{t("deleteGameServerDialog.title", { serverName })}</DialogTitle>
-          <DialogDescription>{t("deleteGameServerDialog.description")}</DialogDescription>
+          <DialogTitle>{t("title", { serverName })}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
         <DialogMain>
           <div className="flex flex-col items-start gap-4">
-            {t("deleteGameServerDialog.explanation")}
+            {t("explanation")}
             <div>
-              <Label htmlFor="serverName">{t("deleteGameServerDialog.inputLabel")}</Label>
+              <Label htmlFor="serverName">{t("inputLabel")}</Label>
               <br />
               <span className={"text-sm text-muted-foreground"}>
                 (<span className={"select-all"}>{serverName}</span>)
@@ -97,7 +96,7 @@ export function DeleteGameServerAlertDialog({
         <DialogFooter>
           <DialogClose asChild>
             <Button className="h-[50px]" variant="secondary" disabled={loading}>
-              {t("deleteGameServerDialog.cancel")}
+              {t("cancel")}
             </Button>
           </DialogClose>
           <Button
@@ -107,7 +106,7 @@ export function DeleteGameServerAlertDialog({
             className={"h-[50px]"}
             disabled={isConfirmButtonDisabled}
           >
-            {t("deleteGameServerDialog.confirm")}
+            {t("confirm")}
           </Button>
         </DialogFooter>
       </DialogContent>

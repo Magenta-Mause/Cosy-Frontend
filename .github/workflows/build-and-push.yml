@@ -30,7 +30,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name:  Extract metadata (tags, labels) for Docker
+      - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -56,7 +56,7 @@ jobs:
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.DEPLOYMENT_APP_ID }}
-          private-key:  ${{ secrets.DEPLOYMENT_APP_PRIVATE_KEY }}
+          private-key: ${{ secrets.DEPLOYMENT_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
           repositories: "cosy-internal-deployment"
 
@@ -67,3 +67,4 @@ jobs:
             -H "Authorization: token ${{ steps.app-token.outputs.token }}" \
             https://api.github.com/repos/${{ github.repository_owner }}/cosy-internal-deployment/dispatches \
             -d '{"event_type":"update_image","client_payload":{"service":"backend","commit_sha":"sha-${{ needs.build-and-push-image.outputs.short-sha }}"}}'
+
