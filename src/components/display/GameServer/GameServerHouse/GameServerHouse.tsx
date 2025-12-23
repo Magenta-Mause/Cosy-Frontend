@@ -5,8 +5,9 @@ import type { CSSProperties } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { startService, stopService } from "@/api/generated/backend-api";
+import { stopService } from "@/api/generated/backend-api";
 import type { GameServerConfigurationEntity } from "@/api/generated/model";
+import { startServiceSse } from "@/api/sse";
 import serverHouseImage from "@/assets/ai-generated/main-page/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
@@ -39,7 +40,8 @@ const GameServerHouse = (props: {
       label: t("rightClickMenu.startServer"),
       onClick: async () => {
         try {
-          const res = await startService(props.gameServer.uuid as string);
+          toast.info("Starting server...")
+          const res = await startServiceSse(props.gameServer.uuid as string);
           const hostname = window.location.hostname;
           const listeningOn = res.map((num) => (
             <div key={num}>
@@ -60,11 +62,11 @@ const GameServerHouse = (props: {
               {listeningOn}
             </div>,
             {
-              duration: 5000
-            }
+              duration: 5000,
+            },
           );
         } catch (e) {
-          toast.error(t("toasts.serverStartError", { error: e }));
+          toast.error(t("toasts.serverStartError", { error: e }), { duration: 5000 });
         }
       },
     },
