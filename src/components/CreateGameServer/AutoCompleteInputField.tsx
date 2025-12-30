@@ -24,10 +24,11 @@ interface Props<T> {
   attribute: keyof GameServerCreationDto;
   validator: ZodType;
   placeholder: string;
-  errorLabel: string;
   getAutoCompleteItems: (val: string) => Promise<AutoCompleteItem<T>[]>;
   inputType: InputType;
   selectItemCallback?: (item: AutoCompleteItem<T>) => void;
+  noAutoCompleteItemsLabelCallback?: (displayValue: string) => string;
+  noAutoCompleteItemsLabel?: string;
 }
 
 function AutoCompleteInputField<T>({
@@ -37,6 +38,8 @@ function AutoCompleteInputField<T>({
   getAutoCompleteItems,
   inputType,
   selectItemCallback,
+  noAutoCompleteItemsLabelCallback,
+  noAutoCompleteItemsLabel,
 }: Props<T>) {
   const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
   const { setGameServerState, creationState } = useContext(GameServerCreationContext);
@@ -145,11 +148,15 @@ function AutoCompleteInputField<T>({
                 onSelect={() =>
                   selectItem({
                     value: "0",
-                    label: "Unknown Item",
+                    label: noAutoCompleteItemsLabel ?? "Unknown Item",
                   } as AutoCompleteItem<T>)
                 }
               >
-                <Label>{t("noResultsLabel")}</Label>
+                <Label>
+                  {noAutoCompleteItemsLabelCallback?.(displayName) ??
+                    noAutoCompleteItemsLabel ??
+                    "Unknown Item"}
+                </Label>
               </CommandItem>
             )}
           </CommandList>

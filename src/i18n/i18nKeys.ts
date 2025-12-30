@@ -107,6 +107,8 @@ export type i18nLanguage = {
             description: string;
             errorLabel: string;
             placeholder: string;
+            noGamesFound: string;
+            noResultsLabel: string;
           };
         };
         step2: {

@@ -109,6 +109,9 @@ const translation: i18nLanguage = {
             description: "Select a game to host on your server.",
             errorLabel: "Please select a valid game.",
             placeholder: "Search a game...",
+            noGamesFound:
+              "No games found. Querying games might have failed. Select this for default game. (no specific game)",
+            noResultsLabel: "Unknown Game",
           },
         },
         step2: {
