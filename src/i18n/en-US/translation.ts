@@ -2,7 +2,7 @@ import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
   userRoles: {
-    QUOTA_USER: "Quota User",
+    QUOTA_USER: "User",
     ADMIN: "Admin",
     OWNER: "Owner",
   },
