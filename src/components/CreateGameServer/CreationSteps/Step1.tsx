@@ -27,13 +27,13 @@ const Step1 = () => {
             data: game,
             value: String(game.id),
             label: game.name,
-            leftSlot: (
+            leftSlot: game.logo_url ? (
               <img
                 src={game.logo_url}
                 alt={game.name}
                 className="h-6 w-auto rounded-md mr-2 object-contain"
               />
-            ),
+            ) : null,
           })),
         );
     },
