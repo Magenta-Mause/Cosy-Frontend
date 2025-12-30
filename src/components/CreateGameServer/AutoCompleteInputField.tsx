@@ -109,7 +109,7 @@ function AutoCompleteInputField<T>({
   );
 
   return (
-    <Popover open={open}>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger>
         <Input
           placeholder={placeholder}
