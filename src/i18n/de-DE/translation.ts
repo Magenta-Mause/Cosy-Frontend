@@ -54,6 +54,12 @@ const translation: i18nLanguage = {
     cpuLimit: "CPU limit (Optional)",
     cpuPlaceholder: "1.5 kerne",
     cpuDescription: "Leer lassen, dann hat der Benutzer unendlich viele CPU Kerne zur Verfügung.",
+    roleLabel: "Benutzerrolle",
+  },
+  userRoles: {
+    QUOTA_USER: "Nutzer",
+    ADMIN: "Admin",
+    OWNER: "Besitzer",
   },
   inviteRedemption: {
     title: "Einladung annehmen",

@@ -5,14 +5,14 @@ import type { CSSProperties } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import type { GameServerConfigurationEntity } from "@/api/generated/model";
+import type { GameServerDto } from "@/api/generated/model";
 import serverHouseImage from "@/assets/ai-generated/main-page/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
 import GameSign from "../GameSign/GameSign";
 
 const GameServerHouse = (props: {
-  gameServer: GameServerConfigurationEntity;
+  gameServer: GameServerDto;
   className?: string;
   style?: CSSProperties;
 }) => {

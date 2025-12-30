@@ -50,6 +50,12 @@ export type i18nLanguage = {
     cpuLimit: string;
     cpuPlaceholder: string;
     cpuDescription: string;
+    roleLabel: string;
+  };
+  userRoles: {
+    QUOTA_USER: string;
+    ADMIN: string;
+    OWNER: string;
   };
   inviteRedemption: {
     title: string;

@@ -51,11 +51,7 @@ const useDataLoading = () => {
   };
 
   const loadAllData = async () => {
-    const results = await Promise.allSettled([
-      loadGameServers(),
-      loadUsers(),
-      loadInvites(),
-    ]);
+    const results = await Promise.allSettled([loadGameServers(), loadUsers(), loadInvites()]);
 
     const summary = {
       gameServers: results[0].status === "fulfilled" && results[0].value === true,

@@ -1,15 +1,15 @@
-import { Button } from "@components/ui/button";
-import { Field, FieldDescription, FieldLabel } from "@components/ui/field";
-import { Input } from "@components/ui/input";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
+import { Button } from "@components/ui/button.tsx";
+import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
+import { Input } from "@components/ui/input.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
 import { CircleAlertIcon, CircleX } from "lucide-react";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { v7 as uuidv7 } from "uuid";
 import type { ZodType } from "zod";
-import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { GameServerCreationContext } from "./CreateGameServerModal";
-import { GameServerCreationPageContext } from "./GenericGameServerCreationPage";
+import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { GameServerCreationContext } from "./CreateGameServerModal.tsx";
+import { GameServerCreationPageContext } from "./GenericGameServerCreationPage.tsx";
 
 // All keys must be a key of HTMLInputTypeAttribute
 enum InputType {

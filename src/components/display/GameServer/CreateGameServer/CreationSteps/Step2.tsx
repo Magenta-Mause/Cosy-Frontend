@@ -1,8 +1,8 @@
-import { DialogDescription } from "@components/ui/dialog";
+import { DialogDescription } from "@components/ui/dialog.tsx";
 import * as z from "zod";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField";
-import GenericGameServerCreationPage from "../GenericGameServerCreationPage";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
+import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
 
 export default function Step2() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step2");

@@ -1,6 +1,11 @@
 import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
+  userRoles: {
+    QUOTA_USER: "User",
+    ADMIN: "Admin",
+    OWNER: "Owner",
+  },
   overviewPage: {
     createNewServer: "New Game Server",
   },
@@ -53,6 +58,7 @@ const translation: i18nLanguage = {
     cpuLimit: "CPU limit (Optional)",
     cpuPlaceholder: "1.5 cores",
     cpuDescription: "Leave it empty to allow the user to have unlimited CPU cores.",
+    roleLabel: "User role",
   },
   inviteRedemption: {
     title: "Accept Invitation",
