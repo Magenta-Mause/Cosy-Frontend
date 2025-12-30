@@ -57,6 +57,7 @@ const Step1 = () => {
             : t("gameSelection.noResultsLabel")
         }
         noAutoCompleteItemsLabel={t("gameSelection.noResultsLabel")}
+        fallbackValue="0"
       />
     </GenericGameServerCreationPage>
   );

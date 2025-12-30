@@ -26,6 +26,7 @@ interface Props<T> {
   placeholder: string;
   getAutoCompleteItems: (val: string) => Promise<AutoCompleteItem<T>[]>;
   inputType: InputType;
+  fallbackValue: string;
   selectItemCallback?: (item: AutoCompleteItem<T>) => void;
   noAutoCompleteItemsLabelCallback?: (displayValue: string) => string;
   noAutoCompleteItemsLabel?: string;
@@ -40,6 +41,7 @@ function AutoCompleteInputField<T>({
   selectItemCallback,
   noAutoCompleteItemsLabelCallback,
   noAutoCompleteItemsLabel,
+  fallbackValue,
 }: Props<T>) {
   const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
   const { setGameServerState, creationState } = useContext(GameServerCreationContext);
@@ -155,7 +157,7 @@ function AutoCompleteInputField<T>({
                 key="unknown-item"
                 onSelect={() =>
                   selectItem({
-                    value: "0",
+                    value: fallbackValue,
                     label: noAutoCompleteItemsLabel ?? "Unknown Item",
                   } as AutoCompleteItem<T>)
                 }
