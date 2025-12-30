@@ -1,11 +1,11 @@
-import { GameServerCreationContext } from "@components/CreateGameServer/CreateGameServerModal.tsx";
-import { GameServerCreationPageContext } from "@components/CreateGameServer/GenericGameServerCreationPage.tsx";
-import { FieldError } from "@components/ui/field";
+import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
+import { FieldError } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useCallback, useContext, useEffect } from "react";
 import type { ZodType } from "zod";
-import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto";
+import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
 
 const GenericGameServerCreationInputField = (props: {
   attribute: keyof GameServerCreationDto;

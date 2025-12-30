@@ -20,10 +20,8 @@ export interface GameServerCreationDto {
   docker_image_name: string;
   /** @minLength 1 */
   docker_image_tag: string;
-  /** @minItems 1 */
-  port_mappings: PortMapping[];
-  /** @minItems 1 */
-  execution_command: string[];
+  port_mappings?: PortMapping[];
+  execution_command?: string[];
   environment_variables?: EnvironmentVariableConfiguration[];
   volume_mounts?: VolumeMountConfigurationCreationDto[];
 }

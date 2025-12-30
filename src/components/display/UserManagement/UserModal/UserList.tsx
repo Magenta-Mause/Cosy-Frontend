@@ -24,7 +24,7 @@ export const UserList = ({ onRevoke }: UserListProps) => {
             <UserCircle className="h-8 w-8 text-gray-400" />
             <div className="flex-1">
               <p className="font-semibold">{user.username}</p>
-              <p className="text-sm text-gray-500">{user.role}</p>
+              <p className="text-sm text-gray-500">{t(`userRoles.${user.role}`)}</p>
             </div>
           </div>
           {index < users.length - 1 && <Separator />}
@@ -40,7 +40,7 @@ export const UserList = ({ onRevoke }: UserListProps) => {
           </h4>
           {invites.map((invite, index) => (
             <Fragment key={invite.uuid}>
-              <div className="flex items-center gap-4 opacity-70">
+              <div className="flex items-center gap-4">
                 <div className="h-8 w-8 rounded-full bg-muted border border-dashed border-foreground/20 flex items-center justify-center">
                   <UserPlus className="h-4 w-4 text-muted-foreground" />
                 </div>
@@ -56,12 +56,13 @@ export const UserList = ({ onRevoke }: UserListProps) => {
                     </p>
                   )}
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center gap-3">
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
                         size="icon"
-                        className="h-8 w-8 text-muted-foreground hover:text-button-secondary-default"
+                        variant="primary"
+                        className="h-8 w-8 hover:text-button-secondary-default"
                         onClick={() => {
                           if (invite.secret_key) {
                             const link = `${window.location.origin}/?inviteToken=${invite.secret_key}`;
@@ -82,7 +83,7 @@ export const UserList = ({ onRevoke }: UserListProps) => {
                     <TooltipTrigger asChild>
                       <Button
                         size="icon"
-                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                        className="h-8 w-8 hover:text-destructive"
                         onClick={() => invite.uuid && onRevoke(invite.uuid)}
                       >
                         <Trash2 className="h-4 w-4" />
