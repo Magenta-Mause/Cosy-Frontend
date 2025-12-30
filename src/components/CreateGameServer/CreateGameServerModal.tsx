@@ -9,18 +9,29 @@ import Step1 from "./CreationSteps/Step1";
 import Step2 from "./CreationSteps/Step2";
 import Step3 from "./CreationSteps/Step3";
 
-export interface GameServerCreationContext {
+type UtilState = {
+  selectedGameLogoUrl?: string;
+};
+
+interface CreationState {
   gameServerState: Partial<GameServerCreationDto>;
+  utilState: UtilState;
+}
+
+export interface GameServerCreationContext {
+  creationState: CreationState;
   setGameServerState: <K extends keyof GameServerCreationDto>(
     gameStateKey: K,
   ) => (value: GameServerCreationDto[K]) => void;
   setCurrentPageValid: (isValid: boolean) => void;
+  setUtilState: <K extends keyof UtilState>(utilStateKey: K) => (value: UtilState[K]) => void;
 }
 
 export const GameServerCreationContext = createContext<GameServerCreationContext>({
-  gameServerState: {},
+  creationState: { gameServerState: {}, utilState: { selectedGameLogoUrl: undefined } },
   setGameServerState: () => () => {},
   setCurrentPageValid: () => {},
+  setUtilState: () => () => {},
 });
 
 const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" />];
@@ -31,20 +42,23 @@ interface Props {
 
 const CreateGameServerModal = ({ setOpen }: Props) => {
   const { createGameServer } = useDataInteractions();
-  const [gameServerState, setGameServerInternalState] = useState<Partial<GameServerCreationDto>>(
-    {},
-  );
+  const [creationState, setCreationState] = useState<CreationState>({
+    gameServerState: {},
+    utilState: {},
+  });
   const [isPageValid, setPageValid] = useState<{ [key: number]: boolean }>({});
   const [currentPage, setCurrentPage] = useState(0);
-  const isLastPage = currentPage === PAGES.length - 1;
   const { t } = useTranslation();
+  const isLastPage = currentPage === PAGES.length - 1;
 
   const handleNextPage = () => {
     if (isLastPage) {
       createGameServer({
-        ...gameServerState,
-        execution_command: parseCommand(gameServerState.execution_command as unknown as string),
-        port_mappings: gameServerState.port_mappings?.map((portMapping) => ({
+        ...creationState.gameServerState,
+        execution_command: parseCommand(
+          creationState.gameServerState.execution_command as unknown as string,
+        ),
+        port_mappings: creationState.gameServerState.port_mappings?.map((portMapping) => ({
           ...portMapping,
           protocol: "TCP", // Default to TCP for now - change this later!!!
         })),
@@ -65,7 +79,19 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
   const setGameServerState: GameServerCreationContext["setGameServerState"] = useCallback(
     (gameStateKey) => (value) =>
-      setGameServerInternalState((prev) => ({ ...prev, [gameStateKey]: value })),
+      setCreationState((prev) => ({
+        ...prev,
+        gameServerState: { ...prev.gameServerState, [gameStateKey]: value },
+      })),
+    [],
+  );
+
+  const setUtilState: GameServerCreationContext["setUtilState"] = useCallback(
+    (utilStateKey) => (value) =>
+      setCreationState((prev) => ({
+        ...prev,
+        utilState: { ...prev.utilState, [utilStateKey]: value },
+      })),
     [],
   );
 
@@ -74,8 +100,9 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
       <GameServerCreationContext.Provider
         value={{
           setGameServerState,
-          gameServerState,
+          creationState: creationState,
           setCurrentPageValid,
+          setUtilState,
         }}
       >
         <div className="flex flex-col max-h-[80vh] p-4">
@@ -86,6 +113,15 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
             <div>{PAGES[currentPage]}</div>
           </DialogMain>
           <DialogFooter className="shrink-0 pt-4">
+            <div className="flex-none w-40 flex items-start justify-center">
+              {creationState.utilState.selectedGameLogoUrl && (
+                <img
+                  src={creationState.utilState.selectedGameLogoUrl}
+                  alt="Selected game logo"
+                  className="max-h-36 w-auto object-contain rounded-md"
+                />
+              )}
+            </div>
             {currentPage > 0 && (
               <Button
                 variant="secondary"

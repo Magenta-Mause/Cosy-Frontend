@@ -13,42 +13,49 @@ import { GameServerCreationPageContext } from "./GenericGameServerCreationPage";
 
 const DEBOUNCE_DELAY = 500;
 
-type AutoCompleteItem = {
+type AutoCompleteItem<T> = {
+  data: T;
   value: string;
   label: string;
   leftSlot?: React.ReactNode;
 };
 
-interface Props {
+interface Props<T> {
   attribute: keyof GameServerCreationDto;
   validator: ZodType;
   placeholder: string;
   errorLabel: string;
-  getAutoCompleteItems: (val: string) => Promise<AutoCompleteItem[]>;
+  getAutoCompleteItems: (val: string) => Promise<AutoCompleteItem<T>[]>;
   inputType: InputType;
+  selectItemCallback?: (item: AutoCompleteItem<T>) => void;
 }
 
-function AutoCompleteInputField({
+function AutoCompleteInputField<T>({
   attribute,
   validator,
   placeholder,
   getAutoCompleteItems,
   inputType,
-}: Props) {
+  selectItemCallback,
+}: Props<T>) {
   const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
-  const { setGameServerState, gameServerState } = useContext(GameServerCreationContext);
+  const { setGameServerState, creationState } = useContext(GameServerCreationContext);
   const { setAttributeValid, setAttributeTouched } = useContext(GameServerCreationPageContext);
-  const [autoCompleteItems, setAutoCompleteItems] = useState<AutoCompleteItem[]>([]);
+  const [autoCompleteItems, setAutoCompleteItems] = useState<AutoCompleteItem<T>[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [displayName, setDisplayName] = useState<string>("");
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: initial setup only
   useEffect(() => {
-    setAttributeTouched(attribute, gameServerState[attribute] !== undefined);
-    setAttributeValid(attribute, validator.safeParse(gameServerState[attribute]).success);
-  }, [gameServerState, attribute, setAttributeTouched, setAttributeValid, validator]);
+    setAttributeTouched(attribute, creationState.gameServerState[attribute] !== undefined);
+    setAttributeValid(
+      attribute,
+      validator.safeParse(creationState.gameServerState[attribute]).success,
+    );
+  }, []);
 
   const queryAutoCompleteItems = useCallback(
     async (value: string) => {
@@ -65,8 +72,8 @@ function AutoCompleteInputField({
     [getAutoCompleteItems],
   );
 
-  const selectGame = useCallback(
-    (item: AutoCompleteItem) => {
+  const selectItem = useCallback(
+    (item: AutoCompleteItem<T>) => {
       const value = preProcessInputValue(item.value, inputType);
       const valid = validator.safeParse(value).success;
 
@@ -75,8 +82,19 @@ function AutoCompleteInputField({
       setGameServerState(attribute)(value);
       setAttributeValid(attribute, valid);
       setAttributeTouched(attribute, true);
+      if (selectItemCallback) {
+        selectItemCallback(item);
+      }
     },
-    [attribute, inputType, setAttributeTouched, setAttributeValid, setGameServerState, validator],
+    [
+      attribute,
+      inputType,
+      setAttributeTouched,
+      setAttributeValid,
+      setGameServerState,
+      validator,
+      selectItemCallback,
+    ],
   );
 
   return (
@@ -114,7 +132,7 @@ function AutoCompleteInputField({
               autoCompleteItems.slice(0, 5).map((item) => (
                 <CommandItem
                   key={item.value}
-                  onSelect={() => selectGame(item)}
+                  onSelect={() => selectItem(item)}
                   className="flex-auto items-center"
                 >
                   <div className="shrink-0">{item.leftSlot}</div>
@@ -123,12 +141,12 @@ function AutoCompleteInputField({
               ))
             ) : (
               <CommandItem
-                key="unknown-game"
+                key="unknown-item"
                 onSelect={() =>
-                  selectGame({
+                  selectItem({
                     value: "0",
-                    label: "Unknown Game",
-                  })
+                    label: "Unknown Item",
+                  } as AutoCompleteItem<T>)
                 }
               >
                 <Label>{t("noResultsLabel")}</Label>
