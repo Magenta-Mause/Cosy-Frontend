@@ -75,6 +75,14 @@ function AutoCompleteInputField<T>({
     [getAutoCompleteItems],
   );
 
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, []);
+
   const selectItem = useCallback(
     (item: AutoCompleteItem<T>) => {
       const value = preProcessInputValue(item.value, inputType);
