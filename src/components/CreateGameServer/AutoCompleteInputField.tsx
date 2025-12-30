@@ -135,7 +135,7 @@ function AutoCompleteInputField<T>({
         <Command>
           <CommandList>
             {loading && (
-              <CommandItem key="loading" onSelect={() => {}}>
+              <CommandItem key="loading" disabled>
                 <p>{t("loadingLabel")}</p>
               </CommandItem>
             )}
