@@ -96,7 +96,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
   );
 
   return (
-    <DialogContent className="sm:max-w-[600px] max-h-[80vh] p-0">
+    <DialogContent className="sm:max-w-150 max-h-[80vh] p-0">
       <GameServerCreationContext.Provider
         value={{
           setGameServerState,
