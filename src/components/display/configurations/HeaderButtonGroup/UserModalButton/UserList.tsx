@@ -1,7 +1,7 @@
 import { Button } from "@components/ui/button.tsx";
 import { Separator } from "@components/ui/separator.tsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
-import { Copy, Trash2, UserCircle, UserPlus } from "lucide-react";
+import { Copy, PenLine, Trash2, UserCircle, UserPlus } from "lucide-react";
 import { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -78,6 +78,22 @@ export const UserList = ({ onRevoke }: UserListProps) => {
                       <p>{t("userModal.copyTooltip")}</p>
                     </TooltipContent>
                   </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size="icon"
+                        className="h-8 w-8 text-muted-foreground hover:text-button-secondary-default"
+                        onClick={() => invite.uuid && onRevoke(invite.uuid)}
+                      >
+                        <PenLine className="h-4 w-4" />
+                        <span className="sr-only">{t("userModal.editTooltip")}</span>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>{t("userModal.editTooltip")}</p>
+                    </TooltipContent>
+                  </Tooltip>
+
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
