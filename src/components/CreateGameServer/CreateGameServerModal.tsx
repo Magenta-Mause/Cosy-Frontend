@@ -100,7 +100,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
       <GameServerCreationContext.Provider
         value={{
           setGameServerState,
-          creationState: creationState,
+          creationState,
           setCurrentPageValid,
           setUtilState,
         }}
