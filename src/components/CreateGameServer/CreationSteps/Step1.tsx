@@ -1,9 +1,10 @@
 import AutoCompleteInputField from "@components/CreateGameServer/AutoCompleteInputField";
 import GenericGameServerCreationPage from "@components/CreateGameServer/GenericGameServerCreationPage.tsx";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useContext } from "react";
 import * as z from "zod";
 import { getGameInfo } from "@/api/generated/backend-api";
+import type { GameDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { InputType } from "@/lib/utils";
 import { GameServerCreationContext } from "../CreateGameServerModal";
@@ -12,6 +13,23 @@ const Step1 = () => {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step1");
   const { setUtilState } = useContext(GameServerCreationContext);
   const queryClient = useQueryClient();
+
+  const mapGamesDtoToAutoCompleteItems = useCallback(
+    (games: GameDto[]) =>
+      games.map((game) => ({
+        data: game,
+        value: String(game.id),
+        label: game.name,
+        leftSlot: game.logo_url ? (
+          <img
+            src={game.logo_url}
+            alt={game.name}
+            className="h-6 w-auto rounded-md mr-2 object-contain"
+          />
+        ) : null,
+      })),
+    [],
+  );
 
   const queryGames = useCallback(
     (val: string) => {
@@ -22,22 +40,9 @@ const Step1 = () => {
           queryFn: () => getGameInfo({ query: val }),
           staleTime: 1000 * 60 * 5,
         })
-        .then((res) =>
-          res.map((game) => ({
-            data: game,
-            value: String(game.id),
-            label: game.name,
-            leftSlot: game.logo_url ? (
-              <img
-                src={game.logo_url}
-                alt={game.name}
-                className="h-6 w-auto rounded-md mr-2 object-contain"
-              />
-            ) : null,
-          })),
-        );
+        .then((games) => mapGamesDtoToAutoCompleteItems(games));
     },
-    [queryClient],
+    [queryClient, mapGamesDtoToAutoCompleteItems],
   );
 
   return (
