@@ -20,7 +20,6 @@ export * from './userInviteCreationDto';
 export * from './userInviteCreationDto';
 export * from './userInviteCreationDtoRole';
 export * from './userInviteDto';
-export * from './userInviteDto';
 export * from './userInviteDtoRole';
 export * from './volumeMountConfiguration';
 export * from './volumeMountConfigurationCreationDto';
