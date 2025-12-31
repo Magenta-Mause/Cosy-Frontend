@@ -13,6 +13,4 @@ export interface UserCreationDto {
    * @maxLength 2147483647
    */
   password: string;
-  max_memory?: number;
-  max_cpu_cores?: number;
 }

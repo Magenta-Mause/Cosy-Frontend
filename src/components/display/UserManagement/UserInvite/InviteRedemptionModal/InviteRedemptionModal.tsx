@@ -25,8 +25,6 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
   const { t } = useTranslation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [maxCpuCores, setMaxCpuCores] = useState<number>();
-  const [maxMemory, setMaxMemory] = useState<number>();
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isOpen, setIsOpen] = useState(true);
 
@@ -49,8 +47,6 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
     if (inviteData?.username) {
       setUsername(inviteData.username);
     }
-    setMaxMemory(inviteData?.max_memory);
-    setMaxCpuCores(inviteData?.max_cpu_cores);
   }, [inviteData]);
 
   const handleClose = () => {
@@ -74,7 +70,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
     registerUser(
       {
         secretKey: inviteToken,
-        data: { username, password, max_memory: maxMemory, max_cpu_cores: maxCpuCores },
+        data: { username, password },
       },
       {
         onSuccess: () => {
