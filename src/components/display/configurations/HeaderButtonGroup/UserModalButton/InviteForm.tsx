@@ -3,13 +3,25 @@ import { useTranslation } from "react-i18next";
 
 interface InviteFormProps {
   username: string;
+  memory: number | null;
+  cores: number | null;
   onUsernameChange: (value: string) => void;
+  onMemoryChange: (value: number | null) => void;
+  onCoresChange: (value: number | null) => void;
   onCancel: () => void;
   onSubmit: () => void;
   isCreating: boolean;
 }
 
-export const InviteForm = ({ username, onUsernameChange, onSubmit }: InviteFormProps) => {
+export const InviteForm = ({
+  username,
+  memory,
+  cores,
+  onUsernameChange,
+  onMemoryChange,
+  onCoresChange,
+  onSubmit,
+}: InviteFormProps) => {
   const { t } = useTranslation();
 
   return (
@@ -28,6 +40,30 @@ export const InviteForm = ({ username, onUsernameChange, onSubmit }: InviteFormP
           }}
         />
         <p className="text-xs text-muted-foreground">{t("userModal.usernameDescription")}</p>
+        <div className="flex justify-between">
+          <div className="w-[45%]">
+            <label htmlFor="memory-limit">{t("userModal.memoryLimit")}</label>
+            <Input
+              id="memory-limit"
+              placeholder="512MB"
+              value={memory ?? ""}
+              onChange={(e) =>
+                onMemoryChange(e.target.value === "" ? null : Number(e.target.value))
+              }
+            />
+            <p className="text-xs text-muted-foreground">{t("userModal.memoryDescription")}</p>
+          </div>
+          <div className="w-[45%]">
+            <label htmlFor="cpu-limit">{t("userModal.cpuLimit")}</label>
+            <Input
+              id="cpu-limit"
+              placeholder={t("userModal.cpuPlaceholder")}
+              value={cores ?? ""}
+              onChange={(e) => onCoresChange(e.target.value === "" ? null : Number(e.target.value))}
+            />
+            <p className="text-xs text-muted-foreground">{t("userModal.cpuDescription")}</p>
+          </div>
+        </div>
       </div>
     </div>
   );
