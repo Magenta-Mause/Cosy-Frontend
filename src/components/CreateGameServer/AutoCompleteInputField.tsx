@@ -2,7 +2,7 @@ import { GameServerCreationContext } from "@components/CreateGameServer/CreateGa
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import type * as React from "react";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import type { ZodType } from "zod";
 import type { GameServerCreationDto } from "@/api/generated/model";
 import { Command, CommandItem, CommandList } from "@/components/ui/command";
@@ -28,8 +28,8 @@ interface Props<T> {
   inputType: InputType;
   fallbackValue: string;
   selectItemCallback?: (item: AutoCompleteItem<T>) => void;
-  noAutoCompleteItemsLabelCallback?: (displayValue: string) => string;
-  noAutoCompleteItemsLabel?: string;
+  noAutoCompleteItemsLabelRenderer?: (displayValue: string) => ReactNode;
+  noAutoCompleteItemsLabel?: ReactNode;
 }
 
 function AutoCompleteInputField<T>({
@@ -39,7 +39,7 @@ function AutoCompleteInputField<T>({
   getAutoCompleteItems,
   inputType,
   selectItemCallback,
-  noAutoCompleteItemsLabelCallback,
+  noAutoCompleteItemsLabelRenderer,
   noAutoCompleteItemsLabel,
   fallbackValue,
 }: Props<T>) {
@@ -162,11 +162,9 @@ function AutoCompleteInputField<T>({
                   } as AutoCompleteItem<T>)
                 }
               >
-                <Label>
-                  {noAutoCompleteItemsLabelCallback?.(displayName) ??
-                    noAutoCompleteItemsLabel ??
-                    "Unknown Item"}
-                </Label>
+                {noAutoCompleteItemsLabelRenderer?.(displayName) ?? noAutoCompleteItemsLabel ?? (
+                  <Label>{"Unknown Item"}</Label>
+                )}
               </CommandItem>
             )}
           </CommandList>

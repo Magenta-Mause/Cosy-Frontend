@@ -1,5 +1,6 @@
 import AutoCompleteInputField from "@components/CreateGameServer/AutoCompleteInputField";
 import GenericGameServerCreationPage from "@components/CreateGameServer/GenericGameServerCreationPage.tsx";
+import { Label } from "@components/ui/label";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useContext } from "react";
 import * as z from "zod";
@@ -56,12 +57,14 @@ const Step1 = () => {
         selectItemCallback={(selectedItem) =>
           setUtilState("gameEntity")(selectedItem.data ?? undefined)
         }
-        noAutoCompleteItemsLabelCallback={(displayValue) =>
-          queryClient.getQueryState(["gameInfo", displayValue])?.error
-            ? t("gameSelection.noGamesFound")
-            : t("gameSelection.noResultsLabel")
-        }
-        noAutoCompleteItemsLabel={t("gameSelection.noResultsLabel")}
+        noAutoCompleteItemsLabelRenderer={(displayValue) => (
+          <Label>
+            {queryClient.getQueryState(["gameInfo", displayValue])?.error
+              ? t("gameSelection.noGamesFound")
+              : t("gameSelection.noResultsLabel")}
+          </Label>
+        )}
+        noAutoCompleteItemsLabel={<Label>{t("gameSelection.noResultsLabel")}</Label>}
         fallbackValue="0"
       />
     </GenericGameServerCreationPage>
