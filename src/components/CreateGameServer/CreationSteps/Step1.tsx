@@ -19,7 +19,7 @@ const Step1 = () => {
     (games: GameDto[]) =>
       games.map((game) => ({
         data: game,
-        value: String(game.id),
+        value: game.id,
         label: game.name,
         leftSlot: game.logo_url ? (
           <img
@@ -50,10 +50,9 @@ const Step1 = () => {
     <GenericGameServerCreationPage>
       <AutoCompleteInputField
         attribute="game_id"
-        validator={z.number().min(0)}
+        validator={(value) => value >= 0}
         placeholder={t("gameSelection.placeholder")}
         getAutoCompleteItems={queryGames}
-        inputType={InputType.number}
         selectItemCallback={(selectedItem) =>
           setUtilState("gameEntity")(selectedItem.data ?? undefined)
         }

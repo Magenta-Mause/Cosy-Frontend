@@ -3,50 +3,55 @@ import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import type * as React from "react";
 import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
-import type { ZodType } from "zod";
 import type { GameServerCreationDto } from "@/api/generated/model";
 import { Command, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { type InputType, preProcessInputValue } from "@/lib/utils";
 import { GameServerCreationPageContext } from "./GenericGameServerCreationPage";
 
 const DEBOUNCE_DELAY = 500;
 
-type AutoCompleteItem<T> = {
+type GameServerCreationValue = Exclude<
+  GameServerCreationDto[keyof GameServerCreationDto],
+  undefined
+>;
+
+type AutoCompleteItem<T, U extends GameServerCreationValue> = {
   data: T;
-  value: string;
+  value: U;
   label: string;
   leftSlot?: React.ReactNode;
 };
 
-interface Props<T> {
+interface Props<TSelectedItem, TAutoCompleteData extends GameServerCreationValue> {
   attribute: keyof GameServerCreationDto;
-  validator: ZodType;
+  validator: (value: TAutoCompleteData) => boolean;
   placeholder: string;
-  getAutoCompleteItems: (val: string) => Promise<AutoCompleteItem<T>[]>;
-  inputType: InputType;
+  getAutoCompleteItems: (
+    val: string,
+  ) => Promise<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[]>;
   fallbackValue: string;
-  selectItemCallback?: (item: AutoCompleteItem<T>) => void;
+  selectItemCallback?: (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => void;
   noAutoCompleteItemsLabelRenderer?: (displayValue: string) => ReactNode;
   noAutoCompleteItemsLabel?: ReactNode;
 }
 
-function AutoCompleteInputField<T>({
+function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameServerCreationValue>({
   attribute,
   validator,
   placeholder,
   getAutoCompleteItems,
-  inputType,
   selectItemCallback,
   noAutoCompleteItemsLabelRenderer,
   noAutoCompleteItemsLabel,
   fallbackValue,
-}: Props<T>) {
+}: Props<TSelectedItem, TAutoCompleteData>) {
   const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
   const { setGameServerState, creationState } = useContext(GameServerCreationContext);
   const { setAttributeValid, setAttributeTouched } = useContext(GameServerCreationPageContext);
-  const [autoCompleteItems, setAutoCompleteItems] = useState<AutoCompleteItem<T>[]>([]);
+  const [autoCompleteItems, setAutoCompleteItems] = useState<
+    AutoCompleteItem<TSelectedItem, TAutoCompleteData>[]
+  >([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [displayName, setDisplayName] = useState<string>("");
@@ -56,9 +61,11 @@ function AutoCompleteInputField<T>({
   // biome-ignore lint/correctness/useExhaustiveDependencies: initial setup only
   useEffect(() => {
     setAttributeTouched(attribute, creationState.gameServerState[attribute] !== undefined);
+
+    // `creationState.gameServerState[attribute]` has to be of type TAutoCompleteData, because ...
     setAttributeValid(
       attribute,
-      validator.safeParse(creationState.gameServerState[attribute]).success,
+      validator(creationState.gameServerState[attribute] as unknown as TAutoCompleteData),
     );
   }, []);
 
@@ -86,13 +93,12 @@ function AutoCompleteInputField<T>({
   }, []);
 
   const selectItem = useCallback(
-    (item: AutoCompleteItem<T>) => {
-      const value = preProcessInputValue(item.value, inputType);
-      const valid = validator.safeParse(value).success;
+    (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => {
+      const valid = validator(item.value);
 
       setDisplayName(item.label);
       setOpen(false);
-      setGameServerState(attribute)(value);
+      setGameServerState(attribute)(item.value);
       setAttributeValid(attribute, valid);
       setAttributeTouched(attribute, true);
       if (selectItemCallback) {
@@ -101,7 +107,6 @@ function AutoCompleteInputField<T>({
     },
     [
       attribute,
-      inputType,
       setAttributeTouched,
       setAttributeValid,
       setGameServerState,
@@ -144,7 +149,7 @@ function AutoCompleteInputField<T>({
             {autoCompleteItems.length > 0 ? (
               autoCompleteItems.slice(0, 5).map((item) => (
                 <CommandItem
-                  key={item.value}
+                  key={item.value.toString()}
                   onSelect={() => selectItem(item)}
                   className="flex-auto items-center"
                 >
@@ -159,7 +164,7 @@ function AutoCompleteInputField<T>({
                   selectItem({
                     value: fallbackValue,
                     label: noAutoCompleteItemsLabel ?? "Unknown Item",
-                  } as AutoCompleteItem<T>)
+                  } as AutoCompleteItem<TSelectedItem, TAutoCompleteData>)
                 }
               >
                 {noAutoCompleteItemsLabelRenderer?.(displayName) ?? noAutoCompleteItemsLabel ?? (
