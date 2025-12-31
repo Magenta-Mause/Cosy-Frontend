@@ -24,6 +24,8 @@ const UserModalButton = (props: { className?: string }) => {
   const { t } = useTranslation();
   const [view, setView] = useState<ViewState>("list");
   const [inviteUsername, setInviteUsername] = useState("");
+  const [memoryLimit, setMemoryLimit] = useState<number | null>(null);
+  const [coresLimit, setCoresLimit] = useState<number | null>(null);
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
@@ -32,7 +34,12 @@ const UserModalButton = (props: { className?: string }) => {
   const handleCreateInvite = async () => {
     setIsCreating(true);
     try {
-      const data = await createInvite({ username: inviteUsername || undefined });
+      const data = await createInvite({
+        username: inviteUsername || undefined,
+        max_memory: memoryLimit || undefined,
+        max_cpu_cores: coresLimit || undefined,
+      });
+      console.log("data", data);
       setGeneratedKey(data.secret_key || "");
       setView("result");
     } catch (_e) {
@@ -87,7 +94,11 @@ const UserModalButton = (props: { className?: string }) => {
           {view === "invite" && (
             <InviteForm
               username={inviteUsername}
+              memory={memoryLimit}
+              cores={coresLimit}
               onUsernameChange={setInviteUsername}
+              onMemoryChange={setMemoryLimit}
+              onCoresChange={setCoresLimit}
               onCancel={() => setView("list")}
               onSubmit={handleCreateInvite}
               isCreating={isCreating}
