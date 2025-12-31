@@ -44,6 +44,12 @@ export type i18nLanguage = {
     created: ContainsVariable<"date">;
     revokeTooltip: string;
     copyTooltip: string;
+    editTooltip: string;
+    memoryLimit: string;
+    memoryDescription: string;
+    cpuLimit: string;
+    cpuPlaceholder: string;
+    cpuDescription: string;
   };
   inviteRedemption: {
     title: string;

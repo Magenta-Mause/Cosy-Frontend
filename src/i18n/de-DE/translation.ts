@@ -48,6 +48,12 @@ const translation: i18nLanguage = {
     created: "Erstellt: {{date}}",
     revokeTooltip: "Einladung widerrufen",
     copyTooltip: "Klicken zum Kopieren",
+    editTooltip: "Klick zum Bearbeiten der Benutzereinstellungen",
+    memoryLimit: "RAM limit (Optional)",
+    memoryDescription: "Leer lassen, dann hat der Benutzer unendlich viel RAM zur Verfügung.",
+    cpuLimit: "CPU limit (Optional)",
+    cpuPlaceholder: "1.5 kerne",
+    cpuDescription: "Leer lassen, dann hat der Benutzer unendlich viele CPU Kerne zur Verfügung.",
   },
   inviteRedemption: {
     title: "Einladung annehmen",
