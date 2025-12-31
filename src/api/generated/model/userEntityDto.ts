@@ -11,4 +11,6 @@ export interface UserEntityDto {
   uuid?: string;
   username?: string;
   role?: UserEntityDtoRole;
+  maxMemory?: number;
+  maxCpuCores?: number;
 }
