@@ -30,10 +30,10 @@ interface Props<TSelectedItem, TAutoCompleteData extends GameServerCreationValue
   getAutoCompleteItems: (
     val: string,
   ) => Promise<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[]>;
-  fallbackValue: string;
+  fallbackValue: TAutoCompleteData;
   selectItemCallback?: (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => void;
   noAutoCompleteItemsLabelRenderer?: (displayValue: string) => ReactNode;
-  noAutoCompleteItemsLabel?: ReactNode;
+  noAutoCompleteItemsLabel?: string;
 }
 
 function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameServerCreationValue>({
@@ -96,6 +96,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => {
       const valid = validator(item.value);
 
+      console.log(item.label);
       setDisplayName(item.label);
       setOpen(false);
       setGameServerState(attribute)(item.value);
@@ -167,8 +168,8 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
                   } as AutoCompleteItem<TSelectedItem, TAutoCompleteData>)
                 }
               >
-                {noAutoCompleteItemsLabelRenderer?.(displayName) ?? noAutoCompleteItemsLabel ?? (
-                  <Label>{"Unknown Item"}</Label>
+                {noAutoCompleteItemsLabelRenderer?.(displayName) ?? (
+                  <Label>{noAutoCompleteItemsLabel ?? "Unknown Item"}</Label>
                 )}
               </CommandItem>
             )}
