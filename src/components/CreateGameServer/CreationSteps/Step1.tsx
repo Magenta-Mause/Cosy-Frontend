@@ -54,7 +54,7 @@ const Step1 = () => {
         getAutoCompleteItems={queryGames}
         inputType={InputType.number}
         selectItemCallback={(selectedItem) =>
-          setUtilState("selectedGameLogoUrl")(selectedItem.data?.logo_url ?? undefined)
+          setUtilState("gameEntity")(selectedItem.data ?? undefined)
         }
         noAutoCompleteItemsLabelCallback={(displayValue) =>
           queryClient.getQueryState(["gameInfo", displayValue])?.error

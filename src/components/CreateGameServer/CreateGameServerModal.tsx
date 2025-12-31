@@ -3,14 +3,14 @@ import { DialogContent, DialogFooter, DialogMain, DialogTitle } from "@component
 import { createContext, type Dispatch, type SetStateAction, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand } from "shell-quote";
-import type { GameServerCreationDto } from "@/api/generated/model";
+import type { GameDto, GameServerCreationDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import Step1 from "./CreationSteps/Step1";
 import Step2 from "./CreationSteps/Step2";
 import Step3 from "./CreationSteps/Step3";
 
 type UtilState = {
-  selectedGameLogoUrl?: string;
+  gameEntity?: GameDto;
 };
 
 interface CreationState {
@@ -28,7 +28,7 @@ export interface GameServerCreationContext {
 }
 
 export const GameServerCreationContext = createContext<GameServerCreationContext>({
-  creationState: { gameServerState: {}, utilState: { selectedGameLogoUrl: undefined } },
+  creationState: { gameServerState: {}, utilState: { gameEntity: undefined } },
   setGameServerState: () => () => {},
   setCurrentPageValid: () => {},
   setUtilState: () => () => {},
@@ -114,9 +114,9 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
           </DialogMain>
           <DialogFooter className="shrink-0 pt-4">
             <div className="flex-none w-40 flex items-start justify-center">
-              {creationState.utilState.selectedGameLogoUrl && (
+              {creationState.utilState.gameEntity?.logo_url && (
                 <img
-                  src={creationState.utilState.selectedGameLogoUrl}
+                  src={creationState.utilState.gameEntity.logo_url}
                   alt="Selected game logo"
                   className="max-h-36 w-auto object-contain rounded-md"
                 />
