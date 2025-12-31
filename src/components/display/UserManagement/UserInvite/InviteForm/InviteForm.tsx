@@ -57,6 +57,7 @@ export const InviteForm = ({
             <label htmlFor="memory-limit">{t("userModal.memoryLimit")}</label>
             <Input
               id="memory-limit"
+              type="number"
               placeholder="512MB"
               value={memory ?? ""}
               onChange={(e) =>
@@ -69,6 +70,7 @@ export const InviteForm = ({
             <label htmlFor="cpu-limit">{t("userModal.cpuLimit")}</label>
             <Input
               id="cpu-limit"
+              type="number"
               placeholder={t("userModal.cpuPlaceholder")}
               value={cores ?? ""}
               onChange={(e) => onCoresChange(e.target.value === "" ? null : Number(e.target.value))}
@@ -76,7 +78,7 @@ export const InviteForm = ({
             <p className="text-xs text-muted-foreground">{t("userModal.cpuDescription")}</p>
           </div>
         </div>
-        <label htmlFor="invite-rol">{t("userModal.roleLabel")}</label>
+        <label htmlFor="invite-role">{t("userModal.roleLabel")}</label>
         <Select defaultValue={userRole} onValueChange={onUserRoleChange}>
           <SelectTrigger id={"invite-role"}>
             <SelectValue placeholder={t("userModal.rolePlaceholder")} />
