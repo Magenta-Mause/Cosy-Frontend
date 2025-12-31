@@ -11,9 +11,13 @@ import { UserEntityDtoRole } from "@/api/generated/model";
 
 interface InviteFormProps {
   username: string;
+  memory: number | null;
+  cores: number | null;
   userRole: UserEntityDtoRole;
   onUsernameChange: (value: string) => void;
   onUserRoleChange: (value: UserEntityDtoRole) => void;
+  onMemoryChange: (value: number | null) => void;
+  onCoresChange: (value: number | null) => void;
   onCancel: () => void;
   onSubmit: () => void;
   isCreating: boolean;
@@ -22,7 +26,11 @@ interface InviteFormProps {
 export const InviteForm = ({
   username,
   userRole,
+  memory,
+  cores,
   onUsernameChange,
+  onMemoryChange,
+  onCoresChange,
   onSubmit,
   onUserRoleChange,
 }: InviteFormProps) => {
@@ -44,6 +52,30 @@ export const InviteForm = ({
           }}
         />
         <p className="text-xs text-muted-foreground">{t("userModal.usernameDescription")}</p>
+        <div className="flex justify-between">
+          <div className="w-[45%]">
+            <label htmlFor="memory-limit">{t("userModal.memoryLimit")}</label>
+            <Input
+              id="memory-limit"
+              placeholder="512MB"
+              value={memory ?? ""}
+              onChange={(e) =>
+                onMemoryChange(e.target.value === "" ? null : Number(e.target.value))
+              }
+            />
+            <p className="text-xs text-muted-foreground">{t("userModal.memoryDescription")}</p>
+          </div>
+          <div className="w-[45%]">
+            <label htmlFor="cpu-limit">{t("userModal.cpuLimit")}</label>
+            <Input
+              id="cpu-limit"
+              placeholder={t("userModal.cpuPlaceholder")}
+              value={cores ?? ""}
+              onChange={(e) => onCoresChange(e.target.value === "" ? null : Number(e.target.value))}
+            />
+            <p className="text-xs text-muted-foreground">{t("userModal.cpuDescription")}</p>
+          </div>
+        </div>
         <label htmlFor="invite-rol">{t("userModal.roleLabel")}</label>
         <Select defaultValue={userRole} onValueChange={onUserRoleChange}>
           <SelectTrigger id={"invite-role"}>
