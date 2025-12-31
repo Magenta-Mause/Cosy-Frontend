@@ -8,9 +8,9 @@ import { v7 as uuidv7 } from "uuid";
 import type { ZodType } from "zod";
 import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { InputType, preProcessInputValue } from "@/lib/utils";
 import { GameServerCreationContext } from "./CreateGameServerModal";
 import { GameServerCreationPageContext } from "./GenericGameServerCreationPage";
+import { type InputType, preProcessInputValue } from "./util";
 
 interface Props {
   attribute: keyof GameServerCreationDto;
@@ -188,5 +188,3 @@ export default function KeyValueInput({
     </Field>
   );
 }
-
-export { InputType };

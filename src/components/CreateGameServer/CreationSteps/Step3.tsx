@@ -1,9 +1,10 @@
-import KeyValueInput, { InputType } from "@components/CreateGameServer/KeyValueInput";
+import KeyValueInput from "@components/CreateGameServer/KeyValueInput";
 import { DialogDescription } from "@components/ui/dialog";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage";
+import { InputType } from "../util";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");
