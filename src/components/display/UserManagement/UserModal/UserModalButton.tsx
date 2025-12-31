@@ -26,6 +26,8 @@ const UserModalButton = (props: { className?: string }) => {
   const [view, setView] = useState<ViewState>("list");
   const [inviteUsername, setInviteUsername] = useState("");
   const [userRole, setUserRole] = useState<UserEntityDtoRole>("QUOTA_USER");
+  const [memoryLimit, setMemoryLimit] = useState<number | null>(null);
+  const [coresLimit, setCoresLimit] = useState<number | null>(null);
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
@@ -34,7 +36,12 @@ const UserModalButton = (props: { className?: string }) => {
   const handleCreateInvite = async () => {
     setIsCreating(true);
     try {
-      const data = await createInvite({ username: inviteUsername || undefined, role: userRole });
+      const data = await createInvite({
+        username: inviteUsername || undefined,
+        role: userRole,
+        max_memory: memoryLimit || undefined,
+        max_cpu_cores: coresLimit || undefined,
+      });
       setGeneratedKey(data.secret_key || "");
       setView("result");
     } catch (_e) {
@@ -90,7 +97,11 @@ const UserModalButton = (props: { className?: string }) => {
             <InviteForm
               username={inviteUsername}
               userRole={userRole}
+              memory={memoryLimit}
+              cores={coresLimit}
               onUsernameChange={setInviteUsername}
+              onMemoryChange={setMemoryLimit}
+              onCoresChange={setCoresLimit}
               onCancel={() => setView("list")}
               onSubmit={handleCreateInvite}
               onUserRoleChange={setUserRole}
