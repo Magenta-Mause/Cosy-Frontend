@@ -45,6 +45,12 @@ export type i18nLanguage = {
     revokeTooltip: string;
     copyTooltip: string;
     roleLabel: string;
+    editTooltip: string;
+    memoryLimit: string;
+    memoryDescription: string;
+    cpuLimit: string;
+    cpuPlaceholder: string;
+    cpuDescription: string;
   };
   userRoles: {
     QUOTA_USER: string;
