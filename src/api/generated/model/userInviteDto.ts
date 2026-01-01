@@ -16,5 +16,5 @@ export interface UserInviteDto {
   created_at?: string;
   role?: UserInviteDtoRole;
   max_memory?: number;
-  max_cpu_cores?: number;
+  max_cpu?: number;
 }

@@ -12,5 +12,5 @@ export interface UserEntityDto {
   username?: string;
   role?: UserEntityDtoRole;
   maxMemory?: number;
-  maxCpuCores?: number;
+  maxCpu?: number;
 }

@@ -12,12 +12,12 @@ import { UserEntityDtoRole } from "@/api/generated/model";
 interface InviteFormProps {
   username: string;
   memory: number | null;
-  cores: number | null;
+  cpu: number | null;
   userRole: UserEntityDtoRole;
   onUsernameChange: (value: string) => void;
   onUserRoleChange: (value: UserEntityDtoRole) => void;
   onMemoryChange: (value: number | null) => void;
-  onCoresChange: (value: number | null) => void;
+  onCpuChange: (value: number | null) => void;
   onCancel: () => void;
   onSubmit: () => void;
   isCreating: boolean;
@@ -27,10 +27,10 @@ export const InviteForm = ({
   username,
   userRole,
   memory,
-  cores,
+  cpu,
   onUsernameChange,
   onMemoryChange,
-  onCoresChange,
+  onCpuChange,
   onSubmit,
   onUserRoleChange,
 }: InviteFormProps) => {
@@ -72,8 +72,8 @@ export const InviteForm = ({
               id="cpu-limit"
               type="number"
               placeholder={t("userModal.cpuPlaceholder")}
-              value={cores ?? ""}
-              onChange={(e) => onCoresChange(e.target.value === "" ? null : Number(e.target.value))}
+              value={cpu ?? ""}
+              onChange={(e) => onCpuChange(e.target.value === "" ? null : Number(e.target.value))}
             />
             <p className="text-xs text-muted-foreground">{t("userModal.cpuDescription")}</p>
           </div>
