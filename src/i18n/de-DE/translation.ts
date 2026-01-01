@@ -53,7 +53,7 @@ const translation: i18nLanguage = {
     memoryLimit: "RAM limit (Optional)",
     memoryDescription: "Leer lassen, dann hat der Benutzer unendlich viel RAM zur Verfügung.",
     cpuLimit: "CPU limit (Optional)",
-    cpuPlaceholder: "1.5 Kerne",
+    cpuPlaceholder: "1.5 CPUs",
     cpuDescription: "Leer lassen, dann hat der Benutzer unendlich viele CPU Kerne zur Verfügung.",
   },
   userRoles: {
