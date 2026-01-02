@@ -53,7 +53,6 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
   const handleNextPage = () => {
     if (isLastPage) {
-      console.log("Creating game server with data:", creationState.gameServerState);
       createGameServer({
         ...creationState.gameServerState,
         execution_command: parseCommand(
