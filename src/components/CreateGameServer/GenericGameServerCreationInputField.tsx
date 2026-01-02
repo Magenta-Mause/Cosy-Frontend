@@ -22,17 +22,12 @@ const GenericGameServerCreationInputField = (props: {
 
   const isError = attributesTouched[props.attribute] && !attributesValid[props.attribute];
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: initial setup only
   useEffect(() => {
     setAttributeTouched(
       props.attribute,
       creationState.gameServerState[props.attribute] !== undefined,
     );
-    setAttributeValid(
-      props.attribute,
-      props.validator.safeParse(creationState.gameServerState[props.attribute]).success,
-    );
-  }, []);
+  }, [setAttributeTouched, props.attribute, creationState.gameServerState]);
 
   const changeCallback = useCallback(
     (value: string) => {

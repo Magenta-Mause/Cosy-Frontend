@@ -62,15 +62,9 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     data: autoCompleteItems,
   } = useQuery(buildAutoCompleteItemsQueryParameters(queryGameName));
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: initial setup only
   useEffect(() => {
     setAttributeTouched(attribute, creationState.gameServerState[attribute] !== undefined);
-
-    setAttributeValid(
-      attribute,
-      validator(creationState.gameServerState[attribute] as unknown as TAutoCompleteData),
-    );
-  }, []);
+  }, [setAttributeTouched, attribute, creationState.gameServerState]);
 
   useEffect(() => {
     return () => {
@@ -84,7 +78,6 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => {
       const valid = validator(item.value);
 
-      console.log(item.label);
       setDisplayName(item.label);
       setOpen(false);
       setGameServerState(attribute)(item.value);
