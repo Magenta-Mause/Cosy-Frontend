@@ -5,9 +5,10 @@ import { Label } from "@components/ui/label";
 
 interface InputProps extends React.ComponentProps<"input"> {
   header?: string;
+  endDecorator?: string;
 }
 
-function Input({ className, type, header, ...props }: InputProps) {
+function Input({ className, type, header, endDecorator, ...props }: InputProps) {
   return (
     <div>    
       {header && (
@@ -15,6 +16,7 @@ function Input({ className, type, header, ...props }: InputProps) {
             {header}
           </Label>
         )}
+        <div className="relative w-full">
       <input
         type={type}
         data-slot="input"
@@ -27,6 +29,12 @@ function Input({ className, type, header, ...props }: InputProps) {
         )}
         {...props}
       />
+      {endDecorator && (
+        <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-muted-foreground">
+      {endDecorator}
+          </div>
+        )}
+          </div>
     </div> 
   )
 }

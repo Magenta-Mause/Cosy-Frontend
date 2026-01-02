@@ -59,6 +59,7 @@ export const InviteForm = ({
               id="memory-limit"
               type="number"
               placeholder="512MB"
+              endDecorator="MB"
               value={memory ?? ""}
               onChange={(e) =>
                 onMemoryChange(e.target.value === "" ? null : Number(e.target.value))
