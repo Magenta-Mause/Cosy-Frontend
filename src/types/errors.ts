@@ -1,4 +1,4 @@
-import type { AxiosError } from 'axios';
+import type { AxiosError } from "axios";
 
 export interface InvalidRequestErrorData {
   data: Record<string, string> | string;

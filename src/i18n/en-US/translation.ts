@@ -1,6 +1,11 @@
 import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
+  userRoles: {
+    QUOTA_USER: "User",
+    ADMIN: "Admin",
+    OWNER: "Owner",
+  },
   overviewPage: {
     createNewServer: "New Game Server",
   },
@@ -47,6 +52,7 @@ const translation: i18nLanguage = {
     created: "Created: {{date}}",
     revokeTooltip: "Revoke invite",
     copyTooltip: "Click to copy link",
+    roleLabel: "User role",
   },
   inviteRedemption: {
     title: "Accept Invitation",

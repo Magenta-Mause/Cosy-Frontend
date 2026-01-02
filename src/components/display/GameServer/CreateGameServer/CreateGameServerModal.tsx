@@ -4,10 +4,10 @@ import { createContext, type Dispatch, type SetStateAction, useCallback, useStat
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand } from "shell-quote";
 import type { GameDto, GameServerCreationDto } from "@/api/generated/model";
-import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
-import Step1 from "./CreationSteps/Step1";
-import Step2 from "./CreationSteps/Step2";
-import Step3 from "./CreationSteps/Step3";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
+import Step1 from "./CreationSteps/Step1.tsx";
+import Step2 from "./CreationSteps/Step2.tsx";
+import Step3 from "./CreationSteps/Step3.tsx";
 
 type UtilState = {
   gameEntity?: GameDto;

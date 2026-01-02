@@ -48,6 +48,12 @@ const translation: i18nLanguage = {
     created: "Erstellt: {{date}}",
     revokeTooltip: "Einladung widerrufen",
     copyTooltip: "Klicken zum Kopieren",
+    roleLabel: "Benutzerrolle",
+  },
+  userRoles: {
+    QUOTA_USER: "Nutzer",
+    ADMIN: "Admin",
+    OWNER: "Besitzer",
   },
   inviteRedemption: {
     title: "Einladung annehmen",

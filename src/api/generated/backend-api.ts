@@ -707,7 +707,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
     
 export const getGameInfo = (
-    params?: GetGameInfoParams,
+    params: GetGameInfoParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
@@ -729,7 +729,7 @@ export const getGetGameInfoQueryKey = (params?: GetGameInfoParams,) => {
     }
 
     
-export const getGetGameInfoQueryOptions = <TData = Awaited<ReturnType<typeof getGameInfo>>, TError = unknown>(params?: GetGameInfoParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+export const getGetGameInfoQueryOptions = <TData = Awaited<ReturnType<typeof getGameInfo>>, TError = unknown>(params: GetGameInfoParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -753,7 +753,7 @@ export type GetGameInfoQueryError = unknown
 
 
 export function useGetGameInfo<TData = Awaited<ReturnType<typeof getGameInfo>>, TError = unknown>(
- params?: GetGameInfoParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+ params: GetGameInfoParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
   
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 

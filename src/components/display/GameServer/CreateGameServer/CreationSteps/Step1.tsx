@@ -1,13 +1,13 @@
 import AutoCompleteInputField, {
   type AutoCompleteItem,
-} from "@components/CreateGameServer/AutoCompleteInputField";
-import GenericGameServerCreationPage from "@components/CreateGameServer/GenericGameServerCreationPage.tsx";
+} from "@components/display/GameServer/CreateGameServer/AutoCompleteInputField";
+import GenericGameServerCreationPage from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 import { Label } from "@components/ui/label";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useContext } from "react";
 import { getGameInfo } from "@/api/generated/backend-api";
 import type { GameDto } from "@/api/generated/model";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { GameServerCreationContext } from "../CreateGameServerModal";
 
 const Step1 = () => {

@@ -1,4 +1,3 @@
-import { GameServerCreationContext } from "@components/CreateGameServer/CreateGameServerModal.tsx";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { type UseQueryOptions, useQuery } from "@tanstack/react-query";
@@ -16,6 +15,7 @@ import type { GameServerCreationDto } from "@/api/generated/model";
 import { Command, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { GameServerCreationContext } from "./CreateGameServerModal";
 import { GameServerCreationPageContext } from "./GenericGameServerCreationPage";
 
 const DEBOUNCE_DELAY = 500;

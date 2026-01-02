@@ -13,7 +13,7 @@ import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { useGetUserInvite, useUseInvite } from "@/api/generated/backend-api";
+import { useGetUserInvite, useUseInvite } from "@/api/generated/backend-api.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
 
 interface InviteRedemptionModalProps {
@@ -79,10 +79,14 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
         },
         onError: (e) => {
           const typedError = e as InvalidRequestError;
-          const error = Object.entries(typedError.response?.data.data ?? {})[0];
-          toast.error(
-            t("toasts.accountCreateError", { error: error ? error[1] : "Unknown error" }),
-          );
+          let error: string | undefined;
+          if (typedError.status === 400) {
+            const totalError = Object.entries(typedError.response?.data.data ?? {})[0];
+            error = totalError ? totalError[1] : undefined;
+          } else if (typedError.status === 409) {
+            error = typedError.response?.data.data as string;
+          }
+          toast.error(t("toasts.accountCreateError", { error: error ? error : "Unknown error" }));
         },
       },
     );

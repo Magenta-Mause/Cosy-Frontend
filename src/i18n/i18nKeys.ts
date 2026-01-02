@@ -44,6 +44,12 @@ export type i18nLanguage = {
     created: ContainsVariable<"date">;
     revokeTooltip: string;
     copyTooltip: string;
+    roleLabel: string;
+  };
+  userRoles: {
+    QUOTA_USER: string;
+    ADMIN: string;
+    OWNER: string;
   };
   inviteRedemption: {
     title: string;

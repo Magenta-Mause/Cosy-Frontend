@@ -7,5 +7,8 @@
  */
 
 export type GetGameInfoParams = {
-query?: string;
+/**
+ * @minLength 1
+ */
+query: string;
 };
