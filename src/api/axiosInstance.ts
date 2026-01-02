@@ -18,6 +18,8 @@ export const setAuthToken = (token: string | null) => {
   authToken = token;
 };
 
+export const getAuthToken = () => authToken;
+
 AXIOS_INSTANCE.interceptors.request.use(
   (config) => {
     if (authToken) {

@@ -7,6 +7,8 @@ const translation: i18nLanguage = {
   rightClickMenu: {
     edit: "Bearbeiten",
     delete: "Löschen",
+    startServer: "Starten",
+    stopServer: "Stoppen",
     refresh: "Aktualisieren",
     createNewGameserver: "Neuen Gameserver erstellen",
   },
@@ -27,6 +29,10 @@ const translation: i18nLanguage = {
       "Konto erfolgreich erstellt! Melde dich jetzt an, um dein Profil zu erstellen.",
     accountCreateError: 'Fehler beim Erstellen des Kontos. "{{error}}"',
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
+    serverStartError: 'Fehler beim Starten des Servers. "{{error}}"',
+    serverStartSuccess: "Server erfolgreich gestartet. Offene Ports:",
+    serverStopError: 'Fehler beim Stoppen des Servers. "{{error}}"',
+    serverStopSuccess: "Server erfolgreich gestoppt.",
   },
   userModal: {
     title: "Benutzer",
