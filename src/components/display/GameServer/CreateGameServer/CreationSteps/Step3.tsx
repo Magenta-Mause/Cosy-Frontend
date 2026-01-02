@@ -1,4 +1,4 @@
-import KeyValueInput, {} from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
+import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
 import { DialogDescription } from "@components/ui/dialog.tsx";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
