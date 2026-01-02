@@ -6,6 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select.tsx";
+import { Label } from "@radix-ui/react-label";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole } from "@/api/generated/model";
 
@@ -54,32 +55,35 @@ export const InviteForm = ({
         <p className="text-xs text-muted-foreground">{t("userModal.usernameDescription")}</p>
         <div className="flex justify-between">
           <div className="w-[45%]">
-            <label htmlFor="memory-limit">{t("userModal.memoryLimit")}</label>
+            <Label htmlFor="memory-limit">{t("userModal.memoryLimit")}</Label>
             <Input
               id="memory-limit"
               type="number"
-              placeholder="512MB"
+              placeholder={t("userModal.placeholder")}
               endDecorator="MB"
               value={memory ?? ""}
               onChange={(e) =>
                 onMemoryChange(e.target.value === "" ? null : Number(e.target.value))
               }
+              className="no-spinner"
             />
             <p className="text-xs text-muted-foreground">{t("userModal.memoryDescription")}</p>
           </div>
           <div className="w-[45%]">
-            <label htmlFor="cpu-limit">{t("userModal.cpuLimit")}</label>
+            <Label htmlFor="cpu-limit">{t("userModal.cpuLimit")}</Label>
             <Input
               id="cpu-limit"
               type="number"
-              placeholder={t("userModal.cpuPlaceholder")}
+              placeholder={t("userModal.placeholder")}
+              endDecorator="CPUs"
               value={cpu ?? ""}
               onChange={(e) => onCpuChange(e.target.value === "" ? null : Number(e.target.value))}
+              className="no-spinner"
             />
             <p className="text-xs text-muted-foreground">{t("userModal.cpuDescription")}</p>
           </div>
         </div>
-        <label htmlFor="invite-role">{t("userModal.roleLabel")}</label>
+        <Label htmlFor="invite-role">{t("userModal.roleLabel")}</Label>
         <Select defaultValue={userRole} onValueChange={onUserRoleChange}>
           <SelectTrigger id={"invite-role"}>
             <SelectValue placeholder={t("userModal.rolePlaceholder")} />

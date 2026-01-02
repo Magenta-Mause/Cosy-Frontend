@@ -51,10 +51,10 @@ const translation: i18nLanguage = {
     roleLabel: "Benutzerrolle",
     editTooltip: "Klicken zum Bearbeiten der Benutzereinstellungen",
     memoryLimit: "RAM limit (Optional)",
-    memoryDescription: "Leer lassen, dann hat der Benutzer unendlich viel RAM zur Verfügung.",
+    memoryDescription: "Leer lassen, damit der Benutzer unbegrenzt RAM zur Verfügung hat.",
     cpuLimit: "CPU limit (Optional)",
-    cpuPlaceholder: "1.5 CPUs",
-    cpuDescription: "Leer lassen, dann hat der Benutzer unendlich viele CPU Kerne zur Verfügung.",
+    cpuDescription: "Leer lassen, damit der Benutzer unbegrenzte CPU Kerne zur Verfügung hat.",
+    placeholder: "Unbegrenzt",
   },
   userRoles: {
     QUOTA_USER: "Nutzer",

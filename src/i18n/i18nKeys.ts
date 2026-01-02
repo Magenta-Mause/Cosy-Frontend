@@ -49,8 +49,8 @@ export type i18nLanguage = {
     memoryLimit: string;
     memoryDescription: string;
     cpuLimit: string;
-    cpuPlaceholder: string;
     cpuDescription: string;
+    placeholder: string;
   };
   userRoles: {
     QUOTA_USER: string;
