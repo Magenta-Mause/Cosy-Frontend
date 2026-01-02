@@ -107,12 +107,23 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
 
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const [triggerWidth, setTriggerWidth] = useState<number | undefined>(undefined);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   useLayoutEffect(() => {
     if (!triggerRef.current) return;
 
     setTriggerWidth(triggerRef.current?.getBoundingClientRect().width);
   }, []);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const id = window.setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+
+    return () => window.clearTimeout(id);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -149,6 +160,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       <PopoverTrigger className="w-3/4" ref={triggerRef}>
         <div className="w-full">
           <Input
+            ref={inputRef}
             placeholder={placeholder}
             id={attribute}
             value={displayName}

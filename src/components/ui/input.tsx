@@ -1,4 +1,4 @@
-import type * as React from "react";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import { Label } from "@components/ui/label";
@@ -7,15 +7,19 @@ interface InputProps extends React.ComponentProps<"input"> {
   header?: string;
 }
 
-function Input({ className, type, header, ...props }: InputProps) {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
+  { className, type, header, ...props },
+  ref,
+) {
   return (
-    <div>    
+    <div>
       {header && (
-          <Label htmlFor={props.id} className="pb-2">
-            {header}
-          </Label>
-        )}
+        <Label htmlFor={props.id} className="pb-2">
+          {header}
+        </Label>
+      )}
       <input
+        ref={ref}
         type={type}
         data-slot="input"
         className={cn(
@@ -27,8 +31,8 @@ function Input({ className, type, header, ...props }: InputProps) {
         )}
         {...props}
       />
-    </div> 
-  )
-}
+    </div>
+  );
+});
 
 export { Input };
