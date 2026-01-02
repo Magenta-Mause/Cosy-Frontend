@@ -3,7 +3,15 @@ import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { type UseQueryOptions, useQuery } from "@tanstack/react-query";
 import type * as React from "react";
-import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import type { GameServerCreationDto } from "@/api/generated/model";
 import { Command, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -97,6 +105,15 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     ],
   );
 
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const [triggerWidth, setTriggerWidth] = useState<number | undefined>(undefined);
+
+  useLayoutEffect(() => {
+    if (!triggerRef.current) return;
+
+    setTriggerWidth(triggerRef.current?.getBoundingClientRect().width);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
 
@@ -129,28 +146,33 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
 
   return (
     <Popover open={open}>
-      <PopoverTrigger>
-        <Input
-          placeholder={placeholder}
-          id={attribute}
-          value={displayName}
-          onChange={(e) => {
-            const currentValue = e.target.value;
-            setDisplayName(currentValue);
+      <PopoverTrigger className="w-3/4" ref={triggerRef}>
+        <div className="w-full">
+          <Input
+            placeholder={placeholder}
+            id={attribute}
+            value={displayName}
+            onChange={(e) => {
+              const currentValue = e.target.value;
+              setDisplayName(currentValue);
 
-            if (debounceRef.current) {
-              clearTimeout(debounceRef.current);
-            }
-            debounceRef.current = setTimeout(() => {
-              setOpen(() => true);
-              setQueryGameName(currentValue);
-            }, DEBOUNCE_DELAY);
-          }}
-          autoComplete="off"
-        />
+              if (debounceRef.current) {
+                clearTimeout(debounceRef.current);
+              }
+              debounceRef.current = setTimeout(() => {
+                setOpen(() => true);
+                setQueryGameName(currentValue);
+              }, DEBOUNCE_DELAY);
+            }}
+            autoComplete="off"
+          />
+        </div>
       </PopoverTrigger>
 
-      <PopoverContent className="w-fit">
+      <PopoverContent
+        className="w-full"
+        style={{ width: triggerWidth ? `${triggerWidth}px` : undefined }}
+      >
         <Command>
           <CommandList>
             {isLoading ? (
