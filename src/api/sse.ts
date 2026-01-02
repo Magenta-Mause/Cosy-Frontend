@@ -40,12 +40,10 @@ export async function startServiceSse(serviceName: string): Promise<number[]> {
             if (!line.trim()) continue;
             if (!line.trim().slice(5)) continue;
             line = line.trim().slice(5);
-            console.log("parsing line:", line);
             try {
               const event: StartEventDto = JSON.parse(line);
 
               if (event.type === "HEARTBEAT") {
-                console.log("heartbeat received");
               } else if (event.type === "DONE") {
                 resolve(event.ports);
                 return;
