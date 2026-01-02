@@ -1,4 +1,6 @@
-import AutoCompleteInputField from "@components/CreateGameServer/AutoCompleteInputField";
+import AutoCompleteInputField, {
+  type AutoCompleteItem,
+} from "@components/CreateGameServer/AutoCompleteInputField";
 import GenericGameServerCreationPage from "@components/CreateGameServer/GenericGameServerCreationPage.tsx";
 import { Label } from "@components/ui/label";
 import { useQueryClient } from "@tanstack/react-query";
@@ -30,18 +32,14 @@ const Step1 = () => {
     [],
   );
 
-  const queryGames = useCallback(
-    (val: string) => {
-      if (!val) return Promise.resolve([]);
-      return queryClient
-        .fetchQuery({
-          queryKey: ["gameInfo", val],
-          queryFn: () => getGameInfo({ query: val }),
-          staleTime: 1000 * 60 * 5,
-        })
-        .then((games) => mapGamesDtoToAutoCompleteItems(games));
-    },
-    [queryClient, mapGamesDtoToAutoCompleteItems],
+  const buildQueryGamesParameters = useCallback(
+    (gameName: string) => ({
+      queryKey: ["gameInfo", gameName],
+      queryFn: () =>
+        getGameInfo({ query: gameName }).then((games) => mapGamesDtoToAutoCompleteItems(games)),
+      staleTime: 1000 * 60 * 5,
+    }),
+    [mapGamesDtoToAutoCompleteItems],
   );
 
   return (
@@ -50,8 +48,8 @@ const Step1 = () => {
         attribute="game_id"
         validator={(value) => value >= 0}
         placeholder={t("gameSelection.placeholder")}
-        getAutoCompleteItems={queryGames}
-        selectItemCallback={(selectedItem) =>
+        buildAutoCompleteItemsQueryParameters={buildQueryGamesParameters}
+        selectItemCallback={(selectedItem: AutoCompleteItem<GameDto, number>) =>
           setUtilState("gameEntity")(selectedItem.data ?? undefined)
         }
         noAutoCompleteItemsLabelRenderer={(displayValue) => (

@@ -1,6 +1,7 @@
 import { GameServerCreationContext } from "@components/CreateGameServer/CreateGameServerModal.tsx";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
+import { type UseQueryOptions, useQuery } from "@tanstack/react-query";
 import type * as React from "react";
 import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import type { GameServerCreationDto } from "@/api/generated/model";
@@ -27,9 +28,9 @@ interface Props<TSelectedItem, TAutoCompleteData extends GameServerCreationValue
   attribute: keyof GameServerCreationDto;
   validator: (value: TAutoCompleteData) => boolean;
   placeholder: string;
-  getAutoCompleteItems: (
+  buildAutoCompleteItemsQueryParameters: (
     val: string,
-  ) => Promise<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[]>;
+  ) => UseQueryOptions<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[], unknown>;
   fallbackValue: TAutoCompleteData;
   selectItemCallback?: (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => void;
   noAutoCompleteItemsLabelRenderer?: (displayValue: string) => ReactNode;
@@ -40,7 +41,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
   attribute,
   validator,
   placeholder,
-  getAutoCompleteItems,
+  buildAutoCompleteItemsQueryParameters,
   selectItemCallback,
   noAutoCompleteItemsLabelRenderer,
   noAutoCompleteItemsLabel,
@@ -49,40 +50,27 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
   const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
   const { setGameServerState, creationState } = useContext(GameServerCreationContext);
   const { setAttributeValid, setAttributeTouched } = useContext(GameServerCreationPageContext);
-  const [autoCompleteItems, setAutoCompleteItems] = useState<
-    AutoCompleteItem<TSelectedItem, TAutoCompleteData>[]
-  >([]);
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [displayName, setDisplayName] = useState<string>("");
+  const [queryGameName, setQueryGameName] = useState<string>("");
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const {
+    isLoading,
+    isError,
+    data: autoCompleteItems,
+  } = useQuery(buildAutoCompleteItemsQueryParameters(queryGameName));
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: initial setup only
   useEffect(() => {
     setAttributeTouched(attribute, creationState.gameServerState[attribute] !== undefined);
 
-    // `creationState.gameServerState[attribute]` has to be of type TAutoCompleteData, because ...
     setAttributeValid(
       attribute,
       validator(creationState.gameServerState[attribute] as unknown as TAutoCompleteData),
     );
   }, []);
-
-  const queryAutoCompleteItems = useCallback(
-    async (value: string) => {
-      setLoading(true);
-      try {
-        const items = await getAutoCompleteItems(value);
-        setAutoCompleteItems(items);
-      } catch {
-        setAutoCompleteItems([]);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [getAutoCompleteItems],
-  );
 
   useEffect(() => {
     return () => {
@@ -116,8 +104,38 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     ],
   );
 
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    };
+
+    const onPointerDown = (e: PointerEvent) => {
+      const target = e.target as Element | null;
+      if (!target) return;
+
+      const inContent = target.closest('[data-slot="popover-content"]');
+      const inTrigger = target.closest('[data-slot="popover-trigger"]');
+
+      if (!inContent && !inTrigger) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [open]);
+
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open}>
       <PopoverTrigger>
         <Input
           placeholder={placeholder}
@@ -132,7 +150,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
             }
             debounceRef.current = setTimeout(() => {
               setOpen(() => true);
-              void queryAutoCompleteItems(currentValue);
+              setQueryGameName(currentValue);
             }, DEBOUNCE_DELAY);
           }}
           autoComplete="off"
@@ -142,12 +160,11 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       <PopoverContent className="w-fit">
         <Command>
           <CommandList>
-            {loading && (
+            {isLoading ? (
               <CommandItem key="loading" disabled>
                 <p>{t("loadingLabel")}</p>
               </CommandItem>
-            )}
-            {autoCompleteItems.length > 0 ? (
+            ) : !isError && autoCompleteItems.length > 0 ? (
               autoCompleteItems.slice(0, 5).map((item) => (
                 <CommandItem
                   key={item.value.toString()}
@@ -181,3 +198,4 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
 }
 
 export default AutoCompleteInputField;
+export type { AutoCompleteItem };
