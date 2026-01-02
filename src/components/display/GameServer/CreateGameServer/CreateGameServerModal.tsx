@@ -3,24 +3,35 @@ import { DialogContent, DialogFooter, DialogMain, DialogTitle } from "@component
 import { createContext, type Dispatch, type SetStateAction, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand } from "shell-quote";
-import type { GameServerCreationDto } from "@/api/generated/model";
+import type { GameDto, GameServerCreationDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import Step1 from "./CreationSteps/Step1.tsx";
 import Step2 from "./CreationSteps/Step2.tsx";
 import Step3 from "./CreationSteps/Step3.tsx";
 
-export interface GameServerCreationContext {
+type UtilState = {
+  gameEntity?: GameDto;
+};
+
+interface CreationState {
   gameServerState: Partial<GameServerCreationDto>;
+  utilState: UtilState;
+}
+
+export interface GameServerCreationContext {
+  creationState: CreationState;
   setGameServerState: <K extends keyof GameServerCreationDto>(
     gameStateKey: K,
   ) => (value: GameServerCreationDto[K]) => void;
   setCurrentPageValid: (isValid: boolean) => void;
+  setUtilState: <K extends keyof UtilState>(utilStateKey: K) => (value: UtilState[K]) => void;
 }
 
 export const GameServerCreationContext = createContext<GameServerCreationContext>({
-  gameServerState: {},
+  creationState: { gameServerState: {}, utilState: { gameEntity: undefined } },
   setGameServerState: () => () => {},
   setCurrentPageValid: () => {},
+  setUtilState: () => () => {},
 });
 
 const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" />];
@@ -31,20 +42,23 @@ interface Props {
 
 const CreateGameServerModal = ({ setOpen }: Props) => {
   const { createGameServer } = useDataInteractions();
-  const [gameServerState, setGameServerInternalState] = useState<Partial<GameServerCreationDto>>(
-    {},
-  );
+  const [creationState, setCreationState] = useState<CreationState>({
+    gameServerState: {},
+    utilState: {},
+  });
   const [isPageValid, setPageValid] = useState<{ [key: number]: boolean }>({});
   const [currentPage, setCurrentPage] = useState(0);
-  const isLastPage = currentPage === PAGES.length - 1;
   const { t } = useTranslation();
+  const isLastPage = currentPage === PAGES.length - 1;
 
   const handleNextPage = () => {
     if (isLastPage) {
       createGameServer({
-        ...gameServerState,
-        execution_command: parseCommand(gameServerState.execution_command as unknown as string),
-        port_mappings: gameServerState.port_mappings?.map((portMapping) => ({
+        ...creationState.gameServerState,
+        execution_command: parseCommand(
+          creationState.gameServerState.execution_command as unknown as string,
+        ),
+        port_mappings: creationState.gameServerState.port_mappings?.map((portMapping) => ({
           ...portMapping,
           protocol: "TCP", // Default to TCP for now - change this later!!!
         })),
@@ -65,17 +79,30 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
   const setGameServerState: GameServerCreationContext["setGameServerState"] = useCallback(
     (gameStateKey) => (value) =>
-      setGameServerInternalState((prev) => ({ ...prev, [gameStateKey]: value })),
+      setCreationState((prev) => ({
+        ...prev,
+        gameServerState: { ...prev.gameServerState, [gameStateKey]: value },
+      })),
+    [],
+  );
+
+  const setUtilState: GameServerCreationContext["setUtilState"] = useCallback(
+    (utilStateKey) => (value) =>
+      setCreationState((prev) => ({
+        ...prev,
+        utilState: { ...prev.utilState, [utilStateKey]: value },
+      })),
     [],
   );
 
   return (
-    <DialogContent className="sm:max-w-[600px] max-h-[80vh] p-0">
+    <DialogContent className="sm:max-w-150 max-h-[80vh] p-0">
       <GameServerCreationContext.Provider
         value={{
           setGameServerState,
-          gameServerState,
+          creationState,
           setCurrentPageValid,
+          setUtilState,
         }}
       >
         <div className="flex flex-col max-h-[80vh] p-4">
@@ -86,6 +113,15 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
             <div>{PAGES[currentPage]}</div>
           </DialogMain>
           <DialogFooter className="shrink-0 pt-4">
+            <div className="flex-none w-40 flex items-start justify-center">
+              {creationState.utilState.gameEntity?.logo_url && (
+                <img
+                  src={creationState.utilState.gameEntity.logo_url}
+                  alt="Selected game logo"
+                  className="max-h-36 w-auto object-contain rounded-md"
+                />
+              )}
+            </div>
             {currentPage > 0 && (
               <Button
                 variant="secondary"

@@ -15,7 +15,7 @@ const GenericGameServerCreationInputField = (props: {
   label?: string;
   description?: string;
 }) => {
-  const { setGameServerState, gameServerState } = useContext(GameServerCreationContext);
+  const { setGameServerState, creationState } = useContext(GameServerCreationContext);
   const { setAttributeTouched, setAttributeValid, attributesTouched, attributesValid } = useContext(
     GameServerCreationPageContext,
   );
@@ -23,12 +23,11 @@ const GenericGameServerCreationInputField = (props: {
   const isError = attributesTouched[props.attribute] && !attributesValid[props.attribute];
 
   useEffect(() => {
-    setAttributeTouched(props.attribute, gameServerState[props.attribute] !== undefined);
-    setAttributeValid(
+    setAttributeTouched(
       props.attribute,
-      props.validator.safeParse(gameServerState[props.attribute]).success,
+      creationState.gameServerState[props.attribute] !== undefined,
     );
-  }, [gameServerState, props.attribute, setAttributeTouched, setAttributeValid, props.validator]);
+  }, [setAttributeTouched, props.attribute, creationState.gameServerState]);
 
   const changeCallback = useCallback(
     (value: string) => {
@@ -53,7 +52,7 @@ const GenericGameServerCreationInputField = (props: {
         placeholder={props.placeholder}
         onChange={(e) => changeCallback(e.target.value)}
         id={props.attribute}
-        value={gameServerState[props.attribute] as string | number | undefined}
+        value={creationState.gameServerState[props.attribute] as string | number | undefined}
       />
       {props.description && <DialogDescription>{props.description}</DialogDescription>}
       {isError && <FieldError>{props.errorLabel}</FieldError>}

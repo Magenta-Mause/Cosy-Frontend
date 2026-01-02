@@ -7,9 +7,11 @@
  */
 
 export * from './environmentVariableConfiguration';
+export * from './gameDto';
 export * from './gameServerCreationDto';
 export * from './gameServerDto';
 export * from './gameServerDtoStatus';
+export * from './getGameInfoParams';
 export * from './loginDto';
 export * from './portMapping';
 export * from './portMappingProtocol';
@@ -19,5 +21,6 @@ export * from './userEntityDtoRole';
 export * from './userInviteCreationDto';
 export * from './userInviteCreationDtoRole';
 export * from './userInviteDto';
+export * from './userInviteDtoRole';
 export * from './volumeMountConfiguration';
 export * from './volumeMountConfigurationCreationDto';

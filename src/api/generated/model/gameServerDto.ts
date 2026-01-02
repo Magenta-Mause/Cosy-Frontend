@@ -19,8 +19,7 @@ export interface GameServerDto {
   owner: UserEntityDto;
   status: GameServerDtoStatus;
   timestamp_last_started: string;
-  /** @minLength 1 */
-  game_uuid: string;
+  game_id?: number;
   /** @minLength 1 */
   docker_image_name: string;
   /** @minLength 1 */

@@ -10,12 +10,7 @@ import type { GameServerCreationDto } from "@/api/generated/model/gameServerCrea
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { GameServerCreationContext } from "./CreateGameServerModal.tsx";
 import { GameServerCreationPageContext } from "./GenericGameServerCreationPage.tsx";
-
-// All keys must be a key of HTMLInputTypeAttribute
-enum InputType {
-  text = "text",
-  number = "number",
-}
+import { type InputType, preProcessInputValue } from "./util";
 
 interface Props {
   attribute: keyof GameServerCreationDto;
@@ -61,16 +56,6 @@ export default function KeyValueInput({
     }>
   >([{ uuid: uuidv7(), valid: !required }]);
 
-  const preProcessValue = useCallback(
-    (value: string): string | number => {
-      if (inputType === InputType.number) {
-        return Number(value);
-      }
-      return value;
-    },
-    [inputType],
-  );
-
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
       if (!key && !value && !required) {
@@ -79,15 +64,15 @@ export default function KeyValueInput({
         return false;
       }
 
-      const preProcessedKey = preProcessValue(key);
-      const preProcessedValue = preProcessValue(value);
+      const preProcessedKey = preProcessInputValue(key, inputType);
+      const preProcessedValue = preProcessInputValue(value, inputType);
 
       const keyValid = (key: string | number) => keyValidator.safeParse(key).success;
       const valueValid = (value: string | number) => valueValidator.safeParse(value).success;
 
       return keyValid(preProcessedKey) && valueValid(preProcessedValue);
     },
-    [keyValidator, valueValidator, required, preProcessValue],
+    [keyValidator, valueValidator, required, inputType],
   );
 
   useEffect(() => {
@@ -107,7 +92,7 @@ export default function KeyValueInput({
 
           return {
             ...item,
-            [key]: preProcessValue(value),
+            [key]: preProcessInputValue(value, inputType),
             valid: validateKeyValuePair(
               key === objectKey ? value : (item[objectKey] as string | undefined),
               key === objectValue ? value : (item[objectValue] as string | undefined),
@@ -121,7 +106,7 @@ export default function KeyValueInput({
           .filter((keyValuePair) => keyValuePair.valid)
           .map((keyValuePair) =>
             keyValuePair.uuid === uuid
-              ? { ...keyValuePair, [key]: preProcessValue(value) }
+              ? { ...keyValuePair, [key]: preProcessInputValue(value, inputType) }
               : keyValuePair,
           ) as {
           [objectKey]: string;
@@ -137,7 +122,7 @@ export default function KeyValueInput({
       validateKeyValuePair,
       objectKey,
       objectValue,
-      preProcessValue,
+      inputType,
     ],
   );
 
@@ -203,5 +188,3 @@ export default function KeyValueInput({
     </Field>
   );
 }
-
-export { InputType };

@@ -1,23 +1,69 @@
-import GenericGameServerCreationInputField from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationInputField.tsx";
+import AutoCompleteInputField, {
+  type AutoCompleteItem,
+} from "@components/display/GameServer/CreateGameServer/AutoCompleteInputField";
 import GenericGameServerCreationPage from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
-import * as z from "zod";
+import { Label } from "@components/ui/label";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useContext } from "react";
+import { getGameInfo } from "@/api/generated/backend-api";
+import type { GameDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { GameServerCreationContext } from "../CreateGameServerModal";
 
-const GameServerCreationGameNamePage = () => {
+const Step1 = () => {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step1");
+  const { setUtilState } = useContext(GameServerCreationContext);
+  const queryClient = useQueryClient();
+
+  const mapGamesDtoToAutoCompleteItems = useCallback(
+    (games: GameDto[]) =>
+      games.map((game) => ({
+        data: game,
+        value: game.id,
+        label: game.name,
+        leftSlot: game.logo_url ? (
+          <img
+            src={game.logo_url}
+            alt={game.name}
+            className="h-6 w-auto rounded-md mr-2 object-contain"
+          />
+        ) : null,
+      })),
+    [],
+  );
+
+  const buildQueryGamesParameters = useCallback(
+    (gameName: string) => ({
+      queryKey: ["gameInfo", gameName],
+      queryFn: () =>
+        getGameInfo({ query: gameName }).then((games) => mapGamesDtoToAutoCompleteItems(games)),
+      staleTime: 1000 * 60 * 5,
+    }),
+    [mapGamesDtoToAutoCompleteItems],
+  );
 
   return (
     <GenericGameServerCreationPage>
-      <GenericGameServerCreationInputField
-        attribute="game_uuid"
-        validator={z.string().min(1)}
-        placeholder="Minecraft Server"
-        label={t("gameSelection.title")}
-        description={t("gameSelection.description")}
-        errorLabel={t("gameSelection.errorLabel")}
+      <AutoCompleteInputField
+        attribute="game_id"
+        validator={(value) => value >= 0}
+        placeholder={t("gameSelection.placeholder")}
+        buildAutoCompleteItemsQueryParameters={buildQueryGamesParameters}
+        selectItemCallback={(selectedItem: AutoCompleteItem<GameDto, number>) =>
+          setUtilState("gameEntity")(selectedItem.data ?? undefined)
+        }
+        noAutoCompleteItemsLabelRenderer={(displayValue) => (
+          <Label>
+            {queryClient.getQueryState(["gameInfo", displayValue])?.error
+              ? t("gameSelection.noGamesFound")
+              : t("gameSelection.noResultsLabel")}
+          </Label>
+        )}
+        noAutoCompleteItemsLabel={t("gameSelection.noResultsLabel")}
+        fallbackValue={0}
       />
     </GenericGameServerCreationPage>
   );
 };
 
-export default GameServerCreationGameNamePage;
+export default Step1;

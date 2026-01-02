@@ -1,11 +1,10 @@
-import KeyValueInput, {
-  InputType,
-} from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
+import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
 import { DialogDescription } from "@components/ui/dialog.tsx";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
+import { InputType } from "../util";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");
@@ -58,7 +57,7 @@ export default function Step3() {
         placeHolderValueInput="VALUE"
         keyValidator={z.string().min(1)}
         valueValidator={z.string().min(1)}
-        inputType={InputType.number}
+        inputType={InputType.text}
         objectKey="key"
         objectValue="value"
       />
