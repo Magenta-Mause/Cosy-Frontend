@@ -12,5 +12,6 @@ export type UserEntityDtoRole = typeof UserEntityDtoRole[keyof typeof UserEntity
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const UserEntityDtoRole = {
   OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
   QUOTA_USER: 'QUOTA_USER',
 } as const;

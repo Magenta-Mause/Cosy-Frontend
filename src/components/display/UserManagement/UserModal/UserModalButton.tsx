@@ -12,11 +12,12 @@ import { ArrowLeft, UserPlus, Users } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import type { UserEntityDtoRole } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
-import { InviteForm } from "./InviteForm";
-import { InviteResult } from "./InviteResult";
-import { UserList } from "./UserList";
+import { InviteForm } from "../UserInvite/InviteForm/InviteForm.tsx";
+import { InviteResult } from "../UserInvite/InviteForm/InviteResult.tsx";
+import { UserList } from "./UserList.tsx";
 
 type ViewState = "list" | "invite" | "result";
 
@@ -24,6 +25,7 @@ const UserModalButton = (props: { className?: string }) => {
   const { t } = useTranslation();
   const [view, setView] = useState<ViewState>("list");
   const [inviteUsername, setInviteUsername] = useState("");
+  const [userRole, setUserRole] = useState<UserEntityDtoRole>("QUOTA_USER");
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
@@ -32,7 +34,7 @@ const UserModalButton = (props: { className?: string }) => {
   const handleCreateInvite = async () => {
     setIsCreating(true);
     try {
-      const data = await createInvite({ username: inviteUsername || undefined });
+      const data = await createInvite({ username: inviteUsername || undefined, role: userRole });
       setGeneratedKey(data.secret_key || "");
       setView("result");
     } catch (_e) {
@@ -87,9 +89,11 @@ const UserModalButton = (props: { className?: string }) => {
           {view === "invite" && (
             <InviteForm
               username={inviteUsername}
+              userRole={userRole}
               onUsernameChange={setInviteUsername}
               onCancel={() => setView("list")}
               onSubmit={handleCreateInvite}
+              onUserRoleChange={setUserRole}
               isCreating={isCreating}
             />
           )}

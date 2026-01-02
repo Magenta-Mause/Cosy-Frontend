@@ -1,6 +1,6 @@
-import { GameServerCreationContext } from "@components/CreateGameServer/CreateGameServerModal.tsx";
+import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from "react";
-import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto";
+import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
 
 export const GameServerCreationPageContext = createContext<GameServerCreationPageContextType>({
   attributesValid: {},

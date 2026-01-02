@@ -1,9 +1,7 @@
 import GameServerHouseAligner from "@components/display/GameServer/GameServerHouseAligner/GameServerHouseAligner.tsx";
-import type { GameServerConfigurationEntity } from "@/api/generated/model";
+import type { GameServerDto } from "@/api/generated/model";
 
-const GameServerDisplay = (props: {
-  gameServerConfigurations: GameServerConfigurationEntity[];
-}) => {
+const GameServerDisplay = (props: { gameServerConfigurations: GameServerDto[] }) => {
   return (
     <div className={"w-full h-full"}>
       <GameServerHouseAligner gameServers={props.gameServerConfigurations} />

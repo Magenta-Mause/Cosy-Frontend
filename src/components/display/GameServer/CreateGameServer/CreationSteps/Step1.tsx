@@ -1,7 +1,7 @@
-import GenericGameServerCreationInputField from "@components/CreateGameServer/GenericGameServerCreationInputField.tsx";
-import GenericGameServerCreationPage from "@components/CreateGameServer/GenericGameServerCreationPage.tsx";
+import GenericGameServerCreationInputField from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationInputField.tsx";
+import GenericGameServerCreationPage from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 import * as z from "zod";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 const GameServerCreationGameNamePage = () => {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step1");
