@@ -105,15 +105,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     ],
   );
 
-  const triggerRef = useRef<HTMLButtonElement | null>(null);
-  const [triggerWidth, setTriggerWidth] = useState<number | undefined>(undefined);
   const inputRef = useRef<HTMLInputElement | null>(null);
-
-  useLayoutEffect(() => {
-    if (!triggerRef.current) return;
-
-    setTriggerWidth(triggerRef.current?.getBoundingClientRect().width);
-  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -157,7 +149,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
 
   return (
     <Popover open={open}>
-      <PopoverTrigger className="w-3/4" ref={triggerRef}>
+      <PopoverTrigger className="w-[25vw]">
         <div className="w-full">
           <Input
             ref={inputRef}
@@ -181,10 +173,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
         </div>
       </PopoverTrigger>
 
-      <PopoverContent
-        className="w-full"
-        style={{ width: triggerWidth ? `${triggerWidth}px` : undefined }}
-      >
+      <PopoverContent className="w-[25vw]">
         <Command>
           <CommandList>
             {isLoading ? (
