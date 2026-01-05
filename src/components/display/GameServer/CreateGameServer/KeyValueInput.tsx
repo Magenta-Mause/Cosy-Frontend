@@ -1,9 +1,9 @@
 import ListInput from "@components/display/GameServer/CreateGameServer/ListInput.tsx";
-import {Input} from "@components/ui/input.tsx";
-import {Fragment, useCallback} from "react";
-import type {ZodType} from "zod";
-import type {GameServerCreationDto} from "@/api/generated/model/gameServerCreationDto.ts";
-import {preProcessValue} from "@/utils/InputUtils.ts";
+import { Input } from "@components/ui/input.tsx";
+import { Fragment, useCallback } from "react";
+import type { ZodType } from "zod";
+import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
+import { preProcessValue } from "@/utils/InputUtils.ts";
 
 // All keys must be a key of HTMLInputTypeAttribute
 enum InputType {
@@ -33,20 +33,19 @@ interface Props {
 }
 
 function KeyValueInput({
-                         attribute,
-                         placeHolderKeyInput,
-                         placeHolderValueInput,
-                         fieldLabel,
-                         fieldDescription,
-                         keyValidator,
-                         valueValidator,
-                         errorLabel,
-                         required,
-                         inputType,
-                         objectKey,
-                         objectValue,
-                       }: Props) {
-
+  attribute,
+  placeHolderKeyInput,
+  placeHolderValueInput,
+  fieldLabel,
+  fieldDescription,
+  keyValidator,
+  valueValidator,
+  errorLabel,
+  required,
+  inputType,
+  objectKey,
+  objectValue,
+}: Props) {
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
       if (!key && !value && !required) {
@@ -63,15 +62,18 @@ function KeyValueInput({
 
       return keyValid(preProcessedKey) && valueValid(preProcessedValue);
     },
-    [keyValidator, valueValidator, required, preProcessValue],
+    [keyValidator, valueValidator, required, inputType],
   );
 
   const checkValidity = (item: KeyValueItem) => validateKeyValuePair(item.key, item.value);
 
   const computeValue = (items: KeyValueItem[]) => {
-    const mappedItems: { [objectKey]: string | number, [objectValue]: string | number }[] = [];
+    const mappedItems: { [objectKey]: string | number; [objectValue]: string | number }[] = [];
     items.forEach((item) => {
-      mappedItems.push({[objectKey]: preProcessValue(item.key, inputType), [objectValue]: preProcessValue(item.value, inputType)});
+      mappedItems.push({
+        [objectKey]: preProcessValue(item.key, inputType),
+        [objectValue]: preProcessValue(item.value, inputType),
+      });
     });
     return mappedItems as unknown as GameServerCreationDto[keyof GameServerCreationDto];
   };
@@ -91,7 +93,7 @@ function KeyValueInput({
             id={`key-value-input-key-${keyValuePair.uuid}`}
             placeholder={placeHolderKeyInput}
             value={(keyValuePair.key as string | undefined) || ""}
-            onChange={(e) => changeCallback({...keyValuePair, key: e.target.value})}
+            onChange={(e) => changeCallback({ ...keyValuePair, key: e.target.value })}
             type={inputType}
           />
           <Input
@@ -100,7 +102,7 @@ function KeyValueInput({
             placeholder={placeHolderValueInput}
             value={(keyValuePair.value as string | undefined) || ""}
             onChange={(e) => {
-              changeCallback({...keyValuePair, value: e.target.value})
+              changeCallback({ ...keyValuePair, value: e.target.value });
             }}
             type={inputType}
           />
@@ -110,6 +112,6 @@ function KeyValueInput({
   );
 }
 
-export {InputType};
+export { InputType };
 
 export default KeyValueInput;

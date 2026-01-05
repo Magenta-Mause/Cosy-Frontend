@@ -1,13 +1,11 @@
-import {GameServerCreationContext} from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
-import {
-  GameServerCreationPageContext
-} from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
-import {FieldError} from "@components/ui/field.tsx";
-import {Input} from "@components/ui/input.tsx";
-import {DialogDescription} from "@radix-ui/react-dialog";
-import {useCallback, useContext, useEffect} from "react";
-import type {ZodType} from "zod";
-import type {GameServerCreationDto} from "@/api/generated/model/gameServerCreationDto.ts";
+import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
+import { FieldError } from "@components/ui/field.tsx";
+import { Input } from "@components/ui/input.tsx";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { useCallback, useContext, useEffect } from "react";
+import type { ZodType } from "zod";
+import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
 
 const GenericGameServerCreationInputField = (props: {
   attribute: keyof GameServerCreationDto;
@@ -18,8 +16,9 @@ const GenericGameServerCreationInputField = (props: {
   description?: string;
   optional?: boolean;
 }) => {
-  const {setGameServerState, gameServerState, triggerNextPage} = useContext(GameServerCreationContext);
-  const {setAttributeTouched, setAttributeValid, attributesTouched, attributesValid} = useContext(
+  const { setGameServerState, gameServerState, triggerNextPage } =
+    useContext(GameServerCreationContext);
+  const { setAttributeTouched, setAttributeValid, attributesTouched, attributesValid } = useContext(
     GameServerCreationPageContext,
   );
 
@@ -33,7 +32,14 @@ const GenericGameServerCreationInputField = (props: {
         props.validator.safeParse(gameServerState[props.attribute]).success,
       );
     }
-  }, [props.optional, gameServerState, props.attribute, setAttributeTouched, setAttributeValid, props.validator]);
+  }, [
+    props.optional,
+    gameServerState,
+    props.attribute,
+    setAttributeTouched,
+    setAttributeValid,
+    props.validator,
+  ]);
 
   useEffect(() => {
     if (props.optional) {

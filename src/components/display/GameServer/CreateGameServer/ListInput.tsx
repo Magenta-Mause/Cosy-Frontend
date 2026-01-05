@@ -1,13 +1,13 @@
-import {Button} from "@components/ui/button.tsx";
-import {Field, FieldDescription, FieldLabel} from "@components/ui/field.tsx";
-import {Tooltip, TooltipContent, TooltipTrigger} from "@components/ui/tooltip.tsx";
-import {CircleAlertIcon, CircleX} from "lucide-react";
-import {type ReactNode, useCallback, useContext, useState} from "react";
-import {v7 as generateUuid} from "uuid";
-import type {GameServerCreationDto} from "@/api/generated/model/gameServerCreationDto.ts";
+import { Button } from "@components/ui/button.tsx";
+import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
+import { CircleAlertIcon, CircleX } from "lucide-react";
+import { type ReactNode, useCallback, useContext, useState } from "react";
+import { v7 as generateUuid } from "uuid";
+import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import {GameServerCreationContext} from "./CreateGameServerModal.tsx";
-import {GameServerCreationPageContext} from "./GenericGameServerCreationPage.tsx";
+import { GameServerCreationContext } from "./CreateGameServerModal.tsx";
+import { GameServerCreationPageContext } from "./GenericGameServerCreationPage.tsx";
 
 interface Props<T extends { uuid: string }> {
   attribute: keyof GameServerCreationDto;
@@ -22,26 +22,28 @@ interface Props<T extends { uuid: string }> {
 }
 
 function ListInput<T extends { uuid: string }>({
-                                                 onChange,
-                                                 attribute,
-                                                 errorLabel,
-                                                 fieldDescription,
-                                                 fieldLabel,
-                                                 checkValidity,
-                                                 computeValue,
-                                                 renderRow,
-                                                 defaultNewItem
-                                               }: Props<T>) {
-  const {setGameServerState} = useContext(GameServerCreationContext);
-  const {setAttributeTouched, setAttributeValid, attributesTouched} = useContext(
+  onChange,
+  attribute,
+  errorLabel,
+  fieldDescription,
+  fieldLabel,
+  checkValidity,
+  computeValue,
+  renderRow,
+  defaultNewItem,
+}: Props<T>) {
+  const { setGameServerState } = useContext(GameServerCreationContext);
+  const { setAttributeTouched, setAttributeValid, attributesTouched } = useContext(
     GameServerCreationPageContext,
   );
   const [rowErrors, setRowErrors] = useState<{ [uuid: string]: boolean }>({});
-  const [values, setValuesInternal] = useState<T[]>([{
-    ...(defaultNewItem ? defaultNewItem() : {}),
-    uuid: generateUuid()
-  } as T]);
-  const {t} = useTranslationPrefix("components.CreateGameServer");
+  const [values, setValuesInternal] = useState<T[]>([
+    {
+      ...(defaultNewItem ? defaultNewItem() : {}),
+      uuid: generateUuid(),
+    } as T,
+  ]);
+  const { t } = useTranslationPrefix("components.CreateGameServer");
 
   const setValues = useCallback(
     (callback: (prevVals: T[]) => T[]) => {
@@ -88,8 +90,11 @@ function ListInput<T extends { uuid: string }>({
   );
 
   const addNewValue = useCallback(() => {
-    setValues((prev) => [...prev, {...(defaultNewItem ? defaultNewItem() : {}), uuid: generateUuid()} as T]);
-  }, [setValues]);
+    setValues((prev) => [
+      ...prev,
+      { ...(defaultNewItem ? defaultNewItem() : {}), uuid: generateUuid() } as T,
+    ]);
+  }, [setValues, defaultNewItem]);
 
   return (
     <Field>
@@ -108,13 +113,13 @@ function ListInput<T extends { uuid: string }>({
                   className="h-9 w-9 p-0 flex items-center justify-center"
                   aria-label="Remove entry"
                 >
-                  <CircleX className="w-full h-full"/>
+                  <CircleX className="w-full h-full" />
                 </Button>
               )}
               {rowError && (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <CircleAlertIcon className="text-red-500 w-5 h-5"/>
+                    <CircleAlertIcon className="text-red-500 w-5 h-5" />
                   </TooltipTrigger>
                   <TooltipContent>{errorLabel}</TooltipContent>
                 </Tooltip>

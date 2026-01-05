@@ -112,7 +112,7 @@ export type i18nLanguage = {
       createServerButton: string;
       listInput: {
         addButton: string;
-      },
+      };
       steps: {
         step1: {
           title: string;

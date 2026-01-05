@@ -113,7 +113,7 @@ const translation: i18nLanguage = {
       nextStepButton: "Next Step",
       createServerButton: "Create Server",
       listInput: {
-        addButton: "Add"
+        addButton: "Add",
       },
       steps: {
         step1: {
