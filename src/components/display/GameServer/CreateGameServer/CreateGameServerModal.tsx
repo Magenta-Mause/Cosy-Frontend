@@ -1,6 +1,13 @@
 import { Button } from "@components/ui/button.tsx";
 import { DialogContent, DialogFooter, DialogMain, DialogTitle } from "@components/ui/dialog.tsx";
-import { createContext, type Dispatch, type SetStateAction, useCallback, useState } from "react";
+import {
+  createContext,
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand } from "shell-quote";
 import type { GameServerCreationDto } from "@/api/generated/model";
@@ -68,6 +75,9 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
       setGameServerInternalState((prev) => ({ ...prev, [gameStateKey]: value })),
     [],
   );
+  useEffect(() => {
+    console.log(gameServerState);
+  }, [gameServerState]);
 
   return (
     <DialogContent className="sm:max-w-[600px] max-h-[80vh] p-0">
