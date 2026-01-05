@@ -53,6 +53,12 @@ const translation: i18nLanguage = {
     revokeTooltip: "Revoke invite",
     copyTooltip: "Click to copy link",
     roleLabel: "User role",
+    editTooltip: "Click to edit user settings",
+    memoryLimit: "RAM limit (Optional)",
+    memoryDescription: "Leave it empty to allow the user to have unlimited RAM.",
+    cpuLimit: "CPU limit (Optional)",
+    cpuDescription: "Leave it empty to allow the user to have unlimited CPU cores.",
+    placeholder: "Unlimted",
   },
   inviteRedemption: {
     title: "Accept Invitation",
