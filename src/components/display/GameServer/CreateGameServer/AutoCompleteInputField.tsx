@@ -36,24 +36,26 @@ interface Props<TSelectedItem, TAutoCompleteData extends GameServerCreationValue
   attribute: keyof GameServerCreationDto;
   validator: (value: TAutoCompleteData) => boolean;
   placeholder: string;
-  buildAutoCompleteItemsQueryParameters: (
-    val: string,
-  ) => UseQueryOptions<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[], unknown>;
   fallbackValue: TAutoCompleteData;
   onItemSelect?: (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => void;
   noAutoCompleteItemsLabelRenderer?: (displayValue: string) => ReactNode;
   noAutoCompleteItemsLabel?: string;
+  searchId?: string;
+  searchCallback: (
+    searchValue: string,
+  ) => Promise<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[]>;
 }
 
 function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameServerCreationValue>({
   attribute,
   validator,
   placeholder,
-  buildAutoCompleteItemsQueryParameters,
-  onItemSelect: selectItemCallback,
+  onItemSelect,
   noAutoCompleteItemsLabelRenderer,
   noAutoCompleteItemsLabel,
   fallbackValue,
+  searchId,
+  searchCallback,
 }: Props<TSelectedItem, TAutoCompleteData>) {
   const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
   const { setGameServerState, creationState } = useContext(GameServerCreationContext);
@@ -68,7 +70,11 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     isLoading,
     isError,
     data: autoCompleteItems,
-  } = useQuery(buildAutoCompleteItemsQueryParameters(queryGameName));
+  } = useQuery({
+    queryKey: [searchId, "search", queryGameName],
+    queryFn: () => searchCallback(queryGameName),
+    staleTime: 1000 * 60 * 5,
+  });
 
   useEffect(() => {
     setAttributeTouched(attribute, creationState.gameServerState[attribute] !== undefined);
@@ -91,8 +97,8 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       setGameServerState(attribute)(item.value);
       setAttributeValid(attribute, valid);
       setAttributeTouched(attribute, true);
-      if (selectItemCallback) {
-        selectItemCallback(item);
+      if (onItemSelect) {
+        onItemSelect(item);
       }
     },
     [
@@ -101,7 +107,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       setAttributeValid,
       setGameServerState,
       validator,
-      selectItemCallback,
+      onItemSelect,
     ],
   );
 

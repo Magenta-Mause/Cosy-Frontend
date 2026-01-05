@@ -32,23 +32,12 @@ const Step1 = () => {
     [],
   );
 
-  const buildQueryGamesParameters = useCallback(
-    (gameName: string) => ({
-      queryKey: ["gameInfo", gameName],
-      queryFn: () =>
-        getGameInfo({ query: gameName }).then((games) => mapGamesDtoToAutoCompleteItems(games)),
-      staleTime: 1000 * 60 * 5,
-    }),
-    [mapGamesDtoToAutoCompleteItems],
-  );
-
   return (
     <GenericGameServerCreationPage>
       <AutoCompleteInputField
         attribute="game_uuid"
         validator={(value) => value.length > 0}
         placeholder={t("gameSelection.placeholder")}
-        buildAutoCompleteItemsQueryParameters={buildQueryGamesParameters}
         onItemSelect={(selectedItem: AutoCompleteItem<GameDto, string>) =>
           setUtilState("gameEntity")(selectedItem.data ?? undefined)
         }
@@ -60,7 +49,13 @@ const Step1 = () => {
           </Label>
         )}
         noAutoCompleteItemsLabel={t("gameSelection.noResultsLabel")}
-        fallbackValue={"0"}
+        fallbackValue={"0" as string}
+        searchId="gameInfo"
+        searchCallback={(gameNameQuery) =>
+          getGameInfo({ query: gameNameQuery }).then((games) =>
+            mapGamesDtoToAutoCompleteItems(games),
+          )
+        }
       />
     </GenericGameServerCreationPage>
   );
