@@ -22,12 +22,14 @@ export interface GameServerCreationContext {
     gameStateKey: K,
   ) => (value: GameServerCreationDto[K]) => void;
   setCurrentPageValid: (isValid: boolean) => void;
+  triggerNextPage: () => void;
 }
 
 export const GameServerCreationContext = createContext<GameServerCreationContext>({
   gameServerState: {},
   setGameServerState: () => () => {},
   setCurrentPageValid: () => {},
+  triggerNextPage: () => {}
 });
 
 const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" />];
@@ -53,7 +55,6 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
         execution_command: parseCommand(gameServerState.execution_command as unknown as string),
         port_mappings: gameServerState.port_mappings?.map((portMapping) => ({
           ...portMapping,
-          protocol: "TCP", // Default to TCP for now - change this later!!!
         })),
       } as GameServerCreationDto);
       setOpen(false);
@@ -62,6 +63,12 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
     setCurrentPage((currentPage) => currentPage + 1);
   };
+
+  const triggerNextPage = useCallback(() => {
+    if (isPageValid[currentPage]) {
+      handleNextPage();
+    }
+  }, [handleNextPage, isPageValid, currentPage]);
 
   const setCurrentPageValid = useCallback(
     (isValid: boolean) => {
@@ -75,17 +82,15 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
       setGameServerInternalState((prev) => ({ ...prev, [gameStateKey]: value })),
     [],
   );
-  useEffect(() => {
-    console.log(gameServerState);
-  }, [gameServerState]);
 
   return (
-    <DialogContent className="sm:max-w-[600px] max-h-[80vh] p-0">
+    <DialogContent className="sm:max-w-150 max-h-[80vh] p-0">
       <GameServerCreationContext.Provider
         value={{
           setGameServerState,
           gameServerState,
           setCurrentPageValid,
+          triggerNextPage
         }}
       >
         <div className="flex flex-col max-h-[80vh] p-4">

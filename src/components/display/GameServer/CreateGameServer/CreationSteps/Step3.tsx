@@ -58,7 +58,7 @@ export default function Step3() {
         placeHolderValueInput="VALUE"
         keyValidator={z.string().min(1)}
         valueValidator={z.string().min(1)}
-        inputType={InputType.number}
+        inputType={InputType.text}
         objectKey="key"
         objectValue="value"
       />
@@ -67,6 +67,7 @@ export default function Step3() {
         attribute="execution_command"
         validator={z.string().min(1)}
         placeholder="./start.sh"
+        optional
         label={t("executionCommandSelection.title")}
         description={t("executionCommandSelection.description")}
         errorLabel={t("executionCommandSelection.errorLabel")}
