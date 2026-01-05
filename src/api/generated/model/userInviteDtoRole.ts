@@ -6,11 +6,11 @@
  * OpenAPI spec version: v1.0
  */
 
-export type UserInviteCreationDtoRole = typeof UserInviteCreationDtoRole[keyof typeof UserInviteCreationDtoRole];
+export type UserInviteDtoRole = typeof UserInviteDtoRole[keyof typeof UserInviteDtoRole];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const UserInviteCreationDtoRole = {
+export const UserInviteDtoRole = {
   OWNER: 'OWNER',
   ADMIN: 'ADMIN',
   QUOTA_USER: 'QUOTA_USER',

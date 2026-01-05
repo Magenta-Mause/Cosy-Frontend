@@ -9,6 +9,7 @@ import type { UserInviteCreationDtoRole } from './userInviteCreationDtoRole';
 
 export interface UserInviteCreationDto {
   username?: string;
-  /** @minLength 1 */
-  role: UserInviteCreationDtoRole;
+  role?: UserInviteCreationDtoRole;
+  max_memory?: number;
+  max_cpu?: number;
 }
