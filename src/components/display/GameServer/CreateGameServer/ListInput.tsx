@@ -18,6 +18,7 @@ interface Props<T extends { uuid: string }> {
   computeValue: (vals: T[]) => GameServerCreationDto[keyof GameServerCreationDto];
   fieldDescription: ReactNode;
   renderRow: (changeCallback: (newVal: T) => void, rowError: boolean) => (item: T) => ReactNode;
+  defaultNewItem?: () => Partial<T>;
 }
 
 function ListInput<T extends { uuid: string }>({
@@ -29,13 +30,17 @@ function ListInput<T extends { uuid: string }>({
                                                  checkValidity,
                                                  computeValue,
                                                  renderRow,
+                                                 defaultNewItem
                                                }: Props<T>) {
   const {setGameServerState} = useContext(GameServerCreationContext);
   const {setAttributeTouched, setAttributeValid, attributesTouched} = useContext(
     GameServerCreationPageContext,
   );
   const [rowErrors, setRowErrors] = useState<{ [uuid: string]: boolean }>({});
-  const [values, setValuesInternal] = useState<T[]>([{uuid: generateUuid()} as T]);
+  const [values, setValuesInternal] = useState<T[]>([{
+    ...(defaultNewItem ? defaultNewItem() : {}),
+    uuid: generateUuid()
+  } as T]);
   const {t} = useTranslationPrefix("components.CreateGameServer");
 
   const setValues = useCallback(
@@ -50,9 +55,7 @@ function ListInput<T extends { uuid: string }>({
         newRowErrors[item.uuid] = !checkValidity(item);
       });
       setRowErrors(newRowErrors);
-      console.log(newRowErrors);
-      setAttributeValid(attribute, Object.values(newRowErrors).filter((err) => !err).length === 0);
-
+      setAttributeValid(attribute, Object.values(newRowErrors).filter((err) => err).length === 0);
       if (onChange) {
         onChange(newVal);
       }
@@ -85,7 +88,7 @@ function ListInput<T extends { uuid: string }>({
   );
 
   const addNewValue = useCallback(() => {
-    setValues((prev) => [...prev, {uuid: generateUuid()} as T]);
+    setValues((prev) => [...prev, {...(defaultNewItem ? defaultNewItem() : {}), uuid: generateUuid()} as T]);
   }, [setValues]);
 
   return (

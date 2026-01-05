@@ -45,10 +45,13 @@ const GenericGameServerCreationInputField = (props: {
   const changeCallback = useCallback(
     (value: string) => {
       setGameServerState(props.attribute)(value);
-      setAttributeValid(props.attribute, props.validator.safeParse(value).success);
-      setAttributeTouched(props.attribute, true);
+      if (!props.optional) {
+        setAttributeValid(props.attribute, props.validator.safeParse(value).success);
+        setAttributeTouched(props.attribute, true);
+      }
     },
     [
+      props.optional,
       props.attribute,
       props.validator.safeParse,
       setAttributeTouched,

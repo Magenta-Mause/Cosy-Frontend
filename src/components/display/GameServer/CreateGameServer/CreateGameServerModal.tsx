@@ -1,16 +1,9 @@
-import { Button } from "@components/ui/button.tsx";
-import { DialogContent, DialogFooter, DialogMain, DialogTitle } from "@components/ui/dialog.tsx";
-import {
-  createContext,
-  type Dispatch,
-  type SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
-import { useTranslation } from "react-i18next";
-import { parse as parseCommand } from "shell-quote";
-import type { GameServerCreationDto } from "@/api/generated/model";
+import {Button} from "@components/ui/button.tsx";
+import {DialogContent, DialogFooter, DialogMain, DialogTitle} from "@components/ui/dialog.tsx";
+import {createContext, type Dispatch, type SetStateAction, useCallback, useState,} from "react";
+import {useTranslation} from "react-i18next";
+import {parse as parseCommand} from "shell-quote";
+import type {GameServerCreationDto} from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import Step1 from "./CreationSteps/Step1.tsx";
 import Step2 from "./CreationSteps/Step2.tsx";
@@ -27,26 +20,29 @@ export interface GameServerCreationContext {
 
 export const GameServerCreationContext = createContext<GameServerCreationContext>({
   gameServerState: {},
-  setGameServerState: () => () => {},
-  setCurrentPageValid: () => {},
-  triggerNextPage: () => {}
+  setGameServerState: () => () => {
+  },
+  setCurrentPageValid: () => {
+  },
+  triggerNextPage: () => {
+  }
 });
 
-const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" />];
+const PAGES = [<Step1 key="step1"/>, <Step2 key="step2"/>, <Step3 key="step3"/>];
 
 interface Props {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const CreateGameServerModal = ({ setOpen }: Props) => {
-  const { createGameServer } = useDataInteractions();
+const CreateGameServerModal = ({setOpen}: Props) => {
+  const {createGameServer} = useDataInteractions();
   const [gameServerState, setGameServerInternalState] = useState<Partial<GameServerCreationDto>>(
     {},
   );
   const [isPageValid, setPageValid] = useState<{ [key: number]: boolean }>({});
   const [currentPage, setCurrentPage] = useState(0);
   const isLastPage = currentPage === PAGES.length - 1;
-  const { t } = useTranslation();
+  const {t} = useTranslation();
 
   const handleNextPage = () => {
     if (isLastPage) {
@@ -57,6 +53,9 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
           ...portMapping,
         })),
       } as GameServerCreationDto);
+      setGameServerInternalState({});
+      setPageValid({});
+      setCurrentPage(0);
       setOpen(false);
       return;
     }
@@ -72,14 +71,14 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
   const setCurrentPageValid = useCallback(
     (isValid: boolean) => {
-      setPageValid((prev) => ({ ...prev, [currentPage]: isValid }));
+      setPageValid((prev) => ({...prev, [currentPage]: isValid}));
     },
     [currentPage],
   );
 
   const setGameServerState: GameServerCreationContext["setGameServerState"] = useCallback(
     (gameStateKey) => (value) =>
-      setGameServerInternalState((prev) => ({ ...prev, [gameStateKey]: value })),
+      setGameServerInternalState((prev) => ({...prev, [gameStateKey]: value})),
     [],
   );
 
