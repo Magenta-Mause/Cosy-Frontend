@@ -10,7 +10,8 @@ import type { EnvironmentVariableConfiguration } from './environmentVariableConf
 import type { VolumeMountConfigurationCreationDto } from './volumeMountConfigurationCreationDto';
 
 export interface GameServerCreationDto {
-  game_id?: number;
+  /** @minLength 1 */
+  game_uuid: string;
   /** @minLength 1 */
   server_name: string;
   /** @minLength 1 */

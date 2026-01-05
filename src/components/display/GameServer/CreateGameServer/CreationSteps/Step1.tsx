@@ -19,7 +19,7 @@ const Step1 = () => {
     (games: GameDto[]) =>
       games.map((game) => ({
         data: game,
-        value: game.id,
+        value: game.game_uuid,
         label: game.name,
         leftSlot: game.logo_url ? (
           <img
@@ -45,11 +45,11 @@ const Step1 = () => {
   return (
     <GenericGameServerCreationPage>
       <AutoCompleteInputField
-        attribute="game_id"
-        validator={(value) => value >= 0}
+        attribute="game_uuid"
+        validator={(value) => value.length > 0}
         placeholder={t("gameSelection.placeholder")}
         buildAutoCompleteItemsQueryParameters={buildQueryGamesParameters}
-        selectItemCallback={(selectedItem: AutoCompleteItem<GameDto, number>) =>
+        selectItemCallback={(selectedItem: AutoCompleteItem<GameDto, string>) =>
           setUtilState("gameEntity")(selectedItem.data ?? undefined)
         }
         noAutoCompleteItemsLabelRenderer={(displayValue) => (
@@ -60,7 +60,7 @@ const Step1 = () => {
           </Label>
         )}
         noAutoCompleteItemsLabel={t("gameSelection.noResultsLabel")}
-        fallbackValue={0}
+        fallbackValue={"0"}
       />
     </GenericGameServerCreationPage>
   );
