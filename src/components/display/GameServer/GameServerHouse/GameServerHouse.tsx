@@ -43,7 +43,7 @@ const GameServerHouse = (props: {
           toast.info("Starting server...")
           const res = await startServiceSse(props.gameServer.uuid as string);
           const hostname = window.location.hostname;
-          const listeningOn = res.map((num) => (
+          const listeningOn = res.ports.map((num) => (
             <div key={num}>
               <a
                 className="text-link"

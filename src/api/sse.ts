@@ -1,11 +1,15 @@
 import { getAuthToken } from "./axiosInstance";
 
-export type StartEventDto =
-  | { type: "HEARTBEAT"; ports?: undefined; message?: undefined }
-  | { type: "DONE"; ports: number[]; message?: undefined }
-  | { type: "ERROR"; ports?: undefined; message: string };
+export type GameServerInstanceDto = {
+  ports: number[];
+};
 
-export async function startServiceSse(serviceName: string): Promise<number[]> {
+type StartEventDto =
+  | { type: "HEARTBEAT"; game_server_instance?: undefined; message?: undefined }
+  | { type: "DONE"; game_server_instance: GameServerInstanceDto; message?: undefined }
+  | { type: "ERROR"; game_server_instance?: undefined; message: string };
+
+export async function startServiceSse(serviceName: string): Promise<GameServerInstanceDto> {
   const response = await fetch(`/api/game-server/${serviceName}/start`, {
     headers: {
       Authorization: `Bearer ${getAuthToken()}`,
@@ -21,7 +25,7 @@ export async function startServiceSse(serviceName: string): Promise<number[]> {
   const decoder = new TextDecoder("utf-8");
   let buffer = "";
 
-  return new Promise<number[]>((resolve, reject) => {
+  return new Promise<GameServerInstanceDto>((resolve, reject) => {
     function read() {
       reader
         .read()
@@ -45,7 +49,7 @@ export async function startServiceSse(serviceName: string): Promise<number[]> {
 
               if (event.type === "HEARTBEAT") {
               } else if (event.type === "DONE") {
-                resolve(event.ports);
+                resolve(event.game_server_instance);
                 return;
               } else if (event.type === "ERROR") {
                 reject(new Error(event.message));
