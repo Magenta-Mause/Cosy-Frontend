@@ -49,7 +49,7 @@ const Step1 = () => {
         validator={(value) => value.length > 0}
         placeholder={t("gameSelection.placeholder")}
         buildAutoCompleteItemsQueryParameters={buildQueryGamesParameters}
-        selectItemCallback={(selectedItem: AutoCompleteItem<GameDto, string>) =>
+        onItemSelect={(selectedItem: AutoCompleteItem<GameDto, string>) =>
           setUtilState("gameEntity")(selectedItem.data ?? undefined)
         }
         noAutoCompleteItemsLabelRenderer={(displayValue) => (

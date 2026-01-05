@@ -40,7 +40,7 @@ interface Props<TSelectedItem, TAutoCompleteData extends GameServerCreationValue
     val: string,
   ) => UseQueryOptions<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[], unknown>;
   fallbackValue: TAutoCompleteData;
-  selectItemCallback?: (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => void;
+  onItemSelect?: (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => void;
   noAutoCompleteItemsLabelRenderer?: (displayValue: string) => ReactNode;
   noAutoCompleteItemsLabel?: string;
 }
@@ -50,7 +50,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
   validator,
   placeholder,
   buildAutoCompleteItemsQueryParameters,
-  selectItemCallback,
+  onItemSelect: selectItemCallback,
   noAutoCompleteItemsLabelRenderer,
   noAutoCompleteItemsLabel,
   fallbackValue,
