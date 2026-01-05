@@ -1,3 +1,4 @@
+import { InputType } from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
 import ListInput from "@components/display/GameServer/CreateGameServer/ListInput.tsx";
 import { Input } from "@components/ui/input.tsx";
 import {
@@ -12,12 +13,6 @@ import type { ZodType } from "zod";
 import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
 import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
 import { cn } from "@/lib/utils.ts";
-
-// All keys must be a key of HTMLInputTypeAttribute
-enum InputType {
-  text = "text",
-  number = "number",
-}
 
 interface PortItem {
   key: string;
@@ -39,6 +34,7 @@ interface Props {
 }
 
 const inputType = InputType.number;
+const preProcessValue = Number;
 
 function PortInput({
   attribute,
@@ -51,8 +47,6 @@ function PortInput({
   errorLabel,
   required,
 }: Props) {
-  const preProcessValue = Number;
-
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
       if (!key && !value && !required) {
@@ -69,12 +63,15 @@ function PortInput({
 
       return keyValid(preProcessedKey) && valueValid(preProcessedValue);
     },
-    [keyValidator, valueValidator, required, preProcessValue],
+    [keyValidator, valueValidator, required],
   );
 
-  const checkValidity = (item: PortItem) => validateKeyValuePair(item.key, item.value);
+  const checkValidity = useCallback(
+    (item: PortItem) => validateKeyValuePair(item.key, item.value),
+    [validateKeyValuePair],
+  );
 
-  const computeValue = (items: PortItem[]) => {
+  const computeValue = useCallback((items: PortItem[]) => {
     const mappedItems: PortMapping[] = [];
     items.forEach((item) => {
       mappedItems.push({
@@ -84,7 +81,7 @@ function PortInput({
       });
     });
     return mappedItems;
-  };
+  }, []);
 
   return (
     <ListInput
@@ -140,7 +137,5 @@ function PortInput({
     />
   );
 }
-
-export { InputType };
 
 export default PortInput;

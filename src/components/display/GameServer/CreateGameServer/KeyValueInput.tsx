@@ -65,18 +65,24 @@ function KeyValueInput({
     [keyValidator, valueValidator, required, inputType],
   );
 
-  const checkValidity = (item: KeyValueItem) => validateKeyValuePair(item.key, item.value);
+  const checkValidity = useCallback(
+    (item: KeyValueItem) => validateKeyValuePair(item.key, item.value),
+    [validateKeyValuePair],
+  );
 
-  const computeValue = (items: KeyValueItem[]) => {
-    const mappedItems: { [objectKey]: string | number; [objectValue]: string | number }[] = [];
-    items.forEach((item) => {
-      mappedItems.push({
-        [objectKey]: preProcessValue(item.key, inputType),
-        [objectValue]: preProcessValue(item.value, inputType),
+  const computeValue = useCallback(
+    (items: KeyValueItem[]) => {
+      const mappedItems: { [objectKey]: string | number; [objectValue]: string | number }[] = [];
+      items.forEach((item) => {
+        mappedItems.push({
+          [objectKey]: preProcessValue(item.key, inputType),
+          [objectValue]: preProcessValue(item.value, inputType),
+        });
       });
-    });
-    return mappedItems as unknown as GameServerCreationDto[keyof GameServerCreationDto];
-  };
+      return mappedItems as unknown as GameServerCreationDto[keyof GameServerCreationDto];
+    },
+    [inputType, objectKey, objectValue],
+  );
 
   return (
     <ListInput

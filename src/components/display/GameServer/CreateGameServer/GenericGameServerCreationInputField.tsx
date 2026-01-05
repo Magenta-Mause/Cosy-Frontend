@@ -59,7 +59,7 @@ const GenericGameServerCreationInputField = (props: {
     [
       props.optional,
       props.attribute,
-      props.validator.safeParse,
+      props.validator,
       setAttributeTouched,
       setAttributeValid,
       setGameServerState,
