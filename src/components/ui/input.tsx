@@ -5,19 +5,18 @@ import { Label } from "@components/ui/label";
 
 interface InputProps extends React.ComponentProps<"input"> {
   header?: string;
+  endDecorator?: string;
 }
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
-  { className, type, header, ...props },
-  ref,
-) {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({ className, type, header, endDecorator, ...props }: InputProps, ref) {
   return (
     <div>
       {header && (
-        <Label htmlFor={props.id} className="pb-2">
-          {header}
-        </Label>
-      )}
+          <Label htmlFor={props.id} className="pb-2">
+            {header}
+          </Label>
+        )}
+        <div className="relative w-full">
       <input
         ref={ref}
         type={type}
@@ -31,7 +30,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
         )}
         {...props}
       />
-    </div>
+      {endDecorator && (
+        <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-muted-foreground">
+      {endDecorator}
+          </div>
+        )}
+          </div>
+    </div> 
   );
 });
 

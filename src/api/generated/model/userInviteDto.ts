@@ -15,4 +15,6 @@ export interface UserInviteDto {
   secret_key?: string;
   created_at?: string;
   role?: UserInviteDtoRole;
+  max_memory?: number;
+  max_cpu?: number;
 }

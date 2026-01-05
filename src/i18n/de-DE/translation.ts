@@ -49,6 +49,12 @@ const translation: i18nLanguage = {
     revokeTooltip: "Einladung widerrufen",
     copyTooltip: "Klicken zum Kopieren",
     roleLabel: "Benutzerrolle",
+    editTooltip: "Klicken zum Bearbeiten der Benutzereinstellungen",
+    memoryLimit: "RAM limit (Optional)",
+    memoryDescription: "Leer lassen, damit der Benutzer unbegrenzt RAM zur Verfügung hat.",
+    cpuLimit: "CPU limit (Optional)",
+    cpuDescription: "Leer lassen, damit der Benutzer unbegrenzte CPU Kerne zur Verfügung hat.",
+    placeholder: "Unbegrenzt",
   },
   userRoles: {
     QUOTA_USER: "Nutzer",
