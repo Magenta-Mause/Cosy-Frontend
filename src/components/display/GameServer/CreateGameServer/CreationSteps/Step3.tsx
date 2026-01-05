@@ -4,7 +4,6 @@ import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
-import { InputType } from "../util";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");
@@ -43,7 +42,7 @@ export default function Step3() {
         keyValidator={z.number().min(1).max(65535)}
         valueValidator={z.number().min(1).max(65535)}
         required
-        inputType={InputType.number}
+        inputType={"number"}
         objectKey="instance_port"
         objectValue="container_port"
       />
@@ -57,7 +56,7 @@ export default function Step3() {
         placeHolderValueInput="VALUE"
         keyValidator={z.string().min(1)}
         valueValidator={z.string().min(1)}
-        inputType={InputType.text}
+        inputType={"text"}
         objectKey="key"
         objectValue="value"
       />
@@ -80,7 +79,7 @@ export default function Step3() {
         placeHolderValueInput="Container Path"
         keyValidator={z.string().min(1)}
         valueValidator={z.string().min(1)}
-        inputType={InputType.text}
+        inputType={"text"}
         objectKey="host_path"
         objectValue="container_path"
       />
