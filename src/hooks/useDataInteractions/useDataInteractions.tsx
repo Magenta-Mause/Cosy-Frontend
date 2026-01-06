@@ -119,8 +119,8 @@ const useDataInteractions = () => {
 
   const { mutateAsync: updateGameServerMutateAsync } = useUpdateGameServer({
     mutation: {
-      onSuccess: (data) => {
-        dispatch(gameServerSliceActions.updateGameServer(data));
+      onSuccess: (updatedGameServer) => {
+        dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
         toast.success(t("updateGameServerSuccess"));
       },
       onError: (err) => {
