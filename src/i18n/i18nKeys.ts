@@ -5,6 +5,8 @@ export type i18nLanguage = {
   rightClickMenu: {
     edit: string;
     delete: string;
+    startServer: string;
+    stopServer: string;
     refresh: string;
     createNewGameserver: string;
   };
@@ -24,6 +26,10 @@ export type i18nLanguage = {
     accountCreatedSuccess: string;
     accountCreateError: ContainsVariable<"error">;
     createGameServerSuccess: string;
+    serverStartSuccess: string;
+    serverStartError: ContainsVariable<"error">;
+    serverStopSuccess: string;
+    serverStopError: ContainsVariable<"error">;
   };
   userModal: {
     title: string;
