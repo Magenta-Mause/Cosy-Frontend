@@ -120,7 +120,9 @@ const translation: i18nLanguage = {
       backButton: "Zurück",
       nextStepButton: "Weiter",
       createServerButton: "Server erstellen",
-      keyValueInputAddButton: "Hinzufügen",
+      listInput: {
+        addButton: "Hinzufügen",
+      },
       steps: {
         step1: {
           title: "Schritt 1: Spiel auswählen",
