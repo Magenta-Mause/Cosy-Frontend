@@ -1,11 +1,13 @@
-import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
-import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
-import { FieldError } from "@components/ui/field.tsx";
-import { Input } from "@components/ui/input.tsx";
-import { DialogDescription } from "@radix-ui/react-dialog";
-import { useCallback, useContext, useEffect } from "react";
-import type { ZodType } from "zod";
-import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
+import {GameServerCreationContext} from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import {
+  GameServerCreationPageContext
+} from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
+import {FieldError} from "@components/ui/field.tsx";
+import {Input} from "@components/ui/input.tsx";
+import {DialogDescription} from "@radix-ui/react-dialog";
+import {useCallback, useContext, useEffect} from "react";
+import type {ZodType} from "zod";
+import type {GameServerCreationDto} from "@/api/generated/model/gameServerCreationDto.ts";
 
 const GenericGameServerCreationInputField = (props: {
   attribute: keyof GameServerCreationDto;
@@ -15,10 +17,11 @@ const GenericGameServerCreationInputField = (props: {
   label?: string;
   description?: string;
   optional?: boolean;
+  defaultValue?: string;
 }) => {
-  const { setGameServerState, gameServerState, triggerNextPage } =
+  const {setGameServerState, gameServerState, triggerNextPage} =
     useContext(GameServerCreationContext);
-  const { setAttributeTouched, setAttributeValid, attributesTouched, attributesValid } = useContext(
+  const {setAttributeTouched, setAttributeValid, attributesTouched, attributesValid} = useContext(
     GameServerCreationPageContext,
   );
 
@@ -50,6 +53,7 @@ const GenericGameServerCreationInputField = (props: {
 
   const changeCallback = useCallback(
     (value: string) => {
+      if (value === "" && props.defaultValue !== undefined) return setGameServerState(props.attribute)(props.defaultValue);
       setGameServerState(props.attribute)(value);
       if (!props.optional) {
         setAttributeValid(props.attribute, props.validator.safeParse(value).success);
@@ -60,11 +64,18 @@ const GenericGameServerCreationInputField = (props: {
       props.optional,
       props.attribute,
       props.validator,
+      props.defaultValue,
       setAttributeTouched,
       setAttributeValid,
       setGameServerState,
     ],
   );
+
+  useEffect(() => {
+    if (props.defaultValue !== undefined) {
+      changeCallback(props.defaultValue);
+    }
+  }, [changeCallback, props.defaultValue]);
 
   return (
     <div>

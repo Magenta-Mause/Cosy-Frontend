@@ -32,6 +32,8 @@ export default function Step3() {
           label={t("imageTagSelection.title")}
           description={t("imageTagSelection.description")}
           errorLabel={t("imageTagSelection.errorLabel")}
+          defaultValue={"latest"}
+          optional
         />
       </div>
 
