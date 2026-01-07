@@ -1,4 +1,5 @@
 import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
+import PortInput from "@components/display/GameServer/CreateGameServer/PortInput.tsx";
 import { DialogDescription } from "@components/ui/dialog.tsx";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
@@ -29,10 +30,12 @@ export default function Step3() {
           label={t("imageTagSelection.title")}
           description={t("imageTagSelection.description")}
           errorLabel={t("imageTagSelection.errorLabel")}
+          defaultValue={"latest"}
+          optional
         />
       </div>
 
-      <KeyValueInput
+      <PortInput
         attribute="port_mappings"
         fieldLabel={t("portSelection.title")}
         fieldDescription={t("portSelection.description")}
@@ -42,9 +45,6 @@ export default function Step3() {
         keyValidator={z.number().min(1).max(65535)}
         valueValidator={z.number().min(1).max(65535)}
         required
-        inputType={"number"}
-        objectKey="instance_port"
-        objectValue="container_port"
       />
 
       <KeyValueInput
@@ -65,6 +65,7 @@ export default function Step3() {
         attribute="execution_command"
         validator={z.string().min(1)}
         placeholder="./start.sh"
+        optional
         label={t("executionCommandSelection.title")}
         description={t("executionCommandSelection.description")}
         errorLabel={t("executionCommandSelection.errorLabel")}

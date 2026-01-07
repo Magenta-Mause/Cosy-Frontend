@@ -24,14 +24,16 @@ export interface GameServerCreationContext {
     gameStateKey: K,
   ) => (value: GameServerCreationDto[K]) => void;
   setCurrentPageValid: (isValid: boolean) => void;
+  triggerNextPage: () => void;
   setUtilState: <K extends keyof UtilState>(utilStateKey: K) => (value: UtilState[K]) => void;
 }
 
 export const GameServerCreationContext = createContext<GameServerCreationContext>({
   creationState: { gameServerState: {}, utilState: { gameEntity: undefined } },
-  setGameServerState: () => () => {},
-  setCurrentPageValid: () => {},
-  setUtilState: () => () => {},
+  setGameServerState: () => () => { },
+  setCurrentPageValid: () => { },
+  triggerNextPage: () => { },
+  setUtilState: () => () => { },
 });
 
 const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" />];
@@ -51,7 +53,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
   const { t } = useTranslation();
   const isLastPage = currentPage === PAGES.length - 1;
 
-  const handleNextPage = () => {
+  const handleNextPage = useCallback(() => {
     if (isLastPage) {
       createGameServer({
         ...creationState.gameServerState,
@@ -60,15 +62,23 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
         ),
         port_mappings: creationState.gameServerState.port_mappings?.map((portMapping) => ({
           ...portMapping,
-          protocol: "TCP", // Default to TCP for now - change this later!!!
         })),
       } as GameServerCreationDto);
+      setCreationState({ gameServerState: {}, utilState: {} });
+      setPageValid({});
+      setCurrentPage(0);
       setOpen(false);
       return;
     }
 
     setCurrentPage((currentPage) => currentPage + 1);
-  };
+  }, [createGameServer, creationState, isLastPage, setOpen]);
+
+  const triggerNextPage = useCallback(() => {
+    if (isPageValid[currentPage]) {
+      handleNextPage();
+    }
+  }, [handleNextPage, isPageValid, currentPage]);
 
   const setCurrentPageValid = useCallback(
     (isValid: boolean) => {
@@ -102,6 +112,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
           setGameServerState,
           creationState,
           setCurrentPageValid,
+          triggerNextPage,
           setUtilState,
         }}
       >

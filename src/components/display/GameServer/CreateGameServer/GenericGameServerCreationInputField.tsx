@@ -1,5 +1,7 @@
 import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
-import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
+import {
+  GameServerCreationPageContext
+} from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 import { FieldError } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { DialogDescription } from "@radix-ui/react-dialog";
@@ -14,8 +16,11 @@ const GenericGameServerCreationInputField = (props: {
   errorLabel: string;
   label?: string;
   description?: string;
+  optional?: boolean;
+  defaultValue?: string;
 }) => {
-  const { setGameServerState, creationState } = useContext(GameServerCreationContext);
+  const { setGameServerState, creationState, triggerNextPage } =
+    useContext(GameServerCreationContext);
   const { setAttributeTouched, setAttributeValid, attributesTouched, attributesValid } = useContext(
     GameServerCreationPageContext,
   );
@@ -23,26 +28,54 @@ const GenericGameServerCreationInputField = (props: {
   const isError = attributesTouched[props.attribute] && !attributesValid[props.attribute];
 
   useEffect(() => {
-    setAttributeTouched(
-      props.attribute,
-      creationState.gameServerState[props.attribute] !== undefined,
-    );
-  }, [setAttributeTouched, props.attribute, creationState.gameServerState]);
+    if (!props.optional) {
+      setAttributeTouched(props.attribute, creationState.gameServerState[props.attribute] !== undefined);
+      setAttributeValid(
+        props.attribute,
+        props.validator.safeParse(creationState.gameServerState[props.attribute]).success,
+      );
+    }
+  }, [
+    props.optional,
+    creationState.gameServerState,
+    props.attribute,
+    setAttributeTouched,
+    setAttributeValid,
+    props.validator,
+  ]);
+
+  useEffect(() => {
+    if (props.optional) {
+      setAttributeValid(props.attribute, true);
+      setAttributeTouched(props.attribute, true);
+    }
+  }, [props.optional, props.attribute, setAttributeValid, setAttributeTouched]);
 
   const changeCallback = useCallback(
     (value: string) => {
+      if (value === "" && props.defaultValue !== undefined) return setGameServerState(props.attribute)(props.defaultValue);
       setGameServerState(props.attribute)(value);
-      setAttributeValid(props.attribute, props.validator.safeParse(value).success);
-      setAttributeTouched(props.attribute, true);
+      if (!props.optional) {
+        setAttributeValid(props.attribute, props.validator.safeParse(value).success);
+        setAttributeTouched(props.attribute, true);
+      }
     },
     [
+      props.optional,
       props.attribute,
-      props.validator.safeParse,
+      props.validator,
+      props.defaultValue,
       setAttributeTouched,
       setAttributeValid,
       setGameServerState,
     ],
   );
+
+  useEffect(() => {
+    if (props.defaultValue !== undefined) {
+      changeCallback(props.defaultValue);
+    }
+  }, [changeCallback, props.defaultValue]);
 
   return (
     <div>
@@ -53,6 +86,11 @@ const GenericGameServerCreationInputField = (props: {
         onChange={(e) => changeCallback(e.target.value)}
         id={props.attribute}
         value={creationState.gameServerState[props.attribute] as string | number | undefined}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            triggerNextPage();
+          }
+        }}
       />
       {props.description && <DialogDescription>{props.description}</DialogDescription>}
       {isError && <FieldError>{props.errorLabel}</FieldError>}
