@@ -6,7 +6,7 @@ import type { ZodType } from "zod";
 
 type GenericGameServerInputFieldProps = {
   id: string;
-  value: string;
+  value: string | string[];
   onChange: (value: string) => void;
   validator: ZodType;
   placeholder: string;
@@ -35,7 +35,7 @@ const GenericGameServerInputField = ({
 
       <Input
         id={id}
-        value={value}
+        value={value as string | number | undefined}
         placeholder={placeholder}
         className={isError ? "border-red-500" : ""}
         onChange={(e) => {

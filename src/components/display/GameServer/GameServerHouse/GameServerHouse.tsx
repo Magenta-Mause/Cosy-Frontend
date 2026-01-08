@@ -29,6 +29,41 @@ const GameServerHouse = (props: {
   const [gameServerState, setGameServerInternalState] = useState<Partial<GameServerCreationDto>>(
     {},
   );
+  const onEdit = async () => {
+    if (!props.gameServer.uuid) {
+      console.error("GameServer UUID is missing");
+      return;
+    }
+
+    await updateGameServer(props.gameServer.uuid, {
+      game_uuid: "Game-5678",
+      server_name: "Ein Mega Server",
+      docker_image_name: "Game image 123",
+      docker_image_tag: "42",
+
+      port_mappings: [
+        {
+          instance_port: 22222,
+          container_port: 33333,
+          protocol: "UDP",
+        },
+      ],
+
+      execution_command: ["./start.sh"],
+
+      environment_variables: [
+        { key: "JAVA_OPT", value: "-Xmx2G" },
+        { key: "EULA", value: "FALSE" },
+      ],
+
+      volume_mounts: [
+        {
+          host_path: "/data/minecraft/mini",
+          container_path: "/servers",
+        },
+      ],
+    });
+  };
 
   const actions = [
     {
@@ -98,6 +133,7 @@ const GameServerHouse = (props: {
       />
       <EditGameServerModal
         serverName={props.gameServer.server_name ?? ""}
+        gameServer={props.gameServer}
         onConfirm={handleUpdateGameServer}
         open={isEditDialogOpen}
         onOpenChange={setIsEditDialogOpen}
