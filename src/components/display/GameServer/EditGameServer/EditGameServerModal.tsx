@@ -39,11 +39,14 @@ const EditGameServerModal = (props: {
       docker_image_tag: props.gameServer.docker_image_tag ?? "",
       port_mappings: props.gameServer.port_mappings ?? [],
       environment_variables: props.gameServer.environment_variables ?? [],
-      execution_command: props.gameServer.docker_execution_command ?? [],
+      execution_command:
+        (props.gameServer as any).execution_command ??
+        props.gameServer.docker_execution_command ??
+        [],
       volume_mounts:
-        props.gameServer.volume_mounts?.map((v) => ({
-          host_path: v.hostPath ?? "",
-          container_path: v.containerPath ?? "",
+        props.gameServer.volume_mounts?.map((v: any) => ({
+          host_path: v.host_path ?? "",
+          container_path: v.container_path ?? "",
         })) ?? [],
     }),
     [props.gameServer],
