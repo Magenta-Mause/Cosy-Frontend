@@ -48,7 +48,6 @@ const GameServerHouse = (props: {
 
     try {
       await updateGameServer(props.gameServer.uuid, updatedState);
-      setIsEditDialogOpen(false);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         console.error("STATUS", err.response?.status);
