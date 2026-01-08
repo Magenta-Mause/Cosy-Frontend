@@ -128,6 +128,10 @@ const translation: i18nLanguage = {
             title: "Choose a game for your server",
             description: "Select a game to host on your server.",
             errorLabel: "Please select a valid game.",
+            placeholder: "Search a game...",
+            noGamesFound:
+              "No games found. Querying games might have failed. Select this for default game. (no specific game)",
+            noResultsLabel: "Unknown Game",
           },
         },
         step2: {
@@ -178,6 +182,10 @@ const translation: i18nLanguage = {
             errorLabel: "Either both host path and container path must be provided or neither.",
           },
         },
+      },
+      autoCompleteInputField: {
+        loadingLabel: "Loading...",
+        noResultsLabel: "Unknown Game",
       },
     },
   },

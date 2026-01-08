@@ -1,4 +1,4 @@
-import type * as React from "react";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import { Label } from "@components/ui/label";
@@ -8,9 +8,9 @@ interface InputProps extends React.ComponentProps<"input"> {
   endDecorator?: string;
 }
 
-function Input({ className, type, header, endDecorator, ...props }: InputProps) {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({ className, type, header, endDecorator, ...props }: InputProps, ref) {
   return (
-    <div>    
+    <div>
       {header && (
           <Label htmlFor={props.id} className="pb-2">
             {header}
@@ -18,6 +18,7 @@ function Input({ className, type, header, endDecorator, ...props }: InputProps) 
         )}
         <div className="relative w-full">
       <input
+        ref={ref}
         type={type}
         data-slot="input"
         className={cn(
@@ -36,7 +37,7 @@ function Input({ className, type, header, endDecorator, ...props }: InputProps) 
         )}
           </div>
     </div> 
-  )
-}
+  );
+});
 
 export { Input };

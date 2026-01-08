@@ -7,12 +7,21 @@
  */
 
 export * from './environmentVariableConfiguration';
+export * from './gameDto';
 export * from './gameServerCreationDto';
 export * from './gameServerDto';
 export * from './gameServerDtoStatus';
+export * from './gameServerInstanceDto';
+export * from './gameServerLogMessage';
+export * from './gameServerLogMessageLevel';
+export * from './gameServerStatusDto';
+export * from './gameServerStatusDtoStatus';
+export * from './getGameInfoParams';
 export * from './loginDto';
 export * from './portMapping';
 export * from './portMappingProtocol';
+export * from './startEventDto';
+export * from './startEventDtoType';
 export * from './userCreationDto';
 export * from './userEntityDto';
 export * from './userEntityDtoRole';

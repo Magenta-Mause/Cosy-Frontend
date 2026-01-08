@@ -20,9 +20,14 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  GameDto,
   GameServerCreationDto,
   GameServerDto,
+  GameServerLogMessage,
+  GameServerStatusDto,
+  GetGameInfoParams,
   LoginDto,
+  StartEventDto,
   UserCreationDto,
   UserEntityDto,
   UserInviteCreationDto,
@@ -221,120 +226,6 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
-export const stopService = (
-    serviceName: string,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<void>(
-      {url: `/game-server/${serviceName}/stop`, method: 'POST', signal
-    },
-      options);
-    }
-  
-
-
-export const getStopServiceMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof stopService>>, TError,{serviceName: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof stopService>>, TError,{serviceName: string}, TContext> => {
-
-const mutationKey = ['stopService'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof stopService>>, {serviceName: string}> = (props) => {
-          const {serviceName} = props ?? {};
-
-          return  stopService(serviceName,requestOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type StopServiceMutationResult = NonNullable<Awaited<ReturnType<typeof stopService>>>
-    
-    export type StopServiceMutationError = unknown
-
-    export const useStopService = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof stopService>>, TError,{serviceName: string}, TContext>, request?: SecondParameter<typeof customInstance>}
- ): UseMutationResult<
-        Awaited<ReturnType<typeof stopService>>,
-        TError,
-        {serviceName: string},
-        TContext
-      > => {
-
-      const mutationOptions = getStopServiceMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
-export const startService = (
-    serviceName: string,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<number[]>(
-      {url: `/game-server/${serviceName}/start`, method: 'POST', signal
-    },
-      options);
-    }
-  
-
-
-export const getStartServiceMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startService>>, TError,{serviceName: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof startService>>, TError,{serviceName: string}, TContext> => {
-
-const mutationKey = ['startService'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startService>>, {serviceName: string}> = (props) => {
-          const {serviceName} = props ?? {};
-
-          return  startService(serviceName,requestOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type StartServiceMutationResult = NonNullable<Awaited<ReturnType<typeof startService>>>
-    
-    export type StartServiceMutationError = unknown
-
-    export const useStartService = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startService>>, TError,{serviceName: string}, TContext>, request?: SecondParameter<typeof customInstance>}
- ): UseMutationResult<
-        Awaited<ReturnType<typeof startService>>,
-        TError,
-        {serviceName: string},
-        TContext
-      > => {
-
-      const mutationOptions = getStartServiceMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
 export const getAllGameServers = (
     
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -342,7 +233,7 @@ export const getAllGameServers = (
       
       
       return customInstance<GameServerDto[]>(
-      {url: `/game-server-configurations`, method: 'GET', signal
+      {url: `/game-server`, method: 'GET', signal
     },
       options);
     }
@@ -352,7 +243,7 @@ export const getAllGameServers = (
 
 export const getGetAllGameServersQueryKey = () => {
     return [
-    `/game-server-configurations`
+    `/game-server`
     ] as const;
     }
 
@@ -405,7 +296,7 @@ export const createGameServer = (
       
       
       return customInstance<GameServerDto>(
-      {url: `/game-server-configurations`, method: 'POST',
+      {url: `/game-server`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: gameServerCreationDto, signal
     },
@@ -453,6 +344,120 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getCreateGameServerMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const stopService = (
+    uuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/stop`, method: 'POST', signal
+    },
+      options);
+    }
+  
+
+
+export const getStopServiceMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof stopService>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof stopService>>, TError,{uuid: string}, TContext> => {
+
+const mutationKey = ['stopService'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof stopService>>, {uuid: string}> = (props) => {
+          const {uuid} = props ?? {};
+
+          return  stopService(uuid,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type StopServiceMutationResult = NonNullable<Awaited<ReturnType<typeof stopService>>>
+    
+    export type StopServiceMutationError = unknown
+
+    export const useStopService = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof stopService>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof stopService>>,
+        TError,
+        {uuid: string},
+        TContext
+      > => {
+
+      const mutationOptions = getStopServiceMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const startServiceSse = (
+    uuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<StartEventDto[]>(
+      {url: `/game-server/${uuid}/start`, method: 'POST', signal
+    },
+      options);
+    }
+  
+
+
+export const getStartServiceSseMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startServiceSse>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof startServiceSse>>, TError,{uuid: string}, TContext> => {
+
+const mutationKey = ['startServiceSse'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startServiceSse>>, {uuid: string}> = (props) => {
+          const {uuid} = props ?? {};
+
+          return  startServiceSse(uuid,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type StartServiceSseMutationResult = NonNullable<Awaited<ReturnType<typeof startServiceSse>>>
+    
+    export type StartServiceSseMutationError = unknown
+
+    export const useStartServiceSse = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startServiceSse>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof startServiceSse>>,
+        TError,
+        {uuid: string},
+        TContext
+      > => {
+
+      const mutationOptions = getStartServiceSseMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -818,14 +823,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
-export const getServiceInfo = (
-    serviceName: string,
+export const getGameInfo = (
+    params: GetGameInfoParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
       
-      return customInstance<string>(
-      {url: `/game-server/${serviceName}`, method: 'GET', signal
+      return customInstance<GameDto[]>(
+      {url: `/games-info`, method: 'GET',
+        params, signal
     },
       options);
     }
@@ -833,42 +839,42 @@ export const getServiceInfo = (
 
 
 
-export const getGetServiceInfoQueryKey = (serviceName?: string,) => {
+export const getGetGameInfoQueryKey = (params?: GetGameInfoParams,) => {
     return [
-    `/game-server/${serviceName}`
+    `/games-info`, ...(params ? [params]: [])
     ] as const;
     }
 
     
-export const getGetServiceInfoQueryOptions = <TData = Awaited<ReturnType<typeof getServiceInfo>>, TError = unknown>(serviceName: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getServiceInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+export const getGetGameInfoQueryOptions = <TData = Awaited<ReturnType<typeof getGameInfo>>, TError = unknown>(params: GetGameInfoParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetServiceInfoQueryKey(serviceName);
+  const queryKey =  queryOptions?.queryKey ?? getGetGameInfoQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getServiceInfo>>> = ({ signal }) => getServiceInfo(serviceName, requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGameInfo>>> = ({ signal }) => getGameInfo(params, requestOptions, signal);
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(serviceName), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getServiceInfo>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type GetServiceInfoQueryResult = NonNullable<Awaited<ReturnType<typeof getServiceInfo>>>
-export type GetServiceInfoQueryError = unknown
+export type GetGameInfoQueryResult = NonNullable<Awaited<ReturnType<typeof getGameInfo>>>
+export type GetGameInfoQueryError = unknown
 
 
 
-export function useGetServiceInfo<TData = Awaited<ReturnType<typeof getServiceInfo>>, TError = unknown>(
- serviceName: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getServiceInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+export function useGetGameInfo<TData = Awaited<ReturnType<typeof getGameInfo>>, TError = unknown>(
+ params: GetGameInfoParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
   
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
-  const queryOptions = getGetServiceInfoQueryOptions(serviceName,options)
+  const queryOptions = getGetGameInfoQueryOptions(params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
@@ -888,7 +894,7 @@ export const getGameServerById = (
       
       
       return customInstance<GameServerDto>(
-      {url: `/game-server-configurations/${uuid}`, method: 'GET', signal
+      {url: `/game-server/${uuid}`, method: 'GET', signal
     },
       options);
     }
@@ -898,7 +904,7 @@ export const getGameServerById = (
 
 export const getGetGameServerByIdQueryKey = (uuid?: string,) => {
     return [
-    `/game-server-configurations/${uuid}`
+    `/game-server/${uuid}`
     ] as const;
     }
 
@@ -950,7 +956,7 @@ export const deleteGameServerById = (
       
       
       return customInstance<void>(
-      {url: `/game-server-configurations/${uuid}`, method: 'DELETE'
+      {url: `/game-server/${uuid}`, method: 'DELETE'
     },
       options);
     }
@@ -1000,6 +1006,132 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const getServiceInfo = (
+    uuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameServerStatusDto>(
+      {url: `/game-server/${uuid}/status`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetServiceInfoQueryKey = (uuid?: string,) => {
+    return [
+    `/game-server/${uuid}/status`
+    ] as const;
+    }
+
+    
+export const getGetServiceInfoQueryOptions = <TData = Awaited<ReturnType<typeof getServiceInfo>>, TError = unknown>(uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getServiceInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetServiceInfoQueryKey(uuid);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getServiceInfo>>> = ({ signal }) => getServiceInfo(uuid, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getServiceInfo>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetServiceInfoQueryResult = NonNullable<Awaited<ReturnType<typeof getServiceInfo>>>
+export type GetServiceInfoQueryError = unknown
+
+
+
+export function useGetServiceInfo<TData = Awaited<ReturnType<typeof getServiceInfo>>, TError = unknown>(
+ uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getServiceInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetServiceInfoQueryOptions(uuid,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getLogs = (
+    gameServerUuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameServerLogMessage[]>(
+      {url: `/game-server/${gameServerUuid}/logs`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetLogsQueryKey = (gameServerUuid?: string,) => {
+    return [
+    `/game-server/${gameServerUuid}/logs`
+    ] as const;
+    }
+
+    
+export const getGetLogsQueryOptions = <TData = Awaited<ReturnType<typeof getLogs>>, TError = unknown>(gameServerUuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getLogs>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetLogsQueryKey(gameServerUuid);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getLogs>>> = ({ signal }) => getLogs(gameServerUuid, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(gameServerUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getLogs>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetLogsQueryResult = NonNullable<Awaited<ReturnType<typeof getLogs>>>
+export type GetLogsQueryError = unknown
+
+
+
+export function useGetLogs<TData = Awaited<ReturnType<typeof getLogs>>, TError = unknown>(
+ gameServerUuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getLogs>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetLogsQueryOptions(gameServerUuid,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
 export const fetchToken = (
     
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal

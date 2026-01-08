@@ -1,13 +1,13 @@
-import {GameServerCreationContext} from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import {
   GameServerCreationPageContext
 } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
-import {FieldError} from "@components/ui/field.tsx";
-import {Input} from "@components/ui/input.tsx";
-import {DialogDescription} from "@radix-ui/react-dialog";
-import {useCallback, useContext, useEffect} from "react";
-import type {ZodType} from "zod";
-import type {GameServerCreationDto} from "@/api/generated/model/gameServerCreationDto.ts";
+import { FieldError } from "@components/ui/field.tsx";
+import { Input } from "@components/ui/input.tsx";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { useCallback, useContext, useEffect } from "react";
+import type { ZodType } from "zod";
+import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
 
 const GenericGameServerCreationInputField = (props: {
   attribute: keyof GameServerCreationDto;
@@ -19,9 +19,9 @@ const GenericGameServerCreationInputField = (props: {
   optional?: boolean;
   defaultValue?: string;
 }) => {
-  const {setGameServerState, gameServerState, triggerNextPage} =
+  const { setGameServerState, creationState, triggerNextPage } =
     useContext(GameServerCreationContext);
-  const {setAttributeTouched, setAttributeValid, attributesTouched, attributesValid} = useContext(
+  const { setAttributeTouched, setAttributeValid, attributesTouched, attributesValid } = useContext(
     GameServerCreationPageContext,
   );
 
@@ -29,15 +29,15 @@ const GenericGameServerCreationInputField = (props: {
 
   useEffect(() => {
     if (!props.optional) {
-      setAttributeTouched(props.attribute, gameServerState[props.attribute] !== undefined);
+      setAttributeTouched(props.attribute, creationState.gameServerState[props.attribute] !== undefined);
       setAttributeValid(
         props.attribute,
-        props.validator.safeParse(gameServerState[props.attribute]).success,
+        props.validator.safeParse(creationState.gameServerState[props.attribute]).success,
       );
     }
   }, [
     props.optional,
-    gameServerState,
+    creationState.gameServerState,
     props.attribute,
     setAttributeTouched,
     setAttributeValid,
@@ -85,7 +85,7 @@ const GenericGameServerCreationInputField = (props: {
         placeholder={props.placeholder}
         onChange={(e) => changeCallback(e.target.value)}
         id={props.attribute}
-        value={gameServerState[props.attribute] as string | number | undefined}
+        value={creationState.gameServerState[props.attribute] as string | number | undefined}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             triggerNextPage();

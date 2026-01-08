@@ -130,6 +130,10 @@ const translation: i18nLanguage = {
             title: "Spiel auswählen",
             description: "Wählen Sie ein Spiel für Ihren Server aus.",
             errorLabel: "Bitte wählen Sie ein gültiges Spiel aus.",
+            placeholder: "Spiel suchen...",
+            noGamesFound:
+              "Fehler beim Abrufen der Spiele. Wählen Sie dies für das Standardspiel. (kein spezifisches Spiel)",
+            noResultsLabel: "Kein Spiel gefunden.",
           },
         },
         step2: {
@@ -182,6 +186,10 @@ const translation: i18nLanguage = {
               "Entweder müssen sowohl Host-Pfad als auch Container-Pfad angegeben werden oder keiner von beiden.",
           },
         },
+      },
+      autoCompleteInputField: {
+        loadingLabel: "Lädt...",
+        noResultsLabel: "Kein Ergebnis gefunden.",
       },
     },
   },
