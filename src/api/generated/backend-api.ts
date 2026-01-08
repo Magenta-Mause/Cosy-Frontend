@@ -20,9 +20,11 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  GameDto,
   GameServerCreationDto,
   GameServerDto,
   GameServerStatusDto,
+  GetGameInfoParams,
   LoginDto,
   StartEventDto,
   UserCreationDto,
@@ -820,6 +822,70 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const getGameInfo = (
+    params: GetGameInfoParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameDto[]>(
+      {url: `/games-info`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetGameInfoQueryKey = (params?: GetGameInfoParams,) => {
+    return [
+    `/games-info`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getGetGameInfoQueryOptions = <TData = Awaited<ReturnType<typeof getGameInfo>>, TError = unknown>(params: GetGameInfoParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetGameInfoQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGameInfo>>> = ({ signal }) => getGameInfo(params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetGameInfoQueryResult = NonNullable<Awaited<ReturnType<typeof getGameInfo>>>
+export type GetGameInfoQueryError = unknown
+
+
+
+export function useGetGameInfo<TData = Awaited<ReturnType<typeof getGameInfo>>, TError = unknown>(
+ params: GetGameInfoParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetGameInfoQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
 export const getGameServerById = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
