@@ -1,6 +1,7 @@
 import RightClickMenu from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
 import { DeleteGameServerAlertDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
 import Link from "@components/ui/Link.tsx";
+import axios from "axios";
 import type { CSSProperties } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -82,18 +83,19 @@ const GameServerHouse = (props: {
     },
   ];
 
-  const handleUpdateGameServer = async () => {
-    if (props.gameServer.uuid)
-      updateGameServer(props.gameServer.uuid, {
-        ...gameServerState,
-        execution_command: parseCommand(gameServerState.execution_command as unknown as string),
-        port_mappings: gameServerState.port_mappings?.map((portMapping) => ({
-          ...portMapping,
-          protocol: "TCP", // Default to TCP for now - change this later!!!
-        })),
-      } as GameServerUpdateDto);
-    setIsEditDialogOpen(false);
-    return;
+  const handleUpdateGameServer = async (updatedState: GameServerUpdateDto) => {
+    try {
+      await updateGameServer(props.gameServer.uuid!, updatedState);
+      setIsEditDialogOpen(false);
+      // optional: Local state aktualisieren, z.B. props.gameServer aktualisieren
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        console.error("STATUS", err.response?.status);
+        console.error("BACKEND ERROR", err.response?.data);
+      } else {
+        console.error(err);
+      }
+    }
   };
 
   return (
@@ -134,9 +136,22 @@ const GameServerHouse = (props: {
       <EditGameServerModal
         serverName={props.gameServer.server_name ?? ""}
         gameServer={props.gameServer}
-        onConfirm={handleUpdateGameServer}
         open={isEditDialogOpen}
         onOpenChange={setIsEditDialogOpen}
+        onConfirm={async (updatedState) => {
+          try {
+            await updateGameServer(props.gameServer.uuid!, updatedState);
+            setIsEditDialogOpen(false);
+            // optional: Local state aktualisieren, z.B. props.gameServer aktualisieren
+          } catch (err) {
+            if (axios.isAxiosError(err)) {
+              console.error("STATUS", err.response?.status);
+              console.error("BACKEND ERROR", err.response?.data);
+            } else {
+              console.error(err);
+            }
+          }
+        }}
       />
     </>
   );

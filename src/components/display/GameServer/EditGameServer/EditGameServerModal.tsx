@@ -1,6 +1,3 @@
-import Step1 from "@components/CreateGameServer/CreationSteps/Step1";
-import Step2 from "@components/CreateGameServer/CreationSteps/Step2";
-import Step3 from "@components/CreateGameServer/CreationSteps/Step3";
 import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
@@ -12,8 +9,6 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import { Input } from "@components/ui/input.tsx";
-import { Label } from "@radix-ui/react-label";
 import axios from "axios";
 import type { KeyboardEvent } from "react";
 import { useState } from "react";
@@ -21,14 +16,13 @@ import * as z from "zod";
 import { updateGameServer } from "@/api/generated/backend-api";
 import type { GameServerConfigurationEntity, GameServerUpdateDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import GenericKeyValueInput from "./EditKeyValueInput";
 import EditKeyValueInput from "./EditKeyValueInput";
 import GenericGameServerInputField from "./GenericGameServerEditInputField";
 
 const EditGameServerModal = (props: {
   serverName: string;
   gameServer: GameServerConfigurationEntity;
-  onConfirm: () => Promise<void>;
+  onConfirm: (updatedState: GameServerUpdateDto) => Promise<void>;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) => {
@@ -44,7 +38,10 @@ const EditGameServerModal = (props: {
     docker_image_tag: props.gameServer.docker_image_tag ?? "",
     port_mappings: props.gameServer.port_mappings ?? [],
     environment_variables: props.gameServer.environment_variables ?? [],
-    execution_command: (props.gameServer as any).execution_command ?? [],
+    execution_command:
+      (props.gameServer as any).execution_command ??
+      props.gameServer.docker_execution_command ??
+      [],
     volume_mounts:
       props.gameServer.volume_mounts?.map((v) => ({
         host_path: v.hostPath ?? "",
@@ -52,25 +49,15 @@ const EditGameServerModal = (props: {
       })) ?? [],
   });
 
-  const handleConfirm = async () => {
+  const handleConfirm = () => {
     if (!props.gameServer.uuid) {
       console.error("GameServer UUID is missing");
       return;
     }
 
-    console.log("FINAL UPDATE PAYLOAD", JSON.stringify(gameServerState, null, 2));
-
-    try {
-      await updateGameServer(props.gameServer.uuid, gameServerState);
-      await props.onConfirm();
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        console.error("STATUS", err.response?.status);
-        console.error("BACKEND ERROR", err.response?.data);
-      } else {
-        console.error(err);
-      }
-    }
+    // Wir rufen nur die Parent-Funktion auf
+    props.onConfirm(gameServerState);
+    props.onOpenChange(false); // Modal schließen
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -151,6 +138,7 @@ const EditGameServerModal = (props: {
             fromRow={(row) => ({
               instance_port: row.key ? Number(row.key) : undefined,
               container_port: row.value ? Number(row.value) : undefined,
+              protocol: "TCP" as any,
             })}
             keyValidator={z.string().regex(/^\d{1,5}$/)}
             valueValidator={z.string().regex(/^\d{1,5}$/)}
