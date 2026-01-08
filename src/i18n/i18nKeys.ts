@@ -116,7 +116,9 @@ export type i18nLanguage = {
       backButton: string;
       nextStepButton: string;
       createServerButton: string;
-      keyValueInputAddButton: string;
+      listInput: {
+        addButton: string;
+      };
       steps: {
         step1: {
           title: string;
