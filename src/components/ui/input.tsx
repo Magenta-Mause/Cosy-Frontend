@@ -5,13 +5,14 @@ import { Label } from "@components/ui/label";
 
 interface InputProps extends React.ComponentProps<"input"> {
   header?: string;
+  description?: string;
 }
 
-function Input({ className, type, header, ...props }: InputProps) {
+function Input({ className, type, header, description, ...props }: InputProps) {
   return (
     <div>    
       {header && (
-          <Label htmlFor={props.id} className="pb-2">
+          <Label htmlFor={props.id} className="pb-2 font-bold">
             {header}
           </Label>
         )}
@@ -27,6 +28,11 @@ function Input({ className, type, header, ...props }: InputProps) {
         )}
         {...props}
       />
+      {description && (
+        <Label htmlFor={props.id} className="pt-2">
+          {description}
+        </Label>
+      )}
     </div> 
   )
 }

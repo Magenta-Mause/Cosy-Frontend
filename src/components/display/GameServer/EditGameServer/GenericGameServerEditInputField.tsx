@@ -1,6 +1,6 @@
 import { FieldError } from "@components/ui/field";
 import { Input } from "@components/ui/input";
-import { DialogDescription } from "@radix-ui/react-dialog";
+import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 import type { ZodType } from "zod";
 
@@ -30,10 +30,10 @@ const GenericGameServerInputField = ({
   const isError = touched && !isValid;
 
   return (
-    <div>
-      {label && <label htmlFor={id}>{label}</label>}
-
+    <div className="py-2">
       <Input
+        header={label}
+        description={description}
         id={id}
         value={value as string | number | undefined}
         placeholder={placeholder}
@@ -43,8 +43,6 @@ const GenericGameServerInputField = ({
           onChange(e.target.value);
         }}
       />
-
-      {description && <DialogDescription>{description}</DialogDescription>}
       {isError && <FieldError>{errorLabel}</FieldError>}
     </div>
   );

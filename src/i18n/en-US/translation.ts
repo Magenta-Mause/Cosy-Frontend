@@ -160,6 +160,61 @@ const translation: i18nLanguage = {
         },
       },
     },
+    editGameServer: {
+      title: "{{serverName}}",
+      description: "Update the configuration of your game server.",
+
+      cancel: "Cancel",
+      confirm: "Save changes",
+
+      gameSelection: {
+        title: "Game",
+        description: "The game this server belongs to",
+        errorLabel: "Game is required",
+      },
+
+      serverNameSelection: {
+        title: "Server name",
+        description: "The name of your Server",
+        errorLabel: "Server name is required",
+      },
+
+      dockerImageSelection: {
+        title: "Docker image",
+        description: "The Docker image used to run the server",
+        errorLabel: "Docker image name is required",
+      },
+
+      imageTagSelection: {
+        title: "Image tag",
+        description: "The Docker image tag",
+        errorLabel: "Docker image tag is required",
+      },
+
+      portSelection: {
+        title: "Port Mappings",
+        errorLabel: "Port must be a number between 1 and 65535",
+        description: "Port your Server will run on",
+      },
+
+      environmentVariablesSelection: {
+        title: "Environment Variables",
+        errorLabel: "Both key and value are required",
+        description: "Environment variables for your Server",
+      },
+
+      executionCommandSelection: {
+        title: "Execution command",
+        description: "Command used to start the server",
+        errorLabel: "Execution command must not be empty",
+      },
+
+      volumeMountSelection: {
+        title: "Volume Mounts",
+        errorLabel: "Path must not be empty",
+        description: "Volume mounts for your server",
+      },
+    },
   },
   consequence: "asd{{counter}}ajskod",
   genericModal: {

@@ -28,10 +28,9 @@ const EditGameServerModal = (props: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) => {
-  const { t } = useTranslationPrefix("EditGameServerDialog");
+  const { t } = useTranslationPrefix("components.editGameServer");
   const [loading, setLoading] = useState(false);
 
-  /** ---------- initial state (DTO-shaped) ---------- */
   const originalState: GameServerUpdateDto = useMemo(
     () => ({
       game_uuid: props.gameServer.game_uuid ?? "",
@@ -40,10 +39,7 @@ const EditGameServerModal = (props: {
       docker_image_tag: props.gameServer.docker_image_tag ?? "",
       port_mappings: props.gameServer.port_mappings ?? [],
       environment_variables: props.gameServer.environment_variables ?? [],
-      execution_command:
-        (props.gameServer as any).execution_command ??
-        props.gameServer.docker_execution_command ??
-        [],
+      execution_command: props.gameServer.docker_execution_command ?? [],
       volume_mounts:
         props.gameServer.volume_mounts?.map((v) => ({
           host_path: v.hostPath ?? "",
@@ -55,12 +51,10 @@ const EditGameServerModal = (props: {
 
   const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(originalState);
 
-  /** ---------- RAW execution command (string!) ---------- */
   const [executionCommandRaw, setExecutionCommandRaw] = useState(
     (originalState.execution_command ?? []).join(" "),
   );
 
-  /** ---------- change detection ---------- */
   const isChanged = useMemo(() => {
     const withParsedCommand: GameServerUpdateDto = {
       ...gameServerState,
@@ -74,7 +68,6 @@ const EditGameServerModal = (props: {
 
   const isConfirmButtonDisabled = loading || !isChanged;
 
-  /** ---------- confirm ---------- */
   const handleConfirm = async () => {
     if (!props.gameServer.uuid) {
       console.error("GameServer UUID is missing");
@@ -154,7 +147,8 @@ const EditGameServerModal = (props: {
           </div>
 
           <EditKeyValueInput
-            label="port_mappings"
+            label={t("portSelection.title")}
+            description={t("portSelection.description")}
             value={gameServerState.port_mappings}
             onChange={(ports) => setGameServerState((s) => ({ ...s, port_mappings: ports }))}
             toRow={(pm) => ({
@@ -172,7 +166,8 @@ const EditGameServerModal = (props: {
           />
 
           <EditKeyValueInput
-            label="environment_variables"
+            label={t("environmentVariablesSelection.title")}
+            description={t("environmentVariablesSelection.description")}
             value={gameServerState.environment_variables}
             onChange={(envs) =>
               setGameServerState((s) => ({
@@ -190,7 +185,7 @@ const EditGameServerModal = (props: {
           <GenericGameServerInputField
             id="execution_command"
             validator={z.string().min(1)}
-            placeholder='./start.sh --config "server config.yml"'
+            placeholder="./start.sh"
             label={t("executionCommandSelection.title")}
             description={t("executionCommandSelection.description")}
             errorLabel={t("executionCommandSelection.errorLabel")}
@@ -199,7 +194,8 @@ const EditGameServerModal = (props: {
           />
 
           <EditKeyValueInput
-            label="volume_mounts"
+            label={t("volumeMountSelection.title")}
+            description={t("volumeMountSelection.description")}
             value={gameServerState.volume_mounts}
             onChange={(volumes) => setGameServerState((s) => ({ ...s, volume_mounts: volumes }))}
             toRow={(v) => ({
@@ -212,7 +208,7 @@ const EditGameServerModal = (props: {
             })}
             keyValidator={z.string().min(1)}
             valueValidator={z.string().min(1)}
-            errorLabel={t("hostPathSelection.errorLabel")}
+            errorLabel={t("volumeMountSelection.errorLabel")}
           />
         </DialogMain>
 

@@ -89,8 +89,8 @@ export default function EditKeyValueInput<T>({
     setRows((prev) => [...prev, { uuid: uuidv7(), key: "", value: "", valid: true }]);
 
   return (
-    <Field>
-      <FieldLabel>{label}</FieldLabel>
+    <Field className="py-2">
+      <FieldLabel className="pb-0 font-bold">{label}</FieldLabel>
       <div className="space-y-2">
         {rows.map((row, index) => (
           <div key={row.uuid} className="flex gap-2 items-center">
