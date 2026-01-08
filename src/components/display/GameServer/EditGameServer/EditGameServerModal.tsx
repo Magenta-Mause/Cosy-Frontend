@@ -9,12 +9,14 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import axios from "axios";
 import type { KeyboardEvent } from "react";
 import { useState } from "react";
 import * as z from "zod";
-import { updateGameServer } from "@/api/generated/backend-api";
-import type { GameServerConfigurationEntity, GameServerUpdateDto } from "@/api/generated/model";
+import type {
+  GameServerConfigurationEntity,
+  GameServerUpdateDto,
+  PortMappingProtocol,
+} from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import EditKeyValueInput from "./EditKeyValueInput";
 import GenericGameServerInputField from "./GenericGameServerEditInputField";
@@ -27,9 +29,8 @@ const EditGameServerModal = (props: {
   onOpenChange: (open: boolean) => void;
 }) => {
   const { t } = useTranslationPrefix("EditGameServerDialog");
-  const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const isConfirmButtonDisabled = inputValue !== props.serverName || loading;
+  const isConfirmButtonDisabled = loading;
 
   const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>({
     game_uuid: props.gameServer.game_uuid ?? "",
@@ -54,10 +55,8 @@ const EditGameServerModal = (props: {
       console.error("GameServer UUID is missing");
       return;
     }
-
-    // Wir rufen nur die Parent-Funktion auf
     props.onConfirm(gameServerState);
-    props.onOpenChange(false); // Modal schließen
+    props.onOpenChange(false);
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -68,7 +67,7 @@ const EditGameServerModal = (props: {
   };
 
   return (
-    <Dialog open={props.open}>
+    <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent className={"font-mono"}>
         <DialogHeader>
           <DialogTitle>{t("title", { serverName: props.serverName })}</DialogTitle>
@@ -123,7 +122,7 @@ const EditGameServerModal = (props: {
           </div>
 
           <EditKeyValueInput
-            label="Ports"
+            label="port_mappings"
             value={gameServerState.port_mappings}
             onChange={(ports) =>
               setGameServerState((s) => ({
@@ -138,15 +137,15 @@ const EditGameServerModal = (props: {
             fromRow={(row) => ({
               instance_port: row.key ? Number(row.key) : undefined,
               container_port: row.value ? Number(row.value) : undefined,
-              protocol: "TCP" as any,
+              protocol: "TCP" as PortMappingProtocol,
             })}
-            keyValidator={z.string().regex(/^\d{1,5}$/)}
-            valueValidator={z.string().regex(/^\d{1,5}$/)}
-            errorLabel="Invalid port"
+            keyValidator={z.number().min(1).max(65535)}
+            valueValidator={z.number().min(1).max(65535)}
+            errorLabel={t("portSelection.errorLabel")}
           />
 
           <EditKeyValueInput
-            label="Environment Variables"
+            label="environment_variables"
             value={gameServerState.environment_variables}
             onChange={(envs) =>
               setGameServerState((s) => ({
@@ -158,13 +157,13 @@ const EditGameServerModal = (props: {
             fromRow={(row) => ({ key: row.key, value: row.value })}
             keyValidator={z.string().min(1)}
             valueValidator={z.string().min(1)}
-            errorLabel="Invalid entry"
+            errorLabel={t("environmentVariablesSelection.errorLabel")}
           />
 
           <GenericGameServerInputField
             id="execution_command"
             validator={z.string().min(1)}
-            placeholder="./start.sh --config server.yml"
+            placeholder="./start.sh"
             label={t("executionCommandSelection.title")}
             description={t("executionCommandSelection.description")}
             errorLabel={t("executionCommandSelection.errorLabel")}

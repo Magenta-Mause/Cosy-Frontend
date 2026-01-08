@@ -5,12 +5,7 @@ import axios from "axios";
 import type { CSSProperties } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { parse as parseCommand } from "shell-quote";
-import type {
-  GameServerConfigurationEntity,
-  GameServerCreationDto,
-  GameServerUpdateDto,
-} from "@/api/generated/model";
+import type { GameServerConfigurationEntity, GameServerUpdateDto } from "@/api/generated/model";
 import serverHouseImage from "@/assets/ai-generated/main-page/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
@@ -27,44 +22,6 @@ const GameServerHouse = (props: {
   const { updateGameServer } = useDataInteractions();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [gameServerState, setGameServerInternalState] = useState<Partial<GameServerCreationDto>>(
-    {},
-  );
-  const onEdit = async () => {
-    if (!props.gameServer.uuid) {
-      console.error("GameServer UUID is missing");
-      return;
-    }
-
-    await updateGameServer(props.gameServer.uuid, {
-      game_uuid: "Game-5678",
-      server_name: "Ein Mega Server",
-      docker_image_name: "Game image 123",
-      docker_image_tag: "42",
-
-      port_mappings: [
-        {
-          instance_port: 22222,
-          container_port: 33333,
-          protocol: "UDP",
-        },
-      ],
-
-      execution_command: ["./start.sh"],
-
-      environment_variables: [
-        { key: "JAVA_OPT", value: "-Xmx2G" },
-        { key: "EULA", value: "FALSE" },
-      ],
-
-      volume_mounts: [
-        {
-          host_path: "/data/minecraft/mini",
-          container_path: "/servers",
-        },
-      ],
-    });
-  };
 
   const actions = [
     {
@@ -84,10 +41,14 @@ const GameServerHouse = (props: {
   ];
 
   const handleUpdateGameServer = async (updatedState: GameServerUpdateDto) => {
+    if (!props.gameServer.uuid) {
+      console.error("GameServer UUID is missing");
+      return;
+    }
+
     try {
-      await updateGameServer(props.gameServer.uuid!, updatedState);
+      await updateGameServer(props.gameServer.uuid, updatedState);
       setIsEditDialogOpen(false);
-      // optional: Local state aktualisieren, z.B. props.gameServer aktualisieren
     } catch (err) {
       if (axios.isAxiosError(err)) {
         console.error("STATUS", err.response?.status);
@@ -138,20 +99,7 @@ const GameServerHouse = (props: {
         gameServer={props.gameServer}
         open={isEditDialogOpen}
         onOpenChange={setIsEditDialogOpen}
-        onConfirm={async (updatedState) => {
-          try {
-            await updateGameServer(props.gameServer.uuid!, updatedState);
-            setIsEditDialogOpen(false);
-            // optional: Local state aktualisieren, z.B. props.gameServer aktualisieren
-          } catch (err) {
-            if (axios.isAxiosError(err)) {
-              console.error("STATUS", err.response?.status);
-              console.error("BACKEND ERROR", err.response?.data);
-            } else {
-              console.error(err);
-            }
-          }
-        }}
+        onConfirm={handleUpdateGameServer}
       />
     </>
   );
