@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@components/ui/dialog.tsx";
 import type { KeyboardEvent } from "react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import * as z from "zod";
 import type {
   GameServerConfigurationEntity,
@@ -30,33 +30,50 @@ const EditGameServerModal = (props: {
 }) => {
   const { t } = useTranslationPrefix("EditGameServerDialog");
   const [loading, setLoading] = useState(false);
-  const isConfirmButtonDisabled = loading;
 
-  const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>({
-    game_uuid: props.gameServer.game_uuid ?? "",
-    server_name: props.gameServer.server_name ?? "",
-    docker_image_name: props.gameServer.docker_image_name ?? "",
-    docker_image_tag: props.gameServer.docker_image_tag ?? "",
-    port_mappings: props.gameServer.port_mappings ?? [],
-    environment_variables: props.gameServer.environment_variables ?? [],
-    execution_command:
-      (props.gameServer as any).execution_command ??
-      props.gameServer.docker_execution_command ??
-      [],
-    volume_mounts:
-      props.gameServer.volume_mounts?.map((v) => ({
-        host_path: v.hostPath ?? "",
-        container_path: v.containerPath ?? "",
-      })) ?? [],
-  });
+  const originalState: GameServerUpdateDto = useMemo(
+    () => ({
+      game_uuid: props.gameServer.game_uuid ?? "",
+      server_name: props.gameServer.server_name ?? "",
+      docker_image_name: props.gameServer.docker_image_name ?? "",
+      docker_image_tag: props.gameServer.docker_image_tag ?? "",
+      port_mappings: props.gameServer.port_mappings ?? [],
+      environment_variables: props.gameServer.environment_variables ?? [],
+      execution_command:
+        (props.gameServer as any).execution_command ??
+        props.gameServer.docker_execution_command ??
+        [],
+      volume_mounts:
+        props.gameServer.volume_mounts?.map((v) => ({
+          host_path: v.hostPath ?? "",
+          container_path: v.containerPath ?? "",
+        })) ?? [],
+    }),
+    [props.gameServer],
+  );
 
-  const handleConfirm = () => {
+  const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(originalState);
+
+  // Check if any field has changed
+  const isChanged = useMemo(
+    () => JSON.stringify(gameServerState) !== JSON.stringify(originalState),
+    [gameServerState, originalState],
+  );
+  const isConfirmButtonDisabled = loading || !isChanged;
+
+  const handleConfirm = async () => {
     if (!props.gameServer.uuid) {
       console.error("GameServer UUID is missing");
       return;
     }
-    props.onConfirm(gameServerState);
-    props.onOpenChange(false);
+
+    setLoading(true);
+    try {
+      await props.onConfirm(gameServerState);
+      props.onOpenChange(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -68,7 +85,7 @@ const EditGameServerModal = (props: {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className={"font-mono"}>
+      <DialogContent className="font-mono">
         <DialogHeader>
           <DialogTitle>{t("title", { serverName: props.serverName })}</DialogTitle>
           <DialogDescription>{t("description")}</DialogDescription>
@@ -124,12 +141,7 @@ const EditGameServerModal = (props: {
           <EditKeyValueInput
             label="port_mappings"
             value={gameServerState.port_mappings}
-            onChange={(ports) =>
-              setGameServerState((s) => ({
-                ...s,
-                port_mappings: ports,
-              }))
-            }
+            onChange={(ports) => setGameServerState((s) => ({ ...s, port_mappings: ports }))}
             toRow={(pm) => ({
               key: pm.instance_port?.toString() ?? "",
               value: pm.container_port?.toString() ?? "",
@@ -147,12 +159,7 @@ const EditGameServerModal = (props: {
           <EditKeyValueInput
             label="environment_variables"
             value={gameServerState.environment_variables}
-            onChange={(envs) =>
-              setGameServerState((s) => ({
-                ...s,
-                environment_variables: envs,
-              }))
-            }
+            onChange={(envs) => setGameServerState((s) => ({ ...s, environment_variables: envs }))}
             toRow={(e) => ({ key: e.key, value: e.value })}
             fromRow={(row) => ({ key: row.key, value: row.value })}
             keyValidator={z.string().min(1)}
@@ -179,32 +186,27 @@ const EditGameServerModal = (props: {
           <EditKeyValueInput
             label="Volume Mounts"
             value={gameServerState.volume_mounts}
-            onChange={(volumes) =>
-              setGameServerState((s) => ({
-                ...s,
-                volume_mounts: volumes,
-              }))
-            }
-            toRow={(v) => ({
-              key: v.host_path ?? "",
-              value: v.container_path ?? "",
-            })}
-            fromRow={(row) => ({
-              host_path: row.key,
-              container_path: row.value,
-            })}
+            onChange={(volumes) => setGameServerState((s) => ({ ...s, volume_mounts: volumes }))}
+            toRow={(v) => ({ key: v.host_path ?? "", value: v.container_path ?? "" })}
+            fromRow={(row) => ({ host_path: row.key, container_path: row.value })}
             keyValidator={z.string().min(1)}
             valueValidator={z.string().min(1)}
             errorLabel="Invalid path"
           />
         </DialogMain>
+
         <DialogFooter>
           <DialogClose asChild>
             <Button className="h-[50px]" variant="secondary" disabled={loading}>
               {t("cancel")}
             </Button>
           </DialogClose>
-          <Button type="button" onClick={handleConfirm} className={"h-[50px]"}>
+          <Button
+            type="button"
+            onClick={handleConfirm}
+            className="h-[50px]"
+            disabled={isConfirmButtonDisabled}
+          >
             {t("confirm")}
           </Button>
         </DialogFooter>
@@ -212,4 +214,5 @@ const EditGameServerModal = (props: {
     </Dialog>
   );
 };
+
 export default EditGameServerModal;
