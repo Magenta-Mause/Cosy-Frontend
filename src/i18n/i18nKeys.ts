@@ -126,6 +126,9 @@ export type i18nLanguage = {
             title: string;
             description: string;
             errorLabel: string;
+            placeholder: string;
+            noGamesFound: string;
+            noResultsLabel: string;
           };
         };
         step2: {
@@ -176,6 +179,10 @@ export type i18nLanguage = {
             errorLabel: string;
           };
         };
+      };
+      autoCompleteInputField: {
+        loadingLabel: string;
+        noResultsLabel: string;
       };
     };
   };
