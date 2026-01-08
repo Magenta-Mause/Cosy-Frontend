@@ -23,8 +23,10 @@ import type {
   GameDto,
   GameServerCreationDto,
   GameServerDto,
+  GameServerStatusDto,
   GetGameInfoParams,
   LoginDto,
+  StartEventDto,
   UserCreationDto,
   UserEntityDto,
   UserInviteCreationDto,
@@ -230,7 +232,7 @@ export const getAllGameServers = (
       
       
       return customInstance<GameServerDto[]>(
-      {url: `/game-server-configurations`, method: 'GET', signal
+      {url: `/game-server`, method: 'GET', signal
     },
       options);
     }
@@ -240,7 +242,7 @@ export const getAllGameServers = (
 
 export const getGetAllGameServersQueryKey = () => {
     return [
-    `/game-server-configurations`
+    `/game-server`
     ] as const;
     }
 
@@ -293,7 +295,7 @@ export const createGameServer = (
       
       
       return customInstance<GameServerDto>(
-      {url: `/game-server-configurations`, method: 'POST',
+      {url: `/game-server`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: gameServerCreationDto, signal
     },
@@ -341,6 +343,120 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getCreateGameServerMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const stopService = (
+    uuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/stop`, method: 'POST', signal
+    },
+      options);
+    }
+  
+
+
+export const getStopServiceMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof stopService>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof stopService>>, TError,{uuid: string}, TContext> => {
+
+const mutationKey = ['stopService'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof stopService>>, {uuid: string}> = (props) => {
+          const {uuid} = props ?? {};
+
+          return  stopService(uuid,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type StopServiceMutationResult = NonNullable<Awaited<ReturnType<typeof stopService>>>
+    
+    export type StopServiceMutationError = unknown
+
+    export const useStopService = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof stopService>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof stopService>>,
+        TError,
+        {uuid: string},
+        TContext
+      > => {
+
+      const mutationOptions = getStopServiceMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const startServiceSse = (
+    uuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<StartEventDto[]>(
+      {url: `/game-server/${uuid}/start`, method: 'POST', signal
+    },
+      options);
+    }
+  
+
+
+export const getStartServiceSseMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startServiceSse>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof startServiceSse>>, TError,{uuid: string}, TContext> => {
+
+const mutationKey = ['startServiceSse'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startServiceSse>>, {uuid: string}> = (props) => {
+          const {uuid} = props ?? {};
+
+          return  startServiceSse(uuid,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type StartServiceSseMutationResult = NonNullable<Awaited<ReturnType<typeof startServiceSse>>>
+    
+    export type StartServiceSseMutationError = unknown
+
+    export const useStartServiceSse = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startServiceSse>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof startServiceSse>>,
+        TError,
+        {uuid: string},
+        TContext
+      > => {
+
+      const mutationOptions = getStartServiceSseMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -777,7 +893,7 @@ export const getGameServerById = (
       
       
       return customInstance<GameServerDto>(
-      {url: `/game-server-configurations/${uuid}`, method: 'GET', signal
+      {url: `/game-server/${uuid}`, method: 'GET', signal
     },
       options);
     }
@@ -787,7 +903,7 @@ export const getGameServerById = (
 
 export const getGetGameServerByIdQueryKey = (uuid?: string,) => {
     return [
-    `/game-server-configurations/${uuid}`
+    `/game-server/${uuid}`
     ] as const;
     }
 
@@ -839,7 +955,7 @@ export const deleteGameServerById = (
       
       
       return customInstance<void>(
-      {url: `/game-server-configurations/${uuid}`, method: 'DELETE'
+      {url: `/game-server/${uuid}`, method: 'DELETE'
     },
       options);
     }
@@ -889,6 +1005,69 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const getServiceInfo = (
+    uuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameServerStatusDto>(
+      {url: `/game-server/${uuid}/status`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetServiceInfoQueryKey = (uuid?: string,) => {
+    return [
+    `/game-server/${uuid}/status`
+    ] as const;
+    }
+
+    
+export const getGetServiceInfoQueryOptions = <TData = Awaited<ReturnType<typeof getServiceInfo>>, TError = unknown>(uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getServiceInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetServiceInfoQueryKey(uuid);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getServiceInfo>>> = ({ signal }) => getServiceInfo(uuid, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getServiceInfo>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetServiceInfoQueryResult = NonNullable<Awaited<ReturnType<typeof getServiceInfo>>>
+export type GetServiceInfoQueryError = unknown
+
+
+
+export function useGetServiceInfo<TData = Awaited<ReturnType<typeof getServiceInfo>>, TError = unknown>(
+ uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getServiceInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetServiceInfoQueryOptions(uuid,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
 export const fetchToken = (
     
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
