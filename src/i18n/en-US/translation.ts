@@ -1,12 +1,19 @@
 import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
+  userRoles: {
+    QUOTA_USER: "User",
+    ADMIN: "Admin",
+    OWNER: "Owner",
+  },
   overviewPage: {
     createNewServer: "New Game Server",
   },
   rightClickMenu: {
     edit: "Edit",
     delete: "Delete",
+    startServer: "Start",
+    stopServer: "Stop",
     refresh: "Refresh",
     createNewGameserver: "Create new Gameserver",
   },
@@ -26,6 +33,10 @@ const translation: i18nLanguage = {
     accountCreatedSuccess: "Account created successfully! Please log in to create your profile.",
     accountCreateError: 'Failed to create account. "{{error}}"',
     createGameServerSuccess: "Game Server created successfully!",
+    serverStartError: 'Failed to start server. "{{error}}"',
+    serverStartSuccess: "Started server. Listening on:",
+    serverStopError: 'Failed to stop server. "{{error}}"',
+    serverStopSuccess: "Stopped Server",
   },
   userModal: {
     title: "Users",
@@ -47,6 +58,13 @@ const translation: i18nLanguage = {
     created: "Created: {{date}}",
     revokeTooltip: "Revoke invite",
     copyTooltip: "Click to copy link",
+    roleLabel: "User role",
+    editTooltip: "Click to edit user settings",
+    memoryLimit: "RAM limit (Optional)",
+    memoryDescription: "Leave it empty to allow the user to have unlimited RAM.",
+    cpuLimit: "CPU limit (Optional)",
+    cpuDescription: "Leave it empty to allow the user to have unlimited CPU cores.",
+    placeholder: "Unlimted",
   },
   inviteRedemption: {
     title: "Accept Invitation",
@@ -100,7 +118,9 @@ const translation: i18nLanguage = {
       backButton: "Back",
       nextStepButton: "Next Step",
       createServerButton: "Create Server",
-      keyValueInputAddButton: "Add",
+      listInput: {
+        addButton: "Add",
+      },
       steps: {
         step1: {
           title: "Step 1: Choose Game",

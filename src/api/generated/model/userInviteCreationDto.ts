@@ -5,7 +5,11 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
+import type { UserInviteCreationDtoRole } from './userInviteCreationDtoRole';
 
 export interface UserInviteCreationDto {
   username?: string;
+  role?: UserInviteCreationDtoRole;
+  max_memory?: number;
+  max_cpu?: number;
 }

@@ -1,6 +1,5 @@
 import { FieldError } from "@components/ui/field";
 import { Input } from "@components/ui/input";
-import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 import type { ZodType } from "zod";
 

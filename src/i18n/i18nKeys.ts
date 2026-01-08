@@ -5,6 +5,8 @@ export type i18nLanguage = {
   rightClickMenu: {
     edit: string;
     delete: string;
+    startServer: string;
+    stopServer: string;
     refresh: string;
     createNewGameserver: string;
   };
@@ -24,6 +26,10 @@ export type i18nLanguage = {
     accountCreatedSuccess: string;
     accountCreateError: ContainsVariable<"error">;
     createGameServerSuccess: string;
+    serverStartSuccess: string;
+    serverStartError: ContainsVariable<"error">;
+    serverStopSuccess: string;
+    serverStopError: ContainsVariable<"error">;
   };
   userModal: {
     title: string;
@@ -44,6 +50,18 @@ export type i18nLanguage = {
     created: ContainsVariable<"date">;
     revokeTooltip: string;
     copyTooltip: string;
+    roleLabel: string;
+    editTooltip: string;
+    memoryLimit: string;
+    memoryDescription: string;
+    cpuLimit: string;
+    cpuDescription: string;
+    placeholder: string;
+  };
+  userRoles: {
+    QUOTA_USER: string;
+    ADMIN: string;
+    OWNER: string;
   };
   inviteRedemption: {
     title: string;
@@ -98,7 +116,9 @@ export type i18nLanguage = {
       backButton: string;
       nextStepButton: string;
       createServerButton: string;
-      keyValueInputAddButton: string;
+      listInput: {
+        addButton: string;
+      };
       steps: {
         step1: {
           title: string;

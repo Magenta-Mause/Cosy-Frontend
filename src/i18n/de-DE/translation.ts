@@ -7,6 +7,8 @@ const translation: i18nLanguage = {
   rightClickMenu: {
     edit: "Bearbeiten",
     delete: "Löschen",
+    startServer: "Starten",
+    stopServer: "Stoppen",
     refresh: "Aktualisieren",
     createNewGameserver: "Neuen Gameserver erstellen",
   },
@@ -27,6 +29,10 @@ const translation: i18nLanguage = {
       "Konto erfolgreich erstellt! Melde dich jetzt an, um dein Profil zu erstellen.",
     accountCreateError: 'Fehler beim Erstellen des Kontos. "{{error}}"',
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
+    serverStartError: 'Fehler beim Starten des Servers. "{{error}}"',
+    serverStartSuccess: "Server erfolgreich gestartet. Offene Ports:",
+    serverStopError: 'Fehler beim Stoppen des Servers. "{{error}}"',
+    serverStopSuccess: "Server erfolgreich gestoppt.",
   },
   userModal: {
     title: "Benutzer",
@@ -48,6 +54,18 @@ const translation: i18nLanguage = {
     created: "Erstellt: {{date}}",
     revokeTooltip: "Einladung widerrufen",
     copyTooltip: "Klicken zum Kopieren",
+    roleLabel: "Benutzerrolle",
+    editTooltip: "Klicken zum Bearbeiten der Benutzereinstellungen",
+    memoryLimit: "RAM limit (Optional)",
+    memoryDescription: "Leer lassen, damit der Benutzer unbegrenzt RAM zur Verfügung hat.",
+    cpuLimit: "CPU limit (Optional)",
+    cpuDescription: "Leer lassen, damit der Benutzer unbegrenzte CPU Kerne zur Verfügung hat.",
+    placeholder: "Unbegrenzt",
+  },
+  userRoles: {
+    QUOTA_USER: "Nutzer",
+    ADMIN: "Admin",
+    OWNER: "Besitzer",
   },
   inviteRedemption: {
     title: "Einladung annehmen",
@@ -102,7 +120,9 @@ const translation: i18nLanguage = {
       backButton: "Zurück",
       nextStepButton: "Weiter",
       createServerButton: "Server erstellen",
-      keyValueInputAddButton: "Hinzufügen",
+      listInput: {
+        addButton: "Hinzufügen",
+      },
       steps: {
         step1: {
           title: "Schritt 1: Spiel auswählen",

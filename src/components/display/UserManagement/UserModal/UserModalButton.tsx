@@ -12,11 +12,12 @@ import { ArrowLeft, UserPlus, Users } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import type { UserEntityDtoRole } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
-import { InviteForm } from "./InviteForm";
-import { InviteResult } from "./InviteResult";
-import { UserList } from "./UserList";
+import { InviteForm } from "../UserInvite/InviteForm/InviteForm.tsx";
+import { InviteResult } from "../UserInvite/InviteForm/InviteResult.tsx";
+import { UserList } from "./UserList.tsx";
 
 type ViewState = "list" | "invite" | "result";
 
@@ -24,6 +25,9 @@ const UserModalButton = (props: { className?: string }) => {
   const { t } = useTranslation();
   const [view, setView] = useState<ViewState>("list");
   const [inviteUsername, setInviteUsername] = useState("");
+  const [userRole, setUserRole] = useState<UserEntityDtoRole>("QUOTA_USER");
+  const [memoryLimit, setMemoryLimit] = useState<number | null>(null);
+  const [cpuLimit, setCpuLimit] = useState<number | null>(null);
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
@@ -31,8 +35,15 @@ const UserModalButton = (props: { className?: string }) => {
 
   const handleCreateInvite = async () => {
     setIsCreating(true);
+    const roundedCpuLimit = cpuLimit ? Math.round(cpuLimit * 1000) : null;
+
     try {
-      const data = await createInvite({ username: inviteUsername || undefined });
+      const data = await createInvite({
+        username: inviteUsername || undefined,
+        role: userRole,
+        max_memory: memoryLimit || undefined,
+        max_cpu: roundedCpuLimit || undefined,
+      });
       setGeneratedKey(data.secret_key || "");
       setView("result");
     } catch (_e) {
@@ -87,9 +98,15 @@ const UserModalButton = (props: { className?: string }) => {
           {view === "invite" && (
             <InviteForm
               username={inviteUsername}
+              userRole={userRole}
+              memory={memoryLimit}
+              cpu={cpuLimit}
               onUsernameChange={setInviteUsername}
+              onMemoryChange={setMemoryLimit}
+              onCpuChange={setCpuLimit}
               onCancel={() => setView("list")}
               onSubmit={handleCreateInvite}
+              onUserRoleChange={setUserRole}
               isCreating={isCreating}
             />
           )}

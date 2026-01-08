@@ -10,10 +10,10 @@ import { createContext, type Dispatch, type SetStateAction, useCallback, useStat
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand } from "shell-quote";
 import type { GameServerCreationDto } from "@/api/generated/model";
-import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
-import Step1 from "./CreationSteps/Step1";
-import Step2 from "./CreationSteps/Step2";
-import Step3 from "./CreationSteps/Step3";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
+import Step1 from "./CreationSteps/Step1.tsx";
+import Step2 from "./CreationSteps/Step2.tsx";
+import Step3 from "./CreationSteps/Step3.tsx";
 
 export interface GameServerCreationContext {
   gameServerState: Partial<GameServerCreationDto>;
@@ -21,12 +21,14 @@ export interface GameServerCreationContext {
     gameStateKey: K,
   ) => (value: GameServerCreationDto[K]) => void;
   setCurrentPageValid: (isValid: boolean) => void;
+  triggerNextPage: () => void;
 }
 
 export const GameServerCreationContext = createContext<GameServerCreationContext>({
   gameServerState: {},
-  setGameServerState: () => () => {},
-  setCurrentPageValid: () => {},
+  setGameServerState: () => () => { },
+  setCurrentPageValid: () => { },
+  triggerNextPage: () => { },
 });
 
 const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" />];
@@ -45,22 +47,30 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
   const isLastPage = currentPage === PAGES.length - 1;
   const { t } = useTranslation();
 
-  const handleNextPage = () => {
+  const handleNextPage = useCallback(() => {
     if (isLastPage) {
       createGameServer({
         ...gameServerState,
         execution_command: parseCommand(gameServerState.execution_command as unknown as string),
         port_mappings: gameServerState.port_mappings?.map((portMapping) => ({
           ...portMapping,
-          protocol: "TCP", // Default to TCP for now - change this later!!!
         })),
       } as GameServerCreationDto);
+      setGameServerInternalState({});
+      setPageValid({});
+      setCurrentPage(0);
       setOpen(false);
       return;
     }
 
     setCurrentPage((currentPage) => currentPage + 1);
-  };
+  }, [createGameServer, gameServerState, isLastPage, setOpen]);
+
+  const triggerNextPage = useCallback(() => {
+    if (isPageValid[currentPage]) {
+      handleNextPage();
+    }
+  }, [handleNextPage, isPageValid, currentPage]);
 
   const setCurrentPageValid = useCallback(
     (isValid: boolean) => {
@@ -82,6 +92,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
           setGameServerState,
           gameServerState,
           setCurrentPageValid,
+          triggerNextPage,
         }}
       >
         <DialogHeader>

@@ -13,7 +13,7 @@ import { useMemo, useState } from "react";
 import { parse as parseCommand } from "shell-quote";
 import * as z from "zod";
 import type {
-  GameServerConfigurationEntity,
+  GameServerDto,
   GameServerUpdateDto,
   PortMappingProtocol,
 } from "@/api/generated/model";
@@ -23,7 +23,7 @@ import GenericGameServerInputField from "./GenericGameServerEditInputField";
 
 const EditGameServerModal = (props: {
   serverName: string;
-  gameServer: GameServerConfigurationEntity;
+  gameServer: GameServerDto
   onConfirm: (updatedState: GameServerUpdateDto) => Promise<void>;
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -41,7 +41,6 @@ const EditGameServerModal = (props: {
       environment_variables: props.gameServer.environment_variables ?? [],
       execution_command:
         (props.gameServer as any).execution_command ??
-        props.gameServer.docker_execution_command ??
         [],
       volume_mounts:
         props.gameServer.volume_mounts?.map((v: any) => ({
