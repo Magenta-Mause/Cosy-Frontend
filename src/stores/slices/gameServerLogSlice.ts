@@ -1,4 +1,4 @@
-import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type {GameServerDto, GameServerLogMessage} from "@/api/generated/model";
 
 const gameServerLogSlice = createSlice({
@@ -8,10 +8,10 @@ const gameServerLogSlice = createSlice({
   } as { data: { [key: GameServerDto["uuid"]]: GameServerLogMessage[] } },
   reducers: {
     setLogs: (state, action: PayloadAction<GameServerLogMessage[]>) => {
-      state.data = Object.groupBy(
-        action.payload,
-        log => log.gameServerUuid ?? ""
-      ) as Record<string, GameServerLogMessage[]>;
+      state.data = Object.groupBy(action.payload, (log) => log.gameServerUuid ?? "") as Record<
+        string,
+        GameServerLogMessage[]
+      >;
     },
     addLog: (state, action: PayloadAction<GameServerLogMessage>) => {
       const serverUuid = action.payload.gameServerUuid;
@@ -25,7 +25,9 @@ const gameServerLogSlice = createSlice({
     removeLog: (state, action: PayloadAction<string>) => {
       for (const serverUuid in state.data) {
         if (!state.data[serverUuid]) continue;
-        state.data[serverUuid] = state.data[serverUuid].filter(log => log.uuid !== action.payload);
+        state.data[serverUuid] = state.data[serverUuid].filter(
+          (log) => log.uuid !== action.payload,
+        );
       }
     },
     resetLogs: (state) => {

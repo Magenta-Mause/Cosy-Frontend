@@ -1,6 +1,7 @@
 import RightClickMenu from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
 import { DeleteGameServerAlertDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
 import Link from "@components/ui/Link.tsx";
+import { useRouter } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,7 +13,6 @@ import serverHouseImage from "@/assets/ai-generated/main-page/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
 import GameSign from "../GameSign/GameSign";
-import { useRouter } from "@tanstack/react-router";
 
 const GameServerHouse = (props: {
   gameServer: GameServerDto;
@@ -50,7 +50,7 @@ const GameServerHouse = (props: {
       label: t("rightClickMenu.startServer"),
       onClick: async () => {
         try {
-          toast.info("Starting server...")
+          toast.info("Starting server...");
           const res = await startServiceSse(props.gameServer.uuid as string);
           const hostname = window.location.hostname;
           const listeningOn = res.ports.map((num) => (

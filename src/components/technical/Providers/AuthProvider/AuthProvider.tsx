@@ -1,10 +1,10 @@
-import {jwtDecode} from "jwt-decode";
-import {createContext, type ReactNode, useCallback, useEffect, useState} from "react";
-import {setAuthToken} from "@/api/axiosInstance";
-import {fetchToken, logout} from "@/api/generated/backend-api";
-import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
-import {StompSessionProvider} from "react-stomp-hooks";
+import { jwtDecode } from "jwt-decode";
+import { createContext, type ReactNode, useCallback, useEffect, useState } from "react";
+import { StompSessionProvider } from "react-stomp-hooks";
 import SockJS from "sockjs-client";
+import { setAuthToken } from "@/api/axiosInstance";
+import { fetchToken, logout } from "@/api/generated/backend-api";
+import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 
 interface AuthContextType {
   identityToken: string | null;
@@ -43,7 +43,7 @@ const AuthContext = createContext<AuthContextType>({
 const TOKEN_REFRESH_BUFFER = 5 * 60 * 1000;
 
 const AuthProvider = (props: { children: ReactNode }) => {
-  const {loadAllData} = useDataLoading();
+  const { loadAllData } = useDataLoading();
   const [username, setUsername] = useState<string | null>(null);
   const [identityToken, setIdentityToken] = useState<string | null>(null);
   const [authorized, setAuthorized] = useState<boolean | null>(null);
@@ -168,14 +168,17 @@ const AuthProvider = (props: { children: ReactNode }) => {
         handleLogout,
       }}
     >
-      <StompSessionProvider url={"/api/v1/ws"} webSocketFactory={() => {
-        return new SockJS("/api/v1/ws?authToken" + identityToken);
-      }}>
+      <StompSessionProvider
+        url={"/api/v1/ws"}
+        webSocketFactory={() => {
+          return new SockJS(`/api/v1/ws?authToken=${identityToken}`);
+        }}
+      >
         {props.children}
       </StompSessionProvider>
     </AuthContext.Provider>
   );
 };
 
-export {AuthContext};
+export { AuthContext };
 export default AuthProvider;

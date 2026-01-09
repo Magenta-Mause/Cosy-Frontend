@@ -1,8 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { type TypedUseSelectorHook, useSelector } from "react-redux";
+import { gameServerLogSliceReducer } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerSliceReducer } from "@/stores/slices/gameServerSlice.ts";
 import { userInviteSliceReducer } from "@/stores/slices/userInviteSlice.ts";
-import { gameServerLogSliceReducer } from "@/stores/slices/gameServerLogSlice.ts";
 import { userSliceReducer } from "@/stores/slices/userSlice.ts";
 import type { RootState } from ".";
 

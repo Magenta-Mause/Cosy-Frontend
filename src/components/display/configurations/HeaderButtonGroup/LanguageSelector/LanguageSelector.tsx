@@ -1,10 +1,10 @@
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
-import { Button } from "@components/ui/button.tsx";
-import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.tsx";
-import { GlobeIcon } from "lucide-react";
-import { useContext } from "react";
-import { useTranslation } from "react-i18next";
-import { cn } from "@/lib/utils.ts";
+import {AuthContext} from "@components/technical/Providers/AuthProvider/AuthProvider";
+import {Button} from "@components/ui/button.tsx";
+import {Popover, PopoverContent, PopoverTrigger} from "@components/ui/popover.tsx";
+import {GlobeIcon} from "lucide-react";
+import {useContext} from "react";
+import {useTranslation} from "react-i18next";
+import {cn} from "@/lib/utils.ts";
 
 const LANGUAGES = [
   {
@@ -18,8 +18,8 @@ const LANGUAGES = [
 ];
 
 const LanguageSelector = (props: { className?: string }) => {
-  const { i18n } = useTranslation();
-  const { handleLogout } = useContext(AuthContext);
+  const {i18n, t} = useTranslation();
+  const {handleLogout} = useContext(AuthContext);
 
   return (
     <Popover>
@@ -28,7 +28,7 @@ const LanguageSelector = (props: { className?: string }) => {
           className={cn("h-auto p-[.5vw] aspect-square", props.className)}
           aria-label={"Select Language"}
         >
-          <GlobeIcon className="!h-[1.5vw] p-0 !w-auto aspect-square" />
+          <GlobeIcon className="!h-[1.5vw] p-0 !w-auto aspect-square"/>
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -47,7 +47,7 @@ const LanguageSelector = (props: { className?: string }) => {
         ))}
         {/* added temporary logout button - should be moved */}
         <Button className={"text-[1vw] h-[1.5vw]"} onClick={() => handleLogout()}>
-          {i18n.t("signIn.logout")}
+          {t("signIn.logout")}
         </Button>
       </PopoverContent>
     </Popover>
