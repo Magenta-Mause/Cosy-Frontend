@@ -40,10 +40,10 @@ const EditGameServerModal = (props: {
       port_mappings: props.gameServer.port_mappings ?? [],
       environment_variables: props.gameServer.environment_variables ?? [],
       execution_command:
-        (props.gameServer as any).execution_command ??
+        props.gameServer.execution_command ??
         [],
       volume_mounts:
-        props.gameServer.volume_mounts?.map((v: any) => ({
+        props.gameServer.volume_mounts?.map((v) => ({
           host_path: v.host_path ?? "",
           container_path: v.container_path ?? "",
         })) ?? [],
@@ -216,14 +216,14 @@ const EditGameServerModal = (props: {
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button className="h-[50px]" variant="secondary" disabled={loading}>
+            <Button className="h-12.5" variant="secondary" disabled={loading}>
               {t("cancel")}
             </Button>
           </DialogClose>
           <Button
             type="button"
             onClick={handleConfirm}
-            className="h-[50px]"
+            className="h-12.5"
             disabled={isConfirmButtonDisabled}
           >
             {t("confirm")}
