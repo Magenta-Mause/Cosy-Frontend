@@ -2,7 +2,7 @@ import { Button } from "@components/ui/button";
 import { Field, FieldDescription, FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
-import { CircleAlertIcon, CircleX } from "lucide-react";
+import { CircleAlertIcon, Plus, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { v7 as uuidv7 } from "uuid";
 import type { ZodType } from "zod";
@@ -42,10 +42,10 @@ export default function EditKeyValueInput<T>({
   const [rows, setRows] = useState<Row[]>(() =>
     value && value.length > 0
       ? value.map((v) => ({
-          uuid: uuidv7(),
-          ...toRow(v),
-          valid: true,
-        }))
+        uuid: uuidv7(),
+        ...toRow(v),
+        valid: true,
+      }))
       : [{ uuid: uuidv7(), key: "", value: "", valid: true }],
   );
 
@@ -75,10 +75,10 @@ export default function EditKeyValueInput<T>({
       prev.map((r) =>
         r.uuid === uuid
           ? {
-              ...r,
-              [field]: val,
-              valid: validateRow(field === "key" ? val : r.key, field === "value" ? val : r.value),
-            }
+            ...r,
+            [field]: val,
+            valid: validateRow(field === "key" ? val : r.key, field === "value" ? val : r.value),
+          }
           : r,
       ),
     );
@@ -112,10 +112,9 @@ export default function EditKeyValueInput<T>({
                 onClick={() => removeRow(row.uuid)}
                 className="h-9 w-9 p-0"
               >
-                <CircleX />
+                <Trash2 className="size-6" />
               </Button>
             )}
-            {index === rows.length - 1 && <Button onClick={addRow}>+</Button>}
             {!row.valid && (
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -126,6 +125,12 @@ export default function EditKeyValueInput<T>({
             )}
           </div>
         ))}
+      </div>
+
+      <div className="mt-2 flex">
+        <Button onClick={addRow} className="h-9 w-9 p-0">
+          <Plus className="size-6" />
+        </Button>
       </div>
       {description && <FieldDescription>{description}</FieldDescription>}
     </Field>

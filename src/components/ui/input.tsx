@@ -31,7 +31,7 @@ function Input({ className, type, header, description, endDecorator, ...props }:
           {...props}
         />
         {description && (
-          <Label htmlFor={props.id} className="pt-2">
+          <Label htmlFor={props.id} className="pt-2 text-muted-foreground">
             {description}
           </Label>
         )}
