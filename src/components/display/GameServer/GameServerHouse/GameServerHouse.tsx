@@ -6,11 +6,12 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { stopService } from "@/api/generated/backend-api";
-import type { GameServerDto } from "@/api/generated/model";
+import type { GameServerDto, GameServerUpdateDto } from "@/api/generated/model";
 import { startServiceSse } from "@/api/sse";
 import serverHouseImage from "@/assets/ai-generated/main-page/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
+import EditGameServerModal from "../EditGameServer/EditGameServerModal";
 import GameSign from "../GameSign/GameSign";
 
 const GameServerHouse = (props: {
@@ -20,14 +21,17 @@ const GameServerHouse = (props: {
 }) => {
   const { t } = useTranslation();
   const { deleteGameServer } = useDataInteractions();
+  const { updateGameServer } = useDataInteractions();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   const actions = [
     {
       label: t("rightClickMenu.edit"),
       onClick: () => {
-        toast.info(t("toasts.notImplemented"));
+        setIsEditDialogOpen(true);
       },
+      closeOnClick: false,
     },
     {
       label: t("rightClickMenu.delete"),
@@ -40,7 +44,7 @@ const GameServerHouse = (props: {
       label: t("rightClickMenu.startServer"),
       onClick: async () => {
         try {
-          toast.info("Starting server...")
+          toast.info("Starting server...");
           const res = await startServiceSse(props.gameServer.uuid as string);
           const hostname = window.location.hostname;
           const listeningOn = res.ports.map((num) => (
@@ -83,6 +87,15 @@ const GameServerHouse = (props: {
     },
   ];
 
+  const handleUpdateGameServer = async (updatedState: GameServerUpdateDto) => {
+    if (!props.gameServer.uuid) {
+      console.error("GameServer UUID is missing");
+      return;
+    }
+    await updateGameServer(props.gameServer.uuid, updatedState);
+
+  };
+
   return (
     <>
       <RightClickMenu actions={actions}>
@@ -117,6 +130,13 @@ const GameServerHouse = (props: {
         onConfirm={() => deleteGameServer(props.gameServer.uuid ?? "")}
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
+      />
+      <EditGameServerModal
+        serverName={props.gameServer.server_name ?? ""}
+        gameServer={props.gameServer}
+        open={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
+        onConfirm={handleUpdateGameServer}
       />
     </>
   );

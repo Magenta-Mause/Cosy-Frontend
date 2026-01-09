@@ -14,6 +14,7 @@ export * from './gameServerDtoStatus';
 export * from './gameServerInstanceDto';
 export * from './gameServerStatusDto';
 export * from './gameServerStatusDtoStatus';
+export * from './gameServerUpdateDto';
 export * from './getGameInfoParams';
 export * from './loginDto';
 export * from './portMapping';
