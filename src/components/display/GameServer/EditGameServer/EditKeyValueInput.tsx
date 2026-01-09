@@ -115,6 +115,12 @@ export default function EditKeyValueInput<T>({
                 <Trash2 className="size-6" />
               </Button>
             )}
+            {index === rows.length - 1 &&
+              <Button onClick={addRow} className="h-9 w-9 p-0">
+                <Plus className="size-6" />
+              </Button>
+            }
+
             {!row.valid && (
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -125,12 +131,6 @@ export default function EditKeyValueInput<T>({
             )}
           </div>
         ))}
-      </div>
-
-      <div className="mt-2 flex">
-        <Button onClick={addRow} className="h-9 w-9 p-0">
-          <Plus className="size-6" />
-        </Button>
       </div>
       {description && <FieldDescription>{description}</FieldDescription>}
     </Field>

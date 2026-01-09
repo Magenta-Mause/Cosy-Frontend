@@ -103,17 +103,6 @@ const EditGameServerModal = (props: {
 
         <DialogMain>
           <GenericGameServerInputField
-            id="game_uuid"
-            validator={z.string().min(1)}
-            placeholder="Game"
-            label={t("gameSelection.title")}
-            description={t("gameSelection.description")}
-            errorLabel={t("gameSelection.errorLabel")}
-            value={gameServerState.game_uuid}
-            onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v }))}
-          />
-
-          <GenericGameServerInputField
             id="server_name"
             validator={z.string().min(1)}
             placeholder="My Game Server"
@@ -122,6 +111,17 @@ const EditGameServerModal = (props: {
             errorLabel={t("serverNameSelection.errorLabel")}
             value={gameServerState.server_name}
             onChange={(v) => setGameServerState((s) => ({ ...s, server_name: v }))}
+          />
+
+          <GenericGameServerInputField
+            id="game_uuid"
+            validator={z.string().min(1)}
+            placeholder="Game"
+            label={t("gameSelection.title")}
+            description={t("gameSelection.description")}
+            errorLabel={t("gameSelection.errorLabel")}
+            value={gameServerState.game_uuid}
+            onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v }))}
           />
 
           <div className="grid grid-cols-2 gap-4">
