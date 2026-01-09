@@ -1,6 +1,4 @@
-import KeyValueInput, {
-  InputType,
-} from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
+import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
 import PortInput from "@components/display/GameServer/CreateGameServer/PortInput.tsx";
 import { DialogDescription } from "@components/ui/dialog.tsx";
 import * as z from "zod";
@@ -58,7 +56,7 @@ export default function Step3() {
         placeHolderValueInput="VALUE"
         keyValidator={z.string().min(1)}
         valueValidator={z.string().min(1)}
-        inputType={InputType.text}
+        inputType={"text"}
         objectKey="key"
         objectValue="value"
       />
@@ -82,7 +80,7 @@ export default function Step3() {
         placeHolderValueInput="Container Path"
         keyValidator={z.string().min(1)}
         valueValidator={z.string().min(1)}
-        inputType={InputType.text}
+        inputType={"text"}
         objectKey="host_path"
         objectValue="container_path"
       />

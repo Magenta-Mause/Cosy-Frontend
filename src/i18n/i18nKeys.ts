@@ -30,6 +30,8 @@ export type i18nLanguage = {
     serverStartError: ContainsVariable<"error">;
     serverStopSuccess: string;
     serverStopError: ContainsVariable<"error">;
+    updateGameServerSuccess: string;
+    updateGameServerError: string;
   };
   userModal: {
     title: string;
@@ -126,6 +128,9 @@ export type i18nLanguage = {
             title: string;
             description: string;
             errorLabel: string;
+            placeholder: string;
+            noGamesFound: string;
+            noResultsLabel: string;
           };
         };
         step2: {
@@ -176,6 +181,10 @@ export type i18nLanguage = {
             errorLabel: string;
           };
         };
+      };
+      autoCompleteInputField: {
+        loadingLabel: string;
+        noResultsLabel: string;
       };
     };
     editGameServer: {

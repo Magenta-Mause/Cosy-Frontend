@@ -124,7 +124,7 @@ const useDataInteractions = () => {
         toast.success(t("updateGameServerSuccess"));
       },
       onError: (err) => {
-        toast.error(t("updateGamesServerError"));
+        toast.error(t("updateGameServerError"));
         throw err;
       },
     },

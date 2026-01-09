@@ -93,17 +93,8 @@ const GameServerHouse = (props: {
       console.error("GameServer UUID is missing");
       return;
     }
+    await updateGameServer(props.gameServer.uuid, updatedState);
 
-    try {
-      await updateGameServer(props.gameServer.uuid, updatedState);
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        console.error("STATUS", err.response?.status);
-        console.error("BACKEND ERROR", err.response?.data);
-      } else {
-        console.error(err);
-      }
-    }
   };
 
   return (

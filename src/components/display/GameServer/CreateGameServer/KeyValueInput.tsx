@@ -3,13 +3,7 @@ import { Input } from "@components/ui/input.tsx";
 import { Fragment, useCallback } from "react";
 import type { ZodType } from "zod";
 import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
-import { preProcessValue } from "@/utils/InputUtils.ts";
-
-// All keys must be a key of HTMLInputTypeAttribute
-enum InputType {
-  text = "text",
-  number = "number",
-}
+import { type InputType, preProcessInputValue } from "./util";
 
 interface KeyValueItem {
   key: string;
@@ -54,8 +48,8 @@ function KeyValueInput({
         return false;
       }
 
-      const preProcessedKey = preProcessValue(key, inputType);
-      const preProcessedValue = preProcessValue(value, inputType);
+      const preProcessedKey = preProcessInputValue(key, inputType);
+      const preProcessedValue = preProcessInputValue(value, inputType);
 
       const keyValid = (key: string | number) => keyValidator.safeParse(key).success;
       const valueValid = (value: string | number) => valueValidator.safeParse(value).success;
@@ -72,11 +66,11 @@ function KeyValueInput({
 
   const computeValue = useCallback(
     (items: KeyValueItem[]) => {
-      const mappedItems: { [objectKey]: string | number; [objectValue]: string | number }[] = [];
+      const mappedItems: { [objectKey]: string | number;[objectValue]: string | number }[] = [];
       items.forEach((item) => {
         mappedItems.push({
-          [objectKey]: preProcessValue(item.key, inputType),
-          [objectValue]: preProcessValue(item.value, inputType),
+          [objectKey]: preProcessInputValue(item.key, inputType),
+          [objectValue]: preProcessInputValue(item.value, inputType),
         });
       });
       return mappedItems as unknown as GameServerCreationDto[keyof GameServerCreationDto];
@@ -118,6 +112,6 @@ function KeyValueInput({
   );
 }
 
-export { InputType };
+export type { InputType };
 
 export default KeyValueInput;

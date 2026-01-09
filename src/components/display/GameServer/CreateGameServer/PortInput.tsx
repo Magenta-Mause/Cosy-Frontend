@@ -1,4 +1,4 @@
-import { InputType } from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
+import type { InputType } from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
 import ListInput from "@components/display/GameServer/CreateGameServer/ListInput.tsx";
 import { Input } from "@components/ui/input.tsx";
 import {
@@ -33,7 +33,7 @@ interface Props {
   required?: boolean;
 }
 
-const inputType = InputType.number;
+const inputType: InputType = "number";
 const preProcessValue = Number;
 
 function PortInput({

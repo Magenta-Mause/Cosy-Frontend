@@ -33,6 +33,8 @@ const translation: i18nLanguage = {
     serverStartSuccess: "Server erfolgreich gestartet. Offene Ports:",
     serverStopError: 'Fehler beim Stoppen des Servers. "{{error}}"',
     serverStopSuccess: "Server erfolgreich gestoppt.",
+    updateGameServerSuccess: "Game-Server erfolgreich aktualisiert!",
+    updateGameServerError: "Fehler beim Aktualisieren des Game-Servers",
   },
   userModal: {
     title: "Benutzer",
@@ -130,6 +132,10 @@ const translation: i18nLanguage = {
             title: "Spiel auswählen",
             description: "Wählen Sie ein Spiel für Ihren Server aus.",
             errorLabel: "Bitte wählen Sie ein gültiges Spiel aus.",
+            placeholder: "Spiel suchen...",
+            noGamesFound:
+              "Fehler beim Abrufen der Spiele. Wählen Sie dies für das Standardspiel. (kein spezifisches Spiel)",
+            noResultsLabel: "Kein Spiel gefunden.",
           },
         },
         step2: {
@@ -182,6 +188,65 @@ const translation: i18nLanguage = {
               "Entweder müssen sowohl Host-Pfad als auch Container-Pfad angegeben werden oder keiner von beiden.",
           },
         },
+      },
+      autoCompleteInputField: {
+        loadingLabel: "Lädt...",
+        noResultsLabel: "Kein Ergebnis gefunden.",
+      },
+    },
+    editGameServer: {
+      title: "{{serverName}}",
+      description: "Aktualisiere die Konfiguration deines Game-Servers.",
+
+      cancel: "Abbrechen",
+      confirm: "Änderungen speichern",
+
+      gameSelection: {
+        title: "Spiel",
+        description: "Das Spiel, zu dem dieser Server gehört",
+        errorLabel: "Spiel ist erforderlich",
+      },
+
+      serverNameSelection: {
+        title: "Servername",
+        description: "Der Name deines Servers",
+        errorLabel: "Servername ist erforderlich",
+      },
+
+      dockerImageSelection: {
+        title: "Docker-Image",
+        description: "Das Docker-Image, das zum Ausführen des Servers verwendet wird",
+        errorLabel: "Docker-Image-Name ist erforderlich",
+      },
+
+      imageTagSelection: {
+        title: "Image-Tag",
+        description: "Der Docker-Image-Tag",
+        errorLabel: "Docker-Image-Tag ist erforderlich",
+      },
+
+      portSelection: {
+        title: "Port-Zuordnungen",
+        errorLabel: "Port muss eine Zahl zwischen 1 und 65535 sein",
+        description: "Port, auf dem dein Server läuft",
+      },
+
+      environmentVariablesSelection: {
+        title: "Umgebungsvariablen",
+        errorLabel: "Sowohl Schlüssel als auch Wert sind erforderlich",
+        description: "Umgebungsvariablen für deinen Server",
+      },
+
+      executionCommandSelection: {
+        title: "Ausführungsbefehl",
+        description: "Befehl zum Starten des Servers",
+        errorLabel: "Ausführungsbefehl darf nicht leer sein",
+      },
+
+      volumeMountSelection: {
+        title: "Volume-Mounts",
+        errorLabel: "Pfad darf nicht leer sein",
+        description: "Volume-Mounts für deinen Server",
       },
     },
   },
