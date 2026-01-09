@@ -11,6 +11,7 @@ type StartEventDto =
 
 export async function startServiceSse(serviceName: string): Promise<GameServerInstanceDto> {
   const response = await fetch(`/api/game-server/${serviceName}/start`, {
+    method: "POST",
     headers: {
       Authorization: `Bearer ${getAuthToken()}`,
       Accept: "text/event-stream",
@@ -68,3 +69,4 @@ export async function startServiceSse(serviceName: string): Promise<GameServerIn
     read();
   });
 }
+
