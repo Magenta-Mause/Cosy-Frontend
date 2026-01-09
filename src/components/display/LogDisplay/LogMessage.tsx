@@ -1,6 +1,6 @@
-import type { GameServerLogMessageEntity } from "@/api/generated/model";
 import clsx from "clsx";
 import { format } from "date-fns";
+import type { GameServerLogMessageEntity } from "@/api/generated/model";
 
 const levelColors: Record<string, string> = {
   DEBUG: "text-slate-400",
@@ -29,24 +29,21 @@ const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
       className={clsx(
         "px-2 py-[2px] text-xs leading-5 whitespace-pre-wrap break-words",
         "hover:bg-gray-900/60 transition-colors",
-        levelBgColors[level] ?? ""
+        levelBgColors[level] ?? "",
       )}
     >
       <span className="text-gray-500 mr-2 select-none">{timestamp}</span>
       <span
         className={clsx(
           "inline-block min-w-[52px] text-[10px] uppercase tracking-wide mr-2 select-none",
-          levelColors[level] ?? "text-sky-300"
+          levelColors[level] ?? "text-sky-300",
         )}
       >
         {level}
       </span>
-      <span className="text-gray-100">
-        {message.message ?? ""}
-      </span>
+      <span className="text-gray-100">{message.message ?? ""}</span>
     </div>
   );
 };
 
 export default LogMessage;
-

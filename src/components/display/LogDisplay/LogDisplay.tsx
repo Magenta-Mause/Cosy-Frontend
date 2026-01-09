@@ -1,10 +1,10 @@
+import LogMessage from "@components/display/LogDisplay/LogMessage";
+import { forwardRef, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import {
   VariableSizeList as List,
-  type VariableSizeList,
   type ListOnScrollProps,
+  type VariableSizeList,
 } from "react-window";
-import {forwardRef, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
-import LogMessage from "@components/display/LogDisplay/LogMessage";
 import type { GameServerLogMessageEntity } from "@/api/generated/model";
 
 const LIST_HEIGHT = 360; // px, should match your container (h-96 ~ 384px minus header)
@@ -20,8 +20,7 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
   const listRef = useRef<VariableSizeList | null>(null);
   const rowHeightsRef = useRef<RowHeights>({});
 
-  const getItemSize = (index: number) =>
-    rowHeightsRef.current[index] ?? ESTIMATED_ROW_HEIGHT;
+  const getItemSize = (index: number) => rowHeightsRef.current[index] ?? ESTIMATED_ROW_HEIGHT;
 
   // Keep list scrolled to bottom when new items arrive and autoScroll is on
   useEffect(() => {
@@ -32,11 +31,10 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
   const handleScroll = ({ scrollOffset }: ListOnScrollProps) => {
     const totalHeight = Object.keys(rowHeightsRef.current).length
       ? // sum known heights, fallback for unknown ones
-      logMessages.reduce(
-        (sum, _, index) =>
-          sum + (rowHeightsRef.current[index] ?? ESTIMATED_ROW_HEIGHT),
-        0
-      )
+        logMessages.reduce(
+          (sum, _, index) => sum + (rowHeightsRef.current[index] ?? ESTIMATED_ROW_HEIGHT),
+          0,
+        )
       : itemCount * ESTIMATED_ROW_HEIGHT;
 
     const viewportBottom = scrollOffset + LIST_HEIGHT;
@@ -45,13 +43,7 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
     setAutoScroll(isAtBottom);
   };
 
-  const Row = ({
-                 index,
-                 style,
-               }: {
-    index: number;
-    style: React.CSSProperties;
-  }) => {
+  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
     const rowRef = useRef<HTMLDivElement | null>(null);
 
     useLayoutEffect(() => {
@@ -63,17 +55,14 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
         // Recalculate layout from this row downward
         listRef.current?.resetAfterIndex(index);
       }
-    }, [index, logMessages[index]]); // re-measure if that item changes
+    }, [index]); // re-measure if that item changes
 
     const message = logMessages[index];
 
     return (
       <div style={style}>
         <div ref={rowRef}>
-          <LogMessage
-            key={message.uuid ?? index.toString()}
-            message={message}
-          />
+          <LogMessage key={message.uuid ?? index.toString()} message={message} />
         </div>
       </div>
     );
@@ -85,17 +74,10 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
       forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
         function InnerElement(props, ref) {
           const { style, ...rest } = props;
-          return (
-            <div
-              ref={ref}
-              style={style}
-              {...rest}
-              className="relative"
-            />
-          );
-        }
+          return <div ref={ref} style={style} {...rest} className="relative" />;
+        },
       ),
-    []
+    [],
   );
 
   return (
