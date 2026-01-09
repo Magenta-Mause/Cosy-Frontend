@@ -23,7 +23,7 @@ import type {
   GameDto,
   GameServerCreationDto,
   GameServerDto,
-  GameServerLogMessage,
+  GameServerLogMessageEntity,
   GameServerStatusDto,
   GetGameInfoParams,
   LoginDto,
@@ -1075,7 +1075,7 @@ export const getLogs = (
 ) => {
       
       
-      return customInstance<GameServerLogMessage[]>(
+      return customInstance<GameServerLogMessageEntity[]>(
       {url: `/game-server/${gameServerUuid}/logs`, method: 'GET', signal
     },
       options);

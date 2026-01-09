@@ -6,11 +6,11 @@
  * OpenAPI spec version: v1.0
  */
 
-export type GameServerLogMessageLevel = typeof GameServerLogMessageLevel[keyof typeof GameServerLogMessageLevel];
+export type GameServerLogMessageEntityLevel = typeof GameServerLogMessageEntityLevel[keyof typeof GameServerLogMessageEntityLevel];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GameServerLogMessageLevel = {
+export const GameServerLogMessageEntityLevel = {
   TRACE: 'TRACE',
   DEBUG: 'DEBUG',
   INFO: 'INFO',

@@ -5,12 +5,12 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { GameServerLogMessageLevel } from './gameServerLogMessageLevel';
+import type { GameServerLogMessageEntityLevel } from './gameServerLogMessageEntityLevel';
 
-export interface GameServerLogMessage {
+export interface GameServerLogMessageEntity {
   uuid?: string;
-  gameServerUuid?: string;
+  game_server_uuid?: string;
   message?: string;
-  level?: GameServerLogMessageLevel;
+  level?: GameServerLogMessageEntityLevel;
   timestamp?: string;
 }
