@@ -1,6 +1,5 @@
 import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
 import type {GameServerDto, GameServerLogMessage} from "@/api/generated/model";
-import type {SliceState} from "@/stores";
 
 const gameServerLogSlice = createSlice({
   name: "game-server-log-slice",

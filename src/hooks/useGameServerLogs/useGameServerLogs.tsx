@@ -8,7 +8,7 @@ const useGameServerLogs = (serverId: string) => {
       return [];
     }
     return gameServerLogs[serverId];
-  }, [gameServerLogs]);
+  }, [gameServerLogs, serverId]);
 }
 
 export default useGameServerLogs;

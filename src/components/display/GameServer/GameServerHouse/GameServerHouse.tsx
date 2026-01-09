@@ -98,7 +98,7 @@ const GameServerHouse = (props: {
       <RightClickMenu actions={actions}>
         <Link
           className={cn("block w-[14%] h-auto aspect-square select-none", props.className)}
-          to={`/game-server-configuration/${props.gameServer.uuid}`}
+          to={`/server/${props.gameServer.uuid}`}
           aria-label={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
           })}
