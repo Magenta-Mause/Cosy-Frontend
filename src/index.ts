@@ -1,3 +1,5 @@
+window.global = window;
+
 import { API_TARGET } from "@config";
 import { serve } from "bun";
 import index from "./index.html";

@@ -12,6 +12,7 @@ import serverHouseImage from "@/assets/ai-generated/main-page/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
 import GameSign from "../GameSign/GameSign";
+import { useRouter } from "@tanstack/react-router";
 
 const GameServerHouse = (props: {
   gameServer: GameServerDto;
@@ -21,8 +22,17 @@ const GameServerHouse = (props: {
   const { t } = useTranslation();
   const { deleteGameServer } = useDataInteractions();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const router = useRouter();
 
   const actions = [
+    {
+      label: t("rightClickMenu.viewLogs"),
+      onClick: () => {
+        router.navigate({
+          to: `/server/${props.gameServer.uuid}`,
+        });
+      },
+    },
     {
       label: t("rightClickMenu.edit"),
       onClick: () => {

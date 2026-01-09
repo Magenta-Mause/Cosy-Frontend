@@ -12,12 +12,10 @@ const ProviderCollection = (props: { children: ReactNode }) => {
   return (
     <Provider store={stores}>
       <QueryClientProvider client={client}>
-        <StompSessionProvider url={"/api/v1/ws"}>
-          <AuthProvider>
-            {props.children}
-            <Toaster toastOptions={{duration: 2000, className: "font-['VT323']"}}/>
-          </AuthProvider>
-        </StompSessionProvider>
+        <AuthProvider>
+          {props.children}
+          <Toaster toastOptions={{duration: 2000, className: "font-['VT323']"}}/>
+        </AuthProvider>
       </QueryClientProvider>
     </Provider>
   );

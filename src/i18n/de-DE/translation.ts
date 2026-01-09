@@ -11,6 +11,7 @@ const translation: i18nLanguage = {
     stopServer: "Stoppen",
     refresh: "Aktualisieren",
     createNewGameserver: "Neuen Gameserver erstellen",
+    viewLogs: "Logs anzeigen",
   },
   toasts: {
     notImplemented: "Noch nicht implementiert!",
