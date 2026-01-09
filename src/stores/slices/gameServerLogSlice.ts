@@ -1,20 +1,21 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type {GameServerDto, GameServerLogMessage} from "@/api/generated/model";
+import type {GameServerDto, GameServerLogMessageEntity} from "@/api/generated/model";
 
 const gameServerLogSlice = createSlice({
   name: "game-server-log-slice",
   initialState: {
     data: {},
-  } as { data: { [key: GameServerDto["uuid"]]: GameServerLogMessage[] } },
+  } as { data: { [key: GameServerDto["uuid"]]: GameServerLogMessageEntity[] } },
   reducers: {
-    setLogs: (state, action: PayloadAction<GameServerLogMessage[]>) => {
-      state.data = Object.groupBy(action.payload, (log) => log.gameServerUuid ?? "") as Record<
+    setLogs: (state, action: PayloadAction<GameServerLogMessageEntity[]>) => {
+      state.data = Object.groupBy(action.payload, (log) => log.game_server_uuid ?? "") as Record<
         string,
-        GameServerLogMessage[]
+        GameServerLogMessageEntity[]
       >;
     },
-    addLog: (state, action: PayloadAction<GameServerLogMessage>) => {
-      const serverUuid = action.payload.gameServerUuid;
+    addLog: (state, action: PayloadAction<GameServerLogMessageEntity>) => {
+      const serverUuid = action.payload.game_server_uuid ?? "";
+      console.log(action.payload, serverUuid);
       if (!serverUuid) return;
       if (state.data[serverUuid]) {
         state.data[serverUuid].push(action.payload);
