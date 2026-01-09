@@ -15,7 +15,6 @@ const gameServerLogSlice = createSlice({
     },
     addLog: (state, action: PayloadAction<GameServerLogMessageEntity>) => {
       const serverUuid = action.payload.game_server_uuid ?? "";
-      console.log(action.payload, serverUuid);
       if (!serverUuid) return;
       if (state.data[serverUuid]) {
         state.data[serverUuid].push(action.payload);

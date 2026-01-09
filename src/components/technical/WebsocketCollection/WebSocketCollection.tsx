@@ -9,7 +9,6 @@ const WebSocketCollection = () => {
 
   useSubscription(gameServer ? gameServer.map(server => `/topics/game-server-logs/creation/${server.uuid}`) : [], (message) => {
     const messageBody = JSON.parse(message.body);
-    console.log("adding:", messageBody);
     dispatch(gameServerLogSliceActions.addLog(messageBody));
   })
   return <></>
