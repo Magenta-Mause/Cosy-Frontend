@@ -1,5 +1,6 @@
 import LogMessage from "@components/display/LogDisplay/LogMessage";
 import { forwardRef, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   VariableSizeList as List,
   type ListOnScrollProps,
@@ -7,13 +8,14 @@ import {
 } from "react-window";
 import type { GameServerLogMessageEntity } from "@/api/generated/model";
 
-const LIST_HEIGHT = 360; // px, should match your container (h-96 ~ 384px minus header)
-const ESTIMATED_ROW_HEIGHT = 20; // sane default; real height is measured
+const LIST_HEIGHT = 360;
+const ESTIMATED_ROW_HEIGHT = 20;
 
 type RowHeights = Record<number, number>;
 
 const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
   const { logMessages } = props;
+  const { t } = useTranslation();
   const itemCount = logMessages.length;
 
   const [autoScroll, setAutoScroll] = useState(true);
@@ -70,7 +72,6 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
 
   const innerElementType = useMemo(
     () =>
-      // Optional: custom inner element for extra padding/spacing
       forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
         function InnerElement(props, ref) {
           const { style, ...rest } = props;
@@ -84,7 +85,7 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
     <div className="flex flex-col border rounded-md bg-gray-950 text-gray-100 font-mono h-96">
       {/* Header / toolbar */}
       <div className="flex items-center justify-between px-3 py-1 border-b border-gray-800 text-xs uppercase tracking-wide text-gray-400">
-        <span>Server Log</span>
+        <span>{t("logDisplay.title")}</span>
         <label className="flex items-center gap-1 cursor-pointer">
           <input
             type="checkbox"
@@ -92,7 +93,7 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
             onChange={(e) => setAutoScroll(e.target.checked)}
             className="accent-emerald-500"
           />
-          <span className="text-[11px]">Follow</span>
+          <span className="text-[11px]">{t("logDisplay.follow")}</span>
         </label>
       </div>
 

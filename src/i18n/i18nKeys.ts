@@ -190,6 +190,15 @@ export type i18nLanguage = {
   genericModal: {
     cancel: string;
   };
+  serverDetailPage: {
+    notFound: string;
+    start: string;
+    stop: string;
+  };
+  logDisplay: {
+    title: string;
+    follow: string;
+  };
 };
 
 type ContainsVariable<T extends string> = `${string}{{${T}}}${string}`;

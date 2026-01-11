@@ -197,6 +197,15 @@ const translation: i18nLanguage = {
   genericModal: {
     cancel: "Abbrechen",
   },
+  serverDetailPage: {
+    notFound: "404 - Spielserver nicht gefunden",
+    start: "Starten",
+    stop: "Stoppen",
+  },
+  logDisplay: {
+    title: "Server Log",
+    follow: "Folgen",
+  },
 };
 
 export default translation;

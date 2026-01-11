@@ -1,5 +1,7 @@
 import clsx from "clsx";
 import { format } from "date-fns";
+import { de, enUS } from "date-fns/locale";
+import { useTranslation } from "react-i18next";
 import {
   type GameServerLogMessageEntity,
   GameServerLogMessageEntityLevel,
@@ -17,10 +19,17 @@ const levelBgColors: Record<string, string> = {
   [GameServerLogMessageEntityLevel.ERROR]: "bg-red-900/20",
 };
 
+const localeMap: Record<string, Locale> = {
+  en: enUS,
+  de: de,
+};
+
 const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
+  const { i18n } = useTranslation();
+  const locale = localeMap[i18n.language] || enUS;
   const level = (message.level as string) ?? "INFO";
   const timestamp = message.timestamp
-    ? format(new Date(message.timestamp), "HH:mm:ss.SSS")
+    ? format(new Date(message.timestamp), "HH:mm:ss.SSS", { locale })
     : "--:--:--.---";
 
   return (

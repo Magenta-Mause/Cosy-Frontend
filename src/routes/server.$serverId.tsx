@@ -1,6 +1,7 @@
 import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
 import { Button } from "@components/ui/button.tsx";
 import { createFileRoute } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { stopService } from "@/api/generated/backend-api.ts";
 import { startServiceSse } from "@/api/sse.ts";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
@@ -12,11 +13,12 @@ export const Route = createFileRoute("/server/$serverId")({
 
 function GameServerDetailPage() {
   const { serverId } = Route.useParams();
+  const { t } = useTranslation();
   const gameServer = useGameServer(serverId ?? "");
   const gameServerLogs = useGameServerLogs(serverId ?? "");
 
   if (!serverId || !gameServer) {
-    return <div>404 - Game Server not found</div>;
+    return <div>{t("serverDetailPage.notFound")}</div>;
   }
 
   return (
@@ -29,14 +31,14 @@ function GameServerDetailPage() {
               startServiceSse(gameServer.uuid);
             }}
           >
-            Start
+            {t("serverDetailPage.start")}
           </Button>
           <Button
             onClick={() => {
               stopService(gameServer.uuid);
             }}
           >
-            Stop
+            {t("serverDetailPage.stop")}
           </Button>
         </div>
       </div>
