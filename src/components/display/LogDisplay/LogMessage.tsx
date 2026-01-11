@@ -1,21 +1,20 @@
 import clsx from "clsx";
 import { format } from "date-fns";
-import type { GameServerLogMessageEntity } from "@/api/generated/model";
+import {
+  type GameServerLogMessageEntity,
+  GameServerLogMessageEntityLevel,
+} from "@/api/generated/model";
 
 const levelColors: Record<string, string> = {
-  DEBUG: "text-slate-400",
-  INFO: "text-sky-300",
-  WARN: "text-amber-300",
-  ERROR: "text-red-400",
-  FATAL: "text-red-500 font-semibold",
+  [GameServerLogMessageEntityLevel.INFO]: "text-sky-300",
+  [GameServerLogMessageEntityLevel.ERROR]: "text-red-400",
+  [GameServerLogMessageEntityLevel.WARNING]: "text-amber-300",
 };
 
 const levelBgColors: Record<string, string> = {
-  DEBUG: "bg-slate-800/40",
-  INFO: "bg-sky-900/20",
-  WARN: "bg-amber-900/20",
-  ERROR: "bg-red-900/20",
-  FATAL: "bg-red-950/60",
+  [GameServerLogMessageEntityLevel.INFO]: "bg-sky-900/20",
+  [GameServerLogMessageEntityLevel.WARNING]: "bg-amber-900/20",
+  [GameServerLogMessageEntityLevel.ERROR]: "bg-red-900/20",
 };
 
 const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {

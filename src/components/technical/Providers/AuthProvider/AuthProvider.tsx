@@ -1,12 +1,12 @@
 import WebSocketCollection from "@components/technical/WebsocketCollection/WebSocketCollection.tsx";
-import {jwtDecode} from "jwt-decode";
-import {createContext, type ReactNode, useCallback, useEffect, useState} from "react";
-import {StompSessionProvider} from "react-stomp-hooks";
-import SockJS from "sockjs-client";
-import {setAuthToken} from "@/api/axiosInstance";
-import {fetchToken, logout} from "@/api/generated/backend-api";
-import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 import config from "@config";
+import { jwtDecode } from "jwt-decode";
+import { createContext, type ReactNode, useCallback, useEffect, useState } from "react";
+import { StompSessionProvider } from "react-stomp-hooks";
+import SockJS from "sockjs-client";
+import { setAuthToken } from "@/api/axiosInstance";
+import { fetchToken, logout } from "@/api/generated/backend-api";
+import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 
 interface AuthContextType {
   identityToken: string | null;
@@ -45,7 +45,7 @@ const AuthContext = createContext<AuthContextType>({
 const TOKEN_REFRESH_BUFFER = 5 * 60 * 1000;
 
 const AuthProvider = (props: { children: ReactNode }) => {
-  const {loadAllData} = useDataLoading();
+  const { loadAllData } = useDataLoading();
   const [username, setUsername] = useState<string | null>(null);
   const [identityToken, setIdentityToken] = useState<string | null>(null);
   const [authorized, setAuthorized] = useState<boolean | null>(null);
@@ -173,15 +173,17 @@ const AuthProvider = (props: { children: ReactNode }) => {
       <StompSessionProvider
         url={config.backendBrokerUrl}
         webSocketFactory={() => {
-          return new SockJS(`${config.websocketFactory}${identityToken ? `?authToken=${identityToken}` : ``}`);
+          return new SockJS(
+            `${config.websocketFactory}${identityToken ? `?authToken=${identityToken}` : ``}`,
+          );
         }}
       >
-        <WebSocketCollection/>
+        <WebSocketCollection />
         {props.children}
       </StompSessionProvider>
     </AuthContext.Provider>
   );
 };
 
-export {AuthContext};
+export { AuthContext };
 export default AuthProvider;
