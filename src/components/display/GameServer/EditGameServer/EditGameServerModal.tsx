@@ -93,8 +93,20 @@ const EditGameServerModal = (props: {
     }
   };
 
+  const handleOpenChange = (open: boolean) => {
+    if (!open) {
+      setGameServerState(originalState);
+      setExecutionCommandRaw(
+        (originalState.execution_command ?? []).join(" "),
+      );
+    }
+
+    props.onOpenChange(open);
+  };
+
+
   return (
-    <Dialog open={props.open} onOpenChange={props.onOpenChange}>
+    <Dialog open={props.open} onOpenChange={handleOpenChange}>
       <DialogContent className="font-mono">
         <DialogHeader>
           <DialogTitle>{t("title", { serverName: props.serverName })}</DialogTitle>
@@ -162,8 +174,8 @@ const EditGameServerModal = (props: {
               container_port: row.value ? Number(row.value) : undefined,
               protocol: "TCP" as PortMappingProtocol,
             })}
-            keyValidator={z.string().regex(/^\d{1,5}$/)}
-            valueValidator={z.string().regex(/^\d{1,5}$/)}
+            keyValidator={z.number().min(1).max(65535)}
+            valueValidator={z.number().min(1).max(65535)}
             errorLabel={t("portSelection.errorLabel")}
           />
 

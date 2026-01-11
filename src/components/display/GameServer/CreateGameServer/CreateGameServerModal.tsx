@@ -158,7 +158,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
           </Button>
         </DialogFooter>
       </GameServerCreationContext.Provider>
-    </DialogContent >
+    </DialogContent>
   );
 };
 
