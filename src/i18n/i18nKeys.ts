@@ -9,6 +9,7 @@ export type i18nLanguage = {
     stopServer: string;
     refresh: string;
     createNewGameserver: string;
+    viewLogs: string;
   };
   toasts: {
     notImplemented: string;

@@ -1,7 +1,5 @@
 import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
-import {
-  GameServerCreationPageContext
-} from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
+import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 import { FieldError } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { DialogDescription } from "@radix-ui/react-dialog";
@@ -29,7 +27,10 @@ const GenericGameServerCreationInputField = (props: {
 
   useEffect(() => {
     if (!props.optional) {
-      setAttributeTouched(props.attribute, creationState.gameServerState[props.attribute] !== undefined);
+      setAttributeTouched(
+        props.attribute,
+        creationState.gameServerState[props.attribute] !== undefined,
+      );
       setAttributeValid(
         props.attribute,
         props.validator.safeParse(creationState.gameServerState[props.attribute]).success,
@@ -53,7 +54,8 @@ const GenericGameServerCreationInputField = (props: {
 
   const changeCallback = useCallback(
     (value: string) => {
-      if (value === "" && props.defaultValue !== undefined) return setGameServerState(props.attribute)(props.defaultValue);
+      if (value === "" && props.defaultValue !== undefined)
+        return setGameServerState(props.attribute)(props.defaultValue);
       setGameServerState(props.attribute)(value);
       if (!props.optional) {
         setAttributeValid(props.attribute, props.validator.safeParse(value).success);

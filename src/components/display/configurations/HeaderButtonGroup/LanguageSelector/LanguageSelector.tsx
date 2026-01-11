@@ -18,7 +18,7 @@ const LANGUAGES = [
 ];
 
 const LanguageSelector = (props: { className?: string }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { handleLogout } = useContext(AuthContext);
 
   return (
@@ -47,7 +47,7 @@ const LanguageSelector = (props: { className?: string }) => {
         ))}
         {/* added temporary logout button - should be moved */}
         <Button className={"text-[1vw] h-[1.5vw]"} onClick={() => handleLogout()}>
-          {i18n.t("signIn.logout")}
+          {t("signIn.logout")}
         </Button>
       </PopoverContent>
     </Popover>

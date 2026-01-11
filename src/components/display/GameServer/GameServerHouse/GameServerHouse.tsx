@@ -1,6 +1,7 @@
 import RightClickMenu from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
 import { DeleteGameServerAlertDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
 import Link from "@components/ui/Link.tsx";
+import { useRouter } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,8 +22,17 @@ const GameServerHouse = (props: {
   const { t } = useTranslation();
   const { deleteGameServer } = useDataInteractions();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const router = useRouter();
 
   const actions = [
+    {
+      label: t("rightClickMenu.viewLogs"),
+      onClick: () => {
+        router.navigate({
+          to: `/server/${props.gameServer.uuid}`,
+        });
+      },
+    },
     {
       label: t("rightClickMenu.edit"),
       onClick: () => {
@@ -40,7 +50,7 @@ const GameServerHouse = (props: {
       label: t("rightClickMenu.startServer"),
       onClick: async () => {
         try {
-          toast.info("Starting server...")
+          toast.info("Starting server...");
           const res = await startServiceSse(props.gameServer.uuid as string);
           const hostname = window.location.hostname;
           const listeningOn = res.ports.map((num) => (
@@ -88,7 +98,7 @@ const GameServerHouse = (props: {
       <RightClickMenu actions={actions}>
         <Link
           className={cn("block w-[14%] h-auto aspect-square select-none", props.className)}
-          to={`/game-server-configuration/${props.gameServer.uuid}`}
+          to={`/server/${props.gameServer.uuid}`}
           aria-label={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
           })}
