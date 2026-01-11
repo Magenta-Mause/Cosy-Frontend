@@ -19,11 +19,11 @@ import type {
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import EditKeyValueInput from "./EditKeyValueInput";
-import GenericGameServerInputField from "./GenericGameServerEditInputField";
+import GameServerEditInputField from "./GameServerEditInputField";
 
 const EditGameServerModal = (props: {
   serverName: string;
-  gameServer: GameServerDto
+  gameServer: GameServerDto;
   onConfirm: (updatedState: GameServerUpdateDto) => Promise<void>;
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -114,7 +114,7 @@ const EditGameServerModal = (props: {
         </DialogHeader>
 
         <DialogMain>
-          <GenericGameServerInputField
+          <GameServerEditInputField
             id="server_name"
             validator={z.string().min(1)}
             placeholder="My Game Server"
@@ -125,7 +125,7 @@ const EditGameServerModal = (props: {
             onChange={(v) => setGameServerState((s) => ({ ...s, server_name: v }))}
           />
 
-          <GenericGameServerInputField
+          <GameServerEditInputField
             id="game_uuid"
             validator={z.string().min(1)}
             placeholder="Game"
@@ -137,7 +137,7 @@ const EditGameServerModal = (props: {
           />
 
           <div className="grid grid-cols-2 gap-4">
-            <GenericGameServerInputField
+            <GameServerEditInputField
               id="docker_image_name"
               validator={z.string().min(1)}
               placeholder="nginx"
@@ -148,7 +148,7 @@ const EditGameServerModal = (props: {
               onChange={(v) => setGameServerState((s) => ({ ...s, docker_image_name: v }))}
             />
 
-            <GenericGameServerInputField
+            <GameServerEditInputField
               id="docker_image_tag"
               validator={z.string().min(1)}
               placeholder="latest"
@@ -196,7 +196,7 @@ const EditGameServerModal = (props: {
             errorLabel={t("environmentVariablesSelection.errorLabel")}
           />
 
-          <GenericGameServerInputField
+          <GameServerEditInputField
             id="execution_command"
             validator={z.string().min(1)}
             placeholder="./start.sh"

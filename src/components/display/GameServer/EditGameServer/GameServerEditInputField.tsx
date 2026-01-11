@@ -3,7 +3,7 @@ import { Input } from "@components/ui/input";
 import { useState } from "react";
 import type { ZodType } from "zod";
 
-type GenericGameServerInputFieldProps = {
+type GameServerEditInputFieldProps = {
   id: string;
   value: string | string[];
   onChange: (value: string) => void;
@@ -14,7 +14,7 @@ type GenericGameServerInputFieldProps = {
   description?: string;
 };
 
-const GenericGameServerInputField = ({
+const GameServerEditInputField = ({
   id,
   value,
   onChange,
@@ -23,7 +23,7 @@ const GenericGameServerInputField = ({
   errorLabel,
   label,
   description,
-}: GenericGameServerInputFieldProps) => {
+}: GameServerEditInputFieldProps) => {
   const [touched, setTouched] = useState(false);
   const isValid = validator.safeParse(value).success;
   const isError = touched && !isValid;
@@ -47,4 +47,4 @@ const GenericGameServerInputField = ({
   );
 };
 
-export default GenericGameServerInputField;
+export default GameServerEditInputField;

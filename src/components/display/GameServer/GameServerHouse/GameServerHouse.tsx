@@ -93,7 +93,6 @@ const GameServerHouse = (props: {
       return;
     }
     await updateGameServer(props.gameServer.uuid, updatedState);
-
   };
 
   return (
