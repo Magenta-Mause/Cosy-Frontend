@@ -1,1 +1,6 @@
-export const API_TARGET = process.env.API_TARGET ?? "http://127.0.0.1:8080";
+const config = {
+  backendBrokerUrl: import.meta.env.VITE_BACKEND_BROKER_URL ?? "ws://localhost:8080/api/v1/ws",
+  websocketFactory: import.meta.env.VITE_WEBSOCKET_FACTORY ?? "http://localhost:8080/api/v1/ws",
+};
+
+export default config;

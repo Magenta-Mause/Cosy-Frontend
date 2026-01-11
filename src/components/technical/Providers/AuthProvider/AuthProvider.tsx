@@ -6,6 +6,7 @@ import SockJS from "sockjs-client";
 import {setAuthToken} from "@/api/axiosInstance";
 import {fetchToken, logout} from "@/api/generated/backend-api";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
+import config from "@config";
 
 interface AuthContextType {
   identityToken: string | null;
@@ -170,9 +171,9 @@ const AuthProvider = (props: { children: ReactNode }) => {
       }}
     >
       <StompSessionProvider
-        url={"ws://localhost:8080/api/v1/ws"}
+        url={config.backendBrokerUrl}
         webSocketFactory={() => {
-          return new SockJS(`http://localhost:8080/api/v1/ws${identityToken ? `?authToken=${identityToken}` : ``}`);
+          return new SockJS(`${config.websocketFactory}${identityToken ? `?authToken=${identityToken}` : ``}`);
         }}
       >
         <WebSocketCollection/>
