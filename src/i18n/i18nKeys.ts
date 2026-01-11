@@ -111,7 +111,15 @@ export type i18nLanguage = {
     logout: string;
   };
   consequence: ContainsVariable<"counter">; // example
-
+  logDisplay: {
+    serverLog: string;
+    timestampFormat: string;
+  };
+  serverPage: {
+    notFound: string;
+    start: string;
+    stop: string;
+  }
   components: {
     CreateGameServer: {
       backButton: string;

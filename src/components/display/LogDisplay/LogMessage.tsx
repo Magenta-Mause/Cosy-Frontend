@@ -4,6 +4,7 @@ import {
   type GameServerLogMessageEntity,
   GameServerLogMessageEntityLevel,
 } from "@/api/generated/model";
+import { useTranslation } from "react-i18next";
 
 const levelColors: Record<string, string> = {
   [GameServerLogMessageEntityLevel.INFO]: "text-sky-300",
@@ -18,9 +19,10 @@ const levelBgColors: Record<string, string> = {
 };
 
 const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
+  const { t } = useTranslation();
   const level = (message.level as string) ?? "INFO";
   const timestamp = message.timestamp
-    ? format(new Date(message.timestamp), "HH:mm:ss.SSS")
+    ? format(new Date(message.timestamp), t("logDisplay.timestampFormat"))
     : "--:--:--.---";
 
   return (

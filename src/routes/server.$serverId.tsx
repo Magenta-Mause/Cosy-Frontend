@@ -5,18 +5,20 @@ import { stopService } from "@/api/generated/backend-api.ts";
 import { startServiceSse } from "@/api/sse.ts";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/server/$serverId")({
   component: GameServerDetailPage,
 });
 
 function GameServerDetailPage() {
+  const { t } = useTranslation();
   const { serverId } = Route.useParams();
   const gameServer = useGameServer(serverId ?? "");
   const gameServerLogs = useGameServerLogs(serverId ?? "");
 
   if (!serverId || !gameServer) {
-    return <div>404 - Game Server not found</div>;
+    return <div>{t("serverPage.notFound")}</div>;
   }
 
   return (
@@ -29,14 +31,14 @@ function GameServerDetailPage() {
               startServiceSse(gameServer.uuid);
             }}
           >
-            Start
+            {t("serverPage.start")}
           </Button>
           <Button
             onClick={() => {
               stopService(gameServer.uuid);
             }}
           >
-            Stop
+            {t("serverPage.stop")}
           </Button>
         </div>
       </div>

@@ -7,12 +7,15 @@ import {
 } from "react-window";
 import type { GameServerLogMessageEntity } from "@/api/generated/model";
 
-const LIST_HEIGHT = 360; // px, should match your container (h-96 ~ 384px minus header)
+import { useTranslation } from "react-i18next";
+
+const LIST_HEIGHT = 360; // px
 const ESTIMATED_ROW_HEIGHT = 20; // sane default; real height is measured
 
 type RowHeights = Record<number, number>;
 
 const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
+  const { t } = useTranslation();
   const { logMessages } = props;
   const itemCount = logMessages.length;
 
@@ -70,7 +73,6 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
 
   const innerElementType = useMemo(
     () =>
-      // Optional: custom inner element for extra padding/spacing
       forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
         function InnerElement(props, ref) {
           const { style, ...rest } = props;
@@ -84,7 +86,7 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
     <div className="flex flex-col border rounded-md bg-gray-950 text-gray-100 font-mono h-96">
       {/* Header / toolbar */}
       <div className="flex items-center justify-between px-3 py-1 border-b border-gray-800 text-xs uppercase tracking-wide text-gray-400">
-        <span>Server Log</span>
+        <span>{t("logDisplay.serverLog")}</span>
         <label className="flex items-center gap-1 cursor-pointer">
           <input
             type="checkbox"

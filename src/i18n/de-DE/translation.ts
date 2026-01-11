@@ -197,6 +197,15 @@ const translation: i18nLanguage = {
   genericModal: {
     cancel: "Abbrechen",
   },
+  logDisplay: {
+    serverLog: "Server-Protokoll",
+    timestampFormat: "HH:mm:ss.SSS",
+  },
+  serverPage: {
+    notFound: "Nicht gefunden",
+    start: "Starten",
+    stop: "Stoppen",
+  },
 };
 
 export default translation;
