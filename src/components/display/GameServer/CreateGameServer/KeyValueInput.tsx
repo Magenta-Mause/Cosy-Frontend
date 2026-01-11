@@ -66,7 +66,7 @@ function KeyValueInput({
 
   const computeValue = useCallback(
     (items: KeyValueItem[]) => {
-      const mappedItems: { [objectKey]: string | number;[objectValue]: string | number }[] = [];
+      const mappedItems: { [objectKey]: string | number; [objectValue]: string | number }[] = [];
       items.forEach((item) => {
         mappedItems.push({
           [objectKey]: preProcessInputValue(item.key, inputType),

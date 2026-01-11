@@ -69,4 +69,3 @@ export async function startServiceSse(serviceName: string): Promise<GameServerIn
     read();
   });
 }
-

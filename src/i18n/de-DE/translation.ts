@@ -11,6 +11,7 @@ const translation: i18nLanguage = {
     stopServer: "Stoppen",
     refresh: "Aktualisieren",
     createNewGameserver: "Neuen Gameserver erstellen",
+    viewLogs: "Logs anzeigen",
   },
   toasts: {
     notImplemented: "Noch nicht implementiert!",
@@ -195,6 +196,15 @@ const translation: i18nLanguage = {
   },
   genericModal: {
     cancel: "Abbrechen",
+  },
+  logDisplay: {
+    serverLog: "Server-Protokoll",
+    timestampFormat: "HH:mm:ss.SSS",
+  },
+  serverPage: {
+    notFound: "Nicht gefunden",
+    start: "Starten",
+    stop: "Stoppen",
   },
 };
 

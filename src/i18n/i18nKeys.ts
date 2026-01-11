@@ -9,6 +9,7 @@ export type i18nLanguage = {
     stopServer: string;
     refresh: string;
     createNewGameserver: string;
+    viewLogs: string;
   };
   toasts: {
     notImplemented: string;
@@ -110,7 +111,15 @@ export type i18nLanguage = {
     logout: string;
   };
   consequence: ContainsVariable<"counter">; // example
-
+  logDisplay: {
+    serverLog: string;
+    timestampFormat: string;
+  };
+  serverPage: {
+    notFound: string;
+    start: string;
+    stop: string;
+  }
   components: {
     CreateGameServer: {
       backButton: string;

@@ -12,6 +12,8 @@ export * from './gameServerCreationDto';
 export * from './gameServerDto';
 export * from './gameServerDtoStatus';
 export * from './gameServerInstanceDto';
+export * from './gameServerLogMessageEntity';
+export * from './gameServerLogMessageEntityLevel';
 export * from './gameServerStatusDto';
 export * from './gameServerStatusDtoStatus';
 export * from './getGameInfoParams';

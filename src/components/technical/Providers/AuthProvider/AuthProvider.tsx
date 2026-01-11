@@ -1,5 +1,9 @@
+import WebSocketCollection from "@components/technical/WebsocketCollection/WebSocketCollection.tsx";
+import config from "@config";
 import { jwtDecode } from "jwt-decode";
 import { createContext, type ReactNode, useCallback, useEffect, useState } from "react";
+import { StompSessionProvider } from "react-stomp-hooks";
+import SockJS from "sockjs-client";
 import { setAuthToken } from "@/api/axiosInstance";
 import { fetchToken, logout } from "@/api/generated/backend-api";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
@@ -166,7 +170,17 @@ const AuthProvider = (props: { children: ReactNode }) => {
         handleLogout,
       }}
     >
-      {props.children}
+      <StompSessionProvider
+        url={config.backendBrokerUrl}
+        webSocketFactory={() => {
+          return new SockJS(
+            `${config.websocketFactory}${identityToken ? `?authToken=${identityToken}` : ``}`,
+          );
+        }}
+      >
+        <WebSocketCollection />
+        {props.children}
+      </StompSessionProvider>
     </AuthContext.Provider>
   );
 };
