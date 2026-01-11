@@ -194,6 +194,14 @@ export type i18nLanguage = {
     notFound: string;
     start: string;
     stop: string;
+    status: string;
+  };
+  serverStatus: {
+    RUNNING: string;
+    STARTING: string;
+    SHUTTING_DOWN: string;
+    STOPPED: string;
+    FAILED: string;
   };
   logDisplay: {
     title: string;

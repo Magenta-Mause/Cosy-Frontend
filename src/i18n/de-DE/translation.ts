@@ -201,6 +201,14 @@ const translation: i18nLanguage = {
     notFound: "404 - Spielserver nicht gefunden",
     start: "Starten",
     stop: "Stoppen",
+    status: "Status",
+  },
+  serverStatus: {
+    RUNNING: "Läuft",
+    STARTING: "Startet...",
+    SHUTTING_DOWN: "Wird heruntergefahren...",
+    STOPPED: "Gestoppt",
+    FAILED: "Fehlgeschlagen",
   },
   logDisplay: {
     title: "Server Log",
