@@ -1,12 +1,14 @@
-import { useDispatch } from "react-redux";
+import {v7 as generateUuid} from "uuid";
+import {useDispatch} from "react-redux";
 import {
   getAllGameServers,
   getAllUserEntities,
-  getAllUserInvites,
+  getAllUserInvites, getLogs,
 } from "@/api/generated/backend-api.ts";
-import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
-import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
-import { userSliceActions } from "@/stores/slices/userSlice.ts";
+import {gameServerSliceActions} from "@/stores/slices/gameServerSlice.ts";
+import {userInviteSliceActions} from "@/stores/slices/userInviteSlice.ts";
+import {userSliceActions} from "@/stores/slices/userSlice.ts";
+import {gameServerLogSliceActions} from "@/stores/slices/gameServerLogSlice.ts";
 
 const useDataLoading = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,7 @@ const useDataLoading = () => {
       const gameServers = await getAllGameServers();
       dispatch(gameServerSliceActions.setState("idle"));
       dispatch(gameServerSliceActions.setGameServer(gameServers));
+      Promise.all(gameServers.map(gameServer => loadLogs(gameServer.uuid)));
       return true;
     } catch {
       dispatch(gameServerSliceActions.setState("failed"));
@@ -50,6 +53,19 @@ const useDataLoading = () => {
     }
   };
 
+  const loadLogs = async (gameServerUuid: string) => {
+    dispatch(gameServerLogSliceActions.setState({gameServerUuid, state: "loading"}));
+    try {
+      const logs = await getLogs(gameServerUuid);
+      logs.sort((a, b) => (a.timestamp ? Date.parse(a.timestamp) : 0) - (b.timestamp ? Date.parse(b.timestamp) : 0));
+      const logsWithUuid = logs.map(log => ({...log, uuid: generateUuid()}));
+      dispatch(gameServerLogSliceActions.setGameServerLogs({gameServerUuid, logs: logsWithUuid}));
+      dispatch(gameServerLogSliceActions.setState({gameServerUuid, state: "idle"}));
+    } catch {
+      dispatch(gameServerLogSliceActions.setState({gameServerUuid, state: "failed"}));
+    }
+  }
+
   const loadAllData = async () => {
     const results = await Promise.allSettled([loadGameServers(), loadUsers(), loadInvites()]);
 
@@ -65,6 +81,8 @@ const useDataLoading = () => {
         console.error(`Failed to load ${names[idx]}:`, result.reason);
       }
     });
+
+
 
     return summary;
   };

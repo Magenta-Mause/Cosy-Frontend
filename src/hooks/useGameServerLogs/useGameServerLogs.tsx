@@ -5,7 +5,7 @@ const useGameServerLogs = (serverId: string) => {
   const gameServerLogs = useTypedSelector((state) => state.gameServerLogSliceReducer.data);
   return useMemo(() => {
     if (!gameServerLogs || !gameServerLogs[serverId]) {
-      return [];
+      return {state: "failed", logs: []};
     }
     return gameServerLogs[serverId];
   }, [gameServerLogs, serverId]);
