@@ -33,20 +33,18 @@ const EditGameServerModal = (props: {
 
   const originalState: GameServerUpdateDto = useMemo(
     () => ({
-      game_uuid: props.gameServer.game_uuid ?? "",
-      server_name: props.gameServer.server_name ?? "",
-      docker_image_name: props.gameServer.docker_image_name ?? "",
-      docker_image_tag: props.gameServer.docker_image_tag ?? "",
-      port_mappings: props.gameServer.port_mappings ?? [],
-      environment_variables: props.gameServer.environment_variables ?? [],
-      execution_command:
-        props.gameServer.execution_command ??
-        [],
+      game_uuid: props.gameServer.game_uuid,
+      server_name: props.gameServer.server_name,
+      docker_image_name: props.gameServer.docker_image_name,
+      docker_image_tag: props.gameServer.docker_image_tag,
+      port_mappings: props.gameServer.port_mappings,
+      environment_variables: props.gameServer.environment_variables,
+      execution_command: props.gameServer.execution_command,
       volume_mounts:
         props.gameServer.volume_mounts?.map((v) => ({
           host_path: v.host_path ?? "",
           container_path: v.container_path ?? "",
-        })) ?? [],
+        })),
     }),
     [props.gameServer],
   );
