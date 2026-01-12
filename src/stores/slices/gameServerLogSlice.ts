@@ -23,7 +23,7 @@ const gameServerLogSlice = createSlice({
       Object.keys(grouped).forEach(key => {
         withStatus[key] = {
           logs: grouped[key],
-          state: "loading"
+          state: "idle"
         }
       })
       state.data = withStatus;
@@ -49,7 +49,11 @@ const gameServerLogSlice = createSlice({
       gameServerUuid: GameServerDto["uuid"],
       logs: GameServerLogWithUuid[]
     }>) => {
-      state.data[action.payload.gameServerUuid].logs = action.payload.logs;
+      const { gameServerUuid, logs } = action.payload;
+      if (!state.data[gameServerUuid]) {
+        state.data[gameServerUuid] = { state: "loading", logs: [] };
+      }
+      state.data[gameServerUuid].logs = logs;
     },
     resetLogs: (state) => {
       state.data = {};
