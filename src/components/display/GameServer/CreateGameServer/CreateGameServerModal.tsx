@@ -132,6 +132,15 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
           <div>{PAGES[currentPage]}</div>
         </DialogMain>
         <DialogFooter className="shrink-0 pt-4">
+          <div className="flex-none w-40 flex items-start justify-center">
+            {creationState.utilState.gameEntity?.logo_url && (
+              <img
+                src={creationState.utilState.gameEntity.logo_url}
+                alt="Selected game logo"
+                className="max-h-36 w-auto object-contain rounded-md"
+              />
+            )}
+          </div>
           {currentPage > 0 && (
             <Button
               variant="secondary"
