@@ -19,7 +19,7 @@ const useDataLoading = () => {
       const gameServers = await getAllGameServers();
       dispatch(gameServerSliceActions.setState("idle"));
       dispatch(gameServerSliceActions.setGameServer(gameServers));
-      Promise.all(gameServers.map(gameServer => async () => await loadLogs(gameServer.uuid)));
+      Promise.allSettled(gameServers.map(gameServer => loadLogs(gameServer.uuid)));
       return true;
     } catch {
       dispatch(gameServerSliceActions.setState("failed"));
