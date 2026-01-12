@@ -55,6 +55,17 @@ const EditGameServerModal = (props: {
     (originalState.execution_command ?? []).join(" "),
   );
 
+  // Validate all fields
+  const allFieldsValid = useMemo(() => {
+    const serverNameValid = z.string().min(1).safeParse(gameServerState.server_name).success;
+    const gameUuidValid = z.string().min(1).safeParse(gameServerState.game_uuid).success;
+    const dockerImageNameValid = z.string().min(1).safeParse(gameServerState.docker_image_name).success;
+    const dockerImageTagValid = z.string().min(1).safeParse(gameServerState.docker_image_tag).success;
+    const executionCommandValid = z.string().min(1).safeParse(executionCommandRaw).success;
+
+    return serverNameValid && gameUuidValid && dockerImageNameValid && dockerImageTagValid && executionCommandValid;
+  }, [gameServerState, executionCommandRaw]);
+
   const isChanged = useMemo(() => {
     const withParsedCommand: GameServerUpdateDto = {
       ...gameServerState,
@@ -66,7 +77,7 @@ const EditGameServerModal = (props: {
     return JSON.stringify(withParsedCommand) !== JSON.stringify(originalState);
   }, [gameServerState, executionCommandRaw, originalState]);
 
-  const isConfirmButtonDisabled = loading || !isChanged;
+  const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   const handleConfirm = async () => {
     if (!props.gameServer.uuid) {
