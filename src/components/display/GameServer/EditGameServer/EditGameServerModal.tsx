@@ -55,15 +55,15 @@ const EditGameServerModal = (props: {
     (originalState.execution_command ?? []).join(" "),
   );
 
-  // Validate all fields
   const allFieldsValid = useMemo(() => {
     const serverNameValid = z.string().min(1).safeParse(gameServerState.server_name).success;
     const gameUuidValid = z.string().min(1).safeParse(gameServerState.game_uuid).success;
     const dockerImageNameValid = z.string().min(1).safeParse(gameServerState.docker_image_name).success;
     const dockerImageTagValid = z.string().min(1).safeParse(gameServerState.docker_image_tag).success;
     const executionCommandValid = z.string().min(1).safeParse(executionCommandRaw).success;
+    const portMappingsValid = gameServerState.port_mappings && gameServerState.port_mappings.length > 0;
 
-    return serverNameValid && gameUuidValid && dockerImageNameValid && dockerImageTagValid && executionCommandValid;
+    return serverNameValid && gameUuidValid && dockerImageNameValid && dockerImageTagValid && executionCommandValid && portMappingsValid;
   }, [gameServerState, executionCommandRaw]);
 
   const isChanged = useMemo(() => {
@@ -180,11 +180,17 @@ const EditGameServerModal = (props: {
               container_port: row.value ? Number(row.value) : undefined,
               protocol: "TCP" as PortMappingProtocol,
             })}
-            keyValidator={z.number().min(1).max(65535)}
-            valueValidator={z.number().min(1).max(65535)}
+            keyValidator={z.string().min(1).regex(/^\d+$/).refine(val => {
+              const num = Number(val);
+              return num >= 1 && num <= 65535;
+            })}
+            valueValidator={z.string().min(1).regex(/^\d+$/).refine(val => {
+              const num = Number(val);
+              return num >= 1 && num <= 65535;
+            })}
             errorLabel={t("portSelection.errorLabel")}
+            required={true}
           />
-
           <EditKeyValueInput
             label={t("environmentVariablesSelection.title")}
             description={t("environmentVariablesSelection.description")}

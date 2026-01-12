@@ -19,13 +19,13 @@ interface Props<T> {
   description?: string;
   value?: T[];
   onChange: (value: T[]) => void;
-  /** maps DTO -> row */
   toRow: (item: T) => { key: string; value: string };
-  /** maps row -> DTO */
   fromRow: (row: { key: string; value: string }) => T;
   keyValidator: ZodType;
   valueValidator: ZodType;
   errorLabel: string;
+  required?: boolean;
+
 }
 
 export default function EditKeyValueInput<T>({
@@ -38,6 +38,7 @@ export default function EditKeyValueInput<T>({
   keyValidator,
   valueValidator,
   errorLabel,
+  required = false,
 }: Props<T>) {
   const [rows, setRows] = useState<Row[]>(() =>
     value && value.length > 0
@@ -50,14 +51,18 @@ export default function EditKeyValueInput<T>({
   );
 
   const validateRow = useCallback(
-    (key: string, value: string) =>
-      keyValidator.safeParse(key).success && valueValidator.safeParse(value).success,
-    [keyValidator, valueValidator],
+    (key: string, value: string, isOnlyRow: boolean) => {
+      if (required && isOnlyRow && (key === "" || value === "")) {
+        return false;
+      }
+      if (key === "" && value === "") return true;
+      return keyValidator.safeParse(key).success && valueValidator.safeParse(value).success;
+    },
+    [keyValidator, valueValidator, required],
   );
 
   const lastEmittedRef = useRef<string>("");
 
-  /** propagate to parent */
   useEffect(() => {
     const nextValue = rows
       .filter((r) => r.key !== "" && r.value !== "" && r.valid)
@@ -71,17 +76,22 @@ export default function EditKeyValueInput<T>({
   }, [rows, fromRow, onChange]);
 
   const updateRow = (uuid: string, field: "key" | "value") => (val: string) => {
-    setRows((prev) =>
-      prev.map((r) =>
+    setRows((prev) => {
+      const isOnlyRow = prev.length === 1;
+      return prev.map((r) =>
         r.uuid === uuid
           ? {
             ...r,
             [field]: val,
-            valid: validateRow(field === "key" ? val : r.key, field === "value" ? val : r.value),
+            valid: validateRow(
+              field === "key" ? val : r.key,
+              field === "value" ? val : r.value,
+              isOnlyRow
+            ),
           }
           : r,
-      ),
-    );
+      );
+    });
   };
 
   const removeRow = (uuid: string) => setRows((prev) => prev.filter((r) => r.uuid !== uuid));
