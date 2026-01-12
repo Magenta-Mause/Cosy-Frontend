@@ -89,7 +89,7 @@ const GameServerHouse = (props: {
 
   const handleUpdateGameServer = async (updatedState: GameServerUpdateDto) => {
     if (!props.gameServer.uuid) {
-      console.error("GameServer UUID is missing");
+      toast.error(t("toasts.missingUuid"))
       return;
     }
     await updateGameServer(props.gameServer.uuid, updatedState);

@@ -32,6 +32,7 @@ export type i18nLanguage = {
     serverStopError: ContainsVariable<"error">;
     updateGameServerSuccess: string;
     updateGameServerError: string;
+    missingUuid: string;
   };
   userModal: {
     title: string;
@@ -193,6 +194,7 @@ export type i18nLanguage = {
 
       cancel: string;
       confirm: string;
+      missingUuidError: string;
 
       gameSelection: {
         title: string;

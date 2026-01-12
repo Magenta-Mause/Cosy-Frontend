@@ -11,6 +11,7 @@ import {
 } from "@components/ui/dialog.tsx";
 import { useMemo, useState } from "react";
 import { parse as parseCommand } from "shell-quote";
+import { toast } from "sonner";
 import * as z from "zod";
 import type {
   GameServerDto,
@@ -40,11 +41,10 @@ const EditGameServerModal = (props: {
       port_mappings: props.gameServer.port_mappings,
       environment_variables: props.gameServer.environment_variables,
       execution_command: props.gameServer.execution_command,
-      volume_mounts:
-        props.gameServer.volume_mounts?.map((v) => ({
-          host_path: v.host_path ?? "",
-          container_path: v.container_path ?? "",
-        })),
+      volume_mounts: props.gameServer.volume_mounts?.map((v) => ({
+        host_path: v.host_path ?? "",
+        container_path: v.container_path ?? "",
+      })),
     }),
     [props.gameServer],
   );
@@ -70,7 +70,7 @@ const EditGameServerModal = (props: {
 
   const handleConfirm = async () => {
     if (!props.gameServer.uuid) {
-      console.error("GameServer UUID is missing");
+      toast.error(t("missingUuidError"));
       return;
     }
 
@@ -94,14 +94,11 @@ const EditGameServerModal = (props: {
   const handleOpenChange = (open: boolean) => {
     if (!open) {
       setGameServerState(originalState);
-      setExecutionCommandRaw(
-        (originalState.execution_command ?? []).join(" "),
-      );
+      setExecutionCommandRaw((originalState.execution_command ?? []).join(" "));
     }
 
     props.onOpenChange(open);
   };
-
 
   return (
     <Dialog open={props.open} onOpenChange={handleOpenChange}>

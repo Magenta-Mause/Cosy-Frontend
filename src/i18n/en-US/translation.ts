@@ -39,6 +39,7 @@ const translation: i18nLanguage = {
     serverStopSuccess: "Stopped Server",
     updateGameServerSuccess: "Game Server updated successfully!",
     updateGameServerError: "Failed to update Game Server",
+    missingUuid: "UUID is missing",
   },
   userModal: {
     title: "Users",
@@ -196,6 +197,7 @@ const translation: i18nLanguage = {
 
       cancel: "Cancel",
       confirm: "Save changes",
+      missingUuidError: "UUID is missing",
 
       gameSelection: {
         title: "Game",
