@@ -28,7 +28,7 @@ interface Props<T> {
 
 }
 
-export default function EditKeyValueInput<T>({
+export default function KeyValueInputEditGameServer<T>({
   label,
   description,
   value,
@@ -101,6 +101,7 @@ export default function EditKeyValueInput<T>({
   return (
     <Field className="py-2">
       <FieldLabel className="pb-0 font-bold">{label}</FieldLabel>
+
       <div className="space-y-2">
         {rows.map((row, index) => (
           <div key={row.uuid} className="flex gap-2 items-center">
