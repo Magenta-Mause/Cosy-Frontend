@@ -16,11 +16,11 @@ import * as z from "zod";
 import type {
   GameServerDto,
   GameServerUpdateDto,
-  PortMappingProtocol,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import GameServerEditInputField from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
+import PortInputEditGameServer from "./PortInputEditGameServer";
 
 const EditGameServerModal = (props: {
   serverName: string;
@@ -136,13 +136,13 @@ const EditGameServerModal = (props: {
         <DialogMain>
           <GameServerEditInputField
             id="server_name"
+            label={t("serverNameSelection.title")}
+            value={gameServerState.server_name}
+            onChange={(v) => setGameServerState((s) => ({ ...s, server_name: v as string }))}
             validator={z.string().min(1)}
             placeholder="My Game Server"
-            label={t("serverNameSelection.title")}
             description={t("serverNameSelection.description")}
             errorLabel={t("serverNameSelection.errorLabel")}
-            value={gameServerState.server_name}
-            onChange={(v) => setGameServerState((s) => ({ ...s, server_name: v }))}
           />
 
           <GameServerEditInputField
@@ -153,7 +153,7 @@ const EditGameServerModal = (props: {
             description={t("gameSelection.description")}
             errorLabel={t("gameSelection.errorLabel")}
             value={gameServerState.game_uuid}
-            onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v }))}
+            onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
           />
 
           <div className="grid grid-cols-2 gap-4">
@@ -165,7 +165,7 @@ const EditGameServerModal = (props: {
               description={t("dockerImageSelection.description")}
               errorLabel={t("dockerImageSelection.errorLabel")}
               value={gameServerState.docker_image_name}
-              onChange={(v) => setGameServerState((s) => ({ ...s, docker_image_name: v }))}
+              onChange={(v) => setGameServerState((s) => ({ ...s, docker_image_name: v as string }))}
             />
 
             <GameServerEditInputField
@@ -176,24 +176,17 @@ const EditGameServerModal = (props: {
               description={t("imageTagSelection.description")}
               errorLabel={t("imageTagSelection.errorLabel")}
               value={gameServerState.docker_image_tag}
-              onChange={(v) => setGameServerState((s) => ({ ...s, docker_image_tag: v }))}
+              onChange={(v) => setGameServerState((s) => ({ ...s, docker_image_tag: v as string }))}
             />
           </div>
 
-          <EditKeyValueInput
-            label={t("portSelection.title")}
-            description={t("portSelection.description")}
+          <PortInputEditGameServer
+            fieldLabel={t("portSelection.title")}
+            fieldDescription={t("portSelection.description")}
             value={gameServerState.port_mappings}
-            onChange={(ports) => setGameServerState((s) => ({ ...s, port_mappings: ports }))}
-            toRow={(pm) => ({
-              key: pm.instance_port?.toString() ?? "",
-              value: pm.container_port?.toString() ?? "",
-            })}
-            fromRow={(row) => ({
-              instance_port: row.key ? Number(row.key) : undefined,
-              container_port: row.value ? Number(row.value) : undefined,
-              protocol: "TCP" as PortMappingProtocol,
-            })}
+            onChange={(ports) =>
+              setGameServerState((s) => ({ ...s, port_mappings: ports }))
+            }
             keyValidator={z
               .string()
               .min(1)
@@ -213,9 +206,10 @@ const EditGameServerModal = (props: {
             errorLabel={t("portSelection.errorLabel")}
             required={true}
           />
-          <EditKeyValueInput
-            label={t("environmentVariablesSelection.title")}
-            description={t("environmentVariablesSelection.description")}
+
+          <EditKeyValueInput<{ key: string; value: string }>
+            fieldLabel={t("environmentVariablesSelection.title")}
+            fieldDescription={t("environmentVariablesSelection.description")}
             value={gameServerState.environment_variables}
             onChange={(envs) =>
               setGameServerState((s) => ({
@@ -223,12 +217,17 @@ const EditGameServerModal = (props: {
                 environment_variables: envs,
               }))
             }
-            toRow={(e) => ({ key: e.key, value: e.value })}
-            fromRow={(row) => ({ key: row.key, value: row.value })}
+            placeHolderKeyInput="KEY"
+            placeHolderValueInput="VALUE"
             keyValidator={z.string().min(1)}
             valueValidator={z.string().min(1)}
             errorLabel={t("environmentVariablesSelection.errorLabel")}
+            required={true}
+            inputType="text"
+            objectKey="key"
+            objectValue="value"
           />
+
 
           <GameServerEditInputField
             id="execution_command"
@@ -238,26 +237,30 @@ const EditGameServerModal = (props: {
             description={t("executionCommandSelection.description")}
             errorLabel={t("executionCommandSelection.errorLabel")}
             value={executionCommandRaw}
-            onChange={setExecutionCommandRaw}
+            onChange={(v) => setExecutionCommandRaw((v ?? "") as string)}
           />
 
-          <EditKeyValueInput
-            label={t("volumeMountSelection.title")}
-            description={t("volumeMountSelection.description")}
+          <EditKeyValueInput<{
+            host_path: string;
+            container_path: string;
+          }>
+            fieldLabel={t("volumeMountSelection.title")}
+            fieldDescription={t("volumeMountSelection.description")}
             value={gameServerState.volume_mounts}
-            onChange={(volumes) => setGameServerState((s) => ({ ...s, volume_mounts: volumes }))}
-            toRow={(v) => ({
-              key: v.host_path ?? "",
-              value: v.container_path ?? "",
-            })}
-            fromRow={(row) => ({
-              host_path: row.key,
-              container_path: row.value,
-            })}
+            onChange={(volumes) =>
+              setGameServerState((s) => ({ ...s, volume_mounts: volumes }))
+            }
+            placeHolderKeyInput="Host Path"
+            placeHolderValueInput="Container Path"
             keyValidator={z.string().min(1)}
             valueValidator={z.string().min(1)}
             errorLabel={t("volumeMountSelection.errorLabel")}
+            required={true}
+            inputType="text"
+            objectKey="host_path"
+            objectValue="container_path"
           />
+
         </DialogMain>
 
         <DialogFooter>

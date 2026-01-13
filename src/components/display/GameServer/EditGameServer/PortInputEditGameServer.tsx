@@ -1,5 +1,3 @@
-import type { InputType } from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
-import ListInput from "@components/display/GameServer/CreateGameServer/ListInput.tsx";
 import { Input } from "@components/ui/input.tsx";
 import {
   Select,
@@ -10,8 +8,8 @@ import {
 } from "@components/ui/select.tsx";
 import { useCallback } from "react";
 import type { ZodType } from "zod";
-import { type GameServerUpdateDto, type PortMapping, PortMappingProtocol } from "@/api/generated/model";
-import { cn } from "@/lib/utils.ts";
+import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
+import ListInputEdit from "./ListInputEditGameServer";
 
 interface PortItem {
   key: string;
@@ -21,24 +19,21 @@ interface PortItem {
 }
 
 interface Props {
-  attribute: keyof GameServerUpdateDto;
-  placeHolderKeyInput: string;
-  placeHolderValueInput: string;
+  value?: PortMapping[];
+  onChange?: (vals: PortMapping[]) => void;
+
   fieldLabel: string;
   fieldDescription: string;
+
   keyValidator: ZodType;
   valueValidator: ZodType;
   errorLabel: string;
   required?: boolean;
 }
 
-const inputType: InputType = "number";
-const preProcessValue = Number;
-
-function PortInput({
-  attribute,
-  placeHolderKeyInput,
-  placeHolderValueInput,
+function PortInputEditGameServer({
+  value,
+  onChange,
   fieldLabel,
   fieldDescription,
   keyValidator,
@@ -46,21 +41,21 @@ function PortInput({
   errorLabel,
   required,
 }: Props) {
+  const inputType: "number" = "number";
+
+  // Validation function
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
-      if (!key && !value && !required) {
-        return true;
-      } else if (!key || !value) {
-        return false;
-      }
+      // define preProcessValue here to avoid dependency issues
+      const preProcessValue = (v: string) => Number(v);
 
-      const preProcessedKey = preProcessValue(key);
-      const preProcessedValue = preProcessValue(value);
+      if (!key && !value && !required) return true;
+      if (!key || !value) return false;
 
-      const keyValid = (key: string | number) => keyValidator.safeParse(key).success;
-      const valueValid = (value: string | number) => valueValidator.safeParse(value).success;
-
-      return keyValid(preProcessedKey) && valueValid(preProcessedValue);
+      return (
+        keyValidator.safeParse(preProcessValue(key)).success &&
+        valueValidator.safeParse(preProcessValue(value)).success
+      );
     },
     [keyValidator, valueValidator, required],
   );
@@ -70,62 +65,57 @@ function PortInput({
     [validateKeyValuePair],
   );
 
-  const computeValue = useCallback((items: PortItem[]) => {
-    const mappedItems: PortMapping[] = [];
-    items.forEach((item) => {
-      mappedItems.push({
-        instance_port: preProcessValue(item.key),
-        container_port: preProcessValue(item.value),
-        protocol: item.protocol,
-      });
-    });
-    return mappedItems;
-  }, []);
-
   return (
-    <ListInput
-      defaultNewItem={() => ({ protocol: PortMappingProtocol.TCP })}
-      attribute={attribute}
+    <ListInputEdit<PortItem>
+      value={
+        value?.map((v) => ({
+          key: v.instance_port?.toString() ?? "",
+          value: v.container_port?.toString() ?? "",
+          protocol: v.protocol ?? PortMappingProtocol.TCP,
+          uuid: crypto.randomUUID(),
+        })) ?? []
+      }
+      onChange={(rows) => {
+        const preProcessValue = (v: string) => Number(v); // also here for mapping
+        const mapped: PortMapping[] = rows.map((row) => ({
+          instance_port: preProcessValue(row.key),
+          container_port: preProcessValue(row.value),
+          protocol: row.protocol,
+        }));
+        onChange?.(mapped);
+      }}
       checkValidity={checkValidity}
       errorLabel={errorLabel}
       fieldLabel={fieldLabel}
-      computeValue={computeValue}
       fieldDescription={fieldDescription}
-      renderRow={(changeCallback, rowError) => (keyValuePair) => (
+      renderRow={(changeCallback, rowError) => (row) => (
         <>
           <Input
-            className={cn(rowError ? "border-red-500" : "", "w-30")}
-            id={`key-value-input-key-${keyValuePair.uuid}`}
-            placeholder={placeHolderKeyInput}
-            value={(keyValuePair.key as string | undefined) || ""}
-            onChange={(e) => changeCallback({ ...keyValuePair, key: e.target.value })}
+            className={rowError ? "border-red-500 flex-1" : "flex-1"}
+            placeholder="Instance Port"
+            value={row.key}
+            onChange={(e) => changeCallback({ ...row, key: e.target.value })}
             type={inputType}
           />
           <Input
-            className={cn(rowError ? "border-red-500" : "", "w-30")}
-            id={`key-value-input-value-${keyValuePair.uuid}`}
-            placeholder={placeHolderValueInput}
-            value={(keyValuePair.value as string | undefined) || ""}
-            onChange={(e) => {
-              changeCallback({ ...keyValuePair, value: e.target.value });
-            }}
+            className={rowError ? "border-red-500 flex-1" : "flex-1"}
+            placeholder="Container Port"
+            value={row.value}
+            onChange={(e) => changeCallback({ ...row, value: e.target.value })}
             type={inputType}
           />
           <Select
-            value={keyValuePair.protocol}
+            value={row.protocol}
             onValueChange={(newVal) =>
-              changeCallback({
-                ...keyValuePair,
-                protocol: newVal as PortMappingProtocol,
-              })
+              changeCallback({ ...row, protocol: newVal as PortMappingProtocol })
             }
           >
-            <SelectTrigger className={"w-20"}>
-              <SelectValue placeholder={"Protocol"} />
+            <SelectTrigger className="flex-1">
+              <SelectValue placeholder="Protocol" />
             </SelectTrigger>
             <SelectContent>
               {Object.values(PortMappingProtocol).map((protocol) => (
-                <SelectItem value={protocol} key={protocol}>
+                <SelectItem key={protocol} value={protocol}>
                   {protocol}
                 </SelectItem>
               ))}
@@ -137,4 +127,4 @@ function PortInput({
   );
 }
 
-export default PortInput;
+export default PortInputEditGameServer;

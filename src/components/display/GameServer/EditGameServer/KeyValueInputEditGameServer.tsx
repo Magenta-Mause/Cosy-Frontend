@@ -1,149 +1,116 @@
-import { Button } from "@components/ui/button";
-import { Field, FieldDescription, FieldLabel } from "@components/ui/field";
-import { Input } from "@components/ui/input";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
-import { CircleAlertIcon, Plus, Trash2 } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { v7 as uuidv7 } from "uuid";
+import { Input } from "@components/ui/input.tsx";
+import { Fragment, useCallback } from "react";
 import type { ZodType } from "zod";
+import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
+import ListInputEdit from "./ListInputEditGameServer";
 
-type Row = {
-  uuid: string;
+interface KeyValueItem {
   key: string;
   value: string;
-  valid: boolean;
-};
+  uuid: string;
+}
 
 interface Props<T> {
-  label: string;
-  description?: string;
   value?: T[];
-  onChange: (value: T[]) => void;
-  toRow: (item: T) => { key: string; value: string };
-  fromRow: (row: { key: string; value: string }) => T;
+  onChange?: (vals: T[]) => void;
+
+  placeHolderKeyInput: string;
+  placeHolderValueInput: string;
+  fieldLabel: string;
+  fieldDescription: string;
+
   keyValidator: ZodType;
   valueValidator: ZodType;
   errorLabel: string;
   required?: boolean;
 
+  inputType: InputType;
+  objectKey: keyof T;
+  objectValue: keyof T;
 }
 
-export default function KeyValueInputEditGameServer<T>({
-  label,
-  description,
+function EditKeyValueInput<T extends Record<string, any>>({
   value,
   onChange,
-  toRow,
-  fromRow,
+  placeHolderKeyInput,
+  placeHolderValueInput,
+  fieldLabel,
+  fieldDescription,
   keyValidator,
   valueValidator,
   errorLabel,
-  required = false,
+  required,
+  inputType,
+  objectKey,
+  objectValue,
 }: Props<T>) {
-  const [rows, setRows] = useState<Row[]>(() =>
-    value && value.length > 0
-      ? value.map((v) => ({
-        uuid: uuidv7(),
-        ...toRow(v),
-        valid: true,
-      }))
-      : [{ uuid: uuidv7(), key: "", value: "", valid: true }],
-  );
-
-  const validateRow = useCallback(
-    (key: string, value: string, isOnlyRow: boolean) => {
-      if (required && isOnlyRow && (key === "" || value === "")) {
+  const validateKeyValuePair = useCallback(
+    (key?: string, value?: string) => {
+      if (!key && !value && !required) {
+        return true;
+      } else if (!key || !value) {
         return false;
       }
-      if (key === "" && value === "") return true;
-      return keyValidator.safeParse(key).success && valueValidator.safeParse(value).success;
+
+      const preProcessedKey = preProcessInputValue(key, inputType);
+      const preProcessedValue = preProcessInputValue(value, inputType);
+
+      return (
+        keyValidator.safeParse(preProcessedKey).success &&
+        valueValidator.safeParse(preProcessedValue).success
+      );
     },
-    [keyValidator, valueValidator, required],
+    [keyValidator, valueValidator, required, inputType],
   );
 
-  const lastEmittedRef = useRef<string>("");
-
-  useEffect(() => {
-    const nextValue = rows
-      .filter((r) => r.key !== "" && r.value !== "" && r.valid)
-      .map((r) => fromRow({ key: r.key, value: r.value }));
-
-    const serialized = JSON.stringify(nextValue);
-    if (serialized !== lastEmittedRef.current) {
-      lastEmittedRef.current = serialized;
-      onChange(nextValue);
-    }
-  }, [rows, fromRow, onChange]);
-
-  const updateRow = (uuid: string, field: "key" | "value") => (val: string) => {
-    setRows((prev) => {
-      const isOnlyRow = prev.length === 1;
-      return prev.map((r) =>
-        r.uuid === uuid
-          ? {
-            ...r,
-            [field]: val,
-            valid: validateRow(
-              field === "key" ? val : r.key,
-              field === "value" ? val : r.value,
-              isOnlyRow
-            ),
-          }
-          : r,
-      );
-    });
-  };
-
-  const removeRow = (uuid: string) => setRows((prev) => prev.filter((r) => r.uuid !== uuid));
-  const addRow = () =>
-    setRows((prev) => [...prev, { uuid: uuidv7(), key: "", value: "", valid: true }]);
+  const checkValidity = useCallback(
+    (item: KeyValueItem) => validateKeyValuePair(item.key, item.value),
+    [validateKeyValuePair],
+  );
 
   return (
-    <Field className="py-2">
-      <FieldLabel className="pb-0 font-bold">{label}</FieldLabel>
-
-      <div className="space-y-2">
-        {rows.map((row, index) => (
-          <div key={row.uuid} className="flex gap-2 items-center">
+    <ListInputEdit<KeyValueItem>
+      value={
+        value?.map((v) => ({
+          key: String(v[objectKey] ?? ""),
+          value: String(v[objectValue] ?? ""),
+          uuid: crypto.randomUUID(),
+        })) ?? []
+      }
+      onChange={(rows) => {
+        const mapped = rows.map((row) => ({
+          ...({} as T),
+          [objectKey]: preProcessInputValue(row.key, inputType),
+          [objectValue]: preProcessInputValue(row.value, inputType),
+        }));
+        onChange?.(mapped);
+      }}
+      checkValidity={checkValidity}
+      errorLabel={errorLabel}
+      fieldLabel={fieldLabel}
+      fieldDescription={fieldDescription}
+      renderRow={(changeCallback, rowError) => (row) => (
+        <Fragment key={row.uuid}>
+          <div className="flex gap-2 w-full">
             <Input
+              className={rowError ? "border-red-500 flex-1" : "flex-1"}
+              placeholder={placeHolderKeyInput}
               value={row.key}
-              onChange={(e) => updateRow(row.uuid, "key")(e.target.value)}
-              placeholder="Key"
-              className={!row.valid ? "border-red-500" : ""}
+              onChange={(e) => changeCallback({ ...row, key: e.target.value })}
+              type={inputType}
             />
             <Input
+              className={rowError ? "border-red-500 flex-1" : "flex-1"}
+              placeholder={placeHolderValueInput}
               value={row.value}
-              onChange={(e) => updateRow(row.uuid, "value")(e.target.value)}
-              placeholder="Value"
-              className={!row.valid ? "border-red-500" : ""}
+              onChange={(e) => changeCallback({ ...row, value: e.target.value })}
+              type={inputType}
             />
-            {index > 0 && (
-              <Button
-                variant="destructive"
-                onClick={() => removeRow(row.uuid)}
-                className="h-9 w-9 p-0"
-              >
-                <Trash2 className="size-6" />
-              </Button>
-            )}
-            {index === rows.length - 1 &&
-              <Button onClick={addRow} className="h-9 w-9 p-0">
-                <Plus className="size-6" />
-              </Button>
-            }
-
-            {!row.valid && (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <CircleAlertIcon className="text-red-500 w-5 h-5" />
-                </TooltipTrigger>
-                <TooltipContent>{errorLabel}</TooltipContent>
-              </Tooltip>
-            )}
           </div>
-        ))}
-      </div>
-      {description && <FieldDescription>{description}</FieldDescription>}
-    </Field>
+        </Fragment>
+      )}
+    />
   );
 }
+
+export default EditKeyValueInput;

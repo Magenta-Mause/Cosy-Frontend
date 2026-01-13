@@ -1,48 +1,75 @@
-import { FieldError } from "@components/ui/field";
-import { Input } from "@components/ui/input";
-import { useState } from "react";
+import { FieldError } from "@components/ui/field.tsx";
+import { Input } from "@components/ui/input.tsx";
+import { useCallback, useEffect, useState } from "react";
 import type { ZodType } from "zod";
 
-type InputFieldEditGameServerProps = {
+const InputFieldEditGameServer = (props: {
   id: string;
-  value: string | string[];
-  onChange: (value: string) => void;
+  value?: string | number;
+  onChange: (value: string | number | undefined) => void;
   validator: ZodType;
   placeholder: string;
   errorLabel: string;
   label?: string;
   description?: string;
-};
-
-const InputFieldEditGameServer = ({
-  id,
-  value,
-  onChange,
-  validator,
-  placeholder,
-  errorLabel,
-  label,
-  description,
-}: InputFieldEditGameServerProps) => {
+  optional?: boolean;
+  defaultValue?: string;
+}) => {
   const [touched, setTouched] = useState(false);
-  const isValid = validator.safeParse(value).success;
+  const [isValid, setIsValid] = useState(true);
+
   const isError = touched && !isValid;
+
+  const validate = useCallback(
+    (value: unknown) => {
+      if (props.optional) return true;
+      return props.validator.safeParse(value).success;
+    },
+    [props.optional, props.validator],
+  );
+
+  const changeCallback = useCallback(
+    (value: string) => {
+      setTouched(true);
+
+      if (value === "" && props.defaultValue !== undefined) {
+        props.onChange(props.defaultValue);
+        setIsValid(validate(props.defaultValue));
+        return;
+      }
+
+      props.onChange(value);
+      setIsValid(validate(value));
+    },
+    [props, validate],
+  );
+
+  useEffect(() => {
+    if (props.defaultValue !== undefined && props.value === undefined) {
+      props.onChange(props.defaultValue);
+      setIsValid(validate(props.defaultValue));
+    }
+  }, [props, validate]);
+
+  useEffect(() => {
+    if (props.optional) {
+      setIsValid(true);
+      setTouched(true);
+    }
+  }, [props.optional]);
 
   return (
     <div className="py-2">
       <Input
-        header={label}
-        description={description}
-        id={id}
-        value={value as string | number | undefined}
-        placeholder={placeholder}
+        header={props.label}
+        description={props.description}
+        id={props.id}
         className={isError ? "border-red-500" : ""}
-        onChange={(e) => {
-          setTouched(true);
-          onChange(e.target.value);
-        }}
+        placeholder={props.placeholder}
+        value={props.value ?? ""}
+        onChange={(e) => changeCallback(e.target.value)}
       />
-      {isError && <FieldError>{errorLabel}</FieldError>}
+      {isError && <FieldError>{props.errorLabel}</FieldError>}
     </div>
   );
 };
