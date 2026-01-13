@@ -1,10 +1,6 @@
 import {v7 as generateUuid} from "uuid";
 import {useDispatch} from "react-redux";
-import {
-  getAllGameServers,
-  getAllUserEntities,
-  getAllUserInvites, getLogs,
-} from "@/api/generated/backend-api.ts";
+import {getAllGameServers, getAllUserEntities, getAllUserInvites, getLogs} from "@/api/generated/backend-api.ts";
 import {gameServerSliceActions} from "@/stores/slices/gameServerSlice.ts";
 import {userInviteSliceActions} from "@/stores/slices/userInviteSlice.ts";
 import {userSliceActions} from "@/stores/slices/userSlice.ts";
@@ -64,7 +60,7 @@ const useDataLoading = () => {
     } catch {
       dispatch(gameServerLogSliceActions.setState({gameServerUuid, state: "failed"}));
     }
-  }
+  };
 
   const loadAllData = async () => {
     const results = await Promise.allSettled([loadGameServers(), loadUsers(), loadInvites()]);
@@ -81,7 +77,6 @@ const useDataLoading = () => {
         console.error(`Failed to load ${names[idx]}:`, result.reason);
       }
     });
-
 
 
     return summary;
