@@ -1,10 +1,15 @@
-import {v7 as generateUuid} from "uuid";
-import {useDispatch} from "react-redux";
-import {getAllGameServers, getAllUserEntities, getAllUserInvites, getLogs} from "@/api/generated/backend-api.ts";
-import {gameServerSliceActions} from "@/stores/slices/gameServerSlice.ts";
-import {userInviteSliceActions} from "@/stores/slices/userInviteSlice.ts";
-import {userSliceActions} from "@/stores/slices/userSlice.ts";
-import {gameServerLogSliceActions} from "@/stores/slices/gameServerLogSlice.ts";
+import { useDispatch } from "react-redux";
+import { v7 as generateUuid } from "uuid";
+import {
+  getAllGameServers,
+  getAllUserEntities,
+  getAllUserInvites,
+  getLogs,
+} from "@/api/generated/backend-api.ts";
+import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
+import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
+import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
+import { userSliceActions } from "@/stores/slices/userSlice.ts";
 
 const useDataLoading = () => {
   const dispatch = useDispatch();
@@ -15,7 +20,7 @@ const useDataLoading = () => {
       const gameServers = await getAllGameServers();
       dispatch(gameServerSliceActions.setState("idle"));
       dispatch(gameServerSliceActions.setGameServer(gameServers));
-      Promise.allSettled(gameServers.map(gameServer => loadLogs(gameServer.uuid)));
+      Promise.allSettled(gameServers.map((gameServer) => loadLogs(gameServer.uuid)));
       return true;
     } catch {
       dispatch(gameServerSliceActions.setState("failed"));
@@ -50,15 +55,18 @@ const useDataLoading = () => {
   };
 
   const loadLogs = async (gameServerUuid: string) => {
-    dispatch(gameServerLogSliceActions.setState({gameServerUuid, state: "loading"}));
+    dispatch(gameServerLogSliceActions.setState({ gameServerUuid, state: "loading" }));
     try {
       const logs = await getLogs(gameServerUuid);
-      logs.sort((a, b) => (a.timestamp ? Date.parse(a.timestamp) : 0) - (b.timestamp ? Date.parse(b.timestamp) : 0));
-      const logsWithUuid = logs.map(log => ({...log, uuid: generateUuid()}));
-      dispatch(gameServerLogSliceActions.setGameServerLogs({gameServerUuid, logs: logsWithUuid}));
-      dispatch(gameServerLogSliceActions.setState({gameServerUuid, state: "idle"}));
+      logs.sort(
+        (a, b) =>
+          (a.timestamp ? Date.parse(a.timestamp) : 0) - (b.timestamp ? Date.parse(b.timestamp) : 0),
+      );
+      const logsWithUuid = logs.map((log) => ({ ...log, uuid: generateUuid() }));
+      dispatch(gameServerLogSliceActions.setGameServerLogs({ gameServerUuid, logs: logsWithUuid }));
+      dispatch(gameServerLogSliceActions.setState({ gameServerUuid, state: "idle" }));
     } catch {
-      dispatch(gameServerLogSliceActions.setState({gameServerUuid, state: "failed"}));
+      dispatch(gameServerLogSliceActions.setState({ gameServerUuid, state: "failed" }));
     }
   };
 
@@ -77,7 +85,6 @@ const useDataLoading = () => {
         console.error(`Failed to load ${names[idx]}:`, result.reason);
       }
     });
-
 
     return summary;
   };

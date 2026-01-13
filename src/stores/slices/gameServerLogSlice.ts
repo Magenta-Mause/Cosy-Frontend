@@ -1,17 +1,22 @@
-import {createSlice, type PayloadAction} from "@reduxjs/toolkit";
-import type {GameServerDto, GameServerLogMessageEntity} from "@/api/generated/model";
-import type {SliceState} from "@/stores";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { GameServerDto, GameServerLogMessageEntity } from "@/api/generated/model";
+import type { SliceState } from "@/stores";
 
 export type GameServerLogWithUuid = GameServerLogMessageEntity & { uuid: string };
 
 interface GameServerLogSliceState {
-  data: { [key: GameServerDto["uuid"]]: { logs: GameServerLogWithUuid[], state: SliceState<void>["state"] } }
-};
+  data: {
+    [key: GameServerDto["uuid"]]: {
+      logs: GameServerLogWithUuid[];
+      state: SliceState<void>["state"];
+    };
+  };
+}
 
 const gameServerLogSlice = createSlice({
   name: "game-server-log-slice",
   initialState: {
-    data: {}
+    data: {},
   } as GameServerLogSliceState,
   reducers: {
     setLogs: (state, action: PayloadAction<GameServerLogWithUuid[]>) => {
@@ -20,12 +25,12 @@ const gameServerLogSlice = createSlice({
         GameServerLogWithUuid[]
       >;
       const withStatus: GameServerLogSliceState["data"] = {};
-      Object.keys(grouped).forEach(key => {
+      Object.keys(grouped).forEach((key) => {
         withStatus[key] = {
           logs: grouped[key],
-          state: "loading"
-        }
-      })
+          state: "loading",
+        };
+      });
       state.data = withStatus;
     },
     addLog: (state, action: PayloadAction<GameServerLogWithUuid>) => {
@@ -34,7 +39,7 @@ const gameServerLogSlice = createSlice({
       if (state.data[serverUuid]) {
         state.data[serverUuid].logs.push(action.payload);
       } else {
-        state.data[serverUuid] = {logs: [action.payload], state: "loading"};
+        state.data[serverUuid] = { logs: [action.payload], state: "loading" };
       }
     },
     removeLog: (state, action: PayloadAction<string>) => {
@@ -45,21 +50,30 @@ const gameServerLogSlice = createSlice({
         );
       }
     },
-    setGameServerLogs: (state, action: PayloadAction<{
-      gameServerUuid: GameServerDto["uuid"],
-      logs: GameServerLogWithUuid[]
-    }>) => {
+    setGameServerLogs: (
+      state,
+      action: PayloadAction<{
+        gameServerUuid: GameServerDto["uuid"];
+        logs: GameServerLogWithUuid[];
+      }>,
+    ) => {
       state.data[action.payload.gameServerUuid].logs = action.payload.logs;
     },
     resetLogs: (state) => {
       state.data = {};
     },
-    setState: (state, action: PayloadAction<{gameServerUuid: GameServerDto["uuid"], state: SliceState<void>["state"]}>) => {
+    setState: (
+      state,
+      action: PayloadAction<{
+        gameServerUuid: GameServerDto["uuid"];
+        state: SliceState<void>["state"];
+      }>,
+    ) => {
       if (!state.data[action.payload.gameServerUuid]) {
-        state.data[action.payload.gameServerUuid] = {state: "loading", logs: []};
+        state.data[action.payload.gameServerUuid] = { state: "loading", logs: [] };
       }
       state.data[action.payload.gameServerUuid].state = action.payload.state;
-    }
+    },
   },
 });
 

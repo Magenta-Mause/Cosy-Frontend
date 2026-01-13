@@ -119,7 +119,7 @@ export type i18nLanguage = {
     notFound: string;
     start: string;
     stop: string;
-  }
+  };
   components: {
     CreateGameServer: {
       backButton: string;

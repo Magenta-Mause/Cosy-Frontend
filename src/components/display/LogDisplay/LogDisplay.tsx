@@ -1,13 +1,12 @@
 import LogMessage from "@components/display/LogDisplay/LogMessage";
-import {forwardRef, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
+import { forwardRef, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   VariableSizeList as List,
   type ListOnScrollProps,
   type VariableSizeList,
 } from "react-window";
-
-import {useTranslation} from "react-i18next";
-import type {GameServerLogWithUuid} from "@/stores/slices/gameServerLogSlice.ts";
+import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice.ts";
 
 const LIST_HEIGHT = 360; // px
 const ESTIMATED_ROW_HEIGHT = 25; // sane default; real height is measured
@@ -15,8 +14,8 @@ const ESTIMATED_ROW_HEIGHT = 25; // sane default; real height is measured
 type RowHeights = Record<number, number>;
 
 const LogDisplay = (props: { logMessages: GameServerLogWithUuid[] }) => {
-  const {t} = useTranslation();
-  const {logMessages} = props;
+  const { t } = useTranslation();
+  const { logMessages } = props;
   const itemCount = logMessages.length;
 
   const [autoScroll, setAutoScroll] = useState(true);
@@ -44,13 +43,13 @@ const LogDisplay = (props: { logMessages: GameServerLogWithUuid[] }) => {
     });
   }, []);
 
-  const handleScroll = ({scrollOffset}: ListOnScrollProps) => {
+  const handleScroll = ({ scrollOffset }: ListOnScrollProps) => {
     const totalHeight = Object.keys(rowHeightsRef.current).length
       ? // sum known heights, fallback for unknown ones
-      logMessages.reduce(
-        (sum, _, index) => sum + (rowHeightsRef.current[index] ?? ESTIMATED_ROW_HEIGHT),
-        0,
-      )
+        logMessages.reduce(
+          (sum, _, index) => sum + (rowHeightsRef.current[index] ?? ESTIMATED_ROW_HEIGHT),
+          0,
+        )
       : itemCount * ESTIMATED_ROW_HEIGHT;
 
     const viewportBottom = scrollOffset + LIST_HEIGHT;
@@ -59,7 +58,7 @@ const LogDisplay = (props: { logMessages: GameServerLogWithUuid[] }) => {
     setAutoScroll(isAtBottom);
   };
 
-  const Row = ({index, style}: { index: number; style: React.CSSProperties }) => {
+  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
     const rowRef = useRef<HTMLDivElement | null>(null);
     const message = logMessages[index];
 
@@ -72,12 +71,12 @@ const LogDisplay = (props: { logMessages: GameServerLogWithUuid[] }) => {
         // Recalculate layout from this row downward
         listRef.current?.resetAfterIndex(index, true);
       }
-    }, [index, message]); // re-measure if that item changes
+    }, [index]); // re-measure if that item changes
 
     return (
       <div style={style}>
         <div ref={rowRef}>
-          <LogMessage key={message.uuid} message={message}/>
+          <LogMessage key={message.uuid} message={message} />
         </div>
       </div>
     );
@@ -87,8 +86,8 @@ const LogDisplay = (props: { logMessages: GameServerLogWithUuid[] }) => {
     () =>
       forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
         function InnerElement(props, ref) {
-          const {style, ...rest} = props;
-          return <div ref={ref} style={style} {...rest} className="relative"/>;
+          const { style, ...rest } = props;
+          return <div ref={ref} style={style} {...rest} className="relative" />;
         },
       ),
     [],
@@ -97,8 +96,7 @@ const LogDisplay = (props: { logMessages: GameServerLogWithUuid[] }) => {
   return (
     <div className="flex flex-col border rounded-md bg-gray-950 text-gray-100 font-mono h-96">
       {/* Header / toolbar */}
-      <div
-        className="flex items-center justify-between px-3 py-1 border-b border-gray-800 text-xs uppercase tracking-wide text-gray-400">
+      <div className="flex items-center justify-between px-3 py-1 border-b border-gray-800 text-xs uppercase tracking-wide text-gray-400">
         <span>{t("logDisplay.serverLog")}</span>
         <label className="flex items-center gap-1 cursor-pointer">
           <input

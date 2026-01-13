@@ -1,21 +1,21 @@
 import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
-import {Button} from "@components/ui/button.tsx";
-import {createFileRoute} from "@tanstack/react-router";
-import {stopService} from "@/api/generated/backend-api.ts";
-import {startServiceSse} from "@/api/sse.ts";
+import { Button } from "@components/ui/button.tsx";
+import { createFileRoute } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
+import { stopService } from "@/api/generated/backend-api.ts";
+import { startServiceSse } from "@/api/sse.ts";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
-import {useTranslation} from "react-i18next";
 
 export const Route = createFileRoute("/server/$serverId")({
   component: GameServerDetailPage,
 });
 
 function GameServerDetailPage() {
-  const {t} = useTranslation();
-  const {serverId} = Route.useParams();
+  const { t } = useTranslation();
+  const { serverId } = Route.useParams();
   const gameServer = useGameServer(serverId ?? "");
-  const {logs} = useGameServerLogs(serverId ?? "");
+  const { logs } = useGameServerLogs(serverId ?? "");
 
   if (!serverId || !gameServer) {
     return <div>{t("serverPage.notFound")}</div>;
@@ -43,7 +43,7 @@ function GameServerDetailPage() {
         </div>
       </div>
       <div>
-        <LogDisplay logMessages={logs}/>
+        <LogDisplay logMessages={logs} />
       </div>
     </div>
   );
