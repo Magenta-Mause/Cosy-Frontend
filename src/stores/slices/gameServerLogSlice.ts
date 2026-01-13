@@ -5,7 +5,7 @@ import type {SliceState} from "@/stores";
 export type GameServerLogWithUuid = GameServerLogMessageEntity & { uuid: string };
 
 interface GameServerLogSliceState {
-  data: { [key: GameServerDto["uuid"]]: { logs: GameServerLogWithUuid[], state: SliceState<any>["state"] } }
+  data: { [key: GameServerDto["uuid"]]: { logs: GameServerLogWithUuid[], state: SliceState<void>["state"] } }
 };
 
 const gameServerLogSlice = createSlice({
@@ -54,7 +54,7 @@ const gameServerLogSlice = createSlice({
     resetLogs: (state) => {
       state.data = {};
     },
-    setState: (state, action: PayloadAction<{gameServerUuid: GameServerDto["uuid"], state: SliceState<any>["state"]}>) => {
+    setState: (state, action: PayloadAction<{gameServerUuid: GameServerDto["uuid"], state: SliceState<void>["state"]}>) => {
       if (!state.data[action.payload.gameServerUuid]) {
         state.data[action.payload.gameServerUuid] = {state: "loading", logs: []};
       }

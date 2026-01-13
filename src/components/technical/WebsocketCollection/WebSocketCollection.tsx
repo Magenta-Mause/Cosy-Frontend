@@ -14,7 +14,7 @@ const WebSocketCollection = () => {
       : [],
     (message) => {
       const messageBody = JSON.parse(message.body);
-      messageBody["uuid"] = generateUuid();
+      messageBody.uuid = generateUuid();
       dispatch(gameServerLogSliceActions.addLog(messageBody));
     },
   );
