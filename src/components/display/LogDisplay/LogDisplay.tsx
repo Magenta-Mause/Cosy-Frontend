@@ -10,7 +10,7 @@ import {useTranslation} from "react-i18next";
 import type {GameServerLogWithUuid} from "@/stores/slices/gameServerLogSlice.ts";
 
 const LIST_HEIGHT = 360; // px
-const ESTIMATED_ROW_HEIGHT = 20; // sane default; real height is measured
+const ESTIMATED_ROW_HEIGHT = 25; // sane default; real height is measured
 
 type RowHeights = Record<number, number>;
 
