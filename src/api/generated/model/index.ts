@@ -17,6 +17,7 @@ export * from './gameServerLogMessageEntityLevel';
 export * from './gameServerStatusDto';
 export * from './gameServerStatusDtoStatus';
 export * from './getGameInfoParams';
+export * from './getLogsParams';
 export * from './loginDto';
 export * from './portMapping';
 export * from './portMappingProtocol';
