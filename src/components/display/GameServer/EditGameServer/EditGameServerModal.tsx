@@ -76,13 +76,33 @@ const EditGameServerModal = (props: {
         return keyValid && valueValid;
       });
 
+    const envVarsValid =
+      !gameServerState.environment_variables ||
+      gameServerState.environment_variables.length === 0 ||
+      gameServerState.environment_variables.every((env) => {
+        const keyValid = z.string().min(1).safeParse(env.key).success;
+        const valueValid = z.string().min(1).safeParse(env.value).success;
+        return keyValid && valueValid;
+      });
+
+    const volumeMountsValid =
+      !gameServerState.volume_mounts ||
+      gameServerState.volume_mounts.length === 0 ||
+      gameServerState.volume_mounts.every((vol) => {
+        const hostPathValid = z.string().min(1).safeParse(vol.host_path).success;
+        const containerPathValid = z.string().min(1).safeParse(vol.container_path).success;
+        return hostPathValid && containerPathValid;
+      });
+
     return (
       serverNameValid &&
       gameUuidValid &&
       dockerImageNameValid &&
       dockerImageTagValid &&
-      executionCommandValid &&
-      portMappingsValid
+      portMappingsValid &&
+      envVarsValid &&
+      volumeMountsValid &&
+      executionCommandValid
     );
   }, [gameServerState, executionCommandRaw]);
 

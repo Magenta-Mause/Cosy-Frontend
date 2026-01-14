@@ -29,7 +29,7 @@ interface Props<T> {
   objectValue: keyof T;
 }
 
-function EditKeyValueInput<T extends Record<string, any>>({
+function EditKeyValueInput<T extends Record<string, string>>({
   value,
   onChange,
   placeHolderKeyInput,
