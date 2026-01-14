@@ -91,16 +91,16 @@ function EditKeyValueInput<T extends Record<string, any>>({
       fieldDescription={fieldDescription}
       renderRow={(changeCallback, rowError) => (row) => (
         <Fragment key={row.uuid}>
-          <div className="flex gap-2 w-full">
+          <div className="flex gap-2">
             <Input
-              className={rowError ? "border-red-500 flex-1" : "flex-1"}
+              className={rowError ? "border-red-500" : ""}
               placeholder={placeHolderKeyInput}
               value={row.key}
               onChange={(e) => changeCallback({ ...row, key: e.target.value })}
               type={inputType}
             />
             <Input
-              className={rowError ? "border-red-500 flex-1" : "flex-1"}
+              className={rowError ? "border-red-500" : ""}
               placeholder={placeHolderValueInput}
               value={row.value}
               onChange={(e) => changeCallback({ ...row, value: e.target.value })}

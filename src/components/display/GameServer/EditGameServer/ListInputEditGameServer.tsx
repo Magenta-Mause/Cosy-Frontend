@@ -1,10 +1,9 @@
 import { Button } from "@components/ui/button.tsx";
 import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
-import { CircleAlertIcon, CircleX, Plus, Trash2 } from "lucide-react";
+import { CircleAlertIcon, Plus, Trash2 } from "lucide-react";
 import { type ReactNode, useCallback, useState } from "react";
 import { v7 as generateUuid } from "uuid";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 interface Props<T extends { uuid: string }> {
   value?: T[];
@@ -27,7 +26,6 @@ function ListInputEditGameServer<T extends { uuid: string }>({
   renderRow,
   defaultNewItem,
 }: Props<T>) {
-  const { t } = useTranslationPrefix("components.UpdateGameServer");
 
   const [values, setValuesInternal] = useState<T[]>(
     value && value.length > 0
@@ -88,7 +86,7 @@ function ListInputEditGameServer<T extends { uuid: string }>({
           const rowError = rowErrors[item.uuid];
 
           return (
-            <div key={item.uuid} className="flex items-center gap-2 w-full h-fit">
+            <div key={item.uuid} className="flex items-center gap-2 h-fit">
               {renderRow(changeCallback(item.uuid), !!rowError)(item)}
 
               {index > 0 && (

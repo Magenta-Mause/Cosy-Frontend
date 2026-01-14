@@ -133,7 +133,7 @@ const EditGameServerModal = (props: {
           <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
-        <DialogMain>
+        <DialogMain className="overflow-y-scroll">
           <GameServerEditInputField
             id="server_name"
             label={t("serverNameSelection.title")}

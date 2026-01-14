@@ -43,10 +43,8 @@ function PortInputEditGameServer({
 }: Props) {
   const inputType: "number" = "number";
 
-  // Validation function
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
-      // define preProcessValue here to avoid dependency issues
       const preProcessValue = (v: string) => Number(v);
 
       if (!key && !value && !required) return true;
@@ -91,14 +89,14 @@ function PortInputEditGameServer({
       renderRow={(changeCallback, rowError) => (row) => (
         <>
           <Input
-            className={rowError ? "border-red-500 flex-1" : "flex-1"}
+            className={rowError ? "border-red-500" : ""}
             placeholder="Instance Port"
             value={row.key}
             onChange={(e) => changeCallback({ ...row, key: e.target.value })}
             type={inputType}
           />
           <Input
-            className={rowError ? "border-red-500 flex-1" : "flex-1"}
+            className={rowError ? "border-red-500" : ""}
             placeholder="Container Port"
             value={row.value}
             onChange={(e) => changeCallback({ ...row, value: e.target.value })}
@@ -110,10 +108,10 @@ function PortInputEditGameServer({
               changeCallback({ ...row, protocol: newVal as PortMappingProtocol })
             }
           >
-            <SelectTrigger className="flex-1">
+            <SelectTrigger className="w-22">
               <SelectValue placeholder="Protocol" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="w-22">
               {Object.values(PortMappingProtocol).map((protocol) => (
                 <SelectItem key={protocol} value={protocol}>
                   {protocol}
