@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useSubscription } from "react-stomp-hooks";
+import { v7 as generateUuid } from "uuid";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
@@ -36,6 +37,7 @@ const WebSocketCollection = () => {
       : [],
     (message) => {
       const messageBody = JSON.parse(message.body);
+      messageBody.uuid = generateUuid();
       dispatch(gameServerLogSliceActions.addLog(messageBody));
     },
   );

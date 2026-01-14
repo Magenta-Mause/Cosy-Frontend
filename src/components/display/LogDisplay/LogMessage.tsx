@@ -1,20 +1,20 @@
 import clsx from "clsx";
 import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
 import {
   type GameServerLogMessageEntity,
   GameServerLogMessageEntityLevel,
 } from "@/api/generated/model";
-import { useTranslation } from "react-i18next";
 
 const levelColors: Record<string, string> = {
   [GameServerLogMessageEntityLevel.INFO]: "text-sky-300",
+  [GameServerLogMessageEntityLevel.DEBUG]: "text-amber-300",
   [GameServerLogMessageEntityLevel.ERROR]: "text-red-400",
-  [GameServerLogMessageEntityLevel.WARNING]: "text-amber-300",
 };
 
 const levelBgColors: Record<string, string> = {
   [GameServerLogMessageEntityLevel.INFO]: "bg-sky-900/20",
-  [GameServerLogMessageEntityLevel.WARNING]: "bg-amber-900/20",
+  [GameServerLogMessageEntityLevel.DEBUG]: "bg-amber-900/20",
   [GameServerLogMessageEntityLevel.ERROR]: "bg-red-900/20",
 };
 

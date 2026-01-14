@@ -1,20 +1,19 @@
 import LogMessage from "@components/display/LogDisplay/LogMessage";
 import { forwardRef, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   VariableSizeList as List,
   type ListOnScrollProps,
   type VariableSizeList,
 } from "react-window";
-import type { GameServerLogMessageEntity } from "@/api/generated/model";
-
-import { useTranslation } from "react-i18next";
+import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice.ts";
 
 const LIST_HEIGHT = 360; // px
-const ESTIMATED_ROW_HEIGHT = 20; // sane default; real height is measured
+const ESTIMATED_ROW_HEIGHT = 25; // sane default; real height is measured
 
 type RowHeights = Record<number, number>;
 
-const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
+const LogDisplay = (props: { logMessages: GameServerLogWithUuid[] }) => {
   const { t } = useTranslation();
   const { logMessages } = props;
   const itemCount = logMessages.length;
@@ -25,11 +24,24 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
 
   const getItemSize = (index: number) => rowHeightsRef.current[index] ?? ESTIMATED_ROW_HEIGHT;
 
+  useEffect(() => {
+    return () => {
+      rowHeightsRef.current = {};
+    };
+  }, []);
+
   // Keep list scrolled to bottom when new items arrive and autoScroll is on
   useEffect(() => {
     if (!autoScroll || itemCount === 0) return;
     listRef.current?.scrollToItem(itemCount - 1, "end");
   }, [itemCount, autoScroll]);
+
+  useEffect(() => {
+    document.fonts.ready.then(() => {
+      if (!listRef.current) return;
+      listRef.current.resetAfterIndex(0, true);
+    });
+  }, []);
 
   const handleScroll = ({ scrollOffset }: ListOnScrollProps) => {
     const totalHeight = Object.keys(rowHeightsRef.current).length
@@ -48,6 +60,7 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
 
   const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
     const rowRef = useRef<HTMLDivElement | null>(null);
+    const message = logMessages[index];
 
     useLayoutEffect(() => {
       if (!rowRef.current) return;
@@ -56,16 +69,14 @@ const LogDisplay = (props: { logMessages: GameServerLogMessageEntity[] }) => {
       if (height && rowHeightsRef.current[index] !== height) {
         rowHeightsRef.current[index] = height;
         // Recalculate layout from this row downward
-        listRef.current?.resetAfterIndex(index);
+        listRef.current?.resetAfterIndex(index, true);
       }
     }, [index]); // re-measure if that item changes
-
-    const message = logMessages[index];
 
     return (
       <div style={style}>
         <div ref={rowRef}>
-          <LogMessage key={message.uuid ?? index.toString()} message={message} />
+          <LogMessage key={message.uuid} message={message} />
         </div>
       </div>
     );
