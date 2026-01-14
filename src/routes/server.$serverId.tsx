@@ -7,6 +7,7 @@ import { GameServerDtoStatus } from "@/api/generated/model";
 import { startServiceSse } from "@/api/sse.ts";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
+import { useTypedSelector } from "@/stores/rootReducer.ts";
 
 export const Route = createFileRoute("/server/$serverId")({
   component: GameServerDetailPage,
@@ -17,10 +18,13 @@ function GameServerDetailPage() {
   const { serverId } = Route.useParams();
   const gameServer = useGameServer(serverId ?? "");
   const { logs } = useGameServerLogs(serverId ?? "");
+  const pullProgressMap = useTypedSelector((state) => state.gameServerSliceReducer.pullProgress);
 
   if (!serverId || !gameServer) {
     return <div>{t("serverPage.notFound")}</div>;
   }
+  
+  const progress = pullProgressMap[gameServer.uuid];
 
   return (
     <div className="container mx-auto py-20 flex flex-col gap-4">
@@ -48,7 +52,17 @@ function GameServerDetailPage() {
             </Button>
           )}
           {gameServer.status === GameServerDtoStatus.PULLING_IMAGE && (
-            <Button disabled>Pulling Image...</Button>
+             <Button disabled>
+               {progress ? (
+                   <>
+                     {progress.status}
+                     {progress.id && ` - Layer ${progress.id}`}
+                     {progress.current && progress.total ? ` (${Math.round((progress.current / progress.total) * 100)}%)` : ""}
+                   </>
+               ) : (
+                   "Pulling Image..."
+               )}
+             </Button>
           )}
         </div>
       </div>
