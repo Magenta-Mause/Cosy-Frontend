@@ -55,15 +55,20 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
   const handleNextPage = useCallback(() => {
     if (isLastPage) {
-      createGameServer({
+      const gameServerCreationObject = {
         ...creationState.gameServerState,
-        execution_command: parseCommand(
-          creationState.gameServerState.execution_command as unknown as string,
-        ),
+        game_uuid:
+          creationState.gameServerState.game_uuid !== "0"
+            ? creationState.gameServerState.game_uuid
+            : undefined,
+        execution_command: creationState.gameServerState.execution_command
+          ? parseCommand(creationState.gameServerState.execution_command as unknown as string)
+          : undefined,
         port_mappings: creationState.gameServerState.port_mappings?.map((portMapping) => ({
           ...portMapping,
         })),
-      } as GameServerCreationDto);
+      };
+      createGameServer(gameServerCreationObject as GameServerCreationDto);
       setCreationState({ gameServerState: {}, utilState: {} });
       setPageValid({});
       setCurrentPage(0);
