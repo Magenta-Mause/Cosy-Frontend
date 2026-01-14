@@ -111,6 +111,7 @@ const EditGameServerModal = (props: {
     setLoading(true);
     try {
       await props.onConfirm(payload);
+      props.onOpenChange(false);
     } finally {
       setLoading(false);
     }
