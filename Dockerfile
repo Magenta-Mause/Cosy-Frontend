@@ -24,11 +24,11 @@ COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
 
 ENV NODE_ENV=production
+ENV VITE_BACKEND_BROKER_URL=/api/v1/ws
+ENV VITE_BACKEND_WEBSOCKET_FACTORY=/api/v1/ws
 
-# FIX: Run build steps manually to skip "biome lint"
-# 1. Generate routes (tsr:gen)
-# 2. Run the actual build script (build.ts) with flags
-RUN bun run tsr:gen && bun run build.ts --minify --splitting
+# Build the application
+RUN bun run build
 
 # =========================================================
 # Stage 3: Release Image (Nginx)

@@ -16,6 +16,7 @@ const translation: i18nLanguage = {
     stopServer: "Stop",
     refresh: "Refresh",
     createNewGameserver: "Create new Gameserver",
+    viewLogs: "View Logs",
   },
   toasts: {
     notImplemented: "Not implemented yet!",
@@ -251,6 +252,15 @@ const translation: i18nLanguage = {
   consequence: "asd{{counter}}ajskod",
   genericModal: {
     cancel: "Cancel",
+  },
+  logDisplay: {
+    serverLog: "Server Log",
+    timestampFormat: "HH:mm:ss.SSS",
+  },
+  serverPage: {
+    notFound: "not found",
+    start: "Start",
+    stop: "Stop",
   },
 };
 

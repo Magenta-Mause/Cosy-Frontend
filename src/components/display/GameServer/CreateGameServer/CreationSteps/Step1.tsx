@@ -21,13 +21,6 @@ const Step1 = () => {
         data: game,
         value: game.game_uuid,
         label: game.name,
-        leftSlot: game.logo_url ? (
-          <img
-            src={game.logo_url}
-            alt={game.name}
-            className="h-6 w-auto rounded-md mr-2 object-contain"
-          />
-        ) : null,
       })),
     [],
   );

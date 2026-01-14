@@ -1,6 +1,7 @@
 import RightClickMenu from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
 import { DeleteGameServerAlertDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
 import Link from "@components/ui/Link.tsx";
+import { useRouter } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -24,8 +25,17 @@ const GameServerHouse = (props: {
   const { updateGameServer } = useDataInteractions();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const router = useRouter();
 
   const actions = [
+    {
+      label: t("rightClickMenu.viewLogs"),
+      onClick: () => {
+        router.navigate({
+          to: `/server/${props.gameServer.uuid}`,
+        });
+      },
+    },
     {
       label: t("rightClickMenu.edit"),
       onClick: () => {
@@ -100,7 +110,7 @@ const GameServerHouse = (props: {
       <RightClickMenu actions={actions}>
         <Link
           className={cn("block w-[14%] h-auto aspect-square select-none", props.className)}
-          to={`/game-server-configuration/${props.gameServer.uuid}`}
+          to={`/server/${props.gameServer.uuid}`}
           aria-label={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
           })}

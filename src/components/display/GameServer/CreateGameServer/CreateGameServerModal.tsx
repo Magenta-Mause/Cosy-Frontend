@@ -36,10 +36,10 @@ export interface GameServerCreationContext {
 
 export const GameServerCreationContext = createContext<GameServerCreationContext>({
   creationState: { gameServerState: {}, utilState: { gameEntity: undefined } },
-  setGameServerState: () => () => { },
-  setCurrentPageValid: () => { },
-  triggerNextPage: () => { },
-  setUtilState: () => () => { },
+  setGameServerState: () => () => {},
+  setCurrentPageValid: () => {},
+  triggerNextPage: () => {},
+  setUtilState: () => () => {},
 });
 
 const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" />];
@@ -61,15 +61,20 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
   const handleNextPage = useCallback(() => {
     if (isLastPage) {
-      createGameServer({
+      const gameServerCreationObject = {
         ...creationState.gameServerState,
-        execution_command: parseCommand(
-          creationState.gameServerState.execution_command as unknown as string,
-        ),
+        game_uuid:
+          creationState.gameServerState.game_uuid !== "0"
+            ? creationState.gameServerState.game_uuid
+            : undefined,
+        execution_command: creationState.gameServerState.execution_command
+          ? parseCommand(creationState.gameServerState.execution_command as unknown as string)
+          : undefined,
         port_mappings: creationState.gameServerState.port_mappings?.map((portMapping) => ({
           ...portMapping,
         })),
-      } as GameServerCreationDto);
+      };
+      createGameServer(gameServerCreationObject as GameServerCreationDto);
       setCreationState({ gameServerState: {}, utilState: {} });
       setPageValid({});
       setCurrentPage(0);

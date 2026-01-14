@@ -23,9 +23,11 @@ import type {
   GameDto,
   GameServerCreationDto,
   GameServerDto,
+  GameServerLogMessageEntity,
   GameServerStatusDto,
   GameServerUpdateDto,
   GetGameInfoParams,
+  GetLogsParams,
   LoginDto,
   StartEventDto,
   UserCreationDto,
@@ -1116,6 +1118,74 @@ export function useGetServiceInfo<TData = Awaited<ReturnType<typeof getServiceIn
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetServiceInfoQueryOptions(uuid,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getLogs = (
+    gameServerUuid: string,
+    params?: GetLogsParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameServerLogMessageEntity[]>(
+      {url: `/game-server/${gameServerUuid}/logs`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetLogsQueryKey = (gameServerUuid?: string,
+    params?: GetLogsParams,) => {
+    return [
+    `/game-server/${gameServerUuid}/logs`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getGetLogsQueryOptions = <TData = Awaited<ReturnType<typeof getLogs>>, TError = unknown>(gameServerUuid: string,
+    params?: GetLogsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getLogs>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetLogsQueryKey(gameServerUuid,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getLogs>>> = ({ signal }) => getLogs(gameServerUuid,params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(gameServerUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getLogs>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetLogsQueryResult = NonNullable<Awaited<ReturnType<typeof getLogs>>>
+export type GetLogsQueryError = unknown
+
+
+
+export function useGetLogs<TData = Awaited<ReturnType<typeof getLogs>>, TError = unknown>(
+ gameServerUuid: string,
+    params?: GetLogsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getLogs>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetLogsQueryOptions(gameServerUuid,params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
