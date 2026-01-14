@@ -66,7 +66,7 @@ const EditGameServerModal = (props: {
       .string()
       .min(1)
       .safeParse(gameServerState.docker_image_tag).success;
-    const executionCommandValid = z.string().min(1).safeParse(executionCommandRaw).success;
+    const executionCommandValid = z.string().safeParse(executionCommandRaw).success;
     const portMappingsValid =
       gameServerState.port_mappings &&
       gameServerState.port_mappings.length > 0 &&
@@ -244,7 +244,7 @@ const EditGameServerModal = (props: {
 
           <GameServerEditInputField
             id="execution_command"
-            validator={z.string().min(1)}
+            validator={z.string()}
             placeholder="./start.sh"
             label={t("executionCommandSelection.title")}
             description={t("executionCommandSelection.description")}
