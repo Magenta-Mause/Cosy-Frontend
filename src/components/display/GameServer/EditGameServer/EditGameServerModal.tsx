@@ -68,7 +68,13 @@ const EditGameServerModal = (props: {
       .safeParse(gameServerState.docker_image_tag).success;
     const executionCommandValid = z.string().min(1).safeParse(executionCommandRaw).success;
     const portMappingsValid =
-      gameServerState.port_mappings && gameServerState.port_mappings.length > 0;
+      gameServerState.port_mappings &&
+      gameServerState.port_mappings.length > 0 &&
+      gameServerState.port_mappings.every((mapping) => {
+        const keyValid = z.number().min(1).max(65535).safeParse(Number(mapping.instance_port)).success;
+        const valueValid = z.number().min(1).max(65535).safeParse(Number(mapping.container_port)).success;
+        return keyValid && valueValid;
+      });
 
     return (
       serverNameValid &&
@@ -188,22 +194,8 @@ const EditGameServerModal = (props: {
             onChange={(ports) =>
               setGameServerState((s) => ({ ...s, port_mappings: ports }))
             }
-            keyValidator={z
-              .string()
-              .min(1)
-              .regex(/^\d+$/)
-              .refine((val) => {
-                const num = Number(val);
-                return num >= 1 && num <= 65535;
-              })}
-            valueValidator={z
-              .string()
-              .min(1)
-              .regex(/^\d+$/)
-              .refine((val) => {
-                const num = Number(val);
-                return num >= 1 && num <= 65535;
-              })}
+            keyValidator={z.number().min(1).max(65535)}
+            valueValidator={z.number().min(1).max(65535)}
             errorLabel={t("portSelection.errorLabel")}
             required={true}
           />
