@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { GameServerDto } from "@/api/generated/model";
+import type { GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
 import type { SliceState } from "@/stores";
 
 const gameServerSlice = createSlice({
@@ -11,6 +11,15 @@ const gameServerSlice = createSlice({
   reducers: {
     setGameServer: (state, action: PayloadAction<GameServerDto[]>) => {
       state.data = action.payload;
+    },
+    updateGameServerStatus: (
+      state,
+      action: PayloadAction<{ uuid: string; status: GameServerDtoStatus }>,
+    ) => {
+      const server = state.data.find((s) => s.uuid === action.payload.uuid);
+      if (server) {
+        server.status = action.payload.status;
+      }
     },
     addGameServer: (state, action: PayloadAction<GameServerDto>) => {
       state.data.push(action.payload);

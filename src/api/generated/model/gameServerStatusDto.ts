@@ -9,5 +9,4 @@ import type { GameServerStatusDtoStatus } from './gameServerStatusDtoStatus';
 
 export interface GameServerStatusDto {
   status?: GameServerStatusDtoStatus;
-  phase?: string;
 }
