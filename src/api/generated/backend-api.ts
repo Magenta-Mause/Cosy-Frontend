@@ -24,9 +24,9 @@ import type {
   GameServerCreationDto,
   GameServerDto,
   GameServerLogMessageEntity,
-  GameServerStatusDto,
   GetGameInfoParams,
   GetLogsParams,
+  GetServiceInfo200,
   LoginDto,
   StartEventDto,
   UserCreationDto,
@@ -1013,7 +1013,7 @@ export const getServiceInfo = (
 ) => {
       
       
-      return customInstance<GameServerStatusDto>(
+      return customInstance<GetServiceInfo200>(
       {url: `/game-server/${uuid}/status`, method: 'GET', signal
     },
       options);
