@@ -66,7 +66,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     queryKey: [searchId, "search", queryGameName],
     queryFn: () => searchCallback(queryGameName),
     staleTime: 1000 * 60 * 5,
-    retry: false
+    retry: false,
   });
 
   useEffect(() => {
