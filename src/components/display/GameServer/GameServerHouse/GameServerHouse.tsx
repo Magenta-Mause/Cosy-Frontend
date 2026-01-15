@@ -136,7 +136,7 @@ const GameServerHouse = (props: {
               },
             )}
           >
-            {props.gameServer.status}
+            {t("serverStatus." + props.gameServer.status)}
           </div>
         </Link>
       </RightClickMenu>

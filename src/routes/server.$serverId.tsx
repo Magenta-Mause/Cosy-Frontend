@@ -54,7 +54,7 @@ function GameServerDetailPage() {
             : ""}
         </>
       ) : (
-        "Pulling Image..."
+        t("serverPage.pullingImage")
       ),
     };
   }
@@ -64,7 +64,7 @@ function GameServerDetailPage() {
       <div className="flex flex-row gap-2 items-center justify-between">
         <p>{gameServer.server_name}</p>
         <div className={"gap-5 flex flex-row items-center"}>
-          <p className="text-sm font-medium">Status: {gameServer.status}</p>
+          <p className="text-sm font-medium">Status: {t("serverStatus." + gameServer.status)}</p>
           {buttonProps && <Button {...buttonProps} />}
         </div>
       </div>

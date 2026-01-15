@@ -205,6 +205,15 @@ const translation: i18nLanguage = {
     notFound: "Nicht gefunden",
     start: "Starten",
     stop: "Stoppen",
+    pullingImage: "Image wird geladen...",
+    status: "Status",
+  },
+  serverStatus: {
+    RUNNING: "Läuft",
+    STARTING: "Startet",
+    STOPPED: "Gestoppt",
+    FAILED: "Fehlgeschlagen",
+    PULLING_IMAGE: "Image wird geladen",
   },
 };
 
