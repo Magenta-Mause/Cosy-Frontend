@@ -1,13 +1,39 @@
 import { useDispatch } from "react-redux";
 import { useSubscription } from "react-stomp-hooks";
 import { v7 as generateUuid } from "uuid";
+import type {
+  GameServerDtoStatus,
+  GameServerLogMessageEntity,
+} from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
-import { gameServerSliceActions, type DockerPullProgressDto } from "@/stores/slices/gameServerSlice.ts";
-import type { getServiceInfo200 as GameServerStatus} from "@/api/generated/model/getServiceInfo200.ts";
+import {
+  gameServerSliceActions,
+  type DockerPullProgressDto,
+} from "@/stores/slices/gameServerSlice.ts";
+
+interface GameServerStatusUpdateDto {
+  server_uuid: string;
+  new_status: GameServerDtoStatus;
+}
+
+interface DockerPullProgressDtoResponse {
+  status: string;
+  id?: string;
+  progress_detail?: string;
+  current?: number;
+  total?: number;
+}
+
+interface GameServerDockerProgressUpdateDto {
+  server_uuid: string;
+  progress: DockerPullProgressDtoResponse;
+}
 
 const WebSocketCollection = () => {
-  const gameServer = useTypedSelector((state) => state.gameServerSliceReducer.data);
+  const gameServer = useTypedSelector(
+    (state) => state.gameServerSliceReducer.data,
+  );
   const dispatch = useDispatch();
 
   useSubscription(
@@ -15,51 +41,58 @@ const WebSocketCollection = () => {
       ? gameServer.map((server) => `/topics/game-servers/${server.uuid}/status`)
       : [],
     (message) => {
-      const messageBody = JSON.parse(message.body) as GameServerStatus;
-      const destination = message.headers.destination;
-      if (destination && messageBody.status) {
-        const match = destination.match(/\/topics\/game-servers\/([^/]+)\/status/);
-        if (match?.[1]) {
-          dispatch(
-            gameServerSliceActions.updateGameServerStatus({
-              uuid: match[1],
-              status: messageBody.status as GameServerStatus,
-            }),
-          );
-        }
+      const messageBody = JSON.parse(
+        message.body,
+      ) as GameServerStatusUpdateDto;
+      if (messageBody.server_uuid && messageBody.new_status) {
+        dispatch(
+          gameServerSliceActions.updateGameServerStatus({
+            uuid: messageBody.server_uuid,
+            status: messageBody.new_status,
+          }),
+        );
       }
     },
   );
 
   useSubscription(
     gameServer
-      ? gameServer.map((server) => `/topics/game-servers/${server.uuid}/docker-progress`)
+      ? gameServer.map(
+          (server) => `/topics/game-servers/${server.uuid}/docker-progress`,
+        )
       : [],
     (message) => {
-      const messageBody = JSON.parse(message.body) as DockerPullProgressDto;
-      const destination = message.headers.destination;
-      if (destination) {
-        const match = destination.match(/\/topics\/game-servers\/([^/]+)\/docker-progress/);
-        if (match?.[1]) {
-          dispatch(
-            gameServerSliceActions.updatePullProgress({
-              uuid: match[1],
-              progress: messageBody,
-            }),
-          );
-        }
+      const messageBody = JSON.parse(
+        message.body,
+      ) as GameServerDockerProgressUpdateDto;
+      if (messageBody.server_uuid && messageBody.progress) {
+        dispatch(
+          gameServerSliceActions.updatePullProgress({
+            uuid: messageBody.server_uuid,
+            progress: {
+              ...messageBody.progress,
+              progressDetail: messageBody.progress.progress_detail,
+            },
+          }),
+        );
       }
     },
   );
 
   useSubscription(
     gameServer
-      ? gameServer.map((server) => `/topics/game-server-logs/creation/${server.uuid}`)
+      ? gameServer.map(
+          (server) => `/topics/game-server-logs/creation/${server.uuid}`,
+        )
       : [],
     (message) => {
-      const messageBody = JSON.parse(message.body);
-      messageBody.uuid = generateUuid();
-      dispatch(gameServerLogSliceActions.addLog(messageBody));
+      const messageBody = JSON.parse(message.body) as GameServerLogMessageEntity;
+      dispatch(
+        gameServerLogSliceActions.addLog({
+          ...messageBody,
+          uuid: generateUuid(),
+        }),
+      );
     },
   );
   return null;

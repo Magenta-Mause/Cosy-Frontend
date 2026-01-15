@@ -25,16 +25,20 @@ const gameServerSlice = createSlice({
       state,
       action: PayloadAction<{ uuid: string; status: GameServerDtoStatus }>,
     ) => {
-      const server = state.data.find((s) => s.uuid === action.payload.uuid);
-      if (server) {
-        server.status = action.payload.status;
-      }
+      state.data = state.data.map((server) =>
+        server.uuid === action.payload.uuid
+          ? { ...server, status: action.payload.status }
+          : server,
+      );
     },
     updatePullProgress: (
       state,
       action: PayloadAction<{ uuid: string; progress: DockerPullProgressDto }>,
     ) => {
-      state.pullProgress[action.payload.uuid] = action.payload.progress;
+      state.pullProgress = {
+        ...state.pullProgress,
+        [action.payload.uuid]: action.payload.progress,
+      };
     },
     addGameServer: (state, action: PayloadAction<GameServerDto>) => {
       state.data.push(action.payload);
