@@ -26,44 +26,46 @@ function GameServerDetailPage() {
   
   const progress = pullProgressMap[gameServer.uuid];
 
+  let buttonProps = null;
+  if (gameServer.status === GameServerDtoStatus.RUNNING) {
+    buttonProps = {
+      onClick: () => stopService(gameServer.uuid),
+      children: t("serverPage.stop"),
+    };
+  } else if (
+    gameServer.status === GameServerDtoStatus.STOPPED ||
+    gameServer.status === GameServerDtoStatus.FAILED
+  ) {
+    buttonProps = {
+      onClick: () => startServiceSse(gameServer.uuid),
+      children: t("serverPage.start"),
+    };
+  } else if (gameServer.status === GameServerDtoStatus.PULLING_IMAGE) {
+    buttonProps = {
+      disabled: true,
+      children: progress ? (
+        <>
+          {progress.status}
+          {progress.id && ` - Layer ${progress.id}`}
+          {progress.current && progress.total
+            ? ` (${Math.round(
+                (progress.current / progress.total) * 100
+              )}%)`
+            : ""}
+        </>
+      ) : (
+        "Pulling Image..."
+      ),
+    };
+  }
+
   return (
     <div className="container mx-auto py-20 flex flex-col gap-4">
       <div className="flex flex-row gap-2 items-center justify-between">
         <p>{gameServer.server_name}</p>
         <div className={"gap-5 flex flex-row items-center"}>
           <p className="text-sm font-medium">Status: {gameServer.status}</p>
-          {gameServer.status === GameServerDtoStatus.RUNNING && (
-            <Button
-              onClick={() => {
-                stopService(gameServer.uuid);
-              }}
-            >
-              {t("serverPage.stop")}
-            </Button>
-          )}
-          {(gameServer.status === GameServerDtoStatus.STOPPED ||
-            gameServer.status === GameServerDtoStatus.FAILED) && (
-            <Button
-              onClick={() => {
-                startServiceSse(gameServer.uuid);
-              }}
-            >
-              {t("serverPage.start")}
-            </Button>
-          )}
-          {gameServer.status === GameServerDtoStatus.PULLING_IMAGE && (
-             <Button disabled>
-               {progress ? (
-                   <>
-                     {progress.status}
-                     {progress.id && ` - Layer ${progress.id}`}
-                     {progress.current && progress.total ? ` (${Math.round((progress.current / progress.total) * 100)}%)` : ""}
-                   </>
-               ) : (
-                   "Pulling Image..."
-               )}
-             </Button>
-          )}
+          {buttonProps && <Button {...buttonProps} />}
         </div>
       </div>
       <div>
