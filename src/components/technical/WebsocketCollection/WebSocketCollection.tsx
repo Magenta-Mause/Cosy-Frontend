@@ -23,7 +23,7 @@ const WebSocketCollection = () => {
           dispatch(
             gameServerSliceActions.updateGameServerStatus({
               uuid: match[1],
-              status: messageBody.status as unknown as GameServerDtoStatus,
+              status: messageBody.status as GameServerDtoStatus,
             }),
           );
         }
