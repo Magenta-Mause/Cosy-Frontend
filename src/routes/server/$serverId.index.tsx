@@ -9,7 +9,7 @@ import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 
-export const Route = createFileRoute("/server/$serverId")({
+export const Route = createFileRoute("/server/$serverId/")({
   component: GameServerDetailPage,
 });
 

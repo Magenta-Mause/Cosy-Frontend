@@ -31,9 +31,13 @@ const LogDisplay = (props: { logMessages: GameServerLogWithUuid[] }) => {
   }, []);
 
   // Keep list scrolled to bottom when new items arrive and autoScroll is on
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!autoScroll || itemCount === 0) return;
-    listRef.current?.scrollToItem(itemCount - 1, "end");
+
+    // A timeout gives react-window a chance to re-calculate layout after rows are measured.
+    const timeoutId = setTimeout(() => listRef.current?.scrollTo(itemCount * 200), 50);
+
+    return () => clearTimeout(timeoutId);
   }, [itemCount, autoScroll]);
 
   useEffect(() => {
