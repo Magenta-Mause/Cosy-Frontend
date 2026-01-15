@@ -4,7 +4,7 @@ import { v7 as generateUuid } from "uuid";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerSliceActions, type DockerPullProgressDto } from "@/stores/slices/gameServerSlice.ts";
-import type { GameServerDtoStatus, GameServerStatusDto } from "@/api/generated/model";
+import type { getServiceInfo200 as GameServerStatus} from "@/api/generated/model/getServiceInfo200.ts";
 
 const WebSocketCollection = () => {
   const gameServer = useTypedSelector((state) => state.gameServerSliceReducer.data);
@@ -15,7 +15,7 @@ const WebSocketCollection = () => {
       ? gameServer.map((server) => `/topics/game-servers/${server.uuid}/status`)
       : [],
     (message) => {
-      const messageBody = JSON.parse(message.body) as GameServerStatusDto;
+      const messageBody = JSON.parse(message.body) as GameServerStatus;
       const destination = message.headers.destination;
       if (destination && messageBody.status) {
         const match = destination.match(/\/topics\/game-servers\/([^/]+)\/status/);
@@ -23,7 +23,7 @@ const WebSocketCollection = () => {
           dispatch(
             gameServerSliceActions.updateGameServerStatus({
               uuid: match[1],
-              status: messageBody.status as GameServerDtoStatus,
+              status: messageBody.status as GameServerStatus,
             }),
           );
         }
