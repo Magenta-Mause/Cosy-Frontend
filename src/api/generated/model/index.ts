@@ -20,6 +20,7 @@ export * from './getServiceInfo200';
 export * from './loginDto';
 export * from './portMapping';
 export * from './portMappingProtocol';
+export * from './pullProgressDto';
 export * from './startEventDto';
 export * from './startEventDtoType';
 export * from './userCreationDto';
