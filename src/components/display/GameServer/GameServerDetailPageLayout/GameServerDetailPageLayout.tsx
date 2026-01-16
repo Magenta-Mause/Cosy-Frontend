@@ -5,8 +5,8 @@ import type {CSSProperties} from "react";
 import {cn} from "@/lib/utils.ts";
 import {ChartAreaIcon, DoorClosedIcon, DoorOpenIcon, FolderIcon, HomeIcon, LogsIcon, SettingsIcon} from "lucide-react";
 import {Button} from "@components/ui/button.tsx";
-import ServerDetailPageHeader
-  from "@components/display/GameServer/ServerDetailPageLayout/ServerDetailPageHeader/ServerDetailPageHeader.tsx";
+import GameServerDetailPageHeader
+  from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageHeader/GameServerDetailPageHeader.tsx";
 
 const iconStyles: CSSProperties = {
   scale: 1.8,
@@ -45,7 +45,7 @@ const TABS = [
 ];
 
 
-const ServerDetailPageLayout = (props: { gameServer: GameServerDto, children: React.ReactNode }) => {
+const GameServerDetailPageLayout = (props: { gameServer: GameServerDto, children: React.ReactNode }) => {
   const {t} = useTranslation();
   return <div className="flex w-full min-h-screen">
     <div id={"gameServerDetailPage:exitButton"} className={"flex h-25 items-end w-[10%]"}>
@@ -60,7 +60,7 @@ const ServerDetailPageLayout = (props: { gameServer: GameServerDto, children: Re
       </Link>
     </div>
     <div className="grow py-5">
-      <ServerDetailPageHeader gameServer={props.gameServer}/>
+      <GameServerDetailPageHeader gameServer={props.gameServer}/>
       {props.children}
     </div>
 
@@ -119,4 +119,4 @@ const FancyNavigationButton = (props: {
   </Button>
 }
 
-export default ServerDetailPageLayout;
+export default GameServerDetailPageLayout;

@@ -1,7 +1,7 @@
 import {createFileRoute, Outlet} from "@tanstack/react-router";
 import {useTranslation} from "react-i18next";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
-import ServerDetailPageLayout from "@components/display/GameServer/ServerDetailPageLayout/ServerDetailPageLayout.tsx";
+import GameServerDetailPageLayout from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageLayout.tsx";
 
 export const Route = createFileRoute("/server/$serverId")({
   component: GameServerDetailPage,
@@ -17,7 +17,7 @@ function GameServerDetailPage() {
     return <div>{t("serverPage.notFound")}</div>;
   }
 
-  return <ServerDetailPageLayout gameServer={gameServer}><Outlet/></ServerDetailPageLayout>;
+  return <GameServerDetailPageLayout gameServer={gameServer}><Outlet/></GameServerDetailPageLayout>;
 }
 
 
