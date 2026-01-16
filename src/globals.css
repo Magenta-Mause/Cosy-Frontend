@@ -73,7 +73,7 @@
   --color-button-drop-shadow: var(--button-drop-shadow);
 
   /* RADIUS: Stardew is pixel art, so we want small, blocky corners.
-         4px is basically "2 game pixels" */
+       4px is basically "2 game pixels" */
   --radius-sm: calc(var(--radius) * 0.5);
   --radius-md: calc(var(--radius) * 0.75);
   --radius-lg: var(--radius);
@@ -257,7 +257,6 @@
   * {
     @apply border-border outline-ring/50;
   }
-
   body {
     @apply bg-background text-foreground;
   }
