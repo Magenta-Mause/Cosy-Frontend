@@ -9,18 +9,31 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { parse as parseCommand } from "shell-quote";
-import { toast } from "sonner";
 import * as z from "zod";
 import type {
   GameServerDto,
   GameServerUpdateDto,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import GameServerEditInputField from "./InputFieldEditGameServer";
+import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
+
+const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
+  game_uuid: server.game_uuid,
+  server_name: server.server_name,
+  docker_image_name: server.docker_image_name,
+  docker_image_tag: server.docker_image_tag,
+  port_mappings: server.port_mappings,
+  environment_variables: server.environment_variables,
+  volume_mounts: server.volume_mounts?.map(v => ({
+    host_path: v.host_path ?? "",
+    container_path: v.container_path ?? "",
+  })),
+  execution_command: server.execution_command,
+});
 
 const EditGameServerModal = (props: {
   serverName: string;
@@ -32,28 +45,20 @@ const EditGameServerModal = (props: {
   const { t } = useTranslationPrefix("components.editGameServer");
   const [loading, setLoading] = useState(false);
 
-  const originalState: GameServerUpdateDto = useMemo(
-    () => ({
-      game_uuid: props.gameServer.game_uuid,
-      server_name: props.gameServer.server_name,
-      docker_image_name: props.gameServer.docker_image_name,
-      docker_image_tag: props.gameServer.docker_image_tag,
-      port_mappings: props.gameServer.port_mappings,
-      environment_variables: props.gameServer.environment_variables,
-      execution_command: props.gameServer.execution_command,
-      volume_mounts: props.gameServer.volume_mounts?.map((v) => ({
-        host_path: v.host_path ?? "",
-        container_path: v.container_path ?? "",
-      })),
-    }),
-    [props.gameServer],
+  const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(
+    () => mapGameServerDtoToUpdate(props.gameServer)
   );
-
-  const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(originalState);
 
   const [executionCommandRaw, setExecutionCommandRaw] = useState(
-    (originalState.execution_command ?? []).join(" "),
+    (gameServerState.execution_command ?? []).join(" "),
   );
+
+  useEffect(() => {
+    if (!props.open) return;
+    const updatedState = mapGameServerDtoToUpdate(props.gameServer);
+    setGameServerState(updatedState);
+    setExecutionCommandRaw((updatedState.execution_command ?? []).join(" "));
+  }, [props.open, props.gameServer]);
 
   const allFieldsValid = useMemo(() => {
     const serverNameValid = z.string().min(1).safeParse(gameServerState.server_name).success;
@@ -73,7 +78,8 @@ const EditGameServerModal = (props: {
       gameServerState.port_mappings.every((mapping) => {
         const keyValid = z.number().min(1).max(65535).safeParse(Number(mapping.instance_port)).success;
         const valueValid = z.number().min(1).max(65535).safeParse(Number(mapping.container_port)).success;
-        return keyValid && valueValid;
+        const protocolValid = !!mapping.protocol;
+        return keyValid && valueValid && protocolValid;
       });
 
     const envVarsValid =
@@ -107,26 +113,56 @@ const EditGameServerModal = (props: {
   }, [gameServerState, executionCommandRaw]);
 
   const isChanged = useMemo(() => {
-    const withParsedCommand: GameServerUpdateDto = {
-      ...gameServerState,
-      execution_command: executionCommandRaw.trim()
-        ? parseCommand(executionCommandRaw).filter((x): x is string => typeof x === "string")
-        : [],
-    };
+    const parsedCommand = executionCommandRaw.trim()
+      ? parseCommand(executionCommandRaw).filter(
+        (x): x is string => typeof x === "string",
+      )
+      : [];
 
-    return JSON.stringify(withParsedCommand) !== JSON.stringify(originalState);
-  }, [gameServerState, executionCommandRaw, originalState]);
+    const commandsChanged =
+      parsedCommand.length !== (props.gameServer.execution_command?.length ?? 0) ||
+      parsedCommand.some((c, i) => c !== props.gameServer.execution_command?.[i]);
+
+    const fieldsChanged =
+      gameServerState.server_name !== props.gameServer.server_name ||
+      gameServerState.game_uuid !== props.gameServer.game_uuid ||
+      gameServerState.docker_image_name !== props.gameServer.docker_image_name ||
+      gameServerState.docker_image_tag !== props.gameServer.docker_image_tag;
+
+    const portsChanged =
+      JSON.stringify(gameServerState.port_mappings ?? []) !==
+      JSON.stringify(props.gameServer.port_mappings ?? []);
+
+    const envChanged =
+      JSON.stringify(gameServerState.environment_variables ?? []) !==
+      JSON.stringify(props.gameServer.environment_variables ?? []);
+
+    const volumesChanged =
+      JSON.stringify(
+        gameServerState.volume_mounts?.map(v => ({ ...v })) ?? [],
+      ) !==
+      JSON.stringify(
+        props.gameServer.volume_mounts?.map(v => ({ ...v })) ?? [],
+      );
+
+    return (
+      commandsChanged ||
+      fieldsChanged ||
+      portsChanged ||
+      envChanged ||
+      volumesChanged
+    );
+  }, [gameServerState, executionCommandRaw, props.gameServer]);
+
+
 
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   const handleConfirm = async () => {
-    if (!props.gameServer.uuid) {
-      toast.error(t("missingUuidError"));
-      return;
-    }
-
     const parsedExecutionCommand = executionCommandRaw.trim()
-      ? parseCommand(executionCommandRaw).filter((x): x is string => typeof x === "string")
+      ? parseCommand(executionCommandRaw).filter(
+        (x): x is string => typeof x === "string",
+      )
       : [];
 
     const payload: GameServerUpdateDto = {
@@ -143,17 +179,8 @@ const EditGameServerModal = (props: {
     }
   };
 
-  const handleOpenChange = (open: boolean) => {
-    if (!open) {
-      setGameServerState(originalState);
-      setExecutionCommandRaw((originalState.execution_command ?? []).join(" "));
-    }
-
-    props.onOpenChange(open);
-  };
-
   return (
-    <Dialog open={props.open} onOpenChange={handleOpenChange}>
+    <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent className="font-mono">
         <DialogHeader>
           <DialogTitle>{t("title", { serverName: props.serverName })}</DialogTitle>
@@ -161,7 +188,7 @@ const EditGameServerModal = (props: {
         </DialogHeader>
 
         <DialogMain className="overflow-y-scroll">
-          <GameServerEditInputField
+          <InputFieldEditGameServer
             id="server_name"
             label={t("serverNameSelection.title")}
             value={gameServerState.server_name}
@@ -172,7 +199,7 @@ const EditGameServerModal = (props: {
             errorLabel={t("serverNameSelection.errorLabel")}
           />
 
-          <GameServerEditInputField
+          <InputFieldEditGameServer
             id="game_uuid"
             validator={z.string().min(1)}
             placeholder="Game"
@@ -180,11 +207,12 @@ const EditGameServerModal = (props: {
             description={t("gameSelection.description")}
             errorLabel={t("gameSelection.errorLabel")}
             value={gameServerState.game_uuid}
+            disabled={true}
             onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
           />
 
           <div className="grid grid-cols-2 gap-4">
-            <GameServerEditInputField
+            <InputFieldEditGameServer
               id="docker_image_name"
               validator={z.string().min(1)}
               placeholder="nginx"
@@ -195,7 +223,7 @@ const EditGameServerModal = (props: {
               onChange={(v) => setGameServerState((s) => ({ ...s, docker_image_name: v as string }))}
             />
 
-            <GameServerEditInputField
+            <InputFieldEditGameServer
               id="docker_image_tag"
               validator={z.string().min(1)}
               placeholder="latest"
@@ -241,8 +269,7 @@ const EditGameServerModal = (props: {
             objectValue="value"
           />
 
-
-          <GameServerEditInputField
+          <InputFieldEditGameServer
             id="execution_command"
             validator={z.string()}
             placeholder="./start.sh"

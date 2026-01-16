@@ -14,6 +14,7 @@ const InputFieldEditGameServer = (props: {
   description?: string;
   optional?: boolean;
   defaultValue?: string;
+  disabled?: boolean;
 }) => {
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -68,6 +69,7 @@ const InputFieldEditGameServer = (props: {
         placeholder={props.placeholder}
         value={props.value ?? ""}
         onChange={(e) => changeCallback(e.target.value)}
+        disabled={props.disabled}
       />
       {isError && <FieldError>{props.errorLabel}</FieldError>}
     </div>
