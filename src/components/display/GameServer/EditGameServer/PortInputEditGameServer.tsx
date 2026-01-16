@@ -104,7 +104,7 @@ function PortInputEditGameServer({
             type={inputType}
           />
           <Select
-            value={row.protocol}
+            value={row.protocol || PortMappingProtocol.TCP}
             onValueChange={(newVal) =>
               changeCallback({ ...row, protocol: newVal as PortMappingProtocol })
             }

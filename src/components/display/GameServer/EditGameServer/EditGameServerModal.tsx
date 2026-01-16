@@ -12,9 +12,10 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { parse as parseCommand } from "shell-quote";
 import * as z from "zod";
-import type {
-  GameServerDto,
-  GameServerUpdateDto,
+import {
+  type GameServerDto,
+  type GameServerUpdateDto,
+  PortMappingProtocol,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
@@ -28,7 +29,7 @@ const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto =>
   docker_image_tag: server.docker_image_tag,
   port_mappings: server.port_mappings,
   environment_variables: server.environment_variables,
-  volume_mounts: server.volume_mounts?.map(v => ({
+  volume_mounts: server.volume_mounts?.map((v) => ({
     host_path: v.host_path ?? "",
     container_path: v.container_path ?? "",
   })),
@@ -44,8 +45,8 @@ const EditGameServerModal = (props: {
 }) => {
   const { t } = useTranslationPrefix("components.editGameServer");
   const [loading, setLoading] = useState(false);
-  const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(
-    () => mapGameServerDtoToUpdate(props.gameServer)
+  const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(() =>
+    mapGameServerDtoToUpdate(props.gameServer),
   );
   const [executionCommandRaw, setExecutionCommandRaw] = useState(
     (gameServerState.execution_command ?? []).join(" "),
@@ -75,8 +76,16 @@ const EditGameServerModal = (props: {
       gameServerState.port_mappings.length === 0 ||
       gameServerState.port_mappings.every((mapping) => {
         if (!mapping.container_port && !mapping.instance_port && mapping.protocol) return true;
-        const keyValid = z.number().min(1).max(65535).safeParse(Number(mapping.instance_port)).success;
-        const valueValid = z.number().min(1).max(65535).safeParse(Number(mapping.container_port)).success;
+        const keyValid = z
+          .number()
+          .min(1)
+          .max(65535)
+          .safeParse(Number(mapping.instance_port)).success;
+        const valueValid = z
+          .number()
+          .min(1)
+          .max(65535)
+          .safeParse(Number(mapping.container_port)).success;
         const protocolValid = !!mapping.protocol;
         return keyValid && valueValid && protocolValid;
       });
@@ -114,9 +123,7 @@ const EditGameServerModal = (props: {
 
   const isChanged = useMemo(() => {
     const parsedCommand = executionCommandRaw.trim()
-      ? parseCommand(executionCommandRaw).filter(
-        (x): x is string => typeof x === "string",
-      )
+      ? parseCommand(executionCommandRaw).filter((x): x is string => typeof x === "string")
       : [];
     const commandsChanged =
       parsedCommand.length !== (props.gameServer.execution_command?.length ?? 0) ||
@@ -138,31 +145,23 @@ const EditGameServerModal = (props: {
 
     const volumesChanged =
       JSON.stringify(
-        gameServerState.volume_mounts?.map(v => ({
+        gameServerState.volume_mounts?.map((v) => ({
           host_path: v.host_path ?? "",
           container_path: v.container_path ?? "",
         })) ?? [],
       ) !==
       JSON.stringify(
-        props.gameServer.volume_mounts?.map(v => ({
+        props.gameServer.volume_mounts?.map((v) => ({
           host_path: v.host_path ?? "",
           container_path: v.container_path ?? "",
         })) ?? [],
       );
-    return (
-      commandsChanged ||
-      fieldsChanged ||
-      portsChanged ||
-      envChanged ||
-      volumesChanged
-    );
+    return commandsChanged || fieldsChanged || portsChanged || envChanged || volumesChanged;
   }, [gameServerState, executionCommandRaw, props.gameServer]);
 
   const handleConfirm = async () => {
     const parsedExecutionCommand = executionCommandRaw.trim()
-      ? parseCommand(executionCommandRaw).filter(
-        (x): x is string => typeof x === "string",
-      )
+      ? parseCommand(executionCommandRaw).filter((x): x is string => typeof x === "string")
       : [];
     const payload: GameServerUpdateDto = {
       ...gameServerState,
@@ -220,7 +219,9 @@ const EditGameServerModal = (props: {
               description={t("dockerImageSelection.description")}
               errorLabel={t("dockerImageSelection.errorLabel")}
               value={gameServerState.docker_image_name}
-              onChange={(v) => setGameServerState((s) => ({ ...s, docker_image_name: v as string }))}
+              onChange={(v) =>
+                setGameServerState((s) => ({ ...s, docker_image_name: v as string }))
+              }
             />
 
             <InputFieldEditGameServer
@@ -248,7 +249,7 @@ const EditGameServerModal = (props: {
 
                     return {
                       ...p,
-                      protocol: hasPorts ? p.protocol : undefined,
+                      protocol: hasPorts ? p.protocol || PortMappingProtocol.TCP : undefined,
                     };
                   })
                   .filter((p) => p.instance_port || p.container_port),
@@ -267,9 +268,7 @@ const EditGameServerModal = (props: {
             onChange={(envs) =>
               setGameServerState((s) => ({
                 ...s,
-                environment_variables: envs.filter(
-                  (env) => env.key?.trim() || env.value?.trim()
-                ),
+                environment_variables: envs.filter((env) => env.key?.trim() || env.value?.trim()),
               }))
             }
             placeHolderKeyInput="KEY"
@@ -305,7 +304,7 @@ const EditGameServerModal = (props: {
               setGameServerState((s) => ({
                 ...s,
                 volume_mounts: volumes.filter(
-                  (vol) => vol.host_path?.trim() || vol.container_path?.trim()
+                  (vol) => vol.host_path?.trim() || vol.container_path?.trim(),
                 ),
               }))
             }
@@ -319,7 +318,6 @@ const EditGameServerModal = (props: {
             objectKey="host_path"
             objectValue="container_path"
           />
-
         </DialogMain>
 
         <DialogFooter>
