@@ -213,8 +213,8 @@ const translation: i18nLanguage = {
       logs: "Logs",
       metrics: "Metriken",
       file_explorer: "Dateien",
-      settings: "Einstellungen"
-    }
+      settings: "Einstellungen",
+    },
   },
   serverStatus: {
     RUNNING: "Läuft",
@@ -222,7 +222,8 @@ const translation: i18nLanguage = {
     STOPPED: "Gestoppt",
     FAILED: "Fehlgeschlagen",
     PULLING_IMAGE: "Image wird geladen",
-  }
+    AWAITING_UPDATE: "Lädt...",
+  },
 };
 
 export default translation;

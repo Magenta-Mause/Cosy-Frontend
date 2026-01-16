@@ -1,21 +1,18 @@
 import RightClickMenu, {
-  type RightClickAction
+  type RightClickAction,
 } from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
-import {
-  DeleteGameServerAlertDialog
-} from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
+import { DeleteGameServerAlertDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
 import Link from "@components/ui/Link.tsx";
-import {useRouter} from "@tanstack/react-router";
-import type {CSSProperties} from "react";
-import {useState} from "react";
-import {useTranslation} from "react-i18next";
-import {toast} from "sonner";
-import {stopService} from "@/api/generated/backend-api";
-import {GameServerDtoStatus, type GameServerDto} from "@/api/generated/model";
-import {startServiceSse} from "@/api/sse";
+import { useRouter } from "@tanstack/react-router";
+import type { CSSProperties } from "react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { type GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
 import serverHouseImage from "@/assets/ai-generated/main-page/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
-import {cn} from "@/lib/utils.ts";
+import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
+import { cn } from "@/lib/utils.ts";
 import GameSign from "../GameSign/GameSign";
 
 const GameServerHouse = (props: {
@@ -23,63 +20,40 @@ const GameServerHouse = (props: {
   className?: string;
   style?: CSSProperties;
 }) => {
-  const {t} = useTranslation();
-  const {deleteGameServer} = useDataInteractions();
+  const { t } = useTranslation();
+  const { deleteGameServer } = useDataInteractions();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const router = useRouter();
+  const { stopServer, startServer } = useServerInteractions();
 
   const actions: RightClickAction[] = [
-    ...((props.gameServer.status == "STOPPED" || props.gameServer.status == "FAILED") ? [{
-      label: t("rightClickMenu.startServer"),
-      onClick: async () => {
-        try {
-          toast.info("Starting server...");
-          const res = await startServiceSse(props.gameServer.uuid as string);
-          const hostname = window.location.hostname;
-          const listeningOn = res.ports.map((num) => (
-            <div key={num}>
-              <a
-                className="text-link"
-                href={`http://${hostname}:${num}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                - {hostname}:{num}
-              </a>
-            </div>
-          ));
-
-          toast.success(
-            <div style={{userSelect: "text"}}>
-              <div>{t("toasts.serverStartSuccess")}</div>
-              {listeningOn}
-            </div>,
-            {
-              duration: 5000,
+    ...(props.gameServer.status === "STOPPED" || props.gameServer.status === "FAILED"
+      ? [
+          {
+            label: t("rightClickMenu.startServer"),
+            onClick: async () => {
+              await startServer(props.gameServer.uuid as string, true);
             },
-          );
-        } catch (e) {
-          toast.error(t("toasts.serverStartError", {error: e}), {duration: 5000});
-        }
-      },
-    }] : props.gameServer.status == "RUNNING" ? [
-      {
-        label: t("rightClickMenu.stopServer"),
-        onClick: async () => {
-          try {
-            await stopService(props.gameServer.uuid as string);
-            toast.success(t("toasts.serverStopSuccess"));
-          } catch (e) {
-            toast.error(t("toasts.serverStopError", {error: e}));
-          }
-        },
-      }
-    ] : props.gameServer.status == "PULLING_IMAGE" ? [
-      {
-        label: t("rightClickMenu.pullingImage"),
-        disabled: true
-      }
-    ] : []),
+          },
+        ]
+      : props.gameServer.status === "RUNNING"
+        ? [
+            {
+              label: t("rightClickMenu.stopServer"),
+              onClick: async () => {
+                console.log("clicked");
+                await stopServer(props.gameServer.uuid as string, true);
+              },
+            },
+          ]
+        : props.gameServer.status === "PULLING_IMAGE"
+          ? [
+              {
+                label: t("rightClickMenu.pullingImage"),
+                disabled: true,
+              },
+            ]
+          : []),
     {
       label: t("rightClickMenu.viewLogs"),
       onClick: () => {
@@ -107,10 +81,7 @@ const GameServerHouse = (props: {
     <>
       <RightClickMenu actions={actions}>
         <Link
-          className={cn(
-            "block w-[14%] h-auto aspect-square select-none relative",
-            props.className,
-          )}
+          className={cn("block w-[14%] h-auto aspect-square select-none relative", props.className)}
           to={`/server/${props.gameServer.uuid}`}
           aria-label={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
@@ -141,8 +112,7 @@ const GameServerHouse = (props: {
                 "bg-red-500":
                   props.gameServer.status === GameServerDtoStatus.STOPPED ||
                   props.gameServer.status === GameServerDtoStatus.FAILED,
-                "bg-yellow-500":
-                  props.gameServer.status === GameServerDtoStatus.PULLING_IMAGE,
+                "bg-yellow-500": props.gameServer.status === GameServerDtoStatus.PULLING_IMAGE,
               },
             )}
           >

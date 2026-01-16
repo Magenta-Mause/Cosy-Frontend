@@ -128,7 +128,7 @@ export type i18nLanguage = {
       metrics: string;
       file_explorer: string;
       settings: string;
-    }
+    };
   };
   serverStatus: {
     RUNNING: string;
@@ -136,6 +136,7 @@ export type i18nLanguage = {
     STOPPED: string;
     FAILED: string;
     PULLING_IMAGE: string;
+    AWAITING_UPDATE: string;
   };
   components: {
     CreateGameServer: {

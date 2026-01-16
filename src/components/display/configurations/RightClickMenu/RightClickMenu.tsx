@@ -4,7 +4,7 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@components/ui/context-menu.tsx";
-import {type ReactNode, useState} from "react";
+import { type ReactNode, useState } from "react";
 
 export interface RightClickAction {
   label: string;

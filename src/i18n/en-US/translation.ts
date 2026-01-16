@@ -210,8 +210,8 @@ const translation: i18nLanguage = {
       logs: "Logs",
       metrics: "Metrics",
       file_explorer: "Files",
-      settings: "Settings"
-    }
+      settings: "Settings",
+    },
   },
   serverStatus: {
     RUNNING: "Running",
@@ -219,6 +219,7 @@ const translation: i18nLanguage = {
     STOPPED: "Stopped",
     FAILED: "Failed",
     PULLING_IMAGE: "Pulling Image",
+    AWAITING_UPDATE: "Loading...",
   },
 };
 

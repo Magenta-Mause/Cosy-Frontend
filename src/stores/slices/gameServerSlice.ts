@@ -10,13 +10,21 @@ export interface DockerPullProgressDto {
   total?: number;
 }
 
+export type LocalStatus = GameServerDtoStatus | "AWAITING_UPDATE";
+
+export type GameServerWithLocalStatus = Omit<GameServerDto, "status"> & {
+  status: LocalStatus;
+};
+
 const gameServerSlice = createSlice({
   name: "game-server-slice",
   initialState: {
     data: [],
     state: "idle",
     pullProgress: {},
-  } as SliceState<GameServerDto> & { pullProgress: Record<string, DockerPullProgressDto> },
+  } as SliceState<GameServerWithLocalStatus> & {
+    pullProgress: Record<string, DockerPullProgressDto>;
+  },
   reducers: {
     setGameServer: (state, action: PayloadAction<GameServerDto[]>) => {
       state.data = action.payload;
@@ -26,9 +34,12 @@ const gameServerSlice = createSlice({
       action: PayloadAction<{ uuid: string; status: GameServerDtoStatus }>,
     ) => {
       state.data = state.data.map((server) =>
-        server.uuid === action.payload.uuid
-          ? { ...server, status: action.payload.status }
-          : server,
+        server.uuid === action.payload.uuid ? { ...server, status: action.payload.status } : server,
+      );
+    },
+    awaitPendingUpdate: (state, action: PayloadAction<string>) => {
+      state.data = state.data.map((server) =>
+        server.uuid === action.payload ? { ...server, status: "AWAITING_UPDATE" } : server,
       );
     },
     updatePullProgress: (
