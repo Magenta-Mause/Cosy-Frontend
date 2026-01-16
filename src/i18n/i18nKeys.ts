@@ -124,7 +124,7 @@ export type i18nLanguage = {
     back: string;
     navbar: {
       overview: string;
-      logs: string;
+      console: string;
       metrics: string;
       file_explorer: string;
       settings: string;

@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServerServerIdRouteImport } from './routes/server/$serverId'
 import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId.index'
-import { Route as ServerServerIdLogsRouteImport } from './routes/server/$serverId.logs'
+import { Route as ServerServerIdConsoleRouteImport } from './routes/server/$serverId.console'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,28 +29,28 @@ const ServerServerIdIndexRoute = ServerServerIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ServerServerIdRoute,
 } as any)
-const ServerServerIdLogsRoute = ServerServerIdLogsRouteImport.update({
-  id: '/logs',
-  path: '/logs',
+const ServerServerIdConsoleRoute = ServerServerIdConsoleRouteImport.update({
+  id: '/console',
+  path: '/console',
   getParentRoute: () => ServerServerIdRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
-  '/server/$serverId/logs': typeof ServerServerIdLogsRoute
+  '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/': typeof ServerServerIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/server/$serverId/logs': typeof ServerServerIdLogsRoute
+  '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId': typeof ServerServerIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
-  '/server/$serverId/logs': typeof ServerServerIdLogsRoute
+  '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/': typeof ServerServerIdIndexRoute
 }
 export interface FileRouteTypes {
@@ -58,15 +58,15 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/server/$serverId'
-    | '/server/$serverId/logs'
+    | '/server/$serverId/console'
     | '/server/$serverId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/server/$serverId/logs' | '/server/$serverId'
+  to: '/' | '/server/$serverId/console' | '/server/$serverId'
   id:
     | '__root__'
     | '/'
     | '/server/$serverId'
-    | '/server/$serverId/logs'
+    | '/server/$serverId/console'
     | '/server/$serverId/'
   fileRoutesById: FileRoutesById
 }
@@ -98,23 +98,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServerServerIdIndexRouteImport
       parentRoute: typeof ServerServerIdRoute
     }
-    '/server/$serverId/logs': {
-      id: '/server/$serverId/logs'
-      path: '/logs'
-      fullPath: '/server/$serverId/logs'
-      preLoaderRoute: typeof ServerServerIdLogsRouteImport
+    '/server/$serverId/console': {
+      id: '/server/$serverId/console'
+      path: '/console'
+      fullPath: '/server/$serverId/console'
+      preLoaderRoute: typeof ServerServerIdConsoleRouteImport
       parentRoute: typeof ServerServerIdRoute
     }
   }
 }
 
 interface ServerServerIdRouteChildren {
-  ServerServerIdLogsRoute: typeof ServerServerIdLogsRoute
+  ServerServerIdConsoleRoute: typeof ServerServerIdConsoleRoute
   ServerServerIdIndexRoute: typeof ServerServerIdIndexRoute
 }
 
 const ServerServerIdRouteChildren: ServerServerIdRouteChildren = {
-  ServerServerIdLogsRoute: ServerServerIdLogsRoute,
+  ServerServerIdConsoleRoute: ServerServerIdConsoleRoute,
   ServerServerIdIndexRoute: ServerServerIdIndexRoute,
 }
 

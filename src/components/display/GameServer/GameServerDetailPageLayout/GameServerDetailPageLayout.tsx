@@ -8,8 +8,8 @@ import {
   DoorOpenIcon,
   FolderIcon,
   HomeIcon,
-  LogsIcon,
   SettingsIcon,
+  SquareTerminalIcon,
 } from "lucide-react";
 import type {CSSProperties} from "react";
 import {useTranslation} from "react-i18next";
@@ -31,9 +31,9 @@ const TABS = [
     path: "/server/$serverId",
   },
   {
-    label: "logs",
-    icon: <LogsIcon style={iconStyles}/>,
-    path: "/server/$serverId/logs",
+    label: "console",
+    icon: <SquareTerminalIcon style={iconStyles}/>,
+    path: "/server/$serverId/console",
   },
   {
     label: "metrics",

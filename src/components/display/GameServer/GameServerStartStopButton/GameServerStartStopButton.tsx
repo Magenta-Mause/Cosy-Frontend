@@ -1,19 +1,13 @@
-import { Button } from "@components/ui/button.tsx";
-import { Power } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { GameServerDtoStatus } from "@/api/generated/model";
+import {Button} from "@components/ui/button.tsx";
+import {Power} from "lucide-react";
+import {useTranslation} from "react-i18next";
+import {GameServerDtoStatus} from "@/api/generated/model";
 import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
-import { useTypedSelector } from "@/stores/rootReducer.ts";
-import type { GameServerWithLocalStatus } from "@/stores/slices/gameServerSlice.ts";
+import type {GameServerWithLocalStatus} from "@/stores/slices/gameServerSlice.ts";
 
 const GameServerStartStopButton = (props: { gameServer: GameServerWithLocalStatus }) => {
-  const { t } = useTranslation();
-  const pullProgressMap = useTypedSelector((state) => state.gameServerSliceReducer.pullProgress);
-  const { stopServer, startServer } = useServerInteractions();
-  if (!pullProgressMap) {
-    return null;
-  }
-  const progress = pullProgressMap[props.gameServer.uuid];
+  const {t} = useTranslation();
+  const {stopServer, startServer} = useServerInteractions();
 
   const buttonProps: React.ComponentProps<"button"> = (() => {
     switch (props.gameServer.status) {
@@ -22,7 +16,7 @@ const GameServerStartStopButton = (props: { gameServer: GameServerWithLocalStatu
           onClick: () => stopServer(props.gameServer.uuid),
           children: (
             <>
-              <Power />
+              <Power/>
               {t("serverPage.stop")}
             </>
           ),
@@ -33,7 +27,7 @@ const GameServerStartStopButton = (props: { gameServer: GameServerWithLocalStatu
           onClick: () => startServer(props.gameServer.uuid),
           children: (
             <>
-              <Power />
+              <Power/>
               {t("serverPage.start")}
             </>
           ),
@@ -41,24 +35,14 @@ const GameServerStartStopButton = (props: { gameServer: GameServerWithLocalStatu
       case GameServerDtoStatus.PULLING_IMAGE:
         return {
           disabled: true,
-          children: progress ? (
-            <>
-              {progress.status}
-              {progress.id && ` - Layer ${progress.id}`}
-              {progress.current && progress.total
-                ? ` (${Math.round((progress.current / progress.total) * 100)}%)`
-                : ""}
-            </>
-          ) : (
-            t("serverPage.pullingImage")
-          ),
+          children: t(`serverStatus.PULLING_IMAGE`)
         };
       case "AWAITING_UPDATE":
         return {
           disabled: true,
           children: (
             <>
-              <Power />
+              <Power/>
               {t("serverStatus.AWAITING_UPDATE")}
             </>
           ),

@@ -9,7 +9,7 @@ const GameServerDetailPageHeader = (props: { gameServer: GameServerDto }) => {
         {props.gameServer.server_name}
       </div>
       <div className={"flex gap-5"}>
-      <GameServerStatusIndicator status={props.gameServer.status} />
+      <GameServerStatusIndicator gameServer={props.gameServer} />
       <GameServerStartStopButton gameServer={props.gameServer} />
       </div>
     </div>

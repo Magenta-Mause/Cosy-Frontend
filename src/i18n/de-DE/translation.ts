@@ -210,7 +210,7 @@ const translation: i18nLanguage = {
     status: "Status",
     navbar: {
       overview: "Dashboard",
-      logs: "Logs",
+      console: "Console",
       metrics: "Metriken",
       file_explorer: "Dateien",
       settings: "Einstellungen",

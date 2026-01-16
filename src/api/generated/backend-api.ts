@@ -28,7 +28,6 @@ import type {
   GetLogsParams,
   GetServiceInfo200,
   LoginDto,
-  StartEventDto,
   UserCreationDto,
   UserEntityDto,
   UserInviteCreationDto,
@@ -412,7 +411,7 @@ export const startServiceSse = (
 ) => {
       
       
-      return customInstance<StartEventDto[]>(
+      return customInstance<void>(
       {url: `/game-server/${uuid}/start`, method: 'POST', signal
     },
       options);
