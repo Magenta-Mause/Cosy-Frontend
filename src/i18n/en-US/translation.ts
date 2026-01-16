@@ -201,9 +201,17 @@ const translation: i18nLanguage = {
   serverPage: {
     notFound: "not found",
     start: "Start",
-    stop: "Stop",
+    stop: "Shutdown",
+    back: "Back",
     pullingImage: "Pulling Image...",
     status: "Status",
+    navbar: {
+      overview: "Dashboard",
+      logs: "Logs",
+      metrics: "Metrics",
+      file_explorer: "Files",
+      settings: "Settings",
+    },
   },
   serverStatus: {
     RUNNING: "Running",
@@ -211,6 +219,7 @@ const translation: i18nLanguage = {
     STOPPED: "Stopped",
     FAILED: "Failed",
     PULLING_IMAGE: "Pulling Image",
+    AWAITING_UPDATE: "Loading..."
   },
 };
 

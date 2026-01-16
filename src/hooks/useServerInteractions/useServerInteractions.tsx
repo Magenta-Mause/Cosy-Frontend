@@ -46,7 +46,7 @@ const useServerInteractions = () => {
 
   const stopServer = async (gameServerId: string, includeToastNotification?: boolean) => {
     try {
-      const stopPromise = stopService(gameServerId);
+      const stopPromise = stopService(gameServerId, {timeout: 60000});
       dispatch(gameServerSliceActions.awaitPendingUpdate(gameServerId));
       await stopPromise;
       if (includeToastNotification) {
