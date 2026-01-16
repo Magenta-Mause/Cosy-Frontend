@@ -1,16 +1,44 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { GameServerDto } from "@/api/generated/model";
+import type { GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
 import type { SliceState } from "@/stores";
+
+export interface DockerPullProgressDto {
+  status: string;
+  id?: string;
+  progressDetail?: string;
+  current?: number;
+  total?: number;
+}
 
 const gameServerSlice = createSlice({
   name: "game-server-slice",
   initialState: {
     data: [],
     state: "idle",
-  } as SliceState<GameServerDto>,
+    pullProgress: {},
+  } as SliceState<GameServerDto> & { pullProgress: Record<string, DockerPullProgressDto> },
   reducers: {
     setGameServer: (state, action: PayloadAction<GameServerDto[]>) => {
       state.data = action.payload;
+    },
+    updateGameServerStatus: (
+      state,
+      action: PayloadAction<{ uuid: string; status: GameServerDtoStatus }>,
+    ) => {
+      state.data = state.data.map((server) =>
+        server.uuid === action.payload.uuid
+          ? { ...server, status: action.payload.status }
+          : server,
+      );
+    },
+    updatePullProgress: (
+      state,
+      action: PayloadAction<{ uuid: string; progress: DockerPullProgressDto }>,
+    ) => {
+      state.pullProgress = {
+        ...state.pullProgress,
+        [action.payload.uuid]: action.payload.progress,
+      };
     },
     addGameServer: (state, action: PayloadAction<GameServerDto>) => {
       state.data.push(action.payload);

@@ -7,9 +7,11 @@
  */
 import type { StartEventDtoType } from './startEventDtoType';
 import type { GameServerInstanceDto } from './gameServerInstanceDto';
+import type { PullProgressDto } from './pullProgressDto';
 
 export interface StartEventDto {
   type?: StartEventDtoType;
   gameServerInstance?: GameServerInstanceDto;
   message?: string;
+  progress?: PullProgressDto;
 }

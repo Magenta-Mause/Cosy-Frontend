@@ -6,11 +6,11 @@
  * OpenAPI spec version: v1.0
  */
 
-export type GameServerDtoStatus = typeof GameServerDtoStatus[keyof typeof GameServerDtoStatus];
+export type GetServiceInfo200 = typeof GetServiceInfo200[keyof typeof GetServiceInfo200];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GameServerDtoStatus = {
+export const GetServiceInfo200 = {
   RUNNING: 'RUNNING',
   STARTING: 'STARTING',
   STOPPED: 'STOPPED',
