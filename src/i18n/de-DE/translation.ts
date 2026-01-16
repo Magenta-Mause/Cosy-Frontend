@@ -8,7 +8,7 @@ const translation: i18nLanguage = {
     edit: "Bearbeiten",
     delete: "Löschen",
     startServer: "Starten",
-    stopServer: "Herunterfahren",
+    stopServer: "Stoppen",
     refresh: "Aktualisieren",
     createNewGameserver: "Neuen Gameserver erstellen",
     viewLogs: "Logs anzeigen",
@@ -204,17 +204,9 @@ const translation: i18nLanguage = {
   serverPage: {
     notFound: "Nicht gefunden",
     start: "Starten",
-    stop: "Herunterfahren",
-    back: "Zurück",
+    stop: "Stoppen",
     pullingImage: "Image wird geladen...",
     status: "Status",
-    navbar: {
-      overview: "Dashboard",
-      logs: "Logs",
-      metrics: "Metriken",
-      file_explorer: "Dateien",
-      settings: "Einstellungen",
-    },
   },
   serverStatus: {
     RUNNING: "Läuft",
@@ -222,7 +214,6 @@ const translation: i18nLanguage = {
     STOPPED: "Gestoppt",
     FAILED: "Fehlgeschlagen",
     PULLING_IMAGE: "Image wird geladen",
-    AWAITING_UPDATE: "Lädt...",
   },
 };
 
