@@ -34,6 +34,9 @@ const translation: i18nLanguage = {
     serverStartSuccess: "Server erfolgreich gestartet. Offene Ports:",
     serverStopError: 'Fehler beim Stoppen des Servers. "{{error}}"',
     serverStopSuccess: "Server erfolgreich gestoppt.",
+    updateGameServerSuccess: "Game-Server erfolgreich aktualisiert!",
+    updateGameServerError: "Fehler beim Aktualisieren des Game-Servers",
+    missingUuid: "Die Server UUID fehlt",
   },
   userModal: {
     title: "Benutzer",
@@ -191,6 +194,67 @@ const translation: i18nLanguage = {
       autoCompleteInputField: {
         loadingLabel: "Lädt...",
         noResultsLabel: "Kein Ergebnis gefunden.",
+      },
+    },
+    editGameServer: {
+      title: "{{serverName}}",
+      description: "Aktualisiere die Konfiguration deines Game-Servers",
+
+      cancel: "Abbrechen",
+      confirm: "Änderungen speichern",
+      missingUuidError: "Die Server UUID fehlt",
+
+      gameSelection: {
+        title: "Spiel ID",
+        description: "Das Spiel, zu dem dieser Server gehört",
+        errorLabel: "Spiel ID ist erforderlich",
+      },
+
+      serverNameSelection: {
+        title: "Servername",
+        description: "Der Name deines Servers",
+        errorLabel: "Servername ist erforderlich",
+      },
+
+      dockerImageSelection: {
+        title: "Docker-Image",
+        description: "Das Docker-Image, das zum Ausführen des Servers verwendet wird",
+        errorLabel: "Docker-Image-Name ist erforderlich",
+      },
+
+      imageTagSelection: {
+        title: "Image-Tag",
+        description: "Der Docker-Image-Tag",
+        errorLabel: "Docker-Image-Tag ist erforderlich",
+      },
+
+      portSelection: {
+        title: "Port-Zuordnungen",
+        errorLabel: "Port muss eine Zahl zwischen 1 und 65535 sein",
+        description: "Port, auf dem dein Server läuft",
+        placeholder: {
+          instancePort: "Instanz Port",
+          containerPort: "Container Port",
+          protocol: "Protokoll",
+        },
+      },
+
+      environmentVariablesSelection: {
+        title: "Umgebungsvariablen",
+        errorLabel: "Sowohl Schlüssel als auch Wert sind erforderlich",
+        description: "Umgebungsvariablen für deinen Server",
+      },
+
+      executionCommandSelection: {
+        title: "Ausführungsbefehl",
+        description: "Befehl zum Starten des Servers",
+        errorLabel: "Ausführungsbefehl darf nicht leer sein",
+      },
+
+      volumeMountSelection: {
+        title: "Volume-Mounts",
+        errorLabel: "Pfad darf nicht leer sein",
+        description: "Volume-Mounts für deinen Server",
       },
     },
   },

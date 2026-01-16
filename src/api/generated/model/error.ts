@@ -5,9 +5,7 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
+import type { StartEventDto } from './startEventDto';
+import type { ErrorAllOf } from './errorAllOf';
 
-export interface VolumeMountConfiguration {
-  uuid?: string;
-  host_path?: string;
-  container_path?: string;
-}
+export type Error = StartEventDto & ErrorAllOf;

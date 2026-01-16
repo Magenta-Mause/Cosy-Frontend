@@ -5,9 +5,8 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
+import type { GameServerInstanceDto } from './gameServerInstanceDto';
 
-export interface VolumeMountConfiguration {
-  uuid?: string;
-  host_path?: string;
-  container_path?: string;
-}
+export type DoneAllOf = {
+  gameServerInstance?: GameServerInstanceDto;
+};

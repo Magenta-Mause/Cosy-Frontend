@@ -59,6 +59,12 @@ const gameServerSlice = createSlice({
     setState: (state, action: PayloadAction<SliceState<null>["state"]>) => {
       state.state = action.payload;
     },
+    updateGameServer: (state, action: PayloadAction<GameServerDto>) => {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.uuid);
+      if (index !== -1) {
+        state.data[index] = action.payload;
+      }
+    },
   },
 });
 

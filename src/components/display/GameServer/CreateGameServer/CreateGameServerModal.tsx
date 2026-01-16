@@ -1,5 +1,11 @@
 import { Button } from "@components/ui/button.tsx";
-import { DialogContent, DialogFooter, DialogMain, DialogTitle } from "@components/ui/dialog.tsx";
+import {
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogMain,
+  DialogTitle,
+} from "@components/ui/dialog.tsx";
 import { createContext, type Dispatch, type SetStateAction, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand } from "shell-quote";
@@ -111,7 +117,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
   );
 
   return (
-    <DialogContent className="sm:max-w-150 max-h-[80vh] p-0">
+    <DialogContent>
       <GameServerCreationContext.Provider
         value={{
           setGameServerState,
@@ -121,49 +127,50 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
           setUtilState,
         }}
       >
-        <div className="flex flex-col max-h-[80vh] p-4">
+        <DialogHeader>
           <DialogTitle>
             {t(`components.CreateGameServer.steps.step${currentPage + 1}.title`)}
           </DialogTitle>
-          <DialogMain className="overflow-auto p-6">
-            <div>{PAGES[currentPage]}</div>
-          </DialogMain>
-          <DialogFooter className="shrink-0 pt-4">
-            <div className="flex-none w-40 flex items-start justify-center">
-              {creationState.utilState.gameEntity?.logo_url && (
-                <img
-                  src={creationState.utilState.gameEntity.logo_url}
-                  alt="Selected game logo"
-                  className="max-h-36 w-auto object-contain rounded-md"
-                />
-              )}
-            </div>
-            {currentPage > 0 && (
-              <Button
-                variant="secondary"
-                onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
-                disabled={currentPage === 0}
-              >
-                {t("components.CreateGameServer.backButton")}
-              </Button>
+        </DialogHeader>
+
+        <DialogMain className="overflow-auto p-6">
+          <div>{PAGES[currentPage]}</div>
+        </DialogMain>
+        <DialogFooter className="shrink-0 pt-4">
+          <div className="flex-none w-40 flex items-start justify-center">
+            {creationState.utilState.gameEntity?.logo_url && (
+              <img
+                src={creationState.utilState.gameEntity.logo_url}
+                alt="Selected game logo"
+                className="max-h-36 w-auto object-contain rounded-md"
+              />
             )}
+          </div>
+          {currentPage > 0 && (
             <Button
-              type="button"
-              variant="primary"
-              onClick={handleNextPage}
-              className={
-                isLastPage
-                  ? "bg-emerald-600 text-white hover:bg-emerald-700 focus:ring-emerald-500"
-                  : ""
-              }
-              disabled={!isPageValid[currentPage]}
+              variant="secondary"
+              onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
+              disabled={currentPage === 0}
             >
-              {isLastPage
-                ? t("components.CreateGameServer.createServerButton")
-                : t("components.CreateGameServer.nextStepButton")}
+              {t("components.CreateGameServer.backButton")}
             </Button>
-          </DialogFooter>
-        </div>
+          )}
+          <Button
+            type="button"
+            variant="primary"
+            onClick={handleNextPage}
+            className={
+              isLastPage
+                ? "bg-emerald-600 text-white hover:bg-emerald-700 focus:ring-emerald-500"
+                : ""
+            }
+            disabled={!isPageValid[currentPage]}
+          >
+            {isLastPage
+              ? t("components.CreateGameServer.createServerButton")
+              : t("components.CreateGameServer.nextStepButton")}
+          </Button>
+        </DialogFooter>
       </GameServerCreationContext.Provider>
     </DialogContent>
   );
