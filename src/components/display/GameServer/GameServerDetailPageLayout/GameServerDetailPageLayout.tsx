@@ -125,7 +125,7 @@ const FancyNavigationButton = (
       style={buttonStyles}
       tabIndex={-1}
       {...props}
-      className={cn(props.isActive ? "bg-button-primary-active" : "", "gap-0", props.className)}
+      className={cn(props.isActive ? "!bg-button-primary-active" : "", "gap-0", props.className)}
     >
       {compiledDirection === "right" && props.children}
       <div

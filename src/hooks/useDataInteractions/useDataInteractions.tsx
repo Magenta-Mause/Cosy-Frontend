@@ -4,13 +4,11 @@ import { toast } from "sonner";
 import {
   type CreateGameServerMutationBody,
   getGetAllGameServersQueryKey,
-  getGetAllUserInvitesQueryKey,
-  type UpdateGameServerMutationBody,
+  getGetAllUserInvitesQueryKey, type UpdateGameServerMutationBody,
   useCreateGameServer,
   useCreateInvite,
   useDeleteGameServerById,
-  useRevokeInvite,
-  useUpdateGameServer,
+  useRevokeInvite, useUpdateGameServer,
 } from "@/api/generated/backend-api.ts";
 import type { UserInviteCreationDto } from "@/api/generated/model";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
