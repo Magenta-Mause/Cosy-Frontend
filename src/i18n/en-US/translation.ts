@@ -201,9 +201,9 @@ const translation: i18nLanguage = {
       missingUuidError: "UUID is missing",
 
       gameSelection: {
-        title: "Game",
+        title: "Game ID",
         description: "The game this server belongs to",
-        errorLabel: "Game is required",
+        errorLabel: "Game ID is required",
       },
 
       serverNameSelection: {
