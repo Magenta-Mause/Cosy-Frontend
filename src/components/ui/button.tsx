@@ -34,14 +34,14 @@ const buttonVariants = cva(
       },
       size: {
         // Standard Sizes converted to vw
-        default: "h-[2.5vw] px-[1vw] py-[0.5vw] has-[>svg]:px-[0.75vw]",
-        sm: "h-[2.25vw] rounded-[0.3vw] gap-[0.35vw] px-[0.75vw] has-[>svg]:px-[0.6vw] text-lg",
-        lg: "h-[2.75vw] rounded-[0.4vw] px-[1.5vw] has-[>svg]:px-[1vw] text-2xl",
+        default: "h-10 px-2 py-1 has-[>svg]:px-4",
+        sm: "h-8 rounded-1 gap-2 px-1.8 has-[>svg]:px-2 text-lg",
+        lg: "h-12 rounded-1 px-2 has-[>svg]:px-2 text-2xl",
 
         // Icons
-        icon: "h-[2.25vw] w-[2.25vw]",
-        "icon-sm": "h-[2vw] w-[2vw]",
-        "icon-lg": "h-[2.5vw] w-[2.5vw]",
+        icon: "h-15 w-15",
+        "icon-sm": "h-12 w-12",
+        "icon-lg": "h-18 w-18",
       },
     },
     defaultVariants: {

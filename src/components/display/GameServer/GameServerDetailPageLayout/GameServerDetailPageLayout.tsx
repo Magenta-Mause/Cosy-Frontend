@@ -78,9 +78,11 @@ const GameServerDetailPageLayout = (props: {
           </FancyNavigationButton>
         </Link>
       </div>
-      <div className="grow py-5">
+      <div className="grow py-5 flex flex-col gap-6">
         <GameServerDetailPageHeader gameServer={props.gameServer} />
-        {props.children}
+        <div className={"grow bg-accent border-gray-700 border-4 rounded-4xl"}>
+          {props.children}
+        </div>
       </div>
 
       <div className="flex flex-col justify-center items-end w-[10%]">
