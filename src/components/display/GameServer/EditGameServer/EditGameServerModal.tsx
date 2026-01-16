@@ -69,10 +69,12 @@ const EditGameServerModal = (props: {
       .string()
       .min(1)
       .safeParse(gameServerState.docker_image_tag).success;
+
     const portMappingsValid =
-      gameServerState.port_mappings &&
-      gameServerState.port_mappings.length > 0 &&
+      !gameServerState.port_mappings ||
+      gameServerState.port_mappings.length === 0 ||
       gameServerState.port_mappings.every((mapping) => {
+        if (!mapping.container_port && !mapping.instance_port && mapping.protocol) return true;
         const keyValid = z.number().min(1).max(65535).safeParse(Number(mapping.instance_port)).success;
         const valueValid = z.number().min(1).max(65535).safeParse(Number(mapping.container_port)).success;
         const protocolValid = !!mapping.protocol;
@@ -238,12 +240,24 @@ const EditGameServerModal = (props: {
             fieldDescription={t("portSelection.description")}
             value={gameServerState.port_mappings}
             onChange={(ports) =>
-              setGameServerState((s) => ({ ...s, port_mappings: ports }))
+              setGameServerState((s) => ({
+                ...s,
+                port_mappings: ports
+                  .map((p) => {
+                    const hasPorts = p.instance_port || p.container_port;
+
+                    return {
+                      ...p,
+                      protocol: hasPorts ? p.protocol : undefined,
+                    };
+                  })
+                  .filter((p) => p.instance_port || p.container_port),
+              }))
             }
             keyValidator={z.number().min(1).max(65535)}
             valueValidator={z.number().min(1).max(65535)}
             errorLabel={t("portSelection.errorLabel")}
-            required={true}
+            required={false}
           />
 
           <EditKeyValueInput<{ key: string; value: string }>
