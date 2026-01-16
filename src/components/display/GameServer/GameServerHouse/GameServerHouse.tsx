@@ -1,3 +1,6 @@
+import RightClickMenu, {
+  type RightClickAction
+} from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
 import {
   DeleteGameServerAlertDialog
 } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
@@ -95,6 +98,9 @@ const GameServerHouse = (props: {
       label: t("rightClickMenu.delete"),
       onClick: () => {
         setIsDeleteDialogOpen(true);
+      },
+      destructive: true,
+    },
   ];
 
   return (
