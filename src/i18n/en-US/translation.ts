@@ -35,7 +35,7 @@ const translation: i18nLanguage = {
     accountCreateError: 'Failed to create account. "{{error}}"',
     createGameServerSuccess: "Game Server created successfully!",
     serverStartError: 'Failed to start server. "{{error}}"',
-    serverStartSuccess: "Started server. Listening on:",
+    serverStartSuccess: "Started server.",
     serverStopError: 'Failed to stop server. "{{error}}"',
     serverStopSuccess: "Stopped Server",
     updateGameServerSuccess: "Game Server updated successfully!",

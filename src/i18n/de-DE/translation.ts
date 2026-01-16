@@ -31,7 +31,7 @@ const translation: i18nLanguage = {
     accountCreateError: 'Fehler beim Erstellen des Kontos. "{{error}}"',
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
     serverStartError: 'Fehler beim Starten des Servers. "{{error}}"',
-    serverStartSuccess: "Server erfolgreich gestartet. Offene Ports:",
+    serverStartSuccess: "Server erfolgreich gestartet.",
     serverStopError: 'Fehler beim Stoppen des Servers. "{{error}}"',
     serverStopSuccess: "Server erfolgreich gestoppt.",
     updateGameServerSuccess: "Game-Server erfolgreich aktualisiert!",
