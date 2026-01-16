@@ -1,101 +1,17 @@
-import LogMessage from "@components/display/LogDisplay/LogMessage";
-import { forwardRef, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useState, useRef  } from "react";
+import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { useTranslation } from "react-i18next";
-import {
-  VariableSizeList as List,
-  type ListOnScrollProps,
-  type VariableSizeList,
-} from "react-window";
+import LogMessage from "@components/display/LogDisplay/LogMessage";
 import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice.ts";
 
-const LIST_HEIGHT = 360; // px
-const ESTIMATED_ROW_HEIGHT = 25; // sane default; real height is measured
-
-type RowHeights = Record<number, number>;
-
-const LogDisplay = (props: { logMessages: GameServerLogWithUuid[] }) => {
+const LogDisplay = ({ logMessages }: { logMessages: GameServerLogWithUuid[] }) => {
   const { t } = useTranslation();
-  const { logMessages } = props;
-  const itemCount = logMessages.length;
-
+  const virtuosoRef = useRef<VirtuosoHandle>(null);
   const [autoScroll, setAutoScroll] = useState(true);
-  const listRef = useRef<VariableSizeList | null>(null);
-  const rowHeightsRef = useRef<RowHeights>({});
 
-  const getItemSize = (index: number) => rowHeightsRef.current[index] ?? ESTIMATED_ROW_HEIGHT;
-
-  useEffect(() => {
-    return () => {
-      rowHeightsRef.current = {};
-    };
-  }, []);
-
-  // Keep list scrolled to bottom when new items arrive and autoScroll is on
-  useLayoutEffect(() => {
-    if (!autoScroll || itemCount === 0) return;
-
-    // A timeout gives react-window a chance to re-calculate layout after rows are measured.
-    const timeoutId = setTimeout(() => listRef.current?.scrollTo(itemCount * 200), 50);
-
-    return () => clearTimeout(timeoutId);
-  }, [itemCount, autoScroll]);
-
-  useEffect(() => {
-    document.fonts.ready.then(() => {
-      if (!listRef.current) return;
-      listRef.current.resetAfterIndex(0, true);
-    });
-  }, []);
-
-  const handleScroll = ({ scrollOffset }: ListOnScrollProps) => {
-    const totalHeight = Object.keys(rowHeightsRef.current).length
-      ? // sum known heights, fallback for unknown ones
-        logMessages.reduce(
-          (sum, _, index) => sum + (rowHeightsRef.current[index] ?? ESTIMATED_ROW_HEIGHT),
-          0,
-        )
-      : itemCount * ESTIMATED_ROW_HEIGHT;
-
-    const viewportBottom = scrollOffset + LIST_HEIGHT;
-    const isAtBottom = viewportBottom >= totalHeight - ESTIMATED_ROW_HEIGHT * 2;
-
-    setAutoScroll(isAtBottom);
-  };
-
-  const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
-    const rowRef = useRef<HTMLDivElement | null>(null);
-    const message = logMessages[index];
-
-    useLayoutEffect(() => {
-      if (!rowRef.current) return;
-
-      const height = rowRef.current.getBoundingClientRect().height;
-      if (height && rowHeightsRef.current[index] !== height) {
-        rowHeightsRef.current[index] = height;
-        // Recalculate layout from this row downward
-        listRef.current?.resetAfterIndex(index, true);
-      }
-    }, [index]); // re-measure if that item changes
-
-    return (
-      <div style={style}>
-        <div ref={rowRef}>
-          <LogMessage key={message.uuid} message={message} />
-        </div>
-      </div>
-    );
-  };
-
-  const innerElementType = useMemo(
-    () =>
-      forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-        function InnerElement(props, ref) {
-          const { style, ...rest } = props;
-          return <div ref={ref} style={style} {...rest} className="relative" />;
-        },
-      ),
-    [],
-  );
+  // We use followOutput to handle the "stick to bottom" logic automatically
+  // 'smooth' or 'auto' behavior can be defined here
+  const followOutput = autoScroll ? "smooth" : false;
 
   return (
     <div className="flex flex-col border rounded-md bg-gray-950 text-gray-100 font-mono h-96">
@@ -113,20 +29,26 @@ const LogDisplay = (props: { logMessages: GameServerLogWithUuid[] }) => {
         </label>
       </div>
 
-      {/* Virtualized log list */}
-      <List
-        ref={listRef}
-        height={LIST_HEIGHT}
-        itemCount={itemCount}
-        itemSize={getItemSize}
-        width="100%"
-        onScroll={handleScroll}
-        estimatedItemSize={ESTIMATED_ROW_HEIGHT}
-        overscanCount={5}
-        innerElementType={innerElementType}
-      >
-        {Row}
-      </List>
+      {/* Virtuoso List */}
+      <div className="flex-1 min-h-0">
+        <Virtuoso
+          ref={virtuosoRef}
+          data={logMessages}
+          followOutput={followOutput}
+          // atBottomStateChange triggers when user scrolls away from/to bottom
+          atBottomStateChange={(atBottom) => setAutoScroll(atBottom)}
+          initialTopMostItemIndex={logMessages.length - 1}
+          itemContent={(_index, message) => (
+            <div className="pb-1"> {/* Spacing between logs */}
+              <LogMessage key={message.uuid} message={message} />
+            </div>
+          )}
+          // Customizing the scroll container style
+          style={{ height: '100%' }}
+          // Increases performance by rendering a few items outside the viewport
+          overscan={200}
+        />
+      </div>
     </div>
   );
 };
