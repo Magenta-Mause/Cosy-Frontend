@@ -8,7 +8,7 @@ const translation: i18nLanguage = {
     edit: "Bearbeiten",
     delete: "Löschen",
     startServer: "Starten",
-    stopServer: "Stoppen",
+    stopServer: "Herunterfahren",
     refresh: "Aktualisieren",
     createNewGameserver: "Neuen Gameserver erstellen",
     viewLogs: "Logs anzeigen",
@@ -204,7 +204,7 @@ const translation: i18nLanguage = {
   serverPage: {
     notFound: "Nicht gefunden",
     start: "Starten",
-    stop: "Stoppen",
+    stop: "Herunterfahren",
     back: "Zurück",
     pullingImage: "Image wird geladen...",
     status: "Status",

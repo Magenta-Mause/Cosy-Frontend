@@ -13,7 +13,7 @@ const translation: i18nLanguage = {
     edit: "Edit",
     delete: "Delete",
     startServer: "Start",
-    stopServer: "Stop",
+    stopServer: "Shutdown",
     refresh: "Refresh",
     createNewGameserver: "Create new Gameserver",
     viewLogs: "View Logs",
@@ -201,7 +201,7 @@ const translation: i18nLanguage = {
   serverPage: {
     notFound: "not found",
     start: "Start",
-    stop: "Stop",
+    stop: "Shutdown",
     back: "Back",
     pullingImage: "Pulling Image...",
     status: "Status",

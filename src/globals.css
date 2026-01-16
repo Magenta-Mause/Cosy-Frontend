@@ -79,14 +79,6 @@
     --radius-lg: var(--radius);
     --radius-xl: calc(var(--radius) * 1.25);
 
-    --animate-pulse: pulse 1.5s ease-in-out infinite;
-
-    @keyframes pulse {
-        50% {
-            opacity: 0.5;
-        }
-    }
-
 }
 
 :root {
