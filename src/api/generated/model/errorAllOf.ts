@@ -5,8 +5,7 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { StartEventDtoType } from './startEventDtoType';
 
-export interface StartEventDto {
-  type?: StartEventDtoType;
-}
+export type ErrorAllOf = {
+  message?: string;
+};

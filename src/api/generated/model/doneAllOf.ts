@@ -5,8 +5,8 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { StartEventDtoType } from './startEventDtoType';
+import type { GameServerInstanceDto } from './gameServerInstanceDto';
 
-export interface StartEventDto {
-  type?: StartEventDtoType;
-}
+export type DoneAllOf = {
+  gameServerInstance?: GameServerInstanceDto;
+};

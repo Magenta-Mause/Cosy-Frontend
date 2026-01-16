@@ -24,12 +24,12 @@ import type {
   GameServerCreationDto,
   GameServerDto,
   GameServerLogMessageEntity,
-  GameServerStatusDto,
   GameServerUpdateDto,
   GetGameInfoParams,
   GetLogsParams,
+  GetServiceInfo200,
   LoginDto,
-  StartEventDto,
+  StartServiceSse200Item,
   UserCreationDto,
   UserEntityDto,
   UserInviteCreationDto,
@@ -591,7 +591,7 @@ export const startServiceSse = (
 ) => {
       
       
-      return customInstance<StartEventDto[]>(
+      return customInstance<StartServiceSse200Item[]>(
       {url: `/game-server/${uuid}/start`, method: 'POST', signal
     },
       options);
@@ -1073,7 +1073,7 @@ export const getServiceInfo = (
 ) => {
       
       
-      return customInstance<GameServerStatusDto>(
+      return customInstance<GetServiceInfo200>(
       {url: `/game-server/${uuid}/status`, method: 'GET', signal
     },
       options);

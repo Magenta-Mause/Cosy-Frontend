@@ -122,6 +122,15 @@ export type i18nLanguage = {
     notFound: string;
     start: string;
     stop: string;
+    pullingImage: string;
+    status: string;
+  };
+  serverStatus: {
+    RUNNING: string;
+    STARTING: string;
+    STOPPED: string;
+    FAILED: string;
+    PULLING_IMAGE: string;
   };
   components: {
     CreateGameServer: {

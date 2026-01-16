@@ -12,6 +12,7 @@ export type StartEventDtoType = typeof StartEventDtoType[keyof typeof StartEvent
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const StartEventDtoType = {
   HEARTBEAT: 'HEARTBEAT',
+  PULL_PROGRESS: 'PULL_PROGRESS',
   DONE: 'DONE',
   ERROR: 'ERROR',
 } as const;
