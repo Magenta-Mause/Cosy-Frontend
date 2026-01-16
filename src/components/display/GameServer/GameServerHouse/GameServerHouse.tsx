@@ -7,11 +7,16 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { stopService } from "@/api/generated/backend-api";
-import { GameServerDtoStatus, type GameServerDto } from "@/api/generated/model";
+import {
+  type GameServerDto,
+  GameServerDtoStatus,
+  type GameServerUpdateDto,
+} from "@/api/generated/model";
 import { startServiceSse } from "@/api/sse";
 import serverHouseImage from "@/assets/ai-generated/main-page/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
+import EditGameServerModal from "../EditGameServer/EditGameServerModal";
 import GameSign from "../GameSign/GameSign";
 
 const GameServerHouse = (props: {
@@ -21,7 +26,9 @@ const GameServerHouse = (props: {
 }) => {
   const { t } = useTranslation();
   const { deleteGameServer } = useDataInteractions();
+  const { updateGameServer } = useDataInteractions();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const router = useRouter();
 
   const actions = [
@@ -36,8 +43,9 @@ const GameServerHouse = (props: {
     {
       label: t("rightClickMenu.edit"),
       onClick: () => {
-        toast.info(t("toasts.notImplemented"));
+        setIsEditDialogOpen(true);
       },
+      closeOnClick: false,
     },
     {
       label: t("rightClickMenu.delete"),
@@ -93,14 +101,19 @@ const GameServerHouse = (props: {
     },
   ];
 
+  const handleUpdateGameServer = async (updatedState: GameServerUpdateDto) => {
+    if (!props.gameServer.uuid) {
+      toast.error(t("toasts.missingUuid"));
+      return;
+    }
+    await updateGameServer(props.gameServer.uuid, updatedState);
+  };
+
   return (
     <>
       <RightClickMenu actions={actions}>
         <Link
-          className={cn(
-            "block w-[14%] h-auto aspect-square select-none relative",
-            props.className,
-          )}
+          className={cn("block w-[14%] h-auto aspect-square select-none relative", props.className)}
           to={`/server/${props.gameServer.uuid}`}
           aria-label={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
@@ -131,8 +144,7 @@ const GameServerHouse = (props: {
                 "bg-red-500":
                   props.gameServer.status === GameServerDtoStatus.STOPPED ||
                   props.gameServer.status === GameServerDtoStatus.FAILED,
-                "bg-yellow-500":
-                  props.gameServer.status === GameServerDtoStatus.PULLING_IMAGE,
+                "bg-yellow-500": props.gameServer.status === GameServerDtoStatus.PULLING_IMAGE,
               },
             )}
           >
@@ -145,6 +157,13 @@ const GameServerHouse = (props: {
         onConfirm={() => deleteGameServer(props.gameServer.uuid ?? "")}
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
+      />
+      <EditGameServerModal
+        serverName={props.gameServer.server_name ?? ""}
+        gameServer={props.gameServer}
+        open={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
+        onConfirm={handleUpdateGameServer}
       />
     </>
   );

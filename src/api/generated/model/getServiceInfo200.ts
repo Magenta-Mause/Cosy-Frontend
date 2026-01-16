@@ -12,7 +12,6 @@ export type GetServiceInfo200 = typeof GetServiceInfo200[keyof typeof GetService
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetServiceInfo200 = {
   RUNNING: 'RUNNING',
-  STARTING: 'STARTING',
   STOPPED: 'STOPPED',
   FAILED: 'FAILED',
   PULLING_IMAGE: 'PULLING_IMAGE',

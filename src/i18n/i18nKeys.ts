@@ -31,6 +31,9 @@ export type i18nLanguage = {
     serverStartError: ContainsVariable<"error">;
     serverStopSuccess: string;
     serverStopError: ContainsVariable<"error">;
+    updateGameServerSuccess: string;
+    updateGameServerError: string;
+    missingUuid: string;
   };
   userModal: {
     title: string;
@@ -201,6 +204,67 @@ export type i18nLanguage = {
       autoCompleteInputField: {
         loadingLabel: string;
         noResultsLabel: string;
+      };
+    };
+    editGameServer: {
+      title: ContainsVariable<"serverName">;
+      description: string;
+
+      cancel: string;
+      confirm: string;
+      missingUuidError: string;
+
+      gameSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+      };
+
+      serverNameSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+      };
+
+      dockerImageSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+      };
+
+      imageTagSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+      };
+
+      portSelection: {
+        title: string;
+        errorLabel: string;
+        description: string;
+        placeholder: {
+          containerPort: string;
+          instancePort: string;
+          protocol: string;
+        };
+      };
+
+      environmentVariablesSelection: {
+        title: string;
+        errorLabel: string;
+        description: string;
+      };
+
+      executionCommandSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+      };
+
+      volumeMountSelection: {
+        title: string;
+        errorLabel: string;
+        description: string;
       };
     };
   };

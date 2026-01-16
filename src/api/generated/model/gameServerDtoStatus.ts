@@ -12,7 +12,6 @@ export type GameServerDtoStatus = typeof GameServerDtoStatus[keyof typeof GameSe
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GameServerDtoStatus = {
   RUNNING: 'RUNNING',
-  STARTING: 'STARTING',
   STOPPED: 'STOPPED',
   FAILED: 'FAILED',
   PULLING_IMAGE: 'PULLING_IMAGE',
