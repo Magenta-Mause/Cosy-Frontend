@@ -242,6 +242,11 @@ export type i18nLanguage = {
         title: string;
         errorLabel: string;
         description: string;
+        placeholder: {
+          containerPort: string;
+          instancePort: string;
+          protocol: string;
+        };
       };
 
       environmentVariablesSelection: {

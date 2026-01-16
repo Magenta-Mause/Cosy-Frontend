@@ -9,6 +9,7 @@ import {
 import { useCallback } from "react";
 import type { ZodType } from "zod";
 import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import ListInputEdit from "./ListInputEditGameServer";
 
 interface PortItem {
@@ -42,7 +43,7 @@ function PortInputEditGameServer({
   required,
 }: Props) {
   const inputType: "number" = "number";
-
+  const { t } = useTranslationPrefix("components.editGameServer");
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
       const preProcessValue = (v: string) => Number(v);
@@ -74,7 +75,7 @@ function PortInputEditGameServer({
         })) ?? []
       }
       onChange={(rows) => {
-        const preProcessValue = (v: string) => Number(v); // also here for mapping
+        const preProcessValue = (v: string) => Number(v);
         const mapped: PortMapping[] = rows.map((row) => ({
           instance_port: preProcessValue(row.key),
           container_port: preProcessValue(row.value),
@@ -90,14 +91,14 @@ function PortInputEditGameServer({
         <>
           <Input
             className={rowError ? "border-red-500" : ""}
-            placeholder="Instance Port"
+            placeholder={t("portSelection.placeholder.instancePort")}
             value={row.key}
             onChange={(e) => changeCallback({ ...row, key: e.target.value })}
             type={inputType}
           />
           <Input
             className={rowError ? "border-red-500" : ""}
-            placeholder="Container Port"
+            placeholder={t("portSelection.placeholder.containerPort")}
             value={row.value}
             onChange={(e) => changeCallback({ ...row, value: e.target.value })}
             type={inputType}
@@ -109,7 +110,7 @@ function PortInputEditGameServer({
             }
           >
             <SelectTrigger className="w-22">
-              <SelectValue placeholder="Protocol" />
+              <SelectValue placeholder={t("portSelection.placeholder.protocol")} />
             </SelectTrigger>
             <SelectContent className="w-22">
               {Object.values(PortMappingProtocol).map((protocol) => (

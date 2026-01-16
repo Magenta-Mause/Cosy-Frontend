@@ -232,6 +232,11 @@ const translation: i18nLanguage = {
         title: "Port-Zuordnungen",
         errorLabel: "Port muss eine Zahl zwischen 1 und 65535 sein",
         description: "Port, auf dem dein Server läuft",
+        placeholder: {
+          instancePort: "Instanz Port",
+          containerPort: "Container Port",
+          protocol: "Protokoll",
+        },
       },
 
       environmentVariablesSelection: {

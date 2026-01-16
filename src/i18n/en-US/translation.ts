@@ -228,6 +228,11 @@ const translation: i18nLanguage = {
         title: "Port Mappings",
         errorLabel: "Port must be a number between 1 and 65535",
         description: "Port your Server will run on",
+        placeholder: {
+          instancePort: "Instance Port",
+          containerPort: "Container Port",
+          protocol: "Protocol",
+        },
       },
 
       environmentVariablesSelection: {
