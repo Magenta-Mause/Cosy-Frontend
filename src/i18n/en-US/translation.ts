@@ -194,7 +194,7 @@ const translation: i18nLanguage = {
     },
     editGameServer: {
       title: "{{serverName}}",
-      description: "Update the configuration of your game server.",
+      description: "Update the configuration of your game server",
 
       cancel: "Cancel",
       confirm: "Save changes",
