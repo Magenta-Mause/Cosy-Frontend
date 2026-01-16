@@ -79,7 +79,7 @@ const GameServerDetailPageLayout = (props: {
           </FancyNavigationButton>
         </Link>
       </div>
-      <div className="grow py-5 flex flex-col gap-6">
+      <div className="grow py-5 flex flex-col gap-6 h-[92vh]">
         <GameServerDetailPageHeader gameServer={props.gameServer}/>
         <div className={"grow"}>
           {props.children}
