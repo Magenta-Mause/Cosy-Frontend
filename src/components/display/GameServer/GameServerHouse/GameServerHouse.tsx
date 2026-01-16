@@ -1,17 +1,18 @@
-import RightClickMenu from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
-import { DeleteGameServerAlertDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
+import {
+  DeleteGameServerAlertDialog
+} from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
 import Link from "@components/ui/Link.tsx";
-import { useRouter } from "@tanstack/react-router";
-import type { CSSProperties } from "react";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
-import { stopService } from "@/api/generated/backend-api";
-import { GameServerDtoStatus, type GameServerDto } from "@/api/generated/model";
-import { startServiceSse } from "@/api/sse";
+import {useRouter} from "@tanstack/react-router";
+import type {CSSProperties} from "react";
+import {useState} from "react";
+import {useTranslation} from "react-i18next";
+import {toast} from "sonner";
+import {stopService} from "@/api/generated/backend-api";
+import {GameServerDtoStatus, type GameServerDto} from "@/api/generated/model";
+import {startServiceSse} from "@/api/sse";
 import serverHouseImage from "@/assets/ai-generated/main-page/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
-import { cn } from "@/lib/utils.ts";
+import {cn} from "@/lib/utils.ts";
 import GameSign from "../GameSign/GameSign";
 
 const GameServerHouse = (props: {
@@ -19,34 +20,13 @@ const GameServerHouse = (props: {
   className?: string;
   style?: CSSProperties;
 }) => {
-  const { t } = useTranslation();
-  const { deleteGameServer } = useDataInteractions();
+  const {t} = useTranslation();
+  const {deleteGameServer} = useDataInteractions();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const router = useRouter();
 
-  const actions = [
-    {
-      label: t("rightClickMenu.viewLogs"),
-      onClick: () => {
-        router.navigate({
-          to: `/server/${props.gameServer.uuid}`,
-        });
-      },
-    },
-    {
-      label: t("rightClickMenu.edit"),
-      onClick: () => {
-        toast.info(t("toasts.notImplemented"));
-      },
-    },
-    {
-      label: t("rightClickMenu.delete"),
-      onClick: () => {
-        setIsDeleteDialogOpen(true);
-      },
-      closeOnClick: false,
-    },
-    {
+  const actions: RightClickAction[] = [
+    ...((props.gameServer.status == "STOPPED" || props.gameServer.status == "FAILED") ? [{
       label: t("rightClickMenu.startServer"),
       onClick: async () => {
         try {
@@ -67,7 +47,7 @@ const GameServerHouse = (props: {
           ));
 
           toast.success(
-            <div style={{ userSelect: "text" }}>
+            <div style={{userSelect: "text"}}>
               <div>{t("toasts.serverStartSuccess")}</div>
               {listeningOn}
             </div>,
@@ -76,21 +56,45 @@ const GameServerHouse = (props: {
             },
           );
         } catch (e) {
-          toast.error(t("toasts.serverStartError", { error: e }), { duration: 5000 });
+          toast.error(t("toasts.serverStartError", {error: e}), {duration: 5000});
         }
+      },
+    }] : props.gameServer.status == "RUNNING" ? [
+      {
+        label: t("rightClickMenu.stopServer"),
+        onClick: async () => {
+          try {
+            await stopService(props.gameServer.uuid as string);
+            toast.success(t("toasts.serverStopSuccess"));
+          } catch (e) {
+            toast.error(t("toasts.serverStopError", {error: e}));
+          }
+        },
+      }
+    ] : props.gameServer.status == "PULLING_IMAGE" ? [
+      {
+        label: t("rightClickMenu.pullingImage"),
+        disabled: true
+      }
+    ] : []),
+    {
+      label: t("rightClickMenu.viewLogs"),
+      onClick: () => {
+        router.navigate({
+          to: `/server/${props.gameServer.uuid}`,
+        });
       },
     },
     {
-      label: t("rightClickMenu.stopServer"),
-      onClick: async () => {
-        try {
-          await stopService(props.gameServer.uuid as string);
-          toast.success(t("toasts.serverStopSuccess"));
-        } catch (e) {
-          toast.error(t("toasts.serverStopError", { error: e }));
-        }
+      label: t("rightClickMenu.edit"),
+      onClick: () => {
+        toast.info(t("toasts.notImplemented"));
       },
     },
+    {
+      label: t("rightClickMenu.delete"),
+      onClick: () => {
+        setIsDeleteDialogOpen(true);
   ];
 
   return (
