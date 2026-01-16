@@ -202,8 +202,16 @@ const translation: i18nLanguage = {
     notFound: "not found",
     start: "Start",
     stop: "Stop",
+    back: "Back",
     pullingImage: "Pulling Image...",
     status: "Status",
+    navbar: {
+      overview: "Dashboard",
+      logs: "Logs",
+      metrics: "Metrics",
+      file_explorer: "Files",
+      settings: "Settings"
+    }
   },
   serverStatus: {
     RUNNING: "Running",

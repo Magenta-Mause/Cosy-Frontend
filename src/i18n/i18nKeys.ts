@@ -121,6 +121,14 @@ export type i18nLanguage = {
     stop: string;
     pullingImage: string;
     status: string;
+    back: string;
+    navbar: {
+      overview: string;
+      logs: string;
+      metrics: string;
+      file_explorer: string;
+      settings: string;
+    }
   };
   serverStatus: {
     RUNNING: string;
