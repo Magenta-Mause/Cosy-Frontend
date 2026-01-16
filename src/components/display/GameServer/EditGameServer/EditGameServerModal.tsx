@@ -44,11 +44,9 @@ const EditGameServerModal = (props: {
 }) => {
   const { t } = useTranslationPrefix("components.editGameServer");
   const [loading, setLoading] = useState(false);
-
   const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(
     () => mapGameServerDtoToUpdate(props.gameServer)
   );
-
   const [executionCommandRaw, setExecutionCommandRaw] = useState(
     (gameServerState.execution_command ?? []).join(" "),
   );
@@ -71,7 +69,6 @@ const EditGameServerModal = (props: {
       .string()
       .min(1)
       .safeParse(gameServerState.docker_image_tag).success;
-    const executionCommandValid = z.string().safeParse(executionCommandRaw).success;
     const portMappingsValid =
       gameServerState.port_mappings &&
       gameServerState.port_mappings.length > 0 &&
@@ -86,6 +83,7 @@ const EditGameServerModal = (props: {
       !gameServerState.environment_variables ||
       gameServerState.environment_variables.length === 0 ||
       gameServerState.environment_variables.every((env) => {
+        if (!env.key && !env.value) return true;
         const keyValid = z.string().min(1).safeParse(env.key).success;
         const valueValid = z.string().min(1).safeParse(env.value).success;
         return keyValid && valueValid;
@@ -95,6 +93,7 @@ const EditGameServerModal = (props: {
       !gameServerState.volume_mounts ||
       gameServerState.volume_mounts.length === 0 ||
       gameServerState.volume_mounts.every((vol) => {
+        if (!vol.host_path && !vol.container_path) return true;
         const hostPathValid = z.string().min(1).safeParse(vol.host_path).success;
         const containerPathValid = z.string().min(1).safeParse(vol.container_path).success;
         return hostPathValid && containerPathValid;
@@ -107,10 +106,9 @@ const EditGameServerModal = (props: {
       dockerImageTagValid &&
       portMappingsValid &&
       envVarsValid &&
-      volumeMountsValid &&
-      executionCommandValid
+      volumeMountsValid
     );
-  }, [gameServerState, executionCommandRaw]);
+  }, [gameServerState]);
 
   const isChanged = useMemo(() => {
     const parsedCommand = executionCommandRaw.trim()
@@ -118,7 +116,6 @@ const EditGameServerModal = (props: {
         (x): x is string => typeof x === "string",
       )
       : [];
-
     const commandsChanged =
       parsedCommand.length !== (props.gameServer.execution_command?.length ?? 0) ||
       parsedCommand.some((c, i) => c !== props.gameServer.execution_command?.[i]);
@@ -139,12 +136,17 @@ const EditGameServerModal = (props: {
 
     const volumesChanged =
       JSON.stringify(
-        gameServerState.volume_mounts?.map(v => ({ ...v })) ?? [],
+        gameServerState.volume_mounts?.map(v => ({
+          host_path: v.host_path ?? "",
+          container_path: v.container_path ?? "",
+        })) ?? [],
       ) !==
       JSON.stringify(
-        props.gameServer.volume_mounts?.map(v => ({ ...v })) ?? [],
+        props.gameServer.volume_mounts?.map(v => ({
+          host_path: v.host_path ?? "",
+          container_path: v.container_path ?? "",
+        })) ?? [],
       );
-
     return (
       commandsChanged ||
       fieldsChanged ||
@@ -154,22 +156,16 @@ const EditGameServerModal = (props: {
     );
   }, [gameServerState, executionCommandRaw, props.gameServer]);
 
-
-
-  const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
-
   const handleConfirm = async () => {
     const parsedExecutionCommand = executionCommandRaw.trim()
       ? parseCommand(executionCommandRaw).filter(
         (x): x is string => typeof x === "string",
       )
       : [];
-
     const payload: GameServerUpdateDto = {
       ...gameServerState,
       execution_command: parsedExecutionCommand,
     };
-
     setLoading(true);
     try {
       await props.onConfirm(payload);
@@ -178,6 +174,8 @@ const EditGameServerModal = (props: {
       setLoading(false);
     }
   };
+
+  const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
@@ -255,7 +253,9 @@ const EditGameServerModal = (props: {
             onChange={(envs) =>
               setGameServerState((s) => ({
                 ...s,
-                environment_variables: envs,
+                environment_variables: envs.filter(
+                  (env) => env.key?.trim() || env.value?.trim()
+                ),
               }))
             }
             placeHolderKeyInput="KEY"
@@ -263,7 +263,7 @@ const EditGameServerModal = (props: {
             keyValidator={z.string().min(1)}
             valueValidator={z.string().min(1)}
             errorLabel={t("environmentVariablesSelection.errorLabel")}
-            required={true}
+            required={false}
             inputType="text"
             objectKey="key"
             objectValue="value"
@@ -288,14 +288,19 @@ const EditGameServerModal = (props: {
             fieldDescription={t("volumeMountSelection.description")}
             value={gameServerState.volume_mounts}
             onChange={(volumes) =>
-              setGameServerState((s) => ({ ...s, volume_mounts: volumes }))
+              setGameServerState((s) => ({
+                ...s,
+                volume_mounts: volumes.filter(
+                  (vol) => vol.host_path?.trim() || vol.container_path?.trim()
+                ),
+              }))
             }
             placeHolderKeyInput="Host Path"
             placeHolderValueInput="Container Path"
             keyValidator={z.string().min(1)}
             valueValidator={z.string().min(1)}
             errorLabel={t("volumeMountSelection.errorLabel")}
-            required={true}
+            required={false}
             inputType="text"
             objectKey="host_path"
             objectValue="container_path"
