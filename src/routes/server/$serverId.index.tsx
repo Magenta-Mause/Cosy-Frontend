@@ -60,7 +60,7 @@ function GameServerDetailPage() {
   }
 
   return (
-    <div className="container mx-auto py-20 flex flex-col gap-4">
+    <div className="container mx-auto flex flex-col gap-4">
       <div className="flex flex-row gap-2 items-center justify-between">
         <p>{gameServer.server_name}</p>
         <div className={"gap-5 flex flex-row items-center"}>
