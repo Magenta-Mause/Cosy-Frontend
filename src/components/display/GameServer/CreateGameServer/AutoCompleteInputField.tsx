@@ -66,6 +66,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     queryKey: [searchId, "search", queryGameName],
     queryFn: () => searchCallback(queryGameName),
     staleTime: 1000 * 60 * 5,
+    retry: false,
   });
 
   useEffect(() => {
@@ -172,7 +173,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       </PopoverTrigger>
 
       <PopoverContent className="w-[25vw]">
-        <div data-loading={isLoading}>
+        <div data-loading={isLoading} >
           <Command>
             <CommandList>
               {isLoading ? (
