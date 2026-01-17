@@ -1,4 +1,3 @@
-import { UserList } from "@components/display/UserManagement/UserModal/UserList";
 import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
@@ -33,7 +32,24 @@ function UserDetailPage() {
         <Card>
           <CardContent className="flex gap-2 items-center m-2">
             User 1
-            <Badge>Admin</Badge>
+            <Badge className="rounded-md text-2xl p-3">Quota</Badge>
+            <Badge className="rounded-md flex flex-col justify-center p-2">
+              <span>2/3</span>
+              <span>CPUs</span>
+            </Badge>
+            <Badge className="rounded-md flex flex-col justify-center p-2">
+              <span>4,2/6,9 GB</span>
+              <span>Memory</span>
+            </Badge>
+            <Badge className="rounded-md flex flex-col justify-center p-2">
+              <span>55/200 GB</span>
+              <span>Storage</span>
+            </Badge>
+            <Badge className="rounded-md flex flex-col justify-center p-2">
+              <span>1/4</span>
+              <span>Intance</span>
+            </Badge>
+            <Badge className="rounded-md text-2xl p-3">...</Badge>
           </CardContent>
         </Card>
       </div>
