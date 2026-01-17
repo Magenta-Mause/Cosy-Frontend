@@ -15,4 +15,5 @@ export const GameServerDtoStatus = {
   STOPPED: 'STOPPED',
   FAILED: 'FAILED',
   PULLING_IMAGE: 'PULLING_IMAGE',
+  AWAITING_UPDATE: 'AWAITING_UPDATE',
 } as const;

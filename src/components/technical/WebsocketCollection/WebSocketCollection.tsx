@@ -9,7 +9,6 @@ import { useTypedSelector } from "@/stores/rootReducer.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
 import {
   gameServerSliceActions,
-  type DockerPullProgressDto,
 } from "@/stores/slices/gameServerSlice.ts";
 
 interface GameServerStatusUpdateDto {
@@ -38,7 +37,7 @@ const WebSocketCollection = () => {
 
   useSubscription(
     gameServer
-      ? gameServer.map((server) => `/topics/game-servers/${server.uuid}/status`)
+      ? gameServer.map((server) => `/topics/game-servers/status/${server.uuid}`)
       : [],
     (message) => {
       const messageBody = JSON.parse(
@@ -58,7 +57,7 @@ const WebSocketCollection = () => {
   useSubscription(
     gameServer
       ? gameServer.map(
-          (server) => `/topics/game-servers/${server.uuid}/docker-progress`,
+          (server) => `/topics/game-servers/docker-progress/${server.uuid}`,
         )
       : [],
     (message) => {
