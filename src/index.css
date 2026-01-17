@@ -3,7 +3,7 @@
 
 @font-face {
   font-family: "Stardew Valley";
-  src: url("./assets/StardewValley.ttf") format("truetype");
+  src: url("src/assets/StardewValley.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
