@@ -288,7 +288,8 @@ const translation: i18nLanguage = {
     STOPPED: "Gestoppt",
     FAILED: "Fehlgeschlagen",
     PULLING_IMAGE: "Image wird geladen",
-    AWAITING_UPDATE: "Lädt..."
+    AWAITING_UPDATE: "Lädt...",
+    STOPPING: "Stoppt..."
   },
 };
 

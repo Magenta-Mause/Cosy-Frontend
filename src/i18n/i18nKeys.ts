@@ -142,6 +142,7 @@ export type i18nLanguage = {
     FAILED: string;
     PULLING_IMAGE: string;
     AWAITING_UPDATE: string;
+    STOPPING: string;
   };
   components: {
     CreateGameServer: {

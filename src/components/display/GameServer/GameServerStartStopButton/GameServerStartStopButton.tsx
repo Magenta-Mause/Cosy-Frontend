@@ -36,7 +36,7 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
           disabled: true,
           children: t(`serverStatus.PULLING_IMAGE`)
         };
-      case "AWAITING_UPDATE":
+      case GameServerDtoStatus.AWAITING_UPDATE:
         return {
           disabled: true,
           children: (
@@ -45,6 +45,16 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
               {t("serverStatus.AWAITING_UPDATE")}
             </>
           ),
+        };
+      case GameServerDtoStatus.STOPPING:
+        return {
+          disabled: true,
+          children: (
+            <>
+              <Power/>
+              {t("serverStatus.STOPPING")}
+            </>
+          )
         };
       default:
         return {};

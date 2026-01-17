@@ -9,6 +9,7 @@ const STATUS_CLASSES: Record<GameServerDtoStatus, string> = {
   [GameServerDtoStatus.RUNNING]: "bg-green-500",
   [GameServerDtoStatus.PULLING_IMAGE]: "bg-blue-400",
   [GameServerDtoStatus.AWAITING_UPDATE]: "bg-gray-400",
+  [GameServerDtoStatus.STOPPING]: "bg-red-600",
 };
 
 const GameServerStatusIndicator = (props: { gameServer: GameServerDto }) => {
