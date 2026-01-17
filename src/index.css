@@ -11,18 +11,14 @@
 html,
 label {
   cursor:
-    url("./assets/ai-generated/cursor/cursor-default.png") 0 0,
+    url("src/assets/cursor/cursor-default.png") 0 0,
     auto;
 }
 
-body {
-  font-family: "Stardew Valley", sans-serif;
-}
-
-[data-slot="context-menu-item"] {
+:where(html, label):active {
   cursor:
-    url("./assets/ai-generated/cursor/cursor-pointer.png") 10 0,
-    pointer;
+    url("src/assets/cursor/cursor-clicked.png") 0 0,
+    auto;
 }
 
 button,
@@ -31,10 +27,22 @@ a,
 input[type="submit"],
 input[type="reset"],
 input[type="button"],
-select {
+select,
+[data-slot="context-menu-item"] {
   cursor:
-    url("./assets/ai-generated/cursor/cursor-pointer.png") 10 0,
+    url("src/assets/cursor/cursor-pointer.png") 0 0,
     pointer;
+}
+
+[disabled],
+[aria-disabled="true"] {
+  cursor:
+    url("src/assets/cursor/cursor-not-allowed.png") 0 0,
+    not-allowed;
+}
+
+body {
+  font-family: "Stardew Valley", sans-serif;
 }
 
 button:focus-visible,

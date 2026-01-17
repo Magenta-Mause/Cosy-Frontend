@@ -30,10 +30,10 @@ export interface GameServerCreationContext {
 
 export const GameServerCreationContext = createContext<GameServerCreationContext>({
   creationState: { gameServerState: {}, utilState: { gameEntity: undefined } },
-  setGameServerState: () => () => {},
-  setCurrentPageValid: () => {},
-  triggerNextPage: () => {},
-  setUtilState: () => () => {},
+  setGameServerState: () => () => { },
+  setCurrentPageValid: () => { },
+  triggerNextPage: () => { },
+  setUtilState: () => () => { },
 });
 
 const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" />];

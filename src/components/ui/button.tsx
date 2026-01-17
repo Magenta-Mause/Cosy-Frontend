@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
   // Base Styles: Converted gap, font-size, icon sizes, and focus rings to [vw]
-  "inline-flex items-center font-['VT323'] text-xl justify-center gap-[0.5vw] whitespace-nowrap font-medium transition-all disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-[1vw] shrink-0 [&_svg]:shrink-0 aria-invalid:ring-destructive/20 aria-invalid:border-destructive text-primary-modal-background rounded-[5]",
+  "inline-flex items-center font-['VT323'] text-xl justify-center gap-[0.5vw] whitespace-nowrap font-medium transition-all [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-[1vw] shrink-0 [&_svg]:shrink-0 aria-invalid:ring-destructive/20 aria-invalid:border-destructive text-primary-modal-background rounded-[5]",
   {
     variants: {
       variant: {
@@ -52,15 +52,15 @@ const buttonVariants = cva(
 );
 
 function Button({
-                  className,
-                  variant,
-                  size,
-                  asChild = false,
-                  ...props
-                }: React.ComponentProps<"button"> &
+  className,
+  variant,
+  size,
+  asChild = false,
+  ...props
+}: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
-  asChild?: boolean;
-}) {
+    asChild?: boolean;
+  }) {
   const Comp = asChild ? Slot : "button";
 
   return (
@@ -70,7 +70,7 @@ function Button({
       {...props}
     >
       {props.children}
-      </Comp>
+    </Comp>
   );
 }
 
