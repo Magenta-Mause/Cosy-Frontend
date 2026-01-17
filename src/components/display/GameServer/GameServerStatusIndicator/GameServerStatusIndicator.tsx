@@ -34,7 +34,7 @@ const GameServerStatusIndicator = (props: { gameServer: GameServerDto }) => {
   return (
     <div className={"flex gap-2 align-middle items-center"}>
       <div
-        className={`w-5 h-5 border-gray-500 border-2 rounded-4xl ${STATUS_CLASSES[status]}`}
+        className={`w-5 h-5 border-button-primary-default border-2 rounded-4xl ${STATUS_CLASSES[status]}`}
       />
       <div className={"text-2xl"}>{buttonLabel}</div>
     </div>
