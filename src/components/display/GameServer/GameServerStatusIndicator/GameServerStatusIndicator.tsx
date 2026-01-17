@@ -10,7 +10,6 @@ const STATUS_CLASSES: Record<LocalStatus, string> = {
   [GameServerDtoStatus.RUNNING]: "bg-green-500",
   [GameServerDtoStatus.PULLING_IMAGE]: "bg-blue-400",
   AWAITING_UPDATE: "bg-gray-400",
-  STARTING: "",
 };
 
 const GameServerStatusIndicator = (props: { gameServer: GameServerDto }) => {
