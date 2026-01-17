@@ -33,7 +33,7 @@ const GameServerHouse = (props: {
   const router = useRouter();
 
   const actions: RightClickAction[] = [
-    ...(props.gameServer.status === "STOPPED"
+    ...(props.gameServer.status === "STOPPED" || props.gameServer.status === "FAILED"
       ? [
           {
             label: t("rightClickMenu.startServer"),
@@ -61,20 +61,15 @@ const GameServerHouse = (props: {
             },
           ]
         : props.gameServer.status === "AWAITING_UPDATE" ||
-            props.gameServer.status === "PULLING_IMAGE"
+            props.gameServer.status === "PULLING_IMAGE" ||
+            props.gameServer.status === "STOPPING"
           ? [
               {
                 label: t("rightClickMenu.loading"),
                 disabled: true,
               },
             ]
-          : [
-              {
-                label: t("rightClickMenu.failed"),
-                disabled: true,
-                destructive: true,
-              },
-            ]),
+          : []),
     {
       label: t("rightClickMenu.viewLogs"),
       onClick: () => {

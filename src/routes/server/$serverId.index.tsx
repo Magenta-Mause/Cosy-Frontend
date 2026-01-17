@@ -21,7 +21,7 @@ function GameServerDetailPageDashboardPage() {
   return (
     <div className="container mx-auto flex flex-col gap-4 h-[30vh]">
       <div className="flex flex-row gap-2 grow">
-        <div className="grow bg-gray-500 height-full"></div>
+        <div className="grow bg-gray-500 h-full"></div>
         <LogDisplay logMessages={logs} className="grow" />
       </div>
     </div>
