@@ -1,4 +1,6 @@
-import RightClickMenu from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
+import RightClickMenu, {
+  type RightClickAction
+} from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
 import {
   DeleteGameServerAlertDialog
 } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
@@ -32,7 +34,37 @@ const GameServerHouse = (props: {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const router = useRouter();
 
-  const actions = [
+  const actions: RightClickAction[] = [
+    ...(props.gameServer.status === "STOPPED" ? [{
+      label: t("rightClickMenu.startServer"),
+      onClick: async () => {
+        try {
+          toast.info("Starting server...");
+          startServer(props.gameServer.uuid, true);
+        } catch (e) {
+          toast.error(t("toasts.serverStartError", {error: e}), {duration: 5000});
+        }
+      },
+    }] : props.gameServer.status === "RUNNING" ?
+      [{
+        label: t("rightClickMenu.stopServer"),
+        onClick: async () => {
+          try {
+            await stopServer(props.gameServer.uuid, true);
+          } catch (e) {
+            toast.error(t("toasts.serverStopError", {error: e}));
+          }
+        },
+      }] : props.gameServer.status === "AWAITING_UPDATE" || props.gameServer.status === "PULLING_IMAGE" ?
+        [{
+          label: t("rightClickMenu.loading"),
+          disabled: true,
+        }]
+        : [{
+          label: t("rightClickMenu.failed"),
+          disabled: true,
+          destructive: true
+        }]),
     {
       label: t("rightClickMenu.viewLogs"),
       onClick: () => {
@@ -55,27 +87,7 @@ const GameServerHouse = (props: {
       },
       closeOnClick: false,
     },
-    {
-      label: t("rightClickMenu.startServer"),
-      onClick: async () => {
-        try {
-          toast.info("Starting server...");
-          startServer(props.gameServer.uuid, true);
-        } catch (e) {
-          toast.error(t("toasts.serverStartError", {error: e}), {duration: 5000});
-        }
-      },
-    },
-    {
-      label: t("rightClickMenu.stopServer"),
-      onClick: async () => {
-        try {
-          await stopServer(props.gameServer.uuid, true);
-        } catch (e) {
-          toast.error(t("toasts.serverStopError", {error: e}));
-        }
-      },
-    },
+
   ];
 
   const handleUpdateGameServer = async (updatedState: GameServerUpdateDto) => {

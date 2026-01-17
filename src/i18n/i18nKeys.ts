@@ -10,6 +10,8 @@ export type i18nLanguage = {
     refresh: string;
     createNewGameserver: string;
     viewLogs: string;
+    loading: string;
+    failed: string;
   };
   toasts: {
     notImplemented: string;
