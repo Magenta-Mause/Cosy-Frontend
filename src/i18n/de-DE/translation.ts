@@ -13,7 +13,7 @@ const translation: i18nLanguage = {
     createNewGameserver: "Neuen Gameserver erstellen",
     viewLogs: "Logs anzeigen",
     loading: "Lädt...",
-    failed: "Starten fehlgeschlagen"
+    failed: "Starten fehlgeschlagen",
   },
   toasts: {
     notImplemented: "Noch nicht implementiert!",
@@ -289,7 +289,7 @@ const translation: i18nLanguage = {
     FAILED: "Fehlgeschlagen",
     PULLING_IMAGE: "Image wird geladen",
     AWAITING_UPDATE: "Lädt...",
-    STOPPING: "Stoppt..."
+    STOPPING: "Stoppt...",
   },
 };
 

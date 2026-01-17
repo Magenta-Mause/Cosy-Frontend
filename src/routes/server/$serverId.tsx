@@ -1,16 +1,15 @@
-import {createFileRoute, Outlet} from "@tanstack/react-router";
-import {useTranslation} from "react-i18next";
+import GameServerDetailPageLayout from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageLayout.tsx";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
-import GameServerDetailPageLayout
-  from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageLayout.tsx";
 
 export const Route = createFileRoute("/server/$serverId")({
   component: GameServerDetailPage,
 });
 
 function GameServerDetailPage() {
-  const {t} = useTranslation();
-  const {serverId} = Route.useParams();
+  const { t } = useTranslation();
+  const { serverId } = Route.useParams();
   const gameServer = useGameServer(serverId ?? "");
 
   if (!serverId || !gameServer) {
@@ -19,7 +18,7 @@ function GameServerDetailPage() {
 
   return (
     <GameServerDetailPageLayout gameServer={gameServer}>
-      <Outlet/>
+      <Outlet />
     </GameServerDetailPageLayout>
   );
 }

@@ -1,12 +1,12 @@
-import {Button} from "@components/ui/button.tsx";
-import {Power} from "lucide-react";
-import {useTranslation} from "react-i18next";
-import {type GameServerDto, GameServerDtoStatus} from "@/api/generated/model";
+import { Button } from "@components/ui/button.tsx";
+import { Power } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { type GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
 import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
 
 const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
-  const {t} = useTranslation();
-  const {stopServer, startServer} = useServerInteractions();
+  const { t } = useTranslation();
+  const { stopServer, startServer } = useServerInteractions();
 
   const buttonProps: React.ComponentProps<"button"> = (() => {
     switch (props.gameServer.status) {
@@ -15,7 +15,7 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
           onClick: () => stopServer(props.gameServer.uuid),
           children: (
             <>
-              <Power/>
+              <Power />
               {t("serverPage.stop")}
             </>
           ),
@@ -26,7 +26,7 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
           onClick: () => startServer(props.gameServer.uuid),
           children: (
             <>
-              <Power/>
+              <Power />
               {t("serverPage.start")}
             </>
           ),
@@ -34,14 +34,14 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
       case GameServerDtoStatus.PULLING_IMAGE:
         return {
           disabled: true,
-          children: t(`serverStatus.PULLING_IMAGE`)
+          children: t(`serverStatus.PULLING_IMAGE`),
         };
       case GameServerDtoStatus.AWAITING_UPDATE:
         return {
           disabled: true,
           children: (
             <>
-              <Power/>
+              <Power />
               {t("serverStatus.AWAITING_UPDATE")}
             </>
           ),
@@ -51,10 +51,10 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
           disabled: true,
           children: (
             <>
-              <Power/>
+              <Power />
               {t("serverStatus.STOPPING")}
             </>
-          )
+          ),
         };
       default:
         return {};

@@ -1,6 +1,5 @@
-import GameServerDetailPageHeader
-  from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageHeader/GameServerDetailPageHeader.tsx";
-import {Button} from "@components/ui/button.tsx";
+import GameServerDetailPageHeader from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageHeader/GameServerDetailPageHeader.tsx";
+import { Button } from "@components/ui/button.tsx";
 import Link from "@components/ui/Link.tsx";
 import {
   ChartAreaIcon,
@@ -11,10 +10,10 @@ import {
   SettingsIcon,
   SquareTerminalIcon,
 } from "lucide-react";
-import type {CSSProperties} from "react";
-import {useTranslation} from "react-i18next";
-import type {GameServerDto} from "@/api/generated/model";
-import {cn} from "@/lib/utils.ts";
+import type { CSSProperties } from "react";
+import { useTranslation } from "react-i18next";
+import type { GameServerDto } from "@/api/generated/model";
+import { cn } from "@/lib/utils.ts";
 
 const iconStyles: CSSProperties = {
   scale: 1.8,
@@ -27,27 +26,27 @@ const buttonStyles: CSSProperties = {
 const TABS = [
   {
     label: "overview",
-    icon: <HomeIcon style={iconStyles}/>,
+    icon: <HomeIcon style={iconStyles} />,
     path: "/server/$serverId",
   },
   {
     label: "console",
-    icon: <SquareTerminalIcon style={iconStyles}/>,
+    icon: <SquareTerminalIcon style={iconStyles} />,
     path: "/server/$serverId/console",
   },
   {
     label: "metrics",
-    icon: <ChartAreaIcon style={iconStyles}/>,
+    icon: <ChartAreaIcon style={iconStyles} />,
     path: "/server/$serverId/metrics",
   },
   {
     label: "file_explorer",
-    icon: <FolderIcon style={iconStyles}/>,
+    icon: <FolderIcon style={iconStyles} />,
     path: "/server/$serverId/file-explorer",
   },
   {
     label: "settings",
-    icon: <SettingsIcon style={iconStyles}/>,
+    icon: <SettingsIcon style={iconStyles} />,
     path: "/server/$serverId/settings",
   },
 ];
@@ -56,7 +55,7 @@ const GameServerDetailPageLayout = (props: {
   gameServer: GameServerDto;
   children: React.ReactNode;
 }) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <div className="flex w-full min-h-screen">
       <div id={"gameServerDetailPage:exitButton"} className={"flex h-25 items-end w-[10%]"}>
@@ -80,21 +79,16 @@ const GameServerDetailPageLayout = (props: {
         </Link>
       </div>
       <div className="grow py-5 flex flex-col gap-6 h-[92vh]">
-        <GameServerDetailPageHeader gameServer={props.gameServer}/>
-        <div className={"grow"}>
-          {props.children}
-        </div>
+        <GameServerDetailPageHeader gameServer={props.gameServer} />
+        <div className={"grow"}>{props.children}</div>
       </div>
 
       <div className="flex flex-col justify-center items-end w-[10%]">
-        {TABS.map(({label, icon, path}) => (
+        {TABS.map(({ label, icon, path }) => (
           <div key={`${label}:${path}`} className={"relative"}>
-            <Link key={label} to={path} activeOptions={{exact: true}} className={"group"}>
-              {({isActive}) => (
-                <FancyNavigationButton
-                  isActive={isActive}
-                  label={t(`serverPage.navbar.${label}`)}
-                >
+            <Link key={label} to={path} activeOptions={{ exact: true }} className={"group"}>
+              {({ isActive }) => (
+                <FancyNavigationButton isActive={isActive} label={t(`serverPage.navbar.${label}`)}>
                   {icon}
                 </FancyNavigationButton>
               )}

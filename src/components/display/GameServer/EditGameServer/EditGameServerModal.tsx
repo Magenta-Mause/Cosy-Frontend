@@ -1,4 +1,4 @@
-import {Button} from "@components/ui/button.tsx";
+import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogClose,
@@ -9,8 +9,8 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import {useEffect, useMemo, useState} from "react";
-import {parse as parseCommand} from "shell-quote";
+import { useEffect, useMemo, useState } from "react";
+import { parse as parseCommand } from "shell-quote";
 import * as z from "zod";
 import {
   type GameServerDto,
@@ -43,7 +43,7 @@ const EditGameServerModal = (props: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) => {
-  const {t} = useTranslationPrefix("components.editGameServer");
+  const { t } = useTranslationPrefix("components.editGameServer");
   const [loading, setLoading] = useState(false);
   const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(() =>
     mapGameServerDtoToUpdate(props.gameServer),
@@ -182,7 +182,7 @@ const EditGameServerModal = (props: {
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
       <DialogContent className="font-mono">
         <DialogHeader>
-          <DialogTitle>{t("title", {serverName: props.serverName})}</DialogTitle>
+          <DialogTitle>{t("title", { serverName: props.serverName })}</DialogTitle>
           <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
@@ -191,7 +191,7 @@ const EditGameServerModal = (props: {
             id="server_name"
             label={t("serverNameSelection.title")}
             value={gameServerState.server_name}
-            onChange={(v) => setGameServerState((s) => ({...s, server_name: v as string}))}
+            onChange={(v) => setGameServerState((s) => ({ ...s, server_name: v as string }))}
             validator={z.string().min(1)}
             placeholder="My Game Server"
             description={t("serverNameSelection.description")}
@@ -207,7 +207,7 @@ const EditGameServerModal = (props: {
             errorLabel={t("gameSelection.errorLabel")}
             value={gameServerState.game_uuid}
             disabled={true}
-            onChange={(v) => setGameServerState((s) => ({...s, game_uuid: v as string}))}
+            onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
             optional={true}
           />
 
@@ -221,7 +221,7 @@ const EditGameServerModal = (props: {
               errorLabel={t("dockerImageSelection.errorLabel")}
               value={gameServerState.docker_image_name}
               onChange={(v) =>
-                setGameServerState((s) => ({...s, docker_image_name: v as string}))
+                setGameServerState((s) => ({ ...s, docker_image_name: v as string }))
               }
             />
 
@@ -233,7 +233,7 @@ const EditGameServerModal = (props: {
               description={t("imageTagSelection.description")}
               errorLabel={t("imageTagSelection.errorLabel")}
               value={gameServerState.docker_image_tag}
-              onChange={(v) => setGameServerState((s) => ({...s, docker_image_tag: v as string}))}
+              onChange={(v) => setGameServerState((s) => ({ ...s, docker_image_tag: v as string }))}
             />
           </div>
 
