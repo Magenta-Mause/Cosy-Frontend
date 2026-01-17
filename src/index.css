@@ -8,21 +8,21 @@
   font-style: normal;
 }
 
-html,
-label {
-  cursor:
-    url("./assets/ai-generated/cursor/cursor-default.png") 0 0,
-    auto;
-}
-
 body {
   font-family: "Stardew Valley", sans-serif;
 }
 
-[data-slot="context-menu-item"] {
+html,
+label {
   cursor:
-    url("./assets/ai-generated/cursor/cursor-pointer.png") 10 0,
-    pointer;
+    url("src/assets/cursor/cursor-default.png") 0 0,
+    auto;
+}
+
+:where(html, label):active {
+  cursor:
+    url("src/assets/cursor/cursor-clicked.png") 0 0,
+    auto;
 }
 
 button,
@@ -31,10 +31,56 @@ a,
 input[type="submit"],
 input[type="reset"],
 input[type="button"],
-select {
+select,
+[data-slot="context-menu-item"] {
   cursor:
-    url("./assets/ai-generated/cursor/cursor-pointer.png") 10 0,
+    url("src/assets/cursor/cursor-pointer.png") 0 0,
     pointer;
+}
+
+[disabled],
+[aria-disabled="true"] {
+  cursor:
+    url("src/assets/cursor/cursor-not-allowed.png") 0 0,
+    not-allowed;
+}
+
+[data-loading="true"] * {
+  cursor:
+    url("src/assets/cursor/cursor-loading/cursor-loading-1.png") 0 0,
+    auto;
+  animation: cursor 800ms infinite;
+}
+
+@keyframes cursor {
+  0% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-1.png), auto;
+  }
+  14.2% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-2.png), auto;
+  }
+  28.5% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-3.png), auto;
+  }
+  42.8% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-4.png), auto;
+  }
+  57.1% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-5.png), auto;
+  }
+  71.4% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-6.png), auto;
+  }
+  85.7% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-7.png), auto;
+  }
+  100% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-8.png), auto;
+  }
+}
+
+body {
+  font-family: "Stardew Valley", sans-serif;
 }
 
 button:focus-visible,

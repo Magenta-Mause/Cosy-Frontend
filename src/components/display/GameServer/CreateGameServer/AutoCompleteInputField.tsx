@@ -66,7 +66,6 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     queryKey: [searchId, "search", queryGameName],
     queryFn: () => searchCallback(queryGameName),
     staleTime: 1000 * 60 * 5,
-    retry: false,
   });
 
   useEffect(() => {
@@ -173,40 +172,42 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       </PopoverTrigger>
 
       <PopoverContent className="w-[25vw]">
-        <Command>
-          <CommandList>
-            {isLoading ? (
-              <CommandItem key="loading" disabled>
-                <p>{t("loadingLabel")}</p>
-              </CommandItem>
-            ) : !isError && autoCompleteItems.length > 0 ? (
-              autoCompleteItems.slice(0, 5).map((item) => (
-                <CommandItem
-                  key={item.value.toString()}
-                  onSelect={() => selectItem(item)}
-                  className="flex-auto items-center"
-                >
-                  <div className="shrink-0">{item.leftSlot}</div>
-                  <Label className="text-xl">{item.label}</Label>
+        <div data-loading={isLoading}>
+          <Command>
+            <CommandList>
+              {isLoading ? (
+                <CommandItem key="loading" disabled>
+                  <p>{t("loadingLabel")}</p>
                 </CommandItem>
-              ))
-            ) : (
-              <CommandItem
-                key="unknown-item"
-                onSelect={() =>
-                  selectItem({
-                    value: fallbackValue,
-                    label: noAutoCompleteItemsLabel ?? "Unknown Item",
-                  } as AutoCompleteItem<TSelectedItem, TAutoCompleteData>)
-                }
-              >
-                {noAutoCompleteItemsLabelRenderer?.(displayName) ?? (
-                  <Label>{noAutoCompleteItemsLabel ?? "Unknown Item"}</Label>
-                )}
-              </CommandItem>
-            )}
-          </CommandList>
-        </Command>
+              ) : !isError && autoCompleteItems.length > 0 ? (
+                autoCompleteItems.slice(0, 5).map((item) => (
+                  <CommandItem
+                    key={item.value.toString()}
+                    onSelect={() => selectItem(item)}
+                    className="flex-auto items-center"
+                  >
+                    <div className="shrink-0">{item.leftSlot}</div>
+                    <Label className="text-xl">{item.label}</Label>
+                  </CommandItem>
+                ))
+              ) : (
+                <CommandItem
+                  key="unknown-item"
+                  onSelect={() =>
+                    selectItem({
+                      value: fallbackValue,
+                      label: noAutoCompleteItemsLabel ?? "Unknown Item",
+                    } as AutoCompleteItem<TSelectedItem, TAutoCompleteData>)
+                  }
+                >
+                  {noAutoCompleteItemsLabelRenderer?.(displayName) ?? (
+                    <Label>{noAutoCompleteItemsLabel ?? "Unknown Item"}</Label>
+                  )}
+                </CommandItem>
+              )}
+            </CommandList>
+          </Command>
+        </div>
       </PopoverContent>
     </Popover>
   );
