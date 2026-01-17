@@ -63,7 +63,7 @@ const GameServerHouse = (props: {
         : [{
           label: t("rightClickMenu.failed"),
           disabled: true,
-          destructive: true
+          destructive: true,
         }]),
     {
       label: t("rightClickMenu.viewLogs"),
@@ -87,7 +87,6 @@ const GameServerHouse = (props: {
       },
       closeOnClick: false,
     },
-
   ];
 
   const handleUpdateGameServer = async (updatedState: GameServerUpdateDto) => {

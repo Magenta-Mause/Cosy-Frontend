@@ -89,21 +89,18 @@ const GameServerDetailPageLayout = (props: {
       <div className="flex flex-col justify-center items-end w-[10%]">
         {TABS.map(({label, icon, path}) => (
           <div key={`${label}:${path}`} className={"relative"}>
-            <div>
-              <Link key={label} to={path} activeOptions={{exact: true}} className={"group"}>
-                {({isActive}) => (
-                  <FancyNavigationButton
-                    isActive={isActive}
-                    label={t(`serverPage.navbar.${label}`)}
-                  >
-                    {icon}
-                  </FancyNavigationButton>
-                )}
-              </Link>
-            </div>
+            <Link key={label} to={path} activeOptions={{exact: true}} className={"group"}>
+              {({isActive}) => (
+                <FancyNavigationButton
+                  isActive={isActive}
+                  label={t(`serverPage.navbar.${label}`)}
+                >
+                  {icon}
+                </FancyNavigationButton>
+              )}
+            </Link>
           </div>
         ))}
-        <div className={"bg-accent/5"}></div>
       </div>
     </div>
   );
@@ -125,7 +122,7 @@ const FancyNavigationButton = (
       style={buttonStyles}
       tabIndex={-1}
       {...props}
-      className={cn(props.isActive ? "!bg-button-primary-active" : "", "gap-0", props.className)}
+      className={cn(props.isActive ? "bg-button-primary-active!" : "", "gap-0", props.className)}
     >
       {compiledDirection === "right" && props.children}
       <div

@@ -5,10 +5,10 @@ import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 
 export const Route = createFileRoute("/server/$serverId/")({
-  component: GameServerDetailPage,
+  component: GameServerDetailPageDashboardPage,
 });
 
-function GameServerDetailPage() {
+function GameServerDetailPageDashboardPage() {
   const {t} = useTranslation();
   const {serverId} = Route.useParams();
   const gameServer = useGameServer(serverId ?? "");

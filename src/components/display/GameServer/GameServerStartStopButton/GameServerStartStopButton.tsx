@@ -1,11 +1,10 @@
 import {Button} from "@components/ui/button.tsx";
 import {Power} from "lucide-react";
 import {useTranslation} from "react-i18next";
-import {GameServerDtoStatus} from "@/api/generated/model";
+import {type GameServerDto, GameServerDtoStatus} from "@/api/generated/model";
 import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
-import type {GameServerWithLocalStatus} from "@/stores/slices/gameServerSlice.ts";
 
-const GameServerStartStopButton = (props: { gameServer: GameServerWithLocalStatus }) => {
+const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
   const {t} = useTranslation();
   const {stopServer, startServer} = useServerInteractions();
 

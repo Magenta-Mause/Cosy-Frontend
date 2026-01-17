@@ -1,24 +1,20 @@
 import {useTranslation} from "react-i18next";
 import {type GameServerDto, GameServerDtoStatus} from "@/api/generated/model";
-import type {LocalStatus} from "@/stores/slices/gameServerSlice.ts";
 import {useTypedSelector} from "@/stores/rootReducer.ts";
 import type {ReactNode} from "react";
 
-const STATUS_CLASSES: Record<LocalStatus, string> = {
+const STATUS_CLASSES: Record<GameServerDtoStatus, string> = {
   [GameServerDtoStatus.FAILED]: "bg-yellow-400",
   [GameServerDtoStatus.STOPPED]: "bg-red-400",
   [GameServerDtoStatus.RUNNING]: "bg-green-500",
   [GameServerDtoStatus.PULLING_IMAGE]: "bg-blue-400",
-  AWAITING_UPDATE: "bg-gray-400",
+  [GameServerDtoStatus.AWAITING_UPDATE]: "bg-gray-400",
 };
 
 const GameServerStatusIndicator = (props: { gameServer: GameServerDto }) => {
   const {t} = useTranslation();
   const status = props.gameServer.status ?? GameServerDtoStatus.STOPPED;
   const pullProgressMap = useTypedSelector((state) => state.gameServerSliceReducer.pullProgress);
-  if (!pullProgressMap) {
-    return null;
-  }
   const progress = pullProgressMap[props.gameServer.uuid];
   let buttonLabel: ReactNode = t(`serverStatus.${status}`);
   if (status === "PULLING_IMAGE") {
@@ -30,13 +26,13 @@ const GameServerStatusIndicator = (props: { gameServer: GameServerDto }) => {
           {progress.current && progress.total
             ? ` (${Math.round((progress.current / progress.total) * 100)}%)`
             : ""}
-        </>
+        </>;
     } else {
-      buttonLabel = t("serverStatus.PULLING_IMAGE")
+      buttonLabel = t("serverStatus.PULLING_IMAGE");
     }
   }
   return (
-    <div className={"flex items-center gap-2 align-middle items-center"}>
+    <div className={"flex gap-2 align-middle items-center"}>
       <div
         className={`w-5 h-5 border-gray-500 border-2 rounded-4xl ${STATUS_CLASSES[status]}`}
       />
