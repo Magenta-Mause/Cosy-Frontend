@@ -173,6 +173,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       </PopoverTrigger>
 
       <PopoverContent className="w-[25vw]">
+<<<<<<< HEAD
         <div data-loading={isLoading} >
           <Command>
             <CommandList>
@@ -192,23 +193,42 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
                   </CommandItem>
                 ))
               ) : (
+=======
+        <Command>
+          <CommandList>
+            {isLoading ? (
+              <CommandItem key="loading" disabled>
+                <p>{t("loadingLabel")}</p>
+              </CommandItem>
+            ) : !isError && autoCompleteItems.length > 0 ? (
+              autoCompleteItems.slice(0, 5).map((item) => (
+>>>>>>> parent of 352eaab (feat: add custom cursors)
                 <CommandItem
-                  key="unknown-item"
-                  onSelect={() =>
-                    selectItem({
-                      value: fallbackValue,
-                      label: noAutoCompleteItemsLabel ?? "Unknown Item",
-                    } as AutoCompleteItem<TSelectedItem, TAutoCompleteData>)
-                  }
+                  key={item.value.toString()}
+                  onSelect={() => selectItem(item)}
+                  className="flex-auto items-center"
                 >
-                  {noAutoCompleteItemsLabelRenderer?.(displayName) ?? (
-                    <Label>{noAutoCompleteItemsLabel ?? "Unknown Item"}</Label>
-                  )}
+                  <div className="shrink-0">{item.leftSlot}</div>
+                  <Label className="text-xl">{item.label}</Label>
                 </CommandItem>
-              )}
-            </CommandList>
-          </Command>
-        </div>
+              ))
+            ) : (
+              <CommandItem
+                key="unknown-item"
+                onSelect={() =>
+                  selectItem({
+                    value: fallbackValue,
+                    label: noAutoCompleteItemsLabel ?? "Unknown Item",
+                  } as AutoCompleteItem<TSelectedItem, TAutoCompleteData>)
+                }
+              >
+                {noAutoCompleteItemsLabelRenderer?.(displayName) ?? (
+                  <Label>{noAutoCompleteItemsLabel ?? "Unknown Item"}</Label>
+                )}
+              </CommandItem>
+            )}
+          </CommandList>
+        </Command>
       </PopoverContent>
     </Popover>
   );
