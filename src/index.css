@@ -41,6 +41,40 @@ select,
     not-allowed;
 }
 
+[data-loading="true"] * {
+  cursor:
+    url("src/assets/cursor/cursor-loading/cursor-loading-1.png") 0 0,
+    auto;
+  animation: cursor 800ms infinite;
+}
+
+@keyframes cursor {
+  0% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-1.png), auto;
+  }
+  14.2% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-2.png), auto;
+  }
+  28.5% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-3.png), auto;
+  }
+  42.8% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-4.png), auto;
+  }
+  57.1% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-5.png), auto;
+  }
+  71.4% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-6.png), auto;
+  }
+  85.7% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-7.png), auto;
+  }
+  100% {
+    cursor: url(src/assets/cursor/cursor-loading/cursor-loading-8.png), auto;
+  }
+}
+
 body {
   font-family: "Stardew Valley", sans-serif;
 }
