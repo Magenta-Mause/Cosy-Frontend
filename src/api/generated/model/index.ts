@@ -6,19 +6,25 @@
  * OpenAPI spec version: v1.0
  */
 
+export * from './createDirectoryInVolumeParams';
+export * from './deleteInVolumeParams';
 export * from './done';
 export * from './doneAllOf';
 export * from './environmentVariableConfiguration';
 export * from './error';
 export * from './errorAllOf';
+export * from './fileSystemObjectDto';
+export * from './fileSystemObjectDtoType';
 export * from './gameDto';
 export * from './gameServerCreationDto';
 export * from './gameServerDto';
 export * from './gameServerDtoStatus';
+export * from './gameServerFileSystemDto';
 export * from './gameServerInstanceDto';
 export * from './gameServerLogMessageEntity';
 export * from './gameServerLogMessageEntityLevel';
 export * from './gameServerUpdateDto';
+export * from './getFileSystemForVolumeParams';
 export * from './getGameInfoParams';
 export * from './getLogsParams';
 export * from './getServiceInfo200';
@@ -29,9 +35,12 @@ export * from './portMappingProtocol';
 export * from './pullProgress';
 export * from './pullProgressAllOf';
 export * from './pullProgressDto';
+export * from './readFileFromVolumeParams';
+export * from './renameInVolumeParams';
 export * from './startEventDto';
 export * from './startEventDtoType';
 export * from './startServiceSse200Item';
+export * from './uploadFileToVolumeParams';
 export * from './userCreationDto';
 export * from './userEntityDto';
 export * from './userEntityDtoRole';

@@ -173,7 +173,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       </PopoverTrigger>
 
       <PopoverContent className="w-[25vw]">
-        <div data-loading={isLoading} >
+        <div data-loading={isLoading}>
           <Command>
             <CommandList>
               {isLoading ? (

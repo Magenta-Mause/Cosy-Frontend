@@ -26,9 +26,7 @@ const gameServerSlice = createSlice({
       action: PayloadAction<{ uuid: string; status: GameServerDtoStatus }>,
     ) => {
       state.data = state.data.map((server) =>
-        server.uuid === action.payload.uuid
-          ? { ...server, status: action.payload.status }
-          : server,
+        server.uuid === action.payload.uuid ? { ...server, status: action.payload.status } : server,
       );
     },
     updatePullProgress: (

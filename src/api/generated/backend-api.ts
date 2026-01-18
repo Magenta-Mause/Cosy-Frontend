@@ -20,16 +20,23 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  CreateDirectoryInVolumeParams,
+  DeleteInVolumeParams,
   GameDto,
   GameServerCreationDto,
   GameServerDto,
+  GameServerFileSystemDto,
   GameServerLogMessageEntity,
   GameServerUpdateDto,
+  GetFileSystemForVolumeParams,
   GetGameInfoParams,
   GetLogsParams,
   GetServiceInfo200,
   LoginDto,
+  ReadFileFromVolumeParams,
+  RenameInVolumeParams,
   StartServiceSse200Item,
+  UploadFileToVolumeParams,
   UserCreationDto,
   UserEntityDto,
   UserInviteCreationDto,
@@ -642,6 +649,255 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+/**
+ * @summary Upload a file to a bind mount volume
+ */
+export const uploadFileToVolume = (
+    uuid: string,
+    volumeUuid: string,
+    uploadFileToVolumeBody: Blob,
+    params: UploadFileToVolumeParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/file-system/${volumeUuid}/upload`, method: 'POST',
+      headers: {'Content-Type': 'application/octet-stream', },
+      data: uploadFileToVolumeBody,
+        params, signal
+    },
+      options);
+    }
+  
+
+
+export const getUploadFileToVolumeMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadFileToVolume>>, TError,{uuid: string;volumeUuid: string;data: Blob;params: UploadFileToVolumeParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof uploadFileToVolume>>, TError,{uuid: string;volumeUuid: string;data: Blob;params: UploadFileToVolumeParams}, TContext> => {
+
+const mutationKey = ['uploadFileToVolume'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof uploadFileToVolume>>, {uuid: string;volumeUuid: string;data: Blob;params: UploadFileToVolumeParams}> = (props) => {
+          const {uuid,volumeUuid,data,params} = props ?? {};
+
+          return  uploadFileToVolume(uuid,volumeUuid,data,params,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UploadFileToVolumeMutationResult = NonNullable<Awaited<ReturnType<typeof uploadFileToVolume>>>
+    export type UploadFileToVolumeMutationBody = Blob
+    export type UploadFileToVolumeMutationError = unknown
+
+    /**
+ * @summary Upload a file to a bind mount volume
+ */
+export const useUploadFileToVolume = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof uploadFileToVolume>>, TError,{uuid: string;volumeUuid: string;data: Blob;params: UploadFileToVolumeParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof uploadFileToVolume>>,
+        TError,
+        {uuid: string;volumeUuid: string;data: Blob;params: UploadFileToVolumeParams},
+        TContext
+      > => {
+
+      const mutationOptions = getUploadFileToVolumeMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const renameInVolume = (
+    uuid: string,
+    volumeUuid: string,
+    params: RenameInVolumeParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/file-system/${volumeUuid}/rename`, method: 'POST',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+export const getRenameInVolumeMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof renameInVolume>>, TError,{uuid: string;volumeUuid: string;params: RenameInVolumeParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof renameInVolume>>, TError,{uuid: string;volumeUuid: string;params: RenameInVolumeParams}, TContext> => {
+
+const mutationKey = ['renameInVolume'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof renameInVolume>>, {uuid: string;volumeUuid: string;params: RenameInVolumeParams}> = (props) => {
+          const {uuid,volumeUuid,params} = props ?? {};
+
+          return  renameInVolume(uuid,volumeUuid,params,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type RenameInVolumeMutationResult = NonNullable<Awaited<ReturnType<typeof renameInVolume>>>
+    
+    export type RenameInVolumeMutationError = unknown
+
+    export const useRenameInVolume = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof renameInVolume>>, TError,{uuid: string;volumeUuid: string;params: RenameInVolumeParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof renameInVolume>>,
+        TError,
+        {uuid: string;volumeUuid: string;params: RenameInVolumeParams},
+        TContext
+      > => {
+
+      const mutationOptions = getRenameInVolumeMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const createDirectoryInVolume = (
+    uuid: string,
+    volumeUuid: string,
+    params: CreateDirectoryInVolumeParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/file-system/${volumeUuid}/mkdir`, method: 'POST',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+export const getCreateDirectoryInVolumeMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createDirectoryInVolume>>, TError,{uuid: string;volumeUuid: string;params: CreateDirectoryInVolumeParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof createDirectoryInVolume>>, TError,{uuid: string;volumeUuid: string;params: CreateDirectoryInVolumeParams}, TContext> => {
+
+const mutationKey = ['createDirectoryInVolume'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createDirectoryInVolume>>, {uuid: string;volumeUuid: string;params: CreateDirectoryInVolumeParams}> = (props) => {
+          const {uuid,volumeUuid,params} = props ?? {};
+
+          return  createDirectoryInVolume(uuid,volumeUuid,params,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateDirectoryInVolumeMutationResult = NonNullable<Awaited<ReturnType<typeof createDirectoryInVolume>>>
+    
+    export type CreateDirectoryInVolumeMutationError = unknown
+
+    export const useCreateDirectoryInVolume = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createDirectoryInVolume>>, TError,{uuid: string;volumeUuid: string;params: CreateDirectoryInVolumeParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createDirectoryInVolume>>,
+        TError,
+        {uuid: string;volumeUuid: string;params: CreateDirectoryInVolumeParams},
+        TContext
+      > => {
+
+      const mutationOptions = getCreateDirectoryInVolumeMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const deleteInVolume = (
+    uuid: string,
+    volumeUuid: string,
+    params: DeleteInVolumeParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/file-system/${volumeUuid}/delete`, method: 'POST',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+export const getDeleteInVolumeMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteInVolume>>, TError,{uuid: string;volumeUuid: string;params: DeleteInVolumeParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteInVolume>>, TError,{uuid: string;volumeUuid: string;params: DeleteInVolumeParams}, TContext> => {
+
+const mutationKey = ['deleteInVolume'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteInVolume>>, {uuid: string;volumeUuid: string;params: DeleteInVolumeParams}> = (props) => {
+          const {uuid,volumeUuid,params} = props ?? {};
+
+          return  deleteInVolume(uuid,volumeUuid,params,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteInVolumeMutationResult = NonNullable<Awaited<ReturnType<typeof deleteInVolume>>>
+    
+    export type DeleteInVolumeMutationError = unknown
+
+    export const useDeleteInVolume = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteInVolume>>, TError,{uuid: string;volumeUuid: string;params: DeleteInVolumeParams}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteInVolume>>,
+        TError,
+        {uuid: string;volumeUuid: string;params: DeleteInVolumeParams},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteInVolumeMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const logout = (
     
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -1118,6 +1374,157 @@ export function useGetServiceInfo<TData = Awaited<ReturnType<typeof getServiceIn
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetServiceInfoQueryOptions(uuid,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getFileSystemForVolume = (
+    uuid: string,
+    volumeUuid: string,
+    params?: GetFileSystemForVolumeParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameServerFileSystemDto>(
+      {url: `/game-server/${uuid}/file-system/${volumeUuid}`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetFileSystemForVolumeQueryKey = (uuid?: string,
+    volumeUuid?: string,
+    params?: GetFileSystemForVolumeParams,) => {
+    return [
+    `/game-server/${uuid}/file-system/${volumeUuid}`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getGetFileSystemForVolumeQueryOptions = <TData = Awaited<ReturnType<typeof getFileSystemForVolume>>, TError = unknown>(uuid: string,
+    volumeUuid: string,
+    params?: GetFileSystemForVolumeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFileSystemForVolume>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetFileSystemForVolumeQueryKey(uuid,volumeUuid,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFileSystemForVolume>>> = ({ signal }) => getFileSystemForVolume(uuid,volumeUuid,params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid && volumeUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFileSystemForVolume>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetFileSystemForVolumeQueryResult = NonNullable<Awaited<ReturnType<typeof getFileSystemForVolume>>>
+export type GetFileSystemForVolumeQueryError = unknown
+
+
+
+export function useGetFileSystemForVolume<TData = Awaited<ReturnType<typeof getFileSystemForVolume>>, TError = unknown>(
+ uuid: string,
+    volumeUuid: string,
+    params?: GetFileSystemForVolumeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFileSystemForVolume>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetFileSystemForVolumeQueryOptions(uuid,volumeUuid,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Read a file from a bind mount volume
+ */
+export const readFileFromVolume = (
+    uuid: string,
+    volumeUuid: string,
+    params: ReadFileFromVolumeParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<Blob>(
+      {url: `/game-server/${uuid}/file-system/${volumeUuid}/file`, method: 'GET',
+        params,
+        responseType: 'blob', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getReadFileFromVolumeQueryKey = (uuid?: string,
+    volumeUuid?: string,
+    params?: ReadFileFromVolumeParams,) => {
+    return [
+    `/game-server/${uuid}/file-system/${volumeUuid}/file`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getReadFileFromVolumeQueryOptions = <TData = Awaited<ReturnType<typeof readFileFromVolume>>, TError = unknown>(uuid: string,
+    volumeUuid: string,
+    params: ReadFileFromVolumeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof readFileFromVolume>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getReadFileFromVolumeQueryKey(uuid,volumeUuid,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof readFileFromVolume>>> = ({ signal }) => readFileFromVolume(uuid,volumeUuid,params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid && volumeUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof readFileFromVolume>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ReadFileFromVolumeQueryResult = NonNullable<Awaited<ReturnType<typeof readFileFromVolume>>>
+export type ReadFileFromVolumeQueryError = unknown
+
+
+/**
+ * @summary Read a file from a bind mount volume
+ */
+
+export function useReadFileFromVolume<TData = Awaited<ReturnType<typeof readFileFromVolume>>, TError = unknown>(
+ uuid: string,
+    volumeUuid: string,
+    params: ReadFileFromVolumeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof readFileFromVolume>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getReadFileFromVolumeQueryOptions(uuid,volumeUuid,params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
