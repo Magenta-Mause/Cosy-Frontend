@@ -11,6 +11,8 @@ export interface RightClickAction {
   onClick?: () => Promise<void> | void;
   render?: ReactNode;
   closeOnClick?: boolean;
+  disabled?: boolean;
+  destructive?: boolean;
 }
 
 interface RightClickMenuProps {
@@ -19,24 +21,7 @@ interface RightClickMenuProps {
 }
 
 const RightClickMenu = (props: RightClickMenuProps) => {
-  const closeModal = () => {
-    const escapeEvent = new KeyboardEvent("keydown", {
-      key: "Escape",
-      code: "Escape",
-      bubbles: true,
-      cancelable: true,
-    });
-
-    document.dispatchEvent(escapeEvent);
-  };
   const [loading, setLoading] = useState(false);
-
-  const _handleAsync = async (callback: () => Promise<void> | void) => {
-    setLoading(true);
-    await callback();
-    setLoading(false);
-    closeModal();
-  };
 
   return (
     <ContextMenu>
@@ -53,14 +38,14 @@ const RightClickMenu = (props: RightClickMenuProps) => {
                   e.preventDefault();
                 }
                 if (action.onClick) {
-                  // We don't use handleAsync here because it closes the modal, which we want to control.
                   setLoading(true);
                   await action.onClick();
                   setLoading(false);
                 }
               }}
               className={"font-mono"}
-              disabled={loading}
+              disabled={loading || action.disabled}
+              variant={action.destructive ? "destructive" : "default"}
             >
               {action.label}
             </ContextMenuItem>

@@ -12,6 +12,8 @@ const translation: i18nLanguage = {
     refresh: "Aktualisieren",
     createNewGameserver: "Neuen Gameserver erstellen",
     viewLogs: "Logs anzeigen",
+    loading: "Lädt...",
+    failed: "Starten fehlgeschlagen",
   },
   toasts: {
     notImplemented: "Noch nicht implementiert!",
@@ -31,7 +33,7 @@ const translation: i18nLanguage = {
     accountCreateError: 'Fehler beim Erstellen des Kontos. "{{error}}"',
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
     serverStartError: 'Fehler beim Starten des Servers. "{{error}}"',
-    serverStartSuccess: "Server erfolgreich gestartet. Offene Ports:",
+    serverStartSuccess: "Server erfolgreich gestartet.",
     serverStopError: 'Fehler beim Stoppen des Servers. "{{error}}"',
     serverStopSuccess: "Server erfolgreich gestoppt.",
     updateGameServerSuccess: "Game-Server erfolgreich aktualisiert!",
@@ -268,9 +270,17 @@ const translation: i18nLanguage = {
   serverPage: {
     notFound: "Nicht gefunden",
     start: "Starten",
-    stop: "Stoppen",
+    stop: "Herunterfahren",
+    back: "Zurück",
     pullingImage: "Image wird geladen...",
     status: "Status",
+    navbar: {
+      overview: "Dashboard",
+      console: "Console",
+      metrics: "Metriken",
+      file_explorer: "Dateien",
+      settings: "Einstellungen",
+    },
   },
   serverStatus: {
     RUNNING: "Läuft",
@@ -278,6 +288,8 @@ const translation: i18nLanguage = {
     STOPPED: "Gestoppt",
     FAILED: "Fehlgeschlagen",
     PULLING_IMAGE: "Image wird geladen",
+    AWAITING_UPDATE: "Lädt...",
+    STOPPING: "Stoppt...",
   },
 };
 

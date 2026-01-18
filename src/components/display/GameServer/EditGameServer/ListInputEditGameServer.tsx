@@ -26,16 +26,15 @@ function ListInputEditGameServer<T extends { uuid: string }>({
   renderRow,
   defaultNewItem,
 }: Props<T>) {
-
   const [values, setValuesInternal] = useState<T[]>(
     value && value.length > 0
       ? value
       : [
-        {
-          ...(defaultNewItem ? defaultNewItem() : {}),
-          uuid: generateUuid(),
-        } as T,
-      ],
+          {
+            ...(defaultNewItem ? defaultNewItem() : {}),
+            uuid: generateUuid(),
+          } as T,
+        ],
   );
 
   const [rowErrors, setRowErrors] = useState<{ [uuid: string]: boolean }>({});
@@ -98,11 +97,11 @@ function ListInputEditGameServer<T extends { uuid: string }>({
                   <Trash2 className="size-6" />
                 </Button>
               )}
-              {index === values.length - 1 &&
+              {index === values.length - 1 && (
                 <Button className="h-9 w-9 p-0" onClick={addNewValue}>
                   <Plus className="size-6" />
                 </Button>
-              }
+              )}
 
               {rowError && (
                 <Tooltip>

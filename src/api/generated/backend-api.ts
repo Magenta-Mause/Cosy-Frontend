@@ -27,9 +27,10 @@ import type {
   GameServerUpdateDto,
   GetGameInfoParams,
   GetLogsParams,
+  GetMetricsParams,
   GetServiceInfo200,
   LoginDto,
-  StartServiceSse200Item,
+  MetricPointDto,
   UserCreationDto,
   UserEntityDto,
   UserInviteCreationDto,
@@ -585,13 +586,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
-export const startServiceSse = (
+export const startService = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
       
-      return customInstance<StartServiceSse200Item[]>(
+      return customInstance<void>(
       {url: `/game-server/${uuid}/start`, method: 'POST', signal
     },
       options);
@@ -599,11 +600,11 @@ export const startServiceSse = (
   
 
 
-export const getStartServiceSseMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startServiceSse>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof startServiceSse>>, TError,{uuid: string}, TContext> => {
+export const getStartServiceMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startService>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof startService>>, TError,{uuid: string}, TContext> => {
 
-const mutationKey = ['startServiceSse'];
+const mutationKey = ['startService'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -613,10 +614,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startServiceSse>>, {uuid: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startService>>, {uuid: string}> = (props) => {
           const {uuid} = props ?? {};
 
-          return  startServiceSse(uuid,requestOptions)
+          return  startService(uuid,requestOptions)
         }
 
         
@@ -624,20 +625,20 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type StartServiceSseMutationResult = NonNullable<Awaited<ReturnType<typeof startServiceSse>>>
+    export type StartServiceMutationResult = NonNullable<Awaited<ReturnType<typeof startService>>>
     
-    export type StartServiceSseMutationError = unknown
+    export type StartServiceMutationError = unknown
 
-    export const useStartServiceSse = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startServiceSse>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    export const useStartService = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startService>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
-        Awaited<ReturnType<typeof startServiceSse>>,
+        Awaited<ReturnType<typeof startService>>,
         TError,
         {uuid: string},
         TContext
       > => {
 
-      const mutationOptions = getStartServiceSseMutationOptions(options);
+      const mutationOptions = getStartServiceMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -1003,6 +1004,74 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const getMetrics = (
+    gameServerUuid: string,
+    params: GetMetricsParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<MetricPointDto[]>(
+      {url: `/metrics/${gameServerUuid}`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetMetricsQueryKey = (gameServerUuid?: string,
+    params?: GetMetricsParams,) => {
+    return [
+    `/metrics/${gameServerUuid}`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getGetMetricsQueryOptions = <TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(gameServerUuid: string,
+    params: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetMetricsQueryKey(gameServerUuid,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getMetrics>>> = ({ signal }) => getMetrics(gameServerUuid,params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(gameServerUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetMetricsQueryResult = NonNullable<Awaited<ReturnType<typeof getMetrics>>>
+export type GetMetricsQueryError = unknown
+
+
+
+export function useGetMetrics<TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(
+ gameServerUuid: string,
+    params: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetMetricsQueryOptions(gameServerUuid,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
 export const getGameInfo = (
     params: GetGameInfoParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal

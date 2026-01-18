@@ -10,6 +10,8 @@ export type i18nLanguage = {
     refresh: string;
     createNewGameserver: string;
     viewLogs: string;
+    loading: string;
+    failed: string;
   };
   toasts: {
     notImplemented: string;
@@ -124,6 +126,14 @@ export type i18nLanguage = {
     stop: string;
     pullingImage: string;
     status: string;
+    back: string;
+    navbar: {
+      overview: string;
+      console: string;
+      metrics: string;
+      file_explorer: string;
+      settings: string;
+    };
   };
   serverStatus: {
     RUNNING: string;
@@ -131,6 +141,8 @@ export type i18nLanguage = {
     STOPPED: string;
     FAILED: string;
     PULLING_IMAGE: string;
+    AWAITING_UPDATE: string;
+    STOPPING: string;
   };
   components: {
     CreateGameServer: {

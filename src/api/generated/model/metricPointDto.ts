@@ -6,6 +6,7 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface GameServerInstanceDto {
-  ports?: number[];
+export interface MetricPointDto {
+  time?: string;
+  value?: number;
 }
