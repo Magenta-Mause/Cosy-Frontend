@@ -34,11 +34,13 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
       case GameServerDtoStatus.PULLING_IMAGE:
         return {
           disabled: true,
+          "data-loading": true,
           children: t(`serverStatus.PULLING_IMAGE`),
         };
       case GameServerDtoStatus.AWAITING_UPDATE:
         return {
           disabled: true,
+          "data-loading": true,
           children: (
             <>
               <Power />

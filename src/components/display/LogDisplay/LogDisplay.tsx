@@ -57,15 +57,17 @@ const LogDisplay = (
           key={displayLogs.length === 0 ? "empty" : "loaded"}
           data={displayLogs}
           followOutput={sticky ? "auto" : false}
+          // This is necessary to ensure that the list doesn't jump around when new logs are added.
+          // Without this, the list will jump around when new logs are added because the list is aligned to the bottom.
           atBottomStateChange={(atBottom) => {
             if (!isInitialLoad.current) setSticky(atBottom);
           }}
           atBottomThreshold={20}
-          // This ensures that items are aligned to the bottom of the list
-          // container, which helps prevent the "half-hidden" last item.
+          // This ensures that items are aligned to the bottom of the list container
           alignToBottom
           // Explicitly use the UUID as the key for better re-render tracking
           computeItemKey={(_index, item) => item.uuid}
+          // Auto scroll to bottom when new logs are added
           initialTopMostItemIndex={displayLogs.length > 0 ? displayLogs.length - 1 : 0}
           itemContent={(_index, message) => (
             <div className="w-full overflow-hidden">
@@ -73,6 +75,8 @@ const LogDisplay = (
             </div>
           )}
           style={{ height: "100%" }}
+          // Increase the overscan to ensure that the last log is always visible.
+          // This is necessary because the list is aligned to the bottom of the container.
           overscan={400}
           // Adding a tiny bit of bottom padding to the list content
           // ensures the last log isn't flush against the edge.
