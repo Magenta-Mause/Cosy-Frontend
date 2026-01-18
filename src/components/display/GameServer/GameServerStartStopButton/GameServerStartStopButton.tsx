@@ -51,6 +51,7 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
       case GameServerDtoStatus.STOPPING:
         return {
           disabled: true,
+          "data-loading": true,
           children: (
             <>
               <Power />
