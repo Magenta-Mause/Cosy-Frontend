@@ -47,7 +47,7 @@ export default function Step3() {
         required
       />
 
-      <KeyValueInput
+     <KeyValueInput
         attribute="environment_variables"
         fieldLabel={t("environmentVariablesSelection.title")}
         fieldDescription={t("environmentVariablesSelection.description")}
@@ -84,6 +84,27 @@ export default function Step3() {
         objectKey="host_path"
         objectValue="container_path"
       />
+
+      <div className="grid grid-cols-2 gap-4">
+        <GenericGameServerCreationInputField
+          attribute="memory_limit"
+          validator={z.string().min(1)}
+          placeholder="512"
+          optional // if logged in userType is OWNER or ADMIN
+          label={t("memoryLimitSelection.title")}
+          errorLabel={t("memoryLimitSelection.errorLabel")}
+        />
+
+        <GenericGameServerCreationInputField
+          attribute="cpu_limit"
+          validator={z.string().min(1)}
+          placeholder="0.5"
+          optional // if logged in userType is OWNER or
+          label={t("cpuLimitSelection.title")}
+          errorLabel={t("cpuLimitSelection.errorLabel")}
+        />
+      </div>
+
     </GenericGameServerCreationPage>
   );
 }

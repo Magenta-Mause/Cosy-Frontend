@@ -191,7 +191,15 @@ const translation: i18nLanguage = {
             errorLabel:
               "Entweder müssen sowohl Host-Pfad als auch Container-Pfad angegeben werden oder keiner von beiden.",
           },
-        },
+          memoryLimitSelection: {
+            title: "Speicherlimit (MB)",
+            errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
+          },
+          cpuLimitSelection: {
+            title: "CPU-Limit (Cores)",
+            errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
+          }
+        }
       },
       autoCompleteInputField: {
         loadingLabel: "Lädt...",

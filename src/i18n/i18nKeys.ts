@@ -211,6 +211,13 @@ export type i18nLanguage = {
             description: string;
             errorLabel: string;
           };
+          memoryLimitSelection: {
+            title: string;
+            errorLabel: string;
+          };
+          cpuLimitSelection: {
+            title: string;
+            errorLabel: string;
         };
       };
       autoCompleteInputField: {

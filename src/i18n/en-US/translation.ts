@@ -187,6 +187,14 @@ const translation: i18nLanguage = {
             description: "Volume mounts for your server",
             errorLabel: "Either both host path and container path must be provided or neither.",
           },
+          memoryLimitSelection: {
+            title: "Memory Limit (in MB)",
+            errorLabel: "Please enter a valid memory limit.",
+          },
+          cpuLimitSelection: {
+            title: "CPU Limit (in cores)",
+            errorLabel: "Please enter a valid CPU limit.",
+          }
         },
       },
       autoCompleteInputField: {
