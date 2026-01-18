@@ -189,10 +189,12 @@ const translation: i18nLanguage = {
           },
           memoryLimitSelection: {
             title: "Memory Limit (in MB)",
+            description: "Limit the memory usage of the server",
             errorLabel: "Please enter a valid memory limit.",
           },
           cpuLimitSelection: {
             title: "CPU Limit (in cores)",
+            description: "Limit the CPU usage of the server",
             errorLabel: "Please enter a valid CPU limit.",
           }
         },
@@ -261,6 +263,18 @@ const translation: i18nLanguage = {
         title: "Volume Mounts",
         errorLabel: "Path must not be empty",
         description: "Volume mounts for your server",
+      },
+
+      memoryLimitSelection: {
+        title: "Memory Limit (in MB)",
+        description: "Limit the memory usage of the server",
+        errorLabel: "Please enter a valid memory limit.",
+      },
+
+      cpuLimitSelection: {
+        title: "CPU Limit (in cores)",
+        description: "Limit the CPU usage of the server",
+        errorLabel: "Please enter a valid CPU limit.",
       },
     },
   },

@@ -213,10 +213,12 @@ export type i18nLanguage = {
           };
           memoryLimitSelection: {
             title: string;
+            description: string;
             errorLabel: string;
           };
           cpuLimitSelection: {
             title: string;
+            description: string;
             errorLabel: string;
         };
       };
@@ -285,6 +287,18 @@ export type i18nLanguage = {
         errorLabel: string;
         description: string;
       };
+
+      memoryLimitSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+      };
+
+      cpuLimitSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+      };
     };
   };
   genericModal: {
@@ -292,4 +306,4 @@ export type i18nLanguage = {
   };
 };
 
-type ContainsVariable<T extends string> = `${string}{{${T}}}${string}`;
+type ContainsVariable<T extends string> = `${string}{$T}${string}`;

@@ -193,10 +193,12 @@ const translation: i18nLanguage = {
           },
           memoryLimitSelection: {
             title: "Speicherlimit (MB)",
+            description: "Maximaler RAM, der diesem Server zugewiesen wird",
             errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
           },
           cpuLimitSelection: {
             title: "CPU-Limit (Cores)",
+            description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
             errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
           }
         }
@@ -265,6 +267,18 @@ const translation: i18nLanguage = {
         title: "Volume-Mounts",
         errorLabel: "Pfad darf nicht leer sein",
         description: "Volume-Mounts für deinen Server",
+      },
+
+      memoryLimitSelection: {
+        title: "Speicherlimit (MB)",
+        description: "Maximaler RAM, der diesem Server zugewiesen wird",
+        errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
+      },
+
+      cpuLimitSelection: {
+        title: "CPU-Limit (Cores)",
+        description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
+        errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
       },
     },
   },

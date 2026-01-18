@@ -92,6 +92,7 @@ export default function Step3() {
           placeholder="512"
           optional // if logged in userType is OWNER or ADMIN
           label={t("memoryLimitSelection.title")}
+          description={t("memoryLimitSelection.description")}
           errorLabel={t("memoryLimitSelection.errorLabel")}
         />
 
@@ -101,6 +102,7 @@ export default function Step3() {
           placeholder="0.5"
           optional // if logged in userType is OWNER or
           label={t("cpuLimitSelection.title")}
+          description={t("cpuLimitSelection.description")}
           errorLabel={t("cpuLimitSelection.errorLabel")}
         />
       </div>

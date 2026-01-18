@@ -319,6 +319,35 @@ const EditGameServerModal = (props: {
             objectKey="host_path"
             objectValue="container_path"
           />
+
+          <div className="grid grid-cols-2 gap-4">
+            <InputFieldEditGameServer
+              id="memory_limit"
+              validator={z.string().min(1)}
+              placeholder="512"
+              label={t("memoryLimitSelection.title")}
+              description={t("memoryLimitSelection.description")}
+              errorLabel={t("memoryLimitSelection.errorLabel")}
+              value={(gameServerState as any).memory_limit}
+              onChange={(v) =>
+                setGameServerState((s) => ({ ...s, memory_limit: v as string }))
+              }
+            />
+
+            <InputFieldEditGameServer
+              id="cpu_limit"
+              validator={z.string().min(1)}
+              placeholder="0.5"
+              label={t("cpuLimitSelection.title")}
+              description={t("cpuLimitSelection.description")}
+              errorLabel={t("cpuLimitSelection.errorLabel")}
+              value={(gameServerState as any).cpu_limit}
+              onChange={(v) =>
+                setGameServerState((s) => ({ ...s, cpu_limit: v as string }))
+              }
+            />
+          </div>
+
         </DialogMain>
 
         <DialogFooter>
