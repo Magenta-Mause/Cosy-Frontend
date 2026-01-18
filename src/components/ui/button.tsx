@@ -12,10 +12,8 @@ const buttonVariants = cva(
     "gap-2",
     "rounded-md",
     "shrink-0",
-    "disabled:pointer-events-none",
 
     // SVG handling
-    "[&_svg]:pointer-events-none",
     "[&_svg]:shrink-0",
     "[&_svg:not([class*='size-'])]:size-4",
 
@@ -101,15 +99,15 @@ const buttonVariants = cva(
 );
 
 function Button({
-                  className,
-                  variant,
-                  size,
-                  asChild = false,
-                  ...props
-                }: React.ComponentProps<"button"> &
+  className,
+  variant,
+  size,
+  asChild = false,
+  ...props
+}: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
-  asChild?: boolean;
-}) {
+    asChild?: boolean;
+  }) {
   const Comp = asChild ? Slot : "button";
 
   return (
@@ -119,7 +117,7 @@ function Button({
       {...props}
     >
       {props.children}
-      </Comp>
+    </Comp>
   );
 }
 
