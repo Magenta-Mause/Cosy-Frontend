@@ -2,8 +2,15 @@
 @import "../styles/globals.css";
 
 @font-face {
-  font-family: "Stardew Valley";
-  src: url("./assets/StardewValley.ttf") format("truetype");
+  font-family: "Glasstown";
+  src: url("./assets/glasstown_nbp.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Gothic";
+  src: url("./assets/Old English Gothic Pixel.ttf");
   font-weight: normal;
   font-style: normal;
 }
@@ -16,7 +23,17 @@ label {
 }
 
 body {
-  font-family: "Stardew Valley", sans-serif;
+  font-family: "Glasstown", sans-serif;
+  -webkit-font-smoothing: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Gothic", serif;
 }
 
 [data-slot="context-menu-item"] {

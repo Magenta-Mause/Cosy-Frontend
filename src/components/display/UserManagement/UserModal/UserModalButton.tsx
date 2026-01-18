@@ -84,7 +84,7 @@ const UserModalButton = (props: { className?: string }) => {
           <Users className="h-[1.5vw]! p-0 w-auto! aspect-square" />
         </Button>
       </DialogTrigger>
-      <DialogContent className={"font-['VT323']"}>
+      <DialogContent>
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             {view === "list" && t("userModal.title")}

@@ -180,7 +180,7 @@ const EditGameServerModal = (props: {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="font-mono">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("title", { serverName: props.serverName })}</DialogTitle>
           <DialogDescription>{t("description")}</DialogDescription>

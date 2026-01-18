@@ -4,6 +4,14 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+    --text-xs: 14px;   
+    --text-sm: 20px;   
+    --text-base: 26px; 
+    --text-lg: 32px;   
+    --text-xl: 42px;   
+    --text-2xl: 52px;  
+    --text-3xl: 78px;
+
     --color-foreground: var(--foreground);
     --color-background: var(--background);
     --color-secondary-background: var(--secondary-background);
@@ -13,8 +21,6 @@
     --color-alarm: var(--alarm);
     --color-accent: var(--accent);
     --color-border: var(--color-foreground);
-
-
 
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
@@ -113,9 +119,7 @@
     /* Shadows*/
     --shadow: oklch(29.893% 0.11327 316.782);
 
-
  /*------- end of design Team colors*/   
-
 
     /* Card: Slightly brighter tan (The inner menu panels) */
     --card: oklch(0.772 0.068 81.566);

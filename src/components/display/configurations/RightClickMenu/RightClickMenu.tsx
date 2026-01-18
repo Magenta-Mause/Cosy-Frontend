@@ -59,7 +59,6 @@ const RightClickMenu = (props: RightClickMenuProps) => {
                   setLoading(false);
                 }
               }}
-              className={"font-mono"}
               disabled={loading}
             >
               {action.label}

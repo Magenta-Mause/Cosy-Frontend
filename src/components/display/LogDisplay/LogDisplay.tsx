@@ -46,10 +46,10 @@ const LogDisplay = (props: { logMessages: GameServerLogWithUuid[] }) => {
   const handleScroll = ({ scrollOffset }: ListOnScrollProps) => {
     const totalHeight = Object.keys(rowHeightsRef.current).length
       ? // sum known heights, fallback for unknown ones
-        logMessages.reduce(
-          (sum, _, index) => sum + (rowHeightsRef.current[index] ?? ESTIMATED_ROW_HEIGHT),
-          0,
-        )
+      logMessages.reduce(
+        (sum, _, index) => sum + (rowHeightsRef.current[index] ?? ESTIMATED_ROW_HEIGHT),
+        0,
+      )
       : itemCount * ESTIMATED_ROW_HEIGHT;
 
     const viewportBottom = scrollOffset + LIST_HEIGHT;
@@ -94,7 +94,7 @@ const LogDisplay = (props: { logMessages: GameServerLogWithUuid[] }) => {
   );
 
   return (
-    <div className="flex flex-col border rounded-md bg-gray-950 text-gray-100 font-mono h-96">
+    <div className="flex flex-col border rounded-md bg-gray-950 text-gray-100 h-96">
       {/* Header / toolbar */}
       <div className="flex items-center justify-between px-3 py-1 border-b border-gray-800 text-xs uppercase tracking-wide text-gray-400">
         <span>{t("logDisplay.serverLog")}</span>

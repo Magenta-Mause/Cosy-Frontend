@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
   // Base Styles: Converted gap, font-size, icon sizes, and focus rings to [vw]
-  "inline-flex items-center font-['VT323'] text-xl justify-center gap-[0.5vw] whitespace-nowrap font-medium transition-all disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-[1vw] shrink-0 [&_svg]:shrink-0 aria-invalid:ring-destructive/20 aria-invalid:border-destructive text-primary-modal-background rounded-[5]",
+  "inline-flex items-center text-lg justify-center gap-[0.5vw] whitespace-nowrap font-medium transition-all disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-[1vw] shrink-0 [&_svg]:shrink-0 aria-invalid:ring-destructive/20 aria-invalid:border-destructive text-primary-modal-background rounded-[5]",
   {
     variants: {
       variant: {
@@ -36,7 +36,7 @@ const buttonVariants = cva(
         // Standard Sizes converted to vw
         default: "h-[2.5vw] px-[1vw] py-[0.5vw] has-[>svg]:px-[0.75vw]",
         sm: "h-[2.25vw] rounded-[0.3vw] gap-[0.35vw] px-[0.75vw] has-[>svg]:px-[0.6vw] text-lg",
-        lg: "h-[2.75vw] rounded-[0.4vw] px-[1.5vw] has-[>svg]:px-[1vw] text-2xl",
+        lg: "h-[2.75vw] rounded-[0.4vw] px-[1.5vw] has-[>svg]:px-[1vw] text-xl",
 
         // Icons
         icon: "h-[2.25vw] w-[2.25vw]",
@@ -52,15 +52,15 @@ const buttonVariants = cva(
 );
 
 function Button({
-                  className,
-                  variant,
-                  size,
-                  asChild = false,
-                  ...props
-                }: React.ComponentProps<"button"> &
+  className,
+  variant,
+  size,
+  asChild = false,
+  ...props
+}: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
-  asChild?: boolean;
-}) {
+    asChild?: boolean;
+  }) {
   const Comp = asChild ? Slot : "button";
 
   return (
@@ -70,7 +70,7 @@ function Button({
       {...props}
     >
       {props.children}
-      </Comp>
+    </Comp>
   );
 }
 

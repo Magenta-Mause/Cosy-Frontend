@@ -23,7 +23,7 @@ const GameSign = (props: {
           "relative top-[25%] left-[12%] w-[70%] h-[45%] text-center text-amber-950 text-ellipsis overflow-y-hidden select-none",
           props.classNameTextChildren,
         )}
-        style={{ fontSize: ".7vw" }}
+        style={{ fontSize: ".8vw", lineHeight: ".9vw" }}
       >
         {props.children}
       </div>
