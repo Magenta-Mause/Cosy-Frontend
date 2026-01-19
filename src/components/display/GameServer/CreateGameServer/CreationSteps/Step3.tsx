@@ -5,6 +5,7 @@ import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
+import MemoryLimitInputField from "../MemoryLimitInputField.tsx";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");
@@ -87,16 +88,6 @@ export default function Step3() {
 
       <div className="grid grid-cols-2 gap-4">
         <GenericGameServerCreationInputField
-          attribute="docker_max_memory"
-          validator={z.string().min(1)}
-          placeholder="512"
-          optional
-          label={t("memoryLimitSelection.title")}
-          description={t("memoryLimitSelection.description")}
-          errorLabel={t("memoryLimitSelection.errorLabel")}
-        />
-
-        <GenericGameServerCreationInputField
           attribute="docker_max_cpu"
           validator={z.string().min(1)}
           placeholder="0.5"
@@ -104,6 +95,16 @@ export default function Step3() {
           label={t("cpuLimitSelection.title")}
           description={t("cpuLimitSelection.description")}
           errorLabel={t("cpuLimitSelection.errorLabel")}
+        />
+
+        <MemoryLimitInputField
+          attribute="docker_max_memory"
+          validator={z.string().min(1)}
+          placeholder="512"
+          optional
+          label={t("memoryLimitSelection.title")}
+          description={t("memoryLimitSelection.description")}
+          errorLabel={t("memoryLimitSelection.errorLabel")}
         />
       </div>
 
