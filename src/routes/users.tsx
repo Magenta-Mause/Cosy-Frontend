@@ -1,9 +1,12 @@
+import ResourceUsageBadge from "@components/display/UserManagement/UserDetailPage/ResourceUsageBadge";
+import UserRow from "@components/display/UserManagement/UserDetailPage/UserRow";
 import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ArrowLeft, Ellipsis } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import type { UserEntityDtoRole } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer";
 
 export const Route = createFileRoute("/users")({
@@ -27,28 +30,19 @@ function UserDetailPage() {
         <ArrowLeft className="size-5" />
         Back
       </Button>
-      <div className="container text-base mx-auto py-20 flex flex-col gap-4">
-        <Card>
-          <CardContent className="flex gap-5 items-center m-2">
-            User 1
-            <div className="flex gap-3">
-              <Badge className="rounded-xl text-sm px-3 bg-white">QUOTA</Badge>
-              <Badge className="px-3 text-sm bg-accent">
-                2/3 CPUs
-              </Badge>
-              <Badge className="px-3 text-sm bg-accent">
-                4,2/6,9GB Memory
-              </Badge>
-              <Badge className="px-3 text-sm bg-accent">
-                55/200GB Storage
-              </Badge>
-              <Badge className="px-3 text-sm bg-accent">
-                1/4 Instances
-              </Badge>
-              <Button><Ellipsis /></Button>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="container text-base mx-auto py-20 flex flex-col gap-2 px-40">
+        <UserRow userName="Jannox" userRole="QUOTA_USER" />
+        <UserRow userName="Lafaffi" userRole="ADMIN" />
+        <UserRow userName="Neinika" userRole="OWNER" />
+        <UserRow userName="Jannox" userRole="QUOTA_USER" />
+        <UserRow userName="Jannox" userRole="QUOTA_USER" />
+        <UserRow userName="Jannox" userRole="QUOTA_USER" />
+        <UserRow userName="Jannox" userRole="QUOTA_USER" />
+        <UserRow userName="Jannox" userRole="QUOTA_USER" />
+        <UserRow userName="Jannox" userRole="QUOTA_USER" />
+        <UserRow userName="Jannox" userRole="QUOTA_USER" />
+        <UserRow userName="Jannox" userRole="QUOTA_USER" />
+
       </div>
     </div>
   );
