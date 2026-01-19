@@ -1,3 +1,4 @@
+import { UserEntityDtoRole } from "@/api/generated/model";
 import WebSocketCollection from "@components/technical/WebsocketCollection/WebSocketCollection.tsx";
 import config from "@config";
 import { jwtDecode } from "jwt-decode";
@@ -13,6 +14,9 @@ interface AuthContextType {
   authorized: boolean | null;
   tokenExpirationDate: number | null;
   username: string | null;
+  role: UserEntityDtoRole | null;
+  memoryLimit: number | null;
+  cpuLimit: number | null;
   refreshIdentityToken: () => void;
   setToken: (token: string) => void;
   handleLogout: () => void;
@@ -24,6 +28,9 @@ interface DecodedToken {
   iss: string;
   sub: string;
   tokenType: "REFRESH_TOKEN" | "IDENTITY_TOKEN";
+  role: UserEntityDtoRole;
+  memory_limit?: number;
+  cpu_limit?: number;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -31,6 +38,9 @@ const AuthContext = createContext<AuthContextType>({
   authorized: null,
   tokenExpirationDate: null,
   username: null,
+  role: null,
+  memoryLimit: null,
+  cpuLimit: null,
   refreshIdentityToken() {
     console.warn("Called refresh identity token before auth context ready");
   },
@@ -47,6 +57,9 @@ const TOKEN_REFRESH_BUFFER = 5 * 60 * 1000;
 const AuthProvider = (props: { children: ReactNode }) => {
   const { loadAllData } = useDataLoading();
   const [username, setUsername] = useState<string | null>(null);
+  const [role, setRole] = useState<UserEntityDtoRole | null>(null);
+  const [memoryLimit, setMemoryLimit] = useState<number | null>(null);
+  const [cpuLimit, setCpuLimit] = useState<number | null>(null);
   const [identityToken, setIdentityToken] = useState<string | null>(null);
   const [authorized, setAuthorized] = useState<boolean | null>(null);
   const [tokenExpirationDate, setTokenExpirationDate] = useState<number | null>(null);
@@ -66,6 +79,9 @@ const AuthProvider = (props: { children: ReactNode }) => {
         identityToken: null,
         authorized: false,
         username: null,
+        role: null,
+        memoryLimit: null,
+        cpuLimit: null,
         tokenExpirationDate: null,
       };
       if (!token) {
@@ -86,6 +102,9 @@ const AuthProvider = (props: { children: ReactNode }) => {
         identityToken: token,
         authorized: true,
         username: decoded.sub,
+        role: decoded.role,
+        memoryLimit: decoded.memory_limit ?? null,
+        cpuLimit: decoded.cpu_limit ?? null,
         tokenExpirationDate: expirationMs,
       };
     },
@@ -97,6 +116,9 @@ const AuthProvider = (props: { children: ReactNode }) => {
       setIdentityToken(response.identityToken);
       setAuthorized(response.authorized);
       setUsername(response.username);
+      setRole(response.role);
+      setMemoryLimit(response.memoryLimit);
+      setCpuLimit(response.cpuLimit);
       setTokenExpirationDate(response.tokenExpirationDate);
     },
     [analyseToken],
@@ -165,6 +187,9 @@ const AuthProvider = (props: { children: ReactNode }) => {
         authorized,
         tokenExpirationDate,
         username,
+        role,
+        memoryLimit,
+        cpuLimit,
         refreshIdentityToken,
         setToken,
         handleLogout,

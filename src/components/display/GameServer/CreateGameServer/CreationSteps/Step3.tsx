@@ -87,20 +87,20 @@ export default function Step3() {
 
       <div className="grid grid-cols-2 gap-4">
         <GenericGameServerCreationInputField
-          attribute="memory_limit"
+          attribute="docker_max_memory"
           validator={z.string().min(1)}
           placeholder="512"
-          optional // if logged in userType is OWNER or ADMIN
+          optional
           label={t("memoryLimitSelection.title")}
           description={t("memoryLimitSelection.description")}
           errorLabel={t("memoryLimitSelection.errorLabel")}
         />
 
         <GenericGameServerCreationInputField
-          attribute="cpu_limit"
+          attribute="docker_max_cpu"
           validator={z.string().min(1)}
           placeholder="0.5"
-          optional // if logged in userType is OWNER or
+          optional
           label={t("cpuLimitSelection.title")}
           description={t("cpuLimitSelection.description")}
           errorLabel={t("cpuLimitSelection.errorLabel")}
