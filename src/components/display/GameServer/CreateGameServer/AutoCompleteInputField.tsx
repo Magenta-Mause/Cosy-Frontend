@@ -187,7 +187,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
                   className="flex-auto items-center"
                 >
                   <div className="shrink-0">{item.leftSlot}</div>
-                  <Label className="text-xl">{item.label}</Label>
+                  <Label className="text-base">{item.label}</Label>
                 </CommandItem>
               ))
             ) : (

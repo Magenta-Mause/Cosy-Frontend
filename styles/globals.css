@@ -4,13 +4,16 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --text-xs: 14px;   
+    --text-xs: 16px;   
     --text-sm: 20px;   
     --text-base: 26px; 
     --text-lg: 32px;   
     --text-xl: 42px;   
     --text-2xl: 52px;  
     --text-3xl: 78px;
+
+    --leading-snug: 1;
+    --leading-normal: 1.125;
 
     --color-foreground: var(--foreground);
     --color-background: var(--background);
