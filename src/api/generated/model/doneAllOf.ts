@@ -5,8 +5,8 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
+import type { GameServerInstanceDto } from './gameServerInstanceDto';
 
-export type GetMetricsParams = {
-end?: string;
-start?: string;
+export type DoneAllOf = {
+  gameServerInstance?: GameServerInstanceDto;
 };

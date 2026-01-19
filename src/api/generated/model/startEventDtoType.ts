@@ -6,12 +6,13 @@
  * OpenAPI spec version: v1.0
  */
 
-export type GameServerLogMessageEntityLevel = typeof GameServerLogMessageEntityLevel[keyof typeof GameServerLogMessageEntityLevel];
+export type StartEventDtoType = typeof StartEventDtoType[keyof typeof StartEventDtoType];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GameServerLogMessageEntityLevel = {
-  INFO: 'INFO',
-  DEBUG: 'DEBUG',
+export const StartEventDtoType = {
+  HEARTBEAT: 'HEARTBEAT',
+  PULL_PROGRESS: 'PULL_PROGRESS',
+  DONE: 'DONE',
   ERROR: 'ERROR',
 } as const;

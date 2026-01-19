@@ -31,6 +31,7 @@ import type {
   GetServiceInfo200,
   LoginDto,
   MetricPointDto,
+  StartServiceSse200Item,
   UserCreationDto,
   UserEntityDto,
   UserInviteCreationDto,
@@ -586,13 +587,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
-export const startService = (
+export const startServiceSse = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
       
-      return customInstance<void>(
+      return customInstance<StartServiceSse200Item[]>(
       {url: `/game-server/${uuid}/start`, method: 'POST', signal
     },
       options);
@@ -600,11 +601,11 @@ export const startService = (
   
 
 
-export const getStartServiceMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startService>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof startService>>, TError,{uuid: string}, TContext> => {
+export const getStartServiceSseMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startServiceSse>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof startServiceSse>>, TError,{uuid: string}, TContext> => {
 
-const mutationKey = ['startService'];
+const mutationKey = ['startServiceSse'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -614,10 +615,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startService>>, {uuid: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startServiceSse>>, {uuid: string}> = (props) => {
           const {uuid} = props ?? {};
 
-          return  startService(uuid,requestOptions)
+          return  startServiceSse(uuid,requestOptions)
         }
 
         
@@ -625,20 +626,20 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type StartServiceMutationResult = NonNullable<Awaited<ReturnType<typeof startService>>>
+    export type StartServiceSseMutationResult = NonNullable<Awaited<ReturnType<typeof startServiceSse>>>
     
-    export type StartServiceMutationError = unknown
+    export type StartServiceSseMutationError = unknown
 
-    export const useStartService = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startService>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    export const useStartServiceSse = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startServiceSse>>, TError,{uuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
-        Awaited<ReturnType<typeof startService>>,
+        Awaited<ReturnType<typeof startServiceSse>>,
         TError,
         {uuid: string},
         TContext
       > => {
 
-      const mutationOptions = getStartServiceMutationOptions(options);
+      const mutationOptions = getStartServiceSseMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -1006,7 +1007,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     
 export const getMetrics = (
     gameServerUuid: string,
-    params: GetMetricsParams,
+    params?: GetMetricsParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
@@ -1030,7 +1031,7 @@ export const getGetMetricsQueryKey = (gameServerUuid?: string,
 
     
 export const getGetMetricsQueryOptions = <TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(gameServerUuid: string,
-    params: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+    params?: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -1055,7 +1056,7 @@ export type GetMetricsQueryError = unknown
 
 export function useGetMetrics<TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(
  gameServerUuid: string,
-    params: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+    params?: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
   
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 

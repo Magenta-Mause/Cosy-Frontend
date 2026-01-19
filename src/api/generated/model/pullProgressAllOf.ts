@@ -5,8 +5,8 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
+import type { PullProgressDto } from './pullProgressDto';
 
-export type GetMetricsParams = {
-end?: string;
-start?: string;
+export type PullProgressAllOf = {
+  progress?: PullProgressDto;
 };

@@ -6,7 +6,10 @@
  * OpenAPI spec version: v1.0
  */
 
-export type GetMetricsParams = {
-end?: string;
-start?: string;
-};
+export interface PullProgressDto {
+  status?: string;
+  id?: string;
+  progressDetail?: string;
+  current?: number;
+  total?: number;
+}
