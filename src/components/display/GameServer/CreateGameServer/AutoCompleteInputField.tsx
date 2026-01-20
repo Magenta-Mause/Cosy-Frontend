@@ -59,10 +59,13 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
                                                                                                     label
                                                                                                   }: Props<TSelectedItem, TAutoCompleteData>) {
   const {t} = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
-  const {setGameServerState, creationState} = useContext(GameServerCreationContext);
+  const {setGameServerState, creationState, setUtilState} = useContext(GameServerCreationContext);
   const {setAttributeValid, setAttributeTouched} = useContext(GameServerCreationPageContext);
   const [open, setOpen] = useState(false);
-  const [displayName, setDisplayName] = useState<string>("");
+
+  // Initialize displayName from autoCompleteSelections if available
+  const initialDisplayName = creationState.utilState.autoCompleteSelections?.[attribute]?.label ?? "";
+  const [displayName, setDisplayName] = useState<string>(initialDisplayName);
   const [queryGameName, setQueryGameName] = useState<string>("");
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -100,6 +103,17 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       setGameServerState(attribute)(item.value);
       setAttributeValid(attribute, valid);
       setAttributeTouched(attribute, true);
+
+      // Store the full AutoCompleteItem in autoCompleteSelections
+      setUtilState("autoCompleteSelections")({
+        ...(creationState.utilState.autoCompleteSelections ?? {}),
+        [attribute]: {
+          label: item.label,
+          value: item.value,
+          data: item.data,
+        },
+      });
+
       if (onItemSelect) {
         onItemSelect(item);
       }
@@ -109,6 +123,8 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       setAttributeTouched,
       setAttributeValid,
       setGameServerState,
+      setUtilState,
+      creationState.utilState.autoCompleteSelections,
       validator,
       onItemSelect,
     ],

@@ -69,7 +69,7 @@ export function applyTemplate(
         container_port: typeof value === "number"
           ? value
           : parseInt(substituteVariables(String(value), variables), 10),
-        protocol: protocol as "TCP" | "UDP" | undefined || "TCP",
+        protocol: (protocol?.toUpperCase() as "TCP" | "UDP") ?? "TCP",
       });
     }
     newState.port_mappings = portMappings;

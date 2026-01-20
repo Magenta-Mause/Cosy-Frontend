@@ -24,11 +24,20 @@ import Step2 from "./CreationSteps/Step2.tsx";
 import Step3 from "./CreationSteps/Step3.tsx";
 import {applyTemplate} from "./utils/templateSubstitution.ts";
 
+type AutoCompleteSelections = {
+  [key: string]: {
+    label: string;
+    value: unknown;
+    data?: unknown;
+  };
+};
+
 type UtilState = {
   gameEntity?: GameDto;
   selectedTemplate?: TemplateEntity | null;
   templateVariables?: Record<string, string | number | boolean>;
   templateApplied?: boolean;
+  autoCompleteSelections?: AutoCompleteSelections;
 };
 
 interface CreationState {
@@ -125,17 +134,19 @@ const CreateGameServerModal = ({setOpen}: Props) => {
     if (currentPage === 1) {
       const {selectedTemplate, templateApplied} = creationState.utilState;
 
-      // If template is selected and has variables
-      if (selectedTemplate && selectedTemplate.variables && selectedTemplate.variables.length > 0) {
-        // If template was already applied, ask user if they want to reapply
-        if (templateApplied) {
+      // If template is selected
+      if (selectedTemplate) {
+        // If template has variables and was already applied, ask user if they want to reapply
+        if (templateApplied && selectedTemplate.variables && selectedTemplate.variables.length > 0) {
           setShowReapplyDialog(true);
           setPendingPageChange(currentPage + 1);
           return;
         }
 
-        // Apply template for the first time
-        applyTemplateToState();
+        // Apply template (first time or no variables)
+        if (!templateApplied) {
+          applyTemplateToState();
+        }
       }
     }
 
@@ -270,3 +281,4 @@ const CreateGameServerModal = ({setOpen}: Props) => {
 };
 
 export default CreateGameServerModal;
+export type { AutoCompleteSelections };

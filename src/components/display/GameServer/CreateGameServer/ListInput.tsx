@@ -2,7 +2,7 @@ import { Button } from "@components/ui/button.tsx";
 import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
 import { CircleAlertIcon, CircleX } from "lucide-react";
-import { type ReactNode, useCallback, useContext, useState } from "react";
+import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
@@ -57,8 +57,47 @@ function ListInput<T extends { uuid: string }>({
   const [values, setValuesInternal] = useState<T[]>(getInitialValues);
   const { t } = useTranslationPrefix("components.CreateGameServer");
 
+  // Track the last synced context value to avoid infinite loops
+  const lastSyncedValueRef = useRef<string | null>(null);
+  // Track if we're currently updating from user input (to prevent sync loop)
+  const isUserInputRef = useRef<boolean>(false);
+
+  // Sync local state when context changes (e.g., template applied)
+  useEffect(() => {
+    // Don't sync if the change came from user input
+    if (isUserInputRef.current) {
+      isUserInputRef.current = false;
+      return;
+    }
+
+    const contextValue = creationState.gameServerState[attribute];
+    if (contextValue && parseInitialValue) {
+      // Serialize context value to check if it changed
+      const contextValueStr = JSON.stringify(contextValue);
+
+      // Only update if the context value actually changed
+      if (contextValueStr !== lastSyncedValueRef.current) {
+        lastSyncedValueRef.current = contextValueStr;
+        const parsedValues = parseInitialValue(contextValue);
+        setValuesInternal(parsedValues);
+
+        // Validate the new values
+        const newRowErrors: { [uuid: string]: boolean } = {};
+        parsedValues.forEach((item) => {
+          newRowErrors[item.uuid] = !checkValidity(item);
+        });
+        setRowErrors(newRowErrors);
+        setAttributeValid(attribute, Object.values(newRowErrors).filter((err) => err).length === 0);
+        setAttributeTouched(attribute, true);
+      }
+    }
+  }, [creationState.gameServerState, attribute, parseInitialValue, checkValidity, setAttributeValid, setAttributeTouched]);
+
   const setValues = useCallback(
     (callback: (prevVals: T[]) => T[]) => {
+      // Mark that this change is from user input
+      isUserInputRef.current = true;
+
       const newVal = callback(values);
       setValuesInternal(newVal);
       setGameServerState(attribute)(computeValue(newVal));
@@ -73,6 +112,9 @@ function ListInput<T extends { uuid: string }>({
       if (onChange) {
         onChange(newVal);
       }
+
+      // Update the last synced value to match what we just set in context
+      lastSyncedValueRef.current = JSON.stringify(computeValue(newVal));
     },
     [
       attribute,

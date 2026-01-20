@@ -204,6 +204,7 @@ const translation: i18nLanguage = {
     TemplateVariableForm: {
       title: "Template Variables",
       noTemplateSelected: "No Template Selected",
+      noVariables: "This template has no customizable variables",
       selectPlaceholder: "Select an option",
       example: "Example",
       pattern: "Pattern",
