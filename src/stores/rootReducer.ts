@@ -5,11 +5,13 @@ import { gameServerSliceReducer } from "@/stores/slices/gameServerSlice.ts";
 import { userInviteSliceReducer } from "@/stores/slices/userInviteSlice.ts";
 import { userSliceReducer } from "@/stores/slices/userSlice.ts";
 import type { RootState } from ".";
+import { gameServerMetricsSliceReducer } from "./slices/gameServerMetrics";
 
 const appReducer = combineReducers({
   gameServerSliceReducer,
   userInviteSliceReducer,
   gameServerLogSliceReducer,
+  gameServerMetricsSliceReducer,
   userSliceReducer,
 });
 

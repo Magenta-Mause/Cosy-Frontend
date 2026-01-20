@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
-import { startService, stopService } from "@/api/generated/backend-api.ts";
+import { startServiceSse, stopService } from "@/api/generated/backend-api.ts";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 const useServerInteractions = () => {
@@ -10,7 +10,7 @@ const useServerInteractions = () => {
 
   const startServer = async (gameServerId: string, includeToastNotification?: boolean) => {
     try {
-      const startPromise = startService(gameServerId);
+      const startPromise = startServiceSse(gameServerId);
       dispatch(gameServerSliceActions.awaitPendingUpdate(gameServerId));
       await startPromise;
       if (includeToastNotification) {

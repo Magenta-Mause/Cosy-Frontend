@@ -5,8 +5,10 @@ import {
   getAllUserEntities,
   getAllUserInvites,
   getLogs,
+  getMetrics,
 } from "@/api/generated/backend-api.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
+import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import { userSliceActions } from "@/stores/slices/userSlice.ts";
@@ -20,7 +22,12 @@ const useDataLoading = () => {
       const gameServers = await getAllGameServers();
       dispatch(gameServerSliceActions.setState("idle"));
       dispatch(gameServerSliceActions.setGameServer(gameServers));
-      Promise.allSettled(gameServers.map((gameServer) => loadLogs(gameServer.uuid)));
+      Promise.allSettled(
+        gameServers.flatMap((gameServer) => [
+          loadLogs(gameServer.uuid),
+          loadMetrics(gameServer.uuid),
+        ]),
+      );
       return true;
     } catch {
       dispatch(gameServerSliceActions.setState("failed"));
@@ -67,6 +74,20 @@ const useDataLoading = () => {
       dispatch(gameServerLogSliceActions.setState({ gameServerUuid, state: "idle" }));
     } catch {
       dispatch(gameServerLogSliceActions.setState({ gameServerUuid, state: "failed" }));
+    }
+  };
+
+  const loadMetrics = async (gameServerUuid: string) => {
+    dispatch(gameServerSliceActions.setState({ gameServerUuid, state: "loading" }));
+    try {
+      const metrics = await getMetrics(gameServerUuid);
+      const metricsWithUuid = metrics.map((metric) => ({ ...metric, uuid: generateUuid() }));
+      dispatch(
+        gameServerMetricsSliceActions.setGameServerMetrics({ gameServerUuid, metrics: metricsWithUuid })
+      );
+      dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "idle" }));
+    } catch {
+      dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "failed" }));
     }
   };
 
