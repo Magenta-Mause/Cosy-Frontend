@@ -2,7 +2,7 @@ import { Badge } from "@components/ui/badge";
 
 const ResourceUsageBadge = (props: {
   currentValue: string;
-  limit: string;
+  limit: number;
   unit?: string;
   resourceTyp: string;
 }) => {
