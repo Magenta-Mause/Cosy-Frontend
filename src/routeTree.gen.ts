@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServerServerIdRouteImport } from './routes/server/$serverId'
-import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId.index'
-import { Route as ServerServerIdConsoleRouteImport } from './routes/server/$serverId.console'
+import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId/index'
+import { Route as ServerServerIdSettingsRouteImport } from './routes/server/$serverId/settings'
+import { Route as ServerServerIdConsoleRouteImport } from './routes/server/$serverId/console'
+import { Route as ServerServerIdSettingsGeneralRouteImport } from './routes/server/$serverId/settings/general'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,29 +31,46 @@ const ServerServerIdIndexRoute = ServerServerIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ServerServerIdRoute,
 } as any)
+const ServerServerIdSettingsRoute = ServerServerIdSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ServerServerIdRoute,
+} as any)
 const ServerServerIdConsoleRoute = ServerServerIdConsoleRouteImport.update({
   id: '/console',
   path: '/console',
   getParentRoute: () => ServerServerIdRoute,
 } as any)
+const ServerServerIdSettingsGeneralRoute =
+  ServerServerIdSettingsGeneralRouteImport.update({
+    id: '/general',
+    path: '/general',
+    getParentRoute: () => ServerServerIdSettingsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
+  '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
   '/server/$serverId/': typeof ServerServerIdIndexRoute
+  '/server/$serverId/settings/general': typeof ServerServerIdSettingsGeneralRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
+  '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
   '/server/$serverId': typeof ServerServerIdIndexRoute
+  '/server/$serverId/settings/general': typeof ServerServerIdSettingsGeneralRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
+  '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
   '/server/$serverId/': typeof ServerServerIdIndexRoute
+  '/server/$serverId/settings/general': typeof ServerServerIdSettingsGeneralRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -59,15 +78,24 @@ export interface FileRouteTypes {
     | '/'
     | '/server/$serverId'
     | '/server/$serverId/console'
+    | '/server/$serverId/settings'
     | '/server/$serverId/'
+    | '/server/$serverId/settings/general'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/server/$serverId/console' | '/server/$serverId'
+  to:
+    | '/'
+    | '/server/$serverId/console'
+    | '/server/$serverId/settings'
+    | '/server/$serverId'
+    | '/server/$serverId/settings/general'
   id:
     | '__root__'
     | '/'
     | '/server/$serverId'
     | '/server/$serverId/console'
+    | '/server/$serverId/settings'
     | '/server/$serverId/'
+    | '/server/$serverId/settings/general'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -98,6 +126,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServerServerIdIndexRouteImport
       parentRoute: typeof ServerServerIdRoute
     }
+    '/server/$serverId/settings': {
+      id: '/server/$serverId/settings'
+      path: '/settings'
+      fullPath: '/server/$serverId/settings'
+      preLoaderRoute: typeof ServerServerIdSettingsRouteImport
+      parentRoute: typeof ServerServerIdRoute
+    }
     '/server/$serverId/console': {
       id: '/server/$serverId/console'
       path: '/console'
@@ -105,16 +140,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServerServerIdConsoleRouteImport
       parentRoute: typeof ServerServerIdRoute
     }
+    '/server/$serverId/settings/general': {
+      id: '/server/$serverId/settings/general'
+      path: '/general'
+      fullPath: '/server/$serverId/settings/general'
+      preLoaderRoute: typeof ServerServerIdSettingsGeneralRouteImport
+      parentRoute: typeof ServerServerIdSettingsRoute
+    }
   }
 }
 
+interface ServerServerIdSettingsRouteChildren {
+  ServerServerIdSettingsGeneralRoute: typeof ServerServerIdSettingsGeneralRoute
+}
+
+const ServerServerIdSettingsRouteChildren: ServerServerIdSettingsRouteChildren =
+  {
+    ServerServerIdSettingsGeneralRoute: ServerServerIdSettingsGeneralRoute,
+  }
+
+const ServerServerIdSettingsRouteWithChildren =
+  ServerServerIdSettingsRoute._addFileChildren(
+    ServerServerIdSettingsRouteChildren,
+  )
+
 interface ServerServerIdRouteChildren {
   ServerServerIdConsoleRoute: typeof ServerServerIdConsoleRoute
+  ServerServerIdSettingsRoute: typeof ServerServerIdSettingsRouteWithChildren
   ServerServerIdIndexRoute: typeof ServerServerIdIndexRoute
 }
 
 const ServerServerIdRouteChildren: ServerServerIdRouteChildren = {
   ServerServerIdConsoleRoute: ServerServerIdConsoleRoute,
+  ServerServerIdSettingsRoute: ServerServerIdSettingsRouteWithChildren,
   ServerServerIdIndexRoute: ServerServerIdIndexRoute,
 }
 

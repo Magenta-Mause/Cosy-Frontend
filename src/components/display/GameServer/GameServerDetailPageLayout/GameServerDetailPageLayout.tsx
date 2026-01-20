@@ -47,7 +47,7 @@ const TABS = [
   {
     label: "settings",
     icon: <SettingsIcon style={iconStyles} />,
-    path: "/server/$serverId/settings",
+    path: "/server/$serverId/settings/general",
   },
 ];
 
