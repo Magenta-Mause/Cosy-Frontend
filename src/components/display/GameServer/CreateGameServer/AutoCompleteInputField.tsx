@@ -68,6 +68,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     staleTime: 1000 * 60 * 5,
     retry: false,
   });
+  console.log(autoCompleteItems);
 
   useEffect(() => {
     setAttributeTouched(attribute, creationState.gameServerState[attribute] !== undefined);

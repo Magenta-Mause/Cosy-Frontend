@@ -1,25 +1,26 @@
 import AutoCompleteInputField, {
   type AutoCompleteItem,
 } from "@components/display/GameServer/CreateGameServer/AutoCompleteInputField";
-import GenericGameServerCreationPage from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
-import { Label } from "@components/ui/label";
-import { useQueryClient } from "@tanstack/react-query";
-import { useCallback, useContext } from "react";
-import { getGameInfo } from "@/api/generated/backend-api";
-import type { GameDto } from "@/api/generated/model";
+import GenericGameServerCreationPage
+  from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
+import {Label} from "@components/ui/label";
+import {useQueryClient} from "@tanstack/react-query";
+import {useCallback, useContext} from "react";
+import {getGameInfo} from "@/api/generated/backend-api";
+import type {GameDto} from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { GameServerCreationContext } from "../CreateGameServerModal";
+import {GameServerCreationContext} from "../CreateGameServerModal";
 
 const Step1 = () => {
-  const { t } = useTranslationPrefix("components.CreateGameServer.steps.step1");
-  const { setUtilState } = useContext(GameServerCreationContext);
+  const {t} = useTranslationPrefix("components.CreateGameServer.steps.step1");
+  const {setUtilState} = useContext(GameServerCreationContext);
   const queryClient = useQueryClient();
 
   const mapGamesDtoToAutoCompleteItems = useCallback(
     (games: GameDto[]) =>
       games.map((game) => ({
         data: game,
-        value: game.game_uuid,
+        value: (game.external_game_id ?? 0).toString(),
         label: game.name,
       })),
     [],
@@ -45,7 +46,7 @@ const Step1 = () => {
         fallbackValue={"0" as string}
         searchId="gameInfo"
         searchCallback={(gameNameQuery) =>
-          getGameInfo({ query: gameNameQuery }).then((games) =>
+         getGameInfo({query: gameNameQuery}).then((games) =>
             mapGamesDtoToAutoCompleteItems(games),
           )
         }

@@ -31,6 +31,7 @@ import type {
   GetServiceInfo200,
   LoginDto,
   MetricPointDto,
+  TemplateEntity,
   UserCreationDto,
   UserEntityDto,
   UserInviteCreationDto,
@@ -1004,6 +1005,69 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const getAllTemplates = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<TemplateEntity[]>(
+      {url: `/templates`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetAllTemplatesQueryKey = () => {
+    return [
+    `/templates`
+    ] as const;
+    }
+
+    
+export const getGetAllTemplatesQueryOptions = <TData = Awaited<ReturnType<typeof getAllTemplates>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllTemplates>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAllTemplatesQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllTemplates>>> = ({ signal }) => getAllTemplates(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllTemplates>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetAllTemplatesQueryResult = NonNullable<Awaited<ReturnType<typeof getAllTemplates>>>
+export type GetAllTemplatesQueryError = unknown
+
+
+
+export function useGetAllTemplates<TData = Awaited<ReturnType<typeof getAllTemplates>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllTemplates>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetAllTemplatesQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
 export const getMetrics = (
     gameServerUuid: string,
     params: GetMetricsParams,
@@ -1079,7 +1143,7 @@ export const getGameInfo = (
       
       
       return customInstance<GameDto[]>(
-      {url: `/games-info`, method: 'GET',
+      {url: `/games`, method: 'GET',
         params, signal
     },
       options);
@@ -1090,7 +1154,7 @@ export const getGameInfo = (
 
 export const getGetGameInfoQueryKey = (params?: GetGameInfoParams,) => {
     return [
-    `/games-info`, ...(params ? [params]: [])
+    `/games`, ...(params ? [params]: [])
     ] as const;
     }
 
