@@ -60,7 +60,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
   label,
 }: Props<TSelectedItem, TAutoCompleteData>) {
   const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
-  const { setGameServerState, creationState, setUtilState } = useContext(GameServerCreationContext);
+  const { setGameServerState, creationState, setUtilState, triggerNextPage } = useContext(GameServerCreationContext);
   const { setAttributeValid, setAttributeTouched } = useContext(GameServerCreationPageContext);
   const [open, setOpen] = useState(false);
 
@@ -69,6 +69,10 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     creationState.utilState.autoCompleteSelections?.[attribute]?.label ?? "";
   const [displayName, setDisplayName] = useState<string>(initialDisplayName);
   const [queryGameName, setQueryGameName] = useState<string>("");
+
+  // Track hovered item for keyboard selection
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const lastHoveredIndexRef = useRef<number | null>(null);
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -145,12 +149,39 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     return () => window.clearTimeout(id);
   }, [open]);
 
+  // Reset hovered index when popover closes or items change
+  useEffect(() => {
+    if (!open) {
+      setHoveredIndex(null);
+    }
+  }, [open]);
+
   useEffect(() => {
     if (!open) return;
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setOpen(false);
+      }
+
+      if (e.key === "Enter" && autoCompleteItems && autoCompleteItems.length > 0) {
+        e.preventDefault();
+        const items = autoCompleteItems.slice(0, 5);
+
+        // Determine which item to select:
+        // 1. Currently hovered item
+        // 2. Last hovered item
+        // 3. First item (default)
+        let indexToSelect: number;
+        if (hoveredIndex !== null && hoveredIndex < items.length) {
+          indexToSelect = hoveredIndex;
+        } else if (lastHoveredIndexRef.current !== null && lastHoveredIndexRef.current < items.length) {
+          indexToSelect = lastHoveredIndexRef.current;
+        } else {
+          indexToSelect = 0;
+        }
+
+        selectItem(items[indexToSelect]);
       }
     };
 
@@ -173,7 +204,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("pointerdown", onPointerDown);
     };
-  }, [open]);
+  }, [open, autoCompleteItems, hoveredIndex, selectItem]);
 
   return (
     <Popover open={open}>
@@ -211,6 +242,11 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
               }, DEBOUNCE_DELAY);
             }}
             autoComplete="off"
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !open) {
+                triggerNextPage();
+              }
+            }}
           />
           {description && <FieldLabel htmlFor={attribute}>{description}</FieldLabel>}
         </div>
@@ -225,10 +261,15 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
                   <p>{t("loadingLabel")}</p>
                 </CommandItem>
               ) : !isError && autoCompleteItems.length > 0 ? (
-                autoCompleteItems.slice(0, 5).map((item) => (
+                autoCompleteItems.slice(0, 5).map((item, index) => (
                   <CommandItem
                     key={item.value.toString()}
                     onSelect={() => selectItem(item)}
+                    onMouseEnter={() => {
+                      setHoveredIndex(index);
+                      lastHoveredIndexRef.current = index;
+                    }}
+                    onMouseLeave={() => setHoveredIndex(null)}
                     className="flex-auto items-center"
                   >
                     <div className="shrink-0">{item.leftSlot}</div>
