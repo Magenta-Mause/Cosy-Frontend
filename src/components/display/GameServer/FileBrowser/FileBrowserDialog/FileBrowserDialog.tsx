@@ -163,11 +163,13 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   return (
     <div
       className={cn(
-        "border-border border-2 rounded-lg flex flex-col gap-2",
-        props.width ? `w-[${props.width}px]` : "w-400",
-        props.height ? `h-[${props.height}px]` : "h-200",
-        props.padding ? `p-[${props.padding}px]` : "p-4",
+        "border-border border-2 rounded-lg flex flex-col gap-2 w-400 h-200 p-4",
       )}
+      style={{
+        width: props.width !== undefined ? `${props.width}px` : undefined,
+        height: props.height !== undefined ? `${props.height}px` : undefined,
+        padding: props.padding !== undefined ? `${props.padding}px` : undefined,
+      }}
     >
       <Input
         startDecorator={<Search />}
