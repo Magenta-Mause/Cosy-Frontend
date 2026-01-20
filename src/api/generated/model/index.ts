@@ -6,6 +6,7 @@
  * OpenAPI spec version: v1.0
  */
 
+export * from './dockerHardwareLimits';
 export * from './environmentVariableConfiguration';
 export * from './gameDto';
 export * from './gameServerCreationDto';

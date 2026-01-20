@@ -5,6 +5,7 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
+import type { DockerHardwareLimits } from './dockerHardwareLimits';
 import type { PortMapping } from './portMapping';
 import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
 import type { VolumeMountConfigurationCreationDto } from './volumeMountConfigurationCreationDto';
@@ -19,8 +20,7 @@ export interface GameServerCreationDto {
   docker_image_name: string;
   /** @minLength 1 */
   docker_image_tag: string;
-  docker_max_cpu?: number;
-  docker_max_memory?: number;
+  docker_hardware_limits?: DockerHardwareLimits;
   port_mappings?: PortMapping[];
   execution_command?: string[];
   environment_variables?: EnvironmentVariableConfiguration[];
