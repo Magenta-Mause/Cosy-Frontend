@@ -13,4 +13,5 @@ export interface Variable {
   regex?: string;
   default_value?: unknown;
   options?: string[];
+  example?: string;
 }
