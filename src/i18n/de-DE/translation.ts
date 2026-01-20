@@ -199,6 +199,15 @@ const translation: i18nLanguage = {
         noResultsLabel: "Kein Ergebnis gefunden.",
       },
     },
+    TemplateVariableForm: {
+      title: "Template-Variablen",
+      noTemplateSelected: "Kein Template ausgewählt",
+      selectPlaceholder: "Wähle eine Option",
+      example: "Beispiel",
+      validationError: "Bitte geben Sie einen gültigen Wert ein",
+      booleanTrue: "Ja",
+      booleanFalse: "Nein",
+    },
     editGameServer: {
       title: "{{serverName}}",
       description: "Aktualisiere die Konfiguration deines Game-Servers",

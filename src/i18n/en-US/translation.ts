@@ -195,6 +195,15 @@ const translation: i18nLanguage = {
         noResultsLabel: "Unknown Game",
       },
     },
+    TemplateVariableForm: {
+      title: "Template Variables",
+      noTemplateSelected: "No Template Selected",
+      selectPlaceholder: "Select an option",
+      example: "Example",
+      validationError: "Please enter a valid value",
+      booleanTrue: "Yes",
+      booleanFalse: "No",
+    },
     editGameServer: {
       title: "{{serverName}}",
       description: "Update the configuration of your game server",
