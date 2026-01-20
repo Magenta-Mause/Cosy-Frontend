@@ -1,40 +1,60 @@
 import AutoCompleteInputField, {
   type AutoCompleteItem,
 } from "@components/display/GameServer/CreateGameServer/AutoCompleteInputField";
-import GenericGameServerCreationPage
-  from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
-import {Label} from "@components/ui/label";
-import {useQueryClient} from "@tanstack/react-query";
-import {useCallback, useContext} from "react";
-import {getGameInfo} from "@/api/generated/backend-api";
-import type {GameDto} from "@/api/generated/model";
+import GenericGameServerCreationInputField from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationInputField.tsx";
+import GenericGameServerCreationPage from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
+import { Label } from "@components/ui/label";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useContext } from "react";
+import { z } from "zod";
+import { queryGames } from "@/api/generated/backend-api.ts";
+import type { GameDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import {GameServerCreationContext} from "../CreateGameServerModal";
+import { useTypedSelector } from "@/stores/rootReducer.ts";
+import { GameServerCreationContext } from "../CreateGameServerModal";
 
 const Step1 = () => {
-  const {t} = useTranslationPrefix("components.CreateGameServer.steps.step1");
-  const {setUtilState} = useContext(GameServerCreationContext);
+  const { t } = useTranslationPrefix("components.CreateGameServer.steps.step1");
+  const { setUtilState, setGameServerState } = useContext(GameServerCreationContext);
   const queryClient = useQueryClient();
+  const templates = useTypedSelector((state) => state.templateSliceReducer.data);
 
   const mapGamesDtoToAutoCompleteItems = useCallback(
     (games: GameDto[]) =>
-      games.map((game) => ({
-        data: game,
-        value: (game.external_game_id ?? 0).toString(),
-        label: game.name,
-      })),
-    [],
+      games.map((game) => {
+        const templateCount = templates.filter(
+          (template) => template.game_id === game.external_game_id,
+        ).length;
+        return {
+          data: game,
+          value: (game.external_game_id ?? 0).toString(),
+          label:
+            game.name +
+            (templateCount > 0 && ` (${templateCount} template${templateCount > 1 ? "s" : ""})`),
+        };
+      }),
+    [templates],
   );
 
   return (
     <GenericGameServerCreationPage>
+      <GenericGameServerCreationInputField
+        attribute="server_name"
+        validator={z.string().min(1)}
+        placeholder="My Game Server"
+        label={t("serverNameSelection.title")}
+        description={t("serverNameSelection.description")}
+        errorLabel={t("serverNameSelection.errorLabel")}
+      />
       <AutoCompleteInputField
-        attribute="game_uuid"
+        attribute="external_game_id"
         validator={(value) => value.length > 0}
+        label={t("gameSelection.title")}
         placeholder={t("gameSelection.placeholder")}
-        onItemSelect={(selectedItem: AutoCompleteItem<GameDto, string>) =>
-          setUtilState("gameEntity")(selectedItem.data ?? undefined)
-        }
+        onItemSelect={(selectedItem: AutoCompleteItem<GameDto, string>) => {
+          setUtilState("gameEntity")(selectedItem.data ?? undefined);
+          setGameServerState("template")("");
+        }}
         noAutoCompleteItemsLabelRenderer={(displayValue) => (
           <Label>
             {queryClient.getQueryState(["gameInfo", displayValue])?.error
@@ -46,7 +66,7 @@ const Step1 = () => {
         fallbackValue={"0" as string}
         searchId="gameInfo"
         searchCallback={(gameNameQuery) =>
-         getGameInfo({query: gameNameQuery}).then((games) =>
+          queryGames({ query: gameNameQuery }).then((games) =>
             mapGamesDtoToAutoCompleteItems(games),
           )
         }

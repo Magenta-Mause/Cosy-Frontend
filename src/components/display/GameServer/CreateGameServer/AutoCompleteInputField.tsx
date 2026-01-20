@@ -1,16 +1,17 @@
-import { Input } from "@components/ui/input";
-import { Label } from "@components/ui/label";
-import { useQuery } from "@tanstack/react-query";
+import {FieldLabel} from "@components/ui/field.tsx";
+import {Input} from "@components/ui/input";
+import {Label} from "@components/ui/label";
+import {useQuery} from "@tanstack/react-query";
 import type * as React from "react";
-import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
-import type { GameServerCreationDto } from "@/api/generated/model";
-import { Command, CommandItem, CommandList } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {type ReactNode, useCallback, useContext, useEffect, useRef, useState} from "react";
+import type {GameServerCreationDto} from "@/api/generated/model";
+import {Command, CommandItem, CommandList} from "@/components/ui/command";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { GameServerCreationContext } from "./CreateGameServerModal";
-import { GameServerCreationPageContext } from "./GenericGameServerCreationPage";
+import {GameServerCreationContext} from "./CreateGameServerModal";
+import {GameServerCreationPageContext} from "./GenericGameServerCreationPage";
 
-const DEBOUNCE_DELAY = 500;
+const DEBOUNCE_DELAY = 300;
 
 type GameServerCreationValue = Exclude<
   GameServerCreationDto[keyof GameServerCreationDto],
@@ -36,22 +37,30 @@ interface Props<TSelectedItem, TAutoCompleteData extends GameServerCreationValue
   searchCallback: (
     searchValue: string,
   ) => Promise<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[]>;
+  disableDebounce?: boolean;
+  defaultOpen?: boolean;
+  description?: React.ReactNode;
+  label?: React.ReactNode;
 }
 
 function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameServerCreationValue>({
-  attribute,
-  validator,
-  placeholder,
-  onItemSelect,
-  noAutoCompleteItemsLabelRenderer,
-  noAutoCompleteItemsLabel,
-  fallbackValue,
-  searchId,
-  searchCallback,
-}: Props<TSelectedItem, TAutoCompleteData>) {
-  const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
-  const { setGameServerState, creationState } = useContext(GameServerCreationContext);
-  const { setAttributeValid, setAttributeTouched } = useContext(GameServerCreationPageContext);
+                                                                                                    attribute,
+                                                                                                    validator,
+                                                                                                    placeholder,
+                                                                                                    onItemSelect,
+                                                                                                    noAutoCompleteItemsLabelRenderer,
+                                                                                                    noAutoCompleteItemsLabel,
+                                                                                                    fallbackValue,
+                                                                                                    searchId,
+                                                                                                    searchCallback,
+                                                                                                    disableDebounce,
+                                                                                                    defaultOpen,
+                                                                                                    description,
+                                                                                                    label
+                                                                                                  }: Props<TSelectedItem, TAutoCompleteData>) {
+  const {t} = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
+  const {setGameServerState, creationState} = useContext(GameServerCreationContext);
+  const {setAttributeValid, setAttributeTouched} = useContext(GameServerCreationPageContext);
   const [open, setOpen] = useState(false);
   const [displayName, setDisplayName] = useState<string>("");
   const [queryGameName, setQueryGameName] = useState<string>("");
@@ -59,7 +68,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const {
-    isLoading,
+    isLoading: queryLoading,
     isError,
     data: autoCompleteItems,
   } = useQuery({
@@ -68,7 +77,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     staleTime: 1000 * 60 * 5,
     retry: false,
   });
-  console.log(autoCompleteItems);
+  const isLoading = queryLoading || debounceRef.current !== null;
 
   useEffect(() => {
     setAttributeTouched(attribute, creationState.gameServerState[attribute] !== undefined);
@@ -151,13 +160,22 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     <Popover open={open}>
       <PopoverTrigger className="w-[25vw]">
         <div className="w-full">
+          {label && <FieldLabel htmlFor={attribute} className={"text-lg"}>{label}</FieldLabel>}
           <Input
             ref={inputRef}
             placeholder={placeholder}
             id={attribute}
             value={displayName}
+            onClick={() => defaultOpen && setOpen(() => true)}
+            onFocus={() => defaultOpen && setOpen(() => true)}
             onChange={(e) => {
               const currentValue = e.target.value;
+              setOpen(() => true);
+              if (disableDebounce) {
+                setQueryGameName(currentValue);
+                setDisplayName(currentValue);
+                return;
+              }
               setDisplayName(currentValue);
 
               if (debounceRef.current) {
@@ -166,10 +184,12 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
               debounceRef.current = setTimeout(() => {
                 setOpen(() => true);
                 setQueryGameName(currentValue);
+                debounceRef.current = null;
               }, DEBOUNCE_DELAY);
             }}
             autoComplete="off"
           />
+          {description && <FieldLabel htmlFor={attribute}>{description}</FieldLabel>}
         </div>
       </PopoverTrigger>
 
@@ -198,12 +218,12 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
                   onSelect={() =>
                     selectItem({
                       value: fallbackValue,
-                      label: noAutoCompleteItemsLabel ?? "Unknown Item",
+                      label: noAutoCompleteItemsLabel ?? "No Items found",
                     } as AutoCompleteItem<TSelectedItem, TAutoCompleteData>)
                   }
                 >
                   {noAutoCompleteItemsLabelRenderer?.(displayName) ?? (
-                    <Label>{noAutoCompleteItemsLabel ?? "Unknown Item"}</Label>
+                    <Label>{noAutoCompleteItemsLabel ?? "No items found"}</Label>
                   )}
                 </CommandItem>
               )}
@@ -216,4 +236,4 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
 }
 
 export default AutoCompleteInputField;
-export type { AutoCompleteItem };
+export type {AutoCompleteItem};

@@ -130,6 +130,11 @@ const translation: i18nLanguage = {
       steps: {
         step1: {
           title: "Step 1: Choose Game",
+          serverNameSelection: {
+            title: "Server Name",
+            description: "Name your server",
+            errorLabel: "Please enter a valid server name.",
+          },
           gameSelection: {
             title: "Choose a game for your server",
             description: "Select a game to host on your server.",
@@ -147,11 +152,7 @@ const translation: i18nLanguage = {
             title: "Template",
             description: "Select a template for your server",
             errorLabel: "Please select a valid template.",
-          },
-          serverNameSelection: {
-            title: "Server Name",
-            description: "Name your server",
-            errorLabel: "Please enter a valid server name.",
+            noResultsLabel: "No templates found",
           },
         },
         step3: {

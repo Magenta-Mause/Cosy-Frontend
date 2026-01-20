@@ -132,6 +132,11 @@ const translation: i18nLanguage = {
       steps: {
         step1: {
           title: "Schritt 1: Spiel auswählen",
+          serverNameSelection: {
+            title: "Servername",
+            description: "Benennen Sie Ihren Server",
+            errorLabel: "Bitte geben Sie einen gültigen Servernamen ein.",
+          },
           gameSelection: {
             title: "Spiel auswählen",
             description: "Wählen Sie ein Spiel für Ihren Server aus.",
@@ -149,11 +154,7 @@ const translation: i18nLanguage = {
             title: "Vorlage",
             description: "Wählen Sie eine Vorlage für Ihren Server aus",
             errorLabel: "Bitte wählen Sie eine gültige Vorlage aus.",
-          },
-          serverNameSelection: {
-            title: "Servername",
-            description: "Benennen Sie Ihren Server",
-            errorLabel: "Bitte geben Sie einen gültigen Servernamen ein.",
+            noResultsLabel: "Keine Vorlagen gefunden.",
           },
         },
         step3: {

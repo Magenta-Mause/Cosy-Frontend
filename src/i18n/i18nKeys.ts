@@ -155,6 +155,11 @@ export type i18nLanguage = {
       steps: {
         step1: {
           title: string;
+          serverNameSelection: {
+            title: string;
+            description: string;
+            errorLabel: string;
+          };
           gameSelection: {
             title: string;
             description: string;
@@ -171,11 +176,7 @@ export type i18nLanguage = {
             title: string;
             description: string;
             errorLabel: string;
-          };
-          serverNameSelection: {
-            title: string;
-            description: string;
-            errorLabel: string;
+            noResultsLabel: string;
           };
         };
         step3: {
