@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/button";
 import Link from "@components/ui/Link";
-import { ContainerIcon, NetworkIcon, SettingsIcon } from "lucide-react";
+import { ChartAreaIcon, LayoutDashboardIcon, SettingsIcon, User } from "lucide-react";
 import { type CSSProperties, createContext, useCallback, useState } from "react";
 
 interface ServerSettingsState {
@@ -30,14 +30,24 @@ const TABS = [
     path: "/server/$serverId/settings/general",
   },
   {
-    label: "network",
-    icon: <NetworkIcon style={iconStyles} />,
-    path: "/server/$serverId/settings/network",
+    label: "privateDashboard",
+    icon: <LayoutDashboardIcon style={iconStyles} />,
+    path: "/server/$serverId/settings/privateDashboard",
   },
   {
-    label: "docker",
-    icon: <ContainerIcon style={iconStyles} />,
-    path: "/server/$serverId/settings/docker",
+    label: "publicDashboard",
+    icon: <LayoutDashboardIcon style={iconStyles} />,
+    path: "/server/$serverId/settings/publicDashboard",
+  },
+  {
+    label: "metrics",
+    icon: <ChartAreaIcon style={iconStyles} />,
+    path: "/server/$serverId/settings/metrics",
+  },
+  {
+    label: "accessManagement",
+    icon: <User style={iconStyles} />,
+    path: "/server/$serverId/settings/accessManagement",
   },
 ];
 
