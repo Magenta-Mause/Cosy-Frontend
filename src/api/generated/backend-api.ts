@@ -25,12 +25,12 @@ import type {
   GameServerDto,
   GameServerLogMessageEntity,
   GameServerUpdateDto,
-  GetGameInfoParams,
   GetLogsParams,
   GetMetricsParams,
   GetServiceInfo200,
   LoginDto,
   MetricPointDto,
+  QueryGamesParams,
   TemplateEntity,
   UserCreationDto,
   UserEntityDto,
@@ -1136,8 +1136,8 @@ export function useGetMetrics<TData = Awaited<ReturnType<typeof getMetrics>>, TE
 
 
 
-export const getGameInfo = (
-    params: GetGameInfoParams,
+export const queryGames = (
+    params: QueryGamesParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
@@ -1152,42 +1152,105 @@ export const getGameInfo = (
 
 
 
-export const getGetGameInfoQueryKey = (params?: GetGameInfoParams,) => {
+export const getQueryGamesQueryKey = (params?: QueryGamesParams,) => {
     return [
     `/games`, ...(params ? [params]: [])
     ] as const;
     }
 
     
-export const getGetGameInfoQueryOptions = <TData = Awaited<ReturnType<typeof getGameInfo>>, TError = unknown>(params: GetGameInfoParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+export const getQueryGamesQueryOptions = <TData = Awaited<ReturnType<typeof queryGames>>, TError = unknown>(params: QueryGamesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof queryGames>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetGameInfoQueryKey(params);
+  const queryKey =  queryOptions?.queryKey ?? getQueryGamesQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGameInfo>>> = ({ signal }) => getGameInfo(params, requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof queryGames>>> = ({ signal }) => queryGames(params, requestOptions, signal);
 
       
 
       
 
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof queryGames>>, TError, TData> & { queryKey: QueryKey }
 }
 
-export type GetGameInfoQueryResult = NonNullable<Awaited<ReturnType<typeof getGameInfo>>>
-export type GetGameInfoQueryError = unknown
+export type QueryGamesQueryResult = NonNullable<Awaited<ReturnType<typeof queryGames>>>
+export type QueryGamesQueryError = unknown
 
 
 
-export function useGetGameInfo<TData = Awaited<ReturnType<typeof getGameInfo>>, TError = unknown>(
- params: GetGameInfoParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+export function useQueryGames<TData = Awaited<ReturnType<typeof queryGames>>, TError = unknown>(
+ params: QueryGamesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof queryGames>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
   
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
-  const queryOptions = getGetGameInfoQueryOptions(params,options)
+  const queryOptions = getQueryGamesQueryOptions(params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getGameById = (
+    id: number,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameDto>(
+      {url: `/games/external/${id}`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetGameByIdQueryKey = (id?: number,) => {
+    return [
+    `/games/external/${id}`
+    ] as const;
+    }
+
+    
+export const getGetGameByIdQueryOptions = <TData = Awaited<ReturnType<typeof getGameById>>, TError = unknown>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameById>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetGameByIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGameById>>> = ({ signal }) => getGameById(id, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGameById>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetGameByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getGameById>>>
+export type GetGameByIdQueryError = unknown
+
+
+
+export function useGetGameById<TData = Awaited<ReturnType<typeof getGameById>>, TError = unknown>(
+ id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameById>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetGameByIdQueryOptions(id,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

@@ -23,6 +23,7 @@ export * from './loginDto';
 export * from './metricPointDto';
 export * from './portMapping';
 export * from './portMappingProtocol';
+export * from './queryGamesParams';
 export * from './resourceLimit';
 export * from './templateEntity';
 export * from './templateEntityEnvironmentVariables';
