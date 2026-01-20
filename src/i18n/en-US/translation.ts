@@ -288,6 +288,28 @@ const translation: i18nLanguage = {
     AWAITING_UPDATE: "Loading...",
     STOPPING: "Stopping...",
   },
+  metrics: {
+    metricTitle: "{{type}} - Metric",
+    metricDescription: "{{type}} usage over time",
+    types: {
+      cpu_percent: "CPU",
+      memory_percent: "Memory",
+      memory_limit: "Memory Limit",
+      memory_usage: "Memory Usage",
+      block_read: "Disk Read",
+      block_write: "Disk Write",
+      network_input: "Network Input",
+      network_output: "Network Output",
+    },
+  },
+  timerange: {
+    localTime: "en-US",
+    custom: "Custom Range",
+    button: "Time Range",
+    min: "Last {{time}}min",
+    hour: "Last {{time}}h",
+    day: "Last {{time}}d",
+  },
 };
 
 export default translation;

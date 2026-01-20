@@ -291,6 +291,28 @@ const translation: i18nLanguage = {
     AWAITING_UPDATE: "Lädt...",
     STOPPING: "Stoppt...",
   },
+  metrics: {
+    metricTitle: "{{type}} Metrik",
+    metricDescription: "{{type}} Metrik über die Zeit.",
+    types: {
+      cpu_percent: "CPU",
+      memory_percent: "Arbeitsspeicher",
+      memory_limit: "Arbeitsspeicher Limit",
+      memory_usage: "Arbeitsspeicher Nutzung",
+      block_read: "Speicher Lesevorgänge",
+      block_write: "Speicher Schreibvorgänge",
+      network_input: "Netzwerk Eingehend",
+      network_output: "Netzwerk Ausgehend",
+    },
+  },
+  timerange: {
+    localTime: "de-DE",
+    custom: "Benutzerdefinier Zeitraum",
+    button: "Zeitraum",
+    min: "Letzen {{time}}min",
+    hour: "Letzte {{time}}h",
+    day: "Letzte {{time}}d",
+  },
 };
 
 export default translation;
