@@ -1,9 +1,9 @@
 import { quote } from "shell-quote";
 import type {
-  TemplateEntity,
+  EnvironmentVariableConfiguration,
   GameServerCreationDto,
   PortMapping,
-  EnvironmentVariableConfiguration,
+  TemplateEntity,
 } from "@/api/generated/model";
 
 /**
@@ -12,7 +12,7 @@ import type {
  */
 export function substituteVariables(
   template: string,
-  variables: Record<string, string | number | boolean>
+  variables: Record<string, string | number | boolean>,
 ): string {
   let result = template;
 
@@ -31,7 +31,7 @@ export function substituteVariables(
 export function applyTemplate(
   template: TemplateEntity,
   variables: Record<string, string | number | boolean>,
-  currentState: Partial<GameServerCreationDto>
+  currentState: Partial<GameServerCreationDto>,
 ): Partial<GameServerCreationDto> {
   const newState: Partial<GameServerCreationDto> = { ...currentState };
 
@@ -66,9 +66,10 @@ export function applyTemplate(
 
       portMappings.push({
         instance_port: parseInt(substituteVariables(portStr, variables), 10),
-        container_port: typeof value === "number"
-          ? value
-          : parseInt(substituteVariables(String(value), variables), 10),
+        container_port:
+          typeof value === "number"
+            ? value
+            : parseInt(substituteVariables(String(value), variables), 10),
         protocol: (protocol?.toUpperCase() as "TCP" | "UDP") ?? "TCP",
       });
     }
@@ -78,7 +79,7 @@ export function applyTemplate(
   // Substitute execution command and convert to string
   if (template.docker_execution_command) {
     const substitutedCommands = template.docker_execution_command.map((cmd) =>
-      substituteVariables(cmd, variables)
+      substituteVariables(cmd, variables),
     );
     // Convert array to shell-quoted string for the input field
     newState.execution_command = quote(substitutedCommands) as unknown as string[];
@@ -100,7 +101,7 @@ export function applyTemplate(
  */
 export function validateTemplateVariables(
   template: TemplateEntity | null,
-  variables: Record<string, string | number | boolean>
+  variables: Record<string, string | number | boolean>,
 ): boolean {
   if (!template || !template.variables || template.variables.length === 0) {
     return true; // No variables to validate

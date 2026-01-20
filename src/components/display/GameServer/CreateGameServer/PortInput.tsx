@@ -84,18 +84,21 @@ function PortInput({
     return mappedItems;
   }, []);
 
-  const parseInitialValue = useCallback((contextValue: GameServerCreationDto[keyof GameServerCreationDto]): PortItem[] => {
-    if (!contextValue || !Array.isArray(contextValue)) {
-      return [];
-    }
-    const portMappings = contextValue as PortMapping[];
-    return portMappings.map((pm) => ({
-      key: String(pm.instance_port ?? ""),
-      value: String(pm.container_port ?? ""),
-      protocol: pm.protocol ?? PortMappingProtocol.TCP,
-      uuid: generateUuid(),
-    }));
-  }, []);
+  const parseInitialValue = useCallback(
+    (contextValue: GameServerCreationDto[keyof GameServerCreationDto]): PortItem[] => {
+      if (!contextValue || !Array.isArray(contextValue)) {
+        return [];
+      }
+      const portMappings = contextValue as PortMapping[];
+      return portMappings.map((pm) => ({
+        key: String(pm.instance_port ?? ""),
+        value: String(pm.container_port ?? ""),
+        protocol: pm.protocol ?? PortMappingProtocol.TCP,
+        uuid: generateUuid(),
+      }));
+    },
+    [],
+  );
 
   return (
     <ListInput

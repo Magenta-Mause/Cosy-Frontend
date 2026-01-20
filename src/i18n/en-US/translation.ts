@@ -126,7 +126,8 @@ const translation: i18nLanguage = {
       createServerButton: "Create Server",
       reapplyDialog: {
         title: "Reapply Template?",
-        description: "You have changed template variables. Do you want to reapply the template with the new values? This will overwrite any manual changes you made in Step 3.",
+        description:
+          "You have changed template variables. Do you want to reapply the template with the new values? This will overwrite any manual changes you made in Step 3.",
         cancel: "Keep Current Values",
         confirm: "Reapply Template",
       },

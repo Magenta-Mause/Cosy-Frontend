@@ -91,7 +91,14 @@ function ListInput<T extends { uuid: string }>({
         setAttributeTouched(attribute, true);
       }
     }
-  }, [creationState.gameServerState, attribute, parseInitialValue, checkValidity, setAttributeValid, setAttributeTouched]);
+  }, [
+    creationState.gameServerState,
+    attribute,
+    parseInitialValue,
+    checkValidity,
+    setAttributeValid,
+    setAttributeTouched,
+  ]);
 
   const setValues = useCallback(
     (callback: (prevVals: T[]) => T[]) => {

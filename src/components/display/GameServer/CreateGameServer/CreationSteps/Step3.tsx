@@ -6,7 +6,7 @@ import GenericGameServerCreationInputField from "../GenericGameServerCreationInp
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
 
 export default function Step3() {
-  const {t} = useTranslationPrefix("components.CreateGameServer.steps.step3");
+  const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");
 
   return (
     <GenericGameServerCreationPage>

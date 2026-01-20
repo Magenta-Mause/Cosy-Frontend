@@ -128,7 +128,8 @@ const translation: i18nLanguage = {
       createServerButton: "Server erstellen",
       reapplyDialog: {
         title: "Template erneut anwenden?",
-        description: "Sie haben die Template-Variablen geändert. Möchten Sie das Template mit den neuen Werten erneut anwenden? Dies überschreibt alle manuellen Änderungen, die Sie in Schritt 3 vorgenommen haben.",
+        description:
+          "Sie haben die Template-Variablen geändert. Möchten Sie das Template mit den neuen Werten erneut anwenden? Dies überschreibt alle manuellen Änderungen, die Sie in Schritt 3 vorgenommen haben.",
         cancel: "Aktuelle Werte behalten",
         confirm: "Template erneut anwenden",
       },
