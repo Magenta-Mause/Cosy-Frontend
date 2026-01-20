@@ -22,6 +22,7 @@ type AutoCompleteItem<T, U extends GameServerCreationValue> = {
   data: T;
   value: U;
   label: string;
+  additionalInformation?: string;
   leftSlot?: React.ReactNode;
 };
 
@@ -110,6 +111,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
         [attribute]: {
           label: item.label,
           value: item.value,
+          additionalInformation: item.additionalInformation,
           data: item.data,
         },
       });
@@ -225,7 +227,10 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
                     className="flex-auto items-center"
                   >
                     <div className="shrink-0">{item.leftSlot}</div>
-                    <Label className="text-xl">{item.label}</Label>
+                    <Label className="text-xl flex justify-between w-full">
+                      <p className={"text-ellipsis"}>{item.label}</p>
+                      {item.additionalInformation && <p className={"opacity-50"}>{item.additionalInformation}</p>}
+                    </Label>
                   </CommandItem>
                 ))
               ) : (

@@ -18,7 +18,6 @@ export default function Step2() {
     (template) => template.game_id?.toString() === creationState.gameServerState.external_game_id,
   );
 
-  // Use context state instead of local state
   const selectedTemplate = creationState.utilState.selectedTemplate ?? null;
   const templateVariables = creationState.utilState.templateVariables ?? {};
 
@@ -39,7 +38,6 @@ export default function Step2() {
     });
   };
 
-  // Validate page: template selected and all variables filled
   useEffect(() => {
     const isValid = validateTemplateVariables(selectedTemplate, templateVariables);
     setCurrentPageValid(isValid);

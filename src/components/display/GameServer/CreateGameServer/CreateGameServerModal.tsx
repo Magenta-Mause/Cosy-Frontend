@@ -28,6 +28,7 @@ type AutoCompleteSelections = {
   [key: string]: {
     label: string;
     value: unknown;
+    additionalInformation?: string;
     data?: unknown;
   };
 };

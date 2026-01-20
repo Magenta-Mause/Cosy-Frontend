@@ -23,16 +23,15 @@ const Step1 = () => {
 
   const mapGamesDtoToAutoCompleteItems = useCallback(
     (games: GameDto[]) =>
-      games.map((game) => {
+      games.map((game): AutoCompleteItem<GameDto, string> => {
         const templateCount = templates.filter(
           (template) => template.game_id === game.external_game_id,
         ).length;
         return {
           data: game,
           value: (game.external_game_id ?? 0).toString(),
-          label:
-            game.name +
-            (templateCount > 0 && ` (${templateCount} template${templateCount > 1 ? "s" : ""})`),
+          label: game.name,
+          additionalInformation: templateCount > 0 ? `${templateCount} template${templateCount > 1 ? "s" : ""}` : undefined,
         };
       }),
     [templates],
