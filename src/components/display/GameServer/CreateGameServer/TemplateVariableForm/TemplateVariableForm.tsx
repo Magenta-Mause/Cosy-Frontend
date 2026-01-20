@@ -22,6 +22,7 @@ interface VariableState {
   value: string | number | boolean;
   isValid: boolean;
   touched: boolean;
+  errorMessage?: string;
 }
 
 export default function TemplateVariableForm({
@@ -46,52 +47,64 @@ export default function TemplateVariableForm({
     return states;
   });
 
-  const validateValue = useCallback((variable: Variable, value: string | number | boolean): boolean => {
+  const validateValue = useCallback((variable: Variable, value: string | number | boolean): { isValid: boolean; errorMessage?: string } => {
     const stringValue = String(value);
 
     // Check if empty (and not optional based on default value)
     if (stringValue === "" && variable.default_value === undefined) {
-      return false;
+      return { isValid: false, errorMessage: "validationErrorRequired" };
     }
 
     // Validate based on type
     switch (variable.type) {
       case "number":
-        return !isNaN(Number(stringValue));
+        if (isNaN(Number(stringValue))) {
+          return { isValid: false, errorMessage: "validationErrorNumber" };
+        }
+        return { isValid: true };
       case "boolean":
-        return stringValue === "true" || stringValue === "false";
+        if (stringValue !== "true" && stringValue !== "false") {
+          return { isValid: false, errorMessage: "validationErrorBoolean" };
+        }
+        return { isValid: true };
       case "select":
-        return variable.options?.includes(stringValue) ?? false;
+        if (!(variable.options?.includes(stringValue) ?? false)) {
+          return { isValid: false, errorMessage: "validationErrorSelect" };
+        }
+        return { isValid: true };
       case "string":
       default:
         // Validate regex if provided
         if (variable.regex) {
           try {
             const regex = new RegExp(variable.regex);
-            return regex.test(stringValue);
+            if (!regex.test(stringValue)) {
+              return { isValid: false, errorMessage: "validationErrorPattern" };
+            }
           } catch {
-            return true; // Invalid regex, skip validation
+            return { isValid: true }; // Invalid regex, skip validation
           }
         }
-        return true;
+        return { isValid: true };
     }
   }, []);
 
   const handleValueChange = useCallback(
     (variable: Variable, newValue: string | number | boolean) => {
       const placeholder = variable.placeholder ?? "";
-      const isValid = validateValue(variable, newValue);
+      const validation = validateValue(variable, newValue);
 
       setVariableStates((prev) => ({
         ...prev,
         [placeholder]: {
           value: newValue,
-          isValid,
+          isValid: validation.isValid,
           touched: true,
+          errorMessage: validation.errorMessage,
         },
       }));
 
-      if (isValid) {
+      if (validation.isValid) {
         // Convert value to correct type before calling callback
         let typedValue: string | number | boolean = newValue;
         if (variable.type === "number") {
@@ -137,7 +150,11 @@ export default function TemplateVariableForm({
                 {t("example")}: {variable.example}
               </FieldLabel>
             )}
-            {showError && <FieldError>{t("validationError")}</FieldError>}
+            {showError && (
+              <FieldError>
+                {state?.errorMessage ? t(state.errorMessage) : t("validationError")}
+              </FieldError>
+            )}
           </div>
         );
 
@@ -164,7 +181,11 @@ export default function TemplateVariableForm({
                 {t("example")}: {variable.example}
               </FieldLabel>
             )}
-            {showError && <FieldError>{t("validationError")}</FieldError>}
+            {showError && (
+              <FieldError>
+                {state?.errorMessage ? t(state.errorMessage) : t("validationError")}
+              </FieldError>
+            )}
           </div>
         );
 
@@ -187,7 +208,11 @@ export default function TemplateVariableForm({
                 {t("example")}: {variable.example}
               </FieldLabel>
             )}
-            {showError && <FieldError>{t("validationError")}</FieldError>}
+            {showError && (
+              <FieldError>
+                {state?.errorMessage ? t(state.errorMessage) : t("validationError")}
+              </FieldError>
+            )}
           </div>
         );
 
@@ -206,12 +231,21 @@ export default function TemplateVariableForm({
               onChange={(e) => handleValueChange(variable, e.target.value)}
               className={showError ? "border-red-500" : ""}
             />
+            {variable.regex && (
+              <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
+                {t("pattern")}: <code className="text-xs">{variable.regex}</code>
+              </FieldLabel>
+            )}
             {variable.example && (
               <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
                 {t("example")}: {variable.example}
               </FieldLabel>
             )}
-            {showError && <FieldError>{t("validationError")}</FieldError>}
+            {showError && (
+              <FieldError>
+                {state?.errorMessage ? t(state.errorMessage) : t("validationError")}
+              </FieldError>
+            )}
           </div>
         );
     }

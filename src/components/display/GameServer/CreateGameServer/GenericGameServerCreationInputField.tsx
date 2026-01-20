@@ -73,10 +73,11 @@ const GenericGameServerCreationInputField = (props: {
   );
 
   useEffect(() => {
-    if (props.defaultValue !== undefined) {
+    // Only set default value if there's no existing value in the context
+    if (props.defaultValue !== undefined && creationState.gameServerState[props.attribute] === undefined) {
       changeCallback(props.defaultValue);
     }
-  }, [changeCallback, props.defaultValue]);
+  }, [changeCallback, props.defaultValue, props.attribute, creationState.gameServerState]);
 
   return (
     <div>

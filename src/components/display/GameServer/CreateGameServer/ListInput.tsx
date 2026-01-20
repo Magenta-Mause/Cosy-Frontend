@@ -19,6 +19,7 @@ interface Props<T extends { uuid: string }> {
   fieldDescription: ReactNode;
   renderRow: (changeCallback: (newVal: T) => void, rowError: boolean) => (item: T) => ReactNode;
   defaultNewItem?: () => Partial<T>;
+  parseInitialValue?: (contextValue: GameServerCreationDto[keyof GameServerCreationDto]) => T[];
 }
 
 function ListInput<T extends { uuid: string }>({
@@ -31,18 +32,29 @@ function ListInput<T extends { uuid: string }>({
   computeValue,
   renderRow,
   defaultNewItem,
+  parseInitialValue,
 }: Props<T>) {
-  const { setGameServerState } = useContext(GameServerCreationContext);
+  const { setGameServerState, creationState } = useContext(GameServerCreationContext);
   const { setAttributeTouched, setAttributeValid, attributesTouched } = useContext(
     GameServerCreationPageContext,
   );
   const [rowErrors, setRowErrors] = useState<{ [uuid: string]: boolean }>({});
-  const [values, setValuesInternal] = useState<T[]>([
-    {
-      ...(defaultNewItem ? defaultNewItem() : {}),
-      uuid: generateUuid(),
-    } as T,
-  ]);
+
+  // Initialize from context if values exist, otherwise use default
+  const getInitialValues = (): T[] => {
+    const contextValue = creationState.gameServerState[attribute];
+    if (contextValue && parseInitialValue) {
+      return parseInitialValue(contextValue);
+    }
+    return [
+      {
+        ...(defaultNewItem ? defaultNewItem() : {}),
+        uuid: generateUuid(),
+      } as T,
+    ];
+  };
+
+  const [values, setValuesInternal] = useState<T[]>(getInitialValues);
   const { t } = useTranslationPrefix("components.CreateGameServer");
 
   const setValues = useCallback(

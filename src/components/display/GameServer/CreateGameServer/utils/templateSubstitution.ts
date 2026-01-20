@@ -1,0 +1,121 @@
+import { quote } from "shell-quote";
+import type {
+  TemplateEntity,
+  GameServerCreationDto,
+  PortMapping,
+  EnvironmentVariableConfiguration,
+} from "@/api/generated/model";
+
+/**
+ * Substitutes template variables in a string
+ * Replaces {{variable_name}} with actual values
+ */
+export function substituteVariables(
+  template: string,
+  variables: Record<string, string | number | boolean>
+): string {
+  let result = template;
+
+  for (const [key, value] of Object.entries(variables)) {
+    const placeholder = new RegExp(`{{${key}}}`, "g");
+    result = result.replace(placeholder, String(value));
+  }
+
+  return result;
+}
+
+/**
+ * Applies a template to the game server creation state
+ * Substitutes all variables and returns the updated state
+ */
+export function applyTemplate(
+  template: TemplateEntity,
+  variables: Record<string, string | number | boolean>,
+  currentState: Partial<GameServerCreationDto>
+): Partial<GameServerCreationDto> {
+  const newState: Partial<GameServerCreationDto> = { ...currentState };
+
+  // Substitute docker image name
+  if (template.docker_image_name) {
+    newState.docker_image_name = substituteVariables(template.docker_image_name, variables);
+  }
+
+  // Substitute docker image tag
+  if (template.docker_image_tag) {
+    newState.docker_image_tag = substituteVariables(template.docker_image_tag, variables);
+  }
+
+  // Substitute environment variables
+  if (template.environment_variables) {
+    const envVars: EnvironmentVariableConfiguration[] = [];
+    for (const [key, value] of Object.entries(template.environment_variables)) {
+      envVars.push({
+        key: substituteVariables(key, variables),
+        value: substituteVariables(value, variables),
+      });
+    }
+    newState.environment_variables = envVars;
+  }
+
+  // Substitute port mappings
+  if (template.port_mappings) {
+    const portMappings: PortMapping[] = [];
+    for (const [key, value] of Object.entries(template.port_mappings)) {
+      // Parse the key which might be "25565" or "25565/tcp"
+      const [portStr, protocol] = key.split("/");
+
+      portMappings.push({
+        instance_port: parseInt(substituteVariables(portStr, variables), 10),
+        container_port: typeof value === "number"
+          ? value
+          : parseInt(substituteVariables(String(value), variables), 10),
+        protocol: protocol as "TCP" | "UDP" | undefined || "TCP",
+      });
+    }
+    newState.port_mappings = portMappings;
+  }
+
+  // Substitute execution command and convert to string
+  if (template.docker_execution_command) {
+    const substitutedCommands = template.docker_execution_command.map((cmd) =>
+      substituteVariables(cmd, variables)
+    );
+    // Convert array to shell-quoted string for the input field
+    newState.execution_command = quote(substitutedCommands) as unknown as string[];
+  }
+
+  // File mounts (volume mounts) - convert to VolumeMountConfigurationCreationDto format
+  if (template.file_mounts) {
+    newState.volume_mounts = template.file_mounts.map((path) => ({
+      container_path: substituteVariables(path, variables),
+      host_path: substituteVariables(path, variables), // Use same path for both by default
+    }));
+  }
+
+  return newState;
+}
+
+/**
+ * Validates that all required template variables are filled
+ */
+export function validateTemplateVariables(
+  template: TemplateEntity | null,
+  variables: Record<string, string | number | boolean>
+): boolean {
+  if (!template || !template.variables || template.variables.length === 0) {
+    return true; // No variables to validate
+  }
+
+  // Check all variables are present and have values
+  for (const variable of template.variables) {
+    const placeholder = variable.placeholder ?? "";
+    const value = variables[placeholder];
+
+    // Check if value exists and is not empty string
+    if (value === undefined || value === null || value === "") {
+      return false;
+    }
+  }
+
+  return true;
+}

@@ -3,7 +3,8 @@ import AutoCompleteInputField, {
 } from "@components/display/GameServer/CreateGameServer/AutoCompleteInputField.tsx";
 import {GameServerCreationContext} from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import TemplateVariableForm from "@components/display/GameServer/CreateGameServer/TemplateVariableForm";
-import {useContext, useState} from "react";
+import {validateTemplateVariables} from "@components/display/GameServer/CreateGameServer/utils/templateSubstitution";
+import {useContext, useEffect} from "react";
 import type {TemplateEntity} from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import {useTypedSelector} from "@/stores/rootReducer.ts";
@@ -11,14 +12,15 @@ import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx"
 
 export default function Step2() {
   const {t} = useTranslationPrefix("components.CreateGameServer.steps.step2");
-  const {creationState} = useContext(GameServerCreationContext);
+  const {creationState, setUtilState, setCurrentPageValid} = useContext(GameServerCreationContext);
   const templates = useTypedSelector((state) => state.templateSliceReducer.data);
   const templatesForGame = templates.filter(
     (template) => template.game_id?.toString() === creationState.gameServerState.external_game_id,
   );
 
-  const [selectedTemplate, setSelectedTemplate] = useState<TemplateEntity | null>(null);
-  const [templateVariables, setTemplateVariables] = useState<Record<string, string | number | boolean>>({});
+  // Use context state instead of local state
+  const selectedTemplate = creationState.utilState.selectedTemplate ?? null;
+  const templateVariables = creationState.utilState.templateVariables ?? {};
 
   const convertTemplateToAutoCompleteItem = (
     template: TemplateEntity,
@@ -31,11 +33,17 @@ export default function Step2() {
   };
 
   const handleTemplateVariableChange = (placeholder: string, value: string | number | boolean) => {
-    setTemplateVariables((prev) => ({
-      ...prev,
+    setUtilState("templateVariables")({
+      ...templateVariables,
       [placeholder]: value,
-    }));
+    });
   };
+
+  // Validate page: template selected and all variables filled
+  useEffect(() => {
+    const isValid = validateTemplateVariables(selectedTemplate, templateVariables);
+    setCurrentPageValid(isValid);
+  }, [selectedTemplate, templateVariables, setCurrentPageValid]);
 
   return (
     <GenericGameServerCreationPage>
@@ -58,8 +66,9 @@ export default function Step2() {
           return filtered.map(convertTemplateToAutoCompleteItem);
         }}
         onItemSelect={(item) => {
-          setSelectedTemplate(item.data);
-          setTemplateVariables({});
+          setUtilState("selectedTemplate")(item.data);
+          setUtilState("templateVariables")({});
+          setUtilState("templateApplied")(false);
         }}
         disableDebounce
         defaultOpen
