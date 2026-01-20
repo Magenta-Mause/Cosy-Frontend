@@ -177,7 +177,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
 
   return (
     <Popover open={open}>
-      <PopoverTrigger className="w-[25vw]">
+      <PopoverTrigger className="w-[25vw]" tabIndex={-1}>
         <div className="w-full">
           {label && (
             <FieldLabel htmlFor={attribute} className={"text-lg"}>
