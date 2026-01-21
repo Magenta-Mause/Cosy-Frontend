@@ -21,6 +21,15 @@ const MetricDisplay = (
     loadMetrics(props.gameServerUuid, startTime, endTime);
   }, [startTime, endTime, props.gameServerUuid, loadMetrics]);
 
+  const colSpanMap: Record<string, string> = {
+    "1": "col-span-1",
+    "2": "col-span-2",
+    "3": "col-span-3",
+    "4": "col-span-4",
+    "5": "col-span-5",
+    "6": "col-span-6",
+  }
+
   const metricOrder = [
     {
       type: "cpu_percent",
@@ -49,7 +58,7 @@ const MetricDisplay = (
   ];
   return (
     <>
-      <div className="flex m-2 w-full items-center justify-end gap-2">
+      <div className="flex mb-2 w-full items-center justify-end gap-2">
         <TimeRangeDropDown
           onChange={({
             startTime: selectedStartTime,
@@ -67,7 +76,7 @@ const MetricDisplay = (
         {metricOrder.map((metric) => (
           <MetricGraph
             key={metric.type}
-            className={`col-span-${metric.size}`}
+            className={colSpanMap[metric.size]}
             metrics={props.metrics}
             type={metric.type}
             unit={unit}

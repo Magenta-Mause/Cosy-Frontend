@@ -8,13 +8,14 @@ import {
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { cn } from "@/lib/utils";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import MetricDropDown from "./DropDown/MetricDropDown";
 
 interface MetricGraphProps {
   className?: string;
   type: string;
-  unit: string
+  unit: string;
   metrics: GameServerMetricsWithUuid[];
 }
 
@@ -24,7 +25,6 @@ const chartConfig = {
     color: "blue",
   },
 } satisfies ChartConfig;
-
 
 const MetricGraph = (props: MetricGraphProps) => {
   const { t } = useTranslation();
@@ -44,7 +44,7 @@ const MetricGraph = (props: MetricGraphProps) => {
       return convertBytes(value, 1024, ["Bytes", "KiB", "MiB", "GiB", "TiB"]);
     }
     return convertBytes(value, 1000, ["Bytes", "KB", "MB", "GB", "TB"]);
-  }
+  };
 
   const formatTime = (timeString: string) => {
     const date = new Date(timeString);
@@ -52,7 +52,7 @@ const MetricGraph = (props: MetricGraphProps) => {
       return date.toLocaleDateString(t("timerange.localTime"), {
         month: "2-digit",
         day: "2-digit",
-      })
+      });
     }
     return date.toLocaleTimeString(t("timerange.localTime"), {
       hour: "2-digit",
@@ -89,7 +89,11 @@ const MetricGraph = (props: MetricGraphProps) => {
   }, [props.metrics, metricType]);
 
   return (
-    <Card className={`flex flex-col text-lg col-span-3 py-5 bg-button-secondary-default border-2 ${props.className}`}>
+    <Card
+      className={cn(
+        `flex flex-col col-span-3 text-lg py-5 bg-button-secondary-default border-2 ${props.className}`,
+      )}
+    >
       <CardHeader>
         <div className="flex justify-between">
           <div>
@@ -132,7 +136,15 @@ const MetricGraph = (props: MetricGraphProps) => {
                 />
               }
             />
-            <Area dataKey="value" type="monotone" stroke="#3E8EDE" fill="#3E8EDE" fillOpacity={0.4} strokeWidth={2} dot={false} />
+            <Area
+              dataKey="value"
+              type="monotone"
+              stroke="#3E8EDE"
+              fill="#3E8EDE"
+              fillOpacity={0.4}
+              strokeWidth={2}
+              dot={false}
+            />
           </AreaChart>
         </ChartContainer>
       </CardContent>
