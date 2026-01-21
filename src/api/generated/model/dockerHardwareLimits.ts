@@ -7,7 +7,6 @@
  */
 
 export interface DockerHardwareLimits {
-  /** @minimum 1 */
   docker_max_cpu_cores?: number;
   docker_memory_limit?: string;
 }
