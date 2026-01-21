@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import DatePicker from "@components/display/DatePicker/DatePicker";
+import { format } from "date-fns";
+import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { v7 as generateUuid } from "uuid";
-import { getMetrics } from "@/api/generated/backend-api";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,13 +11,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
 
-const TimeRangeDropDown = (props: { className?: string; gameServerUuid: string, setUnit: (unit: "min" | "hour" | "day") => void }) => {
+interface TimeRangeProps {
+  className?: string;
+  onChange: (value: { timeUnit: string; startTime: number; endTime?: number }) => void;
+}
+
+const TimeRangeDropDown = (props: TimeRangeProps) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const [time, setTime] = useState<Date | null>(null);
   const [selectedLabel, setSelectedLabel] = useState<string>(t("timerange.button"));
+  const [openCustom, setOpenCustom] = useState<boolean>(false);
 
   const timeAgo = (value: number, unit: string): Date => {
     const ms =
@@ -31,86 +34,64 @@ const TimeRangeDropDown = (props: { className?: string; gameServerUuid: string, 
   };
 
   const handleSelect = (time: number, unit: "min" | "hour" | "day") => {
-    setTime(timeAgo(time, unit));
     setSelectedLabel(t(`timerange.${unit}`, { time: time }));
-    props.setUnit(unit);
+    props.onChange({ timeUnit: unit, startTime: timeAgo(time, unit) });
   };
 
-  useEffect(() => {
-    if (!time) return;
-
-    const fetchMetrics = async () => {
-      dispatch(
-        gameServerMetricsSliceActions.setState({
-          gameServerUuid: props.gameServerUuid,
-          state: "loading",
-        })
-      );
-
-      const metrics = await getMetrics(
-        props.gameServerUuid,
-        { start: time.toISOString() }
-      );
-
-      dispatch(
-        gameServerMetricsSliceActions.setGameServerMetrics({
-          gameServerUuid: props.gameServerUuid,
-          metrics: metrics.map(m => ({ ...m, uuid: generateUuid() })),
-        })
-      );
-
-      dispatch(
-        gameServerMetricsSliceActions.setState({
-          gameServerUuid: props.gameServerUuid,
-          state: "idle",
-        })
-      );
-    };
-
-    fetchMetrics();
-  }, [time, props.gameServerUuid, dispatch]);
-
+  const handleCustomRange = ({ startDate, endDate }: { startDate: Date; endDate: Date }) => {
+    setSelectedLabel(`${format(startDate, "LLL dd, y")} - ${format(endDate, "LLL dd, y")}`);
+    console.log(startDate.getTime(), endDate.getTime());
+    props.onChange({ timeUnit: "day", startTime: startDate.getTime(), endTime: endDate.getTime() });
+  };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button className={`${props.className}`}>{selectedLabel}</Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-30 bg-primary-modal-background" align="start">
-        <DropdownMenuGroup>
-          <DropdownMenuItem onSelect={() => setSelectedLabel(t("timerange.custom"))}>
-            {t("timerange.custom")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => handleSelect(15, "min")}>
-            {t("timerange.min", { time: 15 })}
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => handleSelect(30, "min")}>
-            {t("timerange.min", { time: 30 })}
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => handleSelect(1, "hour")}>
-            {t("timerange.hour", { time: 1 })}
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => handleSelect(3, "hour")}>
-            {t("timerange.hour", { time: 3 })}
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => handleSelect(6, "hour")}>
-            {t("timerange.hour", { time: 6 })}
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => handleSelect(12, "hour")}>
-            {t("timerange.hour", { time: 12 })}
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => handleSelect(24, "hour")}>
-            {t("timerange.hour", { time: 24 })}
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => handleSelect(7, "day")}>
-            {t("timerange.day", { time: 7 })}
-          </DropdownMenuItem>
-          <DropdownMenuItem onSelect={() => handleSelect(30, "day")}>
-            {t("timerange.day", { time: 30 })}
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>);
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button className={`${props.className}`}>
+            {selectedLabel}
+            <ChevronDown className="-m-1" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-30 bg-primary-modal-background" align="end">
+          <DropdownMenuGroup>
+            <DropdownMenuItem onSelect={() => setOpenCustom(true)}>
+              {t("timerange.custom")}
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => handleSelect(15, "min")}>
+              {t("timerange.min", { time: 15 })}
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => handleSelect(30, "min")}>
+              {t("timerange.min", { time: 30 })}
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => handleSelect(1, "hour")}>
+              {t("timerange.hour", { time: 1 })}
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => handleSelect(6, "hour")}>
+              {t("timerange.hour", { time: 6 })}
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => handleSelect(12, "hour")}>
+              {t("timerange.hour", { time: 12 })}
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => handleSelect(1, "day")}>
+              {t("timerange.day", { time: 1 })}
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => handleSelect(7, "day")}>
+              {t("timerange.day", { time: 7 })}
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => handleSelect(30, "day")}>
+              {t("timerange.day", { time: 30 })}
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DatePicker
+        open={openCustom}
+        onOpenChange={setOpenCustom}
+        onRangeChange={handleCustomRange}
+      />
+    </>
+  );
 };
 
 export default TimeRangeDropDown;
