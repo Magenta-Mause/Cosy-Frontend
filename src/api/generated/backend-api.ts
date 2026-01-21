@@ -37,7 +37,6 @@ import type {
   MetricPointDto,
   ReadFileFromVolumeParams,
   RenameInVolumeParams,
-  StartServiceSse200Item,
   UploadFileToVolumeParams,
   UserCreationDto,
   UserEntityDto,
@@ -1259,7 +1258,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     
 export const getMetrics = (
     gameServerUuid: string,
-    params: GetMetricsParams,
+    params?: GetMetricsParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
@@ -1283,7 +1282,7 @@ export const getGetMetricsQueryKey = (gameServerUuid?: string,
 
     
 export const getGetMetricsQueryOptions = <TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(gameServerUuid: string,
-    params: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+    params?: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -1308,7 +1307,7 @@ export type GetMetricsQueryError = unknown
 
 export function useGetMetrics<TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(
  gameServerUuid: string,
-    params: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+    params?: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
   
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
