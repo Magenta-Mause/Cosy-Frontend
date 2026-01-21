@@ -14,6 +14,7 @@ import type {GameDto} from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import {useTypedSelector} from "@/stores/rootReducer.ts";
 import {GameServerCreationContext} from "../CreateGameServerModal";
+import {distinctBy} from "@/lib/arrayUtils.ts";
 
 const Step1 = () => {
   const {t} = useTranslationPrefix("components.CreateGameServer.steps.step1");
@@ -23,7 +24,8 @@ const Step1 = () => {
 
   const mapGamesDtoToAutoCompleteItems = useCallback(
     (games: GameDto[]) =>
-      games.map((game): AutoCompleteItem<GameDto, string> => {
+      distinctBy(games, game => game.external_game_id)
+        .map((game): AutoCompleteItem<GameDto, string> => {
         const templateCount = templates.filter(
           (template) => template.game_id === game.external_game_id,
         ).length;

@@ -1,6 +1,6 @@
 import AutoCompleteInputField, {
   type AutoCompleteItem,
-} from "@components/display/GameServer/CreateGameServer/AutoCompleteInputField.tsx";
+} from "@components/display/GameServer/CreateGameServer/AutoCompleteInputField";
 import {GameServerCreationContext} from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import TemplateVariableForm from "@components/display/GameServer/CreateGameServer/TemplateVariableForm";
 import {validateTemplateVariables} from "@components/display/GameServer/CreateGameServer/utils/templateSubstitution";
