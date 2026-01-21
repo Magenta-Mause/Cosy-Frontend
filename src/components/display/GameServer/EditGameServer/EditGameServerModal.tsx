@@ -61,7 +61,7 @@ const EditGameServerModal = (props: {
 
   const allFieldsValid = useMemo(() => {
     const serverNameValid = z.string().min(1).safeParse(gameServerState.server_name).success;
-    const gameUuidValid = z.string().min(1).safeParse(gameServerState.game_uuid).success;
+    const gameUuidValid = true;
     const dockerImageNameValid = z
       .string()
       .min(1)
@@ -208,6 +208,7 @@ const EditGameServerModal = (props: {
             value={gameServerState.game_uuid}
             disabled={true}
             onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
+            optional={true}
           />
 
           <div className="grid grid-cols-2 gap-4">

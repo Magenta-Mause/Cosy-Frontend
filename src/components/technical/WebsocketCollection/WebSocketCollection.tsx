@@ -29,7 +29,7 @@ const WebSocketCollection = () => {
   const dispatch = useDispatch();
 
   useSubscription(
-    gameServer ? gameServer.map((server) => `/topics/game-servers/${server.uuid}/status`) : [],
+    gameServer ? gameServer.map((server) => `/topics/game-servers/status/${server.uuid}`) : [],
     (message) => {
       const messageBody = JSON.parse(message.body) as GameServerStatusUpdateDto;
       if (messageBody.server_uuid && messageBody.new_status) {
@@ -45,7 +45,7 @@ const WebSocketCollection = () => {
 
   useSubscription(
     gameServer
-      ? gameServer.map((server) => `/topics/game-servers/${server.uuid}/docker-progress`)
+      ? gameServer.map((server) => `/topics/game-servers/docker-progress/${server.uuid}`)
       : [],
     (message) => {
       const messageBody = JSON.parse(message.body) as GameServerDockerProgressUpdateDto;
