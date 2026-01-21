@@ -1,5 +1,6 @@
 import { Button } from "@components/ui/button";
 import { useEffect, useState } from "react";
+import { GetMetricsType } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import TimeRangeDropDown from "./DropDown/TimeRangeDropDown";
@@ -28,31 +29,31 @@ const MetricDisplay = (
     "4": "col-span-4",
     "5": "col-span-5",
     "6": "col-span-6",
-  }
+  };
 
   const metricOrder = [
     {
-      type: "cpu_percent",
+      type: GetMetricsType.CPU_PERCENT,
       size: "6",
     },
     {
-      type: "memory_percent",
+      type: GetMetricsType.MEMORY_PERCENT,
       size: "2",
     },
     {
-      type: "memory_limit",
+      type: GetMetricsType.MEMORY_LIMIT,
       size: "2",
     },
     {
-      type: "memory_usage",
+      type: GetMetricsType.MEMORY_USAGE,
       size: "2",
     },
     {
-      type: "block_read",
+      type: GetMetricsType.NETWORK_INPUT,
       size: "3",
     },
     {
-      type: "block_write",
+      type: GetMetricsType.NETWORK_OUTPUT,
       size: "3",
     },
   ];
@@ -79,7 +80,7 @@ const MetricDisplay = (
             className={colSpanMap[metric.size]}
             metrics={props.metrics}
             type={metric.type}
-            unit={unit}
+            timeUnit={unit}
           />
         ))}
       </div>

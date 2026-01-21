@@ -287,14 +287,14 @@ export type i18nLanguage = {
     metricTitle: string;
     metricDescription: string;
     types: {
-      cpu_percent: string;
-      memory_percent: string;
-      memory_usage: string;
-      memory_limit: string;
-      network_input: string;
-      network_output: string;
-      block_read: string;
-      block_write: string;
+      CPU_PERCENT: string;
+      MEMORY_PERCENT: string;
+      MEMORY_USAGE: string;
+      MEMORY_LIMIT: string;
+      NETWORK_INPUT: string;
+      NETWORK_OUTPUT: string;
+      BLOCK_READ: string;
+      BLOCK_WRITE: string;
     };
   };
   timerange: {

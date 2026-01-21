@@ -1,6 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { GetMetricsType } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,8 +13,8 @@ import {
 
 const MetricDropDown = (props: {
   className?: string;
-  metricType: string;
-  setMetricType: (unit: string) => void;
+  metricType: GetMetricsType;
+  setMetricType: (unit: GetMetricsType) => void;
 }) => {
   const { t } = useTranslation();
   const [selectedLabel, setSelectedLabel] = useState<string>(
@@ -34,45 +35,29 @@ const MetricDropDown = (props: {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-30 bg-primary-modal-background" align="end">
         <DropdownMenuGroup>
-          <DropdownMenuItem
-            onSelect={() => handleSelect("cpu_percent")}
-          >
-            {t("metrics.types.cpu_percent")}
+          <DropdownMenuItem onSelect={() => handleSelect(GetMetricsType.MEMORY_PERCENT)}>
+            {t(`metrics.types.${GetMetricsType.CPU_PERCENT}`)}
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onSelect={() => handleSelect("memory_percent")}
-          >
-            {t("metrics.types.memory_percent")}
+          <DropdownMenuItem onSelect={() => handleSelect(GetMetricsType.MEMORY_PERCENT)}>
+            {t(`metrics.types.${GetMetricsType.MEMORY_PERCENT}`)}
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onSelect={() => handleSelect("memory_usage")}
-          >
-            {t("metrics.types.memory_usage")}
+          <DropdownMenuItem onSelect={() => handleSelect(GetMetricsType.MEMORY_USAGE)}>
+            {t(`metrics.types.${GetMetricsType.MEMORY_USAGE}`)}
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onSelect={() => handleSelect("memory_limit")}
-          >
-            {t("metrics.types.memory_limit")}
+          <DropdownMenuItem onSelect={() => handleSelect(GetMetricsType.MEMORY_LIMIT)}>
+            {t(`metrics.types.${GetMetricsType.MEMORY_LIMIT}`)}
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onSelect={() => handleSelect("block_read")}
-          >
-            {t("metrics.types.block_read")}
+          <DropdownMenuItem onSelect={() => handleSelect(GetMetricsType.BLOCK_READ)}>
+            {t(`metrics.types.${GetMetricsType.BLOCK_READ}`)}
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onSelect={() => handleSelect("block_write")}
-          >
-            {t("metrics.types.block_write")}
+          <DropdownMenuItem onSelect={() => handleSelect(GetMetricsType.BLOCK_WRITE)}>
+            {t(`metrics.types.${GetMetricsType.BLOCK_WRITE}`)}
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onSelect={() => handleSelect("network_input")}
-          >
-            {t("metrics.types.network_input")}
+          <DropdownMenuItem onSelect={() => handleSelect(GetMetricsType.NETWORK_INPUT)}>
+            {t(`metrics.types.${GetMetricsType.NETWORK_INPUT}`)}
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onSelect={() => handleSelect("network_output")}
-          >
-            {t("metrics.types.network_output")}
+          <DropdownMenuItem onSelect={() => handleSelect(GetMetricsType.NETWORK_OUTPUT)}>
+            {t(`metrics.types.${GetMetricsType.NETWORK_OUTPUT}`)}
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

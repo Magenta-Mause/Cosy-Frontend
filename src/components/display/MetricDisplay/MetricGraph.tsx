@@ -8,14 +8,14 @@ import {
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { cn } from "@/lib/utils";
+import { GetMetricsType, type MetricValues } from "@/api/generated/model";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import MetricDropDown from "./DropDown/MetricDropDown";
 
 interface MetricGraphProps {
   className?: string;
-  type: string;
-  unit: string;
+  type: GetMetricsType;
+  timeUnit: string;
   metrics: GameServerMetricsWithUuid[];
 }
 
@@ -26,9 +26,20 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
+const METRIC_KEY_MAP: Record<GetMetricsType, keyof MetricValues> = {
+  CPU_PERCENT: "cpu_percent",
+  MEMORY_PERCENT: "memory_percent",
+  MEMORY_LIMIT: "memory_limit",
+  MEMORY_USAGE: "memory_usage",
+  BLOCK_READ: "block_read",
+  BLOCK_WRITE: "block_write",
+  NETWORK_INPUT: "network_input",
+  NETWORK_OUTPUT: "network_output",
+} as const;
+
 const MetricGraph = (props: MetricGraphProps) => {
   const { t } = useTranslation();
-  const [metricType, setMetricType] = useState<string>(props.type);
+  const [metricType, setMetricType] = useState<GetMetricsType>(props.type);
   const [chartData, setChartData] = useState<{ time: string; value: number }[]>([]);
 
   const convertBytes = (byte: number, base: number, sizes: string[]) => {
@@ -38,9 +49,9 @@ const MetricGraph = (props: MetricGraphProps) => {
   };
 
   const formateMetric = (value: number) => {
-    if (metricType === "cpu_percent" || metricType === "memory_percent") {
+    if (metricType === GetMetricsType.CPU_PERCENT || metricType === GetMetricsType.MEMORY_PERCENT) {
       return `${(value).toFixed(2)}%`;
-    } else if (metricType === "memory_usage" || metricType === "memory_limit") {
+    } else if (metricType === GetMetricsType.MEMORY_USAGE || metricType === GetMetricsType.MEMORY_LIMIT) {
       return convertBytes(value, 1024, ["Bytes", "KiB", "MiB", "GiB", "TiB"]);
     }
     return convertBytes(value, 1000, ["Bytes", "KB", "MB", "GB", "TB"]);
@@ -48,7 +59,7 @@ const MetricGraph = (props: MetricGraphProps) => {
 
   const formatTime = (timeString: string) => {
     const date = new Date(timeString);
-    if (props.unit === "day") {
+    if (props.timeUnit === "day") {
       return date.toLocaleDateString(t("timerange.localTime"), {
         month: "2-digit",
         day: "2-digit",
@@ -77,7 +88,7 @@ const MetricGraph = (props: MetricGraphProps) => {
 
     const flattened = props.metrics
       .map((metric) => {
-        const value = metric.metric_values?.[metricType as keyof typeof metric.metric_values] ?? 0;
+        const value = metric.metric_values?.[METRIC_KEY_MAP[metricType]] ?? 0;
         return {
           time: metric.time ?? "",
           value,
@@ -90,8 +101,7 @@ const MetricGraph = (props: MetricGraphProps) => {
 
   return (
     <Card
-      className={
-        `flex flex-col col-span-3 text-lg py-5 bg-button-secondary-default border-2 ${props.className}`}
+      className={`flex flex-col col-span-3 text-lg py-5 bg-button-secondary-default border-2 ${props.className}`}
     >
       <CardHeader>
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
