@@ -38,7 +38,6 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
   const lastHoveredIndexRef = useRef<number | null>(null);
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const commandRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const {
@@ -210,7 +209,6 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
     isError,
     autoCompleteItems,
     hoveredIndex,
-    commandRef,
     inputRef,
     selectItem,
     handleInputChange,
