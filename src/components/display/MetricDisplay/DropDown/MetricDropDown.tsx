@@ -32,7 +32,7 @@ const MetricDropDown = (props: {
           <ChevronDown className="-m-1" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-30 bg-primary-modal-background" align="start">
+      <DropdownMenuContent className="w-30 bg-primary-modal-background" align="end">
         <DropdownMenuGroup>
           <DropdownMenuItem
             onSelect={() => handleSelect("cpu_percent")}

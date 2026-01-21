@@ -7,7 +7,7 @@ import {
 } from "@components/ui/chart";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Area, AreaChart, CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import MetricDropDown from "./DropDown/MetricDropDown";
 
@@ -61,6 +61,17 @@ const MetricGraph = (props: MetricGraphProps) => {
     });
   };
 
+  const formatTooltipTime = (timeString: string) => {
+    const date = new Date(timeString);
+    return date.toLocaleString(t("timerange.localTime"), {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   useEffect(() => {
     if (!props.metrics?.length) return;
 
@@ -89,9 +100,7 @@ const MetricGraph = (props: MetricGraphProps) => {
               {t("metrics.metricDescription", { type: t(`metrics.types.${metricType}`) })}
             </CardDescription>
           </div>
-          <div>
-            <MetricDropDown metricType={metricType} setMetricType={setMetricType} />
-          </div>
+          <MetricDropDown metricType={metricType} setMetricType={setMetricType} />
         </div>
       </CardHeader>
       <CardContent>
@@ -115,7 +124,7 @@ const MetricGraph = (props: MetricGraphProps) => {
               cursor={false}
               content={
                 <ChartTooltipContent
-                  labelFormatter={formatTime}
+                  labelFormatter={formatTooltipTime}
                   formatter={(value) => [
                     formateMetric(value as number),
                     ` ${t(`metrics.types.${metricType}`)}`,
