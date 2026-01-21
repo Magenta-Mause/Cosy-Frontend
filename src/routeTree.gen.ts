@@ -13,7 +13,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId.index'
 import { Route as ServerServerIdFilesRouteImport } from './routes/server/$serverId.files'
 import { Route as ServerServerIdFilesIndexRouteImport } from './routes/server/$serverId.files.index'
-import { Route as ServerServerIdFilesVolumeIdRouteImport } from './routes/server/$serverId.files.$volumeId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -36,24 +35,16 @@ const ServerServerIdFilesIndexRoute =
     path: '/',
     getParentRoute: () => ServerServerIdFilesRoute,
   } as any)
-const ServerServerIdFilesVolumeIdRoute =
-  ServerServerIdFilesVolumeIdRouteImport.update({
-    id: '/$volumeId',
-    path: '/$volumeId',
-    getParentRoute: () => ServerServerIdFilesRoute,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/server/$serverId/files': typeof ServerServerIdFilesRouteWithChildren
   '/server/$serverId': typeof ServerServerIdIndexRoute
-  '/server/$serverId/files/$volumeId': typeof ServerServerIdFilesVolumeIdRoute
   '/server/$serverId/files/': typeof ServerServerIdFilesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/server/$serverId': typeof ServerServerIdIndexRoute
-  '/server/$serverId/files/$volumeId': typeof ServerServerIdFilesVolumeIdRoute
   '/server/$serverId/files': typeof ServerServerIdFilesIndexRoute
 }
 export interface FileRoutesById {
@@ -61,7 +52,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/server/$serverId/files': typeof ServerServerIdFilesRouteWithChildren
   '/server/$serverId/': typeof ServerServerIdIndexRoute
-  '/server/$serverId/files/$volumeId': typeof ServerServerIdFilesVolumeIdRoute
   '/server/$serverId/files/': typeof ServerServerIdFilesIndexRoute
 }
 export interface FileRouteTypes {
@@ -70,20 +60,14 @@ export interface FileRouteTypes {
     | '/'
     | '/server/$serverId/files'
     | '/server/$serverId'
-    | '/server/$serverId/files/$volumeId'
     | '/server/$serverId/files/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/server/$serverId'
-    | '/server/$serverId/files/$volumeId'
-    | '/server/$serverId/files'
+  to: '/' | '/server/$serverId' | '/server/$serverId/files'
   id:
     | '__root__'
     | '/'
     | '/server/$serverId/files'
     | '/server/$serverId/'
-    | '/server/$serverId/files/$volumeId'
     | '/server/$serverId/files/'
   fileRoutesById: FileRoutesById
 }
@@ -123,23 +107,14 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServerServerIdFilesIndexRouteImport
       parentRoute: typeof ServerServerIdFilesRoute
     }
-    '/server/$serverId/files/$volumeId': {
-      id: '/server/$serverId/files/$volumeId'
-      path: '/$volumeId'
-      fullPath: '/server/$serverId/files/$volumeId'
-      preLoaderRoute: typeof ServerServerIdFilesVolumeIdRouteImport
-      parentRoute: typeof ServerServerIdFilesRoute
-    }
   }
 }
 
 interface ServerServerIdFilesRouteChildren {
-  ServerServerIdFilesVolumeIdRoute: typeof ServerServerIdFilesVolumeIdRoute
   ServerServerIdFilesIndexRoute: typeof ServerServerIdFilesIndexRoute
 }
 
 const ServerServerIdFilesRouteChildren: ServerServerIdFilesRouteChildren = {
-  ServerServerIdFilesVolumeIdRoute: ServerServerIdFilesVolumeIdRoute,
   ServerServerIdFilesIndexRoute: ServerServerIdFilesIndexRoute,
 }
 

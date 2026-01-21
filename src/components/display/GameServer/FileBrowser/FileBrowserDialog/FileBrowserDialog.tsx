@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
-import { Download, Search, Upload, X } from "lucide-react";
+import { Search, X, Upload, Download } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   uploadFileToVolume,
@@ -9,15 +9,14 @@ import {
   useReadFileFromVolume,
   useRenameInVolume,
 } from "@/api/generated/backend-api";
-import type { FileSystemObjectDto } from "@/api/generated/model";
+import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
 import { cn } from "@/lib/utils";
-
-import { FileBrowserList } from "../FileBrowserList";
-import { FilePreview } from "../FilePreview";
-import { useFileBrowserCache } from "./hooks/useFileBrowserCache";
-import { useFileSelection } from "./hooks/useFileSelection";
-import { joinDir, joinRemotePath, normalizePath } from "./utils/paths";
-import { zipAndDownload } from "./utils/zipDownload";
+import { useFileBrowserCache } from "@/hooks/useFileBrowserCache/useFileBrowserCache";
+import { useFileSelection } from "@/hooks/useFileSelection/useFileSelection";
+import { joinRemotePath, joinDir, normalizePath } from "@/lib/fileSystemUtils";
+import { zipAndDownload } from "@/lib/zipDownload";
+import { FileBrowserList } from "../FileBrowserList/FileBrowserList";
+import { FilePreview } from "../FilePreview/FilePreview";
 
 type FileBrowserDialogProps = {
   width?: number;
@@ -25,7 +24,7 @@ type FileBrowserDialogProps = {
   padding?: number;
   path?: string;
   serverUuid: string;
-  volumeUuid: string;
+  volumes: VolumeMountConfiguration[];
 };
 
 export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
@@ -42,9 +41,9 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     ensurePathFetched,
   } = useFileBrowserCache({
     serverUuid: props.serverUuid,
-    volumeUuid: props.volumeUuid,
     initialPath: props.path ?? "/",
     initialDepth: 1,
+    volumes: props.volumes,
   });
 
   const {
@@ -58,6 +57,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   } = useFileSelection();
 
   const [search, setSearch] = useState("");
+
   const [downloadingAll, setDownloadingAll] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState<{ done: number; total: number } | null>(
     null,
@@ -72,10 +72,8 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     setSearch("");
   }, [currentPath]);
 
-  // Ensure initial selection is cleared
   useEffect(() => {
     closePreview();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [closePreview]);
 
   const filteredObjects = useMemo(() => {
@@ -84,16 +82,19 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     return objects.filter((o) => (o.name ?? "").toLowerCase().includes(q));
   }, [objects, search]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: would call on every rerender
   useEffect(() => {
     void ensurePathFetched(currentPath, fetchDepth);
-  }, [currentPath, fetchDepth]);
+  }, [currentPath, fetchDepth, ensurePathFetched]);
 
-  const openFileDialog = () => fileInputRef.current?.click();
+  const openFileDialog = () => {
+    fileInputRef.current?.click();
+  };
 
   const uploadSelectedFile = async (file: File) => {
     const path = joinRemotePath(currentPath, file.name);
-    await uploadFileToVolume(props.serverUuid, props.volumeUuid, file, { path });
+    const apiPath = path === "/" ? "" : path;
+
+    await uploadFileToVolume(props.serverUuid, file, { path: apiPath });
     await ensurePathFetched(currentPath, fetchDepth, { force: true });
   };
 
@@ -105,6 +106,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       await uploadSelectedFile(file);
     } catch (err) {
       console.error(err);
+      setError("Failed to upload file");
     } finally {
       e.target.value = "";
     }
@@ -128,10 +130,10 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const onDownloadAll = async () => {
     setDownloadingAll(true);
     setDownloadProgress(null);
+
     try {
       await zipAndDownload({
         serverUuid: props.serverUuid,
-        volumeUuid: props.volumeUuid,
         startPath: currentPath,
         onProgress: (done, total) => setDownloadProgress({ done, total }),
       });
@@ -148,17 +150,12 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     ? { path: selectedFilePath === "/" ? "" : selectedFilePath }
     : null;
 
-  const fileQuery = useReadFileFromVolume(
-    props.serverUuid,
-    props.volumeUuid,
-    readParams ?? { path: "" },
-    {
-      query: {
-        enabled: !!readParams,
-        staleTime: 30_000,
-      },
+  const fileQuery = useReadFileFromVolume(props.serverUuid, readParams ?? { path: "" }, {
+    query: {
+      enabled: !!readParams,
+      staleTime: 30_000,
     },
-  );
+  });
 
   return (
     <div
@@ -181,9 +178,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       <FileBrowserList
         currentPath={currentPath}
         objects={filteredObjects}
-        loading={
-          loading || renameMutation.isPending || mkdirMutation.isPending || deleteMutation.isPending
-        }
+        loading={loading}
         error={error}
         fetchDepth={fetchDepth}
         onEntryClick={onEntryClick}
@@ -223,28 +218,48 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
           </div>
         }
         onMkdir={async ({ parentPath, name }) => {
-          const apiPath = parentPath === "/" ? "" : parentPath;
+          const apiParent = parentPath === "/" ? "" : parentPath;
+          const newPath = `${apiParent}/${name}`;
+
           await mkdirMutation.mutateAsync({
             uuid: props.serverUuid,
-            volumeUuid: props.volumeUuid,
-            params: { path: `${apiPath}/${name}` },
+            params: { path: newPath },
           });
+
+          await ensurePathFetched(parentPath, fetchDepth, { force: true });
         }}
         onRename={async ({ parentPath, oldName, newName }) => {
-          const apiPath = parentPath === "/" ? "" : parentPath;
+          const apiParent = parentPath === "/" ? "" : parentPath;
+
           await renameMutation.mutateAsync({
             uuid: props.serverUuid,
-            volumeUuid: props.volumeUuid,
-            params: { oldPath: `${apiPath}/${oldName}`, newPath: `${apiPath}/${newName}` },
+            params: {
+              oldPath: `${apiParent}/${oldName}`,
+              newPath: `${apiParent}/${newName}`,
+            },
           });
+
+          if (selectedFilePath === joinRemotePath(parentPath, oldName)) {
+            const newFull = joinRemotePath(parentPath, newName);
+            setSelectedFilePath(newFull);
+            setSelectedFileName(newName);
+          }
+
+          await ensurePathFetched(parentPath, fetchDepth, { force: true });
         }}
         onDelete={async ({ parentPath, name }) => {
-          const apiPath = parentPath === "/" ? "" : parentPath;
+          const apiParent = parentPath === "/" ? "" : parentPath;
+
           await deleteMutation.mutateAsync({
             uuid: props.serverUuid,
-            volumeUuid: props.volumeUuid,
-            params: { path: `${apiPath}/${name}` },
+            params: { path: `${apiParent}/${name}` },
           });
+
+          if (selectedFilePath === joinRemotePath(parentPath, name)) {
+            closePreview();
+          }
+
+          await ensurePathFetched(parentPath, fetchDepth, { force: true });
         }}
       />
 

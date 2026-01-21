@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
-import { getExt, IMAGE_EXTS, VIDEO_EXTS } from "./utils/fileTypes";
-import { blobToTextIfLikely } from "./utils/textPreview";
+import { blobToTextIfLikely, getExt, IMAGE_EXTS, VIDEO_EXTS } from "@/lib/fileSystemUtils";
 
 type FilePreviewProps = {
   fileName: string;
@@ -69,7 +68,6 @@ export function FilePreview(props: FilePreviewProps) {
   if (objectUrl && IMAGE_EXTS.has(ext)) {
     return (
       <div className="p-2">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={objectUrl}
           alt={props.fileName}

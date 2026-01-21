@@ -13,12 +13,15 @@ import { ChevronRight, File, Folder, Home, Pencil, Plus, RefreshCw, Trash2 } fro
 import * as React from "react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
 import { cn } from "@/lib/utils";
-
-import { buildCrumbs } from "./utils/breadcrumbs";
-import { joinRemotePath, normalizePath } from "./utils/paths";
-import { formatUnixPerms } from "./utils/permissions";
-import { isDirectory, sortDirsFirst } from "./utils/sort";
-import { validateName } from "./utils/validate";
+import {
+  buildPathCrumbs,
+  sortDirsFirst,
+  validateName,
+  joinRemotePath,
+  normalizePath,
+  isDirectory,
+  formatUnixPerms,
+} from "@/lib/fileSystemUtils";
 
 type FileBrowserListProps = {
   currentPath: string;
@@ -54,15 +57,31 @@ type FileBrowserListProps = {
 
   readOnly?: boolean;
 };
+export function formatBytes(bytes: number | undefined): string {
+  if (bytes === undefined) return "—";
+  if (!Number.isFinite(bytes)) return "—";
+  if (bytes === 0) return "0 B";
+
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  let v = bytes;
+  let i = 0;
+
+  while (v >= 1024 && i < units.length - 1) {
+    v /= 1024;
+    i++;
+  }
+
+  const decimals = i === 0 ? 0 : v < 10 ? 2 : v < 100 ? 1 : 0;
+  return `${v.toFixed(decimals)} ${units[i]}`;
+}
 
 export const FileBrowserList = (props: FileBrowserListProps) => {
-  const crumbs = buildCrumbs(props.currentPath);
+  const crumbs = buildPathCrumbs(props.currentPath);
   const showPreview = props.showPreview && props.preview;
   const sorted = React.useMemo(() => [...props.objects].sort(sortDirsFirst), [props.objects]);
 
   const canWrite = !props.readOnly && (props.onMkdir || props.onRename || props.onDelete);
 
-  // dialogs state
   const [mkdirOpen, setMkdirOpen] = React.useState(false);
   const [mkdirName, setMkdirName] = React.useState("");
 
@@ -284,16 +303,34 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
 
                           <span className="truncate">{obj.name}</span>
 
-                          <span
+                          <div
                             className={cn(
                               "ml-auto shrink-0 text-xs font-mono text-muted-foreground",
                               "hidden md:inline-flex items-center gap-2",
                             )}
-                            title={`mode: ${perms.octal} (${perms.rwx})`}
                           >
-                            <span>{perms.rwx}</span>
-                            <span>{perms.octal}</span>
-                          </span>
+                            <span
+                              className={cn(
+                                "ml-auto shrink-0 text-xs text-muted-foreground tabular-nums",
+                                "hidden md:inline-flex w-24 justify-end",
+                              )}
+                              title={
+                                obj.type === "FILE" ? `${obj.size ?? "unknown"} bytes` : "Directory"
+                              }
+                            >
+                              {obj.type === "FILE" ? formatBytes(obj.size) : "—"}
+                            </span>
+                            <span
+                              className={cn(
+                                "ml-auto shrink-0 text-xs font-mono text-muted-foreground",
+                                "hidden md:inline-flex items-center gap-2",
+                              )}
+                              title={`mode: ${perms.octal} (${perms.rwx})`}
+                            >
+                              <span>{perms.rwx}</span>
+                              <span>{perms.octal}</span>
+                            </span>
+                          </div>
                         </button>
 
                         {canWrite ? (
@@ -353,8 +390,7 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
 
           <DialogMain>
             <div className="flex flex-col gap-3">
-              {/** biome-ignore lint/a11y/noLabelWithoutControl: ffs */}
-              <label className="text-sm text-muted-foreground">Folder name</label>
+              <span className="text-sm text-muted-foreground">Folder name</span>
               <Input
                 autoFocus
                 value={mkdirName}
@@ -395,8 +431,7 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
 
           <DialogMain>
             <div className="flex flex-col gap-3">
-              {/** biome-ignore lint/a11y/noLabelWithoutControl: ffs */}
-              <label className="text-sm text-muted-foreground">New name</label>
+              <span className="text-sm text-muted-foreground">New name</span>
               <Input
                 autoFocus
                 value={renameName}

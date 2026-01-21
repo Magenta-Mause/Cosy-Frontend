@@ -6,21 +6,20 @@ import {
   joinRemotePath,
   normalizePath,
   stripLeadingSlash,
-} from "./paths";
+} from "./fileSystemUtils";
 
 async function listAllFilesRecursive(opts: {
   serverUuid: string;
-  volumeUuid: string;
   startPath: string; // normalized, like "/foo"
 }): Promise<Array<{ fullPath: string; relativePath: string }>> {
-  const { serverUuid, volumeUuid, startPath } = opts;
+  const { serverUuid, startPath } = opts;
 
   const files: Array<{ fullPath: string; relativePath: string }> = [];
 
   const walk = async (dir: string) => {
     const apiPath = dir === "/" ? "" : dir;
 
-    const dto = await getFileSystemForVolume(serverUuid, volumeUuid, {
+    const dto = await getFileSystemForVolume(serverUuid, {
       path: apiPath,
       fetch_depth: 1,
     });
@@ -53,13 +52,12 @@ async function listAllFilesRecursive(opts: {
 
 export async function zipAndDownload(opts: {
   serverUuid: string;
-  volumeUuid: string;
   startPath: string;
   onProgress?: (done: number, total: number) => void;
 }) {
-  const { serverUuid, volumeUuid, startPath, onProgress } = opts;
+  const { serverUuid, startPath, onProgress } = opts;
 
-  const entries = await listAllFilesRecursive({ serverUuid, volumeUuid, startPath });
+  const entries = await listAllFilesRecursive({ serverUuid, startPath });
 
   const zip = new JSZip();
   let done = 0;
@@ -67,7 +65,8 @@ export async function zipAndDownload(opts: {
 
   for (const e of entries) {
     const apiFilePath = e.fullPath === "/" ? "" : e.fullPath;
-    const blob = (await readFileFromVolume(serverUuid, volumeUuid, { path: apiFilePath })) as Blob;
+
+    const blob = (await readFileFromVolume(serverUuid, { path: apiFilePath })) as Blob;
 
     zip.file(e.relativePath, blob);
 

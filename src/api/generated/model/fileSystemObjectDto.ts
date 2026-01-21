@@ -13,5 +13,6 @@ export interface FileSystemObjectDto {
   name: string;
   type?: FileSystemObjectDtoType;
   permissions?: number;
+  size?: number;
   children?: FileSystemObjectDto[];
 }
