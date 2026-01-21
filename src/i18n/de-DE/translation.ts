@@ -192,7 +192,7 @@ const translation: i18nLanguage = {
               "Entweder müssen sowohl Host-Pfad als auch Container-Pfad angegeben werden oder keiner von beiden.",
           },
           memoryLimitSelection: {
-            title: "Speicherlimit (MB)",
+            title: "Speicherlimit",
             description: "Maximaler RAM, der diesem Server zugewiesen wird",
             errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
           },
@@ -200,8 +200,8 @@ const translation: i18nLanguage = {
             title: "CPU-Limit (Cores)",
             description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
             errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
-          }
-        }
+          },
+        },
       },
       autoCompleteInputField: {
         loadingLabel: "Lädt...",
@@ -270,7 +270,7 @@ const translation: i18nLanguage = {
       },
 
       memoryLimitSelection: {
-        title: "Speicherlimit (MB)",
+        title: "Speicherlimit",
         description: "Maximaler RAM, der diesem Server zugewiesen wird",
         errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
       },

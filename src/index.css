@@ -2,20 +2,22 @@
 @import "./globals.css";
 
 @font-face {
-    font-family: "Stardew Valley";
-    src: url("./assets/StardewValley.ttf") format("truetype");
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Stardew Valley";
+  src: url("./assets/StardewValley.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }
 
 html,
 label {
-    cursor: url("./assets/cursor/cursor-default.png") 0 0,
+  cursor:
+    url("./assets/cursor/cursor-default.png") 0 0,
     auto;
 }
 
 :where(html, label):active {
-    cursor: url("./assets/cursor/cursor-clicked.png") 0 0,
+  cursor:
+    url("./assets/cursor/cursor-clicked.png") 0 0,
     auto;
 }
 
@@ -30,81 +32,83 @@ select,
 [data-slot="context-menu-item"],
 [data-slot="command-item"],
 [data-slot="command-item"] * {
-    cursor: url("./assets/cursor/cursor-pointer.png") 0 0,
+  cursor:
+    url("./assets/cursor/cursor-pointer.png") 0 0,
     pointer;
 }
 
 [disabled],
 [aria-disabled="true"] {
-    cursor: url("./assets/cursor/cursor-not-allowed.png") 0 0,
+  cursor:
+    url("./assets/cursor/cursor-not-allowed.png") 0 0,
     not-allowed;
 }
 
 [data-loading="true"],
 [data-loading="true"] * {
-    cursor: url("./assets/cursor/cursor-loading/cursor-loading-1.png") 0 0,
-    auto !important;
-    animation: cursor 800ms infinite !important;
+  cursor:
+    url("./assets/cursor/cursor-loading/cursor-loading-1.png") 0 0,
+    auto;
+  animation: cursor 800ms infinite;
 }
 
-
 @keyframes cursor {
-    0% {
-        cursor: url("./assets/cursor/cursor-loading/cursor-loading-1.png"), auto;
-    }
-    14.2% {
-        cursor: url("./assets/cursor/cursor-loading/cursor-loading-2.png"), auto;
-    }
-    28.5% {
-        cursor: url("./assets/cursor/cursor-loading/cursor-loading-3.png"), auto;
-    }
-    42.8% {
-        cursor: url("./assets/cursor/cursor-loading/cursor-loading-4.png"), auto;
-    }
-    57.1% {
-        cursor: url("./assets/cursor/cursor-loading/cursor-loading-5.png"), auto;
-    }
-    71.4% {
-        cursor: url("./assets/cursor/cursor-loading/cursor-loading-6.png"), auto;
-    }
-    85.7% {
-        cursor: url("./assets/cursor/cursor-loading/cursor-loading-7.png"), auto;
-    }
-    100% {
-        cursor: url("./assets/cursor/cursor-loading/cursor-loading-8.png"), auto;
-    }
+  0% {
+    cursor: url("./assets/cursor/cursor-loading/cursor-loading-1.png"), auto;
+  }
+  14.2% {
+    cursor: url("./assets/cursor/cursor-loading/cursor-loading-2.png"), auto;
+  }
+  28.5% {
+    cursor: url("./assets/cursor/cursor-loading/cursor-loading-3.png"), auto;
+  }
+  42.8% {
+    cursor: url("./assets/cursor/cursor-loading/cursor-loading-4.png"), auto;
+  }
+  57.1% {
+    cursor: url("./assets/cursor/cursor-loading/cursor-loading-5.png"), auto;
+  }
+  71.4% {
+    cursor: url("./assets/cursor/cursor-loading/cursor-loading-6.png"), auto;
+  }
+  85.7% {
+    cursor: url("./assets/cursor/cursor-loading/cursor-loading-7.png"), auto;
+  }
+  100% {
+    cursor: url("./assets/cursor/cursor-loading/cursor-loading-8.png"), auto;
+  }
 }
 
 body {
-    font-family: "Stardew Valley", sans-serif;
+  font-family: "Stardew Valley", sans-serif;
 }
 
 button:focus-visible,
 input:focus-visible,
 a:focus-visible {
-    outline: none;
+  outline: none;
 }
 
 button:focus-visible:after,
 input:focus-visible:after,
 a:focus-visible:after {
-    content: "";
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 10000;
-    left: 0;
-    top: 0;
-    /* Use the --ring variable so it changes from orange (day) to gold (night) */
-    /* Also increased thickness slightly for chunkier pixel look */
-    outline: 4px dashed var(--ring);
-    outline-offset: 2px;
-    filter: drop-shadow(2px 2px 0 black); /* Hard pixel shadow */
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  /* Use the --ring variable so it changes from orange (day) to gold (night) */
+  /* Also increased thickness slightly for chunkier pixel look */
+  outline: 4px dashed var(--ring);
+  outline-offset: 2px;
+  filter: drop-shadow(2px 2px 0 black); /* Hard pixel shadow */
 }
 
 /* Remove spinners from number inputs */
 input.no-spinner::-webkit-outer-spin-button,
 input.no-spinner::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }

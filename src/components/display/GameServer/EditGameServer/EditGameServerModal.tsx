@@ -13,6 +13,7 @@ import { useEffect, useMemo, useState } from "react";
 import { parse as parseCommand } from "shell-quote";
 import * as z from "zod";
 import {
+  type DockerHardwareLimits,
   type GameServerDto,
   type GameServerUpdateDto,
   PortMappingProtocol,
@@ -20,9 +21,15 @@ import {
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
+import MemoryLimitInputEditGameServer from "./MemoryLimitInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
 
-const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
+// Extended type to include docker_hardware_limits if missing in generated DTO
+type ExtendedGameServerUpdateDto = GameServerUpdateDto & {
+  docker_hardware_limits?: DockerHardwareLimits;
+};
+
+const mapGameServerDtoToUpdate = (server: GameServerDto): ExtendedGameServerUpdateDto => ({
   game_uuid: server.game_uuid,
   server_name: server.server_name,
   docker_image_name: server.docker_image_name,
@@ -34,6 +41,10 @@ const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto =>
     container_path: v.container_path ?? "",
   })),
   execution_command: server.execution_command,
+  docker_hardware_limits: {
+    docker_memory_limit: server.docker_hardware_limits?.docker_memory_limit,
+    docker_max_cpu_cores: server.docker_hardware_limits?.docker_max_cpu_cores,
+  },
 });
 
 const EditGameServerModal = (props: {
@@ -45,7 +56,7 @@ const EditGameServerModal = (props: {
 }) => {
   const { t } = useTranslationPrefix("components.editGameServer");
   const [loading, setLoading] = useState(false);
-  const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(() =>
+  const [gameServerState, setGameServerState] = useState<ExtendedGameServerUpdateDto>(() =>
     mapGameServerDtoToUpdate(props.gameServer),
   );
   const [executionCommandRaw, setExecutionCommandRaw] = useState(
@@ -133,7 +144,11 @@ const EditGameServerModal = (props: {
       gameServerState.server_name !== props.gameServer.server_name ||
       gameServerState.game_uuid !== props.gameServer.game_uuid ||
       gameServerState.docker_image_name !== props.gameServer.docker_image_name ||
-      gameServerState.docker_image_tag !== props.gameServer.docker_image_tag;
+      gameServerState.docker_image_tag !== props.gameServer.docker_image_tag ||
+      gameServerState.docker_hardware_limits?.docker_memory_limit !==
+        props.gameServer.docker_hardware_limits?.docker_memory_limit ||
+      gameServerState.docker_hardware_limits?.docker_max_cpu_cores !==
+        props.gameServer.docker_hardware_limits?.docker_max_cpu_cores;
 
     const portsChanged =
       JSON.stringify(gameServerState.port_mappings ?? []) !==
@@ -163,7 +178,7 @@ const EditGameServerModal = (props: {
     const parsedExecutionCommand = executionCommandRaw.trim()
       ? parseCommand(executionCommandRaw).filter((x): x is string => typeof x === "string")
       : [];
-    const payload: GameServerUpdateDto = {
+    const payload: ExtendedGameServerUpdateDto = {
       ...gameServerState,
       execution_command: parsedExecutionCommand,
     };
@@ -321,17 +336,24 @@ const EditGameServerModal = (props: {
           />
 
           <div className="grid grid-cols-2 gap-4">
-            <InputFieldEditGameServer
+            <MemoryLimitInputEditGameServer
               id="memory_limit"
               validator={z.string().min(1)}
               placeholder="512"
               label={t("memoryLimitSelection.title")}
               description={t("memoryLimitSelection.description")}
               errorLabel={t("memoryLimitSelection.errorLabel")}
-              value={(gameServerState as any).memory_limit}
+              value={gameServerState.docker_hardware_limits?.docker_memory_limit}
               onChange={(v) =>
-                setGameServerState((s) => ({ ...s, memory_limit: v as string }))
+                setGameServerState((s) => ({
+                  ...s,
+                  docker_hardware_limits: {
+                    ...s.docker_hardware_limits,
+                    docker_memory_limit: v ?? undefined,
+                  },
+                }))
               }
+              optional={true}
             />
 
             <InputFieldEditGameServer
@@ -341,13 +363,19 @@ const EditGameServerModal = (props: {
               label={t("cpuLimitSelection.title")}
               description={t("cpuLimitSelection.description")}
               errorLabel={t("cpuLimitSelection.errorLabel")}
-              value={(gameServerState as any).cpu_limit}
+              value={gameServerState.docker_hardware_limits?.docker_max_cpu_cores}
               onChange={(v) =>
-                setGameServerState((s) => ({ ...s, cpu_limit: v as string }))
+                setGameServerState((s) => ({
+                  ...s,
+                  docker_hardware_limits: {
+                    ...s.docker_hardware_limits,
+                    docker_max_cpu_cores: v ? Number(v) : undefined,
+                  },
+                }))
               }
+              optional={true}
             />
           </div>
-
         </DialogMain>
 
         <DialogFooter>

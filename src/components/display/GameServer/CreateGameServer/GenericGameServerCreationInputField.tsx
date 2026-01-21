@@ -16,6 +16,7 @@ const GenericGameServerCreationInputField = (props: {
   description?: string;
   optional?: boolean;
   defaultValue?: string;
+  maxLimit?: number | null;
 }) => {
   const { setGameServerState, creationState, triggerNextPage } =
     useContext(GameServerCreationContext);
@@ -25,16 +26,30 @@ const GenericGameServerCreationInputField = (props: {
 
   const isError = attributesTouched[props.attribute] && !attributesValid[props.attribute];
 
+  const validate = useCallback(
+    (value: string | number | undefined) => {
+      if (value === undefined || value === "") return props.optional;
+
+      // Check max limit if exists
+      if (props.maxLimit !== null && props.maxLimit !== undefined) {
+        const numVal = typeof value === "string" ? parseFloat(value) : value;
+        if (!Number.isNaN(numVal) && numVal > props.maxLimit) {
+          return false;
+        }
+      }
+
+      return props.validator.safeParse(value).success;
+    },
+    [props.optional, props.maxLimit, props.validator],
+  );
+
   useEffect(() => {
     if (!props.optional) {
       setAttributeTouched(
         props.attribute,
         creationState.gameServerState[props.attribute] !== undefined,
       );
-      setAttributeValid(
-        props.attribute,
-        props.validator.safeParse(creationState.gameServerState[props.attribute]).success,
-      );
+      setAttributeValid(props.attribute, validate(creationState.gameServerState[props.attribute]));
     }
   }, [
     props.optional,
@@ -42,34 +57,46 @@ const GenericGameServerCreationInputField = (props: {
     props.attribute,
     setAttributeTouched,
     setAttributeValid,
-    props.validator,
+    validate,
   ]);
 
   useEffect(() => {
     if (props.optional) {
-      setAttributeValid(props.attribute, true);
+      // If optional, we still need to validate if a value is entered (e.g. against limit)
+      const val = creationState.gameServerState[props.attribute];
+      if (val !== undefined && val !== "") {
+        setAttributeValid(props.attribute, validate(val));
+      } else {
+        setAttributeValid(props.attribute, true);
+      }
       setAttributeTouched(props.attribute, true);
     }
-  }, [props.optional, props.attribute, setAttributeValid, setAttributeTouched]);
+  }, [
+    props.optional,
+    props.attribute,
+    setAttributeValid,
+    setAttributeTouched,
+    validate,
+    creationState.gameServerState,
+  ]);
 
   const changeCallback = useCallback(
     (value: string) => {
       if (value === "" && props.defaultValue !== undefined)
         return setGameServerState(props.attribute)(props.defaultValue);
       setGameServerState(props.attribute)(value);
-      if (!props.optional) {
-        setAttributeValid(props.attribute, props.validator.safeParse(value).success);
-        setAttributeTouched(props.attribute, true);
-      }
+
+      // Always validate, regardless of optional status, if user is typing
+      setAttributeValid(props.attribute, validate(value));
+      setAttributeTouched(props.attribute, true);
     },
     [
-      props.optional,
       props.attribute,
-      props.validator,
       props.defaultValue,
       setAttributeTouched,
       setAttributeValid,
       setGameServerState,
+      validate,
     ],
   );
 
@@ -81,7 +108,11 @@ const GenericGameServerCreationInputField = (props: {
 
   return (
     <div>
-      {props.label && <label htmlFor={props.attribute}>{props.label}</label>}
+      {props.label && (
+        <div className="flex justify-between">
+          <label htmlFor={props.attribute}>{props.label}</label>
+        </div>
+      )}
       <Input
         className={isError ? "border-red-500" : ""}
         placeholder={props.placeholder}
@@ -94,7 +125,14 @@ const GenericGameServerCreationInputField = (props: {
           }
         }}
       />
-      {props.description && <DialogDescription>{props.description}</DialogDescription>}
+      {(props.description || props.maxLimit !== undefined) && (
+        <DialogDescription>
+          {props.description}
+          {props.maxLimit !== undefined && (
+            <span> (Limit: {props.maxLimit !== null ? props.maxLimit : "∞"})</span>
+          )}
+        </DialogDescription>
+      )}
       {isError && <FieldError>{props.errorLabel}</FieldError>}
     </div>
   );

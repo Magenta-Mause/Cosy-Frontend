@@ -12,17 +12,19 @@ import { UserEntityDtoRole } from "@/api/generated/model";
 
 interface InviteFormProps {
   username: string;
-  memory: number | null;
+  memory: string | null;
   cpu: number | null;
   userRole: UserEntityDtoRole;
   onUsernameChange: (value: string) => void;
   onUserRoleChange: (value: UserEntityDtoRole) => void;
-  onMemoryChange: (value: number | null) => void;
+  onMemoryChange: (value: string | null) => void;
   onCpuChange: (value: number | null) => void;
   onCancel: () => void;
   onSubmit: () => void;
   isCreating: boolean;
 }
+
+import { MemoryLimitInput } from "@components/common/MemoryLimitInput.tsx";
 
 export const InviteForm = ({
   username,
@@ -56,15 +58,11 @@ export const InviteForm = ({
         <div className="flex justify-between">
           <div className="w-[45%]">
             <Label htmlFor="memory-limit">{t("userModal.memoryLimit")}</Label>
-            <Input
+            <MemoryLimitInput
               id="memory-limit"
-              type="number"
               placeholder={t("userModal.placeholder")}
-              endDecorator="MB"
-              value={memory ?? ""}
-              onChange={(e) =>
-                onMemoryChange(e.target.value === "" ? null : Number(e.target.value))
-              }
+              value={memory}
+              onChange={(val) => onMemoryChange(val === "" ? null : val)}
               className="no-spinner"
             />
             <p className="text-xs text-muted-foreground">{t("userModal.memoryDescription")}</p>

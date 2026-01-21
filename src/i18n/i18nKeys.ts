@@ -306,4 +306,4 @@ export type i18nLanguage = {
   };
 };
 
-type ContainsVariable<T extends string> = `${string}{$T}${string}`;
+type ContainsVariable<_T extends string> = `${string}{$T}${string}`;

@@ -61,8 +61,10 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
   const handleNextPage = useCallback(() => {
     if (isLastPage) {
+      const { docker_max_cpu, docker_max_memory, ...rest } = creationState.gameServerState as any;
+
       const gameServerCreationObject = {
-        ...creationState.gameServerState,
+        ...rest,
         game_uuid:
           creationState.gameServerState.game_uuid !== "0"
             ? creationState.gameServerState.game_uuid
@@ -73,6 +75,10 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
         port_mappings: creationState.gameServerState.port_mappings?.map((portMapping) => ({
           ...portMapping,
         })),
+        docker_hardware_limits: {
+          docker_max_cpu_cores: docker_max_cpu ? parseFloat(docker_max_cpu) : undefined,
+          docker_memory_limit: docker_max_memory || undefined,
+        },
       };
       createGameServer(gameServerCreationObject as GameServerCreationDto);
       setCreationState({ gameServerState: {}, utilState: {} });

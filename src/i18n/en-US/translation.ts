@@ -188,7 +188,7 @@ const translation: i18nLanguage = {
             errorLabel: "Either both host path and container path must be provided or neither.",
           },
           memoryLimitSelection: {
-            title: "Memory Limit (in MB)",
+            title: "Memory Limit",
             description: "Limit the memory usage of the server",
             errorLabel: "Please enter a valid memory limit.",
           },
@@ -196,7 +196,7 @@ const translation: i18nLanguage = {
             title: "CPU Limit (in cores)",
             description: "Limit the CPU usage of the server",
             errorLabel: "Please enter a valid CPU limit.",
-          }
+          },
         },
       },
       autoCompleteInputField: {
@@ -266,7 +266,7 @@ const translation: i18nLanguage = {
       },
 
       memoryLimitSelection: {
-        title: "Memory Limit (in MB)",
+        title: "Memory Limit",
         description: "Limit the memory usage of the server",
         errorLabel: "Please enter a valid memory limit.",
       },

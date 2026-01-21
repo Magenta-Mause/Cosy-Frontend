@@ -1,4 +1,3 @@
-import { UserEntityDtoRole } from "@/api/generated/model";
 import WebSocketCollection from "@components/technical/WebsocketCollection/WebSocketCollection.tsx";
 import config from "@config";
 import { jwtDecode } from "jwt-decode";
@@ -7,6 +6,7 @@ import { StompSessionProvider } from "react-stomp-hooks";
 import SockJS from "sockjs-client";
 import { setAuthToken } from "@/api/axiosInstance";
 import { fetchToken, logout } from "@/api/generated/backend-api";
+import type { UserEntityDtoRole } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 
 interface AuthContextType {
