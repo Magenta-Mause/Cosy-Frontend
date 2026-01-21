@@ -305,6 +305,10 @@ export type i18nLanguage = {
     hour: string;
     day: string;
   };
+  datepicker: {
+    title: string;
+    des: string;
+  };
 };
 
 type ContainsVariable<T extends string> = `${string}{{${T}}}${string}`;

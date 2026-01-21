@@ -310,6 +310,10 @@ const translation: i18nLanguage = {
     hour: "Last {{time}}h",
     day: "Last {{time}}d",
   },
+  datepicker: {
+    title: "Select Date Range",
+    des: "Choose a start and end date for the range.",
+  },
 };
 
 export default translation;

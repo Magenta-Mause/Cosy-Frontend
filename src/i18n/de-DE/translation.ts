@@ -313,6 +313,10 @@ const translation: i18nLanguage = {
     hour: "Letzte {{time}}h",
     day: "Letzte {{time}}d",
   },
+  datepicker: {
+    title: "Benutzerdefinierter Zeitraum",
+    des: "Wählen Sie einen benutzerdefinierten Zeitraum für die Metriken aus.",
+  },
 };
 
 export default translation;
