@@ -1,15 +1,15 @@
-import { FieldLabel } from "@components/ui/field.tsx";
-import { Input } from "@components/ui/input";
-import { Label } from "@components/ui/label";
-import { useQuery } from "@tanstack/react-query";
+import {FieldLabel} from "@components/ui/field.tsx";
+import {Input} from "@components/ui/input";
+import {Label} from "@components/ui/label";
+import {useQuery} from "@tanstack/react-query";
 import type * as React from "react";
-import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
-import type { GameServerCreationDto } from "@/api/generated/model";
-import { Command, CommandItem, CommandList } from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {type ReactNode, useCallback, useContext, useEffect, useRef, useState} from "react";
+import type {GameServerCreationDto} from "@/api/generated/model";
+import {Command, CommandItem, CommandList} from "@/components/ui/command";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { GameServerCreationContext } from "./CreateGameServerModal";
-import { GameServerCreationPageContext } from "./GenericGameServerCreationPage";
+import {GameServerCreationContext} from "./CreateGameServerModal";
+import {GameServerCreationPageContext} from "./GenericGameServerCreationPage";
 
 const DEBOUNCE_DELAY = 300;
 
@@ -45,23 +45,23 @@ interface Props<TSelectedItem, TAutoCompleteData extends GameServerCreationValue
 }
 
 function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameServerCreationValue>({
-  attribute,
-  validator,
-  placeholder,
-  onItemSelect,
-  noAutoCompleteItemsLabelRenderer,
-  noAutoCompleteItemsLabel,
-  fallbackValue,
-  searchId,
-  searchCallback,
-  disableDebounce,
-  defaultOpen,
-  description,
-  label,
-}: Props<TSelectedItem, TAutoCompleteData>) {
-  const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
-  const { setGameServerState, creationState, setUtilState, triggerNextPage } = useContext(GameServerCreationContext);
-  const { setAttributeValid, setAttributeTouched } = useContext(GameServerCreationPageContext);
+                                                                                                    attribute,
+                                                                                                    validator,
+                                                                                                    placeholder,
+                                                                                                    onItemSelect,
+                                                                                                    noAutoCompleteItemsLabelRenderer,
+                                                                                                    noAutoCompleteItemsLabel,
+                                                                                                    fallbackValue,
+                                                                                                    searchId,
+                                                                                                    searchCallback,
+                                                                                                    disableDebounce,
+                                                                                                    defaultOpen,
+                                                                                                    description,
+                                                                                                    label,
+                                                                                                  }: Props<TSelectedItem, TAutoCompleteData>) {
+  const {t} = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
+  const {setGameServerState, creationState, setUtilState, triggerNextPage} = useContext(GameServerCreationContext);
+  const {setAttributeValid, setAttributeTouched} = useContext(GameServerCreationPageContext);
   const [open, setOpen] = useState(false);
 
   // Initialize displayName from autoCompleteSelections if available
@@ -208,7 +208,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
 
   return (
     <Popover open={open}>
-      <PopoverTrigger className="w-[25vw]" tabIndex={-1}>
+      <PopoverTrigger tabIndex={-1}>
         <div className="w-full">
           {label && (
             <FieldLabel htmlFor={attribute} className={"text-lg"}>
@@ -247,12 +247,13 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
                 triggerNextPage();
               }
             }}
+            className={"w-full"}
           />
           {description && <FieldLabel htmlFor={attribute}>{description}</FieldLabel>}
         </div>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[25vw]">
+      <PopoverContent className="w-[35vw]">
         <div data-loading={isLoading}>
           <Command>
             <CommandList>
@@ -305,4 +306,4 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
 }
 
 export default AutoCompleteInputField;
-export type { AutoCompleteItem };
+export type {AutoCompleteItem};

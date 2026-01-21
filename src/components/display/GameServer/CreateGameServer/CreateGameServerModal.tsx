@@ -6,7 +6,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@components/ui/alert-dialog.tsx";
-import { Button } from "@components/ui/button.tsx";
+import {Button} from "@components/ui/button.tsx";
 import {
   DialogContent,
   DialogFooter,
@@ -14,15 +14,17 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import { createContext, type Dispatch, type SetStateAction, useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { parse as parseCommand } from "shell-quote";
-import type { GameDto, GameServerCreationDto, TemplateEntity } from "@/api/generated/model";
+import {createContext, type Dispatch, type SetStateAction, useCallback, useState} from "react";
+import {useTranslation} from "react-i18next";
+import {parse as parseCommand} from "shell-quote";
+import type {GameDto, GameServerCreationDto, TemplateEntity} from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import Step1 from "./CreationSteps/Step1.tsx";
 import Step2 from "./CreationSteps/Step2.tsx";
 import Step3 from "./CreationSteps/Step3.tsx";
-import { applyTemplate } from "./utils/templateSubstitution.ts";
+import {applyTemplate} from "./utils/templateSubstitution.ts";
+import GameServerCreationNextPageButton
+  from "@components/display/GameServer/CreateGameServer/GameServerCreationButton.tsx";
 
 type AutoCompleteSelections = {
   [key: string]: {
@@ -54,24 +56,34 @@ export interface GameServerCreationContext {
   setCurrentPageValid: (isValid: boolean) => void;
   triggerNextPage: () => void;
   setUtilState: <K extends keyof UtilState>(utilStateKey: K) => (value: UtilState[K]) => void;
+  isLastPage: boolean;
+  isPageValid: { [key: number]: boolean };
+  currentPage: number;
 }
 
 export const GameServerCreationContext = createContext<GameServerCreationContext>({
-  creationState: { gameServerState: {}, utilState: { gameEntity: undefined } },
-  setGameServerState: () => () => {},
-  setCurrentPageValid: () => {},
-  triggerNextPage: () => {},
-  setUtilState: () => () => {},
+  creationState: {gameServerState: {}, utilState: {gameEntity: undefined}},
+  setGameServerState: () => () => {
+  },
+  setCurrentPageValid: () => {
+  },
+  triggerNextPage: () => {
+  },
+  setUtilState: () => () => {
+  },
+  isLastPage: false,
+  isPageValid: {},
+  currentPage: 0
 });
 
-const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" />];
+const PAGES = [<Step1 key="step1"/>, <Step2 key="step2"/>, <Step3 key="step3"/>];
 
 interface Props {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const CreateGameServerModal = ({ setOpen }: Props) => {
-  const { createGameServer } = useDataInteractions();
+const CreateGameServerModal = ({setOpen}: Props) => {
+  const {createGameServer} = useDataInteractions();
   const [creationState, setCreationState] = useState<CreationState>({
     gameServerState: {},
     utilState: {},
@@ -80,11 +92,11 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [showReapplyDialog, setShowReapplyDialog] = useState(false);
   const [pendingPageChange, setPendingPageChange] = useState<number | null>(null);
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const isLastPage = currentPage === PAGES.length - 1;
 
   const applyTemplateToState = useCallback(() => {
-    const { selectedTemplate, templateVariables } = creationState.utilState;
+    const {selectedTemplate, templateVariables} = creationState.utilState;
 
     if (selectedTemplate && templateVariables) {
       const updatedState = applyTemplate(
@@ -120,7 +132,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
         })),
       };
       createGameServer(gameServerCreationObject as GameServerCreationDto);
-      setCreationState({ gameServerState: {}, utilState: {} });
+      setCreationState({gameServerState: {}, utilState: {}});
       setPageValid({});
       setCurrentPage(0);
       setOpen(false);
@@ -129,7 +141,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
     // Moving from Step 2 to Step 3 - apply template if needed
     if (currentPage === 1) {
-      const { selectedTemplate, templateApplied } = creationState.utilState;
+      const {selectedTemplate, templateApplied} = creationState.utilState;
 
       // If template is selected
       if (selectedTemplate) {
@@ -162,7 +174,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
   const setCurrentPageValid = useCallback(
     (isValid: boolean) => {
-      setPageValid((prev) => ({ ...prev, [currentPage]: isValid }));
+      setPageValid((prev) => ({...prev, [currentPage]: isValid}));
     },
     [currentPage],
   );
@@ -171,7 +183,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
     (gameStateKey) => (value) =>
       setCreationState((prev) => ({
         ...prev,
-        gameServerState: { ...prev.gameServerState, [gameStateKey]: value },
+        gameServerState: {...prev.gameServerState, [gameStateKey]: value},
       })),
     [],
   );
@@ -180,7 +192,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
     (utilStateKey) => (value) =>
       setCreationState((prev) => ({
         ...prev,
-        utilState: { ...prev.utilState, [utilStateKey]: value },
+        utilState: {...prev.utilState, [utilStateKey]: value},
       })),
     [],
   );
@@ -203,7 +215,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
   }, [pendingPageChange]);
 
   return (
-    <DialogContent>
+    <DialogContent className={"min-w-[40vw]"}>
       <GameServerCreationContext.Provider
         value={{
           setGameServerState,
@@ -211,6 +223,9 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
           setCurrentPageValid,
           triggerNextPage,
           setUtilState,
+          isLastPage,
+          isPageValid,
+          currentPage
         }}
       >
         <DialogHeader>
@@ -241,21 +256,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
               {t("components.CreateGameServer.backButton")}
             </Button>
           )}
-          <Button
-            type="button"
-            variant="primary"
-            onClick={handleNextPage}
-            className={
-              isLastPage
-                ? "bg-emerald-600 text-white hover:bg-emerald-700 focus:ring-emerald-500"
-                : ""
-            }
-            disabled={!isPageValid[currentPage]}
-          >
-            {isLastPage
-              ? t("components.CreateGameServer.createServerButton")
-              : t("components.CreateGameServer.nextStepButton")}
-          </Button>
+          <GameServerCreationNextPageButton/>
         </DialogFooter>
       </GameServerCreationContext.Provider>
 
@@ -284,4 +285,4 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 };
 
 export default CreateGameServerModal;
-export type { AutoCompleteSelections };
+export type {AutoCompleteSelections};

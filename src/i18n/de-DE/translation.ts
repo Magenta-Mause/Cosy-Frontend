@@ -126,6 +126,8 @@ const translation: i18nLanguage = {
       backButton: "Zurück",
       nextStepButton: "Weiter",
       createServerButton: "Server erstellen",
+      useTemplate: "Vorlage verwenden",
+      useNoTemplate: "Ohne Vorlage fortfahren",
       reapplyDialog: {
         title: "Template erneut anwenden?",
         description:
