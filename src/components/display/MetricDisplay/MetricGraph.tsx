@@ -90,12 +90,11 @@ const MetricGraph = (props: MetricGraphProps) => {
 
   return (
     <Card
-      className={cn(
-        `flex flex-col col-span-3 text-lg py-5 bg-button-secondary-default border-2 ${props.className}`,
-      )}
+      className={
+        `flex flex-col col-span-3 text-lg py-5 bg-button-secondary-default border-2 ${props.className}`}
     >
       <CardHeader>
-        <div className="flex justify-between">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <CardTitle>
               {t("metrics.metricTitle", { type: t(`metrics.types.${metricType}`) })}
