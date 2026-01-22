@@ -18,7 +18,7 @@ export interface AutoCompleteInputFieldProps<
   TSelectedItem,
   TAutoCompleteData extends GameServerCreationValue,
 > {
-  attribute: keyof GameServerCreationDto;
+  attribute: keyof GameServerCreationDto | "template";
   validator: (value: TAutoCompleteData) => boolean;
   placeholder: string;
   fallbackValue: TAutoCompleteData;
