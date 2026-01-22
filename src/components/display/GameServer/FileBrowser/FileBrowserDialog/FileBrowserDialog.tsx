@@ -287,7 +287,11 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
           {t("uploadFile")}
         </Button>
 
-        <Button onClick={onDownloadAll} disabled={downloadingAll || loading}>
+        <Button
+          onClick={onDownloadAll}
+          data-loading={downloadingAll || loading}
+          disabled={downloadingAll || loading}
+        >
           <Download />
           {downloadingAll
             ? downloadProgress
