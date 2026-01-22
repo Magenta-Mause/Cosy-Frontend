@@ -109,7 +109,12 @@ export function validateTemplateVariables(
 
   // Check all variables are present and have values
   for (const variable of template.variables) {
-    const placeholder = variable.placeholder ?? "";
+    const placeholder = variable.placeholder?.trim();
+
+    // Invalid or missing placeholder means validation fails
+    if (!placeholder) {
+      return false;
+    }
     const value = variables[placeholder];
 
     // Check if value exists and is not empty string
