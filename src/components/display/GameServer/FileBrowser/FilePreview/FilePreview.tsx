@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { blobToTextIfLikely, getExt, IMAGE_EXTS, VIDEO_EXTS } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 type FilePreviewProps = {
   fileName: string;

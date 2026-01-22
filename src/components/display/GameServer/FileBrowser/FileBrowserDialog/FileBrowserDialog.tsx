@@ -3,7 +3,6 @@ import { Input } from "@components/ui/input";
 import { Download, Search, Upload, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  uploadFileToVolume,
   useCreateDirectoryInVolume,
   useDeleteInVolume,
   useReadFileFromVolume,
@@ -12,12 +11,12 @@ import {
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
 import { useFileBrowserCache } from "@/hooks/useFileBrowserCache/useFileBrowserCache";
 import { useFileSelection } from "@/hooks/useFileSelection/useFileSelection";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { downloadSingleFile, joinDir, joinRemotePath, normalizePath } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
 import { zipAndDownload } from "@/lib/zipDownload";
 import { FileBrowserList } from "../FileBrowserList/FileBrowserList";
 import { FilePreview } from "../FilePreview/FilePreview";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 type FileBrowserDialogProps = {
   width?: number;
@@ -270,9 +269,9 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
           {downloadingAll
             ? downloadProgress
               ? t("downloadingFile", {
-                done: downloadProgress.done,
-                total: downloadProgress.total,
-              })
+                  done: downloadProgress.done,
+                  total: downloadProgress.total,
+                })
               : t("preparing")
             : t("downloadAllAction")}
         </Button>

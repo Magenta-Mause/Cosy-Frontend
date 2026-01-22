@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import {
   buildPathCrumbs,
   formatUnixPerms,
@@ -32,7 +33,6 @@ import {
   validateName,
 } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 type FileBrowserListProps = {
   currentPath: string;
@@ -471,9 +471,9 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
             <DialogDescription>
               {renameObj
                 ? t("renameDescription", {
-                  fileName: renameObj.name,
-                  currentPath: props.currentPath,
-                })
+                    fileName: renameObj.name,
+                    currentPath: props.currentPath,
+                  })
                 : null}
             </DialogDescription>
           </DialogHeader>
@@ -517,8 +517,8 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
             <DialogDescription>
               {deleteObj
                 ? t("deleteDescription", {
-                  fileName: deleteObj.name,
-                })
+                    fileName: deleteObj.name,
+                  })
                 : null}
             </DialogDescription>
           </DialogHeader>
