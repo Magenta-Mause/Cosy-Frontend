@@ -5,31 +5,28 @@ import type {AutoCompleteItem, GameServerCreationValue} from "./types";
 interface AutoCompleteItemRowProps<TSelectedItem, TAutoCompleteData extends GameServerCreationValue> {
   item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>;
   index: number;
-  isHovered: boolean;
+  isSelected: boolean;
   onSelect: () => void;
   onHover: (index: number) => void;
-  onLeave: () => void;
 }
 
 function AutoCompleteItemRow<TSelectedItem, TAutoCompleteData extends GameServerCreationValue>({
   item,
   index,
-  isHovered,
+  isSelected,
   onSelect,
   onHover,
-  onLeave,
 }: AutoCompleteItemRowProps<TSelectedItem, TAutoCompleteData>) {
   return (
     <div
       role="option"
-      aria-selected={isHovered}
+      aria-selected={isSelected}
       className={
         "flex flex-auto items-center px-2 py-1.5 cursor-pointer rounded-sm " +
-        (isHovered ? "bg-accent text-accent-foreground" : "")
+        (isSelected ? "bg-accent text-accent-foreground" : "")
       }
       onClick={onSelect}
       onMouseEnter={() => onHover(index)}
-      onMouseLeave={onLeave}
     >
       {item.leftSlot && <div className="shrink-0 mr-2">{item.leftSlot}</div>}
       <Label className="text-xl flex justify-between w-full cursor-pointer">
@@ -46,7 +43,7 @@ interface AutoCompleteItemListProps<TSelectedItem, TAutoCompleteData extends Gam
   items: AutoCompleteItem<TSelectedItem, TAutoCompleteData>[] | undefined;
   isLoading: boolean;
   isError: boolean;
-  hoveredIndex: number | null;
+  selectedIndex: number;
   loadingLabel: string;
   fallbackValue: TAutoCompleteData;
   noItemsLabel?: string;
@@ -54,7 +51,6 @@ interface AutoCompleteItemListProps<TSelectedItem, TAutoCompleteData extends Gam
   displayValue: string;
   onSelectItem: (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => void;
   onHoverItem: (index: number) => void;
-  onLeaveItem: () => void;
   maxItems?: number;
 }
 
@@ -62,7 +58,7 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
   items,
   isLoading,
   isError,
-  hoveredIndex,
+  selectedIndex,
   loadingLabel,
   fallbackValue,
   noItemsLabel,
@@ -70,7 +66,6 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
   displayValue,
   onSelectItem,
   onHoverItem,
-  onLeaveItem,
   maxItems = 5,
 }: AutoCompleteItemListProps<TSelectedItem, TAutoCompleteData>) {
   if (isLoading) {
@@ -89,10 +84,9 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
             key={item.value.toString()}
             item={item}
             index={index}
-            isHovered={hoveredIndex === index}
+            isSelected={selectedIndex === index}
             onSelect={() => onSelectItem(item)}
             onHover={onHoverItem}
-            onLeave={onLeaveItem}
           />
         ))}
       </div>

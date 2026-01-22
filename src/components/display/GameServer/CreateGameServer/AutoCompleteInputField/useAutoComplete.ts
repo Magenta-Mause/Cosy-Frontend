@@ -34,8 +34,7 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
   const [displayName, setDisplayName] = useState<string>(initialDisplayName);
   const [queryGameName, setQueryGameName] = useState<string>("");
 
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const lastHoveredIndexRef = useRef<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -85,6 +84,11 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
         },
       });
 
+      // Keep focus on the input after selection
+      requestAnimationFrame(() => {
+        inputRef.current?.focus();
+      });
+
       if (onItemSelect) {
         onItemSelect(item);
       }
@@ -101,42 +105,44 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
     ],
   );
 
-  // Reset hovered index when popover closes
+  const maxItems = 5;
+  const itemCount = autoCompleteItems ? Math.min(autoCompleteItems.length, maxItems) : 0;
+
+  // Reset selected index when popover opens or items change
   useEffect(() => {
-    if (!open) {
-      setHoveredIndex(null);
+    if (open) {
+      setSelectedIndex(0);
     }
-  }, [open]);
+  }, [open, autoCompleteItems]);
 
   useEffect(() => {
     if (!open) return;
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (["ArrowDown", "ArrowUp", "Enter"].includes(e.key)) {
+      if (e.key === "Escape") {
+        setOpen(false);
         return;
       }
 
-      if (e.key === "Escape") {
-        setOpen(false);
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setSelectedIndex((prev) => (prev + 1) % itemCount || 0);
+        return;
+      }
+
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setSelectedIndex((prev) => (prev - 1 + itemCount) % itemCount || 0);
+        return;
       }
 
       if (e.key === "Enter" && autoCompleteItems && autoCompleteItems.length > 0) {
         e.preventDefault();
-        const items = autoCompleteItems.slice(0, 5);
-
-        let indexToSelect: number;
-        if (hoveredIndex !== null && hoveredIndex < items.length) {
-          indexToSelect = hoveredIndex;
-        } else if (
-          lastHoveredIndexRef.current !== null &&
-          lastHoveredIndexRef.current < items.length
-        ) {
-          indexToSelect = lastHoveredIndexRef.current;
-        } else {
-          indexToSelect = 0;
+        e.stopPropagation();
+        const items = autoCompleteItems.slice(0, maxItems);
+        if (selectedIndex < items.length) {
+          selectItem(items[selectedIndex]);
         }
-
-        selectItem(items[indexToSelect]);
       }
     };
 
@@ -159,7 +165,7 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("pointerdown", onPointerDown);
     };
-  }, [open, autoCompleteItems, hoveredIndex, selectItem]);
+  }, [open, autoCompleteItems, itemCount, selectedIndex, selectItem]);
 
   const handleInputChange = useCallback(
     (currentValue: string) => {
@@ -193,12 +199,7 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
   );
 
   const handleItemHover = useCallback((index: number) => {
-    setHoveredIndex(index);
-    lastHoveredIndexRef.current = index;
-  }, []);
-
-  const handleItemLeave = useCallback(() => {
-    setHoveredIndex(null);
+    setSelectedIndex(index);
   }, []);
 
   return {
@@ -208,12 +209,11 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
     isLoading,
     isError,
     autoCompleteItems,
-    hoveredIndex,
+    selectedIndex,
     inputRef,
     selectItem,
     handleInputChange,
     handleInputKeyDown,
     handleItemHover,
-    handleItemLeave,
   };
 }

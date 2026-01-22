@@ -30,13 +30,12 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     isLoading,
     isError,
     autoCompleteItems,
-    hoveredIndex,
+    selectedIndex,
     inputRef,
     selectItem,
     handleInputChange,
     handleInputKeyDown,
     handleItemHover,
-    handleItemLeave,
   } = useAutoComplete({
     attribute,
     validator,
@@ -49,7 +48,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
   return (
     <Popover open={open}>
       <PopoverTrigger tabIndex={-1}>
-        <div className="w-full">
+        <div className="w-full" tabIndex={-1}>
           {label && (
             <FieldLabel htmlFor={attribute} className={"text-lg"}>
               {label}
@@ -76,7 +75,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
           items={autoCompleteItems}
           isLoading={isLoading}
           isError={isError}
-          hoveredIndex={hoveredIndex}
+          selectedIndex={selectedIndex}
           loadingLabel={t("loadingLabel")}
           fallbackValue={fallbackValue}
           noItemsLabel={noAutoCompleteItemsLabel}
@@ -84,7 +83,6 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
           displayValue={displayName}
           onSelectItem={selectItem}
           onHoverItem={handleItemHover}
-          onLeaveItem={handleItemLeave}
         />
       </PopoverContent>
     </Popover>
