@@ -82,11 +82,6 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
         [attribute]: item,
       });
 
-      // Keep focus on the input after selection
-      requestAnimationFrame(() => {
-        inputRef.current?.focus();
-      });
-
       if (onItemSelect) {
         onItemSelect(item);
       }
