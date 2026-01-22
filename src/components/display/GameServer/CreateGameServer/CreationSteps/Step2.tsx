@@ -15,10 +15,6 @@ export default function Step2() {
   const { creationState, setUtilState, setCurrentPageValid } =
     useContext(GameServerCreationContext);
   const templates = useTypedSelector((state) => state.templateSliceReducer.data);
-  console.log(
-    templates.map((temp) => temp.game_id),
-    creationState.gameServerState.external_game_id,
-  );
   const templatesForGame = templates.filter(
     (template) => template.game_id === creationState.gameServerState.external_game_id,
   );
