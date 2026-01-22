@@ -3,6 +3,7 @@ import { Button } from "@components/ui/button";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 
 export const Route = createFileRoute("/users")({
   component: UserDetailPage,
@@ -10,6 +11,8 @@ export const Route = createFileRoute("/users")({
 
 function UserDetailPage() {
   const { t } = useTranslation();
+  const { revokeInvite } = useDataInteractions();
+
   const router = useRouter();
 
   return (
@@ -19,7 +22,7 @@ function UserDetailPage() {
         Back
       </Button>
 
-      <UserTable />
+      <UserTable onRevoke={revokeInvite} />
     </div>
   );
 }

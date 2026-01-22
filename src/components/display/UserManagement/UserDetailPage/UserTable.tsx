@@ -7,17 +7,18 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { Input } from "@components/ui/input";
+import { Separator } from "@components/ui/separator";
 import {
   ArrowDownWideNarrow,
   ArrowUpDown,
   ArrowUpWideNarrow,
   Funnel,
-  UserRoundPlus,
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer";
-import UserModalButton from "../UserModal/UserModalButton";
+import UserModalButton from "../UserInvite/UserModalButton";
+import PendingInvites from "./PendingInvites";
 import UserRow from "./UserRow";
 
 const formatRole = (role: UserEntityDtoRole) => {
@@ -26,8 +27,13 @@ const formatRole = (role: UserEntityDtoRole) => {
   if (role === "OWNER") return "Owner";
 };
 
-const UserTable = () => {
+interface UserListProps {
+  onRevoke: (uuid: string) => void;
+}
+
+const UserTable = ({ onRevoke }: UserListProps) => {
   const users = useTypedSelector((state) => state.userSliceReducer.data);
+  const invites = useTypedSelector((state) => state.userInviteSliceReducer.data);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState<UserEntityDtoRole | null>(null);
@@ -175,6 +181,9 @@ const UserTable = () => {
           No users found {selectedRole ? `for role ${formatRole(selectedRole)}` : ""}
         </div>
       )}
+      {users.length > 0 && invites.length > 0 && <Separator />}
+
+      <PendingInvites onRevoke={onRevoke} />
     </div>
   );
 };

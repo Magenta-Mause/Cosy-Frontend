@@ -8,15 +8,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/ui/dialog.tsx";
-import { ArrowLeft, UserPlus, UserRoundPlus, Users } from "lucide-react";
+import { ArrowLeft, UserRoundPlus } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
-import { InviteForm } from "../UserInvite/InviteForm/InviteForm.tsx";
-import { InviteResult } from "../UserInvite/InviteForm/InviteResult.tsx";
-import { UserList } from "./UserList.tsx";
+import { InviteForm } from "./InviteForm/InviteForm.tsx";
+import { InviteResult } from "./InviteForm/InviteResult.tsx";
 
 type ViewState = "invite" | "result";
 
@@ -89,7 +88,6 @@ const UserModalButton = (props: { className?: string }) => {
           </DialogTitle>
         </DialogHeader>
         <DialogMain>
-
           {view === "invite" && (
             <InviteForm
               username={inviteUsername}
