@@ -291,6 +291,7 @@ const translation: i18nLanguage = {
   metrics: {
     metricTitle: "{{type}} - Metric",
     metricDescription: "{{type}} usage over time",
+    configure: "Configure Metrics",
     types: {
       CPU_PERCENT: "CPU",
       MEMORY_PERCENT: "Memory",
@@ -306,9 +307,9 @@ const translation: i18nLanguage = {
     localTime: "en-US",
     custom: "Custom Range",
     button: "Time Range",
-    min: "Last {{time}}min",
-    hour: "Last {{time}}h",
-    day: "Last {{time}}d",
+    min: "Last {{time}} minutes",
+    hour: "Last {{time}} hours",
+    day: "Last {{time}} days",
   },
   datepicker: {
     title: "Select Date Range",

@@ -1,5 +1,6 @@
 import { Button } from "@components/ui/button";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GetMetricsType } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
@@ -12,6 +13,7 @@ const MetricDisplay = (
     gameServerUuid: string;
   } & React.ComponentProps<"div">,
 ) => {
+  const { t } = useTranslation();
   const [unit, setUnit] = useState<string>("hour");
   const [startTime, setStartTime] = useState<Date | null>();
   const [endTime, setEndTime] = useState<Date | null>();
@@ -71,7 +73,7 @@ const MetricDisplay = (
             setEndTime(selectedEndTime);
           }}
         />
-        <Button>Configure Metrics</Button>
+        <Button>{t("metrics.configure")}</Button>
       </div>
       <div className="grid grid-cols-6 gap-2">
         {metricOrder.map((metric) => (

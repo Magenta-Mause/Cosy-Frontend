@@ -294,6 +294,7 @@ const translation: i18nLanguage = {
   metrics: {
     metricTitle: "{{type}} Metrik",
     metricDescription: "{{type}} Metrik über die Zeit.",
+    configure: "Konfigurieren Metriken",
     types: {
       CPU_PERCENT: "CPU",
       MEMORY_PERCENT: "Arbeitsspeicher",
@@ -307,11 +308,11 @@ const translation: i18nLanguage = {
   },
   timerange: {
     localTime: "de-DE",
-    custom: "Benutzerdefinier Zeitraum",
+    custom: "Benutzerdefinierter Zeitraum",
     button: "Zeitraum",
-    min: "Letzen {{time}}min",
-    hour: "Letzte {{time}}h",
-    day: "Letzte {{time}}d",
+    min: "Letzen {{time}} Minuten",
+    hour: "Letzte {{time}} Stunden",
+    day: "Letzte {{time}} Tage",
   },
   datepicker: {
     title: "Benutzerdefinierter Zeitraum",

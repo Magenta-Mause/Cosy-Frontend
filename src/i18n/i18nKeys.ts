@@ -286,6 +286,7 @@ export type i18nLanguage = {
   metrics: {
     metricTitle: string;
     metricDescription: string;
+    configure: string;
     types: {
       CPU_PERCENT: string;
       MEMORY_PERCENT: string;

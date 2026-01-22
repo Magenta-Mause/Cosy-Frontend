@@ -1,7 +1,7 @@
 import DatePicker from "@components/display/DatePicker/DatePicker";
 import { format } from "date-fns";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
@@ -43,6 +43,10 @@ const TimeRangeDropDown = (props: TimeRangeProps) => {
     console.log(startDate.getTime(), endDate.getTime());
     props.onChange({ timeUnit: "day", startTime: startDate.getTime(), endTime: endDate.getTime() });
   };
+
+  useEffect(() => {
+    setSelectedLabel(t("timerange.button"));
+  }, [t]);
 
   return (
     <>
