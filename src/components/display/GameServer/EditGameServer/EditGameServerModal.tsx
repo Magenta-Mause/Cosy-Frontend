@@ -193,7 +193,7 @@ const EditGameServerModal = (props: {
           />
 
           <InputFieldEditGameServer
-            id="game_uuid"
+            id="external_game_id"
             validator={z.string().min(1)}
             placeholder="Game"
             label={t("gameSelection.title")}
