@@ -1,8 +1,8 @@
+import LogDisplay from "@components/display/LogDisplay/LogDisplay";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
-import LogDisplay from "@components/display/LogDisplay/LogDisplay";
 
 export const Route = createFileRoute("/server/$serverId/")({
   component: GameServerDetailPageDashboardPage,

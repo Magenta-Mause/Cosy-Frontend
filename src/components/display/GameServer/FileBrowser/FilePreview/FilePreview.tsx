@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { cn } from "@/lib/utils";
 import { blobToTextIfLikely, getExt, IMAGE_EXTS, VIDEO_EXTS } from "@/lib/fileSystemUtils";
+import { cn } from "@/lib/utils";
 
 type FilePreviewProps = {
   fileName: string;

@@ -1,6 +1,6 @@
-import useGameServer from "@/hooks/useGameServer/useGameServer";
 import { FileBrowserDialog } from "@components/display/GameServer/FileBrowser/FileBrowserDialog/FileBrowserDialog";
 import { createFileRoute } from "@tanstack/react-router";
+import useGameServer from "@/hooks/useGameServer/useGameServer";
 
 export const Route = createFileRoute("/server/$serverId/files/")({
   component: RouteComponent,

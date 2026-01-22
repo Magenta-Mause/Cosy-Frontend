@@ -22,16 +22,16 @@ import {
 } from "lucide-react";
 import * as React from "react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
-import { cn } from "@/lib/utils";
 import {
   buildPathCrumbs,
-  sortDirsFirst,
-  validateName,
+  formatUnixPerms,
+  isDirectory,
   joinRemotePath,
   normalizePath,
-  isDirectory,
-  formatUnixPerms,
+  sortDirsFirst,
+  validateName,
 } from "@/lib/fileSystemUtils";
+import { cn } from "@/lib/utils";
 
 type FileBrowserListProps = {
   currentPath: string;

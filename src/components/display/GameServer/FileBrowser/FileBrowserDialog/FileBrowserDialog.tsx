@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
-import { Search, X, Upload, Download } from "lucide-react";
+import { Download, Search, Upload, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   uploadFileToVolume,
@@ -10,10 +10,10 @@ import {
   useRenameInVolume,
 } from "@/api/generated/backend-api";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
-import { cn } from "@/lib/utils";
 import { useFileBrowserCache } from "@/hooks/useFileBrowserCache/useFileBrowserCache";
 import { useFileSelection } from "@/hooks/useFileSelection/useFileSelection";
-import { joinRemotePath, joinDir, normalizePath, downloadSingleFile } from "@/lib/fileSystemUtils";
+import { downloadSingleFile, joinDir, joinRemotePath, normalizePath } from "@/lib/fileSystemUtils";
+import { cn } from "@/lib/utils";
 import { zipAndDownload } from "@/lib/zipDownload";
 import { FileBrowserList } from "../FileBrowserList/FileBrowserList";
 import { FilePreview } from "../FilePreview/FilePreview";
