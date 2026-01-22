@@ -10,6 +10,7 @@ export type GetFileSystemForVolumeParams = {
 path?: string;
 /**
  * @minimum 0
+ * @maximum 5
  */
 fetch_depth?: number;
 };
