@@ -98,11 +98,11 @@ export function useFileBrowserCache(opts: {
   const mountTrie = useMemo(() => buildMountTrie(opts.volumes), [opts.volumes]);
 
   const ensurePathFetched = useCallback(
-    async (path: string, depth: number, opts2?: { force?: boolean }) => {
+    async (path: string, depth: number, force?: boolean) => {
       const norm = normalizePath(path);
 
       const existing = cache.get(norm);
-      if (!opts2?.force && existing && existing.fetchDepth >= depth) {
+      if (!force && existing && existing.fetchDepth >= depth) {
         setObjects(existing.objects);
         return;
       }

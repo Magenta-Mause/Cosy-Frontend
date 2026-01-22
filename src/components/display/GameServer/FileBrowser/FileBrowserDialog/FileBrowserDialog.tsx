@@ -98,7 +98,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     const apiPath = path === "/" ? "" : path;
 
     await uploadFileToVolume(props.serverUuid, file, { path: apiPath });
-    await ensurePathFetched(currentPath, fetchDepth, { force: true });
+    await ensurePathFetched(currentPath, fetchDepth, true);
   };
 
   const onFilePicked: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
@@ -194,7 +194,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
         fetchDepth={fetchDepth}
         onEntryClick={onEntryClick}
         onCrumbClick={onCrumbClick}
-        onRefresh={() => ensurePathFetched(currentPath, fetchDepth, { force: true })}
+        onRefresh={() => ensurePathFetched(currentPath, fetchDepth, true)}
         showPreview={hasSelection}
         previewedPath={selectedFilePath}
         onClosePreview={closePreview}
@@ -237,7 +237,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
             params: { path: newPath },
           });
 
-          await ensurePathFetched(parentPath, fetchDepth, { force: true });
+          await ensurePathFetched(parentPath, fetchDepth, true);
         }}
         onRename={async ({ parentPath, oldName, newName }) => {
           const apiParent = parentPath === "/" ? "" : parentPath;
@@ -256,7 +256,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
             setSelectedFileName(newName);
           }
 
-          await ensurePathFetched(parentPath, fetchDepth, { force: true });
+          await ensurePathFetched(parentPath, fetchDepth, true);
         }}
         onDelete={async ({ parentPath, name }) => {
           const apiParent = parentPath === "/" ? "" : parentPath;
@@ -270,7 +270,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
             closePreview();
           }
 
-          await ensurePathFetched(parentPath, fetchDepth, { force: true });
+          await ensurePathFetched(parentPath, fetchDepth, true);
         }}
         onDownload={async (obj) => {
           downloadSingleFile({
