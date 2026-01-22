@@ -1070,7 +1070,7 @@ export function useGetAllTemplates<TData = Awaited<ReturnType<typeof getAllTempl
 
 export const getMetrics = (
     gameServerUuid: string,
-    params: GetMetricsParams,
+    params?: GetMetricsParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
@@ -1094,7 +1094,7 @@ export const getGetMetricsQueryKey = (gameServerUuid?: string,
 
     
 export const getGetMetricsQueryOptions = <TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(gameServerUuid: string,
-    params: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+    params?: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -1119,7 +1119,7 @@ export type GetMetricsQueryError = unknown
 
 export function useGetMetrics<TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(
  gameServerUuid: string,
-    params: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+    params?: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
   
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
@@ -1137,7 +1137,7 @@ export function useGetMetrics<TData = Awaited<ReturnType<typeof getMetrics>>, TE
 
 
 export const queryGames = (
-    params: QueryGamesParams,
+    params?: QueryGamesParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
@@ -1159,7 +1159,7 @@ export const getQueryGamesQueryKey = (params?: QueryGamesParams,) => {
     }
 
     
-export const getQueryGamesQueryOptions = <TData = Awaited<ReturnType<typeof queryGames>>, TError = unknown>(params: QueryGamesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof queryGames>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+export const getQueryGamesQueryOptions = <TData = Awaited<ReturnType<typeof queryGames>>, TError = unknown>(params?: QueryGamesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof queryGames>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
@@ -1183,7 +1183,7 @@ export type QueryGamesQueryError = unknown
 
 
 export function useQueryGames<TData = Awaited<ReturnType<typeof queryGames>>, TError = unknown>(
- params: QueryGamesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof queryGames>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+ params?: QueryGamesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof queryGames>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
   
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 

@@ -7,5 +7,5 @@
  */
 
 export type QueryGamesParams = {
-query: string;
+query?: string;
 };

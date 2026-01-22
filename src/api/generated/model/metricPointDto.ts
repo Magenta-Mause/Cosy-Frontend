@@ -5,8 +5,9 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
+import type { MetricValues } from './metricValues';
 
 export interface MetricPointDto {
   time?: string;
-  value?: number;
+  metric_values?: MetricValues;
 }
