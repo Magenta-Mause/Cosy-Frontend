@@ -7,10 +7,17 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { Input } from "@components/ui/input";
-import { ArrowDownWideNarrow, ArrowUpDown, ArrowUpWideNarrow, Funnel, UserRoundPlus } from "lucide-react";
+import {
+  ArrowDownWideNarrow,
+  ArrowUpDown,
+  ArrowUpWideNarrow,
+  Funnel,
+  UserRoundPlus,
+} from "lucide-react";
 import { useMemo, useState } from "react";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer";
+import UserModalButton from "../UserModal/UserModalButton";
 import UserRow from "./UserRow";
 
 const formatRole = (role: UserEntityDtoRole) => {
@@ -24,7 +31,9 @@ const UserTable = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState<UserEntityDtoRole | null>(null);
-  const [sortField, setSortField] = useState<"username" | "role" | "max_cpu" | "max_memory" | null>(null);
+  const [sortField, setSortField] = useState<"username" | "role" | "max_cpu" | "max_memory" | null>(
+    null,
+  );
   const [isAsc, setIsAsc] = useState(true); // true = ASC, false = DESC
 
   const processedUsers = useMemo(() => {
@@ -55,7 +64,6 @@ const UserTable = () => {
       return isAsc ? strA.localeCompare(strB) : strB.localeCompare(strA);
     });
   }, [users, searchTerm, selectedRole, sortField, isAsc]);
-
 
   return (
     <div className="container text-base mx-auto py-20 flex flex-col gap-2 w-3/4">
@@ -97,21 +105,27 @@ const UserTable = () => {
           </DropdownMenu>
 
           <div className="flex flex-row items-center gap-0.5">
-            <Button
-              className=""
-              disabled={!sortField}
-              onClick={() => setIsAsc(!isAsc)}
-            >
-              {!sortField ? <ArrowUpDown className="size-6" /> : isAsc ? <ArrowDownWideNarrow className="size-6" /> : <ArrowUpWideNarrow className="size-6" />}
+            <Button className="" disabled={!sortField} onClick={() => setIsAsc(!isAsc)}>
+              {!sortField ? (
+                <ArrowUpDown className="size-6" />
+              ) : isAsc ? (
+                <ArrowDownWideNarrow className="size-6" />
+              ) : (
+                <ArrowUpWideNarrow className="size-6" />
+              )}
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button>
                   {sortField ? (
                     <span>
-                      {sortField === "max_cpu" ? "CPU Limit" :
-                        sortField === "max_memory" ? "Memory Limit" :
-                          sortField === "username" ? "Name" : "Role"}
+                      {sortField === "max_cpu"
+                        ? "CPU Limit"
+                        : sortField === "max_memory"
+                          ? "Memory Limit"
+                          : sortField === "username"
+                            ? "Name"
+                            : "Role"}
                     </span>
                   ) : (
                     "Sort"
@@ -121,13 +135,20 @@ const UserTable = () => {
               <DropdownMenuContent>
                 <DropdownMenuItem onClick={() => setSortField("username")}>Name</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSortField("role")}>Role</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortField("max_cpu")}>CPU Limit</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortField("max_memory")}>Memory Limit</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortField("max_cpu")}>
+                  CPU Limit
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortField("max_memory")}>
+                  Memory Limit
+                </DropdownMenuItem>
 
                 {sortField && (
                   <>
                     <div className="h-px bg-muted my-1" />
-                    <DropdownMenuItem className="text-destructive" onClick={() => setSortField(null)}>
+                    <DropdownMenuItem
+                      className="text-destructive"
+                      onClick={() => setSortField(null)}
+                    >
                       Clear Sort
                     </DropdownMenuItem>
                   </>
@@ -137,10 +158,7 @@ const UserTable = () => {
           </div>
         </div>
         <div>
-          <Button>
-            <UserRoundPlus className="size-6" />
-            Invite
-          </Button>
+          <UserModalButton />
         </div>
       </div>
       {processedUsers.length > 0 ? (
