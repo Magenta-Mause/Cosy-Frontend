@@ -57,7 +57,7 @@ const Step1 = () => {
           validator={(value) => value.length > 0}
           label={t("gameSelection.title")}
           placeholder={t("gameSelection.placeholder")}
-          onItemSelect={(selectedItem: AutoCompleteItem<GameDto, string>) => {
+          onItemSelect={(selectedItem: AutoCompleteItem<GameDto, string>, updatedSelections) => {
             // update game entity
             setUtilState("gameEntity")(selectedItem.data ?? undefined);
 
@@ -66,10 +66,8 @@ const Step1 = () => {
             setUtilState("templateVariables")({});
             setUtilState("selectedTemplate")(undefined);
 
-            // remove `external_game_id` from autoCompleteSelections
-            const { external_game_id: _external_game_id, ...rest } =
-              creationState.utilState.autoCompleteSelections ?? {};
-
+            // clear template from autoCompleteSelections (using fresh updatedSelections)
+            const { template: _template, ...rest } = updatedSelections;
             setUtilState("autoCompleteSelections")(rest);
           }}
           noAutoCompleteItemsLabelRenderer={(displayValue) => (

@@ -14,6 +14,9 @@ export type AutoCompleteItem<T, U extends GameServerCreationValue> = {
   leftSlot?: React.ReactNode;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AutoCompleteSelections = Record<string, AutoCompleteItem<any, any>>;
+
 export interface AutoCompleteInputFieldProps<
   TSelectedItem,
   TAutoCompleteData extends GameServerCreationValue,
@@ -22,7 +25,10 @@ export interface AutoCompleteInputFieldProps<
   validator: (value: TAutoCompleteData) => boolean;
   placeholder: string;
   fallbackValue: TAutoCompleteData;
-  onItemSelect?: (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => void;
+  onItemSelect?: (
+    item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>,
+    updatedSelections: AutoCompleteSelections,
+  ) => void;
   noAutoCompleteItemsLabelRenderer?: (displayValue: string) => React.ReactNode;
   noAutoCompleteItemsLabel?: string;
   searchId?: string;

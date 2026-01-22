@@ -3,7 +3,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type { GameServerCreationDto } from "@/api/generated/model";
 import { GameServerCreationContext } from "../CreateGameServerModal";
 import { GameServerCreationPageContext } from "../GenericGameServerCreationPage";
-import type { AutoCompleteItem, GameServerCreationValue } from "./types";
+import type { AutoCompleteItem, AutoCompleteSelections, GameServerCreationValue } from "./types";
 
 const DEBOUNCE_DELAY = 300;
 const MAX_ITEMS_DISPLAYED = 5;
@@ -16,7 +16,10 @@ interface UseAutoCompleteOptions<TSelectedItem, TAutoCompleteData extends GameSe
     searchValue: string,
   ) => Promise<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[]>;
   disableDebounce?: boolean;
-  onItemSelect?: (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => void;
+  onItemSelect?: (
+    item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>,
+    updatedSelections: AutoCompleteSelections,
+  ) => void;
 }
 
 export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameServerCreationValue>({
@@ -59,6 +62,16 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
     setAttributeTouched(attribute, creationState.gameServerState[attribute] !== undefined);
   }, [setAttributeTouched, attribute, creationState.gameServerState]);
 
+  // Sync display name with saved selection when returning to this step
+  useEffect(() => {
+    if (!open) {
+      const savedLabel = creationState.utilState.autoCompleteSelections?.[attribute]?.label;
+      if (savedLabel && displayName !== savedLabel) {
+        setDisplayName(savedLabel);
+      }
+    }
+  }, [open, creationState.utilState.autoCompleteSelections, attribute, displayName]);
+
   useEffect(() => {
     return () => {
       if (debounceRef.current) {
@@ -77,13 +90,15 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
       setAttributeValid(attribute, valid);
       setAttributeTouched(attribute, true);
 
-      setUtilState("autoCompleteSelections")({
+      const updatedSelections = {
         ...(creationState.utilState.autoCompleteSelections ?? {}),
         [attribute]: item,
-      });
+      };
+
+      setUtilState("autoCompleteSelections")(updatedSelections);
 
       if (onItemSelect) {
-        onItemSelect(item);
+        onItemSelect(item, updatedSelections);
       }
     },
     [
