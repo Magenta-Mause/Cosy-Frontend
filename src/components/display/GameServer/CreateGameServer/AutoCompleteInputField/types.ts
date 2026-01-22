@@ -1,5 +1,5 @@
 import type * as React from "react";
-import type {GameServerCreationDto} from "@/api/generated/model";
+import type { GameServerCreationDto } from "@/api/generated/model";
 
 export type GameServerCreationValue = Exclude<
   GameServerCreationDto[keyof GameServerCreationDto],

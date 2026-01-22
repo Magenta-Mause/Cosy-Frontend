@@ -1,4 +1,4 @@
-import {Button} from "@components/ui/button.tsx";
+import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogClose,
@@ -9,10 +9,14 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import {useEffect, useMemo, useState} from "react";
-import {parse as parseCommand} from "shell-quote";
+import { useEffect, useMemo, useState } from "react";
+import { parse as parseCommand } from "shell-quote";
 import * as z from "zod";
-import {type GameServerDto, type GameServerUpdateDto, PortMappingProtocol,} from "@/api/generated/model";
+import {
+  type GameServerDto,
+  type GameServerUpdateDto,
+  PortMappingProtocol,
+} from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";

@@ -1,24 +1,22 @@
 import AutoCompleteInputField, {
   type AutoCompleteItem,
 } from "@components/display/GameServer/CreateGameServer/AutoCompleteInputField";
-import GenericGameServerCreationInputField
-  from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationInputField.tsx";
-import GenericGameServerCreationPage
-  from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
-import {Label} from "@components/ui/label";
-import {useQueryClient} from "@tanstack/react-query";
-import {useCallback, useContext} from "react";
-import {z} from "zod";
-import {queryGames} from "@/api/generated/backend-api.ts";
-import type {GameDto} from "@/api/generated/model";
+import GenericGameServerCreationInputField from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationInputField.tsx";
+import GenericGameServerCreationPage from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
+import { Label } from "@components/ui/label";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useContext } from "react";
+import { z } from "zod";
+import { queryGames } from "@/api/generated/backend-api.ts";
+import type { GameDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import {distinctBy} from "@/lib/arrayUtils.ts";
-import {useTypedSelector} from "@/stores/rootReducer.ts";
-import {GameServerCreationContext} from "../CreateGameServerModal";
+import { distinctBy } from "@/lib/arrayUtils.ts";
+import { useTypedSelector } from "@/stores/rootReducer.ts";
+import { GameServerCreationContext } from "../CreateGameServerModal";
 
 const Step1 = () => {
-  const {t} = useTranslationPrefix("components.CreateGameServer.steps.step1");
-  const {setUtilState} = useContext(GameServerCreationContext);
+  const { t } = useTranslationPrefix("components.CreateGameServer.steps.step1");
+  const { setUtilState } = useContext(GameServerCreationContext);
   const queryClient = useQueryClient();
   const templates = useTypedSelector((state) => state.templateSliceReducer.data);
 
@@ -68,7 +66,7 @@ const Step1 = () => {
             setUtilState("selectedTemplate")(undefined);
 
             // clear template from autoCompleteSelections (using fresh updatedSelections)
-            const {template: _template, ...rest} = updatedSelections;
+            const { template: _template, ...rest } = updatedSelections;
             setUtilState("autoCompleteSelections")(rest);
           }}
           noAutoCompleteItemsLabelRenderer={(displayValue) => (
@@ -82,7 +80,7 @@ const Step1 = () => {
           fallbackValue={"0" as string}
           searchId="gameInfo"
           searchCallback={(gameNameQuery) =>
-            queryGames({query: gameNameQuery}).then((games) =>
+            queryGames({ query: gameNameQuery }).then((games) =>
               mapGamesDtoToAutoCompleteItems(games),
             )
           }

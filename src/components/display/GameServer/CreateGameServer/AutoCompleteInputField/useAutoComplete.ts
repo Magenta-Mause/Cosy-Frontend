@@ -1,9 +1,9 @@
-import {useQuery} from "@tanstack/react-query";
-import {useCallback, useContext, useEffect, useRef, useState} from "react";
-import type {GameServerCreationDto} from "@/api/generated/model";
-import {GameServerCreationContext} from "../CreateGameServerModal";
-import {GameServerCreationPageContext} from "../GenericGameServerCreationPage";
-import type {AutoCompleteItem, AutoCompleteSelections, GameServerCreationValue} from "./types";
+import { useQuery } from "@tanstack/react-query";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import type { GameServerCreationDto } from "@/api/generated/model";
+import { GameServerCreationContext } from "../CreateGameServerModal";
+import { GameServerCreationPageContext } from "../GenericGameServerCreationPage";
+import type { AutoCompleteItem, AutoCompleteSelections, GameServerCreationValue } from "./types";
 
 const DEBOUNCE_DELAY = 300;
 const MAX_ITEMS_DISPLAYED = 5;
