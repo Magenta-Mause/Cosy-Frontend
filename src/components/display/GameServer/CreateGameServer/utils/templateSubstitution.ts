@@ -1,9 +1,10 @@
 import { quote } from "shell-quote";
-import type {
-  EnvironmentVariableConfiguration,
-  GameServerCreationDto,
-  PortMapping,
-  TemplateEntity,
+import {
+  type EnvironmentVariableConfiguration,
+  type GameServerCreationDto,
+  type PortMapping,
+  PortMappingProtocol,
+  type TemplateEntity,
 } from "@/api/generated/model";
 
 /**
@@ -70,7 +71,8 @@ export function applyTemplate(
           typeof value === "number"
             ? value
             : parseInt(substituteVariables(String(value), variables), 10),
-        protocol: (protocol?.toUpperCase() as "TCP" | "UDP") ?? "TCP",
+        protocol:
+          protocol?.toUpperCase() === "UDP" ? PortMappingProtocol.UDP : PortMappingProtocol.TCP,
       });
     }
     newState.port_mappings = portMappings;
