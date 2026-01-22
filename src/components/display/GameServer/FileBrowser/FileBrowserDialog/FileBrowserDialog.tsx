@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { zipAndDownload } from "@/lib/zipDownload";
 import { FileBrowserList } from "../FileBrowserList/FileBrowserList";
 import { FilePreview } from "../FilePreview/FilePreview";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 type FileBrowserDialogProps = {
   width?: number;
@@ -67,6 +68,8 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const mkdirMutation = useCreateDirectoryInVolume();
   const deleteMutation = useDeleteInVolume();
 
+  const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserDialog");
+
   // biome-ignore lint/correctness/useExhaustiveDependencies: remove search when changing directories
   useEffect(() => {
     setSearch("");
@@ -88,28 +91,6 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
   const openFileDialog = () => {
     fileInputRef.current?.click();
-  };
-
-  const uploadSelectedFile = async (file: File) => {
-    const path = joinRemotePath(currentPath, file.name);
-    const apiPath = path === "/" ? "" : path;
-
-    await uploadFileToVolume(props.serverUuid, file, { path: apiPath });
-    await ensurePathFetched(currentPath, fetchDepth, { force: true });
-  };
-
-  const onFilePicked: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    try {
-      await uploadSelectedFile(file);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to upload file");
-    } finally {
-      e.target.value = "";
-    }
   };
 
   const onEntryClick = async (obj: FileSystemObjectDto) => {
@@ -139,7 +120,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       });
     } catch (e) {
       console.error(e);
-      setError("Failed to download zip");
+      setError(t("downloadZipFailure"));
     } finally {
       setDownloadingAll(false);
       setDownloadProgress(null);
@@ -281,20 +262,21 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       <div className="flex gap-4">
         <Button onClick={openFileDialog}>
           <Upload />
-          Upload
+          {t("uploadFile")}
         </Button>
 
         <Button onClick={onDownloadAll} disabled={downloadingAll || loading}>
           <Download />
           {downloadingAll
             ? downloadProgress
-              ? `Downloading ${downloadProgress.done}/${downloadProgress.total}`
-              : "Preparing..."
-            : "Download All"}
+              ? t("downloadingFile", {
+                done: downloadProgress.done,
+                total: downloadProgress.total,
+              })
+              : t("preparing")
+            : t("downloadAllAction")}
         </Button>
       </div>
-
-      <input ref={fileInputRef} type="file" className="hidden" onChange={onFilePicked} />
     </div>
   );
 };

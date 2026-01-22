@@ -32,6 +32,7 @@ import {
   validateName,
 } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 type FileBrowserListProps = {
   currentPath: string;
@@ -107,6 +108,8 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
   const [actionError, setActionError] = React.useState<string | null>(null);
   const [actionBusy, setActionBusy] = React.useState<"mkdir" | "rename" | "delete" | null>(null);
 
+  const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserList");
+
   const openMkdir = () => {
     setActionError(null);
     setMkdirName("");
@@ -140,7 +143,7 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
       props.onRefresh?.();
     } catch (e) {
       console.error(e);
-      setActionError("Failed to create folder.");
+      setActionError(t("failedToCreateFolder"));
     } finally {
       setActionBusy(null);
     }
@@ -180,7 +183,7 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
       props.onRefresh?.();
     } catch (e) {
       console.error(e);
-      setActionError("Failed to rename.");
+      setActionError(t("failedToRename"));
     } finally {
       setActionBusy(null);
     }
@@ -210,7 +213,7 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
       props.onRefresh?.();
     } catch (e) {
       console.error(e);
-      setActionError("Failed to delete.");
+      setActionError(t("failedToDelete"));
     } finally {
       setActionBusy(null);
     }
@@ -262,7 +265,7 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
                   title="New folder"
                 >
                   <Plus className="h-4 w-4" />
-                  <span className="hidden sm:inline">New folder</span>
+                  <span className="hidden sm:inline">{t("newFolderAction")}</span>
                 </button>
               ) : null}
 
@@ -278,7 +281,7 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
                 title="Refresh"
               >
                 <RefreshCw className={cn("h-4 w-4", props.loading && "animate-spin")} />
-                <span className="hidden sm:inline">Refresh</span>
+                <span className="hidden sm:inline">{t("refreshAction")}</span>
               </button>
             </span>
           </div>
@@ -287,7 +290,7 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
             {props.error ? (
               <div className="p-3 text-sm text-destructive">{props.error}</div>
             ) : sorted.length === 0 && !props.loading ? (
-              <div className="p-3 text-sm text-muted-foreground">No files</div>
+              <div className="p-3 text-sm text-muted-foreground">{t("noFiles")}</div>
             ) : (
               <ul className="p-2">
                 {sorted.map((obj) => {
@@ -331,7 +334,9 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
                                 "hidden md:inline-flex w-24 justify-end",
                               )}
                               title={
-                                obj.type === "FILE" ? `${obj.size ?? "unknown"} bytes` : "Directory"
+                                obj.type === "FILE"
+                                  ? `${obj.size ?? "unknown"} bytes`
+                                  : t("directoryType")
                               }
                             >
                               {obj.type === "FILE" ? formatBytes(obj.size) : "—"}
@@ -364,7 +369,7 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
                                 title="Rename"
                               >
                                 <Pencil className="h-4 w-4 mr-1" />
-                                <span className="hidden sm:inline">Rename</span>
+                                <span className="hidden sm:inline">{t("renameAction")}</span>
                               </button>
                             ) : null}
 
@@ -381,7 +386,7 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
                                 title="Delete"
                               >
                                 <Trash2 className="h-4 w-4 mr-1" />
-                                <span className="hidden sm:inline">Delete</span>
+                                <span className="hidden sm:inline">{t("deleteAction")}</span>
                               </button>
                             ) : null}
                             {props.onDownload ? (
@@ -421,13 +426,15 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
       <Dialog open={mkdirOpen} onOpenChange={setMkdirOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create folder</DialogTitle>
-            <DialogDescription>Creates a folder inside: {props.currentPath}</DialogDescription>
+            <DialogTitle>{t("createFolderAction")}</DialogTitle>
+            <DialogDescription>
+              {t("createFolderDescription", { dirName: props.currentPath })}
+            </DialogDescription>
           </DialogHeader>
 
           <DialogMain>
             <div className="flex flex-col gap-3">
-              <span className="text-sm text-muted-foreground">Folder name</span>
+              <span className="text-sm text-muted-foreground">{t("folderName")}</span>
               <Input
                 autoFocus
                 value={mkdirName}
@@ -450,7 +457,7 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
               Cancel
             </Button>
             <Button onClick={submitMkdir} disabled={actionBusy === "mkdir"}>
-              {actionBusy === "mkdir" ? "Creating..." : "Create"}
+              {actionBusy === "mkdir" ? t("creatingInProgress") : t("createAction")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -462,13 +469,18 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
           <DialogHeader>
             <DialogTitle>Rename</DialogTitle>
             <DialogDescription>
-              {renameObj ? `Rename "${renameObj.name}" in ${props.currentPath}` : null}
+              {renameObj
+                ? t("renameDescription", {
+                  fileName: renameObj.name,
+                  currentPath: props.currentPath,
+                })
+                : null}
             </DialogDescription>
           </DialogHeader>
 
           <DialogMain>
             <div className="flex flex-col gap-3">
-              <span className="text-sm text-muted-foreground">New name</span>
+              <span className="text-sm text-muted-foreground">{t("newName")}</span>
               <Input
                 autoFocus
                 value={renameName}
@@ -491,7 +503,7 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
               Cancel
             </Button>
             <Button onClick={submitRename} disabled={actionBusy === "rename" || !renameObj}>
-              {actionBusy === "rename" ? "Renaming..." : "Rename"}
+              {actionBusy === "rename" ? t("renameInProgress") : t("renameAction")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -503,15 +515,17 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
           <DialogHeader>
             <DialogTitle>Delete</DialogTitle>
             <DialogDescription>
-              {deleteObj ? `This will permanently delete "${deleteObj.name}".` : null}
+              {deleteObj
+                ? t("deleteDescription", {
+                  fileName: deleteObj.name,
+                })
+                : null}
             </DialogDescription>
           </DialogHeader>
 
           <DialogMain>
             <div className="text-sm">
-              {deleteObj?.type === "DIRECTORY"
-                ? "If this folder is not empty, the server may refuse the operation."
-                : "This cannot be undone."}
+              {deleteObj?.type === "DIRECTORY" ? t("deleteDialogFolder") : t("deleteDialogFile")}
               {actionError ? <div className="mt-3 text-destructive">{actionError}</div> : null}
             </div>
           </DialogMain>
@@ -522,14 +536,14 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
               onClick={() => setDeleteOpen(false)}
               disabled={actionBusy === "delete"}
             >
-              Cancel
+              {t("cancel")}
             </Button>
             <Button
               variant="destructive"
               onClick={submitDelete}
               disabled={actionBusy === "delete" || !deleteObj}
             >
-              {actionBusy === "delete" ? "Deleting..." : "Delete"}
+              {actionBusy === "delete" ? t("deleteInProgress") : t("deleteAction")}
             </Button>
           </DialogFooter>
         </DialogContent>
