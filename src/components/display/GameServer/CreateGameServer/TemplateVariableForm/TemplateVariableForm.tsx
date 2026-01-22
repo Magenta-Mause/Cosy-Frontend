@@ -79,10 +79,10 @@ export default function TemplateVariableForm({
           }
           return { isValid: true };
         default:
-          // Validate regex if provided
+          // Validate regex if provided (full match)
           if (variable.regex) {
             try {
-              const regex = new RegExp(variable.regex);
+              const regex = new RegExp(`^(?:${variable.regex})$`);
               if (!regex.test(stringValue)) {
                 return { isValid: false, errorMessage: "validationErrorPattern" };
               }
@@ -111,16 +111,14 @@ export default function TemplateVariableForm({
         },
       }));
 
-      if (validation.isValid) {
-        // Convert value to correct type before calling callback
-        let typedValue: string | number | boolean = newValue;
-        if (variable.type === "number") {
-          typedValue = Number(newValue);
-        } else if (variable.type === "boolean") {
-          typedValue = String(newValue) === "true";
-        }
-        onValueChange(placeholder, typedValue);
+      // Always call onValueChange so parent can validate with current value
+      let typedValue: string | number | boolean = newValue;
+      if (variable.type === "number" && !Number.isNaN(Number(newValue))) {
+        typedValue = Number(newValue);
+      } else if (variable.type === "boolean") {
+        typedValue = String(newValue) === "true";
       }
+      onValueChange(placeholder, typedValue);
     },
     [validateValue, onValueChange],
   );

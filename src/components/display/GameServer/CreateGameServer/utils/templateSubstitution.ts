@@ -97,7 +97,7 @@ export function applyTemplate(
 }
 
 /**
- * Validates that all required template variables are filled
+ * Validates that all required template variables are filled and valid
  */
 export function validateTemplateVariables(
   template: TemplateEntity | null,
@@ -107,7 +107,6 @@ export function validateTemplateVariables(
     return true; // No variables to validate
   }
 
-  // Check all variables are present and have values
   for (const variable of template.variables) {
     const placeholder = variable.placeholder?.trim();
 
@@ -120,6 +119,40 @@ export function validateTemplateVariables(
     // Check if value exists and is not empty string
     if (value === undefined || value === null || value === "") {
       return false;
+    }
+
+    const stringValue = String(value);
+
+    // Validate based on type
+    switch (variable.type) {
+      case "number":
+        if (Number.isNaN(Number(stringValue))) {
+          return false;
+        }
+        break;
+      case "boolean":
+        if (stringValue !== "true" && stringValue !== "false") {
+          return false;
+        }
+        break;
+      case "select":
+        if (!(variable.options?.includes(stringValue) ?? false)) {
+          return false;
+        }
+        break;
+      default:
+        // Validate regex if provided (full match)
+        if (variable.regex) {
+          try {
+            const regex = new RegExp(`^(?:${variable.regex})$`);
+            if (!regex.test(stringValue)) {
+              return false;
+            }
+          } catch {
+            // Invalid regex, skip validation
+          }
+        }
+        break;
     }
   }
 
