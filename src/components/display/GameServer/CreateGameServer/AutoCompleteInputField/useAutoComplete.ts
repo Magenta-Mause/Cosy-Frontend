@@ -1,9 +1,9 @@
-import {useQuery} from "@tanstack/react-query";
-import {useCallback, useContext, useEffect, useRef, useState} from "react";
-import type {GameServerCreationDto} from "@/api/generated/model";
-import {GameServerCreationContext} from "../CreateGameServerModal";
-import {GameServerCreationPageContext} from "../GenericGameServerCreationPage";
-import type {AutoCompleteItem, GameServerCreationValue} from "./types";
+import { useQuery } from "@tanstack/react-query";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import type { GameServerCreationDto } from "@/api/generated/model";
+import { GameServerCreationContext } from "../CreateGameServerModal";
+import { GameServerCreationPageContext } from "../GenericGameServerCreationPage";
+import type { AutoCompleteItem, GameServerCreationValue } from "./types";
 
 const DEBOUNCE_DELAY = 300;
 
@@ -11,7 +11,9 @@ interface UseAutoCompleteOptions<TSelectedItem, TAutoCompleteData extends GameSe
   attribute: keyof GameServerCreationDto;
   validator: (value: TAutoCompleteData) => boolean;
   searchId?: string;
-  searchCallback: (searchValue: string) => Promise<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[]>;
+  searchCallback: (
+    searchValue: string,
+  ) => Promise<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[]>;
   disableDebounce?: boolean;
   onItemSelect?: (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => void;
 }
@@ -24,9 +26,9 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
   disableDebounce,
   onItemSelect,
 }: UseAutoCompleteOptions<TSelectedItem, TAutoCompleteData>) {
-  const {setGameServerState, creationState, setUtilState, triggerNextPage} =
+  const { setGameServerState, creationState, setUtilState, triggerNextPage } =
     useContext(GameServerCreationContext);
-  const {setAttributeValid, setAttributeTouched} = useContext(GameServerCreationPageContext);
+  const { setAttributeValid, setAttributeTouched } = useContext(GameServerCreationPageContext);
 
   const [open, setOpen] = useState(false);
   const initialDisplayName =
@@ -113,7 +115,7 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
     if (open) {
       setSelectedIndex(0);
     }
-  }, [open, autoCompleteItems]);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;

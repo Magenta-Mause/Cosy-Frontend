@@ -1,44 +1,43 @@
 import AutoCompleteInputField, {
   type AutoCompleteItem,
 } from "@components/display/GameServer/CreateGameServer/AutoCompleteInputField";
-import GenericGameServerCreationInputField
-  from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationInputField.tsx";
-import GenericGameServerCreationPage
-  from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
-import {Label} from "@components/ui/label";
-import {useQueryClient} from "@tanstack/react-query";
-import {useCallback, useContext} from "react";
-import {z} from "zod";
-import {queryGames} from "@/api/generated/backend-api.ts";
-import type {GameDto} from "@/api/generated/model";
+import GenericGameServerCreationInputField from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationInputField.tsx";
+import GenericGameServerCreationPage from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
+import { Label } from "@components/ui/label";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useContext } from "react";
+import { z } from "zod";
+import { queryGames } from "@/api/generated/backend-api.ts";
+import type { GameDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import {useTypedSelector} from "@/stores/rootReducer.ts";
-import {GameServerCreationContext} from "../CreateGameServerModal";
-import {distinctBy} from "@/lib/arrayUtils.ts";
+import { distinctBy } from "@/lib/arrayUtils.ts";
+import { useTypedSelector } from "@/stores/rootReducer.ts";
+import { GameServerCreationContext } from "../CreateGameServerModal";
 
 const Step1 = () => {
-  const {t} = useTranslationPrefix("components.CreateGameServer.steps.step1");
-  const {setUtilState, setGameServerState, creationState} = useContext(GameServerCreationContext);
+  const { t } = useTranslationPrefix("components.CreateGameServer.steps.step1");
+  const { setUtilState, setGameServerState, creationState } = useContext(GameServerCreationContext);
   const queryClient = useQueryClient();
   const templates = useTypedSelector((state) => state.templateSliceReducer.data);
 
   const mapGamesDtoToAutoCompleteItems = useCallback(
     (games: GameDto[]) =>
-      distinctBy(games, game => game.external_game_id)
-        .map((game): AutoCompleteItem<GameDto, string> => {
-        const templateCount = templates.filter(
-          (template) => template.game_id === game.external_game_id,
-        ).length;
-        return {
-          data: game,
-          value: (game.external_game_id ?? 0).toString(),
-          label: game.name,
-          additionalInformation:
-            templateCount > 0
-              ? `${templateCount} template${templateCount > 1 ? "s" : ""}`
-              : undefined,
-        };
-      }),
+      distinctBy(games, (game) => game.external_game_id).map(
+        (game): AutoCompleteItem<GameDto, string> => {
+          const templateCount = templates.filter(
+            (template) => template.game_id === game.external_game_id,
+          ).length;
+          return {
+            data: game,
+            value: (game.external_game_id ?? 0).toString(),
+            label: game.name,
+            additionalInformation:
+              templateCount > 0
+                ? `${templateCount} template${templateCount > 1 ? "s" : ""}`
+                : undefined,
+          };
+        },
+      ),
     [templates],
   );
 
@@ -68,8 +67,8 @@ const Step1 = () => {
             setUtilState("selectedTemplate")(undefined);
 
             // remove `external_game_id` from autoCompleteSelections
-            const {external_game_id, ...rest} =
-            creationState.utilState.autoCompleteSelections ?? {};
+            const { external_game_id: _external_game_id, ...rest } =
+              creationState.utilState.autoCompleteSelections ?? {};
 
             setUtilState("autoCompleteSelections")(rest);
           }}
@@ -84,7 +83,7 @@ const Step1 = () => {
           fallbackValue={"0" as string}
           searchId="gameInfo"
           searchCallback={(gameNameQuery) =>
-            queryGames({query: gameNameQuery}).then((games) =>
+            queryGames({ query: gameNameQuery }).then((games) =>
               mapGamesDtoToAutoCompleteItems(games),
             )
           }

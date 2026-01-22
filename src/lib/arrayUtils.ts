@@ -1,7 +1,4 @@
-export function distinctBy<T, K>(
-  items: T[],
-  keySelector: (item: T) => K
-): T[] {
+export function distinctBy<T, K>(items: T[], keySelector: (item: T) => K): T[] {
   const seenKeys = new Set<K>();
   const result: T[] = [];
 

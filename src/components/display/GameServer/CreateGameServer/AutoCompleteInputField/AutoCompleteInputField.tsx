@@ -1,10 +1,10 @@
-import {FieldLabel} from "@components/ui/field.tsx";
-import {Input} from "@components/ui/input";
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
+import { FieldLabel } from "@components/ui/field.tsx";
+import { Input } from "@components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import AutoCompleteItemList from "./AutoCompleteItemList";
-import type {AutoCompleteInputFieldProps, GameServerCreationValue} from "./types";
-import {useAutoComplete} from "./useAutoComplete";
+import type { AutoCompleteInputFieldProps, GameServerCreationValue } from "./types";
+import { useAutoComplete } from "./useAutoComplete";
 
 function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameServerCreationValue>({
   attribute,
@@ -21,7 +21,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
   description,
   label,
 }: AutoCompleteInputFieldProps<TSelectedItem, TAutoCompleteData>) {
-  const {t} = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
+  const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
 
   const {
     open,

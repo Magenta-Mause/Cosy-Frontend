@@ -1,8 +1,11 @@
-import {Label} from "@components/ui/label";
-import type {ReactNode} from "react";
-import type {AutoCompleteItem, GameServerCreationValue} from "./types";
+import { Label } from "@components/ui/label";
+import type { ReactNode } from "react";
+import type { AutoCompleteItem, GameServerCreationValue } from "./types";
 
-interface AutoCompleteItemRowProps<TSelectedItem, TAutoCompleteData extends GameServerCreationValue> {
+interface AutoCompleteItemRowProps<
+  TSelectedItem,
+  TAutoCompleteData extends GameServerCreationValue,
+> {
   item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>;
   index: number;
   isSelected: boolean;
@@ -21,25 +24,28 @@ function AutoCompleteItemRow<TSelectedItem, TAutoCompleteData extends GameServer
     <div
       role="option"
       aria-selected={isSelected}
+      tabIndex={-1}
       className={
         "flex flex-auto items-center px-2 py-1.5 cursor-pointer rounded-sm " +
         (isSelected ? "bg-accent text-accent-foreground" : "")
       }
       onClick={onSelect}
+      onKeyDown={(e) => e.key === "Enter" && onSelect()}
       onMouseEnter={() => onHover(index)}
     >
       {item.leftSlot && <div className="shrink-0 mr-2">{item.leftSlot}</div>}
       <Label className="text-xl flex justify-between w-full cursor-pointer">
         <p className="text-ellipsis">{item.label}</p>
-        {item.additionalInformation && (
-          <p className="opacity-50">{item.additionalInformation}</p>
-        )}
+        {item.additionalInformation && <p className="opacity-50">{item.additionalInformation}</p>}
       </Label>
     </div>
   );
 }
 
-interface AutoCompleteItemListProps<TSelectedItem, TAutoCompleteData extends GameServerCreationValue> {
+interface AutoCompleteItemListProps<
+  TSelectedItem,
+  TAutoCompleteData extends GameServerCreationValue,
+> {
   items: AutoCompleteItem<TSelectedItem, TAutoCompleteData>[] | undefined;
   isLoading: boolean;
   isError: boolean;
@@ -69,11 +75,7 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
   maxItems = 5,
 }: AutoCompleteItemListProps<TSelectedItem, TAutoCompleteData>) {
   if (isLoading) {
-    return (
-      <div className="px-2 py-1.5 text-sm text-muted-foreground">
-        {loadingLabel}
-      </div>
-    );
+    return <div className="px-2 py-1.5 text-sm text-muted-foreground">{loadingLabel}</div>;
   }
 
   if (!isError && items && items.length > 0) {
@@ -93,16 +95,19 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
     );
   }
 
+  const handleFallbackSelect = () =>
+    onSelectItem({
+      value: fallbackValue,
+      label: noItemsLabel ?? "No Items found",
+    } as AutoCompleteItem<TSelectedItem, TAutoCompleteData>);
+
   return (
     <div
       role="option"
+      tabIndex={-1}
       className="flex flex-auto items-center px-2 py-1.5 cursor-pointer rounded-sm hover:bg-accent hover:text-accent-foreground"
-      onClick={() =>
-        onSelectItem({
-          value: fallbackValue,
-          label: noItemsLabel ?? "No Items found",
-        } as AutoCompleteItem<TSelectedItem, TAutoCompleteData>)
-      }
+      onClick={handleFallbackSelect}
+      onKeyDown={(e) => e.key === "Enter" && handleFallbackSelect()}
     >
       {noItemsLabelRenderer?.(displayValue) ?? (
         <Label className="cursor-pointer">{noItemsLabel ?? "No items found"}</Label>

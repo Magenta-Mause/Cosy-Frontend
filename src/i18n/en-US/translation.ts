@@ -1,4 +1,4 @@
-import type {i18nLanguage} from "@/i18n/i18nKeys";
+import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
   userRoles: {
@@ -128,7 +128,8 @@ const translation: i18nLanguage = {
       useNoTemplate: "Continue without Template",
       reapplyDialog: {
         title: "Reapply Template?",
-        description: "You have changed template variables. Do you want to reapply the template with the new values? This will overwrite any manual changes you made in Step 3.",
+        description:
+          "You have changed template variables. Do you want to reapply the template with the new values? This will overwrite any manual changes you made in Step 3.",
         cancel: "Keep Current Values",
         confirm: "Reapply Template",
       },
@@ -148,7 +149,8 @@ const translation: i18nLanguage = {
             description: "Select a game to host on your server.",
             errorLabel: "Please select a valid game.",
             placeholder: "Search a game...",
-            noGamesFound: "No games found. Querying games might have failed. Select this for default game. (no specific game)",
+            noGamesFound:
+              "No games found. Querying games might have failed. Select this for default game. (no specific game)",
             noResultsLabel: "Unknown Game",
           },
         },

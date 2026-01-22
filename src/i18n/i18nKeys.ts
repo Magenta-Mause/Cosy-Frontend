@@ -146,21 +146,21 @@ export type i18nLanguage = {
   };
   components: {
     TemplateVariableForm: {
-      title: string,
-      noTemplateSelected: string,
-      noVariables: string,
-      selectPlaceholder: string,
-      example: string,
-      pattern: string,
-      validationError: string,
-      validationErrorRequired: string,
-      validationErrorNumber: string,
-      validationErrorBoolean: string,
-      validationErrorSelect: string,
-      validationErrorPattern: string,
-      booleanTrue: string,
-      booleanFalse: string,
-    }
+      title: string;
+      noTemplateSelected: string;
+      noVariables: string;
+      selectPlaceholder: string;
+      example: string;
+      pattern: string;
+      validationError: string;
+      validationErrorRequired: string;
+      validationErrorNumber: string;
+      validationErrorBoolean: string;
+      validationErrorSelect: string;
+      validationErrorPattern: string;
+      booleanTrue: string;
+      booleanFalse: string;
+    };
     CreateGameServer: {
       backButton: string;
       nextStepButton: string;
@@ -168,11 +168,11 @@ export type i18nLanguage = {
       useNoTemplate: string;
       createServerButton: string;
       reapplyDialog: {
-        title: string,
-        description: string,
-        cancel: string,
-        confirm: string,
-      },
+        title: string;
+        description: string;
+        cancel: string;
+        confirm: string;
+      };
       listInput: {
         addButton: string;
       };

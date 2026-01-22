@@ -1,18 +1,18 @@
 import AutoCompleteInputField, {
   type AutoCompleteItem,
 } from "@components/display/GameServer/CreateGameServer/AutoCompleteInputField";
-import {GameServerCreationContext} from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import TemplateVariableForm from "@components/display/GameServer/CreateGameServer/TemplateVariableForm";
-import {validateTemplateVariables} from "@components/display/GameServer/CreateGameServer/utils/templateSubstitution";
-import {useContext, useEffect} from "react";
-import type {TemplateEntity} from "@/api/generated/model";
+import { validateTemplateVariables } from "@components/display/GameServer/CreateGameServer/utils/templateSubstitution";
+import { useContext, useEffect } from "react";
+import type { TemplateEntity } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import {useTypedSelector} from "@/stores/rootReducer.ts";
+import { useTypedSelector } from "@/stores/rootReducer.ts";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
 
 export default function Step2() {
-  const {t} = useTranslationPrefix("components.CreateGameServer.steps.step2");
-  const {creationState, setUtilState, setCurrentPageValid} =
+  const { t } = useTranslationPrefix("components.CreateGameServer.steps.step2");
+  const { creationState, setUtilState, setCurrentPageValid } =
     useContext(GameServerCreationContext);
   const templates = useTypedSelector((state) => state.templateSliceReducer.data);
   const templatesForGame = templates.filter(
