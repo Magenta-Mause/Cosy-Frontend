@@ -14,7 +14,7 @@ function RouteComponent() {
     return <div className="flex justify-center items-center h-screen">Loading Game Server</div>;
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="container mx-auto flex flex-col gap-4 grow h-full">
       <FileBrowserDialog serverUuid={serverId} volumes={gameServer.volume_mounts} />
     </div>
   );

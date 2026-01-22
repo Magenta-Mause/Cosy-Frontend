@@ -42,7 +42,7 @@ const TABS = [
   {
     label: "file_explorer",
     icon: <FolderIcon style={iconStyles} />,
-    path: "/server/$serverId/file-explorer",
+    path: "/server/$serverId/files",
   },
   {
     label: "settings",

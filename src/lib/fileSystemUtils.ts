@@ -1,3 +1,4 @@
+import { readFileFromVolume } from "@/api/generated/backend-api";
 import type { FileSystemObjectDto } from "@/api/generated/model";
 
 export function stripLeadingSlash(p: string) {
@@ -130,4 +131,32 @@ export async function blobToTextIfLikely(blob: Blob) {
 
   const text = new TextDecoder("utf-8", { fatal: false }).decode(bytes);
   return { ok: true as const, text };
+}
+
+function filenameFromPath(path: string) {
+  return baseNameFromPath(path) || "download";
+}
+
+export async function downloadSingleFile(opts: {
+  serverUuid: string;
+  parentPath: string;
+  name: string;
+}) {
+  const { serverUuid, parentPath, name } = opts;
+
+  const fullPath = joinRemotePath(parentPath, name);
+  const apiPath = fullPath === "/" ? "" : fullPath;
+
+  const blob = (await readFileFromVolume(serverUuid, { path: apiPath })) as Blob;
+
+  const a = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+
+  a.href = url;
+  a.download = filenameFromPath(fullPath);
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
 }

@@ -9,7 +9,17 @@ import {
   DialogTitle,
 } from "@components/ui/dialog";
 import { Input } from "@components/ui/input";
-import { ChevronRight, File, Folder, Home, Pencil, Plus, RefreshCw, Trash2 } from "lucide-react";
+import {
+  ChevronRight,
+  Download,
+  File,
+  Folder,
+  Home,
+  Pencil,
+  Plus,
+  RefreshCw,
+  Trash2,
+} from "lucide-react";
 import * as React from "react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
 import { cn } from "@/lib/utils";
@@ -54,6 +64,8 @@ type FileBrowserListProps = {
     name: string;
     obj: FileSystemObjectDto;
   }) => Promise<unknown>;
+
+  onDownload?: (obj: FileSystemObjectDto) => Promise<unknown>;
 
   readOnly?: boolean;
 };
@@ -257,12 +269,16 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
               <button
                 type="button"
                 onClick={props.onRefresh}
-                className="inline-flex items-center"
+                className={cn(
+                  "inline-flex items-center gap-1 rounded-md px-2 py-1",
+                  "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+                )}
                 aria-label="Refresh"
                 disabled={props.loading}
                 title="Refresh"
               >
                 <RefreshCw className={cn("h-4 w-4", props.loading && "animate-spin")} />
+                <span className="hidden sm:inline">Refresh</span>
               </button>
             </span>
           </div>
@@ -347,7 +363,8 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
                                 aria-label={`Rename ${obj.name}`}
                                 title="Rename"
                               >
-                                <Pencil className="h-4 w-4" />
+                                <Pencil className="h-4 w-4 mr-1" />
+                                <span className="hidden sm:inline">Rename</span>
                               </button>
                             ) : null}
 
@@ -363,7 +380,27 @@ export const FileBrowserList = (props: FileBrowserListProps) => {
                                 aria-label={`Delete ${obj.name}`}
                                 title="Delete"
                               >
-                                <Trash2 className="h-4 w-4" />
+                                <Trash2 className="h-4 w-4 mr-1" />
+                                <span className="hidden sm:inline">Delete</span>
+                              </button>
+                            ) : null}
+                            {props.onDownload ? (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  if (props.onDownload) props.onDownload(obj);
+                                }}
+                                className={cn(
+                                  "inline-flex items-center rounded-md p-2",
+                                  "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+                                  dir ? "opacity-0" : "",
+                                )}
+                                disabled={props.loading}
+                                aria-label={`Download ${obj.name}`}
+                                title="Download"
+                              >
+                                <Download className="h-4 w-4 mr-1" />
+                                <span className="hidden sm:inline">Download</span>
                               </button>
                             ) : null}
                           </div>

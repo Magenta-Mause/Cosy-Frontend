@@ -13,7 +13,7 @@ import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/genera
 import { cn } from "@/lib/utils";
 import { useFileBrowserCache } from "@/hooks/useFileBrowserCache/useFileBrowserCache";
 import { useFileSelection } from "@/hooks/useFileSelection/useFileSelection";
-import { joinRemotePath, joinDir, normalizePath } from "@/lib/fileSystemUtils";
+import { joinRemotePath, joinDir, normalizePath, downloadSingleFile } from "@/lib/fileSystemUtils";
 import { zipAndDownload } from "@/lib/zipDownload";
 import { FileBrowserList } from "../FileBrowserList/FileBrowserList";
 import { FilePreview } from "../FilePreview/FilePreview";
@@ -159,9 +159,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
   return (
     <div
-      className={cn(
-        "border-border border-2 rounded-lg flex flex-col gap-2 w-400 h-200 p-4",
-      )}
+      className={cn("border-border border-3 rounded-lg flex flex-col gap-2 w-400 h-200 p-4")}
       style={{
         width: props.width !== undefined ? `${props.width}px` : undefined,
         height: props.height !== undefined ? `${props.height}px` : undefined,
@@ -170,9 +168,17 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     >
       <Input
         startDecorator={<Search />}
+        endDecorator={
+          <X
+            className="pointer-events-auto"
+            onClick={() => {
+              setSearch("");
+            }}
+          />
+        }
         type="text"
         placeholder="Search"
-        className="h-12 pl-10"
+        className="h-12 pl-10 border-3"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
@@ -263,6 +269,13 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
           await ensurePathFetched(parentPath, fetchDepth, { force: true });
         }}
+        onDownload={async (obj) => {
+          downloadSingleFile({
+            serverUuid: props.serverUuid,
+            parentPath: currentPath,
+            name: obj.name,
+          });
+        }}
       />
 
       <div className="flex gap-4">
@@ -276,7 +289,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
           {downloadingAll
             ? downloadProgress
               ? `Downloading ${downloadProgress.done}/${downloadProgress.total}`
-              : "Preparing…"
+              : "Preparing..."
             : "Download All"}
         </Button>
       </div>
