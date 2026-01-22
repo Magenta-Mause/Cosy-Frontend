@@ -78,12 +78,7 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
 
       setUtilState("autoCompleteSelections")({
         ...(creationState.utilState.autoCompleteSelections ?? {}),
-        [attribute]: {
-          label: item.label,
-          value: item.value,
-          additionalInformation: item.additionalInformation,
-          data: item.data,
-        },
+        [attribute]: item,
       });
 
       // Keep focus on the input after selection
