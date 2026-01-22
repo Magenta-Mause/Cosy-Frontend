@@ -12,6 +12,6 @@ export type GameServerLogMessageEntityLevel = typeof GameServerLogMessageEntityL
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GameServerLogMessageEntityLevel = {
   INFO: 'INFO',
-  DEBUG: 'DEBUG',
+  COSY_DEBUG: 'COSY_DEBUG',
   ERROR: 'ERROR',
 } as const;
