@@ -74,7 +74,7 @@ const UserTable = () => {
                 {selectedRole ? formatRole(selectedRole) : "Filter"}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-background">
+            <DropdownMenuContent>
               <DropdownMenuGroup>
                 <DropdownMenuItem onClick={() => setSelectedRole("OWNER")}>Owner</DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSelectedRole("ADMIN")}>Admin</DropdownMenuItem>
