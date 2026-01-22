@@ -14,7 +14,6 @@ export * from './gameServerDtoStatus';
 export * from './gameServerLogMessageEntity';
 export * from './gameServerLogMessageEntityLevel';
 export * from './gameServerUpdateDto';
-export * from './getGameInfoParams';
 export * from './getLogsParams';
 export * from './getMetricsParams';
 export * from './getMetricsType';

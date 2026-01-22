@@ -14,8 +14,6 @@ export interface GameServerCreationDto {
   /** @minLength 1 */
   server_name: string;
   /** @minLength 1 */
-  template: string;
-  /** @minLength 1 */
   docker_image_name: string;
   /** @minLength 1 */
   docker_image_tag: string;

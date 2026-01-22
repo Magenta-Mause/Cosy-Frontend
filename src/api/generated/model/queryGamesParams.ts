@@ -7,8 +7,5 @@
  */
 
 export type QueryGamesParams = {
-/**
- * @minLength 1
- */
 query: string;
 };
