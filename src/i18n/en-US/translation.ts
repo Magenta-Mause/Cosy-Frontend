@@ -92,6 +92,9 @@ const translation: i18nLanguage = {
     loginInfo: "Please log in with your new account.",
     createGameServerSuccess: "Game Server created successfully!",
     createGameServerError: "Failed to create Game Server!",
+    hardwareLimits: "Hardware Limits",
+    cpuLimit: "Max CPU Cores: {{cpu}}",
+    memoryLimit: "Max Memory: {{memory}}",
   },
   deleteGameServerDialog: {
     title: "Are you sure?",

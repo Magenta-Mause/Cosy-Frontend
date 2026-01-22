@@ -93,6 +93,9 @@ const translation: i18nLanguage = {
     loginInfo: "Bitte loggen Sie sich mit Ihrem neuen Konto ein.",
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
     createGameServerError: "Fehler beim Erstellen des Gameservers!",
+    hardwareLimits: "Hardware-Limits",
+    cpuLimit: "Max CPU: {{cpu}} Kerne",
+    memoryLimit: "Max RAM: {{memory}}",
   },
   deleteGameServerDialog: {
     title: "Sind Sie sicher?",
