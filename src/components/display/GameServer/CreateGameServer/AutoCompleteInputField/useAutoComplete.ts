@@ -6,6 +6,7 @@ import { GameServerCreationPageContext } from "../GenericGameServerCreationPage"
 import type { AutoCompleteItem, GameServerCreationValue } from "./types";
 
 const DEBOUNCE_DELAY = 300;
+const MAX_ITEMS_DISPLAYED = 5;
 
 interface UseAutoCompleteOptions<TSelectedItem, TAutoCompleteData extends GameServerCreationValue> {
   attribute: keyof GameServerCreationDto;
@@ -102,8 +103,7 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
     ],
   );
 
-  const maxItems = 5;
-  const itemCount = autoCompleteItems ? Math.min(autoCompleteItems.length, maxItems) : 0;
+  const itemCount = autoCompleteItems ? Math.min(autoCompleteItems.length, MAX_ITEMS_DISPLAYED) : 0;
 
   // Reset selected index when popover opens or items change
   useEffect(() => {
@@ -136,7 +136,7 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
       if (e.key === "Enter" && autoCompleteItems && autoCompleteItems.length > 0) {
         e.preventDefault();
         e.stopPropagation();
-        const items = autoCompleteItems.slice(0, maxItems);
+        const items = autoCompleteItems.slice(0, MAX_ITEMS_DISPLAYED);
         if (selectedIndex < items.length) {
           selectItem(items[selectedIndex]);
         }

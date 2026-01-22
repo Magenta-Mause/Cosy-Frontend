@@ -1,3 +1,4 @@
+import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { FieldError, FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
@@ -8,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select";
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import type { TemplateEntity, Variable } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
@@ -31,6 +32,7 @@ export default function TemplateVariableForm({
   initialValues = {},
 }: TemplateVariableFormProps) {
   const { t } = useTranslationPrefix("components.TemplateVariableForm");
+  const { triggerNextPage } = useContext(GameServerCreationContext);
 
   // Initialize state for all variables
   const [variableStates, setVariableStates] = useState<Record<string, VariableState>>(() => {
@@ -206,6 +208,11 @@ export default function TemplateVariableForm({
               placeholder={variable.placeholder}
               value={String(state?.value ?? "")}
               onChange={(e) => handleValueChange(variable, e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  triggerNextPage();
+                }
+              }}
               className={showError ? "border-red-500" : ""}
             />
             {variable.example && (
@@ -232,6 +239,11 @@ export default function TemplateVariableForm({
               placeholder={variable.placeholder}
               value={String(state?.value ?? "")}
               onChange={(e) => handleValueChange(variable, e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  triggerNextPage();
+                }
+              }}
               className={showError ? "border-red-500" : ""}
             />
             {variable.regex && (
