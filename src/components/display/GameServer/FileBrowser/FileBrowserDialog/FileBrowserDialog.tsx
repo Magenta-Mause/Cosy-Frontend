@@ -3,6 +3,7 @@ import { Input } from "@components/ui/input";
 import { Download, Search, Upload, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
+  uploadFileToVolume,
   useCreateDirectoryInVolume,
   useDeleteInVolume,
   useReadFileFromVolume,
@@ -85,11 +86,33 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   }, [objects, search]);
 
   useEffect(() => {
-    void ensurePathFetched(currentPath, fetchDepth);
+    ensurePathFetched(currentPath, fetchDepth);
   }, [currentPath, fetchDepth, ensurePathFetched]);
 
   const openFileDialog = () => {
     fileInputRef.current?.click();
+  };
+
+  const uploadSelectedFile = async (file: File) => {
+    const path = joinRemotePath(currentPath, file.name);
+    const apiPath = path === "/" ? "" : path;
+
+    await uploadFileToVolume(props.serverUuid, file, { path: apiPath });
+    await ensurePathFetched(currentPath, fetchDepth, { force: true });
+  };
+
+  const onFilePicked: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      await uploadSelectedFile(file);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to upload file");
+    } finally {
+      e.target.value = "";
+    }
   };
 
   const onEntryClick = async (obj: FileSystemObjectDto) => {
@@ -269,12 +292,13 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
           {downloadingAll
             ? downloadProgress
               ? t("downloadingFile", {
-                  done: downloadProgress.done,
-                  total: downloadProgress.total,
-                })
+                done: downloadProgress.done,
+                total: downloadProgress.total,
+              })
               : t("preparing")
             : t("downloadAllAction")}
         </Button>
+        <input ref={fileInputRef} type="file" className="hidden" onChange={onFilePicked} />
       </div>
     </div>
   );
