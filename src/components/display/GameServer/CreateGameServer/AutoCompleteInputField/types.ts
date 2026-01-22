@@ -1,5 +1,5 @@
 import type * as React from "react";
-import type { GameServerCreationDto } from "@/api/generated/model";
+import type {GameServerCreationDto} from "@/api/generated/model";
 
 export type GameServerCreationValue = Exclude<
   GameServerCreationDto[keyof GameServerCreationDto],
@@ -21,8 +21,9 @@ export interface AutoCompleteInputFieldProps<
   TSelectedItem,
   TAutoCompleteData extends GameServerCreationValue,
 > {
-  attribute: keyof GameServerCreationDto | "template";
-  validator: (value: TAutoCompleteData) => boolean;
+  attribute?: keyof GameServerCreationDto;
+  selectionKey?: string;
+  validator?: (value: TAutoCompleteData) => boolean;
   placeholder: string;
   fallbackValue: TAutoCompleteData;
   onItemSelect?: (

@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button.tsx";
+import {Button} from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogClose,
@@ -9,21 +9,16 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import { useEffect, useMemo, useState } from "react";
-import { parse as parseCommand } from "shell-quote";
+import {useEffect, useMemo, useState} from "react";
+import {parse as parseCommand} from "shell-quote";
 import * as z from "zod";
-import {
-  type GameServerDto,
-  type GameServerUpdateDto,
-  PortMappingProtocol,
-} from "@/api/generated/model";
+import {type GameServerDto, type GameServerUpdateDto, PortMappingProtocol,} from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
 
 const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
-  game_uuid: server.game_uuid,
   server_name: server.server_name,
   docker_image_name: server.docker_image_name,
   docker_image_tag: server.docker_image_tag,
@@ -131,7 +126,6 @@ const EditGameServerModal = (props: {
 
     const fieldsChanged =
       gameServerState.server_name !== props.gameServer.server_name ||
-      gameServerState.game_uuid !== props.gameServer.game_uuid ||
       gameServerState.docker_image_name !== props.gameServer.docker_image_name ||
       gameServerState.docker_image_tag !== props.gameServer.docker_image_tag;
 
@@ -205,7 +199,7 @@ const EditGameServerModal = (props: {
             label={t("gameSelection.title")}
             description={t("gameSelection.description")}
             errorLabel={t("gameSelection.errorLabel")}
-            value={gameServerState.game_uuid}
+            value={gameServerState.external_game_id}
             disabled={true}
             onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
             optional={true}

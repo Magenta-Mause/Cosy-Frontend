@@ -1,16 +1,17 @@
-import { useQuery } from "@tanstack/react-query";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import type { GameServerCreationDto } from "@/api/generated/model";
-import { GameServerCreationContext } from "../CreateGameServerModal";
-import { GameServerCreationPageContext } from "../GenericGameServerCreationPage";
-import type { AutoCompleteItem, AutoCompleteSelections, GameServerCreationValue } from "./types";
+import {useQuery} from "@tanstack/react-query";
+import {useCallback, useContext, useEffect, useRef, useState} from "react";
+import type {GameServerCreationDto} from "@/api/generated/model";
+import {GameServerCreationContext} from "../CreateGameServerModal";
+import {GameServerCreationPageContext} from "../GenericGameServerCreationPage";
+import type {AutoCompleteItem, AutoCompleteSelections, GameServerCreationValue} from "./types";
 
 const DEBOUNCE_DELAY = 300;
 const MAX_ITEMS_DISPLAYED = 5;
 
 interface UseAutoCompleteOptions<TSelectedItem, TAutoCompleteData extends GameServerCreationValue> {
-  attribute: keyof GameServerCreationDto;
-  validator: (value: TAutoCompleteData) => boolean;
+  attribute?: keyof GameServerCreationDto;
+  selectionKey?: string;
+  validator?: (value: TAutoCompleteData) => boolean;
   searchId?: string;
   searchCallback: (
     searchValue: string,
@@ -24,6 +25,7 @@ interface UseAutoCompleteOptions<TSelectedItem, TAutoCompleteData extends GameSe
 
 export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameServerCreationValue>({
   attribute,
+  selectionKey,
   validator,
   searchId,
   searchCallback,
@@ -34,9 +36,11 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
     useContext(GameServerCreationContext);
   const { setAttributeValid, setAttributeTouched } = useContext(GameServerCreationPageContext);
 
+  const effectiveKey = attribute ?? selectionKey ?? "";
+
   const [open, setOpen] = useState(false);
   const initialDisplayName =
-    creationState.utilState.autoCompleteSelections?.[attribute]?.label ?? "";
+    creationState.utilState.autoCompleteSelections?.[effectiveKey]?.label ?? "";
   const [displayName, setDisplayName] = useState<string>(initialDisplayName);
   const [queryGameName, setQueryGameName] = useState<string>("");
 
@@ -59,18 +63,20 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
   const isLoading = queryLoading || debounceRef.current !== null;
 
   useEffect(() => {
-    setAttributeTouched(attribute, creationState.gameServerState[attribute] !== undefined);
+    if (attribute) {
+      setAttributeTouched(attribute, creationState.gameServerState[attribute] !== undefined);
+    }
   }, [setAttributeTouched, attribute, creationState.gameServerState]);
 
   // Sync display name with saved selection when returning to this step
   useEffect(() => {
     if (!open) {
-      const savedLabel = creationState.utilState.autoCompleteSelections?.[attribute]?.label;
+      const savedLabel = creationState.utilState.autoCompleteSelections?.[effectiveKey]?.label;
       if (savedLabel && displayName !== savedLabel) {
         setDisplayName(savedLabel);
       }
     }
-  }, [open, creationState.utilState.autoCompleteSelections, attribute, displayName]);
+  }, [open, creationState.utilState.autoCompleteSelections, effectiveKey, displayName]);
 
   useEffect(() => {
     return () => {
@@ -82,18 +88,20 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
 
   const selectItem = useCallback(
     (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => {
-      const valid = validator(item.value);
-
       setDisplayName(item.label);
       setOpen(false);
-      setGameServerState(attribute)(item.value);
-      setAttributeValid(attribute, valid);
-      setAttributeTouched(attribute, true);
+
+      if (attribute) {
+        const valid = validator ? validator(item.value) : true;
+        setGameServerState(attribute)(item.value);
+        setAttributeValid(attribute, valid);
+        setAttributeTouched(attribute, true);
+      }
 
       const updatedSelections = {
         ...(creationState.utilState.autoCompleteSelections ?? {}),
-        [attribute]: item,
-      };
+        [effectiveKey]: item,
+      } as AutoCompleteSelections;
 
       setUtilState("autoCompleteSelections")(updatedSelections);
 
@@ -103,6 +111,7 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
     },
     [
       attribute,
+      effectiveKey,
       setAttributeTouched,
       setAttributeValid,
       setGameServerState,

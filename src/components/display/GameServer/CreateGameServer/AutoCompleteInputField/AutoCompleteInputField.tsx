@@ -8,6 +8,7 @@ import { useAutoComplete } from "./useAutoComplete";
 
 function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameServerCreationValue>({
   attribute,
+  selectionKey,
   validator,
   placeholder,
   onItemSelect,
@@ -22,6 +23,8 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
   label,
 }: AutoCompleteInputFieldProps<TSelectedItem, TAutoCompleteData>) {
   const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
+
+  const effectiveId = attribute ?? selectionKey;
 
   const {
     open,
@@ -38,6 +41,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     handleItemHover,
   } = useAutoComplete({
     attribute,
+    selectionKey,
     validator,
     searchId,
     searchCallback,
@@ -50,14 +54,14 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       <PopoverTrigger tabIndex={-1}>
         <div className="w-full" tabIndex={-1}>
           {label && (
-            <FieldLabel htmlFor={attribute} className={"text-lg"}>
+            <FieldLabel htmlFor={effectiveId} className={"text-lg"}>
               {label}
             </FieldLabel>
           )}
           <Input
             ref={inputRef}
             placeholder={placeholder}
-            id={attribute}
+            id={effectiveId}
             value={displayName}
             onClick={() => defaultOpen && setOpen(true)}
             onFocus={() => defaultOpen && setOpen(true)}
@@ -66,7 +70,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
             onKeyDown={handleInputKeyDown}
             className={"w-full"}
           />
-          {description && <FieldLabel htmlFor={attribute}>{description}</FieldLabel>}
+          {description && <FieldLabel htmlFor={effectiveId}>{description}</FieldLabel>}
         </div>
       </PopoverTrigger>
 

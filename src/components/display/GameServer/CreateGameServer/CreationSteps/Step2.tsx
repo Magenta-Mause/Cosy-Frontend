@@ -48,8 +48,7 @@ export default function Step2() {
     <GenericGameServerCreationPage>
       <div className={"flex flex-col gap-4"}>
         <AutoCompleteInputField
-          attribute={"template"}
-          validator={(value) => value !== ""}
+          selectionKey="template"
           placeholder={"Select a template"}
           description={t("templateSelection.description")}
           label={`${t("templateSelection.title")} (Optional)`}
