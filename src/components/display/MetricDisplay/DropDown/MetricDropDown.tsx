@@ -21,7 +21,7 @@ const MetricDropDown = (props: {
     t(`metrics.types.${props.metricType}`),
   );
 
-  const handleSelect = (type: string) => {
+  const handleSelect = (type: GetMetricsType) => {
     setSelectedLabel(t(`metrics.types.${type}`));
     props.setMetricType(type);
   };
@@ -35,7 +35,7 @@ const MetricDropDown = (props: {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-30 bg-primary-modal-background" align="end">
         <DropdownMenuGroup>
-          <DropdownMenuItem onSelect={() => handleSelect(GetMetricsType.MEMORY_PERCENT)}>
+          <DropdownMenuItem onSelect={() => handleSelect(GetMetricsType.CPU_PERCENT)}>
             {t(`metrics.types.${GetMetricsType.CPU_PERCENT}`)}
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={() => handleSelect(GetMetricsType.MEMORY_PERCENT)}>
