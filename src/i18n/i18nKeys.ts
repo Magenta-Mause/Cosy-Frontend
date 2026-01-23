@@ -94,7 +94,6 @@ export type i18nLanguage = {
     loginInfo: string;
     createGameServerSuccess: string;
     createGameServerError: string;
-    hardwareLimits: string;
     cpuLimit: ContainsVariable<"cpu">;
     memoryLimit: ContainsVariable<"memory">;
   };
