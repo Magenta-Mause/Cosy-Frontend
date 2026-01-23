@@ -9,8 +9,8 @@
 }
 
 @font-face {
-  font-family: "Gothic";
-  src: url("./assets/Old English Gothic Pixel.ttf");
+  font-family: "Fipps";
+  src: url("./assets/FippsRegular-enqx.otf");
   font-weight: normal;
   font-style: normal;
 }
@@ -33,7 +33,32 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Gothic", serif;
+  font-family: "Fipps", serif;
+  color: #6e2727;
+}
+
+h1 {
+  font-size: 42px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 22px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 12px;
+}
+
+h6 {
+  font-size: 10px;
 }
 
 [data-slot="context-menu-item"] {

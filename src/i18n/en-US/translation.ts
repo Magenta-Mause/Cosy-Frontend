@@ -56,7 +56,7 @@ const translation: i18nLanguage = {
     shareInstructions:
       "Share this link with the person you want to invite. They can use it to create their account.",
     copyLink: "Copy Invite Link",
-    backToUsers: "Back to Users",
+    backToUsers: "Back to Creation",
     pendingInvites: "Pending Invites",
     unclaimedInvite: "Unclaimed Invite",
     created: "Created: {{date}}",

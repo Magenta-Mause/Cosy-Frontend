@@ -52,7 +52,7 @@ const translation: i18nLanguage = {
     shareInstructions:
       "Teilen Sie diesen Link mit der Person, die Sie einladen möchten. Sie kann ihn nutzen, um ihr Konto zu erstellen.",
     copyLink: "Einladungslink kopieren",
-    backToUsers: "Zurück zu Benutzern",
+    backToUsers: "Zurück zur Erstellung",
     pendingInvites: "Ausstehende Einladungen",
     unclaimedInvite: "Nicht beanspruchte Einladung",
     created: "Erstellt: {{date}}",
