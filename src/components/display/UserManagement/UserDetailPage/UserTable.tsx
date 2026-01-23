@@ -73,7 +73,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
       <div className="flex flex-row justify-between items-center w-full">
         <div className="flex flex-row items-center gap-3">
           <Input
-            className="h-10"
+            className="h-10 border-2"
             placeholder="Search"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -178,7 +178,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
           No users found {selectedRole ? `for role ${formatRole(selectedRole)}` : ""}
         </div>
       )}
-      {users.length > 0 && invites.length > 0 && <Separator className="my-4" />}
+      {users.length > 0 && invites.length > 0 && <Separator className="my-4 pb-0.5" />}
 
       {invites.length > 0 && (
         <>

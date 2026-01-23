@@ -42,7 +42,7 @@
     --color-chart-2: var(--chart-2);
     --color-chart-1: var(--chart-1);
     --color-ring: var(--ring);
-    --color-input: var(--input);
+    --color-input: var(--color-border);
     --color-destructive: var(--destructive);
     --color-accent-foreground: var(--accent-foreground);
     --color-accent: var(--accent);
@@ -56,7 +56,7 @@
     --color-card-foreground: var(--card-foreground);
     --color-link: var(--link);
     --color-primary-modal-background: var(--primary-modal-background);
-    --color-primary-banner: var(--primary-banner);
+    --color-primary-banner: var(--color-secondary-background);
 
     --color-button-primary-default: var(--button-primary-default);
     --color-button-primary-hover: var(--button-primary-hover);
