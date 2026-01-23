@@ -2,6 +2,7 @@ export type i18nLanguage = {
   overviewPage: {
     createNewServer: string;
   };
+
   rightClickMenu: {
     edit: string;
     delete: string;
@@ -13,6 +14,7 @@ export type i18nLanguage = {
     loading: string;
     failed: string;
   };
+
   toasts: {
     notImplemented: string;
     deleteGameServerSuccess: string;
@@ -37,6 +39,7 @@ export type i18nLanguage = {
     updateGameServerError: string;
     missingUuid: string;
   };
+
   userModal: {
     title: string;
     inviteUserTitle: string;
@@ -64,11 +67,13 @@ export type i18nLanguage = {
     cpuDescription: string;
     placeholder: string;
   };
+
   userRoles: {
     QUOTA_USER: string;
     ADMIN: string;
     OWNER: string;
   };
+
   inviteRedemption: {
     title: string;
     description: string;
@@ -93,18 +98,21 @@ export type i18nLanguage = {
     cpuLimit: ContainsVariable<"cpu">;
     memoryLimit: ContainsVariable<"memory">;
   };
+
   deleteGameServerDialog: {
     title: string;
-    explanation: string;
     description: string;
+    explanation: string;
     inputLabel: string;
     cancel: string;
     confirm: string;
   };
+
   aria: {
     createNewGameServer: string;
     gameServer: ContainsVariable<"serverName">;
   };
+
   signIn: {
     signIn: string;
     desc: string;
@@ -118,11 +126,14 @@ export type i18nLanguage = {
     loading: string;
     logout: string;
   };
-  consequence: ContainsVariable<"counter">; // example
+
+  consequence: ContainsVariable<"counter">;
+
   logDisplay: {
     serverLog: string;
     timestampFormat: string;
   };
+
   serverPage: {
     notFound: string;
     start: string;
@@ -138,6 +149,7 @@ export type i18nLanguage = {
       settings: string;
     };
   };
+
   serverStatus: {
     RUNNING: string;
     STARTING: string;
@@ -147,6 +159,7 @@ export type i18nLanguage = {
     AWAITING_UPDATE: string;
     STOPPING: string;
   };
+
   components: {
     CreateGameServer: {
       backButton: string;
@@ -223,6 +236,7 @@ export type i18nLanguage = {
             title: string;
             description: string;
             errorLabel: string;
+          };
         };
       };
       autoCompleteInputField: {
@@ -230,6 +244,7 @@ export type i18nLanguage = {
         noResultsLabel: string;
       };
     };
+
     editGameServer: {
       title: ContainsVariable<"serverName">;
       description: string;
@@ -267,8 +282,8 @@ export type i18nLanguage = {
         errorLabel: string;
         description: string;
         placeholder: {
-          containerPort: string;
           instancePort: string;
+          containerPort: string;
           protocol: string;
         };
       };
@@ -304,9 +319,10 @@ export type i18nLanguage = {
       };
     };
   };
+
   genericModal: {
     cancel: string;
   };
 };
 
-type ContainsVariable<_T extends string> = `${string}{$T}${string}`;
+type ContainsVariable<T extends string> = `${string}{{${T}}}${string}`;
