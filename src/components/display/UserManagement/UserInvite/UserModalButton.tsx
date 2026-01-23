@@ -29,7 +29,7 @@ const UserModalButton = (props: { className?: string }) => {
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
-  const { createInvite, revokeInvite } = useDataInteractions();
+  const { createInvite } = useDataInteractions();
 
   const handleCreateInvite = async () => {
     setIsCreating(true);
