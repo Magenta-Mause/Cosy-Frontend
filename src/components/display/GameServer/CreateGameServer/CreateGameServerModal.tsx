@@ -61,6 +61,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
   const handleNextPage = useCallback(() => {
     if (isLastPage) {
+      // biome-ignore lint/suspicious/noExplicitAny: explicit any for form state destructuring
       const { docker_max_cpu, docker_max_memory, ...rest } = creationState.gameServerState as any;
 
       const gameServerCreationObject = {
