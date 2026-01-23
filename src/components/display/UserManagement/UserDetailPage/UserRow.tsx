@@ -11,7 +11,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
   return (
     <Card>
       <CardContent className="flex gap-7 items-center m-3 justify-between">
-        <div className="flex gap-2">
+        <div className="flex gap-2 font-semibold">
           {props.user.username}
           <Badge
             className={cn(
@@ -37,8 +37,8 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
           </div>
         )}
         <div>
-          <Button>
-            <Ellipsis />
+          <Button className="h-10 w-10">
+            <Ellipsis className="size-4" />
           </Button>
         </div>
       </CardContent>

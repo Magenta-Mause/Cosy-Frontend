@@ -8,13 +8,9 @@ import {
 } from "@components/ui/dropdown-menu";
 import { Input } from "@components/ui/input";
 import { Separator } from "@components/ui/separator";
-import {
-  ArrowDownWideNarrow,
-  ArrowUpDown,
-  ArrowUpWideNarrow,
-  Funnel,
-} from "lucide-react";
+import { ArrowDownWideNarrow, ArrowUpDown, ArrowUpWideNarrow, Funnel } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer";
 import UserModalButton from "../UserInvite/UserModalButton";
@@ -34,6 +30,7 @@ interface UserListProps {
 const UserTable = ({ onRevoke }: UserListProps) => {
   const users = useTypedSelector((state) => state.userSliceReducer.data);
   const invites = useTypedSelector((state) => state.userInviteSliceReducer.data);
+  const { t } = useTranslation();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState<UserEntityDtoRole | null>(null);
@@ -181,9 +178,18 @@ const UserTable = ({ onRevoke }: UserListProps) => {
           No users found {selectedRole ? `for role ${formatRole(selectedRole)}` : ""}
         </div>
       )}
-      {users.length > 0 && invites.length > 0 && <Separator />}
+      {users.length > 0 && invites.length > 0 && <Separator className="my-4" />}
 
-      <PendingInvites onRevoke={onRevoke} />
+      {invites.length > 0 && (
+        <>
+          <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+            {t("userModal.pendingInvites")}
+          </h4>
+          {invites.map((invite, index) => (
+            <PendingInvites onRevoke={onRevoke} invite={invite} key={invite.uuid || index} />
+          ))}
+        </>
+      )}
     </div>
   );
 };
