@@ -125,7 +125,6 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
 
               {inviteData?.docker_hardware_limits && (
                 <div className="flex flex-col gap-2 mb-4 justify-center items-center">
-                  <p className="text-sm font-medium">{t("inviteRedemption.hardwareLimits")}</p>
                   <div className="flex gap-2">
                     {inviteData.docker_hardware_limits.docker_max_cpu_cores && (
                       <Badge variant="outline">
