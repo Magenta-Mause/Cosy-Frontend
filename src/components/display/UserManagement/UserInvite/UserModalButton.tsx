@@ -80,7 +80,7 @@ const UserModalButton = (props: { className?: string }) => {
           Invite
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="w-[40%]">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             {view === "invite" && t("userModal.inviteUserTitle")}

@@ -40,8 +40,8 @@ export const InviteForm = ({
   return (
     <div className="flex flex-col gap-4 py-4">
       <div className="space-y-2">
-        <div className="flex flex-row justify-between">
-          <div>
+        <div className="flex flex-row gap-5 justify-between">
+          <div className="flex-1">
             <Input
               header={t("userModal.usernameLabel")}
               description={t("userModal.usernameDescription")}
@@ -56,7 +56,7 @@ export const InviteForm = ({
               }}
             />
           </div>
-          <div className="flex flex-col content-center justify-start">
+          <div className="flex flex-col justify-start ">
             <Label className="font-bold text-sm pb-2 leading-5.5" htmlFor="invite-role">{t("userModal.roleLabel")}</Label>
             <Select defaultValue={userRole} onValueChange={onUserRoleChange}>
               <SelectTrigger id={"invite-role"} className="py-1 text-base w-23.75">
@@ -74,8 +74,8 @@ export const InviteForm = ({
             </Select>
           </div>
         </div>
-        <div className="flex justify-between">
-          <div className="w-[45%]">
+        <div className="flex justify-between gap-5">
+          <div className="w-[50%]">
             <Input
               header={t("userModal.memoryLimit")}
               description={t("userModal.memoryDescription")}
@@ -90,7 +90,7 @@ export const InviteForm = ({
               className="no-spinner"
             />
           </div>
-          <div className="w-[45%]">
+          <div className="w-[50%]">
             <Input
               header={t("userModal.cpuLimit")}
               description={t("userModal.cpuDescription")}
