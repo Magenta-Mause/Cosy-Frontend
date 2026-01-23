@@ -33,7 +33,6 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               <ResourceUsageBadge currentValue="4,3" limit={props.user.max_memory} unit="GB" resourceTyp="Memory" />
             }
             <ResourceUsageBadge currentValue="55" limit={299} unit="GB" resourceTyp="Storage" />
-            <ResourceUsageBadge currentValue="1" limit={99} resourceTyp="Instances" />
           </div>
         )}
         <div>
