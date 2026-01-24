@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { useCallback, useContext, useState } from "react";
 import type { TemplateEntity, Variable } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { SelectInput, BooleanInput, NumberInput, TextInput } from "./inputs";
+import { BooleanInput, NumberInput, SelectInput, TextInput } from "./inputs";
 
 interface TemplateVariableFormProps {
   template: TemplateEntity | null;

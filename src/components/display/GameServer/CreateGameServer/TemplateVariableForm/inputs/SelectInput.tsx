@@ -23,10 +23,7 @@ export default function SelectInput({
       <FieldLabel htmlFor={placeholder} className="text-lg">
         {variable.name}
       </FieldLabel>
-      <Select
-        value={String(value ?? "")}
-        onValueChange={(val) => onValueChange(variable, val)}
-      >
+      <Select value={String(value ?? "")} onValueChange={(val) => onValueChange(variable, val)}>
         <SelectTrigger id={placeholder} className={showError ? "border-red-500" : ""}>
           <SelectValue placeholder={t("selectPlaceholder")} />
         </SelectTrigger>
