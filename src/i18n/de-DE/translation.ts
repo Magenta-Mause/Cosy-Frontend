@@ -164,6 +164,7 @@ const translation: i18nLanguage = {
             description: "Wählen Sie eine Vorlage für Ihren Server aus",
             errorLabel: "Bitte wählen Sie eine gültige Vorlage aus.",
             noResultsLabel: "Keine Vorlagen gefunden.",
+            placeholder: "Vorlage auswählen...",
           },
         },
         step3: {

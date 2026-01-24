@@ -162,6 +162,7 @@ const translation: i18nLanguage = {
             description: "Select a template for your server",
             errorLabel: "Please select a valid template.",
             noResultsLabel: "No templates found",
+            placeholder: "Select a template...",
           },
         },
         step3: {

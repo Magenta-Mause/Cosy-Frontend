@@ -49,7 +49,7 @@ export default function Step2() {
       <div className={"flex flex-col gap-4"}>
         <AutoCompleteInputField
           selectionKey="template"
-          placeholder={"Select a template"}
+          placeholder={t("templateSelection.placeholder")}
           description={t("templateSelection.description")}
           label={`${t("templateSelection.title")} (Optional)`}
           fallbackValue={"" as string}

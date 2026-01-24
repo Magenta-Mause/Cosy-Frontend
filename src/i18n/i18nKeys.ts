@@ -201,6 +201,7 @@ export type i18nLanguage = {
             description: string;
             errorLabel: string;
             noResultsLabel: string;
+            placeholder: string;
           };
         };
         step3: {
