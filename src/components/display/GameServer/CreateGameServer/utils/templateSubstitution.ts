@@ -1,4 +1,3 @@
-import { quote } from "shell-quote";
 import {
   type EnvironmentVariableConfiguration,
   type GameServerCreationDto,
@@ -80,11 +79,9 @@ export function applyTemplate(
 
   // Substitute execution command and convert to string
   if (template.docker_execution_command) {
-    const substitutedCommands = template.docker_execution_command.map((cmd) =>
+    newState.execution_command = template.docker_execution_command.map((cmd) =>
       substituteVariables(cmd, variables),
     );
-    // Convert array to shell-quoted string for the input field
-    newState.execution_command = quote(substitutedCommands) as unknown as string[];
   }
 
   // File mounts (volume mounts) - convert to VolumeMountConfigurationCreationDto format
