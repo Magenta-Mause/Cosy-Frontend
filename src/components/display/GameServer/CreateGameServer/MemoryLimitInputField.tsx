@@ -16,7 +16,7 @@ const MemoryLimitInputField = (props: {
   description?: string;
   optional?: boolean;
   defaultValue?: string;
-  maxLimit?: number | null;
+  maxLimit?: number | string | null;
 }) => {
   const { setGameServerState, creationState, triggerNextPage } =
     useContext(GameServerCreationContext);
@@ -32,6 +32,20 @@ const MemoryLimitInputField = (props: {
 
       // Check max limit if exists
       if (props.maxLimit !== null && props.maxLimit !== undefined) {
+        let maxLimit = props.maxLimit;
+        if (typeof maxLimit === "string") {
+          const lower = maxLimit.toLowerCase();
+          const val = parseFloat(lower);
+          if (!Number.isNaN(val)) {
+            maxLimit = lower.includes("g") ? val * 1024 : val;
+          } else {
+            // Invalid limit string, ignore constraint or fail safe?
+            // If we can't parse the limit, let's treat it as no limit or log error
+            // treating as no limit for now to avoid blocking
+            maxLimit = Number.MAX_VALUE;
+          }
+        }
+
         let numVal = typeof value === "string" ? parseFloat(value) : value;
 
         if (typeof value === "string" && !Number.isNaN(numVal)) {
@@ -40,7 +54,7 @@ const MemoryLimitInputField = (props: {
           }
         }
 
-        if (!Number.isNaN(numVal) && numVal > props.maxLimit) {
+        if (!Number.isNaN(numVal) && numVal > maxLimit) {
           return false;
         }
       }
@@ -113,9 +127,10 @@ const MemoryLimitInputField = (props: {
     }
   }, [props.defaultValue, updateState, props.attribute, creationState.gameServerState]);
 
-  const formatLimit = (limit: number | null | undefined) => {
+  const formatLimit = (limit: number | string | null | undefined) => {
     if (limit === null) return "∞";
     if (limit === undefined) return "";
+    if (typeof limit === "string") return limit;
     if (limit >= 1024 && limit % 1024 === 0) {
       return `${limit / 1024} GiB`;
     }
