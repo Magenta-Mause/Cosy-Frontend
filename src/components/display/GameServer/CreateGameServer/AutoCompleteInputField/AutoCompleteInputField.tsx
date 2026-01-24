@@ -74,7 +74,14 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
         </div>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[35vw]" onOpenAutoFocus={(e) => e.preventDefault()}>
+      <PopoverContent
+        className="w-[35vw]"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        onCloseAutoFocus={(e) => {
+          e.preventDefault();
+          inputRef.current?.focus();
+        }}
+      >
         <AutoCompleteItemList
           items={autoCompleteItems}
           isLoading={isLoading}
