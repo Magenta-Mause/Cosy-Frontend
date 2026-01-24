@@ -1,17 +1,9 @@
 import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
-import { FieldError, FieldLabel } from "@components/ui/field";
-import { Input } from "@components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@components/ui/select";
 import { useCallback, useContext, useState } from "react";
 import type { TemplateEntity, Variable } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { SelectInput, BooleanInput, NumberInput, TextInput } from "./inputs";
 
 interface TemplateVariableFormProps {
   template: TemplateEntity | null;
@@ -128,139 +120,25 @@ export default function TemplateVariableForm({
     const state = variableStates[placeholder];
     const showError = state?.touched && !state?.isValid;
 
+    const commonProps = {
+      variable,
+      value: state?.value ?? "",
+      showError,
+      errorMessage: state?.errorMessage,
+      onValueChange: handleValueChange,
+      onEnterKey: triggerNextPage,
+      t,
+    };
+
     switch (variable.type) {
       case "select":
-        return (
-          <div key={placeholder} className="space-y-2">
-            <FieldLabel htmlFor={placeholder} className="text-lg">
-              {variable.name}
-            </FieldLabel>
-            <Select
-              value={String(state?.value ?? "")}
-              onValueChange={(value) => handleValueChange(variable, value)}
-            >
-              <SelectTrigger id={placeholder} className={showError ? "border-red-500" : ""}>
-                <SelectValue placeholder={t("selectPlaceholder")} />
-              </SelectTrigger>
-              <SelectContent>
-                {variable.options?.map((option) => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {variable.example && (
-              <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
-                {t("example")}: {variable.example}
-              </FieldLabel>
-            )}
-            {showError && (
-              <FieldError>
-                {state?.errorMessage ? t(state.errorMessage) : t("validationError")}
-              </FieldError>
-            )}
-          </div>
-        );
-
+        return <SelectInput key={placeholder} {...commonProps} />;
       case "boolean":
-        return (
-          <div key={placeholder} className="space-y-2">
-            <FieldLabel htmlFor={placeholder} className="text-lg">
-              {variable.name}
-            </FieldLabel>
-            <Select
-              value={String(state?.value ?? "false")}
-              onValueChange={(value) => handleValueChange(variable, value)}
-            >
-              <SelectTrigger id={placeholder} className={showError ? "border-red-500" : ""}>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="true">{t("booleanTrue")}</SelectItem>
-                <SelectItem value="false">{t("booleanFalse")}</SelectItem>
-              </SelectContent>
-            </Select>
-            {variable.example && (
-              <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
-                {t("example")}: {variable.example}
-              </FieldLabel>
-            )}
-            {showError && (
-              <FieldError>
-                {state?.errorMessage ? t(state.errorMessage) : t("validationError")}
-              </FieldError>
-            )}
-          </div>
-        );
-
+        return <BooleanInput key={placeholder} {...commonProps} />;
       case "number":
-        return (
-          <div key={placeholder} className="space-y-2">
-            <FieldLabel htmlFor={placeholder} className="text-lg">
-              {variable.name}
-            </FieldLabel>
-            <Input
-              id={placeholder}
-              type="number"
-              placeholder={variable.placeholder}
-              value={String(state?.value ?? "")}
-              onChange={(e) => handleValueChange(variable, e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  triggerNextPage();
-                }
-              }}
-              className={showError ? "border-red-500" : ""}
-            />
-            {variable.example && (
-              <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
-                {t("example")}: {variable.example}
-              </FieldLabel>
-            )}
-            {showError && (
-              <FieldError>
-                {state?.errorMessage ? t(state.errorMessage) : t("validationError")}
-              </FieldError>
-            )}
-          </div>
-        );
+        return <NumberInput key={placeholder} {...commonProps} />;
       default:
-        return (
-          <div key={placeholder} className="space-y-2">
-            <FieldLabel htmlFor={placeholder} className="text-lg">
-              {variable.name}
-            </FieldLabel>
-            <Input
-              id={placeholder}
-              type="text"
-              placeholder={variable.placeholder}
-              value={String(state?.value ?? "")}
-              onChange={(e) => handleValueChange(variable, e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  triggerNextPage();
-                }
-              }}
-              className={showError ? "border-red-500" : ""}
-            />
-            {variable.regex && (
-              <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
-                {t("pattern")}: <code className="text-xs">{variable.regex}</code>
-              </FieldLabel>
-            )}
-            {variable.example && (
-              <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
-                {t("example")}: {variable.example}
-              </FieldLabel>
-            )}
-            {showError && (
-              <FieldError>
-                {state?.errorMessage ? t(state.errorMessage) : t("validationError")}
-              </FieldError>
-            )}
-          </div>
-        );
+        return <TextInput key={placeholder} {...commonProps} />;
     }
   };
 
