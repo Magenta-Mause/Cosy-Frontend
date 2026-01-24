@@ -114,13 +114,7 @@ export function validateTemplateVariables(
       return false;
     }
     const value = variables[placeholder];
-
-    // Check if value exists and is not empty string
-    if (value === undefined || value === null || value === "") {
-      return false;
-    }
-
-    const stringValue = String(value);
+    const stringValue = value === undefined || value === null ? "" : String(value);
 
     // Validate based on type
     switch (variable.type) {
