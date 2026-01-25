@@ -23,7 +23,8 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               props.user.role === "QUOTA_USER" && "bg-white",
             )}
           >
-            {t(`components.userManagement.userRow.roles.${props.userRole.toLowerCase()}`)}          </Badge>
+            {t(`components.userManagement.userRow.roles.${props.userRole.toLowerCase()}`)}
+          </Badge>
         </div>
         {(props.userRole === "QUOTA_USER" || props.userRole === "ADMIN") && (
           <div className="flex gap-3 flex-1 justify-end">
