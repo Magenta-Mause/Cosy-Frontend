@@ -336,26 +336,6 @@ const EditGameServerModal = (props: {
           />
 
           <div className="grid grid-cols-2 gap-4">
-            <MemoryLimitInputEditGameServer
-              id="memory_limit"
-              validator={z.string().min(1)}
-              placeholder="512"
-              label={t("memoryLimitSelection.title")}
-              description={t("memoryLimitSelection.description")}
-              errorLabel={t("memoryLimitSelection.errorLabel")}
-              value={gameServerState.docker_hardware_limits?.docker_memory_limit}
-              onChange={(v) =>
-                setGameServerState((s) => ({
-                  ...s,
-                  docker_hardware_limits: {
-                    ...s.docker_hardware_limits,
-                    docker_memory_limit: v ?? undefined,
-                  },
-                }))
-              }
-              optional={true}
-            />
-
             <InputFieldEditGameServer
               id="cpu_limit"
               validator={z.string().min(1)}
@@ -370,6 +350,26 @@ const EditGameServerModal = (props: {
                   docker_hardware_limits: {
                     ...s.docker_hardware_limits,
                     docker_max_cpu_cores: v ? Number(v) : undefined,
+                  },
+                }))
+              }
+              optional={true}
+            />
+
+            <MemoryLimitInputEditGameServer
+              id="memory_limit"
+              validator={z.string().min(1)}
+              placeholder="512"
+              label={t("memoryLimitSelection.title")}
+              description={t("memoryLimitSelection.description")}
+              errorLabel={t("memoryLimitSelection.errorLabel")}
+              value={gameServerState.docker_hardware_limits?.docker_memory_limit}
+              onChange={(v) =>
+                setGameServerState((s) => ({
+                  ...s,
+                  docker_hardware_limits: {
+                    ...s.docker_hardware_limits,
+                    docker_memory_limit: v ?? undefined,
                   },
                 }))
               }

@@ -64,12 +64,9 @@ const MemoryLimitInputEditGameServer = (props: {
   return (
     <div className="py-2">
       {props.label && (
-        <div className="flex flex-col gap-1.5 mb-2">
-          <Label htmlFor={props.id}>{props.label}</Label>
-          {props.description && (
-            <p className="text-sm text-muted-foreground">{props.description}</p>
-          )}
-        </div>
+        <Label htmlFor={props.id} className="pb-2 font-bold">
+          {props.label}
+        </Label>
       )}
       <MemoryLimitInput
         id={props.id}
@@ -78,6 +75,11 @@ const MemoryLimitInputEditGameServer = (props: {
         value={props.value}
         onChange={(val) => changeCallback(val)}
       />
+      {props.description && (
+        <Label htmlFor={props.id} className="pt-2 text-muted-foreground">
+          {props.description}
+        </Label>
+      )}
       {isError && <FieldError>{props.errorLabel}</FieldError>}
     </div>
   );

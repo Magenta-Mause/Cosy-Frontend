@@ -122,6 +122,7 @@ export const MemoryLimitInput = ({
 
   return (
     <Input
+      header
       className={`${isError ? "border-red-500" : ""} pr-16 ${className ?? ""}`}
       placeholder={placeholder}
       onChange={(e) => handleInputChange(e.target.value)}
