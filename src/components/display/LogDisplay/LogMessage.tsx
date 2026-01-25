@@ -8,13 +8,13 @@ import {
 
 const levelColors: Record<string, string> = {
   [GameServerLogMessageEntityLevel.INFO]: "text-sky-300",
-  [GameServerLogMessageEntityLevel.DEBUG]: "text-amber-300",
+  [GameServerLogMessageEntityLevel.COSY_DEBUG]: "text-amber-300",
   [GameServerLogMessageEntityLevel.ERROR]: "text-red-400",
 };
 
 const levelBgColors: Record<string, string> = {
   [GameServerLogMessageEntityLevel.INFO]: "bg-sky-900/20",
-  [GameServerLogMessageEntityLevel.DEBUG]: "bg-amber-900/20",
+  [GameServerLogMessageEntityLevel.COSY_DEBUG]: "bg-amber-900/20",
   [GameServerLogMessageEntityLevel.ERROR]: "bg-red-900/20",
 };
 
