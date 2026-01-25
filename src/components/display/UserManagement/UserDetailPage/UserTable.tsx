@@ -4,6 +4,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { Input } from "@components/ui/input";
@@ -98,7 +99,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
                 </DropdownMenuItem>
                 {selectedRole && (
                   <>
-                    <div className="h-px bg-muted my-1" />
+                    <div className="h-px bg-border my-1" />
                     <DropdownMenuItem
                       className="text-destructive focus:text-destructive"
                       onClick={() => setSelectedRole(null)}
@@ -151,7 +152,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
 
                 {sortField && (
                   <>
-                    <div className="h-px bg-muted my-1" />
+                    <div className="h-px bg-border my-1" />
                     <DropdownMenuItem
                       className="text-destructive"
                       onClick={() => setSortField(null)}
