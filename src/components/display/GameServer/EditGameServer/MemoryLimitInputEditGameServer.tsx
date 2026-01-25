@@ -16,6 +16,7 @@ const MemoryLimitInputEditGameServer = (props: {
   optional?: boolean;
   defaultValue?: string;
   disabled?: boolean;
+  maxLimit?: number | string | null;
 }) => {
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -25,9 +26,34 @@ const MemoryLimitInputEditGameServer = (props: {
   const validate = useCallback(
     (value: unknown) => {
       if (props.optional && (value === null || value === undefined || value === "")) return true;
+
+      if (props.maxLimit !== undefined && props.maxLimit !== null) {
+        let maxLimit = props.maxLimit;
+        if (typeof maxLimit === "string") {
+          const lower = maxLimit.toLowerCase();
+          const val = parseFloat(lower);
+          if (!Number.isNaN(val)) {
+            maxLimit = lower.includes("g") ? val * 1024 : val;
+          } else {
+            maxLimit = Number.MAX_VALUE;
+          }
+        }
+
+        let numVal = typeof value === "string" ? parseFloat(value) : Number(value);
+        if (typeof value === "string" && !Number.isNaN(numVal)) {
+          if (value.endsWith("GiB")) {
+            numVal = numVal * 1024;
+          }
+        }
+
+        if (!Number.isNaN(numVal) && numVal > maxLimit) {
+          return false;
+        }
+      }
+
       return props.validator.safeParse(value).success;
     },
-    [props.optional, props.validator],
+    [props.optional, props.validator, props.maxLimit],
   );
 
   const changeCallback = useCallback(
@@ -61,6 +87,16 @@ const MemoryLimitInputEditGameServer = (props: {
     }
   }, [props.optional]);
 
+  const formatLimit = (limit: number | string | null | undefined) => {
+    if (limit === null) return "∞";
+    if (limit === undefined) return "";
+    if (typeof limit === "string") return limit;
+    if (limit >= 1024 && limit % 1024 === 0) {
+      return `${limit / 1024} GiB`;
+    }
+    return `${limit} MiB`;
+  };
+
   return (
     <div className="py-2">
       {props.label && (
@@ -75,9 +111,10 @@ const MemoryLimitInputEditGameServer = (props: {
         value={props.value}
         onChange={(val) => changeCallback(val)}
       />
-      {props.description && (
+      {(props.description || props.maxLimit !== undefined) && (
         <Label htmlFor={props.id} className="pt-2 text-muted-foreground">
           {props.description}
+          {props.maxLimit !== undefined && <span> (Limit: {formatLimit(props.maxLimit)})</span>}
         </Label>
       )}
       {isError && <FieldError>{props.errorLabel}</FieldError>}

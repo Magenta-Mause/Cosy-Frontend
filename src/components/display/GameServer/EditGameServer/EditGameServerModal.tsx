@@ -1,3 +1,4 @@
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
@@ -9,7 +10,7 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { parse as parseCommand } from "shell-quote";
 import * as z from "zod";
 import {
@@ -55,6 +56,7 @@ const EditGameServerModal = (props: {
   onOpenChange: (open: boolean) => void;
 }) => {
   const { t } = useTranslationPrefix("components.editGameServer");
+  const { cpuLimit, memoryLimit } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [gameServerState, setGameServerState] = useState<ExtendedGameServerUpdateDto>(() =>
     mapGameServerDtoToUpdate(props.gameServer),
@@ -340,8 +342,11 @@ const EditGameServerModal = (props: {
               id="cpu_limit"
               validator={z.string().min(1)}
               placeholder="0.5"
-              label={t("cpuLimitSelection.title")}
-              description={t("cpuLimitSelection.description")}
+              label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
+              description={
+                t("cpuLimitSelection.description") +
+                (cpuLimit !== null ? ` (Limit: ${cpuLimit})` : " (Limit: ∞)")
+              }
               errorLabel={t("cpuLimitSelection.errorLabel")}
               value={gameServerState.docker_hardware_limits?.docker_max_cpu_cores}
               onChange={(v) =>
@@ -360,8 +365,9 @@ const EditGameServerModal = (props: {
               id="memory_limit"
               validator={z.string().min(1)}
               placeholder="512"
-              label={t("memoryLimitSelection.title")}
+              label={`Ram Limit${memoryLimit === null ? " (Optional)" : ""}`}
               description={t("memoryLimitSelection.description")}
+              maxLimit={memoryLimit}
               errorLabel={t("memoryLimitSelection.errorLabel")}
               value={gameServerState.docker_hardware_limits?.docker_memory_limit}
               onChange={(v) =>
