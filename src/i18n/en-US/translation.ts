@@ -66,9 +66,9 @@ const translation: i18nLanguage = {
     copyTooltip: "Click to copy link",
     roleLabel: "User role",
     editTooltip: "Click to edit user settings",
-    memoryLimit: "RAM limit (Optional)",
+    memoryLimit: "RAM (Optional)",
     memoryDescription: "Leave it empty to allow the user to have unlimited RAM.",
-    cpuLimit: "CPU limit (Optional)",
+    cpuLimit: "CPU Cores (Optional)",
     cpuDescription: "Leave it empty to allow the user to have unlimited CPU cores.",
     placeholder: "Unlimted",
   },
@@ -92,8 +92,8 @@ const translation: i18nLanguage = {
     loginInfo: "Please log in with your new account.",
     createGameServerSuccess: "Game Server created successfully!",
     createGameServerError: "Failed to create Game Server!",
-    cpuLimit: "Max CPU Cores: {{cpu}}",
-    memoryLimit: "Max Memory: {{memory}}",
+    cpuLimit: "CPU Cores: {{cpu}}",
+    memoryLimit: "RAM: {{memory}}",
   },
   deleteGameServerDialog: {
     title: "Are you sure?",
@@ -190,12 +190,12 @@ const translation: i18nLanguage = {
             errorLabel: "Either both host path and container path must be provided or neither.",
           },
           memoryLimitSelection: {
-            title: "Memory Limit",
+            title: "RAM",
             description: "Limit the memory usage of the server",
             errorLabel: "Please enter a valid memory limit.",
           },
           cpuLimitSelection: {
-            title: "CPU Limit (in cores)",
+            title: "CPU Cores",
             description: "Limit the CPU usage of the server",
             errorLabel: "Please enter a valid CPU limit.",
           },
@@ -268,13 +268,13 @@ const translation: i18nLanguage = {
       },
 
       memoryLimitSelection: {
-        title: "Memory Limit",
+        title: "RAM",
         description: "Limit the memory usage of the server",
         errorLabel: "Please enter a valid memory limit.",
       },
 
       cpuLimitSelection: {
-        title: "CPU Limit (in cores)",
+        title: "CPU Cores",
         description: "Limit the CPU usage of the server",
         errorLabel: "Please enter a valid CPU limit.",
       },
@@ -287,6 +287,7 @@ const translation: i18nLanguage = {
   logDisplay: {
     serverLog: "Server Log",
     timestampFormat: "HH:mm:ss.SSS",
+    stickToBottom: "Stick to bottom",
   },
   serverPage: {
     notFound: "not found",
@@ -295,6 +296,10 @@ const translation: i18nLanguage = {
     back: "Back",
     pullingImage: "Pulling Image...",
     status: "Status",
+    unlimited: "Unlimited",
+    dockerHardwareLimits: "Docker Hardware Limits",
+    cpuLimit: "CPU Cores",
+    memoryLimit: "RAM",
     navbar: {
       overview: "Dashboard",
       console: "Console",

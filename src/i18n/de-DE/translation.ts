@@ -62,9 +62,9 @@ const translation: i18nLanguage = {
     copyTooltip: "Klicken zum Kopieren",
     roleLabel: "Benutzerrolle",
     editTooltip: "Klicken zum Bearbeiten der Benutzereinstellungen",
-    memoryLimit: "RAM limit (Optional)",
+    memoryLimit: "RAM Limit (Optional)",
     memoryDescription: "Leer lassen, damit der Benutzer unbegrenzt RAM zur Verfügung hat.",
-    cpuLimit: "CPU limit (Optional)",
+    cpuLimit: "CPU Kern Limit (Optional)",
     cpuDescription: "Leer lassen, damit der Benutzer unbegrenzte CPU Kerne zur Verfügung hat.",
     placeholder: "Unbegrenzt",
   },
@@ -93,8 +93,8 @@ const translation: i18nLanguage = {
     loginInfo: "Bitte loggen Sie sich mit Ihrem neuen Konto ein.",
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
     createGameServerError: "Fehler beim Erstellen des Gameservers!",
-    cpuLimit: "Max CPU: {{cpu}} Kerne",
-    memoryLimit: "Max RAM: {{memory}}",
+    cpuLimit: "CPU Kern Limit: {{cpu}}",
+    memoryLimit: "RAM Limit: {{memory}}",
   },
   deleteGameServerDialog: {
     title: "Sind Sie sicher?",
@@ -194,12 +194,12 @@ const translation: i18nLanguage = {
               "Entweder müssen sowohl Host-Pfad als auch Container-Pfad angegeben werden oder keiner von beiden.",
           },
           memoryLimitSelection: {
-            title: "Speicherlimit",
+            title: "RAM Limit",
             description: "Maximaler RAM, der diesem Server zugewiesen wird",
             errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
           },
           cpuLimitSelection: {
-            title: "CPU-Limit (Cores)",
+            title: "CPU Kern Limit",
             description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
             errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
           },
@@ -272,13 +272,13 @@ const translation: i18nLanguage = {
       },
 
       memoryLimitSelection: {
-        title: "Speicherlimit",
+        title: "RAM Limit",
         description: "Maximaler RAM, der diesem Server zugewiesen wird",
         errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
       },
 
       cpuLimitSelection: {
-        title: "CPU-Limit (Cores)",
+        title: "CPU Kern Limit",
         description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
         errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
       },
@@ -290,6 +290,7 @@ const translation: i18nLanguage = {
   logDisplay: {
     serverLog: "Server-Protokoll",
     timestampFormat: "HH:mm:ss.SSS",
+    stickToBottom: "Nach unten scrollen",
   },
   serverPage: {
     notFound: "Nicht gefunden",
@@ -298,6 +299,10 @@ const translation: i18nLanguage = {
     back: "Zurück",
     pullingImage: "Image wird geladen...",
     status: "Status",
+    dockerHardwareLimits: "Docker Hardwarelimitierungen",
+    cpuLimit: "CPU Kerne",
+    memoryLimit: "RAM",
+    unlimited: "Unlimitiert",
     navbar: {
       overview: "Dashboard",
       console: "Console",

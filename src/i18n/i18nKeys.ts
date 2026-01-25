@@ -131,6 +131,7 @@ export type i18nLanguage = {
   logDisplay: {
     serverLog: string;
     timestampFormat: string;
+    stickToBottom: string;
   };
 
   serverPage: {
@@ -140,6 +141,10 @@ export type i18nLanguage = {
     pullingImage: string;
     status: string;
     back: string;
+    ockerHardwareLimits: string;
+    cpuLimit: string;
+    memoryLimit: string;
+    unlimited: string;
     navbar: {
       overview: string;
       console: string;
