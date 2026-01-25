@@ -4,7 +4,7 @@ import { ArrowBigRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 
-const UserDetailButton = (props: { className?: string }) => {
+const UserDetailButton = () => {
   const router = useRouter();
   const { t } = useTranslation();
 

@@ -17,12 +17,16 @@ const GameServerHouseAligner = (props: { gameServers: GameServerDto[] }) => {
 
   return (
     <div className="w-full h-full relative">
+
       {props.gameServers.map((gameServer, index) => (
         <GameServerHouse key={gameServer.uuid} gameServer={gameServer} style={getStyle(index)} />
       ))}
+      <div className="absolute right-10 top-1/4 -translate-y-1/2">
+        <UserDetailButton />
+      </div>
       <ConstructionPlaceHouse style={getStyle(props.gameServers.length)} />
-      <UserDetailButton />
     </div>
+
   );
 };
 

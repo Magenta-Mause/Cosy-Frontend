@@ -19,7 +19,7 @@ function UserDetailPage() {
     <div className="p-2">
       <Button onClick={() => router.navigate({ to: "/" })}>
         <ArrowLeft className="size-5" />
-        Back
+        {t("components.CreateGameServer.backButton")}
       </Button>
 
       <UserTable onRevoke={revokeInvite} />
