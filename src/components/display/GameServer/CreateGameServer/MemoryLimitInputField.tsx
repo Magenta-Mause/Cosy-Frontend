@@ -1,13 +1,13 @@
+import { MemoryLimitInput } from "@components/common/MemoryLimitInput.tsx";
 import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 import { FieldError } from "@components/ui/field.tsx";
-import { Input } from "@components/ui/input.tsx";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useCallback, useContext, useEffect } from "react";
 import type { ZodType } from "zod";
 import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
 
-const GenericGameServerCreationInputField = (props: {
+const MemoryLimitInputField = (props: {
   attribute: keyof GameServerCreationDto;
   validator: ZodType;
   placeholder: string;
@@ -16,7 +16,7 @@ const GenericGameServerCreationInputField = (props: {
   description?: string;
   optional?: boolean;
   defaultValue?: string;
-  maxLimit?: number | null;
+  maxLimit?: number | string | null;
 }) => {
   const { setGameServerState, creationState, triggerNextPage } =
     useContext(GameServerCreationContext);
@@ -32,8 +32,29 @@ const GenericGameServerCreationInputField = (props: {
 
       // Check max limit if exists
       if (props.maxLimit !== null && props.maxLimit !== undefined) {
-        const numVal = typeof value === "string" ? parseFloat(value) : value;
-        if (!Number.isNaN(numVal) && numVal > props.maxLimit) {
+        let maxLimit = props.maxLimit;
+        if (typeof maxLimit === "string") {
+          const lower = maxLimit.toLowerCase();
+          const val = parseFloat(lower);
+          if (!Number.isNaN(val)) {
+            maxLimit = lower.includes("g") ? val * 1024 : val;
+          } else {
+            // Invalid limit string, ignore constraint or fail safe?
+            // If we can't parse the limit, let's treat it as no limit or log error
+            // treating as no limit for now to avoid blocking
+            maxLimit = Number.MAX_VALUE;
+          }
+        }
+
+        let numVal = typeof value === "string" ? parseFloat(value) : value;
+
+        if (typeof value === "string" && !Number.isNaN(numVal)) {
+          if (value.endsWith("GiB")) {
+            numVal = numVal * 1024;
+          }
+        }
+
+        if (!Number.isNaN(numVal) && numVal > maxLimit) {
           return false;
         }
       }
@@ -80,14 +101,14 @@ const GenericGameServerCreationInputField = (props: {
     creationState.gameServerState,
   ]);
 
-  const changeCallback = useCallback(
-    (value: string) => {
-      if (value === "" && props.defaultValue !== undefined)
+  const updateState = useCallback(
+    (newValue: string) => {
+      if (newValue === "" && props.defaultValue !== undefined)
         return setGameServerState(props.attribute)(props.defaultValue);
-      setGameServerState(props.attribute)(value);
+      setGameServerState(props.attribute)(newValue);
 
-      // Always validate, regardless of optional status, if user is typing
-      setAttributeValid(props.attribute, validate(value));
+      // Always validate
+      setAttributeValid(props.attribute, validate(newValue));
       setAttributeTouched(props.attribute, true);
     },
     [
@@ -101,10 +122,20 @@ const GenericGameServerCreationInputField = (props: {
   );
 
   useEffect(() => {
-    if (props.defaultValue !== undefined) {
-      changeCallback(props.defaultValue);
+    if (props.defaultValue !== undefined && !creationState.gameServerState[props.attribute]) {
+      updateState(props.defaultValue);
     }
-  }, [changeCallback, props.defaultValue]);
+  }, [props.defaultValue, updateState, props.attribute, creationState.gameServerState]);
+
+  const formatLimit = (limit: number | string | null | undefined) => {
+    if (limit === null) return "∞";
+    if (limit === undefined) return "";
+    if (typeof limit === "string") return limit;
+    if (limit >= 1024 && limit % 1024 === 0) {
+      return `${limit / 1024} GiB`;
+    }
+    return `${limit} MiB`;
+  };
 
   return (
     <div>
@@ -113,12 +144,12 @@ const GenericGameServerCreationInputField = (props: {
           <label htmlFor={props.attribute}>{props.label}</label>
         </div>
       )}
-      <Input
-        className={isError ? "border-red-500" : ""}
-        placeholder={props.placeholder}
-        onChange={(e) => changeCallback(e.target.value)}
+      <MemoryLimitInput
         id={props.attribute}
         value={creationState.gameServerState[props.attribute] as string | number | undefined}
+        onChange={updateState}
+        placeholder={props.placeholder}
+        isError={isError}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             triggerNextPage();
@@ -128,9 +159,7 @@ const GenericGameServerCreationInputField = (props: {
       {(props.description || props.maxLimit !== undefined) && (
         <DialogDescription>
           {props.description}
-          {props.maxLimit !== undefined && (
-            <span> (Limit: {props.maxLimit !== null ? props.maxLimit : "∞"})</span>
-          )}
+          {props.maxLimit !== undefined && <span> (Limit: {formatLimit(props.maxLimit)})</span>}
         </DialogDescription>
       )}
       {isError && <FieldError>{props.errorLabel}</FieldError>}
@@ -138,4 +167,4 @@ const GenericGameServerCreationInputField = (props: {
   );
 };
 
-export default GenericGameServerCreationInputField;
+export default MemoryLimitInputField;

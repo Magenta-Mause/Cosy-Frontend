@@ -6,11 +6,11 @@
  * OpenAPI spec version: v1.0
  */
 import type { UserEntityDtoRole } from './userEntityDtoRole';
+import type { DockerHardwareLimits } from './dockerHardwareLimits';
 
 export interface UserEntityDto {
   uuid?: string;
   username?: string;
   role?: UserEntityDtoRole;
-  maxMemory?: number;
-  maxCpu?: number;
+  dockerHardwareLimits?: DockerHardwareLimits;
 }

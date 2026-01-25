@@ -48,7 +48,7 @@ const LogDisplay = (
             onChange={(e) => setSticky(e.target.checked)}
             className="accent-emerald-500"
           />
-          <span className="text-[11px]">Stick to bottom</span>
+          <span className="text-[11px]">{t("logDisplay.stickToBottom")}</span>
         </label>
       </div>
 

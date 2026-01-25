@@ -1,13 +1,17 @@
 import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
 import PortInput from "@components/display/GameServer/CreateGameServer/PortInput.tsx";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { DialogDescription } from "@components/ui/dialog.tsx";
+import { useContext } from "react";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
+import MemoryLimitInputField from "../MemoryLimitInputField.tsx";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");
+  const { cpuLimit, memoryLimit } = useContext(AuthContext);
 
   return (
     <GenericGameServerCreationPage>
@@ -84,6 +88,30 @@ export default function Step3() {
         objectKey="host_path"
         objectValue="container_path"
       />
+
+      <div className="grid grid-cols-2 gap-4">
+        <GenericGameServerCreationInputField
+          attribute="docker_max_cpu"
+          validator={z.string().min(1)}
+          placeholder="0.5"
+          optional={cpuLimit === null}
+          maxLimit={cpuLimit}
+          label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
+          description={t("cpuLimitSelection.description")}
+          errorLabel={t("cpuLimitSelection.errorLabel")}
+        />
+
+        <MemoryLimitInputField
+          attribute="docker_max_memory"
+          validator={z.string().min(1)}
+          placeholder="512"
+          optional={memoryLimit === null}
+          maxLimit={memoryLimit}
+          label={t("memoryLimitSelection.title") + (memoryLimit === null ? " (Optional)" : "")}
+          description={t("memoryLimitSelection.description")}
+          errorLabel={t("memoryLimitSelection.errorLabel")}
+        />
+      </div>
     </GenericGameServerCreationPage>
   );
 }

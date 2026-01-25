@@ -1,3 +1,4 @@
+import { Badge } from "@components/ui/badge.tsx";
 import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
@@ -120,6 +121,27 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                 <p className="text-sm text-muted-foreground text-center mb-4">
                   {t("inviteRedemption.invitedBy", { username: inviteData.invite_by_username })}
                 </p>
+              )}
+
+              {inviteData?.docker_hardware_limits && (
+                <div className="flex flex-col gap-2 mb-4 justify-center items-center">
+                  <div className="flex gap-2">
+                    {inviteData.docker_hardware_limits.docker_max_cpu_cores && (
+                      <Badge variant="outline">
+                        {t("inviteRedemption.cpuLimit", {
+                          cpu: inviteData.docker_hardware_limits.docker_max_cpu_cores,
+                        })}
+                      </Badge>
+                    )}
+                    {inviteData.docker_hardware_limits.docker_memory_limit && (
+                      <Badge variant="outline">
+                        {t("inviteRedemption.memoryLimit", {
+                          memory: inviteData.docker_hardware_limits.docker_memory_limit,
+                        })}
+                      </Badge>
+                    )}
+                  </div>
+                </div>
               )}
 
               <div className="space-y-2">
