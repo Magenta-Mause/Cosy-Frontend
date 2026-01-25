@@ -257,6 +257,38 @@ const translation: i18nLanguage = {
         description: "Volume-Mounts für deinen Server",
       },
     },
+    userManagement: {
+      userDetailButton: {
+        marketplace: "Marktplatz",
+      },
+      userRow: {
+        roles: {
+          owner: "Besitzer",
+          admin: "Admin",
+          quota_user: "Quota",
+        },
+        resources: {
+          cpus: "CPUs",
+          memory: "Speicher",
+          storage: "Speicherplatz",
+        },
+      },
+      userTable: {
+        search: "Suchen",
+        filter: "Filter",
+        sort: "Sortieren",
+        resetFilter: "Filter zurücksetzen",
+        clearSort: "Sortierung löschen",
+        sortBy: {
+          name: "Name",
+          role: "Rolle",
+          cpuLimit: "CPU Limit",
+          memoryLimit: "Speicher Limit",
+        },
+        noUsersFound: "Keine Benutzer gefunden",
+        pendingInvites: "Ausstehende Einladungen",
+      },
+    },
   },
   genericModal: {
     cancel: "Abbrechen",

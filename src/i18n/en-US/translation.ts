@@ -253,6 +253,38 @@ const translation: i18nLanguage = {
         description: "Volume mounts for your server",
       },
     },
+    userManagement: {
+      userDetailButton: {
+        marketplace: "Marketplace",
+      },
+      userRow: {
+        roles: {
+          owner: "Owner",
+          admin: "Admin",
+          quota_user: "Quota",
+        },
+        resources: {
+          cpus: "CPUs",
+          memory: "Memory",
+          storage: "Storage",
+        },
+      },
+      userTable: {
+        search: "Search",
+        filter: "Filter",
+        sort: "Sort",
+        resetFilter: "Reset Filter",
+        clearSort: "Clear Sort",
+        sortBy: {
+          name: "Name",
+          role: "Role",
+          cpuLimit: "CPU Limit",
+          memoryLimit: "Memory Limit",
+        },
+        noUsersFound: "No users found",
+        pendingInvites: "Pending Invites",
+      },
+    },
   },
   consequence: "asd{{counter}}ajskod",
   genericModal: {

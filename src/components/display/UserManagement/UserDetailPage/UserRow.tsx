@@ -2,11 +2,13 @@ import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import { Ellipsis } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
 import { cn } from "@/lib/utils";
 import ResourceUsageBadge from "./ResourceUsageBadge";
 
 const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserEntityDtoRole }) => {
+  const { t } = useTranslation();
 
   return (
     <Card>
@@ -15,24 +17,37 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
           {props.user.username}
           <Badge
             className={cn(
-              "rounded-xl text-sm px-3",
+              "rounded-xl text-sm px-3 uppercase",
               props.user.role === "OWNER" && "bg-[#eaaded]",
               props.user.role === "ADMIN" && "bg-[#8fd3ff]",
               props.user.role === "QUOTA_USER" && "bg-white",
             )}
           >
-            {props.userRole === 'QUOTA_USER' ? 'QUOTA' : props.user.role}
-          </Badge>
+            {t(`components.userManagement.userRow.roles.${props.userRole.toLowerCase()}`)}          </Badge>
         </div>
-        {(props.userRole === 'QUOTA_USER' || props.userRole === 'ADMIN') && (
+        {(props.userRole === "QUOTA_USER" || props.userRole === "ADMIN") && (
           <div className="flex gap-3 flex-1 justify-end">
-            {props.user.max_cpu != null &&
-              <ResourceUsageBadge currentValue="2" limit={props.user.max_cpu / 1000} resourceTyp="CPUs" />
-            }
-            {props.user.max_memory != null &&
-              <ResourceUsageBadge currentValue="4,3" limit={props.user.max_memory} unit="MB" resourceTyp="Memory" />
-            }
-            <ResourceUsageBadge currentValue="55" limit={299} unit="GB" resourceTyp="Storage" />
+            {props.user.max_cpu != null && (
+              <ResourceUsageBadge
+                currentValue="2"
+                limit={props.user.max_cpu / 1000}
+                resourceTyp={t("components.userManagement.userRow.resources.cpus")}
+              />
+            )}
+            {props.user.max_memory != null && (
+              <ResourceUsageBadge
+                currentValue="4,3"
+                limit={props.user.max_memory}
+                unit="MB"
+                resourceTyp={t("components.userManagement.userRow.resources.memory")}
+              />
+            )}
+            <ResourceUsageBadge
+              currentValue="55"
+              limit={299}
+              unit="GB"
+              resourceTyp={t("components.userManagement.userRow.resources.storage")}
+            />
           </div>
         )}
         <div>

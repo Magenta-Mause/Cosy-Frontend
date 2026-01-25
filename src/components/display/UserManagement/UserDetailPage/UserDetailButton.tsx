@@ -1,10 +1,13 @@
 import { Button } from "@components/ui/button.tsx";
 import { useRouter } from "@tanstack/react-router";
 import { ArrowBigRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 
 const UserDetailButton = (props: { className?: string }) => {
   const router = useRouter();
+  const { t } = useTranslation();
+
 
 
   return (
@@ -15,7 +18,7 @@ const UserDetailButton = (props: { className?: string }) => {
         });
       }}
     >
-      Marktplatz <ArrowBigRight />
+      {t("components.userManagement.userDetailButton.marketplace")} <ArrowBigRight />
     </Button>
   );
 };

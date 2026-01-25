@@ -267,6 +267,38 @@ export type i18nLanguage = {
         description: string;
       };
     };
+    userManagement: {
+      userDetailButton: {
+        marketplace: string;
+      };
+      userRow: {
+        roles: {
+          owner: string;
+          admin: string;
+          quota_user: string;
+        };
+        resources: {
+          cpus: string;
+          memory: string;
+          storage: string;
+        };
+      };
+      userTable: {
+        search: string;
+        filter: string;
+        sort: string;
+        resetFilter: string;
+        clearSort: string;
+        sortBy: {
+          name: string;
+          role: string;
+          cpuLimit: string;
+          memoryLimit: string;
+        };
+        noUsersFound: string;
+        pendingInvites: string;
+      };
+    };
   };
   genericModal: {
     cancel: string;
