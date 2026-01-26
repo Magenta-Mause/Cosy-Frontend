@@ -100,8 +100,8 @@ select,
 [data-loading="true"] * {
   cursor:
     url("./assets/cursor/cursor-loading/cursor-loading-1.png") 0 0,
-    auto !important;
-  animation: cursor 800ms infinite !important;
+    auto;
+  animation: cursor 800ms infinite;
 }
 
 @keyframes cursor {
@@ -135,6 +135,12 @@ button:focus-visible,
 input:focus-visible,
 a:focus-visible {
   outline: none;
+  position: relative;
+}
+
+/* Keep absolute positioning for dialog close button */
+[data-slot="dialog-close"]:focus-visible {
+  position: absolute;
 }
 
 button:focus-visible:after,

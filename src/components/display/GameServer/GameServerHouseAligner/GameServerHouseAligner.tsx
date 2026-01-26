@@ -1,4 +1,4 @@
-import ConstructionPlaceHouse from "@components/display/GameServer/ConstructionPlaceHouse/ConstructionPlaceHouse.tsx";
+import ConstructionPlaceHouse from "@components/display/GameServer/ConstructionPlace/ConstructionPlaceHouse.tsx";
 import GameServerHouse from "@components/display/GameServer/GameServerHouse/GameServerHouse.tsx";
 import calculateCoordinate from "@components/display/GameServer/GameServerHouseAligner/calculateCoordinate.ts";
 import UserDetailButton from "@components/display/UserManagement/UserDetailPage/UserDetailButton";

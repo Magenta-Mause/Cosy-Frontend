@@ -2,17 +2,32 @@ import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import {
   getAllGameServers,
+  getAllTemplates,
   getAllUserEntities,
   getAllUserInvites,
   getLogs,
 } from "@/api/generated/backend-api.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
+import { templateSliceActions } from "@/stores/slices/templateSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import { userSliceActions } from "@/stores/slices/userSlice.ts";
 
 const useDataLoading = () => {
   const dispatch = useDispatch();
+
+  const loadTemplates = async () => {
+    dispatch(templateSliceActions.setState("loading"));
+    try {
+      const templates = await getAllTemplates();
+      dispatch(templateSliceActions.setTemplates(templates));
+      dispatch(templateSliceActions.setState("idle"));
+      return true;
+    } catch {
+      dispatch(templateSliceActions.setState("failed"));
+      return false;
+    }
+  };
 
   const loadGameServers = async () => {
     dispatch(gameServerSliceActions.setState("loading"));
@@ -71,7 +86,12 @@ const useDataLoading = () => {
   };
 
   const loadAllData = async () => {
-    const results = await Promise.allSettled([loadGameServers(), loadUsers(), loadInvites()]);
+    const results = await Promise.allSettled([
+      loadGameServers(),
+      loadUsers(),
+      loadInvites(),
+      loadTemplates(),
+    ]);
 
     const summary = {
       gameServers: results[0].status === "fulfilled" && results[0].value === true,
@@ -94,6 +114,7 @@ const useDataLoading = () => {
     loadUsers,
     loadInvites,
     loadAllData,
+    loadTemplates,
   };
 };
 

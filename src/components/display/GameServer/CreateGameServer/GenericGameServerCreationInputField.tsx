@@ -1,6 +1,6 @@
 import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
-import { FieldError } from "@components/ui/field.tsx";
+import { FieldError, FieldLabel } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { useCallback, useContext, useEffect } from "react";
 import type { ZodType } from "zod";
@@ -73,13 +73,18 @@ const GenericGameServerCreationInputField = (props: {
   );
 
   useEffect(() => {
-    if (props.defaultValue !== undefined) {
+    // Only set default value if there's no existing value in the context
+    if (
+      props.defaultValue !== undefined &&
+      creationState.gameServerState[props.attribute] === undefined
+    ) {
       changeCallback(props.defaultValue);
     }
-  }, [changeCallback, props.defaultValue]);
+  }, [changeCallback, props.defaultValue, props.attribute, creationState.gameServerState]);
 
   return (
     <div>
+      {props.label && <label htmlFor={props.attribute}>{props.label}</label>}
       <Input
         className={isError ? "border-red-500" : ""}
         description={props.description}
