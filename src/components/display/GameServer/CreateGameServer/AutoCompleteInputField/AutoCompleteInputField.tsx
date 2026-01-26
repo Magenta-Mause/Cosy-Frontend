@@ -79,7 +79,6 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
         onOpenAutoFocus={(e) => e.preventDefault()}
         onCloseAutoFocus={(e) => {
           e.preventDefault();
-          inputRef.current?.focus();
         }}
       >
         <AutoCompleteItemList
