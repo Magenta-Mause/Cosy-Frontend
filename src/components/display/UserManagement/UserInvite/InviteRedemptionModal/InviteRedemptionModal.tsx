@@ -183,6 +183,6 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
           </form>
         )}
       </DialogContent>
-    </Dialog >
+    </Dialog>
   );
 }
