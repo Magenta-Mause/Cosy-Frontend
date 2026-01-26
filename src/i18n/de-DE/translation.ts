@@ -153,7 +153,7 @@ const translation: i18nLanguage = {
             placeholder: "Spiel suchen...",
             noGamesFound:
               "Fehler beim Abrufen der Spiele. Wählen Sie dies für das Standardspiel. (kein spezifisches Spiel)",
-            noResultsLabel: "Kein Spiel gefunden.",
+            noResultsLabel: "Generisches Spiel",
           },
         },
         step2: {

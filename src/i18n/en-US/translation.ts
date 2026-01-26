@@ -151,7 +151,7 @@ const translation: i18nLanguage = {
             placeholder: "Search a game...",
             noGamesFound:
               "No games found. Querying games might have failed. Select this for default game. (no specific game)",
-            noResultsLabel: "Unknown Game",
+            noResultsLabel: "Generic Game",
           },
         },
         step2: {
@@ -202,7 +202,7 @@ const translation: i18nLanguage = {
       },
       autoCompleteInputField: {
         loadingLabel: "Loading...",
-        noResultsLabel: "Unknown Game",
+        noResultsLabel: "Generic Game",
       },
     },
     TemplateVariableForm: {

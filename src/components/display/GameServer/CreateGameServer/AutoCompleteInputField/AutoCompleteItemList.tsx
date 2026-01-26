@@ -43,6 +43,47 @@ function AutoCompleteItemRow<TSelectedItem, TAutoCompleteData extends GameServer
   );
 }
 
+interface FallbackItemRowProps {
+  label: string;
+  labelRenderer?: (displayValue: string) => ReactNode;
+  displayValue: string;
+  index: number;
+  isSelected: boolean;
+  onSelect: () => void;
+  onHover: (index: number) => void;
+}
+
+function FallbackItemRow({
+  label,
+  labelRenderer,
+  displayValue,
+  index,
+  isSelected,
+  onSelect,
+  onHover,
+}: FallbackItemRowProps) {
+  return (
+    <div
+      role="option"
+      aria-selected={isSelected}
+      tabIndex={-1}
+      className={
+        "flex flex-auto items-center px-2 py-1.5 cursor-pointer rounded-sm " +
+        (isSelected ? "bg-accent text-accent-foreground" : "")
+      }
+      onClick={onSelect}
+      onKeyDown={(e) => e.key === "Enter" && onSelect()}
+      onMouseEnter={() => onHover(index)}
+    >
+      {labelRenderer?.(displayValue) ?? (
+        <Label className="text-xl flex justify-between w-full cursor-pointer opacity-70">
+          <p className="text-ellipsis text-xl">{label}</p>
+        </Label>
+      )}
+    </div>
+  );
+}
+
 interface AutoCompleteItemListProps<
   TSelectedItem,
   TAutoCompleteData extends GameServerCreationValue,
@@ -59,6 +100,7 @@ interface AutoCompleteItemListProps<
   onSelectItem: (item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>) => void;
   onHoverItem: (index: number) => void;
   maxItems?: number;
+  alwaysIncludeFallback?: boolean;
 }
 
 function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServerCreationValue>({
@@ -74,28 +116,12 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
   onSelectItem,
   onHoverItem,
   maxItems = 5,
+  alwaysIncludeFallback = false,
 }: AutoCompleteItemListProps<TSelectedItem, TAutoCompleteData>) {
   const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
 
   if (isLoading) {
     return <div className="px-2 py-1.5 text-sm text-muted-foreground">{loadingLabel}</div>;
-  }
-
-  if (!isError && items && items.length > 0) {
-    return (
-      <div role="listbox" className="flex flex-col gap-0.5">
-        {items.slice(0, maxItems).map((item, index) => (
-          <AutoCompleteItemRow
-            key={item.value.toString()}
-            item={item}
-            index={index}
-            isSelected={selectedIndex === index}
-            onSelect={() => onSelectItem(item)}
-            onHover={onHoverItem}
-          />
-        ))}
-      </div>
-    );
   }
 
   const handleFallbackSelect = () =>
@@ -104,16 +130,45 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
       label: noItemsLabel ?? t("noResultsLabel"),
     } as AutoCompleteItem<TSelectedItem, TAutoCompleteData>);
 
+  const fallbackLabel = noItemsLabel ?? t("noResultsLabel");
+
+  if (isError || !items || items.length === 0) {
+    return (
+      <FallbackItemRow
+        label={fallbackLabel}
+        labelRenderer={noItemsLabelRenderer}
+        displayValue={displayValue}
+        index={0}
+        isSelected={false}
+        onSelect={handleFallbackSelect}
+        onHover={onHoverItem}
+      />
+    );
+  }
+
+  const visibleItems = items.slice(0, maxItems);
   return (
-    <div
-      role="option"
-      tabIndex={-1}
-      className="flex flex-auto items-center px-2 py-1.5 cursor-pointer rounded-sm hover:bg-accent hover:text-accent-foreground"
-      onClick={handleFallbackSelect}
-      onKeyDown={(e) => e.key === "Enter" && handleFallbackSelect()}
-    >
-      {noItemsLabelRenderer?.(displayValue) ?? (
-        <Label className="cursor-pointer">{noItemsLabel ?? t("noResultsLabel")}</Label>
+    <div role="listbox" className="flex flex-col gap-0.5">
+      {visibleItems.map((item, index) => (
+        <AutoCompleteItemRow
+          key={item.value.toString()}
+          item={item}
+          index={index}
+          isSelected={selectedIndex === index}
+          onSelect={() => onSelectItem(item)}
+          onHover={onHoverItem}
+        />
+      ))}
+      {alwaysIncludeFallback && (
+        <FallbackItemRow
+          label={fallbackLabel}
+          labelRenderer={noItemsLabelRenderer}
+          displayValue={displayValue}
+          index={visibleItems.length}
+          isSelected={selectedIndex === visibleItems.length}
+          onSelect={handleFallbackSelect}
+          onHover={onHoverItem}
+        />
       )}
     </div>
   );

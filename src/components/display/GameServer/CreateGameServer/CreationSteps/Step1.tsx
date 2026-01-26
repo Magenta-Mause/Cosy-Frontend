@@ -3,8 +3,6 @@ import AutoCompleteInputField, {
 } from "@components/display/GameServer/CreateGameServer/AutoCompleteInputField";
 import GenericGameServerCreationInputField from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
-import { Label } from "@components/ui/label";
-import { useQueryClient } from "@tanstack/react-query";
 import { useCallback, useContext } from "react";
 import { z } from "zod";
 import { queryGames } from "@/api/generated/backend-api.ts";
@@ -14,13 +12,12 @@ import { distinctBy } from "@/lib/arrayUtils.ts";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import {
   GameServerCreationContext,
-  NO_GAME_SELECTED_DEFAULT_VALUE,
+  GENERIC_GAME_PLACEHOLDER_VALUE,
 } from "../CreateGameServerModal";
 
 const Step1 = () => {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step1");
   const { setUtilState } = useContext(GameServerCreationContext);
-  const queryClient = useQueryClient();
   const templates = useTypedSelector((state) => state.templateSliceReducer.data);
 
   const mapGamesDtoToAutoCompleteItems = useCallback(
@@ -57,7 +54,7 @@ const Step1 = () => {
         />
         <AutoCompleteInputField
           attribute="external_game_id"
-          validator={(value) => value !== NO_GAME_SELECTED_DEFAULT_VALUE}
+          validator={() => true}
           label={t("gameSelection.title")}
           placeholder={t("gameSelection.placeholder")}
           onItemSelect={(selectedItem: AutoCompleteItem<GameDto, number>, updatedSelections) => {
@@ -72,21 +69,16 @@ const Step1 = () => {
             const { template: _template, ...rest } = updatedSelections;
             setUtilState("autoCompleteSelections")(rest);
           }}
-          noAutoCompleteItemsLabelRenderer={(displayValue) => (
-            <Label>
-              {queryClient.getQueryState(["gameInfo", displayValue])?.error
-                ? t("gameSelection.noGamesFound")
-                : t("gameSelection.noResultsLabel")}
-            </Label>
-          )}
           noAutoCompleteItemsLabel={t("gameSelection.noResultsLabel")}
-          fallbackValue={NO_GAME_SELECTED_DEFAULT_VALUE as number}
+          defaultOpen
+          fallbackValue={GENERIC_GAME_PLACEHOLDER_VALUE as number}
           searchId="games-search"
           searchCallback={(gameNameQuery) =>
             queryGames({ query: gameNameQuery }).then((games) =>
               mapGamesDtoToAutoCompleteItems(games),
             )
           }
+          alwaysIncludeFallback
         />
       </div>
     </GenericGameServerCreationPage>

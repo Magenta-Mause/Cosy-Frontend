@@ -21,6 +21,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
   defaultOpen,
   description,
   label,
+  alwaysIncludeFallback,
 }: AutoCompleteInputFieldProps<TSelectedItem, TAutoCompleteData>) {
   const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
 
@@ -93,6 +94,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
           displayValue={displayName}
           onSelectItem={selectItem}
           onHoverItem={handleItemHover}
+          alwaysIncludeFallback={alwaysIncludeFallback}
         />
       </PopoverContent>
     </Popover>

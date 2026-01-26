@@ -15,7 +15,14 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import { createContext, type Dispatch, type SetStateAction, useCallback, useState } from "react";
+import {
+  createContext,
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand } from "shell-quote";
 import type { GameDto, GameServerCreationDto, TemplateEntity } from "@/api/generated/model";
@@ -25,7 +32,7 @@ import Step2 from "./CreationSteps/Step2.tsx";
 import Step3 from "./CreationSteps/Step3.tsx";
 import { applyTemplate } from "./utils/templateSubstitution.ts";
 
-export const NO_GAME_SELECTED_DEFAULT_VALUE = 0;
+export const GENERIC_GAME_PLACEHOLDER_VALUE = -1;
 
 type AutoCompleteSelections = {
   [key: string]: {
@@ -92,6 +99,10 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
   const { t } = useTranslation();
   const isLastPage = currentPage === PAGES.length - 1;
 
+  useEffect(() => {
+    console.log(creationState.gameServerState.external_game_id);
+  }, [creationState.gameServerState.external_game_id]);
+
   const applyTemplateToState = useCallback(() => {
     const { selectedTemplate, templateVariables } = creationState.utilState;
 
@@ -118,7 +129,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
       const gameServerCreationObject = {
         ...creationState.gameServerState,
         game_uuid:
-          creationState.gameServerState.external_game_id !== NO_GAME_SELECTED_DEFAULT_VALUE
+          creationState.gameServerState.external_game_id !== GENERIC_GAME_PLACEHOLDER_VALUE
             ? creationState.gameServerState.external_game_id
             : undefined,
         execution_command: creationState.gameServerState.execution_command

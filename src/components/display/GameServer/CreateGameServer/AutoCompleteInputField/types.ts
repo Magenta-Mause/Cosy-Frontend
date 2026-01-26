@@ -40,4 +40,5 @@ export interface AutoCompleteInputFieldProps<
   defaultOpen?: boolean;
   description?: React.ReactNode;
   label?: React.ReactNode;
+  alwaysIncludeFallback?: boolean;
 }
