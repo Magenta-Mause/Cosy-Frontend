@@ -70,7 +70,7 @@ const translation: i18nLanguage = {
     memoryDescription: "Leave it empty to allow the user to have unlimited RAM.",
     cpuLimit: "CPU limit (Optional)",
     cpuDescription: "Leave it empty to allow the user to have unlimited CPU cores.",
-    placeholder: "Unlimted",
+    placeholder: "Unlimited",
   },
   inviteRedemption: {
     title: "Accept Invitation",
