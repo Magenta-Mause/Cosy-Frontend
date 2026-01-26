@@ -21,6 +21,7 @@ export * from './getMetricsType';
 export * from './getServiceInfo200';
 export * from './loginDto';
 export * from './metricPointDto';
+export * from './metricValues';
 export * from './portMapping';
 export * from './portMappingProtocol';
 export * from './userCreationDto';
