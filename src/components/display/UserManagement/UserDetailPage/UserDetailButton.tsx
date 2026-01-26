@@ -14,7 +14,7 @@ const UserDetailButton = () => {
         });
       }}
     >
-      {t("components.userManagement.userDetailButton.marketplace")} <ArrowBigRight />
+      {t("components.userManagement.userDetailButton.viewUsers")} <ArrowBigRight />
     </Button>
   );
 };

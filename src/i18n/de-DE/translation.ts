@@ -261,7 +261,7 @@ const translation: i18nLanguage = {
     },
     userManagement: {
       userDetailButton: {
-        marketplace: "Marktplatz",
+        viewUsers: "Marktplatz",
       },
       userRow: {
         roles: {

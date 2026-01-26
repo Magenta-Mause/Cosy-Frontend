@@ -281,7 +281,7 @@ export type i18nLanguage = {
     };
     userManagement: {
       userDetailButton: {
-        marketplace: string;
+        viewUsers: string;
       };
       userRow: {
         roles: {
