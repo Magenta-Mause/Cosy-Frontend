@@ -1,5 +1,6 @@
 import { Label } from "@components/ui/label";
 import type { ReactNode } from "react";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import type { AutoCompleteItem, GameServerCreationValue } from "./types";
 
 interface AutoCompleteItemRowProps<
@@ -74,6 +75,8 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
   onHoverItem,
   maxItems = 5,
 }: AutoCompleteItemListProps<TSelectedItem, TAutoCompleteData>) {
+  const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
+
   if (isLoading) {
     return <div className="px-2 py-1.5 text-sm text-muted-foreground">{loadingLabel}</div>;
   }
@@ -98,7 +101,7 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
   const handleFallbackSelect = () =>
     onSelectItem({
       value: fallbackValue,
-      label: noItemsLabel ?? "No Items found",
+      label: noItemsLabel ?? t("noResultsLabel"),
     } as AutoCompleteItem<TSelectedItem, TAutoCompleteData>);
 
   return (
@@ -110,7 +113,7 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
       onKeyDown={(e) => e.key === "Enter" && handleFallbackSelect()}
     >
       {noItemsLabelRenderer?.(displayValue) ?? (
-        <Label className="cursor-pointer">{noItemsLabel ?? "No items found"}</Label>
+        <Label className="cursor-pointer">{noItemsLabel ?? t("noResultsLabel")}</Label>
       )}
     </div>
   );
