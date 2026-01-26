@@ -126,8 +126,8 @@ const translation: i18nLanguage = {
       backButton: "Zurück",
       nextStepButton: "Weiter",
       createServerButton: "Server erstellen",
-      useTemplate: "Vorlage verwenden",
-      useNoTemplate: "Ohne Vorlage fortfahren",
+      useTemplate: "Template verwenden",
+      useNoTemplate: "Ohne Template fortfahren",
       reapplyDialog: {
         title: "Template erneut anwenden?",
         description:
@@ -140,7 +140,7 @@ const translation: i18nLanguage = {
       },
       steps: {
         step1: {
-          title: "Schritt 1: Spiel auswählen",
+          title: "Schritt 1: Server Namen und Spiel auswählen",
           serverNameSelection: {
             title: "Servername",
             description: "Benennen Sie Ihren Server",
@@ -157,14 +157,14 @@ const translation: i18nLanguage = {
           },
         },
         step2: {
-          title: "Schritt 2: Vorlage und Name auswählen",
-          description: "Wählen Sie eine Vorlage und einen Namen für Ihren Server aus.",
+          title: "Schritt 2: Template auswählen",
+          description: "Wählen Sie ein Template für Ihren Server aus.",
           templateSelection: {
-            title: "Vorlage",
-            description: "Wählen Sie eine Vorlage für Ihren Server aus",
-            errorLabel: "Bitte wählen Sie eine gültige Vorlage aus.",
-            noResultsLabel: "Keine Vorlagen gefunden.",
-            placeholder: "Vorlage auswählen...",
+            title: "Template",
+            description: "Wählen Sie ein Template für Ihren Server aus",
+            errorLabel: "Bitte wählen Sie eine gültiges Template aus.",
+            noResultsLabel: "Keine Templates gefunden.",
+            placeholder: "Template auswählen...",
           },
         },
         step3: {

@@ -138,7 +138,7 @@ const translation: i18nLanguage = {
       },
       steps: {
         step1: {
-          title: "Step 1: Choose Game",
+          title: "Step 1: Choose Server name and Game",
           serverNameSelection: {
             title: "Server Name",
             description: "Name your server",
@@ -155,8 +155,8 @@ const translation: i18nLanguage = {
           },
         },
         step2: {
-          title: "Step 2: Choose Template and Name",
-          description: "Choose a template and a name for your server.",
+          title: "Step 2: Choose Template",
+          description: "Choose a template for your server.",
           templateSelection: {
             title: "Template",
             description: "Select a template for your server",
