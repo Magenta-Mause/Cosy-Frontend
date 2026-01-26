@@ -274,6 +274,7 @@ const translation: i18nLanguage = {
           memory: "Speicher",
           storage: "Speicherplatz",
         },
+        moreOptions: "Weitere Einstellungen",
       },
       userTable: {
         search: "Suchen",

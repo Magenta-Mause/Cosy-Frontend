@@ -1,6 +1,7 @@
 import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
 import { Ellipsis } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
@@ -32,7 +33,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               <ResourceUsageBadge
                 currentValue="2"
                 limit={props.user.max_cpu / 1000}
-                resourceTyp={t("components.userManagement.userRow.resources.cpus")}
+                resourceType={t("components.userManagement.userRow.resources.cpus")}
               />
             )}
             {props.user.max_memory != null && (
@@ -40,21 +41,26 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
                 currentValue="4,3"
                 limit={props.user.max_memory}
                 unit="MB"
-                resourceTyp={t("components.userManagement.userRow.resources.memory")}
+                resourceType={t("components.userManagement.userRow.resources.memory")}
               />
             )}
             <ResourceUsageBadge
               currentValue="55"
               limit={299}
               unit="GB"
-              resourceTyp={t("components.userManagement.userRow.resources.storage")}
+              resourceType={t("components.userManagement.userRow.resources.storage")}
             />
           </div>
         )}
         <div>
-          <Button className="h-10 w-10">
-            <Ellipsis className="size-4" />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button className="h-10 w-10">
+                <Ellipsis className="size-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>{t("components.userManagement.userRow.moreOptions")}</TooltipContent>
+          </Tooltip>
         </div>
       </CardContent>
     </Card>

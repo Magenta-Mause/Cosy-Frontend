@@ -270,6 +270,7 @@ const translation: i18nLanguage = {
           memory: "Memory",
           storage: "Storage",
         },
+        moreOptions: "More Options",
       },
       userTable: {
         search: "Search",

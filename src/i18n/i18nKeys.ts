@@ -294,6 +294,7 @@ export type i18nLanguage = {
           memory: string;
           storage: string;
         };
+        moreOptions: string;
       };
       userTable: {
         search: string;
