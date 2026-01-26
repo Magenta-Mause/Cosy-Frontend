@@ -18,6 +18,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
   searchId,
   searchCallback,
   disableDebounce,
+  disableCache,
   defaultOpen,
   description,
   label,
@@ -47,6 +48,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     searchId,
     searchCallback,
     disableDebounce,
+    disableCache,
     onItemSelect,
   });
 

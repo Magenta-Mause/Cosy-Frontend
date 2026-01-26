@@ -71,6 +71,7 @@ export default function Step2() {
             setUtilState("templateApplied")(false);
           }}
           disableDebounce
+          disableCache
           defaultOpen
         />
         <TemplateVariableForm

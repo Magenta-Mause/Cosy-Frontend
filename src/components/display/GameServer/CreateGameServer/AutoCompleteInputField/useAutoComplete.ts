@@ -17,6 +17,7 @@ interface UseAutoCompleteOptions<TSelectedItem, TAutoCompleteData extends GameSe
     searchValue: string,
   ) => Promise<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[]>;
   disableDebounce?: boolean;
+  disableCache?: boolean;
   onItemSelect?: (
     item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>,
     updatedSelections: AutoCompleteSelections,
@@ -30,6 +31,7 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
   searchId,
   searchCallback,
   disableDebounce,
+  disableCache,
   onItemSelect,
 }: UseAutoCompleteOptions<TSelectedItem, TAutoCompleteData>) {
   const { setGameServerState, creationState, setUtilState, triggerNextPage } =
@@ -56,7 +58,8 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
   } = useQuery({
     queryKey: [searchId, "search", queryGameName],
     queryFn: () => searchCallback(queryGameName),
-    staleTime: 1000 * 60 * 5,
+    staleTime: disableCache ? 0 : 1000 * 60 * 5,
+    cacheTime: disableCache ? 0 : undefined,
     retry: false,
   });
 

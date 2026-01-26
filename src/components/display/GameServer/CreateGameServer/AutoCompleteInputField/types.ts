@@ -37,6 +37,7 @@ export interface AutoCompleteInputFieldProps<
     searchValue: string,
   ) => Promise<AutoCompleteItem<TSelectedItem, TAutoCompleteData>[]>;
   disableDebounce?: boolean;
+  disableCache?: boolean;
   defaultOpen?: boolean;
   description?: React.ReactNode;
   label?: React.ReactNode;
