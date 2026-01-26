@@ -126,12 +126,26 @@ const translation: i18nLanguage = {
       backButton: "Zurück",
       nextStepButton: "Weiter",
       createServerButton: "Server erstellen",
+      useTemplate: "Template verwenden",
+      useNoTemplate: "Ohne Template fortfahren",
+      reapplyDialog: {
+        title: "Template erneut anwenden?",
+        description:
+          "Sie haben die Template-Variablen geändert. Möchten Sie das Template mit den neuen Werten erneut anwenden? Dies überschreibt alle manuellen Änderungen, die Sie in Schritt 3 vorgenommen haben.",
+        cancel: "Aktuelle Werte behalten",
+        confirm: "Template erneut anwenden",
+      },
       listInput: {
         addButton: "Hinzufügen",
       },
       steps: {
         step1: {
-          title: "Schritt 1: Spiel auswählen",
+          title: "Schritt 1: Server Namen und Spiel auswählen",
+          serverNameSelection: {
+            title: "Servername",
+            description: "Benennen Sie Ihren Server",
+            errorLabel: "Bitte geben Sie einen gültigen Servernamen ein.",
+          },
           gameSelection: {
             title: "Spiel auswählen",
             description: "Wählen Sie ein Spiel für Ihren Server aus.",
@@ -139,21 +153,18 @@ const translation: i18nLanguage = {
             placeholder: "Spiel suchen...",
             noGamesFound:
               "Fehler beim Abrufen der Spiele. Wählen Sie dies für das Standardspiel. (kein spezifisches Spiel)",
-            noResultsLabel: "Kein Spiel gefunden.",
+            noResultsLabel: "Generisches Spiel",
           },
         },
         step2: {
-          title: "Schritt 2: Vorlage und Name auswählen",
-          description: "Wählen Sie eine Vorlage und einen Namen für Ihren Server aus.",
+          title: "Schritt 2: Template auswählen",
+          description: "Wählen Sie ein Template für Ihren Server aus.",
           templateSelection: {
-            title: "Vorlage",
-            description: "Wählen Sie eine Vorlage für Ihren Server aus",
-            errorLabel: "Bitte wählen Sie eine gültige Vorlage aus.",
-          },
-          serverNameSelection: {
-            title: "Servername",
-            description: "Benennen Sie Ihren Server",
-            errorLabel: "Bitte geben Sie einen gültigen Servernamen ein.",
+            title: "Template",
+            description: "Wählen Sie ein Template für Ihren Server aus",
+            errorLabel: "Bitte wählen Sie eine gültiges Template aus.",
+            noResultsLabel: "Keine Templates gefunden.",
+            placeholder: "Template auswählen...",
           },
         },
         step3: {
@@ -197,6 +208,22 @@ const translation: i18nLanguage = {
         loadingLabel: "Lädt...",
         noResultsLabel: "Kein Ergebnis gefunden.",
       },
+    },
+    TemplateVariableForm: {
+      title: "Template-Variablen",
+      noTemplateSelected: "Kein Template ausgewählt",
+      noVariables: "Dieses Template hat keine anpassbaren Variablen",
+      selectPlaceholder: "Wähle eine Option",
+      example: "Beispiel",
+      pattern: "Muster",
+      validationError: "Bitte geben Sie einen gültigen Wert ein",
+      validationErrorRequired: "Dieses Feld ist erforderlich",
+      validationErrorNumber: "Bitte geben Sie eine gültige Zahl ein",
+      validationErrorBoolean: "Bitte wählen Sie eine gültige Option",
+      validationErrorSelect: "Bitte wählen Sie eine gültige Option",
+      validationErrorPattern: "Der Wert entspricht nicht dem erforderlichen Muster",
+      booleanTrue: "Ja",
+      booleanFalse: "Nein",
     },
     editGameServer: {
       title: "{{serverName}}",

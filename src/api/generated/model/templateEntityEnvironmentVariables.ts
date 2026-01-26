@@ -6,9 +6,4 @@
  * OpenAPI spec version: v1.0
  */
 
-export type GetGameInfoParams = {
-/**
- * @minLength 1
- */
-query: string;
-};
+export type TemplateEntityEnvironmentVariables = {[key: string]: string};

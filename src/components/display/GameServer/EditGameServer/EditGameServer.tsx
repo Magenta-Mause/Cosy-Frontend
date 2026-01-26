@@ -14,7 +14,6 @@ import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
 
 const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
-  game_uuid: server.game_uuid,
   server_name: server.server_name,
   docker_image_name: server.docker_image_name,
   docker_image_tag: server.docker_image_tag,
@@ -123,7 +122,6 @@ const EditGameServer = (props: {
 
     const fieldsChanged =
       gameServerState.server_name !== props.gameServer.server_name ||
-      gameServerState.game_uuid !== props.gameServer.game_uuid ||
       gameServerState.docker_image_name !== props.gameServer.docker_image_name ||
       gameServerState.docker_image_tag !== props.gameServer.docker_image_tag;
 

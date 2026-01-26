@@ -6,7 +6,4 @@
  * OpenAPI spec version: v1.0
  */
 
-export type GetMetricsParams = {
-end?: string;
-start?: string;
-};
+export type TemplateEntityPortMappings = {[key: string]: number};

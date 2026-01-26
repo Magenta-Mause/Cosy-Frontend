@@ -87,6 +87,12 @@ button:focus-visible,
 input:focus-visible,
 a:focus-visible {
   outline: none;
+  position: relative;
+}
+
+/* Keep absolute positioning for dialog close button */
+[data-slot="dialog-close"]:focus-visible {
+  position: absolute;
 }
 
 button:focus-visible:after,
