@@ -294,6 +294,7 @@ export type i18nLanguage = {
           cpus: string;
           memory: string;
           storage: string;
+          unlimited: string;
         };
         moreOptions: string;
       };

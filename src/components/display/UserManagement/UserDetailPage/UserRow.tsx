@@ -29,21 +29,17 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
         </div>
         {(props.userRole === "QUOTA_USER" || props.userRole === "ADMIN") && (
           <div className="flex gap-3 flex-1 justify-end">
-            {props.user.max_cpu != null && (
-              <ResourceUsageBadge
-                currentValue="2"
-                limit={props.user.max_cpu / 1000}
-                resourceType={t("components.userManagement.userRow.resources.cpus")}
-              />
-            )}
-            {props.user.max_memory != null && (
-              <ResourceUsageBadge
-                currentValue="4,3"
-                limit={props.user.max_memory}
-                unit="MB"
-                resourceType={t("components.userManagement.userRow.resources.memory")}
-              />
-            )}
+            <ResourceUsageBadge
+              currentValue="2"
+              limit={props.user.max_cpu != null ? props.user.max_cpu / 1000 : t("components.userManagement.userRow.resources.unlimited")}
+              resourceType={t("components.userManagement.userRow.resources.cpus")}
+            />
+            <ResourceUsageBadge
+              currentValue="4,3"
+              limit={props.user.max_memory != null ? props.user.max_memory : t("components.userManagement.userRow.resources.unlimited")}
+              unit={props.user.max_memory != null ? "MB" : undefined}
+              resourceType={t("components.userManagement.userRow.resources.memory")}
+            />
             <ResourceUsageBadge
               currentValue="55"
               limit={299}

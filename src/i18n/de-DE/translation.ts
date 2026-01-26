@@ -274,6 +274,7 @@ const translation: i18nLanguage = {
           cpus: "CPUs",
           memory: "Speicher",
           storage: "Speicherplatz",
+          unlimited: "Unbeschränkt",
         },
         moreOptions: "Weitere Einstellungen",
       },

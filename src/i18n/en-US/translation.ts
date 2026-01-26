@@ -270,6 +270,7 @@ const translation: i18nLanguage = {
           cpus: "CPUs",
           memory: "Memory",
           storage: "Storage",
+          unlimited: "Unlimited",
         },
         moreOptions: "More Options",
       },
