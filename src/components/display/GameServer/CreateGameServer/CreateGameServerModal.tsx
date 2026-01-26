@@ -15,14 +15,7 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import {
-  createContext,
-  type Dispatch,
-  type SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, type Dispatch, type SetStateAction, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand } from "shell-quote";
 import type { GameDto, GameServerCreationDto, TemplateEntity } from "@/api/generated/model";
@@ -99,10 +92,6 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
   const { t } = useTranslation();
   const isLastPage = currentPage === PAGES.length - 1;
 
-  useEffect(() => {
-    console.log(creationState.gameServerState.external_game_id);
-  }, [creationState.gameServerState.external_game_id]);
-
   const applyTemplateToState = useCallback(() => {
     const { selectedTemplate, templateVariables } = creationState.utilState;
 
@@ -156,8 +145,8 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
         // If template has variables and was already applied, ask user if they want to reapply
         if (
           templateApplied &&
-          selectedTemplate.variables &&
-          selectedTemplate.variables.length > 0
+          selectedTemplate.template_variables &&
+          selectedTemplate.template_variables.length > 0
         ) {
           setShowReapplyDialog(true);
           setPendingPageChange(currentPage + 1);

@@ -41,14 +41,10 @@ const GenericGameServerCreationPage = (props: { children: ReactNode }) => {
 
   const setAttributeTouched = useCallback(
     (attribute: keyof GameServerCreationDto, touched: boolean) => {
-      console.log(attribute, touched);
       setAttributesTouched((prev) => ({ ...prev, [attribute]: touched }));
     },
     [],
   );
-  useEffect(() => {
-    console.log(attributesValid, attributesTouched);
-  }, [attributesValid, attributesTouched]);
 
   useEffect(() => {
     const allValid = Object.values(attributesValid).every((isValid) => isValid);

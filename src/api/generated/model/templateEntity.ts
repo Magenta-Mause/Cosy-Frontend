@@ -7,7 +7,7 @@
  */
 import type { TemplateEntityEnvironmentVariables } from './templateEntityEnvironmentVariables';
 import type { TemplateEntityPortMappings } from './templateEntityPortMappings';
-import type { Variable } from './variable';
+import type { TemplateVariable } from './templateVariable';
 import type { ResourceLimit } from './resourceLimit';
 
 export interface TemplateEntity {
@@ -22,6 +22,6 @@ export interface TemplateEntity {
   port_mappings?: TemplateEntityPortMappings;
   docker_execution_command?: string[];
   file_mounts?: string[];
-  variables?: Variable[];
+  template_variables?: TemplateVariable[];
   resource_limit?: ResourceLimit;
 }

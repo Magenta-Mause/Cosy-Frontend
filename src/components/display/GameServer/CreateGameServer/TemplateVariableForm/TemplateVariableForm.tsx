@@ -29,7 +29,7 @@ export default function TemplateVariableForm({
   // Initialize state for all variables
   const [variableStates, setVariableStates] = useState<Record<string, VariableState>>(() => {
     const states: Record<string, VariableState> = {};
-    template?.variables?.forEach((variable) => {
+    template?.template_variables?.forEach((variable) => {
       const placeholder = variable.placeholder ?? "";
       const initialValue = initialValues[placeholder] ?? variable.default_value ?? "";
       states[placeholder] = {
@@ -142,7 +142,7 @@ export default function TemplateVariableForm({
     }
   };
 
-  const hasVariables = template?.variables && template.variables.length > 0;
+  const hasVariables = template?.template_variables && template.template_variables.length > 0;
 
   return (
     <Card className={"py-5"}>
@@ -156,7 +156,7 @@ export default function TemplateVariableForm({
           <div className="text-muted-foreground text-center py-8">{t("noVariables")}</div>
         ) : (
           <div className="space-y-6">
-            {template.variables?.map((variable) => renderVariableInput(variable))}
+            {template.template_variables?.map((variable) => renderVariableInput(variable))}
           </div>
         )}
       </CardContent>

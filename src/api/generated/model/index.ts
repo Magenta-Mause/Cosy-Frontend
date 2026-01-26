@@ -28,6 +28,7 @@ export * from './resourceLimit';
 export * from './templateEntity';
 export * from './templateEntityEnvironmentVariables';
 export * from './templateEntityPortMappings';
+export * from './templateVariable';
 export * from './userCreationDto';
 export * from './userEntityDto';
 export * from './userEntityDtoRole';
