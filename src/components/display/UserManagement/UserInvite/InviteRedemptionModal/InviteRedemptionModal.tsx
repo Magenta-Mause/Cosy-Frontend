@@ -97,7 +97,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-      <DialogContent className="">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("inviteRedemption.title")}</DialogTitle>
           <DialogDescription>{t("inviteRedemption.description")}</DialogDescription>
