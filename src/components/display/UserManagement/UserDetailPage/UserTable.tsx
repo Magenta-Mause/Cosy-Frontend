@@ -13,7 +13,7 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer";
-import UserModalButton from "../UserInvite/UserModalButton";
+import UserInviteButton from "../UserInvite/UserInviteButton";
 import PendingInvites from "./PendingInvites";
 import UserRow from "./UserRow";
 
@@ -71,7 +71,6 @@ const UserTable = ({ onRevoke }: UserListProps) => {
     });
   }, [users, searchTerm, selectedRole, sortField, isAsc]);
 
-
   return (
     <div className="container text-base mx-auto py-20 flex flex-col gap-2 w-3/4">
       <div className="flex flex-row justify-between items-center w-full">
@@ -101,8 +100,12 @@ const UserTable = ({ onRevoke }: UserListProps) => {
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuGroup>
-                <DropdownMenuItem onClick={() => setSelectedRole("OWNER")}>{t("components.userManagement.userRow.roles.owner")}</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSelectedRole("ADMIN")}>{t("components.userManagement.userRow.roles.admin")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSelectedRole("OWNER")}>
+                  {t("components.userManagement.userRow.roles.owner")}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSelectedRole("ADMIN")}>
+                  {t("components.userManagement.userRow.roles.admin")}
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSelectedRole("QUOTA_USER")}>
                   {t("components.userManagement.userRow.roles.quota_user")}
                 </DropdownMenuItem>
@@ -141,8 +144,12 @@ const UserTable = ({ onRevoke }: UserListProps) => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setSortField("username")}>{t("components.userManagement.userTable.sortBy.name")}</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortField("role")}>{t("components.userManagement.userTable.sortBy.role")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortField("username")}>
+                  {t("components.userManagement.userTable.sortBy.name")}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortField("role")}>
+                  {t("components.userManagement.userTable.sortBy.role")}
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setSortField("max_cpu")}>
                   {t("components.userManagement.userTable.sortBy.cpuLimit")}
                 </DropdownMenuItem>
@@ -163,7 +170,11 @@ const UserTable = ({ onRevoke }: UserListProps) => {
                 )}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button disabled={!sortField} onClick={() => setIsAsc(!isAsc)} className="rounded-l-none">
+            <Button
+              disabled={!sortField}
+              onClick={() => setIsAsc(!isAsc)}
+              className="rounded-l-none"
+            >
               {!sortField ? (
                 <ArrowUpDown className="size-6" />
               ) : isAsc ? (
@@ -175,7 +186,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
           </div>
         </div>
         <div>
-          <UserModalButton />
+          <UserInviteButton />
         </div>
       </div>
       {processedUsers.length > 0 ? (
@@ -189,7 +200,10 @@ const UserTable = ({ onRevoke }: UserListProps) => {
         ))
       ) : (
         <div className="text-center py-10 text-muted-foreground">
-          {t("components.userManagement.userTable.noUsersFound")} {selectedRole ? `for role ${t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)}` : ""}
+          {t("components.userManagement.userTable.noUsersFound")}{" "}
+          {selectedRole
+            ? `for role ${t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)}`
+            : ""}
         </div>
       )}
       {users.length > 0 && invites.length > 0 && <Separator className="my-4 pb-0.5" />}

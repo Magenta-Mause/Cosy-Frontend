@@ -19,7 +19,7 @@ import { InviteResult } from "./InviteForm/InviteResult.tsx";
 
 type ViewState = "invite" | "result";
 
-const UserModalButton = (props: { className?: string }) => {
+const UserInviteButton = (props: { className?: string }) => {
   const { t } = useTranslation();
   const [view, setView] = useState<ViewState>("invite");
   const [inviteUsername, setInviteUsername] = useState("");
@@ -135,4 +135,4 @@ const UserModalButton = (props: { className?: string }) => {
   );
 };
 
-export default UserModalButton;
+export default UserInviteButton;
