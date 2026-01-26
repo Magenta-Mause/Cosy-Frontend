@@ -84,7 +84,6 @@ const GenericGameServerCreationInputField = (props: {
 
   return (
     <div>
-      {props.label && <label htmlFor={props.attribute}>{props.label}</label>}
       <Input
         className={isError ? "border-red-500" : ""}
         description={props.description}

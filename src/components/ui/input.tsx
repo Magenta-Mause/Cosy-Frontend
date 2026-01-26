@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Label } from "@components/ui/label";
 
 interface InputProps extends React.ComponentProps<"input"> {
-  header?: string;
+  header?: string | React.ReactNode;
   description?: string;
   endDecorator?: string;
 }

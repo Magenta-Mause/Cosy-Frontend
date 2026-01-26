@@ -56,14 +56,10 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     <Popover open={open}>
       <PopoverTrigger tabIndex={-1}>
         <div className="w-full" tabIndex={-1}>
-          {label && (
-            <FieldLabel htmlFor={effectiveId} className={"text-lg"}>
-              {label}
-            </FieldLabel>
-          )}
           <Input
             ref={inputRef}
             placeholder={placeholder}
+            header={label}
             id={effectiveId}
             value={displayName}
             onClick={() => defaultOpen && setOpen(true)}

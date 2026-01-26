@@ -35,7 +35,7 @@ function AutoCompleteItemRow<TSelectedItem, TAutoCompleteData extends GameServer
       onMouseEnter={() => onHover(index)}
     >
       {item.leftSlot && <div className="shrink-0 mr-2">{item.leftSlot}</div>}
-      <Label className="text-xl flex justify-between w-full cursor-pointer">
+      <Label className="text-base flex justify-between w-full cursor-pointer">
         <p className="text-ellipsis">{item.label}</p>
         {item.additionalInformation && <p className="opacity-50">{item.additionalInformation}</p>}
       </Label>
@@ -76,8 +76,8 @@ function FallbackItemRow({
       onMouseEnter={() => onHover(index)}
     >
       {labelRenderer?.(displayValue) ?? (
-        <Label className="text-xl flex justify-between w-full cursor-pointer opacity-70">
-          <p className="text-ellipsis text-xl">{label}</p>
+        <Label className="flex justify-between w-full cursor-pointer opacity-70">
+          <p className="text-ellipsis text-base">{label}</p>
         </Label>
       )}
     </div>
