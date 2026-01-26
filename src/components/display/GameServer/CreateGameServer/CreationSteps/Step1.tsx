@@ -12,7 +12,10 @@ import type { GameDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { distinctBy } from "@/lib/arrayUtils.ts";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
-import { GameServerCreationContext } from "../CreateGameServerModal";
+import {
+  GameServerCreationContext,
+  NO_GAME_SELECTED_DEFAULT_VALUE,
+} from "../CreateGameServerModal";
 
 const Step1 = () => {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step1");
@@ -54,7 +57,7 @@ const Step1 = () => {
         />
         <AutoCompleteInputField
           attribute="external_game_id"
-          validator={(value) => value !== 0}
+          validator={(value) => value !== NO_GAME_SELECTED_DEFAULT_VALUE}
           label={t("gameSelection.title")}
           placeholder={t("gameSelection.placeholder")}
           onItemSelect={(selectedItem: AutoCompleteItem<GameDto, number>, updatedSelections) => {
@@ -77,8 +80,8 @@ const Step1 = () => {
             </Label>
           )}
           noAutoCompleteItemsLabel={t("gameSelection.noResultsLabel")}
-          fallbackValue={0 as number}
-          searchId="gameInfo"
+          fallbackValue={NO_GAME_SELECTED_DEFAULT_VALUE as number}
+          searchId="games-search"
           searchCallback={(gameNameQuery) =>
             queryGames({ query: gameNameQuery }).then((games) =>
               mapGamesDtoToAutoCompleteItems(games),

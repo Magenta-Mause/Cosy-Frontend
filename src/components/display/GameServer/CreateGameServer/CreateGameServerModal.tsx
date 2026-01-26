@@ -25,6 +25,8 @@ import Step2 from "./CreationSteps/Step2.tsx";
 import Step3 from "./CreationSteps/Step3.tsx";
 import { applyTemplate } from "./utils/templateSubstitution.ts";
 
+export const NO_GAME_SELECTED_DEFAULT_VALUE = 0;
+
 type AutoCompleteSelections = {
   [key: string]: {
     label: string;
@@ -116,7 +118,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
       const gameServerCreationObject = {
         ...creationState.gameServerState,
         game_uuid:
-          creationState.gameServerState.external_game_id !== 0
+          creationState.gameServerState.external_game_id !== NO_GAME_SELECTED_DEFAULT_VALUE
             ? creationState.gameServerState.external_game_id
             : undefined,
         execution_command: creationState.gameServerState.execution_command
