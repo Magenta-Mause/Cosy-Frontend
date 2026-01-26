@@ -13,14 +13,14 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
 
   return (
     <Card>
-      <CardContent className="flex gap-7 items-center m-3 justify-between">
+      <CardContent className="flex gap-7 items-center my-3 justify-between">
         <div className="flex gap-2 font-semibold">
           {props.user.username}
           <Badge
             className={cn(
               "rounded-xl text-sm px-3 uppercase",
-              props.user.role === "OWNER" && "bg-[#eaaded]",
-              props.user.role === "ADMIN" && "bg-[#8fd3ff]",
+              props.user.role === "OWNER" && "bg-[#0eaf9b]",
+              props.user.role === "ADMIN" && "bg-[#8ff8e2]",
               props.user.role === "QUOTA_USER" && "bg-white",
             )}
           >

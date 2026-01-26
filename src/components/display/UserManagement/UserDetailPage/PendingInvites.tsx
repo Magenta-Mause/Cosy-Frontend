@@ -16,7 +16,7 @@ const PendingInvites = ({ onRevoke, invite }: UserListProps) => {
 
   return (
     <Card>
-      <CardContent className="flex gap-7 items-center m-3 justify-between">
+      <CardContent className="flex gap-7 items-center my-3 justify-between">
         <div className="flex flex-col gap-1">
           <div className="font-semibold truncate leading-5">
             {invite.username || t("userModal.unclaimedInvite")}

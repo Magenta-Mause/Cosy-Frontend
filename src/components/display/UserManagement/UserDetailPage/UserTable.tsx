@@ -44,23 +44,33 @@ const UserTable = ({ onRevoke }: UserListProps) => {
       return nameMatch && roleMatch;
     });
 
-    if (!sortField) return filterResult;
-
     return [...filterResult].sort((a, b) => {
-      const valueA = a[sortField];
-      const valueB = b[sortField];
+      if (sortField) {
+        const valueA = a[sortField];
+        const valueB = b[sortField];
 
-      // Numerischer Check
-      if (typeof valueA === "number" && typeof valueB === "number") {
-        return isAsc ? valueA - valueB : valueB - valueA;
+        if (typeof valueA === "number" && typeof valueB === "number") {
+          return isAsc ? valueA - valueB : valueB - valueA;
+        }
+
+        const strA = String(valueA ?? "").toLowerCase();
+        const strB = String(valueB ?? "").toLowerCase();
+        return isAsc ? strA.localeCompare(strB) : strB.localeCompare(strA);
       }
 
-      // String Check
-      const strA = String(valueA ?? "").toLowerCase();
-      const strB = String(valueB ?? "").toLowerCase();
-      return isAsc ? strA.localeCompare(strB) : strB.localeCompare(strA);
+      const roleOrder: Record<UserEntityDtoRole, number> = {
+        OWNER: 1,
+        ADMIN: 2,
+        QUOTA_USER: 3,
+      };
+
+      const roleA = roleOrder[a.role ?? "QUOTA_USER"];
+      const roleB = roleOrder[b.role ?? "QUOTA_USER"];
+
+      return roleA - roleB;
     });
   }, [users, searchTerm, selectedRole, sortField, isAsc]);
+
 
   return (
     <div className="container text-base mx-auto py-20 flex flex-col gap-2 w-3/4">
@@ -112,18 +122,9 @@ const UserTable = ({ onRevoke }: UserListProps) => {
           </DropdownMenu>
 
           <div className="flex flex-row items-center gap-0.5">
-            <Button disabled={!sortField} onClick={() => setIsAsc(!isAsc)}>
-              {!sortField ? (
-                <ArrowUpDown className="size-6" />
-              ) : isAsc ? (
-                <ArrowDownWideNarrow className="size-6" />
-              ) : (
-                <ArrowUpWideNarrow className="size-6" />
-              )}
-            </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button>
+                <Button className="rounded-r-none">
                   {sortField ? (
                     <span>
                       {sortField === "max_cpu"
@@ -162,6 +163,15 @@ const UserTable = ({ onRevoke }: UserListProps) => {
                 )}
               </DropdownMenuContent>
             </DropdownMenu>
+            <Button disabled={!sortField} onClick={() => setIsAsc(!isAsc)} className="rounded-l-none">
+              {!sortField ? (
+                <ArrowUpDown className="size-6" />
+              ) : isAsc ? (
+                <ArrowDownWideNarrow className="size-6" />
+              ) : (
+                <ArrowUpWideNarrow className="size-6" />
+              )}
+            </Button>
           </div>
         </div>
         <div>
