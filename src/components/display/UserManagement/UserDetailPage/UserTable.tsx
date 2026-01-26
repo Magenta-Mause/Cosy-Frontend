@@ -24,18 +24,20 @@ const UserTable = ({ onRevoke }: UserListProps) => {
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [isAsc, setIsAsc] = useState(true);
 
-  const processedUsers = useMemo(() => {
+  const filteredUsers = useMemo(() => {
     if (!users) return [];
 
     const term = searchTerm.toLowerCase();
 
-    const filterResult = users.filter((user) => {
+    return users.filter((user) => {
       const nameMatch = user.username?.toLowerCase().includes(term);
       const roleMatch = selectedRole ? user.role === selectedRole : true;
       return nameMatch && roleMatch;
     });
+  }, [users, searchTerm, selectedRole]);
 
-    return [...filterResult].sort((a, b) => {
+  const sortedUsers = useMemo(() => {
+    return [...filteredUsers].sort((a, b) => {
       if (sortField) {
         const valueA = a[sortField];
         const valueB = b[sortField];
@@ -63,7 +65,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
 
       return roleA - roleB;
     });
-  }, [users, searchTerm, selectedRole, sortField, isAsc]);
+  }, [filteredUsers, sortField, isAsc]);
 
   return (
     <div className="container text-base mx-auto py-20 flex flex-col gap-2 w-3/4">
@@ -85,8 +87,8 @@ const UserTable = ({ onRevoke }: UserListProps) => {
         </div>
         <UserInviteButton />
       </div>
-      {processedUsers.length > 0 ? (
-        processedUsers.map((user, index) => (
+      {sortedUsers.length > 0 ? (
+        sortedUsers.map((user, index) => (
           <UserRow
             key={user.uuid || index}
             user={user}
