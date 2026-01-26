@@ -18,38 +18,27 @@ interface RoleFilterProps {
 const RoleFilter = ({ selectedRole, onRoleChange }: RoleFilterProps) => {
   const { t } = useTranslation();
 
-  const getRoleLabel = (role: UserEntityDtoRole) => {
-    const roleMap = {
-      OWNER: t("components.userManagement.userRow.roles.owner"),
-      ADMIN: t("components.userManagement.userRow.roles.admin"),
-      QUOTA_USER: t("components.userManagement.userRow.roles.quota_user"),
-    };
-    return roleMap[role];
-  };
+  const roles: UserEntityDtoRole[] = ["OWNER", "ADMIN", "QUOTA_USER"];
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button>
-          <Funnel className="size-6" />
-          {selectedRole ? (
-            <span>{getRoleLabel(selectedRole)}</span>
-          ) : (
-            t("components.userManagement.userTable.filter")
-          )}
+          <Funnel className="size-5" />
+          {selectedRole
+            ? t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)
+            : t("components.userManagement.userTable.filter")
+          }
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => onRoleChange("OWNER")}>
-            {t("components.userManagement.userRow.roles.owner")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onRoleChange("ADMIN")}>
-            {t("components.userManagement.userRow.roles.admin")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onRoleChange("QUOTA_USER")}>
-            {t("components.userManagement.userRow.roles.quota_user")}
-          </DropdownMenuItem>
+          {roles.map((role) => (
+            <DropdownMenuItem key={role} onClick={() => onRoleChange(role)}>
+              {t(`components.userManagement.userRow.roles.${role.toLowerCase()}`)}
+            </DropdownMenuItem>
+          ))}
+
           {selectedRole && (
             <>
               <div className="h-px bg-border my-1" />

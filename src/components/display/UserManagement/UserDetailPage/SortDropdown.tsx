@@ -25,14 +25,16 @@ const SortDropdown = ({
 }: SortControlProps) => {
   const { t } = useTranslation();
 
-  const getSortFieldLabel = (field: SortField) => {
-    const fieldMap = {
-      username: t("components.userManagement.userTable.sortBy.name"),
-      role: t("components.userManagement.userTable.sortBy.role"),
-      max_cpu: t("components.userManagement.userTable.sortBy.cpuLimit"),
-      max_memory: t("components.userManagement.userTable.sortBy.memoryLimit"),
-    };
-    return fieldMap[field];
+  const sortOptions: { field: SortField; labelKey: string }[] = [
+    { field: "username", labelKey: "name" },
+    { field: "role", labelKey: "role" },
+    { field: "max_cpu", labelKey: "cpuLimit" },
+    { field: "max_memory", labelKey: "memoryLimit" },
+  ];
+
+  const getLabel = (field: SortField) => {
+    const option = sortOptions.find((o) => o.field === field);
+    return option ? t(`components.userManagement.userTable.sortBy.${option.labelKey}`) : "";
   };
 
   return (
@@ -40,26 +42,15 @@ const SortDropdown = ({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="rounded-r-none">
-            {sortField ? (
-              <span>{getSortFieldLabel(sortField)}</span>
-            ) : (
-              t("components.userManagement.userTable.sort")
-            )}
+            {sortField ? getLabel(sortField) : t("components.userManagement.userTable.sort")}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          <DropdownMenuItem onClick={() => onSortFieldChange("username")}>
-            {t("components.userManagement.userTable.sortBy.name")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onSortFieldChange("role")}>
-            {t("components.userManagement.userTable.sortBy.role")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onSortFieldChange("max_cpu")}>
-            {t("components.userManagement.userTable.sortBy.cpuLimit")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onSortFieldChange("max_memory")}>
-            {t("components.userManagement.userTable.sortBy.memoryLimit")}
-          </DropdownMenuItem>
+          {sortOptions.map(({ field, labelKey }) => (
+            <DropdownMenuItem key={field} onClick={() => onSortFieldChange(field)}>
+              {t(`components.userManagement.userTable.sortBy.${labelKey}`)}
+            </DropdownMenuItem>
+          ))}
 
           {sortField && (
             <>
