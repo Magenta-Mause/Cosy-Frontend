@@ -281,10 +281,10 @@ const translation: i18nLanguage = {
         resetFilter: "Reset Filter",
         clearSort: "Clear Sort",
         sortBy: {
-          name: "Name",
+          username: "Name",
           role: "Role",
-          cpuLimit: "CPU Limit",
-          memoryLimit: "Memory Limit",
+          max_cpu: "CPU Limit",
+          max_memory: "Memory Limit",
         },
         noUsersFound: "No users found",
         pendingInvites: "Pending Invites",

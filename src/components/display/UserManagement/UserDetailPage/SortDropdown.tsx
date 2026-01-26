@@ -3,6 +3,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { ArrowDownWideNarrow, ArrowUpDown, ArrowUpWideNarrow } from "lucide-react";
@@ -25,17 +26,10 @@ const SortDropdown = ({
 }: SortControlProps) => {
   const { t } = useTranslation();
 
-  const sortOptions: { field: SortField; labelKey: string }[] = [
-    { field: "username", labelKey: "name" },
-    { field: "role", labelKey: "role" },
-    { field: "max_cpu", labelKey: "cpuLimit" },
-    { field: "max_memory", labelKey: "memoryLimit" },
-  ];
+  const SORT_OPTIONS: SortField[] = ["username", "role", "max_cpu", "max_memory"];
 
-  const getLabel = (field: SortField) => {
-    const option = sortOptions.find((o) => o.field === field);
-    return option ? t(`components.userManagement.userTable.sortBy.${option.labelKey}`) : "";
-  };
+  const getLabel = (field: SortField) =>
+    t(`components.userManagement.userTable.sortBy.${field}`);
 
   return (
     <div className="flex flex-row items-center gap-0.5">
@@ -46,17 +40,17 @@ const SortDropdown = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          {sortOptions.map(({ field, labelKey }) => (
+          {SORT_OPTIONS.map((field) => (
             <DropdownMenuItem key={field} onClick={() => onSortFieldChange(field)}>
-              {t(`components.userManagement.userTable.sortBy.${labelKey}`)}
+              {getLabel(field)}
             </DropdownMenuItem>
           ))}
 
           {sortField && (
             <>
-              <div className="h-px bg-border my-1" />
+              <DropdownMenuSeparator />
               <DropdownMenuItem
-                className="text-destructive"
+                className="text-destructive focus:text-destructive focus:bg-destructive/10"
                 onClick={() => onSortFieldChange(null)}
               >
                 {t("components.userManagement.userTable.clearSort")}

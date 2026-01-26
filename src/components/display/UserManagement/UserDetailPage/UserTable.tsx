@@ -40,8 +40,11 @@ const UserTable = ({ onRevoke }: UserListProps) => {
         const valueA = a[sortField];
         const valueB = b[sortField];
 
-        if (typeof valueA === "number" && typeof valueB === "number") {
-          return isAsc ? valueA - valueB : valueB - valueA;
+        if (typeof valueA === "number" || typeof valueB === "number" || valueA === null || valueB === null) {
+          const numA = valueA === null ? Number.POSITIVE_INFINITY : (valueA as number);
+          const numB = valueB === null ? Number.POSITIVE_INFINITY : (valueB as number);
+
+          return isAsc ? numA - numB : numB - numA;
         }
 
         const strA = String(valueA ?? "").toLowerCase();

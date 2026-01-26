@@ -305,10 +305,10 @@ export type i18nLanguage = {
         resetFilter: string;
         clearSort: string;
         sortBy: {
-          name: string;
+          username: string;
           role: string;
-          cpuLimit: string;
-          memoryLimit: string;
+          max_cpu: string;
+          max_memory: string;
         };
         noUsersFound: string;
         pendingInvites: string;
