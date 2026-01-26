@@ -280,6 +280,7 @@ export type i18nLanguage = {
       };
     };
     userManagement: {
+      backButton: string;
       userDetailButton: {
         viewUsers: string;
       };

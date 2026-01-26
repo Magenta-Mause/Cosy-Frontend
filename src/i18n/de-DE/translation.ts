@@ -260,6 +260,7 @@ const translation: i18nLanguage = {
       },
     },
     userManagement: {
+      backButton: "Zurück",
       userDetailButton: {
         viewUsers: "Marktplatz",
       },
