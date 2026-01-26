@@ -6,7 +6,7 @@
  * OpenAPI spec version: v1.0
  */
 
-export type GetMetricsParams = {
-end?: string;
-start?: string;
-};
+export interface ResourceLimit {
+  memory?: string;
+  cpu?: number;
+}

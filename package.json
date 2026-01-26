@@ -8,7 +8,8 @@
     "tsr:gen": "tsr generate",
     "start": "NODE_ENV=production bun src/index.ts",
     "build": "vite build",
-    "lint": "biome lint && tsc",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json",
+    "lint": "biome lint && tsc -p tsconfig.app.json",
     "lint:fix": "biome lint --write",
     "lint:fix:unsafe": "biome check --write --unsafe",
     "gen:api": "curl http://localhost:8080/api/v3/api-docs > openapi-backend.json && bunx orval"

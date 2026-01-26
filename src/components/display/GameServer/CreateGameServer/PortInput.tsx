@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from "@components/ui/select.tsx";
 import { useCallback } from "react";
+import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
 import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
@@ -83,6 +84,22 @@ function PortInput({
     return mappedItems;
   }, []);
 
+  const parseInitialValue = useCallback(
+    (contextValue: GameServerCreationDto[keyof GameServerCreationDto]): PortItem[] => {
+      if (!contextValue || !Array.isArray(contextValue)) {
+        return [];
+      }
+      const portMappings = contextValue as PortMapping[];
+      return portMappings.map((pm) => ({
+        key: String(pm.instance_port ?? ""),
+        value: String(pm.container_port ?? ""),
+        protocol: pm.protocol ?? PortMappingProtocol.TCP,
+        uuid: generateUuid(),
+      }));
+    },
+    [],
+  );
+
   return (
     <ListInput
       defaultNewItem={() => ({ protocol: PortMappingProtocol.TCP })}
@@ -91,6 +108,7 @@ function PortInput({
       errorLabel={errorLabel}
       fieldLabel={fieldLabel}
       computeValue={computeValue}
+      parseInitialValue={parseInitialValue}
       fieldDescription={fieldDescription}
       renderRow={(changeCallback, rowError) => (keyValuePair) => (
         <>

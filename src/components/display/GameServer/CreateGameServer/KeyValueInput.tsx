@@ -1,6 +1,7 @@
 import ListInput from "@components/display/GameServer/CreateGameServer/ListInput.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { Fragment, useCallback } from "react";
+import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
 import { type InputType, preProcessInputValue } from "./util";
@@ -78,6 +79,21 @@ function KeyValueInput({
     [inputType, objectKey, objectValue],
   );
 
+  const parseInitialValue = useCallback(
+    (contextValue: GameServerCreationDto[keyof GameServerCreationDto]): KeyValueItem[] => {
+      if (!contextValue || !Array.isArray(contextValue)) {
+        return [];
+      }
+      const items = contextValue as Array<Record<string, unknown>>;
+      return items.map((item) => ({
+        key: String(item[objectKey] ?? ""),
+        value: String(item[objectValue] ?? ""),
+        uuid: generateUuid(),
+      }));
+    },
+    [objectKey, objectValue],
+  );
+
   return (
     <ListInput
       attribute={attribute}
@@ -85,6 +101,7 @@ function KeyValueInput({
       errorLabel={errorLabel}
       fieldLabel={fieldLabel}
       computeValue={computeValue}
+      parseInitialValue={parseInitialValue}
       fieldDescription={fieldDescription}
       renderRow={(changeCallback, rowError) => (keyValuePair) => (
         <Fragment key={keyValuePair.uuid}>

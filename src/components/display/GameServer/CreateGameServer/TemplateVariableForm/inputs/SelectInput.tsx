@@ -1,0 +1,48 @@
+import { FieldError, FieldLabel } from "@components/ui/field";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@components/ui/select";
+import type { VariableInputProps } from "./types";
+
+export default function SelectInput({
+  variable,
+  value,
+  showError,
+  errorMessage,
+  onValueChange,
+  t,
+}: VariableInputProps) {
+  const placeholder = variable.placeholder ?? "";
+
+  return (
+    <div key={placeholder} className="space-y-2">
+      <FieldLabel htmlFor={placeholder} className="text-lg">
+        {variable.name}
+      </FieldLabel>
+      <Select value={String(value ?? "")} onValueChange={(val) => onValueChange(variable, val)}>
+        <SelectTrigger id={placeholder} className={showError ? "border-red-500" : ""}>
+          <SelectValue placeholder={t("selectPlaceholder")} />
+        </SelectTrigger>
+        <SelectContent>
+          {variable.options?.map((option) => (
+            <SelectItem key={option} value={option}>
+              {option}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      {variable.example && (
+        <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
+          {t("example")}: {variable.example}
+        </FieldLabel>
+      )}
+      {showError && (
+        <FieldError>{errorMessage ? t(errorMessage) : t("validationError")}</FieldError>
+      )}
+    </div>
+  );
+}
