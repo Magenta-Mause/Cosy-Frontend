@@ -51,7 +51,10 @@ const MetricGraph = (props: MetricGraphProps) => {
   const formateMetric = (value: number) => {
     if (metricType === GetMetricsType.CPU_PERCENT || metricType === GetMetricsType.MEMORY_PERCENT) {
       return `${(value).toFixed(2)}%`;
-    } else if (metricType === GetMetricsType.MEMORY_USAGE || metricType === GetMetricsType.MEMORY_LIMIT) {
+    } else if (
+      metricType === GetMetricsType.MEMORY_USAGE ||
+      metricType === GetMetricsType.MEMORY_LIMIT
+    ) {
       return convertBytes(value, 1024, ["Bytes", "KiB", "MiB", "GiB", "TiB"]);
     }
     return convertBytes(value, 1000, ["Bytes", "KB", "MB", "GB", "TB"]);
