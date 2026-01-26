@@ -122,7 +122,7 @@ export default function TemplateVariableForm({
 
     const commonProps = {
       variable,
-      value: state?.value ?? "",
+      value: placeholder in initialValues ? initialValues[placeholder] : (state?.value ?? ""),
       showError,
       errorMessage: state?.errorMessage,
       onValueChange: handleValueChange,

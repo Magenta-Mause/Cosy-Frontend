@@ -65,6 +65,7 @@ export default function Step2() {
             return filtered.map(convertTemplateToAutoCompleteItem);
           }}
           onItemSelect={(item) => {
+            if (item.data === creationState.utilState.selectedTemplate) return;
             setUtilState("selectedTemplate")(item.data);
             setUtilState("templateVariables")({});
             setUtilState("templateApplied")(false);
@@ -73,6 +74,7 @@ export default function Step2() {
           defaultOpen
         />
         <TemplateVariableForm
+          key={selectedTemplate?.uuid ?? "no-template"}
           template={selectedTemplate}
           onValueChange={handleTemplateVariableChange}
           initialValues={templateVariables}
