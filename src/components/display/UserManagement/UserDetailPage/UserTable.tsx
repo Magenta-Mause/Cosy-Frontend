@@ -1,20 +1,13 @@
-import { Button } from "@components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@components/ui/dropdown-menu";
 import { Input } from "@components/ui/input";
 import { Separator } from "@components/ui/separator";
-import { ArrowDownWideNarrow, ArrowUpDown, ArrowUpWideNarrow, Funnel } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer";
 import UserInviteButton from "../UserInvite/UserInviteButton";
 import PendingInvites from "./PendingInvites";
+import RoleFilter from "./RoleFilter";
+import SortDropdown, { type SortField } from "./SortDropdown";
 import UserRow from "./UserRow";
 
 interface UserListProps {
@@ -28,10 +21,8 @@ const UserTable = ({ onRevoke }: UserListProps) => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState<UserEntityDtoRole | null>(null);
-  const [sortField, setSortField] = useState<"username" | "role" | "max_cpu" | "max_memory" | null>(
-    null,
-  );
-  const [isAsc, setIsAsc] = useState(true); // true = ASC, false = DESC
+  const [sortField, setSortField] = useState<SortField | null>(null);
+  const [isAsc, setIsAsc] = useState(true);
 
   const processedUsers = useMemo(() => {
     if (!users) return [];
@@ -73,7 +64,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
 
   return (
     <div className="container text-base mx-auto py-20 flex flex-col gap-2 w-3/4">
-      <div className="flex flex-row justify-between items-center w-full">
+      <div className="flex flex-row gap-3 justify-between items-center w-full">
         <div className="flex flex-row items-center gap-3">
           <Input
             className="h-10 border-2"
@@ -81,113 +72,15 @@ const UserTable = ({ onRevoke }: UserListProps) => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button>
-                <Funnel className="size-6" />
-                {selectedRole ? (
-                  <span>
-                    {selectedRole === "OWNER"
-                      ? t("components.userManagement.userRow.roles.owner")
-                      : selectedRole === "ADMIN"
-                        ? t("components.userManagement.userRow.roles.admin")
-                        : t("components.userManagement.userRow.roles.quota_user")}
-                  </span>
-                ) : (
-                  t("components.userManagement.userTable.filter")
-                )}
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuGroup>
-                <DropdownMenuItem onClick={() => setSelectedRole("OWNER")}>
-                  {t("components.userManagement.userRow.roles.owner")}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSelectedRole("ADMIN")}>
-                  {t("components.userManagement.userRow.roles.admin")}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSelectedRole("QUOTA_USER")}>
-                  {t("components.userManagement.userRow.roles.quota_user")}
-                </DropdownMenuItem>
-                {selectedRole && (
-                  <>
-                    <div className="h-px bg-border my-1" />
-                    <DropdownMenuItem
-                      className="text-destructive focus:text-destructive"
-                      onClick={() => setSelectedRole(null)}
-                    >
-                      {t("components.userManagement.userTable.resetFilter")}
-                    </DropdownMenuItem>
-                  </>
-                )}
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <div className="flex flex-row items-center gap-0.5">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button className="rounded-r-none">
-                  {sortField ? (
-                    <span>
-                      {sortField === "max_cpu"
-                        ? t("components.userManagement.userTable.sortBy.cpuLimit")
-                        : sortField === "max_memory"
-                          ? t("components.userManagement.userTable.sortBy.memoryLimit")
-                          : sortField === "username"
-                            ? t("components.userManagement.userTable.sortBy.name")
-                            : t("components.userManagement.userTable.sortBy.role")}
-                    </span>
-                  ) : (
-                    t("components.userManagement.userTable.sort")
-                  )}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => setSortField("username")}>
-                  {t("components.userManagement.userTable.sortBy.name")}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortField("role")}>
-                  {t("components.userManagement.userTable.sortBy.role")}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortField("max_cpu")}>
-                  {t("components.userManagement.userTable.sortBy.cpuLimit")}
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSortField("max_memory")}>
-                  {t("components.userManagement.userTable.sortBy.memoryLimit")}
-                </DropdownMenuItem>
-
-                {sortField && (
-                  <>
-                    <div className="h-px bg-border my-1" />
-                    <DropdownMenuItem
-                      className="text-destructive"
-                      onClick={() => setSortField(null)}
-                    >
-                      {t("components.userManagement.userTable.clearSort")}
-                    </DropdownMenuItem>
-                  </>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <Button
-              disabled={!sortField}
-              onClick={() => setIsAsc(!isAsc)}
-              className="rounded-l-none"
-            >
-              {!sortField ? (
-                <ArrowUpDown className="size-6" />
-              ) : isAsc ? (
-                <ArrowDownWideNarrow className="size-6" />
-              ) : (
-                <ArrowUpWideNarrow className="size-6" />
-              )}
-            </Button>
-          </div>
+          <RoleFilter selectedRole={selectedRole} onRoleChange={setSelectedRole} />
+          <SortDropdown
+            sortField={sortField}
+            isAscending={isAsc}
+            onSortFieldChange={setSortField}
+            onSortDirectionToggle={() => setIsAsc(!isAsc)}
+          />
         </div>
-        <div>
-          <UserInviteButton />
-        </div>
+        <UserInviteButton />
       </div>
       {processedUsers.length > 0 ? (
         processedUsers.map((user, index) => (
