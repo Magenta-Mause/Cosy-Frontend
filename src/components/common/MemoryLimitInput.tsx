@@ -101,11 +101,6 @@ export const MemoryLimitInput = ({
     setLocalInputValue(numericPart.toString());
   }, [value, localInputValue, unit]);
 
-  // Initialization only
-  useEffect(() => {
-    // Handled by the generic dependency above now
-  }, []);
-
   const unitSelector = (
     <div className="pointer-events-auto h-full flex items-center">
       <Select value={unit} onValueChange={(v) => handleUnitChange(v as "MiB" | "GiB")}>
