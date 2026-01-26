@@ -3,13 +3,9 @@ import { useRouter } from "@tanstack/react-router";
 import { ArrowBigRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-
 const UserDetailButton = () => {
   const router = useRouter();
   const { t } = useTranslation();
-
-
-
   return (
     <Button
       onClick={() => {
