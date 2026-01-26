@@ -102,11 +102,11 @@ export function validateTemplateVariables(
   template: TemplateEntity | null,
   variables: Record<string, string | number | boolean>,
 ): boolean {
-  if (!template || !template.template_variables || template.template_variables.length === 0) {
+  if (!template || !template.variables || template.variables.length === 0) {
     return true; // No variables to validate
   }
 
-  for (const variable of template.template_variables) {
+  for (const variable of template.variables) {
     const placeholder = variable.placeholder?.trim();
 
     // Invalid or missing placeholder means validation fails

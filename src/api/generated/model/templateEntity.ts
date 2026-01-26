@@ -22,6 +22,6 @@ export interface TemplateEntity {
   port_mappings?: TemplateEntityPortMappings;
   docker_execution_command?: string[];
   file_mounts?: string[];
-  template_variables?: TemplateVariable[];
+  variables?: TemplateVariable[];
   resource_limit?: ResourceLimit;
 }

@@ -145,8 +145,8 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
         // If template has variables and was already applied, ask user if they want to reapply
         if (
           templateApplied &&
-          selectedTemplate.template_variables &&
-          selectedTemplate.template_variables.length > 0
+          selectedTemplate.variables &&
+          selectedTemplate.variables.length > 0
         ) {
           setShowReapplyDialog(true);
           setPendingPageChange(currentPage + 1);
