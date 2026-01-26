@@ -145,16 +145,45 @@ export type i18nLanguage = {
     STOPPING: string;
   };
   components: {
+    TemplateVariableForm: {
+      title: string;
+      noTemplateSelected: string;
+      noVariables: string;
+      selectPlaceholder: string;
+      example: string;
+      pattern: string;
+      validationError: string;
+      validationErrorRequired: string;
+      validationErrorNumber: string;
+      validationErrorBoolean: string;
+      validationErrorSelect: string;
+      validationErrorPattern: string;
+      booleanTrue: string;
+      booleanFalse: string;
+    };
     CreateGameServer: {
       backButton: string;
       nextStepButton: string;
+      useTemplate: string;
+      useNoTemplate: string;
       createServerButton: string;
+      reapplyDialog: {
+        title: string;
+        description: string;
+        cancel: string;
+        confirm: string;
+      };
       listInput: {
         addButton: string;
       };
       steps: {
         step1: {
           title: string;
+          serverNameSelection: {
+            title: string;
+            description: string;
+            errorLabel: string;
+          };
           gameSelection: {
             title: string;
             description: string;
@@ -171,11 +200,8 @@ export type i18nLanguage = {
             title: string;
             description: string;
             errorLabel: string;
-          };
-          serverNameSelection: {
-            title: string;
-            description: string;
-            errorLabel: string;
+            noResultsLabel: string;
+            placeholder: string;
           };
         };
         step3: {

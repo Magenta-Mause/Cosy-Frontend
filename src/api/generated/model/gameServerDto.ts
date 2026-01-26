@@ -25,7 +25,6 @@ export interface GameServerDto {
   docker_image_name: string;
   /** @minLength 1 */
   docker_image_tag: string;
-  template?: string;
   execution_command?: string[];
   port_mappings: PortMapping[];
   environment_variables: EnvironmentVariableConfiguration[];
