@@ -11,7 +11,7 @@ const ResourceUsageBadge = (props: {
     <Badge className="px-3 text-sm bg-accent">
       {props.currentValue} / {props.limit} {props.unit} {props.resourceType}
     </Badge>
-  )
+  );
 };
 
 export default ResourceUsageBadge;
