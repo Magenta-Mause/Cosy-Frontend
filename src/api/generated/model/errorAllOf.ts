@@ -6,7 +6,6 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface VolumeMountConfiguration {
-  uuid?: string;
-  container_path?: string;
-}
+export type ErrorAllOf = {
+  message?: string;
+};

@@ -7,12 +7,12 @@
  */
 
 export interface MetricValues {
-  cpuPercent?: number;
-  memoryPercent?: number;
-  memoryUsage?: number;
-  memoryLimit?: number;
-  networkInput?: number;
-  networkOutput?: number;
-  blockRead?: number;
-  blockWrite?: number;
+  cpu_percent?: number;
+  memory_percent?: number;
+  memory_usage?: number;
+  memory_limit?: number;
+  network_input?: number;
+  network_output?: number;
+  block_read?: number;
+  block_write?: number;
 }

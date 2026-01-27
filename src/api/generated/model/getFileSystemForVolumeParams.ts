@@ -6,7 +6,11 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface VolumeMountConfiguration {
-  uuid?: string;
-  container_path?: string;
-}
+export type GetFileSystemForVolumeParams = {
+path?: string;
+/**
+ * @minimum 0
+ * @maximum 5
+ */
+fetch_depth?: number;
+};

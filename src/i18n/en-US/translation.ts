@@ -350,6 +350,35 @@ const translation: i18nLanguage = {
     AWAITING_UPDATE: "Loading...",
     STOPPING: "Stopping...",
   },
+  metrics: {
+    metricTitle: "{{type}} - Metric",
+    metricDescription: "{{type}} usage over time",
+    configure: "Configure Metrics",
+    types: {
+      CPU_PERCENT: "CPU",
+      MEMORY_PERCENT: "Memory",
+      MEMORY_LIMIT: "Memory Limit",
+      MEMORY_USAGE: "Memory Usage",
+      BLOCK_READ: "Disk Read",
+      BLOCK_WRITE: "Disk Write",
+      NETWORK_INPUT: "Network Input",
+      NETWORK_OUTPUT: "Network Output",
+    },
+  },
+  timerange: {
+    localTime: "en-US",
+    custom: "Custom Range",
+    button: "Time Range",
+    min: "Last {{time}} minutes",
+    hour: "Last {{time}} hours",
+    day: "Last {{time}} days",
+    apply: "Confirm",
+    cancel: "Cancel",
+  },
+  datepicker: {
+    title: "Select Date Range",
+    des: "Choose a start and end date for the range.",
+  },
 };
 
 export default translation;

@@ -353,6 +353,35 @@ const translation: i18nLanguage = {
     AWAITING_UPDATE: "Lädt...",
     STOPPING: "Stoppt...",
   },
+  metrics: {
+    metricTitle: "{{type}} Metrik",
+    metricDescription: "{{type}} Metrik über Zeit",
+    configure: "Metriken konfigurieren",
+    types: {
+      CPU_PERCENT: "CPU",
+      MEMORY_PERCENT: "Arbeitsspeicher",
+      MEMORY_LIMIT: "Arbeitsspeicher Limit",
+      MEMORY_USAGE: "Arbeitsspeicher Nutzung",
+      BLOCK_READ: "Speicher Lesevorgänge",
+      BLOCK_WRITE: "Speicher Schreibvorgänge",
+      NETWORK_INPUT: "Netzwerk Eingehend",
+      NETWORK_OUTPUT: "Netzwerk Ausgehend",
+    },
+  },
+  timerange: {
+    localTime: "de-DE",
+    custom: "Benutzerdefinierter Zeitraum",
+    button: "Zeitraum",
+    min: "Letzten {{time}} Minuten",
+    hour: "Letzte {{time}} Stunden",
+    day: "Letzte {{time}} Tage",
+    apply: "Anwenden",
+    cancel: "Abbrechen",
+  },
+  datepicker: {
+    title: "Benutzerdefinierter Zeitraum",
+    des: "Wählen Sie einen benutzerdefinierten Zeitraum für die Metriken aus.",
+  },
 };
 
 export default translation;
