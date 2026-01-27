@@ -42,14 +42,12 @@ const MetricDisplay = (
 ) => {
   const { t } = useTranslation();
   const [unit, setUnit] = useState<string>("hour");
-  const [startTime, setStartTime] = useState<Date | undefined>();
-  const [endTime, setEndTime] = useState<Date | undefined>();
   const { loadMetrics } = useDataLoading();
 
-  useEffect(() => {
+  const handleTimeChange = (startTime: Date, endTime?: Date) => {
     if (!startTime) return;
     loadMetrics(props.gameServerUuid, startTime, endTime);
-  }, [startTime, endTime, props.gameServerUuid, loadMetrics]);
+  }
 
   const colSpanMap: Record<string, string> = {
     "1": "col-span-1",
@@ -59,7 +57,6 @@ const MetricDisplay = (
     "5": "col-span-5",
     "6": "col-span-6",
   };
-
 
   return (
     <>
@@ -71,8 +68,7 @@ const MetricDisplay = (
             timeUnit: selectedUnit,
           }) => {
             setUnit(selectedUnit);
-            setStartTime(selectedStartTime);
-            setEndTime(selectedEndTime);
+            handleTimeChange(selectedStartTime, selectedEndTime);
           }}
         />
         <Button>{t("metrics.configure")}</Button>

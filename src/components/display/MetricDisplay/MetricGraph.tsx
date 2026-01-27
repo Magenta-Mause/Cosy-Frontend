@@ -156,6 +156,7 @@ const MetricGraph = (props: MetricGraphProps) => {
               fillOpacity={0.4}
               strokeWidth={2}
               dot={false}
+              isAnimationActive={false}
             />
           </AreaChart>
         </ChartContainer>
