@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MetricsType } from "@/types/metricsTyp";
 
-const DROP_DOWN_OPTIONS: MetricsType[] = [
+const DROPDOWN_OPTIONS: MetricsType[] = [
   MetricsType.CPU_PERCENT,
   MetricsType.MEMORY_PERCENT,
   MetricsType.MEMORY_USAGE,
@@ -47,7 +47,7 @@ const MetricDropDown = (props: {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-30 bg-primary-modal-background" align="end">
         <DropdownMenuGroup>
-          {DROP_DOWN_OPTIONS.map((type) => (
+          {DROPDOWN_OPTIONS.map((type) => (
             <DropdownMenuItem key={type} onSelect={() => handleSelect(type)}>
               {t(`metrics.types.${type}`)}
             </DropdownMenuItem>
