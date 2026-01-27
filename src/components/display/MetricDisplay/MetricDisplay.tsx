@@ -1,5 +1,5 @@
 import { Button } from "@components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
