@@ -1,0 +1,77 @@
+import { Button } from "@components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogMain,
+  DialogTitle,
+} from "@components/ui/dialog";
+import { Input } from "@components/ui/input";
+
+type Props = {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+
+  currentPath: string;
+  value: string;
+  onChange: (v: string) => void;
+
+  busy: boolean;
+  error: string | null;
+
+  t: (k: string, vars?: Record<string, unknown>) => string;
+
+  onSubmit: () => void | Promise<void>;
+};
+
+export const MkdirDialog = ({
+  open,
+  onOpenChange,
+  currentPath,
+  value,
+  onChange,
+  busy,
+  error,
+  t,
+  onSubmit,
+}: Props) => {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("createFolderAction")}</DialogTitle>
+          <DialogDescription>
+            {t("createFolderDescription", { dirName: currentPath })}
+          </DialogDescription>
+        </DialogHeader>
+
+        <DialogMain>
+          <div className="flex flex-col gap-3">
+            <span className="text-sm text-muted-foreground">{t("folderName")}</span>
+            <Input
+              autoFocus
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              placeholder="e.g. logs"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") void onSubmit();
+              }}
+            />
+            {error ? <div className="text-sm text-destructive">{error}</div> : null}
+          </div>
+        </DialogMain>
+
+        <DialogFooter>
+          <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={busy}>
+            Cancel
+          </Button>
+          <Button onClick={onSubmit} disabled={busy}>
+            {busy ? t("creatingInProgress") : t("createAction")}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
