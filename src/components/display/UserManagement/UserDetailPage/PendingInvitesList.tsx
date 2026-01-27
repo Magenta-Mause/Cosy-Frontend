@@ -11,7 +11,7 @@ interface UserListProps {
   invite: UserInviteDto;
 }
 
-const PendingInvites = ({ onRevoke, invite }: UserListProps) => {
+const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
   const { t } = useTranslation();
 
   return (
@@ -71,4 +71,4 @@ const PendingInvites = ({ onRevoke, invite }: UserListProps) => {
   );
 };
 
-export default PendingInvites;
+export default PendingInvitesList;

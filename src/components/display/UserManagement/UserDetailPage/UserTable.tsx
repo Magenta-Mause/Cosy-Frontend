@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer";
 import UserInviteButton from "../UserInvite/UserInviteButton";
-import PendingInvites from "./PendingInvites";
+import PendingInvitesList from "./PendingInvitesList";
 import RoleFilter from "./RoleFilter";
 import SortDropdown, { type SortField } from "./SortDropdown";
 import UserRow from "./UserRow";
@@ -112,7 +112,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
             {t("userModal.pendingInvites")}
           </h4>
           {invites.map((invite, index) => (
-            <PendingInvites onRevoke={onRevoke} invite={invite} key={invite.uuid || index} />
+            <PendingInvitesList onRevoke={onRevoke} invite={invite} key={invite.uuid || index} />
           ))}
         </>
       )}

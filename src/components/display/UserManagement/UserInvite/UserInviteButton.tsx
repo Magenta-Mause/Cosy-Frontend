@@ -77,7 +77,7 @@ const UserInviteButton = (props: { className?: string }) => {
       <DialogTrigger asChild>
         <Button className={props.className} aria-label={t("userModal.title")}>
           <UserRoundPlus className="size-6 mr-2" />
-          Invite
+          {t("userModal.inviteUserTitle")}
         </Button>
       </DialogTrigger>
       <DialogContent className="w-[40%]">
