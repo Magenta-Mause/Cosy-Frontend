@@ -16,11 +16,13 @@ const GameServerHouseAligner = (props: { gameServers: GameServerDto[] }) => {
 
   return (
     <div className="w-full h-full relative">
+
       {props.gameServers.map((gameServer, index) => (
         <GameServerHouse key={gameServer.uuid} gameServer={gameServer} style={getStyle(index)} />
       ))}
       <ConstructionPlaceHouse style={getStyle(props.gameServers.length)} />
     </div>
+
   );
 };
 

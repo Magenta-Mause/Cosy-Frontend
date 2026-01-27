@@ -67,7 +67,7 @@ export function DeleteGameServerAlertDialog({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className={"font-mono"}>
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("title", { serverName })}</DialogTitle>
           <DialogDescription>{t("description")}</DialogDescription>

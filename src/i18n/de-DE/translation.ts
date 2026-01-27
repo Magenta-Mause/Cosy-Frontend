@@ -54,7 +54,7 @@ const translation: i18nLanguage = {
     shareInstructions:
       "Teilen Sie diesen Link mit der Person, die Sie einladen möchten. Sie kann ihn nutzen, um ihr Konto zu erstellen.",
     copyLink: "Einladungslink kopieren",
-    backToUsers: "Zurück zu Benutzern",
+    backToUsers: "Zurück zur Erstellung",
     pendingInvites: "Ausstehende Einladungen",
     unclaimedInvite: "Nicht beanspruchte Einladung",
     created: "Erstellt: {{date}}",
@@ -284,6 +284,41 @@ const translation: i18nLanguage = {
         title: "Volume-Mounts",
         errorLabel: "Pfad darf nicht leer sein",
         description: "Volume-Mounts für deinen Server",
+      },
+    },
+    userManagement: {
+      backButton: "Zurück",
+      userDetailButton: {
+        viewUsers: "Marktplatz",
+      },
+      userRow: {
+        roles: {
+          owner: "Besitzer",
+          admin: "Admin",
+          quota_user: "Quota",
+        },
+        resources: {
+          cpus: "CPUs",
+          memory: "Speicher",
+          storage: "Speicherplatz",
+          unlimited: "Unbeschränkt",
+        },
+        moreOptions: "Weitere Einstellungen",
+      },
+      userTable: {
+        search: "Suchen",
+        filter: "Filter",
+        sort: "Sortieren",
+        resetFilter: "Filter zurücksetzen",
+        clearSort: "Sortierung löschen",
+        sortBy: {
+          username: "Name",
+          role: "Rolle",
+          max_cpu: "CPU Limit",
+          max_memory: "Speicher Limit",
+        },
+        noUsersFound: "Keine Benutzer gefunden",
+        pendingInvites: "Ausstehende Einladungen",
       },
     },
   },

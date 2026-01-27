@@ -23,14 +23,17 @@ import type {
   GameDto,
   GameServerCreationDto,
   GameServerDto,
+  GameServerFileSystemDto,
   GameServerLogMessageEntity,
   GameServerUpdateDto,
+  GetFileSystemForVolumeParams,
   GetLogsParams,
   GetMetricsParams,
   GetServiceInfo200,
   LoginDto,
   MetricPointDto,
   QueryGamesParams,
+  ReadFileFromVolumeParams,
   TemplateEntity,
   UserCreationDto,
   UserEntityDto,
@@ -1314,6 +1317,149 @@ export function useGetServiceInfo<TData = Awaited<ReturnType<typeof getServiceIn
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetServiceInfoQueryOptions(uuid,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Read a file from a bind mount volume
+ */
+export const readFileFromVolume = (
+    uuid: string,
+    params: ReadFileFromVolumeParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<Blob>(
+      {url: `/game-server/${uuid}/file-system/file`, method: 'GET',
+        params,
+        responseType: 'blob', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getReadFileFromVolumeQueryKey = (uuid?: string,
+    params?: ReadFileFromVolumeParams,) => {
+    return [
+    `/game-server/${uuid}/file-system/file`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getReadFileFromVolumeQueryOptions = <TData = Awaited<ReturnType<typeof readFileFromVolume>>, TError = unknown>(uuid: string,
+    params: ReadFileFromVolumeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof readFileFromVolume>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getReadFileFromVolumeQueryKey(uuid,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof readFileFromVolume>>> = ({ signal }) => readFileFromVolume(uuid,params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof readFileFromVolume>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type ReadFileFromVolumeQueryResult = NonNullable<Awaited<ReturnType<typeof readFileFromVolume>>>
+export type ReadFileFromVolumeQueryError = unknown
+
+
+/**
+ * @summary Read a file from a bind mount volume
+ */
+
+export function useReadFileFromVolume<TData = Awaited<ReturnType<typeof readFileFromVolume>>, TError = unknown>(
+ uuid: string,
+    params: ReadFileFromVolumeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof readFileFromVolume>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getReadFileFromVolumeQueryOptions(uuid,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getFileSystemForVolume = (
+    uuid: string,
+    params?: GetFileSystemForVolumeParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameServerFileSystemDto>(
+      {url: `/game-server/${uuid}/file-system/`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetFileSystemForVolumeQueryKey = (uuid?: string,
+    params?: GetFileSystemForVolumeParams,) => {
+    return [
+    `/game-server/${uuid}/file-system/`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getGetFileSystemForVolumeQueryOptions = <TData = Awaited<ReturnType<typeof getFileSystemForVolume>>, TError = unknown>(uuid: string,
+    params?: GetFileSystemForVolumeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFileSystemForVolume>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetFileSystemForVolumeQueryKey(uuid,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFileSystemForVolume>>> = ({ signal }) => getFileSystemForVolume(uuid,params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFileSystemForVolume>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetFileSystemForVolumeQueryResult = NonNullable<Awaited<ReturnType<typeof getFileSystemForVolume>>>
+export type GetFileSystemForVolumeQueryError = unknown
+
+
+
+export function useGetFileSystemForVolume<TData = Awaited<ReturnType<typeof getFileSystemForVolume>>, TError = unknown>(
+ uuid: string,
+    params?: GetFileSystemForVolumeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFileSystemForVolume>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetFileSystemForVolumeQueryOptions(uuid,params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

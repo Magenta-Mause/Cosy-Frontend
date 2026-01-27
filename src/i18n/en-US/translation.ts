@@ -58,7 +58,7 @@ const translation: i18nLanguage = {
     shareInstructions:
       "Share this link with the person you want to invite. They can use it to create their account.",
     copyLink: "Copy Invite Link",
-    backToUsers: "Back to Users",
+    backToUsers: "Back to Creation",
     pendingInvites: "Pending Invites",
     unclaimedInvite: "Unclaimed Invite",
     created: "Created: {{date}}",
@@ -70,7 +70,7 @@ const translation: i18nLanguage = {
     memoryDescription: "Leave it empty to allow the user to have unlimited RAM.",
     cpuLimit: "CPU limit (Optional)",
     cpuDescription: "Leave it empty to allow the user to have unlimited CPU cores.",
-    placeholder: "Unlimted",
+    placeholder: "Unlimited",
   },
   inviteRedemption: {
     title: "Accept Invitation",
@@ -280,6 +280,41 @@ const translation: i18nLanguage = {
         title: "Volume Mounts",
         errorLabel: "Path must not be empty",
         description: "Volume mounts for your server",
+      },
+    },
+    userManagement: {
+      backButton: "Back",
+      userDetailButton: {
+        viewUsers: "Marketplace",
+      },
+      userRow: {
+        roles: {
+          owner: "Owner",
+          admin: "Admin",
+          quota_user: "Quota",
+        },
+        resources: {
+          cpus: "CPUs",
+          memory: "Memory",
+          storage: "Storage",
+          unlimited: "Unlimited",
+        },
+        moreOptions: "More Options",
+      },
+      userTable: {
+        search: "Search",
+        filter: "Filter",
+        sort: "Sort",
+        resetFilter: "Reset Filter",
+        clearSort: "Clear Sort",
+        sortBy: {
+          username: "Name",
+          role: "Role",
+          max_cpu: "CPU Limit",
+          max_memory: "Memory Limit",
+        },
+        noUsersFound: "No users found",
+        pendingInvites: "Pending Invites",
       },
     },
   },

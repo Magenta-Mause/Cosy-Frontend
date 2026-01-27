@@ -38,7 +38,7 @@ const GameServerStatusIndicator = (props: { gameServer: GameServerDto }) => {
       <div
         className={`w-5 h-5 border-button-primary-default border-2 rounded-4xl ${STATUS_CLASSES[status]}`}
       />
-      <div className={"text-2xl"}>{buttonLabel}</div>
+      <div className={"text-lg"}>{buttonLabel}</div>
     </div>
   );
 };
