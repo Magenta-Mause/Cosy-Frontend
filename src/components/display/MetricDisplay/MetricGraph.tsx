@@ -8,13 +8,14 @@ import {
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { GetMetricsType, type MetricValues } from "@/api/generated/model";
+import type { MetricValues } from "@/api/generated/model";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
+import { MetricsType } from "@/types/metricsTyp";
 import MetricDropDown from "./DropDown/MetricDropDown";
 
 interface MetricGraphProps {
   className?: string;
-  type: GetMetricsType;
+  type: MetricsType;
   timeUnit: string;
   metrics: GameServerMetricsWithUuid[];
 }
@@ -26,7 +27,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const METRIC_KEY_MAP: Record<GetMetricsType, keyof MetricValues> = {
+const METRIC_KEY_MAP: Record<MetricsType, keyof MetricValues> = {
   CPU_PERCENT: "cpu_percent",
   MEMORY_PERCENT: "memory_percent",
   MEMORY_LIMIT: "memory_limit",
@@ -39,7 +40,7 @@ const METRIC_KEY_MAP: Record<GetMetricsType, keyof MetricValues> = {
 
 const MetricGraph = (props: MetricGraphProps) => {
   const { t } = useTranslation();
-  const [metricType, setMetricType] = useState<GetMetricsType>(props.type);
+  const [metricType, setMetricType] = useState<MetricsType>(props.type);
   const [chartData, setChartData] = useState<{ time: string; value: number }[]>([]);
 
   const convertBytes = (byte: number, base: number, sizes: string[]) => {
@@ -49,11 +50,11 @@ const MetricGraph = (props: MetricGraphProps) => {
   };
 
   const formateMetric = (value: number) => {
-    if (metricType === GetMetricsType.CPU_PERCENT || metricType === GetMetricsType.MEMORY_PERCENT) {
+    if (metricType === MetricsType.CPU_PERCENT || metricType === MetricsType.MEMORY_PERCENT) {
       return `${(value).toFixed(2)}%`;
     } else if (
-      metricType === GetMetricsType.MEMORY_USAGE ||
-      metricType === GetMetricsType.MEMORY_LIMIT
+      metricType === MetricsType.MEMORY_USAGE ||
+      metricType === MetricsType.MEMORY_LIMIT
     ) {
       return convertBytes(value, 1024, ["Bytes", "KiB", "MiB", "GiB", "TiB"]);
     }
