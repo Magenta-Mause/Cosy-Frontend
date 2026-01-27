@@ -337,6 +337,8 @@ const translation: i18nLanguage = {
     min: "Last {{time}} minutes",
     hour: "Last {{time}} hours",
     day: "Last {{time}} days",
+    apply: "Confirm",
+    cancel: "Cancel",
   },
   datepicker: {
     title: "Select Date Range",

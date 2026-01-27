@@ -40,14 +40,14 @@ const DatePicker = (props: DatePickerProps) => {
           />
         </DialogMain>
         <DialogFooter>
-          <Button variant="secondary" onClick={() => props.onOpenChange(false)}>Cancel</Button>
+          <Button variant="secondary" onClick={() => props.onOpenChange(false)}>{t("timerange.cancel")}</Button>
           <Button onClick={() => {
             if (date?.from && date?.to) {
               props.onRangeChange({ startDate: date.from, endDate: date.to });
             }
             props.onOpenChange(false);
           }}
-          >Apply</Button>
+          >{t("timerange.apply")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

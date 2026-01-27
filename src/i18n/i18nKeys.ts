@@ -331,6 +331,8 @@ export type i18nLanguage = {
     min: string;
     hour: string;
     day: string;
+    apply: string;
+    cancel: string;
   };
   datepicker: {
     title: string;
