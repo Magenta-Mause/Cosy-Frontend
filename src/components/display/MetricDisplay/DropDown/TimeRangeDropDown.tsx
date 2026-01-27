@@ -14,7 +14,7 @@ import {
 
 interface TimeRangeProps {
   className?: string;
-  onChange: (value: { timeUnit: string; startTime: number; endTime?: number }) => void;
+  onChange: (value: { timeUnit: string; startTime: Date; endTime?: Date }) => void;
 }
 
 const TimeRangeDropDown = (props: TimeRangeProps) => {
@@ -40,8 +40,7 @@ const TimeRangeDropDown = (props: TimeRangeProps) => {
 
   const handleCustomRange = ({ startDate, endDate }: { startDate: Date; endDate: Date }) => {
     setSelectedLabel(`${format(startDate, "LLL dd, y")} - ${format(endDate, "LLL dd, y")}`);
-    console.log(startDate.getTime(), endDate.getTime());
-    props.onChange({ timeUnit: "day", startTime: startDate.getTime(), endTime: endDate.getTime() });
+    props.onChange({ timeUnit: "day", startTime: startDate, endTime: endDate });
   };
 
   useEffect(() => {

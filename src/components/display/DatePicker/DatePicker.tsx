@@ -25,7 +25,7 @@ const DatePicker = (props: DatePickerProps) => {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="w-auto" align="start">
+      <DialogContent className="w-auto">
         <DialogHeader>
           <DialogTitle>{t("datepicker.title")}</DialogTitle>
           <DialogDescription>{t("datepicker.des")}</DialogDescription>

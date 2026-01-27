@@ -15,8 +15,8 @@ const MetricDisplay = (
 ) => {
   const { t } = useTranslation();
   const [unit, setUnit] = useState<string>("hour");
-  const [startTime, setStartTime] = useState<Date | null>();
-  const [endTime, setEndTime] = useState<Date | null>();
+  const [startTime, setStartTime] = useState<Date | undefined>();
+  const [endTime, setEndTime] = useState<Date | undefined>();
   const { loadMetrics } = useDataLoading();
 
   useEffect(() => {

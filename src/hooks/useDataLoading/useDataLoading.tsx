@@ -93,9 +93,12 @@ const useDataLoading = () => {
   };
 
   const loadMetrics = async (gameServerUuid: string, start?: Date, end?: Date) => {
-    dispatch(gameServerSliceActions.setState({ gameServerUuid, state: "loading" }));
+    dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "loading" }));
     try {
-      const metrics = await getMetrics(gameServerUuid, { start: start, end: end });
+      const metrics = await getMetrics(gameServerUuid, {
+        start: start ? start.toISOString() : undefined,
+        end: end ? end.toISOString() : undefined,
+      });
       const metricsWithUuid = metrics.map((metric) => ({ ...metric, uuid: generateUuid() }));
       dispatch(
         gameServerMetricsSliceActions.setGameServerMetrics({ gameServerUuid, metrics: metricsWithUuid })

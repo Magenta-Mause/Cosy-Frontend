@@ -1,13 +1,13 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { GameServerDto, MetricPointDto } from "@/api/generated/model";
-import type { SliceState } from "..";
+import type { SliceState } from "@/stores";
 
 export type GameServerMetricsWithUuid = MetricPointDto & { uuid: string };
 
 interface GameServerMetricsSliceState {
   data: {
     [key: GameServerDto["uuid"]]: {
-      metrics: MetricPointDto[];
+      metrics: GameServerMetricsWithUuid[];
       state: SliceState<void>["state"];
     };
   };
@@ -27,8 +27,8 @@ const gameServerMetricsSlice = createSlice({
       }>,
     ) => {
       const grouped = Object.groupBy(
-        action.payload,
-        (metric) => metric.game_server_uuid ?? "",
+        action.payload.metrics,
+        (metric) => metric.uuid ?? "",
       ) as Record<string, GameServerMetricsWithUuid[]>;
       const withStatus: GameServerMetricsSliceState["data"] = {};
       Object.keys(grouped).forEach((key) => {
