@@ -6,8 +6,10 @@ import {
   getAllUserEntities,
   getAllUserInvites,
   getLogs,
+  getMetrics,
 } from "@/api/generated/backend-api.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
+import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { templateSliceActions } from "@/stores/slices/templateSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
@@ -35,7 +37,12 @@ const useDataLoading = () => {
       const gameServers = await getAllGameServers();
       dispatch(gameServerSliceActions.setState("idle"));
       dispatch(gameServerSliceActions.setGameServer(gameServers));
-      Promise.allSettled(gameServers.map((gameServer) => loadLogs(gameServer.uuid)));
+      Promise.allSettled(
+        gameServers.flatMap((gameServer) => [
+          loadLogs(gameServer.uuid),
+          loadMetrics(gameServer.uuid),
+        ]),
+      );
       return true;
     } catch {
       dispatch(gameServerSliceActions.setState("failed"));
@@ -85,6 +92,23 @@ const useDataLoading = () => {
     }
   };
 
+  const loadMetrics = async (gameServerUuid: string, start?: Date, end?: Date) => {
+    dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "loading" }));
+    try {
+      const metrics = await getMetrics(gameServerUuid, {
+        start: start ? start.toISOString() : undefined,
+        end: end ? end.toISOString() : undefined,
+      });
+      const metricsWithUuid = metrics.map((metric) => ({ ...metric, uuid: generateUuid() }));
+      dispatch(
+        gameServerMetricsSliceActions.setGameServerMetrics({ gameServerUuid, metrics: metricsWithUuid })
+      );
+      dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "idle" }));
+    } catch {
+      dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "failed" }));
+    }
+  };
+
   const loadAllData = async () => {
     const results = await Promise.allSettled([
       loadGameServers(),
@@ -115,6 +139,7 @@ const useDataLoading = () => {
     loadInvites,
     loadAllData,
     loadTemplates,
+    loadMetrics
   };
 };
 
