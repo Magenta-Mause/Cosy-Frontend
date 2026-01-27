@@ -1,35 +1,35 @@
 import { Button } from "@components/ui/button";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GetMetricsType } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
+import { MetricsType } from "@/types/metricsTyp";
 import TimeRangeDropDown from "./DropDown/TimeRangeDropDown";
 import MetricGraph from "./MetricGraph";
 
 const METRIC_ORDER = [
   {
-    type: GetMetricsType.CPU_PERCENT,
+    type: MetricsType.CPU_PERCENT,
     size: "6",
   },
   {
-    type: GetMetricsType.MEMORY_PERCENT,
+    type: MetricsType.MEMORY_PERCENT,
     size: "2",
   },
   {
-    type: GetMetricsType.MEMORY_LIMIT,
+    type: MetricsType.MEMORY_LIMIT,
     size: "2",
   },
   {
-    type: GetMetricsType.MEMORY_USAGE,
+    type: MetricsType.MEMORY_USAGE,
     size: "2",
   },
   {
-    type: GetMetricsType.NETWORK_INPUT,
+    type: MetricsType.NETWORK_INPUT,
     size: "3",
   },
   {
-    type: GetMetricsType.NETWORK_OUTPUT,
+    type: MetricsType.NETWORK_OUTPUT,
     size: "3",
   },
 ];

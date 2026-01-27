@@ -1,7 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GetMetricsType } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,29 +9,30 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { MetricsType } from "@/types/metricsTyp";
 
-const METRIC_TYPES: GetMetricsType[] = [
-  GetMetricsType.CPU_PERCENT,
-  GetMetricsType.MEMORY_PERCENT,
-  GetMetricsType.MEMORY_USAGE,
-  GetMetricsType.MEMORY_LIMIT,
-  GetMetricsType.BLOCK_READ,
-  GetMetricsType.BLOCK_WRITE,
-  GetMetricsType.NETWORK_INPUT,
-  GetMetricsType.NETWORK_OUTPUT,
+const METRICS_TYPE: MetricsType[] = [
+  MetricsType.CPU_PERCENT,
+  MetricsType.MEMORY_PERCENT,
+  MetricsType.MEMORY_USAGE,
+  MetricsType.MEMORY_LIMIT,
+  MetricsType.BLOCK_READ,
+  MetricsType.BLOCK_WRITE,
+  MetricsType.NETWORK_INPUT,
+  MetricsType.NETWORK_OUTPUT,
 ];
 
 const MetricDropDown = (props: {
   className?: string;
-  metricType: GetMetricsType;
-  setMetricType: (unit: GetMetricsType) => void;
+  metricType: MetricsType;
+  setMetricType: (unit: MetricsType) => void;
 }) => {
   const { t } = useTranslation();
   const [selectedLabel, setSelectedLabel] = useState<string>(
     t(`metrics.types.${props.metricType}`),
   );
 
-  const handleSelect = (type: GetMetricsType) => {
+  const handleSelect = (type: MetricsType) => {
     setSelectedLabel(t(`metrics.types.${type}`));
     props.setMetricType(type);
   };
@@ -47,7 +47,7 @@ const MetricDropDown = (props: {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-30 bg-primary-modal-background" align="end">
         <DropdownMenuGroup>
-          {METRIC_TYPES.map((type) => (
+          {METRICS_TYPE.map((type) => (
             <DropdownMenuItem key={type} onSelect={() => handleSelect(type)}>
               {t(`metrics.types.${type}`)}
             </DropdownMenuItem>
