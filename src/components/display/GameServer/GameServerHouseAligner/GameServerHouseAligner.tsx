@@ -1,7 +1,7 @@
 import ConstructionPlaceHouse from "@components/display/GameServer/ConstructionPlace/ConstructionPlaceHouse.tsx";
 import GameServerHouse from "@components/display/GameServer/GameServerHouse/GameServerHouse.tsx";
 import calculateCoordinate from "@components/display/GameServer/GameServerHouseAligner/calculateCoordinate.ts";
-import UserDetailButton from "@components/display/UserManagement/UserDetailPage/UserDetailButton";
+import UserDetailListRedirectButton from "@components/display/UserManagement/UserDetailPage/UserDetailListRedirectButton";
 import type { GameServerDto } from "@/api/generated/model";
 
 const GameServerHouseAligner = (props: { gameServers: GameServerDto[] }) => {
@@ -22,7 +22,7 @@ const GameServerHouseAligner = (props: { gameServers: GameServerDto[] }) => {
         <GameServerHouse key={gameServer.uuid} gameServer={gameServer} style={getStyle(index)} />
       ))}
       <div className="absolute right-10 top-1/4 -translate-y-1/2">
-        <UserDetailButton />
+        <UserDetailListRedirectButton />
       </div>
       <ConstructionPlaceHouse style={getStyle(props.gameServers.length)} />
     </div>

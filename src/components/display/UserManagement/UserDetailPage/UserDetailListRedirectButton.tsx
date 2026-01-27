@@ -3,7 +3,7 @@ import { useRouter } from "@tanstack/react-router";
 import { ArrowBigRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-const UserDetailButton = () => {
+const UserDetailListRedirectButton = () => {
   const router = useRouter();
   const { t } = useTranslation();
   return (
@@ -19,4 +19,4 @@ const UserDetailButton = () => {
   );
 };
 
-export default UserDetailButton;
+export default UserDetailListRedirectButton;
