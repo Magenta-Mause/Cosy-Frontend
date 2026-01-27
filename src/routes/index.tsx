@@ -1,3 +1,4 @@
+import UserDetailListRedirectButton from "@components/display/UserManagement/UserDetailPage/UserDetailListRedirectButton";
 import { createFileRoute } from "@tanstack/react-router";
 import bgImage from "@/assets/ai-generated/main-page/background.png";
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
@@ -51,6 +52,9 @@ function Index() {
         <InviteRedemptionModal inviteToken={inviteToken} onClose={handleCloseInvite} />
       )}
       <LoginDisplay />
+      <div className="absolute right-10 top-1/4 -translate-y-1/2">
+        <UserDetailListRedirectButton />
+      </div>
     </div>
   );
 }
