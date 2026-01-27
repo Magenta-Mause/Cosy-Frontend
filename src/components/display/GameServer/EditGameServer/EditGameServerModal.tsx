@@ -29,7 +29,7 @@ const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto =>
   port_mappings: server.port_mappings,
   environment_variables: server.environment_variables,
   volume_mounts: server.volume_mounts?.map((v) => ({
-    host_path: v.host_path ?? "",
+    host_path: "",
     container_path: v.container_path ?? "",
   })),
   execution_command: server.execution_command,
@@ -150,7 +150,7 @@ const EditGameServerModal = (props: {
       ) !==
       JSON.stringify(
         props.gameServer.volume_mounts?.map((v) => ({
-          host_path: v.host_path ?? "",
+          host_path: "",
           container_path: v.container_path ?? "",
         })) ?? [],
       );
