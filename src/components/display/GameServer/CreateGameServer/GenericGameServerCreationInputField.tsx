@@ -2,7 +2,6 @@ import { GameServerCreationContext } from "@components/display/GameServer/Create
 import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 import { FieldError } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
-import { DialogDescription } from "@radix-ui/react-dialog";
 import { useCallback, useContext, useEffect } from "react";
 import type { ZodType } from "zod";
 import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
@@ -74,16 +73,21 @@ const GenericGameServerCreationInputField = (props: {
   );
 
   useEffect(() => {
-    if (props.defaultValue !== undefined) {
+    // Only set default value if there's no existing value in the context
+    if (
+      props.defaultValue !== undefined &&
+      creationState.gameServerState[props.attribute] === undefined
+    ) {
       changeCallback(props.defaultValue);
     }
-  }, [changeCallback, props.defaultValue]);
+  }, [changeCallback, props.defaultValue, props.attribute, creationState.gameServerState]);
 
   return (
     <div>
-      {props.label && <label htmlFor={props.attribute}>{props.label}</label>}
       <Input
         className={isError ? "border-red-500" : ""}
+        description={props.description}
+        header={props.label}
         placeholder={props.placeholder}
         onChange={(e) => changeCallback(e.target.value)}
         id={props.attribute}
@@ -94,7 +98,6 @@ const GenericGameServerCreationInputField = (props: {
           }
         }}
       />
-      {props.description && <DialogDescription>{props.description}</DialogDescription>}
       {isError && <FieldError>{props.errorLabel}</FieldError>}
     </div>
   );

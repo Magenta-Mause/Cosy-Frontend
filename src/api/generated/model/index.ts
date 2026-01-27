@@ -20,7 +20,6 @@ export * from './gameServerLogMessageEntity';
 export * from './gameServerLogMessageEntityLevel';
 export * from './gameServerUpdateDto';
 export * from './getFileSystemForVolumeParams';
-export * from './getGameInfoParams';
 export * from './getLogsParams';
 export * from './getMetricsParams';
 export * from './getServiceInfo200';

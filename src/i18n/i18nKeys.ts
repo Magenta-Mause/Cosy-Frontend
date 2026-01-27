@@ -145,16 +145,45 @@ export type i18nLanguage = {
     STOPPING: string;
   };
   components: {
+    TemplateVariableForm: {
+      title: string;
+      noTemplateSelected: string;
+      noVariables: string;
+      selectPlaceholder: string;
+      example: string;
+      pattern: string;
+      validationError: string;
+      validationErrorRequired: string;
+      validationErrorNumber: string;
+      validationErrorBoolean: string;
+      validationErrorSelect: string;
+      validationErrorPattern: string;
+      booleanTrue: string;
+      booleanFalse: string;
+    };
     CreateGameServer: {
       backButton: string;
       nextStepButton: string;
+      useTemplate: string;
+      useNoTemplate: string;
       createServerButton: string;
+      reapplyDialog: {
+        title: string;
+        description: string;
+        cancel: string;
+        confirm: string;
+      };
       listInput: {
         addButton: string;
       };
       steps: {
         step1: {
           title: string;
+          serverNameSelection: {
+            title: string;
+            description: string;
+            errorLabel: string;
+          };
           gameSelection: {
             title: string;
             description: string;
@@ -171,11 +200,8 @@ export type i18nLanguage = {
             title: string;
             description: string;
             errorLabel: string;
-          };
-          serverNameSelection: {
-            title: string;
-            description: string;
-            errorLabel: string;
+            noResultsLabel: string;
+            placeholder: string;
           };
         };
         step3: {
@@ -216,50 +242,6 @@ export type i18nLanguage = {
       autoCompleteInputField: {
         loadingLabel: string;
         noResultsLabel: string;
-      };
-    };
-    fileBrowser: {
-      filePreview: {
-        previewFailure: string;
-        loadingPreview: string;
-        selectPreview: string;
-        noPreviewAvailable: ContainsVariable<"textError">;
-      };
-      fileBrowserList: {
-        failedToCreateFolder: string;
-        failedToRename: string;
-        failedToDelete: string;
-        newFolderAction: string;
-        refreshAction: string;
-        noFiles: string;
-        directoryType: string;
-        fileType: string;
-        renameAction: string;
-        deleteAction: string;
-        downloadAction: string;
-        downloadFile: ContainsVariable<"fileName">;
-        createFolderAction: string;
-        createFolderDescription: ContainsVariable<"dirName">;
-        folderName: string;
-        creatingInProgress: string;
-        createAction: string;
-        renameDescription: ContainsVariable<"fileName"> & ContainsVariable<"currentPath">;
-        newName: string;
-        renameInProgress: string;
-        deleteDescription: ContainsVariable<"fileName">;
-        deleteDialogFolder: string;
-        deleteDialogFile: string;
-        cancel: string;
-        deleteInProgress: string;
-      };
-      fileBrowserDialog: {
-        uploadFailure: string;
-        downloadZipFailure: string;
-        preparing: string;
-        downloadingFile: ContainsVariable<"done"> & ContainsVariable<"total">;
-        downloadAllAction: string;
-        uploadFile: string;
-        renamePlaceholder: string;
       };
     };
     editGameServer: {
@@ -323,9 +305,117 @@ export type i18nLanguage = {
         description: string;
       };
     };
+    userManagement: {
+      backButton: string;
+      userDetailButton: {
+        viewUsers: string;
+      };
+      userRow: {
+        roles: {
+          owner: string;
+          admin: string;
+          quota_user: string;
+        };
+        resources: {
+          cpus: string;
+          memory: string;
+          storage: string;
+          unlimited: string;
+        };
+        moreOptions: string;
+      };
+      userTable: {
+        search: string;
+        filter: string;
+        sort: string;
+        resetFilter: string;
+        clearSort: string;
+        sortBy: {
+          username: string;
+          role: string;
+          max_cpu: string;
+          max_memory: string;
+        };
+        noUsersFound: string;
+        pendingInvites: string;
+      };
+    };
+    fileBrowser: {
+      filePreview: {
+        previewFailure: string;
+        loadingPreview: string;
+        selectPreview: string;
+        noPreviewAvailable: ContainsVariable<"textError">;
+      };
+      fileBrowserList: {
+        failedToCreateFolder: string;
+        failedToRename: string;
+        failedToDelete: string;
+        newFolderAction: string;
+        refreshAction: string;
+        noFiles: string;
+        directoryType: string;
+        fileType: string;
+        renameAction: string;
+        deleteAction: string;
+        downloadAction: string;
+        downloadFile: ContainsVariable<"fileName">;
+        createFolderAction: string;
+        createFolderDescription: ContainsVariable<"dirName">;
+        folderName: string;
+        creatingInProgress: string;
+        createAction: string;
+        renameDescription: ContainsVariable<"fileName"> & ContainsVariable<"currentPath">;
+        newName: string;
+        renameInProgress: string;
+        deleteDescription: ContainsVariable<"fileName">;
+        deleteDialogFolder: string;
+        deleteDialogFile: string;
+        cancel: string;
+        deleteInProgress: string;
+      };
+      fileBrowserDialog: {
+        uploadFailure: string;
+        downloadZipFailure: string;
+        preparing: string;
+        downloadingFile: ContainsVariable<"done"> & ContainsVariable<"total">;
+        downloadAllAction: string;
+        uploadFile: string;
+        renamePlaceholder: string;
+      };
+    };
   };
   genericModal: {
     cancel: string;
+  };
+  metrics: {
+    metricTitle: string;
+    metricDescription: string;
+    configure: string;
+    types: {
+      CPU_PERCENT: string;
+      MEMORY_PERCENT: string;
+      MEMORY_USAGE: string;
+      MEMORY_LIMIT: string;
+      NETWORK_INPUT: string;
+      NETWORK_OUTPUT: string;
+      BLOCK_READ: string;
+      BLOCK_WRITE: string;
+    };
+  };
+  timerange: {
+    localTime: string;
+    custom: string;
+    button: string;
+    min: string;
+    hour: string;
+    day: string;
+    apply: string;
+    cancel: string;
+  };
+  datepicker: {
+    title: string;
+    des: string;
   };
 };
 

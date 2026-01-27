@@ -40,7 +40,7 @@ const LoginDisplay = () => {
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogContent className="w-100">
             <DialogTitle>{t("signIn.signIn")}</DialogTitle>
-            <DialogDescription className="-my-5">{t("signIn.desc")}</DialogDescription>
+            <DialogDescription>{t("signIn.desc")}</DialogDescription>
             <LoginForm loginCallback={handleLogin} error={error} isLoading={isLoggingIn} />
           </DialogContent>
         </Dialog>
