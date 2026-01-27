@@ -78,6 +78,19 @@ const buttonVariants = cva(
 
           "focus-visible:ring-2 focus-visible:ring-button-destructive-click",
         ].join(" "),
+
+        ghost: [
+          "bg-transparent",
+          "text-button-primary-click",
+
+          "hover:bg-button-ghost-hover",
+
+          "active:bg-button-ghost-click",
+
+          "disabled:text-button-secondary-disabled",
+
+          "focus-visible:ring-2 focus-visible:ring-button-primary-hover",
+        ].join(" "),
       },
 
       size: {

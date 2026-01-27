@@ -6,11 +6,16 @@
  * OpenAPI spec version: v1.0
  */
 
+export * from './done';
+export * from './doneAllOf';
 export * from './environmentVariableConfiguration';
+export * from './error';
+export * from './errorAllOf';
 export * from './gameDto';
 export * from './gameServerCreationDto';
 export * from './gameServerDto';
 export * from './gameServerDtoStatus';
+export * from './gameServerInstanceDto';
 export * from './gameServerLogMessageEntity';
 export * from './gameServerLogMessageEntityLevel';
 export * from './gameServerUpdateDto';
@@ -18,13 +23,20 @@ export * from './getLogsParams';
 export * from './getMetricsParams';
 export * from './getMetricsType';
 export * from './getServiceInfo200';
+export * from './heartbeat';
 export * from './loginDto';
 export * from './metricPointDto';
 export * from './metricValues';
 export * from './portMapping';
 export * from './portMappingProtocol';
+export * from './pullProgress';
+export * from './pullProgressAllOf';
+export * from './pullProgressDto';
 export * from './queryGamesParams';
 export * from './resourceLimit';
+export * from './startEventDto';
+export * from './startEventDtoType';
+export * from './startServiceSse200Item';
 export * from './templateEntity';
 export * from './templateEntityEnvironmentVariables';
 export * from './templateEntityPortMappings';

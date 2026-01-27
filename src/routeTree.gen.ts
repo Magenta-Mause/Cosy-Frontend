@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServerServerIdRouteImport } from './routes/server/$serverId'
 import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId/index'
 import { Route as ServerServerIdSettingsRouteImport } from './routes/server/$serverId/settings'
+import { Route as ServerServerIdMetricsRouteImport } from './routes/server/$serverId.metrics'
 import { Route as ServerServerIdConsoleRouteImport } from './routes/server/$serverId/console'
 import { Route as ServerServerIdSettingsPublicDashboardRouteImport } from './routes/server/$serverId/settings/publicDashboard'
 import { Route as ServerServerIdSettingsPrivateDashboardRouteImport } from './routes/server/$serverId/settings/privateDashboard'
@@ -38,6 +39,11 @@ const ServerServerIdIndexRoute = ServerServerIdIndexRouteImport.update({
 const ServerServerIdSettingsRoute = ServerServerIdSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => ServerServerIdRoute,
+} as any)
+const ServerServerIdMetricsRoute = ServerServerIdMetricsRouteImport.update({
+  id: '/metrics',
+  path: '/metrics',
   getParentRoute: () => ServerServerIdRoute,
 } as any)
 const ServerServerIdConsoleRoute = ServerServerIdConsoleRouteImport.update({
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
+  '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
   '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
   '/server/$serverId/': typeof ServerServerIdIndexRoute
   '/server/$serverId/settings/accessManagement': typeof ServerServerIdSettingsAccessManagementRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
+  '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
   '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
   '/server/$serverId': typeof ServerServerIdIndexRoute
   '/server/$serverId/settings/accessManagement': typeof ServerServerIdSettingsAccessManagementRoute
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
+  '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
   '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
   '/server/$serverId/': typeof ServerServerIdIndexRoute
   '/server/$serverId/settings/accessManagement': typeof ServerServerIdSettingsAccessManagementRoute
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/server/$serverId'
     | '/server/$serverId/console'
+    | '/server/$serverId/metrics'
     | '/server/$serverId/settings'
     | '/server/$serverId/'
     | '/server/$serverId/settings/accessManagement'
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/server/$serverId/console'
+    | '/server/$serverId/metrics'
     | '/server/$serverId/settings'
     | '/server/$serverId'
     | '/server/$serverId/settings/accessManagement'
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/'
     | '/server/$serverId'
     | '/server/$serverId/console'
+    | '/server/$serverId/metrics'
     | '/server/$serverId/settings'
     | '/server/$serverId/'
     | '/server/$serverId/settings/accessManagement'
@@ -183,6 +195,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/server/$serverId/settings'
       preLoaderRoute: typeof ServerServerIdSettingsRouteImport
+      parentRoute: typeof ServerServerIdRoute
+    }
+    '/server/$serverId/metrics': {
+      id: '/server/$serverId/metrics'
+      path: '/metrics'
+      fullPath: '/server/$serverId/metrics'
+      preLoaderRoute: typeof ServerServerIdMetricsRouteImport
       parentRoute: typeof ServerServerIdRoute
     }
     '/server/$serverId/console': {
@@ -257,12 +276,14 @@ const ServerServerIdSettingsRouteWithChildren =
 
 interface ServerServerIdRouteChildren {
   ServerServerIdConsoleRoute: typeof ServerServerIdConsoleRoute
+  ServerServerIdMetricsRoute: typeof ServerServerIdMetricsRoute
   ServerServerIdSettingsRoute: typeof ServerServerIdSettingsRouteWithChildren
   ServerServerIdIndexRoute: typeof ServerServerIdIndexRoute
 }
 
 const ServerServerIdRouteChildren: ServerServerIdRouteChildren = {
   ServerServerIdConsoleRoute: ServerServerIdConsoleRoute,
+  ServerServerIdMetricsRoute: ServerServerIdMetricsRoute,
   ServerServerIdSettingsRoute: ServerServerIdSettingsRouteWithChildren,
   ServerServerIdIndexRoute: ServerServerIdIndexRoute,
 }

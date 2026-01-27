@@ -318,6 +318,35 @@ export type i18nLanguage = {
   genericModal: {
     cancel: string;
   };
+  metrics: {
+    metricTitle: string;
+    metricDescription: string;
+    configure: string;
+    types: {
+      CPU_PERCENT: string;
+      MEMORY_PERCENT: string;
+      MEMORY_USAGE: string;
+      MEMORY_LIMIT: string;
+      NETWORK_INPUT: string;
+      NETWORK_OUTPUT: string;
+      BLOCK_READ: string;
+      BLOCK_WRITE: string;
+    };
+  };
+  timerange: {
+    localTime: string;
+    custom: string;
+    button: string;
+    min: string;
+    hour: string;
+    day: string;
+    apply: string;
+    cancel: string;
+  };
+  datepicker: {
+    title: string;
+    des: string;
+  };
 };
 
 type ContainsVariable<T extends string> = `${string}{{${T}}}${string}`;
