@@ -17,6 +17,17 @@ interface TimeRangeProps {
   onChange: (value: { timeUnit: string; startTime: Date; endTime?: Date }) => void;
 }
 
+const TIME_RANGE_PRESETS: [number, "min" | "hour" | "day"][] = [
+  [15, "min"],
+  [30, "min"],
+  [1, "hour"],
+  [6, "hour"],
+  [12, "hour"],
+  [1, "day"],
+  [7, "day"],
+  [30, "day"],
+]
+
 const TimeRangeDropDown = (props: TimeRangeProps) => {
   const { t } = useTranslation();
   const [selectedLabel, setSelectedLabel] = useState<string>(t("timerange.button"));
@@ -61,30 +72,11 @@ const TimeRangeDropDown = (props: TimeRangeProps) => {
             <DropdownMenuItem onSelect={() => setOpenCustom(true)}>
               {t("timerange.custom")}
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => handleSelect(15, "min")}>
-              {t("timerange.min", { time: 15 })}
-            </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => handleSelect(30, "min")}>
-              {t("timerange.min", { time: 30 })}
-            </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => handleSelect(1, "hour")}>
-              {t("timerange.hour", { time: 1 })}
-            </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => handleSelect(6, "hour")}>
-              {t("timerange.hour", { time: 6 })}
-            </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => handleSelect(12, "hour")}>
-              {t("timerange.hour", { time: 12 })}
-            </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => handleSelect(1, "day")}>
-              {t("timerange.day", { time: 1 })}
-            </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => handleSelect(7, "day")}>
-              {t("timerange.day", { time: 7 })}
-            </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => handleSelect(30, "day")}>
-              {t("timerange.day", { time: 30 })}
-            </DropdownMenuItem>
+            {TIME_RANGE_PRESETS.map(([time, unit]) => (
+              <DropdownMenuItem key={`${time}-${unit}`} onSelect={() => handleSelect(time, unit)}>
+                {t(`timerange.${unit}`, { time: time })}
+              </DropdownMenuItem>
+            ))}
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

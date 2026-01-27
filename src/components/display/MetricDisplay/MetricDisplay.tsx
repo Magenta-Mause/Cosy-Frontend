@@ -7,6 +7,33 @@ import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetric
 import TimeRangeDropDown from "./DropDown/TimeRangeDropDown";
 import MetricGraph from "./MetricGraph";
 
+const METRIC_ORDER = [
+  {
+    type: GetMetricsType.CPU_PERCENT,
+    size: "6",
+  },
+  {
+    type: GetMetricsType.MEMORY_PERCENT,
+    size: "2",
+  },
+  {
+    type: GetMetricsType.MEMORY_LIMIT,
+    size: "2",
+  },
+  {
+    type: GetMetricsType.MEMORY_USAGE,
+    size: "2",
+  },
+  {
+    type: GetMetricsType.NETWORK_INPUT,
+    size: "3",
+  },
+  {
+    type: GetMetricsType.NETWORK_OUTPUT,
+    size: "3",
+  },
+];
+
 const MetricDisplay = (
   props: {
     metrics: GameServerMetricsWithUuid[];
@@ -33,32 +60,7 @@ const MetricDisplay = (
     "6": "col-span-6",
   };
 
-  const metricOrder = [
-    {
-      type: GetMetricsType.CPU_PERCENT,
-      size: "6",
-    },
-    {
-      type: GetMetricsType.MEMORY_PERCENT,
-      size: "2",
-    },
-    {
-      type: GetMetricsType.MEMORY_LIMIT,
-      size: "2",
-    },
-    {
-      type: GetMetricsType.MEMORY_USAGE,
-      size: "2",
-    },
-    {
-      type: GetMetricsType.NETWORK_INPUT,
-      size: "3",
-    },
-    {
-      type: GetMetricsType.NETWORK_OUTPUT,
-      size: "3",
-    },
-  ];
+
   return (
     <>
       <div className="flex mb-2 w-full items-center justify-end gap-2">
@@ -76,7 +78,7 @@ const MetricDisplay = (
         <Button>{t("metrics.configure")}</Button>
       </div>
       <div className="grid grid-cols-6 gap-2">
-        {metricOrder.map((metric) => (
+        {METRIC_ORDER.map((metric) => (
           <MetricGraph
             key={metric.type}
             className={colSpanMap[metric.size]}
