@@ -259,6 +259,7 @@ export type i18nLanguage = {
         downloadingFile: ContainsVariable<"done"> & ContainsVariable<"total">;
         downloadAllAction: string;
         uploadFile: string;
+        renamePlaceholder: string;
       };
     };
     editGameServer: {

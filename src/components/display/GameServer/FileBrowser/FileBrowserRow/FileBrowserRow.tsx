@@ -2,6 +2,7 @@ import type { FileSystemObjectDto } from "@/api/generated/model";
 import { Download, File, Folder, Pencil, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formatBytes, formatUnixPerms, isDirectory } from "@/lib/fileSystemUtils";
+import { Button } from "@components/ui/button";
 
 type Props = {
   obj: FileSystemObjectDto;
@@ -107,7 +108,7 @@ export const FileBrowserRow = ({
           ) : null}
 
           {onDownload ? (
-            <button
+            <Button
               type="button"
               onClick={() => onDownload(obj)}
               className={cn(
@@ -121,7 +122,7 @@ export const FileBrowserRow = ({
             >
               <Download className="h-4 w-4 mr-1" />
               <span className="hidden sm:inline">Download</span>
-            </button>
+            </Button>
           ) : null}
         </div>
       ) : null}

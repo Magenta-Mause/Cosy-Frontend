@@ -235,6 +235,7 @@ const translation: i18nLanguage = {
         downloadingFile: "Downloading {{done}}/{{total}}",
         downloadAllAction: "Download All",
         uploadFile: "Upload",
+        renamePlaceholder: "e.g. server.log",
       },
     },
     editGameServer: {

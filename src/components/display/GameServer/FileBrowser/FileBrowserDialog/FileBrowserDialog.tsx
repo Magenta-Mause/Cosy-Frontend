@@ -1,7 +1,7 @@
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Download, Search, Upload, X } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   uploadFileToVolume,
   useCreateDirectoryInVolume,
@@ -16,8 +16,11 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 import { downloadSingleFile, joinDir, joinRemotePath, normalizePath } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
 import { zipAndDownload } from "@/lib/zipDownload";
+
 import { FileBrowserList } from "../FileBrowserList/FileBrowserList";
 import { FilePreview } from "../FilePreview/FilePreview";
+
+import { FileBrowserProvider, type FileBrowserContextValue } from "../FileBrowserContext";
 
 type FileBrowserDialogProps = {
   width?: number;
@@ -115,20 +118,26 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     }
   };
 
-  const onEntryClick = async (obj: FileSystemObjectDto) => {
-    if (obj.type === "DIRECTORY") {
-      const nextPath = joinDir(currentPath, obj.name);
-      setCurrentPath(nextPath);
-      return;
-    }
+  const onEntryClick = useCallback(
+    async (obj: FileSystemObjectDto) => {
+      if (obj.type === "DIRECTORY") {
+        const nextPath = joinDir(currentPath, obj.name);
+        setCurrentPath(nextPath);
+        return;
+      }
 
-    const fullPath = joinRemotePath(currentPath, obj.name);
-    setSelectedFilePath(fullPath);
-    setSelectedFileName(obj.name);
-    setSelectedObj(obj);
-  };
+      const fullPath = joinRemotePath(currentPath, obj.name);
+      setSelectedFilePath(fullPath);
+      setSelectedFileName(obj.name);
+      setSelectedObj(obj);
+    },
+    [currentPath, setCurrentPath, setSelectedFilePath, setSelectedFileName, setSelectedObj],
+  );
 
-  const onCrumbClick = (path: string) => setCurrentPath(normalizePath(path));
+  const onCrumbClick = useCallback(
+    (path: string) => setCurrentPath(normalizePath(path)),
+    [setCurrentPath],
+  );
 
   const onDownloadAll = async () => {
     setDownloadingAll(true);
@@ -160,6 +169,142 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     },
   });
 
+  const previewNode = useMemo(() => {
+    return (
+      <div className="min-w-0 h-full flex flex-col overflow-hidden">
+        <div className="px-2 py-2 border-b border-b-border flex items-start gap-2">
+          <div className="min-w-0 flex-1">
+            <div className="text-sm font-medium truncate">{selectedFileName || "Preview"}</div>
+            {selectedFilePath ? (
+              <div className="text-xs text-muted-foreground truncate" title={selectedFilePath}>
+                {selectedFilePath}
+              </div>
+            ) : null}
+          </div>
+
+          <Button
+            size="icon"
+            onClick={closePreview}
+            aria-label="Close preview"
+            title="Close preview"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+
+        <FilePreview
+          fileName={selectedFileName}
+          blob={(fileQuery.data as Blob) ?? null}
+          loading={fileQuery.isLoading}
+          error={fileQuery.error}
+        />
+      </div>
+    );
+  }, [
+    selectedFileName,
+    selectedFilePath,
+    closePreview,
+    fileQuery.data,
+    fileQuery.isLoading,
+    fileQuery.error,
+  ]);
+
+  const ctxValue: FileBrowserContextValue = useMemo(
+    () => ({
+      currentPath,
+      objects: filteredObjects,
+      loading,
+      error,
+      fetchDepth,
+
+      preview: previewNode,
+      showPreview: hasSelection,
+      previewedPath: selectedFilePath,
+      onClosePreview: closePreview,
+
+      onEntryClick: (obj) => {
+        void onEntryClick(obj);
+      },
+      onCrumbClick,
+      onRefresh: () => ensurePathFetched(currentPath, fetchDepth, true),
+
+      onMkdir: async ({ parentPath, name }) => {
+        const apiParent = parentPath === "/" ? "" : parentPath;
+        const newPath = `${apiParent}/${name}`;
+
+        await mkdirMutation.mutateAsync({
+          uuid: props.serverUuid,
+          params: { path: newPath },
+        });
+
+        await ensurePathFetched(parentPath, fetchDepth, true);
+      },
+
+      onRename: async ({ parentPath, oldName, newName }) => {
+        const apiParent = parentPath === "/" ? "" : parentPath;
+
+        await renameMutation.mutateAsync({
+          uuid: props.serverUuid,
+          params: {
+            oldPath: `${apiParent}/${oldName}`,
+            newPath: `${apiParent}/${newName}`,
+          },
+        });
+
+        if (selectedFilePath === joinRemotePath(parentPath, oldName)) {
+          const newFull = joinRemotePath(parentPath, newName);
+          setSelectedFilePath(newFull);
+          setSelectedFileName(newName);
+        }
+
+        await ensurePathFetched(parentPath, fetchDepth, true);
+      },
+
+      onDelete: async ({ parentPath, name }) => {
+        const apiParent = parentPath === "/" ? "" : parentPath;
+
+        await deleteMutation.mutateAsync({
+          uuid: props.serverUuid,
+          params: { path: `${apiParent}/${name}` },
+        });
+
+        if (selectedFilePath === joinRemotePath(parentPath, name)) {
+          closePreview();
+        }
+
+        await ensurePathFetched(parentPath, fetchDepth, true);
+      },
+
+      onDownload: async (obj) => {
+        downloadSingleFile({
+          serverUuid: props.serverUuid,
+          parentPath: currentPath,
+          name: obj.name,
+        });
+      },
+    }),
+    [
+      currentPath,
+      filteredObjects,
+      loading,
+      error,
+      fetchDepth,
+      previewNode,
+      hasSelection,
+      selectedFilePath,
+      closePreview,
+      ensurePathFetched,
+      mkdirMutation,
+      renameMutation,
+      deleteMutation,
+      props.serverUuid,
+      setSelectedFilePath,
+      setSelectedFileName,
+      onCrumbClick,
+      onEntryClick,
+    ],
+  );
+
   return (
     <div
       className={cn("border-border border-3 rounded-lg flex flex-col gap-2 w-400 h-200 p-4")}
@@ -186,100 +331,9 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      <FileBrowserList
-        currentPath={currentPath}
-        objects={filteredObjects}
-        loading={loading}
-        error={error}
-        fetchDepth={fetchDepth}
-        onEntryClick={onEntryClick}
-        onCrumbClick={onCrumbClick}
-        onRefresh={() => ensurePathFetched(currentPath, fetchDepth, true)}
-        showPreview={hasSelection}
-        previewedPath={selectedFilePath}
-        onClosePreview={closePreview}
-        preview={
-          <div className="min-w-0 h-full flex flex-col overflow-hidden">
-            <div className="px-2 py-2 border-b border-b-border flex items-start gap-2">
-              <div className="min-w-0 flex-1">
-                <div className="text-sm font-medium truncate">{selectedFileName || "Preview"}</div>
-                {selectedFilePath ? (
-                  <div className="text-xs text-muted-foreground truncate" title={selectedFilePath}>
-                    {selectedFilePath}
-                  </div>
-                ) : null}
-              </div>
-
-              <Button
-                size="icon"
-                onClick={closePreview}
-                aria-label="Close preview"
-                title="Close preview"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-
-            <FilePreview
-              fileName={selectedFileName}
-              blob={(fileQuery.data as Blob) ?? null}
-              loading={fileQuery.isLoading}
-              error={fileQuery.error}
-            />
-          </div>
-        }
-        onMkdir={async ({ parentPath, name }) => {
-          const apiParent = parentPath === "/" ? "" : parentPath;
-          const newPath = `${apiParent}/${name}`;
-
-          await mkdirMutation.mutateAsync({
-            uuid: props.serverUuid,
-            params: { path: newPath },
-          });
-
-          await ensurePathFetched(parentPath, fetchDepth, true);
-        }}
-        onRename={async ({ parentPath, oldName, newName }) => {
-          const apiParent = parentPath === "/" ? "" : parentPath;
-
-          await renameMutation.mutateAsync({
-            uuid: props.serverUuid,
-            params: {
-              oldPath: `${apiParent}/${oldName}`,
-              newPath: `${apiParent}/${newName}`,
-            },
-          });
-
-          if (selectedFilePath === joinRemotePath(parentPath, oldName)) {
-            const newFull = joinRemotePath(parentPath, newName);
-            setSelectedFilePath(newFull);
-            setSelectedFileName(newName);
-          }
-
-          await ensurePathFetched(parentPath, fetchDepth, true);
-        }}
-        onDelete={async ({ parentPath, name }) => {
-          const apiParent = parentPath === "/" ? "" : parentPath;
-
-          await deleteMutation.mutateAsync({
-            uuid: props.serverUuid,
-            params: { path: `${apiParent}/${name}` },
-          });
-
-          if (selectedFilePath === joinRemotePath(parentPath, name)) {
-            closePreview();
-          }
-
-          await ensurePathFetched(parentPath, fetchDepth, true);
-        }}
-        onDownload={async (obj) => {
-          downloadSingleFile({
-            serverUuid: props.serverUuid,
-            parentPath: currentPath,
-            name: obj.name,
-          });
-        }}
-      />
+      <FileBrowserProvider value={ctxValue}>
+        <FileBrowserList />
+      </FileBrowserProvider>
 
       <div className="flex gap-4">
         <Button onClick={openFileDialog}>
@@ -295,13 +349,11 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
           <Download />
           {downloadingAll
             ? downloadProgress
-              ? t("downloadingFile", {
-                done: downloadProgress.done,
-                total: downloadProgress.total,
-              })
+              ? t("downloadingFile", { done: downloadProgress.done, total: downloadProgress.total })
               : t("preparing")
             : t("downloadAllAction")}
         </Button>
+
         <input ref={fileInputRef} type="file" className="hidden" onChange={onFilePicked} />
       </div>
     </div>

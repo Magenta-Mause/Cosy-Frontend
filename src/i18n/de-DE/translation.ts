@@ -240,6 +240,7 @@ const translation: i18nLanguage = {
         downloadingFile: "Downloadfortschritt: {{done}}/{{total}}",
         downloadAllAction: "Alle Herunterladen",
         uploadFile: "Hochladen",
+        renamePlaceholder: "z. Bsp. server.log",
       },
     },
     editGameServer: {
