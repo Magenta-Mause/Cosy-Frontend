@@ -108,7 +108,7 @@ export const FileBrowserRow = ({
           ) : null}
 
           {onDownload ? (
-            <Button
+            <button
               type="button"
               onClick={() => onDownload(obj)}
               className={cn(
@@ -122,7 +122,7 @@ export const FileBrowserRow = ({
             >
               <Download className="h-4 w-4 mr-1" />
               <span className="hidden sm:inline">Download</span>
-            </Button>
+            </button>
           ) : null}
         </div>
       ) : null}
