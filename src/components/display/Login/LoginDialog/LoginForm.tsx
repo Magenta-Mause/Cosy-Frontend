@@ -35,7 +35,7 @@ const LoginForm = (props: {
         <div className="-mb-5">
           <FieldLabel
             htmlFor="username"
-            className={`text-button-accent text-2xl ${props.error ? "text-red-700" : ""}`}
+            className={`text-button-accent text-lg ${props.error ? "text-red-700" : ""}`}
           >
             {t("signIn.username")}
           </FieldLabel>
@@ -43,7 +43,7 @@ const LoginForm = (props: {
             type="text"
             id="username"
             name="username"
-            className={`text-xl ${props.error ? "border-red-700" : ""}`}
+            className={`${props.error ? "border-red-700" : ""}`}
             required
           />
         </div>
@@ -51,7 +51,7 @@ const LoginForm = (props: {
         <div>
           <FieldLabel
             htmlFor="password"
-            className={`text-button-accent text-2xl ${props.error ? "text-red-700" : ""}`}
+            className={`text-button-accent text-lg ${props.error ? "text-red-700" : ""}`}
           >
             {t("signIn.password")}
           </FieldLabel>
@@ -59,13 +59,13 @@ const LoginForm = (props: {
             type="password"
             id="password"
             name="password"
-            className={`text-xl ${props.error ? "border-red-700" : ""}`}
+            className={`${props.error ? "border-red-700" : ""}`}
             required
           />
           {props.error && <FieldError className="text-red-700 mt-1">{props.error}</FieldError>}
         </div>
 
-        <a href="#test" className="underline flex justify-end text-link text-xl -my-4">
+        <a href="#test" className="underline flex justify-end text-link text-lg -my-4">
           {t("signIn.resetPassword")}
         </a>
 
@@ -73,9 +73,9 @@ const LoginForm = (props: {
           {props.isLoading ? t("signIn.loading") : t("signIn.signIn")}
         </Button>
 
-        <p className="text-button-accent leading-none text-xl -mt-5 -mb-2">
+        <p className="text-button-accent leading-none text-lg -mt-5 -mb-2">
           {t("signIn.continueMeansAccept")}{" "}
-          <a href="#test" className="underline text-link text-xl">
+          <a href="#test" className="underline text-link">
             {t("signIn.legal")}
           </a>
         </p>

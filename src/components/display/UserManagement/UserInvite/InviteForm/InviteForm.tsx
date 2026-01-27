@@ -40,23 +40,45 @@ export const InviteForm = ({
   return (
     <div className="flex flex-col gap-4 py-4">
       <div className="space-y-2">
-        <label htmlFor="invite-username">{t("userModal.usernameLabel")}</label>
-        <Input
-          id="invite-username"
-          placeholder={t("userModal.usernamePlaceholder")}
-          value={username}
-          onChange={(e) => onUsernameChange(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              onSubmit();
-            }
-          }}
-        />
-        <p className="text-xs text-muted-foreground">{t("userModal.usernameDescription")}</p>
-        <div className="flex justify-between">
-          <div className="w-[45%]">
-            <Label htmlFor="memory-limit">{t("userModal.memoryLimit")}</Label>
+        <div className="flex flex-row gap-5 justify-between">
+          <div className="flex-1">
             <Input
+              header={t("userModal.usernameLabel")}
+              description={t("userModal.usernameDescription")}
+              id="invite-username"
+              placeholder={t("userModal.usernamePlaceholder")}
+              value={username}
+              onChange={(e) => onUsernameChange(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  onSubmit();
+                }
+              }}
+            />
+          </div>
+          <div className="flex flex-col justify-start ">
+            <Label className="font-bold text-sm pb-2 leading-5.5" htmlFor="invite-role">{t("userModal.roleLabel")}</Label>
+            <Select defaultValue={userRole} onValueChange={onUserRoleChange}>
+              <SelectTrigger id={"invite-role"} className="py-1 text-base w-23.75">
+                <SelectValue placeholder={t("userModal.rolePlaceholder")} />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.keys(UserEntityDtoRole)
+                  .filter((role) => role !== UserEntityDtoRole.OWNER)
+                  .map((role) => (
+                    <SelectItem value={role} key={role}>
+                      {t(`userRoles.${role}`)}
+                    </SelectItem>
+                  ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <div className="flex justify-between gap-5">
+          <div className="w-[50%]">
+            <Input
+              header={t("userModal.memoryLimit")}
+              description={t("userModal.memoryDescription")}
               id="memory-limit"
               type="number"
               placeholder={t("userModal.placeholder")}
@@ -67,11 +89,11 @@ export const InviteForm = ({
               }
               className="no-spinner"
             />
-            <p className="text-xs text-muted-foreground">{t("userModal.memoryDescription")}</p>
           </div>
-          <div className="w-[45%]">
-            <Label htmlFor="cpu-limit">{t("userModal.cpuLimit")}</Label>
+          <div className="w-[50%]">
             <Input
+              header={t("userModal.cpuLimit")}
+              description={t("userModal.cpuDescription")}
               id="cpu-limit"
               type="number"
               placeholder={t("userModal.placeholder")}
@@ -80,24 +102,9 @@ export const InviteForm = ({
               onChange={(e) => onCpuChange(e.target.value === "" ? null : Number(e.target.value))}
               className="no-spinner"
             />
-            <p className="text-xs text-muted-foreground">{t("userModal.cpuDescription")}</p>
           </div>
         </div>
-        <Label htmlFor="invite-role">{t("userModal.roleLabel")}</Label>
-        <Select defaultValue={userRole} onValueChange={onUserRoleChange}>
-          <SelectTrigger id={"invite-role"}>
-            <SelectValue placeholder={t("userModal.rolePlaceholder")} />
-          </SelectTrigger>
-          <SelectContent>
-            {Object.keys(UserEntityDtoRole)
-              .filter((role) => role !== UserEntityDtoRole.OWNER)
-              .map((role) => (
-                <SelectItem value={role} key={role}>
-                  {t(`userRoles.${role}`)}
-                </SelectItem>
-              ))}
-          </SelectContent>
-        </Select>
+
       </div>
     </div>
   );

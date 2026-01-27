@@ -305,6 +305,41 @@ export type i18nLanguage = {
         description: string;
       };
     };
+    userManagement: {
+      backButton: string;
+      userDetailButton: {
+        viewUsers: string;
+      };
+      userRow: {
+        roles: {
+          owner: string;
+          admin: string;
+          quota_user: string;
+        };
+        resources: {
+          cpus: string;
+          memory: string;
+          storage: string;
+          unlimited: string;
+        };
+        moreOptions: string;
+      };
+      userTable: {
+        search: string;
+        filter: string;
+        sort: string;
+        resetFilter: string;
+        clearSort: string;
+        sortBy: {
+          username: string;
+          role: string;
+          max_cpu: string;
+          max_memory: string;
+        };
+        noUsersFound: string;
+        pendingInvites: string;
+      };
+    };
     GameServerSettings: {
       tabs: {
         general: string;

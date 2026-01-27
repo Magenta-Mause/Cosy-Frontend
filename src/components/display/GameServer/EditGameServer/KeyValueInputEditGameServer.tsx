@@ -123,7 +123,7 @@ function EditKeyValueInput<T extends Record<string, string>>({
       }}
       renderRow={(changeCallback, rowError) => (row) => (
         <Fragment key={row.uuid}>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <Input
               className={rowError ? "border-red-500" : ""}
               placeholder={placeHolderKeyInput}

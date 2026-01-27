@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UsersRouteImport } from './routes/users'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServerServerIdRouteImport } from './routes/server/$serverId'
 import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId/index'
@@ -21,6 +22,11 @@ import { Route as ServerServerIdSettingsMetricsRouteImport } from './routes/serv
 import { Route as ServerServerIdSettingsGeneralRouteImport } from './routes/server/$serverId/settings/general'
 import { Route as ServerServerIdSettingsAccessManagementRouteImport } from './routes/server/$serverId/settings/accessManagement'
 
+const UsersRoute = UsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -84,6 +90,7 @@ const ServerServerIdSettingsAccessManagementRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/users': typeof UsersRoute
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/users': typeof UsersRoute
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
   '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
@@ -110,6 +118,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/users': typeof UsersRoute
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/users'
     | '/server/$serverId'
     | '/server/$serverId/console'
     | '/server/$serverId/metrics'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/users'
     | '/server/$serverId/console'
     | '/server/$serverId/metrics'
     | '/server/$serverId/settings'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/users'
     | '/server/$serverId'
     | '/server/$serverId/console'
     | '/server/$serverId/metrics'
@@ -164,11 +176,19 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  UsersRoute: typeof UsersRoute
   ServerServerIdRoute: typeof ServerServerIdRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -294,6 +314,7 @@ const ServerServerIdRouteWithChildren = ServerServerIdRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  UsersRoute: UsersRoute,
   ServerServerIdRoute: ServerServerIdRouteWithChildren,
 }
 export const routeTree = rootRouteImport
