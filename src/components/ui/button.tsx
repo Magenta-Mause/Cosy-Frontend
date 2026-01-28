@@ -12,6 +12,7 @@ const buttonVariants = cva(
     "gap-2",
     "rounded-md",
     "shrink-0",
+    "disabled:pointer-events-none",
 
     // SVG handling
     "[&_svg]:shrink-0",
