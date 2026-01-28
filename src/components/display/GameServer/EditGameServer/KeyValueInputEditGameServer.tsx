@@ -12,6 +12,7 @@ interface KeyValueItem {
 
 interface Props<T> {
   value?: T[];
+  setValue: (vals: T[]) => void;
   onChange?: (vals: T[]) => void;
 
   placeHolderKeyInput: string;
@@ -27,10 +28,12 @@ interface Props<T> {
   inputType: InputType;
   objectKey: keyof T;
   objectValue: keyof T;
+  defaultNewItem: T;
 }
 
 function EditKeyValueInput<T extends Record<string, string>>({
   value,
+  setValue,
   onChange,
   placeHolderKeyInput,
   placeHolderValueInput,
@@ -43,6 +46,7 @@ function EditKeyValueInput<T extends Record<string, string>>({
   inputType,
   objectKey,
   objectValue,
+  defaultNewItem,
 }: Props<T>) {
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
@@ -77,6 +81,15 @@ function EditKeyValueInput<T extends Record<string, string>>({
           uuid: crypto.randomUUID(),
         })) ?? []
       }
+      setParentValue={() => {
+        setValue(
+          value?.map((val) => ({
+            ...val,
+            [objectKey]: preProcessInputValue(val.key, inputType),
+            [objectValue]: preProcessInputValue(val.value, inputType),
+          })) ?? [],
+        );
+      }}
       onChange={(rows) => {
         const mapped = rows.map((row) => ({
           ...({} as T),
@@ -89,6 +102,10 @@ function EditKeyValueInput<T extends Record<string, string>>({
       errorLabel={errorLabel}
       fieldLabel={fieldLabel}
       fieldDescription={fieldDescription}
+      defaultNewItem={{
+        key: defaultNewItem[objectKey] ?? "",
+        value: defaultNewItem[objectValue] ?? "",
+      }}
       renderRow={(changeCallback, rowError) => (row) => (
         <Fragment key={row.uuid}>
           <div className="flex gap-2">

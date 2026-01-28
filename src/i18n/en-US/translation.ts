@@ -198,7 +198,7 @@ const translation: i18nLanguage = {
       title: "{{serverName}}",
       description: "Update the configuration of your game server",
 
-      cancel: "Cancel",
+      revert: "Revert",
       confirm: "Save changes",
       missingUuidError: "UUID is missing",
 

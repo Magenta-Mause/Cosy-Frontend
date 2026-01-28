@@ -222,7 +222,7 @@ export type i18nLanguage = {
       title: ContainsVariable<"serverName">;
       description: string;
 
-      cancel: string;
+      revert: string;
       confirm: string;
       missingUuidError: string;
 

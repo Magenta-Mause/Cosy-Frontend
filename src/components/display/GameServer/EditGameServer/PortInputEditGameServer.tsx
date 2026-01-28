@@ -21,6 +21,7 @@ interface PortItem {
 
 interface Props {
   value?: PortMapping[];
+  setValue: (vals: PortMapping[]) => void;
   onChange?: (vals: PortMapping[]) => void;
 
   fieldLabel: string;
@@ -34,6 +35,7 @@ interface Props {
 
 function PortInputEditGameServer({
   value,
+  setValue,
   onChange,
   fieldLabel,
   fieldDescription,
@@ -64,6 +66,8 @@ function PortInputEditGameServer({
     [validateKeyValuePair],
   );
 
+  console.log(value);
+
   return (
     <ListInputEdit<PortItem>
       value={
@@ -74,6 +78,12 @@ function PortInputEditGameServer({
           uuid: crypto.randomUUID(),
         })) ?? []
       }
+      setParentValue={setValue}
+      defaultNewItem={{
+        key: "4433",
+        value: "4433",
+        protocol: PortMappingProtocol.TCP,
+      }}
       onChange={(rows) => {
         const preProcessValue = (v: string) => Number(v);
         const mapped: PortMapping[] = rows.map((row) => ({

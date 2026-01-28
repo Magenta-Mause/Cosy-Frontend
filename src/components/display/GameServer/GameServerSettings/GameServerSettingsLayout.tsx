@@ -1,5 +1,6 @@
 import { Button } from "@components/ui/button";
 import Link from "@components/ui/Link";
+import { Separator } from "@components/ui/separator.tsx";
 import { ChartAreaIcon, LayoutDashboardIcon, SettingsIcon, User } from "lucide-react";
 import { type CSSProperties, createContext, useCallback, useState } from "react";
 
@@ -71,10 +72,10 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
 
   return (
     <SettingsProvider.Provider value={{ settings: serverSettings, setSettings }}>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex flex-col justify-center items-end w-[20%]">
+      <div className="flex gap-4 h-full">
+        <div className="flex flex-col justify-center items-end w-[20%] align-top h-fit">
           {TABS.map(({ label, icon, path }) => (
-            <div key={`${label}:${path}`} className={"relative w-full"}>
+            <div key={`${label}:${path}`} className={"relative w-full py-2"}>
               <Link
                 key={label}
                 to={path}
@@ -84,7 +85,7 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
                 {({ isActive }) => (
                   <Button
                     variant={isActive ? "primary" : "secondary"}
-                    className={"w-full flex justify-start"}
+                    className={"w-full flex justify-start bg-transparent border-0 shadow-none"}
                   >
                     {icon}
                     <p>{label}</p>
@@ -94,7 +95,8 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
             </div>
           ))}
         </div>
-        <div className="w-full">{children}</div>
+        <Separator className="m-4" orientation="vertical" />
+        <div className="w-full overflow-y-auto">{children}</div>
       </div>
     </SettingsProvider.Provider>
   );

@@ -7,17 +7,19 @@ import { v7 as generateUuid } from "uuid";
 
 interface Props<T extends { uuid: string }> {
   value?: T[];
+  setParentValue: (vals: T[]) => void;
   onChange?: (vals: T[]) => void;
   checkValidity: (val: T) => boolean;
   errorLabel: string;
   fieldLabel: ReactNode;
   fieldDescription: ReactNode;
   renderRow: (changeCallback: (newVal: T) => void, rowError: boolean) => (item: T) => ReactNode;
-  defaultNewItem?: () => Partial<T>;
+  defaultNewItem: Omit<T, "uuid">;
 }
 
 function ListInputEditGameServer<T extends { uuid: string }>({
   value,
+  setParentValue,
   onChange,
   errorLabel,
   fieldDescription,
@@ -26,23 +28,12 @@ function ListInputEditGameServer<T extends { uuid: string }>({
   renderRow,
   defaultNewItem,
 }: Props<T>) {
-  const [values, setValuesInternal] = useState<T[]>(
-    value && value.length > 0
-      ? value
-      : [
-          {
-            ...(defaultNewItem ? defaultNewItem() : {}),
-            uuid: generateUuid(),
-          } as T,
-        ],
-  );
-
   const [rowErrors, setRowErrors] = useState<{ [uuid: string]: boolean }>({});
 
   const setValues = useCallback(
     (callback: (prevVals: T[]) => T[]) => {
-      const newVals = callback(values);
-      setValuesInternal(newVals);
+      const newVals = callback(value ?? []);
+      setParentValue(newVals);
 
       const newRowErrors: { [uuid: string]: boolean } = {};
       newVals.forEach((item) => {
@@ -52,7 +43,7 @@ function ListInputEditGameServer<T extends { uuid: string }>({
 
       onChange?.(newVals);
     },
-    [values, checkValidity, onChange],
+    [value, checkValidity, onChange, setParentValue],
   );
 
   const changeCallback = useCallback(
@@ -70,10 +61,7 @@ function ListInputEditGameServer<T extends { uuid: string }>({
   );
 
   const addNewValue = useCallback(() => {
-    setValues((prev) => [
-      ...prev,
-      { ...(defaultNewItem ? defaultNewItem() : {}), uuid: generateUuid() } as T,
-    ]);
+    setValues((prev) => [...prev, { ...defaultNewItem, uuid: generateUuid() } as T]);
   }, [setValues, defaultNewItem]);
 
   return (
@@ -81,23 +69,21 @@ function ListInputEditGameServer<T extends { uuid: string }>({
       <FieldLabel className="pb-0 font-bold">{fieldLabel}</FieldLabel>
 
       <div className="space-y-2 w-full">
-        {values.map((item, index) => {
+        {value?.map((item, index) => {
           const rowError = rowErrors[item.uuid];
 
           return (
             <div key={item.uuid} className="flex items-center gap-2 h-fit">
               {renderRow(changeCallback(item.uuid), !!rowError)(item)}
 
-              {index > 0 && (
-                <Button
-                  variant="destructive"
-                  onClick={() => removeValue(item.uuid)}
-                  className="h-9 w-9 p-0 flex items-center justify-center"
-                >
-                  <Trash2 className="size-6" />
-                </Button>
-              )}
-              {index === values.length - 1 && (
+              <Button
+                variant="destructive"
+                onClick={() => removeValue(item.uuid)}
+                className="h-9 w-9 p-0 flex items-center justify-center"
+              >
+                <Trash2 className="size-6" />
+              </Button>
+              {index === (value ?? []).length - 1 && (
                 <Button className="h-9 w-9 p-0" onClick={addNewValue}>
                   <Plus className="size-6" />
                 </Button>
@@ -114,6 +100,11 @@ function ListInputEditGameServer<T extends { uuid: string }>({
             </div>
           );
         })}
+        {value?.length === 0 && (
+          <Button className="h-9 w-9 p-0" onClick={addNewValue}>
+            <Plus className="size-6" />
+          </Button>
+        )}
       </div>
       <FieldDescription>{fieldDescription}</FieldDescription>
     </Field>
