@@ -1,6 +1,7 @@
 import { Button } from "@components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import spinner from "@/assets/gifs/spinner.gif";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import { MetricsType } from "@/types/metricsTyp";
@@ -42,14 +43,18 @@ const MetricDisplay = (
 ) => {
   const { t } = useTranslation();
   const [unit, setUnit] = useState<string>("hour");
-  const [startTime, setStartTime] = useState<Date | undefined>();
-  const [endTime, setEndTime] = useState<Date | undefined>();
+  const [loading, setLoading] = useState<boolean>(false);
   const { loadMetrics } = useDataLoading();
 
-  useEffect(() => {
+  const handleTimeChange = async (startTime: Date, endTime?: Date) => {
     if (!startTime) return;
-    loadMetrics(props.gameServerUuid, startTime, endTime);
-  }, [startTime, endTime, props.gameServerUuid, loadMetrics]);
+    setLoading(true);
+    try {
+      await loadMetrics(props.gameServerUuid, startTime, endTime);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const colSpanMap: Record<string, string> = {
     "1": "col-span-1",
@@ -59,7 +64,6 @@ const MetricDisplay = (
     "5": "col-span-5",
     "6": "col-span-6",
   };
-
 
   return (
     <>
@@ -71,12 +75,25 @@ const MetricDisplay = (
             timeUnit: selectedUnit,
           }) => {
             setUnit(selectedUnit);
-            setStartTime(selectedStartTime);
-            setEndTime(selectedEndTime);
+            handleTimeChange(selectedStartTime, selectedEndTime);
           }}
         />
         <Button>{t("metrics.configure")}</Button>
       </div>
+      {loading && (
+        <div
+          className="absolute z-10 flex justify-center items-center w-[80%] h-[80%] backdrop-blur-sm" >
+          <div className="flex flex-col gap-2">
+            <img
+              src={spinner}
+              alt="spinner"
+            />
+            <div className="flex justify-center text-xl">
+              {t("signIn.loading")}
+            </div>
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-6 gap-2">
         {METRIC_ORDER.map((metric) => (
           <MetricGraph
@@ -85,6 +102,7 @@ const MetricDisplay = (
             metrics={props.metrics}
             type={metric.type}
             timeUnit={unit}
+            loading={loading}
           />
         ))}
       </div>

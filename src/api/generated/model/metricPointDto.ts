@@ -8,6 +8,7 @@
 import type { MetricValues } from './metricValues';
 
 export interface MetricPointDto {
+  game_server_uuid?: string;
   time?: string;
   metric_values?: MetricValues;
 }

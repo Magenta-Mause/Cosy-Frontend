@@ -28,7 +28,7 @@ const gameServerMetricsSlice = createSlice({
     ) => {
       const grouped = Object.groupBy(
         action.payload.metrics,
-        (metric) => metric.uuid ?? "",
+        (metric) => metric.game_server_uuid ?? "",
       ) as Record<string, GameServerMetricsWithUuid[]>;
       const withStatus: GameServerMetricsSliceState["data"] = {};
       Object.keys(grouped).forEach((key) => {
@@ -71,6 +71,15 @@ const gameServerMetricsSlice = createSlice({
         };
       }
       state.data[action.payload.gameServerUuid].state = action.payload.state;
+    },
+    addMetrics: (state, action: PayloadAction<GameServerMetricsWithUuid>) => {
+      const serverUuid = action.payload.game_server_uuid ?? "";
+      if (!serverUuid) return;
+      if (state.data[serverUuid]) {
+        state.data[serverUuid].metrics.push(action.payload);
+      } else {
+        state.data[serverUuid] = { metrics: [action.payload], state: "loading" };
+      }
     },
   },
 });

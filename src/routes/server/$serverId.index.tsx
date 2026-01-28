@@ -2,10 +2,10 @@ import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
 import MetricGraph from "@components/display/MetricDisplay/MetricGraph";
 import { createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { GetMetricsType } from "@/api/generated/model";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";
+import { MetricsType } from "@/types/metricsTyp";
 
 export const Route = createFileRoute("/server/$serverId/")({
   component: GameServerDetailPageDashboardPage,
@@ -28,7 +28,7 @@ function GameServerDetailPageDashboardPage() {
         <MetricGraph
           className="w-[50%]"
           timeUnit={"hour"}
-          type={GetMetricsType.CPU_PERCENT}
+          type={MetricsType.CPU_PERCENT}
           metrics={metrics}
         />
         <LogDisplay logMessages={logs} className="grow" />
