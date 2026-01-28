@@ -1,6 +1,7 @@
 import GameServerDetailPageHeader from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageHeader/GameServerDetailPageHeader.tsx";
 import { Button } from "@components/ui/button.tsx";
 import Link from "@components/ui/Link.tsx";
+import { useRouter } from "@tanstack/react-router";
 import {
   ChartAreaIcon,
   DoorClosedIcon,
@@ -48,6 +49,7 @@ const TABS = [
     label: "settings",
     icon: <SettingsIcon style={iconStyles} />,
     path: "/server/$serverId/settings/general",
+    activePathPattern: /\/server\/.*\/settings/,
   },
 ];
 
@@ -64,6 +66,9 @@ const GameServerDetailPageLayout = (props: {
   children: React.ReactNode;
 }) => {
   const { t } = useTranslation();
+  const router = useRouter();
+  console.log(router.state.location.pathname);
+
   return (
     <GameServerDetailContext.Provider value={{ gameServer: props.gameServer }}>
       <div className="flex w-full min-h-screen">
@@ -93,12 +98,16 @@ const GameServerDetailPageLayout = (props: {
         </div>
 
         <div className="flex flex-col justify-center items-end w-[10%]">
-          {TABS.map(({ label, icon, path }) => (
+          {TABS.map(({ label, icon, path, activePathPattern }) => (
             <div key={`${label}:${path}`} className={"relative"}>
               <Link key={label} to={path} activeOptions={{ exact: true }} className={"group"}>
                 {({ isActive }) => (
                   <FancyNavigationButton
-                    isActive={isActive}
+                    isActive={
+                      activePathPattern
+                        ? activePathPattern.test(router.state.location.pathname)
+                        : isActive
+                    }
                     label={t(`serverPage.navbar.${label}`)}
                   >
                     {icon}
