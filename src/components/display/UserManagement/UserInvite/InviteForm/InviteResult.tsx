@@ -15,14 +15,14 @@ export const InviteResult = ({ generatedKey, onCopyLink }: InviteResultProps) =>
   return (
     <div className="flex flex-col gap-4 py-4">
       <div className="flex flex-col gap-2">
-        <div className="bg-muted p-4 rounded-lg break-all text-center font-mono text-xl font-bold border-2 border-dashed border-primary/20 tracking-widest">
+        <div className="bg-muted p-4 rounded-lg break-all text-center text-xl font-bold border-2 border-dashed border-primary/20 tracking-widest">
           {generatedKey}
         </div>
         <Tooltip>
           <TooltipTrigger asChild>
             <button
               type="button"
-              className="text-xs text-center text-muted-foreground break-all font-mono px-2 cursor-pointer hover:text-foreground transition-colors focus:outline-none focus:underline bg-transparent border-none p-0"
+              className="text-xs text-center text-muted-foreground break-all px-2 cursor-pointer hover:text-foreground transition-colors focus:outline-none focus:underline bg-transparent border-none p-0"
               onClick={onCopyLink}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {

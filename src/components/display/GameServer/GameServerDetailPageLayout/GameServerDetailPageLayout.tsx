@@ -80,7 +80,7 @@ const GameServerDetailPageLayout = (props: {
       </div>
       <div className="grow py-5 flex flex-col gap-6 h-[92vh]">
         <GameServerDetailPageHeader gameServer={props.gameServer} />
-        <div className={"grow"}>{props.children}</div>
+        <div className={"grow overflow-scroll"}>{props.children}</div>
       </div>
 
       <div className="flex flex-col justify-center items-end w-[10%]">

@@ -13,7 +13,7 @@ const ProviderCollection = (props: { children: ReactNode }) => {
       <QueryClientProvider client={client}>
         <AuthProvider>
           {props.children}
-          <Toaster toastOptions={{ duration: 2000, className: "font-['VT323']" }} />
+          <Toaster toastOptions={{ duration: 2000 }} />
         </AuthProvider>
       </QueryClientProvider>
     </Provider>

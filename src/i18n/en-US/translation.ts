@@ -58,7 +58,7 @@ const translation: i18nLanguage = {
     shareInstructions:
       "Share this link with the person you want to invite. They can use it to create their account.",
     copyLink: "Copy Invite Link",
-    backToUsers: "Back to Users",
+    backToUsers: "Back to Creation",
     pendingInvites: "Pending Invites",
     unclaimedInvite: "Unclaimed Invite",
     created: "Created: {{date}}",
@@ -70,7 +70,7 @@ const translation: i18nLanguage = {
     memoryDescription: "Leave it empty to allow the user to have unlimited RAM.",
     cpuLimit: "CPU Cores (Optional)",
     cpuDescription: "Leave it empty to allow the user to have unlimited CPU cores.",
-    placeholder: "Unlimted",
+    placeholder: "Unlimited",
   },
   inviteRedemption: {
     title: "Accept Invitation",
@@ -126,12 +126,26 @@ const translation: i18nLanguage = {
       backButton: "Back",
       nextStepButton: "Next Step",
       createServerButton: "Create Server",
+      useTemplate: "Apply Template",
+      useNoTemplate: "Continue without Template",
+      reapplyDialog: {
+        title: "Reapply Template?",
+        description:
+          "You have changed template variables. Do you want to reapply the template with the new values? This will overwrite any manual changes you made in Step 3.",
+        cancel: "Keep Current Values",
+        confirm: "Reapply Template",
+      },
       listInput: {
         addButton: "Add",
       },
       steps: {
         step1: {
-          title: "Step 1: Choose Game",
+          title: "Step 1: Choose Server name and Game",
+          serverNameSelection: {
+            title: "Server Name",
+            description: "Name your server",
+            errorLabel: "Please enter a valid server name.",
+          },
           gameSelection: {
             title: "Choose a game for your server",
             description: "Select a game to host on your server.",
@@ -139,21 +153,18 @@ const translation: i18nLanguage = {
             placeholder: "Search a game...",
             noGamesFound:
               "No games found. Querying games might have failed. Select this for default game. (no specific game)",
-            noResultsLabel: "Unknown Game",
+            noResultsLabel: "Generic Game",
           },
         },
         step2: {
-          title: "Step 2: Choose Template and Name",
-          description: "Choose a template and a name for your server.",
+          title: "Step 2: Choose Template",
+          description: "Choose a template for your server.",
           templateSelection: {
             title: "Template",
             description: "Select a template for your server",
             errorLabel: "Please select a valid template.",
-          },
-          serverNameSelection: {
-            title: "Server Name",
-            description: "Name your server",
-            errorLabel: "Please enter a valid server name.",
+            noResultsLabel: "No templates found",
+            placeholder: "Select a template...",
           },
         },
         step3: {
@@ -203,8 +214,24 @@ const translation: i18nLanguage = {
       },
       autoCompleteInputField: {
         loadingLabel: "Loading...",
-        noResultsLabel: "Unknown Game",
+        noResultsLabel: "Generic Game",
       },
+    },
+    TemplateVariableForm: {
+      title: "Template Variables",
+      noTemplateSelected: "No Template Selected",
+      noVariables: "This template has no customizable variables",
+      selectPlaceholder: "Select an option",
+      example: "Example",
+      pattern: "Pattern",
+      validationError: "Please enter a valid value",
+      validationErrorRequired: "This field is required",
+      validationErrorNumber: "Please enter a valid number",
+      validationErrorBoolean: "Please select a valid option",
+      validationErrorSelect: "Please select a valid option",
+      validationErrorPattern: "Value does not match the required pattern",
+      booleanTrue: "Yes",
+      booleanFalse: "No",
     },
     editGameServer: {
       title: "{{serverName}}",
@@ -279,6 +306,41 @@ const translation: i18nLanguage = {
         errorLabel: "Please enter a valid CPU limit.",
       },
     },
+    userManagement: {
+      backButton: "Back",
+      userDetailButton: {
+        viewUsers: "Marketplace",
+      },
+      userRow: {
+        roles: {
+          owner: "Owner",
+          admin: "Admin",
+          quota_user: "Quota",
+        },
+        resources: {
+          cpus: "CPUs",
+          memory: "Memory",
+          storage: "Storage",
+          unlimited: "Unlimited",
+        },
+        moreOptions: "More Options",
+      },
+      userTable: {
+        search: "Search",
+        filter: "Filter",
+        sort: "Sort",
+        resetFilter: "Reset Filter",
+        clearSort: "Clear Sort",
+        sortBy: {
+          username: "Name",
+          role: "Role",
+          max_cpu: "CPU Limit",
+          max_memory: "Memory Limit",
+        },
+        noUsersFound: "No users found",
+        pendingInvites: "Pending Invites",
+      },
+    },
   },
   consequence: "asd{{counter}}ajskod",
   genericModal: {
@@ -316,6 +378,35 @@ const translation: i18nLanguage = {
     PULLING_IMAGE: "Pulling Image",
     AWAITING_UPDATE: "Loading...",
     STOPPING: "Stopping...",
+  },
+  metrics: {
+    metricTitle: "{{type}} - Metric",
+    metricDescription: "{{type}} usage over time",
+    configure: "Configure Metrics",
+    types: {
+      CPU_PERCENT: "CPU",
+      MEMORY_PERCENT: "Memory",
+      MEMORY_LIMIT: "Memory Limit",
+      MEMORY_USAGE: "Memory Usage",
+      BLOCK_READ: "Disk Read",
+      BLOCK_WRITE: "Disk Write",
+      NETWORK_INPUT: "Network Input",
+      NETWORK_OUTPUT: "Network Output",
+    },
+  },
+  timerange: {
+    localTime: "en-US",
+    custom: "Custom Range",
+    button: "Time Range",
+    min: "Last {{time}} minutes",
+    hour: "Last {{time}} hours",
+    day: "Last {{time}} days",
+    apply: "Confirm",
+    cancel: "Cancel",
+  },
+  datepicker: {
+    title: "Select Date Range",
+    des: "Choose a start and end date for the range.",
   },
 };
 

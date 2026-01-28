@@ -1,9 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
 @import "./globals.css";
 
 @font-face {
-  font-family: "Stardew Valley";
-  src: url("./assets/StardewValley.ttf") format("truetype");
+  font-family: "Glasstown";
+  src: url("./assets/glasstown_nbp.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Fipps";
+  src: url("./assets/FippsRegular-enqx.otf");
   font-weight: normal;
   font-style: normal;
 }
@@ -14,11 +20,57 @@ label {
     url("./assets/cursor/cursor-default.png") 0 0,
     auto;
 }
-
 :where(html, label):active {
   cursor:
     url("./assets/cursor/cursor-clicked.png") 0 0,
     auto;
+}
+
+body {
+  font-family: "Glasstown", sans-serif;
+  -webkit-font-smoothing: none;
+  line-height: 0.5;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Fipps", serif;
+  color: #6e2727;
+}
+
+h1 {
+  font-size: 42px;
+}
+
+h2 {
+  font-size: 30px;
+  line-height: 1.5;
+}
+
+h3 {
+  font-size: 22px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 12px;
+}
+
+h6 {
+  font-size: 10px;
+}
+
+[data-slot="context-menu-item"] {
+  cursor:
+    url("./assets/ai-generated/cursor/cursor-pointer.png") 10 0,
+    pointer;
 }
 
 button,
@@ -79,14 +131,16 @@ select,
   }
 }
 
-body {
-  font-family: "Stardew Valley", sans-serif;
-}
-
 button:focus-visible,
 input:focus-visible,
 a:focus-visible {
   outline: none;
+  position: relative;
+}
+
+/* Keep absolute positioning for dialog close button */
+[data-slot="dialog-close"]:focus-visible {
+  position: absolute;
 }
 
 button:focus-visible:after,

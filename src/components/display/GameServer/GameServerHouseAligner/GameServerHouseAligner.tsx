@@ -1,4 +1,4 @@
-import ConstructionPlaceHouse from "@components/display/GameServer/ConstructionPlaceHouse/ConstructionPlaceHouse.tsx";
+import ConstructionPlaceHouse from "@components/display/GameServer/ConstructionPlace/ConstructionPlaceHouse.tsx";
 import GameServerHouse from "@components/display/GameServer/GameServerHouse/GameServerHouse.tsx";
 import calculateCoordinate from "@components/display/GameServer/GameServerHouseAligner/calculateCoordinate.ts";
 import type { GameServerDto } from "@/api/generated/model";
@@ -16,11 +16,13 @@ const GameServerHouseAligner = (props: { gameServers: GameServerDto[] }) => {
 
   return (
     <div className="w-full h-full relative">
+
       {props.gameServers.map((gameServer, index) => (
         <GameServerHouse key={gameServer.uuid} gameServer={gameServer} style={getStyle(index)} />
       ))}
       <ConstructionPlaceHouse style={getStyle(props.gameServers.length)} />
     </div>
+
   );
 };
 

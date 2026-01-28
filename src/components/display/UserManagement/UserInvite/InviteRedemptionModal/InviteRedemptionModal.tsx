@@ -98,7 +98,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
-      <DialogContent className="font-mono sm:max-w-md">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("inviteRedemption.title")}</DialogTitle>
           <DialogDescription>{t("inviteRedemption.description")}</DialogDescription>
@@ -118,10 +118,11 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
           <form onSubmit={handleSubmit}>
             <DialogMain>
               {inviteData?.invite_by_username && (
-                <p className="text-sm text-muted-foreground text-center mb-4">
+                <p className="text-base text-muted-foreground text-center">
                   {t("inviteRedemption.invitedBy", { username: inviteData.invite_by_username })}
                 </p>
               )}
+              <div className="space-y-7">
 
               {inviteData?.docker_hardware_limits && (
                 <div className="flex flex-col gap-2 mb-4 justify-center items-center">
@@ -152,6 +153,11 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                   {t("inviteRedemption.usernameLabel")}
                 </label>
                 <Input
+                  header={t("inviteRedemption.usernameLabel")}
+                  description={inviteData?.username
+                    ? t("inviteRedemption.usernameSetByInviter")
+                    : ""
+                  }
                   id="username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -159,21 +165,9 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                   disabled={!!inviteData?.username || isRegistering} // Disable if pre-set by invite
                   required={!inviteData?.username}
                 />
-                {inviteData?.username && (
-                  <p className="text-[0.8em] text-muted-foreground">
-                    {t("inviteRedemption.usernameSetByInviter")}
-                  </p>
-                )}
-              </div>
 
-              <div className="space-y-2">
-                <label
-                  htmlFor="password"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {t("inviteRedemption.passwordLabel")}
-                </label>
                 <Input
+                  header={t("inviteRedemption.passwordLabel")}
                   id="password"
                   type="password"
                   value={password}
@@ -182,16 +176,9 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                   required
                   disabled={isRegistering}
                 />
-              </div>
 
-              <div className="space-y-2">
-                <label
-                  htmlFor="confirmPassword"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {t("inviteRedemption.confirmPasswordLabel")}
-                </label>
                 <Input
+                  header={t("inviteRedemption.confirmPasswordLabel")}
                   id="confirmPassword"
                   type="password"
                   value={confirmPassword}
@@ -209,11 +196,10 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                 variant="secondary"
                 onClick={handleClose}
                 disabled={isRegistering}
-                className={"h-16"}
               >
                 {t("inviteRedemption.cancel")}
               </Button>
-              <Button type="submit" disabled={isRegistering} className={"h-16"}>
+              <Button type="submit" disabled={isRegistering}>
                 {isRegistering ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

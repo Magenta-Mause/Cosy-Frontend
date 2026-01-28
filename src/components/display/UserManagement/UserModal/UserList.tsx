@@ -49,7 +49,7 @@ export const UserList = ({ onRevoke }: UserListProps) => {
                     {invite.username || t("userModal.unclaimedInvite")}
                   </p>
                   {invite.created_at && (
-                    <p className="text-sm text-muted-foreground font-mono truncate">
+                    <p className="text-sm text-muted-foreground truncate">
                       {t("userModal.created", {
                         date: new Date(invite.created_at).toLocaleString(),
                       })}

@@ -5,10 +5,8 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { GetMetricsType } from './getMetricsType';
 
 export type GetMetricsParams = {
-type: GetMetricsType;
 end?: string;
 start?: string;
 };

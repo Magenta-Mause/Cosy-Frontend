@@ -8,22 +8,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/ui/dialog.tsx";
-import { ArrowLeft, UserPlus, Users } from "lucide-react";
+import { ArrowLeft, UserRoundPlus } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
-import { cn } from "@/lib/utils.ts";
-import { InviteForm } from "../UserInvite/InviteForm/InviteForm.tsx";
-import { InviteResult } from "../UserInvite/InviteForm/InviteResult.tsx";
-import { UserList } from "./UserList.tsx";
+import { InviteForm } from "./InviteForm/InviteForm.tsx";
+import { InviteResult } from "./InviteForm/InviteResult.tsx";
 
-type ViewState = "list" | "invite" | "result";
+type ViewState = "invite" | "result";
 
-const UserModalButton = (props: { className?: string }) => {
+const UserInviteButton = (props: { className?: string }) => {
   const { t } = useTranslation();
-  const [view, setView] = useState<ViewState>("list");
+  const [view, setView] = useState<ViewState>("invite");
   const [inviteUsername, setInviteUsername] = useState("");
   const [userRole, setUserRole] = useState<UserEntityDtoRole>("QUOTA_USER");
   const [memoryLimit, setMemoryLimit] = useState<string | null>(null);
@@ -31,7 +29,7 @@ const UserModalButton = (props: { className?: string }) => {
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
-  const { createInvite, revokeInvite } = useDataInteractions();
+  const { createInvite } = useDataInteractions();
 
   const handleCreateInvite = async () => {
     setIsCreating(true);
@@ -63,7 +61,7 @@ const UserModalButton = (props: { className?: string }) => {
   };
 
   const resetView = useCallback(() => {
-    setView("list");
+    setView("invite");
     setInviteUsername("");
     setGeneratedKey(null);
   }, []);
@@ -78,24 +76,19 @@ const UserModalButton = (props: { className?: string }) => {
       }}
     >
       <DialogTrigger asChild>
-        <Button
-          className={cn("h-auto p-[.5vw] aspect-square", props.className)}
-          aria-label={t("userModal.title")}
-        >
-          <Users className="h-[1.5vw]! p-0 w-auto! aspect-square" />
+        <Button className={props.className} aria-label={t("userModal.title")}>
+          <UserRoundPlus className="size-6 mr-2" />
+          {t("userModal.inviteUserTitle")}
         </Button>
       </DialogTrigger>
-      <DialogContent className={"font-['VT323']"}>
+      <DialogContent className="w-[40%]">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
-            {view === "list" && t("userModal.title")}
             {view === "invite" && t("userModal.inviteUserTitle")}
             {view === "result" && t("userModal.inviteCreatedTitle")}
           </DialogTitle>
         </DialogHeader>
         <DialogMain>
-          {view === "list" && <UserList onRevoke={revokeInvite} />}
-
           {view === "invite" && (
             <InviteForm
               username={inviteUsername}
@@ -105,7 +98,7 @@ const UserModalButton = (props: { className?: string }) => {
               onUsernameChange={setInviteUsername}
               onMemoryChange={setMemoryLimit}
               onCpuChange={setCpuLimit}
-              onCancel={() => setView("list")}
+              onCancel={() => setView("invite")}
               onSubmit={handleCreateInvite}
               onUserRoleChange={setUserRole}
               isCreating={isCreating}
@@ -121,15 +114,9 @@ const UserModalButton = (props: { className?: string }) => {
           )}
         </DialogMain>
         <DialogFooter>
-          {view === "list" && (
-            <Button size="sm" onClick={() => setView("invite")}>
-              <UserPlus className="w-4 h-4 mr-2" />
-              {t("userModal.inviteBtn")}
-            </Button>
-          )}
           {view === "invite" && (
             <>
-              <Button size="sm" onClick={() => setView("list")} variant="secondary">
+              <Button size="sm" onClick={() => setView("invite")} variant="secondary">
                 {t("userModal.cancel")}
               </Button>
               <Button size="sm" onClick={handleCreateInvite} disabled={isCreating}>
@@ -149,4 +136,4 @@ const UserModalButton = (props: { className?: string }) => {
   );
 };
 
-export default UserModalButton;
+export default UserInviteButton;

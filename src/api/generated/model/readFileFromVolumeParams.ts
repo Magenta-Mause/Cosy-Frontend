@@ -6,9 +6,9 @@
  * OpenAPI spec version: v1.0
  */
 
-export type GetGameInfoParams = {
+export type ReadFileFromVolumeParams = {
 /**
  * @minLength 1
  */
-query: string;
+path: string;
 };

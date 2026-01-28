@@ -101,10 +101,14 @@ const GenericGameServerCreationInputField = (props: {
   );
 
   useEffect(() => {
-    if (props.defaultValue !== undefined) {
+    // Only set default value if there's no existing value in the context
+    if (
+      props.defaultValue !== undefined &&
+      creationState.gameServerState[props.attribute] === undefined
+    ) {
       changeCallback(props.defaultValue);
     }
-  }, [changeCallback, props.defaultValue]);
+  }, [changeCallback, props.defaultValue, props.attribute, creationState.gameServerState]);
 
   return (
     <div>
@@ -115,6 +119,8 @@ const GenericGameServerCreationInputField = (props: {
       )}
       <Input
         className={isError ? "border-red-500" : ""}
+        description={props.description}
+        header={props.label}
         placeholder={props.placeholder}
         onChange={(e) => changeCallback(e.target.value)}
         id={props.attribute}

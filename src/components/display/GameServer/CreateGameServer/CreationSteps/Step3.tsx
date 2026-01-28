@@ -15,8 +15,6 @@ export default function Step3() {
 
   return (
     <GenericGameServerCreationPage>
-      <DialogDescription>{t("description")}</DialogDescription>
-
       <div className="grid grid-cols-2 gap-4">
         <GenericGameServerCreationInputField
           attribute="docker_image_name"

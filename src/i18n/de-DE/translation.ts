@@ -54,7 +54,7 @@ const translation: i18nLanguage = {
     shareInstructions:
       "Teilen Sie diesen Link mit der Person, die Sie einladen möchten. Sie kann ihn nutzen, um ihr Konto zu erstellen.",
     copyLink: "Einladungslink kopieren",
-    backToUsers: "Zurück zu Benutzern",
+    backToUsers: "Zurück zur Erstellung",
     pendingInvites: "Ausstehende Einladungen",
     unclaimedInvite: "Nicht beanspruchte Einladung",
     created: "Erstellt: {{date}}",
@@ -128,12 +128,26 @@ const translation: i18nLanguage = {
       backButton: "Zurück",
       nextStepButton: "Weiter",
       createServerButton: "Server erstellen",
+      useTemplate: "Template verwenden",
+      useNoTemplate: "Ohne Template fortfahren",
+      reapplyDialog: {
+        title: "Template erneut anwenden?",
+        description:
+          "Sie haben die Template-Variablen geändert. Möchten Sie das Template mit den neuen Werten erneut anwenden? Dies überschreibt alle manuellen Änderungen, die Sie in Schritt 3 vorgenommen haben.",
+        cancel: "Aktuelle Werte behalten",
+        confirm: "Template erneut anwenden",
+      },
       listInput: {
         addButton: "Hinzufügen",
       },
       steps: {
         step1: {
-          title: "Schritt 1: Spiel auswählen",
+          title: "Schritt 1: Server Namen und Spiel auswählen",
+          serverNameSelection: {
+            title: "Servername",
+            description: "Benennen Sie Ihren Server",
+            errorLabel: "Bitte geben Sie einen gültigen Servernamen ein.",
+          },
           gameSelection: {
             title: "Spiel auswählen",
             description: "Wählen Sie ein Spiel für Ihren Server aus.",
@@ -141,21 +155,18 @@ const translation: i18nLanguage = {
             placeholder: "Spiel suchen...",
             noGamesFound:
               "Fehler beim Abrufen der Spiele. Wählen Sie dies für das Standardspiel. (kein spezifisches Spiel)",
-            noResultsLabel: "Kein Spiel gefunden.",
+            noResultsLabel: "Generisches Spiel",
           },
         },
         step2: {
-          title: "Schritt 2: Vorlage und Name auswählen",
-          description: "Wählen Sie eine Vorlage und einen Namen für Ihren Server aus.",
+          title: "Schritt 2: Template auswählen",
+          description: "Wählen Sie ein Template für Ihren Server aus.",
           templateSelection: {
-            title: "Vorlage",
-            description: "Wählen Sie eine Vorlage für Ihren Server aus",
-            errorLabel: "Bitte wählen Sie eine gültige Vorlage aus.",
-          },
-          serverNameSelection: {
-            title: "Servername",
-            description: "Benennen Sie Ihren Server",
-            errorLabel: "Bitte geben Sie einen gültigen Servernamen ein.",
+            title: "Template",
+            description: "Wählen Sie ein Template für Ihren Server aus",
+            errorLabel: "Bitte wählen Sie eine gültiges Template aus.",
+            noResultsLabel: "Keine Templates gefunden.",
+            placeholder: "Template auswählen...",
           },
         },
         step3: {
@@ -209,6 +220,22 @@ const translation: i18nLanguage = {
         loadingLabel: "Lädt...",
         noResultsLabel: "Kein Ergebnis gefunden.",
       },
+    },
+    TemplateVariableForm: {
+      title: "Template-Variablen",
+      noTemplateSelected: "Kein Template ausgewählt",
+      noVariables: "Dieses Template hat keine anpassbaren Variablen",
+      selectPlaceholder: "Wähle eine Option",
+      example: "Beispiel",
+      pattern: "Muster",
+      validationError: "Bitte geben Sie einen gültigen Wert ein",
+      validationErrorRequired: "Dieses Feld ist erforderlich",
+      validationErrorNumber: "Bitte geben Sie eine gültige Zahl ein",
+      validationErrorBoolean: "Bitte wählen Sie eine gültige Option",
+      validationErrorSelect: "Bitte wählen Sie eine gültige Option",
+      validationErrorPattern: "Der Wert entspricht nicht dem erforderlichen Muster",
+      booleanTrue: "Ja",
+      booleanFalse: "Nein",
     },
     editGameServer: {
       title: "{{serverName}}",
@@ -283,6 +310,41 @@ const translation: i18nLanguage = {
         errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
       },
     },
+    userManagement: {
+      backButton: "Zurück",
+      userDetailButton: {
+        viewUsers: "Marktplatz",
+      },
+      userRow: {
+        roles: {
+          owner: "Besitzer",
+          admin: "Admin",
+          quota_user: "Quota",
+        },
+        resources: {
+          cpus: "CPUs",
+          memory: "Speicher",
+          storage: "Speicherplatz",
+          unlimited: "Unbeschränkt",
+        },
+        moreOptions: "Weitere Einstellungen",
+      },
+      userTable: {
+        search: "Suchen",
+        filter: "Filter",
+        sort: "Sortieren",
+        resetFilter: "Filter zurücksetzen",
+        clearSort: "Sortierung löschen",
+        sortBy: {
+          username: "Name",
+          role: "Rolle",
+          max_cpu: "CPU Limit",
+          max_memory: "Speicher Limit",
+        },
+        noUsersFound: "Keine Benutzer gefunden",
+        pendingInvites: "Ausstehende Einladungen",
+      },
+    },
   },
   genericModal: {
     cancel: "Abbrechen",
@@ -319,6 +381,35 @@ const translation: i18nLanguage = {
     PULLING_IMAGE: "Image wird geladen",
     AWAITING_UPDATE: "Lädt...",
     STOPPING: "Stoppt...",
+  },
+  metrics: {
+    metricTitle: "{{type}} Metrik",
+    metricDescription: "{{type}} Metrik über Zeit",
+    configure: "Metriken konfigurieren",
+    types: {
+      CPU_PERCENT: "CPU",
+      MEMORY_PERCENT: "Arbeitsspeicher",
+      MEMORY_LIMIT: "Arbeitsspeicher Limit",
+      MEMORY_USAGE: "Arbeitsspeicher Nutzung",
+      BLOCK_READ: "Speicher Lesevorgänge",
+      BLOCK_WRITE: "Speicher Schreibvorgänge",
+      NETWORK_INPUT: "Netzwerk Eingehend",
+      NETWORK_OUTPUT: "Netzwerk Ausgehend",
+    },
+  },
+  timerange: {
+    localTime: "de-DE",
+    custom: "Benutzerdefinierter Zeitraum",
+    button: "Zeitraum",
+    min: "Letzten {{time}} Minuten",
+    hour: "Letzte {{time}} Stunden",
+    day: "Letzte {{time}} Tage",
+    apply: "Anwenden",
+    cancel: "Abbrechen",
+  },
+  datepicker: {
+    title: "Benutzerdefinierter Zeitraum",
+    des: "Wählen Sie einen benutzerdefinierten Zeitraum für die Metriken aus.",
   },
 };
 

@@ -1,4 +1,3 @@
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
@@ -31,7 +30,6 @@ type ExtendedGameServerUpdateDto = GameServerUpdateDto & {
 };
 
 const mapGameServerDtoToUpdate = (server: GameServerDto): ExtendedGameServerUpdateDto => ({
-  game_uuid: server.game_uuid,
   server_name: server.server_name,
   docker_image_name: server.docker_image_name,
   docker_image_tag: server.docker_image_tag,
@@ -57,7 +55,7 @@ const EditGameServerModal = (props: {
 }) => {
   const { t } = useTranslationPrefix("components.editGameServer");
   const { cpuLimit, memoryLimit } = useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false) to start. Port 8080 was already in use.;
   const [gameServerState, setGameServerState] = useState<ExtendedGameServerUpdateDto>(() =>
     mapGameServerDtoToUpdate(props.gameServer),
   );
@@ -144,7 +142,6 @@ const EditGameServerModal = (props: {
 
     const fieldsChanged =
       gameServerState.server_name !== props.gameServer.server_name ||
-      gameServerState.game_uuid !== props.gameServer.game_uuid ||
       gameServerState.docker_image_name !== props.gameServer.docker_image_name ||
       gameServerState.docker_image_tag !== props.gameServer.docker_image_tag ||
       gameServerState.docker_hardware_limits?.docker_memory_limit !==
@@ -197,7 +194,7 @@ const EditGameServerModal = (props: {
 
   return (
     <Dialog open={props.open} onOpenChange={props.onOpenChange}>
-      <DialogContent className="font-mono">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("title", { serverName: props.serverName })}</DialogTitle>
           <DialogDescription>{t("description")}</DialogDescription>
@@ -216,13 +213,13 @@ const EditGameServerModal = (props: {
           />
 
           <InputFieldEditGameServer
-            id="game_uuid"
+            id="external_game_id"
             validator={z.string().min(1)}
             placeholder="Game"
             label={t("gameSelection.title")}
             description={t("gameSelection.description")}
             errorLabel={t("gameSelection.errorLabel")}
-            value={gameServerState.game_uuid}
+            value={gameServerState.external_game_id}
             disabled={true}
             onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
             optional={true}
