@@ -1,6 +1,7 @@
 import { Button } from "@components/ui/button";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import spinner from "@/assets/gifs/spinner.gif";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import { MetricsType } from "@/types/metricsTyp";
@@ -42,12 +43,18 @@ const MetricDisplay = (
 ) => {
   const { t } = useTranslation();
   const [unit, setUnit] = useState<string>("hour");
+  const [loading, setLoading] = useState<boolean>(false);
   const { loadMetrics } = useDataLoading();
 
-  const handleTimeChange = (startTime: Date, endTime?: Date) => {
+  const handleTimeChange = async (startTime: Date, endTime?: Date) => {
     if (!startTime) return;
-    loadMetrics(props.gameServerUuid, startTime, endTime);
-  }
+    setLoading(true);
+    try {
+      await loadMetrics(props.gameServerUuid, startTime, endTime);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const colSpanMap: Record<string, string> = {
     "1": "col-span-1",
@@ -73,6 +80,20 @@ const MetricDisplay = (
         />
         <Button>{t("metrics.configure")}</Button>
       </div>
+      {loading && (
+        <div
+          className="absolute z-10 flex justify-center items-center w-[80%] h-[80%] backdrop-blur-sm" >
+          <div className="flex flex-col gap-2">
+            <img
+              src={spinner}
+              alt="spinner"
+            />
+            <div className="flex justify-center text-xl">
+              {t("signIn.loading")}
+            </div>
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-6 gap-2">
         {METRIC_ORDER.map((metric) => (
           <MetricGraph
@@ -81,6 +102,7 @@ const MetricDisplay = (
             metrics={props.metrics}
             type={metric.type}
             timeUnit={unit}
+            loading={loading}
           />
         ))}
       </div>

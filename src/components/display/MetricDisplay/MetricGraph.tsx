@@ -18,6 +18,7 @@ interface MetricGraphProps {
   type: MetricsType;
   timeUnit: string;
   metrics: GameServerMetricsWithUuid[];
+  loading?: boolean;
 }
 
 const chartConfig = {
@@ -52,10 +53,7 @@ const MetricGraph = (props: MetricGraphProps) => {
   const formateMetric = (value: number) => {
     if (metricType === MetricsType.CPU_PERCENT || metricType === MetricsType.MEMORY_PERCENT) {
       return `${(value).toFixed(2)}%`;
-    } else if (
-      metricType === MetricsType.MEMORY_USAGE ||
-      metricType === MetricsType.MEMORY_LIMIT
-    ) {
+    } else if (metricType === MetricsType.MEMORY_USAGE || metricType === MetricsType.MEMORY_LIMIT) {
       return convertBytes(value, 1024, ["Bytes", "KiB", "MiB", "GiB", "TiB"]);
     }
     return convertBytes(value, 1000, ["Bytes", "KB", "MB", "GB", "TB"]);
