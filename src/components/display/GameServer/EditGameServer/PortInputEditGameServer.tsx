@@ -66,8 +66,6 @@ function PortInputEditGameServer({
     [validateKeyValuePair],
   );
 
-  console.log(value);
-
   return (
     <ListInputEdit<PortItem>
       value={

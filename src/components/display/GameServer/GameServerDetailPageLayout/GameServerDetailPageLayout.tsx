@@ -67,7 +67,6 @@ const GameServerDetailPageLayout = (props: {
 }) => {
   const { t } = useTranslation();
   const router = useRouter();
-  console.log(router.state.location.pathname);
 
   return (
     <GameServerDetailContext.Provider value={{ gameServer: props.gameServer }}>
