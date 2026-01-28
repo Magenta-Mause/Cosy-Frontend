@@ -314,8 +314,8 @@ const EditGameServer = (props: {
             }))
           }
           defaultNewItem={{
-            host_path: "Host Path",
-            container_path: "Container Path",
+            host_path: "/etc/cosy",
+            container_path: "/app",
           }}
           onChange={(volumes) =>
             setGameServerState((s) => ({
