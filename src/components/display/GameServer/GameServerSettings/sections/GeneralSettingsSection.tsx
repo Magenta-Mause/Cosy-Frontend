@@ -1,14 +1,11 @@
-import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { GameServerUpdateDto } from "@/api/generated/model/gameServerUpdateDto";
 import useActiveGameServer from "@/hooks/useActiveGameServer/useActiveGameServer";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import EditGameServer from "../../EditGameServer/EditGameServer";
-import { SettingsProvider } from "../GameServerSettingsLayout";
 
 const GeneralSettingsSection = () => {
-  // const { settings, setSettings } = useContext(SettingsProvider);
   const { t } = useTranslation();
   const { updateGameServer } = useDataInteractions();
   const { gameServer } = useActiveGameServer();

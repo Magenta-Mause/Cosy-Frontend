@@ -172,8 +172,10 @@ const EditGameServer = (props: {
   return (
     <div className="relative pr-3">
       <div>
-        <Label>{t("title", { serverName: props.serverName })}</Label>
-        <Label>{t("description")}</Label>
+        <Label className="font-medium text-3xl">
+          {t("title", { serverName: props.serverName })}
+        </Label>
+        <Label className="font-medium text-xl">{t("description")}</Label>
       </div>
 
       <div>

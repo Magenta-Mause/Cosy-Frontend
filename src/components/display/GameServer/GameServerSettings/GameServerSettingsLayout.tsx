@@ -27,27 +27,27 @@ const iconStyles: CSSProperties = {
 const TABS = [
   {
     label: "general",
-    icon: <SettingsIcon style={iconStyles} />,
+    icon: <SettingsIcon style={iconStyles} className="mr-2" />,
     path: "/server/$serverId/settings/general",
   },
   {
     label: "privateDashboard",
-    icon: <LayoutDashboardIcon style={iconStyles} />,
+    icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
     path: "/server/$serverId/settings/privateDashboard",
   },
   {
     label: "publicDashboard",
-    icon: <LayoutDashboardIcon style={iconStyles} />,
+    icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
     path: "/server/$serverId/settings/publicDashboard",
   },
   {
     label: "metrics",
-    icon: <ChartAreaIcon style={iconStyles} />,
+    icon: <ChartAreaIcon style={iconStyles} className="mr-2" />,
     path: "/server/$serverId/settings/metrics",
   },
   {
     label: "accessManagement",
-    icon: <User style={iconStyles} />,
+    icon: <User style={iconStyles} className="mr-2" />,
     path: "/server/$serverId/settings/accessManagement",
   },
 ];
@@ -75,7 +75,7 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
       <div className="flex gap-4 h-full">
         <div className="flex flex-col justify-center items-end w-[20%] align-top h-fit">
           {TABS.map(({ label, icon, path }) => (
-            <div key={`${label}:${path}`} className={"relative w-full py-2"}>
+            <div key={`${label}:${path}`} className={"relative w-full py-0.5"}>
               <Link
                 key={label}
                 to={path}
@@ -84,8 +84,9 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
               >
                 {({ isActive }) => (
                   <Button
-                    variant={isActive ? "primary" : "secondary"}
-                    className={"w-full flex justify-start bg-transparent border-0 shadow-none"}
+                    className={`w-full flex justify-start border-0 shadow-none bg-button-primary-default ${
+                      isActive && "bg-button-primary-active hover:bg-button-primary-default"
+                    }`}
                   >
                     {icon}
                     <p>{label}</p>

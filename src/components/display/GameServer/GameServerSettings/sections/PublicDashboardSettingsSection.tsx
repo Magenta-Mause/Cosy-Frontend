@@ -1,5 +1,9 @@
-import React from "react";
+import { Label } from "@components/ui/label";
 
 export default function PublicDashboardSettingsSection() {
-  return <div>PublicDashboardSettingsSection</div>;
+  return (
+    <div>
+      <Label className="font-medium text-3xl">Public Dashboard Settings</Label>
+    </div>
+  );
 }
