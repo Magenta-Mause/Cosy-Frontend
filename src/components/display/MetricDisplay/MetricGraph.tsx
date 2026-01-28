@@ -75,6 +75,7 @@ const MetricGraph = (props: MetricGraphProps) => {
     });
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formatTooltipTime = (_timeString: string, payload: Payload<any, any>[]) => {
     if (!payload[0]) return "";
     const value = payload[0].payload as { time: number; value: number};
