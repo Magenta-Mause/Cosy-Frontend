@@ -130,6 +130,7 @@ const MetricGraph = (props: MetricGraphProps) => {
               dataKey="time"
               type="number"
               domain={['dataMin', 'dataMax']}
+              tickCount={10}
               tickLine={false}
               axisLine={false}
               tickMargin={10}
