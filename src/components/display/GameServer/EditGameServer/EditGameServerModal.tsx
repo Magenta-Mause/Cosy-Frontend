@@ -363,7 +363,7 @@ const EditGameServerModal = (props: {
               id="memory_limit"
               validator={z.string().min(1)}
               placeholder="512"
-              label={`Ram Limit${memoryLimit === null ? " (Optional)" : ""}`}
+              label={`${t("memoryLimitSelection.title")} ${memoryLimit === null ? " (Optional)" : ""}`}
               description={t("memoryLimitSelection.description")}
               maxLimit={memoryLimit}
               errorLabel={t("memoryLimitSelection.errorLabel")}
