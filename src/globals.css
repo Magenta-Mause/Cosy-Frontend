@@ -65,7 +65,6 @@
   --color-button-primary-focus: var(--button-primary-focus);
   --color-button-primary-border: var(--button-primary-border);
   --color-button-primary-inner-shadow: var(--button-primary-inner-shadow);
-  --color-button-primary-active: var(--button-primary-active);
 
   --color-button-secondary-default: var(--button-secondary-default);
   --color-button-secondary-hover: var(--button-secondary-hover);
@@ -184,7 +183,6 @@
   --button-primary-focus: oklch(0.3784 0.1014 23.26);
   --button-primary-border: oklch(0.5046 0.1213 29.72);
   --button-primary-inner-shadow: oklch(0.2197 0.0776 347.51);
-  --button-primary-active: oklch(0.2973 0.0922 24.71);
 
   --button-secondary-default: oklch(0.8829 0.0757 58.81);
   --button-secondary-hover: oklch(0.7961 0.113 58.2);
