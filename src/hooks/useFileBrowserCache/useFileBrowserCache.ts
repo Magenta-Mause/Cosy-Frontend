@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getFileSystemForVolume } from "@/api/generated/backend-api";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
 import { normalizePath } from "@/lib/fileSystemUtils";
+import { useNavigate } from "@tanstack/react-router";
 
 type CacheEntry = {
   fetchDepth: number;
@@ -98,6 +99,8 @@ export function useFileBrowserCache(opts: {
   const mountTrie = useMemo(() => buildMountTrie(opts.volumes), [opts.volumes]);
   const cacheRef = useRef(cache);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     cacheRef.current = cache;
   }, [cache]);
@@ -175,7 +178,17 @@ export function useFileBrowserCache(opts: {
 
   return {
     currentPath,
-    setCurrentPath: (p: string) => setCurrentPath(normalizePath(p)),
+    setCurrentPath: (p: string) => {
+      const path = normalizePath(p);
+      navigate({
+        to: `/server/$serverId/files${path}`,
+        params: {
+          serverId: opts.serverUuid,
+        },
+        replace: true,
+      });
+      setCurrentPath(path);
+    },
     fetchDepth,
     objects,
     setObjects,

@@ -16,7 +16,7 @@ import { Route as ServerServerIdIndexRouteImport } from './routes/server/$server
 import { Route as ServerServerIdMetricsRouteImport } from './routes/server/$serverId.metrics'
 import { Route as ServerServerIdFilesRouteImport } from './routes/server/$serverId.files'
 import { Route as ServerServerIdConsoleRouteImport } from './routes/server/$serverId.console'
-import { Route as ServerServerIdFilesIndexRouteImport } from './routes/server/$serverId.files.index'
+import { Route as ServerServerIdFilesSplatRouteImport } from './routes/server/$serverId.files.$'
 
 const UsersRoute = UsersRouteImport.update({
   id: '/users',
@@ -53,10 +53,10 @@ const ServerServerIdConsoleRoute = ServerServerIdConsoleRouteImport.update({
   path: '/console',
   getParentRoute: () => ServerServerIdRoute,
 } as any)
-const ServerServerIdFilesIndexRoute =
-  ServerServerIdFilesIndexRouteImport.update({
-    id: '/',
-    path: '/',
+const ServerServerIdFilesSplatRoute =
+  ServerServerIdFilesSplatRouteImport.update({
+    id: '/$',
+    path: '/$',
     getParentRoute: () => ServerServerIdFilesRoute,
   } as any)
 
@@ -68,15 +68,16 @@ export interface FileRoutesByFullPath {
   '/server/$serverId/files': typeof ServerServerIdFilesRouteWithChildren
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
   '/server/$serverId/': typeof ServerServerIdIndexRoute
-  '/server/$serverId/files/': typeof ServerServerIdFilesIndexRoute
+  '/server/$serverId/files/$': typeof ServerServerIdFilesSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/users': typeof UsersRoute
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
+  '/server/$serverId/files': typeof ServerServerIdFilesRouteWithChildren
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
   '/server/$serverId': typeof ServerServerIdIndexRoute
-  '/server/$serverId/files': typeof ServerServerIdFilesIndexRoute
+  '/server/$serverId/files/$': typeof ServerServerIdFilesSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,7 +88,7 @@ export interface FileRoutesById {
   '/server/$serverId/files': typeof ServerServerIdFilesRouteWithChildren
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
   '/server/$serverId/': typeof ServerServerIdIndexRoute
-  '/server/$serverId/files/': typeof ServerServerIdFilesIndexRoute
+  '/server/$serverId/files/$': typeof ServerServerIdFilesSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -99,15 +100,16 @@ export interface FileRouteTypes {
     | '/server/$serverId/files'
     | '/server/$serverId/metrics'
     | '/server/$serverId/'
-    | '/server/$serverId/files/'
+    | '/server/$serverId/files/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/users'
     | '/server/$serverId/console'
+    | '/server/$serverId/files'
     | '/server/$serverId/metrics'
     | '/server/$serverId'
-    | '/server/$serverId/files'
+    | '/server/$serverId/files/$'
   id:
     | '__root__'
     | '/'
@@ -117,7 +119,7 @@ export interface FileRouteTypes {
     | '/server/$serverId/files'
     | '/server/$serverId/metrics'
     | '/server/$serverId/'
-    | '/server/$serverId/files/'
+    | '/server/$serverId/files/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -177,22 +179,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServerServerIdConsoleRouteImport
       parentRoute: typeof ServerServerIdRoute
     }
-    '/server/$serverId/files/': {
-      id: '/server/$serverId/files/'
-      path: '/'
-      fullPath: '/server/$serverId/files/'
-      preLoaderRoute: typeof ServerServerIdFilesIndexRouteImport
+    '/server/$serverId/files/$': {
+      id: '/server/$serverId/files/$'
+      path: '/$'
+      fullPath: '/server/$serverId/files/$'
+      preLoaderRoute: typeof ServerServerIdFilesSplatRouteImport
       parentRoute: typeof ServerServerIdFilesRoute
     }
   }
 }
 
 interface ServerServerIdFilesRouteChildren {
-  ServerServerIdFilesIndexRoute: typeof ServerServerIdFilesIndexRoute
+  ServerServerIdFilesSplatRoute: typeof ServerServerIdFilesSplatRoute
 }
 
 const ServerServerIdFilesRouteChildren: ServerServerIdFilesRouteChildren = {
-  ServerServerIdFilesIndexRoute: ServerServerIdFilesIndexRoute,
+  ServerServerIdFilesSplatRoute: ServerServerIdFilesSplatRoute,
 }
 
 const ServerServerIdFilesRouteWithChildren =
