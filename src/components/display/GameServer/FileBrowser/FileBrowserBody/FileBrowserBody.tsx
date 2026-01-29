@@ -33,6 +33,13 @@ export const FileBrowserBody = ({
   return (
     <div className="flex-1 overflow-auto">
       <ul className="p-2">
+        <li>
+          <FileBrowserRow
+            obj={{ name: "..", type: "DIRECTORY" }}
+            canWrite={false}
+            onEntryClick={onEntryClick}
+          />
+        </li>
         {objects.map((obj) => (
           <li key={`${obj.type ?? "UNKNOWN"}:${obj.name}`}>
             <FileBrowserRow

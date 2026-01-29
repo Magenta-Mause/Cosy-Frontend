@@ -221,7 +221,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       onClosePreview: closePreview,
 
       onEntryClick: (obj) => {
-        void onEntryClick(obj);
+        onEntryClick(obj);
       },
       onCrumbClick,
       onRefresh: () => ensurePathFetched(currentPath, fetchDepth, true),

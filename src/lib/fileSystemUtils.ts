@@ -20,6 +20,13 @@ export function joinRemotePath(dir: string, fileName: string) {
 
 export function joinDir(base: string, name: string) {
   const b = normalizePath(base);
+  if (name === "..") {
+    if (b === "/") return "/";
+    const parts = b.split("/").filter(Boolean);
+    parts.pop();
+    return `/${parts.join("/")}`;
+  }
+
   if (b === "/") return `/${name}`;
   return `${b}/${name}`;
 }

@@ -2,6 +2,7 @@ import { Download, File, Folder, Pencil, Trash2 } from "lucide-react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
 import { formatBytes, formatUnixPerms, isDirectory } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 type Props = {
   obj: FileSystemObjectDto;
@@ -26,6 +27,7 @@ export const FileBrowserRow = ({
 }: Props) => {
   const dir = isDirectory(obj);
   const perms = formatUnixPerms(obj.permissions);
+  const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserList");
 
   return (
     <div className={cn("w-full flex items-center gap-2 rounded-md px-2 py-2", "hover:bg-black/5")}>
@@ -39,7 +41,7 @@ export const FileBrowserRow = ({
       >
         {dir ? <Folder className="h-4 w-4 shrink-0" /> : <File className="h-4 w-4 shrink-0" />}
 
-        <span className="truncate">{obj.name}</span>
+        <span className="truncate text-sm">{obj.name}</span>
 
         <div
           className={cn(
@@ -85,7 +87,7 @@ export const FileBrowserRow = ({
               title="Rename"
             >
               <Pencil className="h-4 w-4 mr-1" />
-              <span className="hidden sm:inline">Rename</span>
+              <span className="hidden sm:inline">{t("renameAction")}</span>
             </button>
           ) : null}
 
@@ -102,7 +104,7 @@ export const FileBrowserRow = ({
               title="Delete"
             >
               <Trash2 className="h-4 w-4 mr-1" />
-              <span className="hidden sm:inline">Delete</span>
+              <span className="hidden sm:inline">{t("deleteAction")}</span>
             </button>
           ) : null}
 
