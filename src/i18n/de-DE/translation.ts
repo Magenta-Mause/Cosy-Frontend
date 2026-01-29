@@ -367,6 +367,8 @@ const translation: i18nLanguage = {
       NETWORK_INPUT: "Netzwerk Eingehend",
       NETWORK_OUTPUT: "Netzwerk Ausgehend",
     },
+    liveMetricsOn: "Live-Metriken: An",
+    liveMetricsOff: "Live-Metriken: Aus",
   },
   timerange: {
     localTime: "de-DE",

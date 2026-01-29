@@ -8,7 +8,7 @@ import type {
 } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
-import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
+import { gameServerMetricsSliceActions, gameServerMetricsSliceReducer } from "@/stores/slices/gameServerMetrics";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 interface GameServerStatusUpdateDto {
@@ -31,6 +31,7 @@ interface GameServerDockerProgressUpdateDto {
 
 const WebSocketCollection = () => {
   const gameServer = useTypedSelector((state) => state.gameServerSliceReducer.data);
+  const gameServerMetrics = useTypedSelector((state) => state.gameServerMetricsSliceReducer.data);
   const dispatch = useDispatch();
 
   useSubscription(
@@ -87,6 +88,12 @@ const WebSocketCollection = () => {
     gameServer ? gameServer.map((server) => `/topics/game-servers/metrics/${server.uuid}`) : [],
     (message) => {
       const messageBody = JSON.parse(message.body) as MetricPointDto;
+      const serverMetricState = gameServerMetrics[messageBody.game_server_uuid ?? ""]
+
+      if (!serverMetricState.enableMetricsLiveUpdates) {
+        return;
+      }
+
       dispatch(
         gameServerMetricsSliceActions.addMetrics({
           ...messageBody,

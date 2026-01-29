@@ -358,6 +358,8 @@ export type i18nLanguage = {
       BLOCK_READ: string;
       BLOCK_WRITE: string;
     };
+    liveMetricsOn: string;
+    liveMetricsOff: string;
   };
   timerange: {
     localTime: string;
