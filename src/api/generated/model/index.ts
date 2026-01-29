@@ -6,9 +6,11 @@
  * OpenAPI spec version: v1.0
  */
 
+export * from './createDirectoryInVolumeParams';
+export * from './deleteInVolumeParams';
+export * from './dockerHardwareLimits';
 export * from './done';
 export * from './doneAllOf';
-export * from './dockerHardwareLimits';
 export * from './environmentVariableConfiguration';
 export * from './error';
 export * from './errorAllOf';
@@ -39,6 +41,7 @@ export * from './pullProgressAllOf';
 export * from './pullProgressDto';
 export * from './queryGamesParams';
 export * from './readFileFromVolumeParams';
+export * from './renameInVolumeParams';
 export * from './resourceLimit';
 export * from './startEventDto';
 export * from './startEventDtoType';
@@ -47,6 +50,7 @@ export * from './templateEntity';
 export * from './templateEntityEnvironmentVariables';
 export * from './templateEntityPortMappings';
 export * from './templateVariable';
+export * from './uploadFileToVolumeParams';
 export * from './userCreationDto';
 export * from './userEntityDto';
 export * from './userEntityDtoRole';
