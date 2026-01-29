@@ -69,7 +69,7 @@ const MetricDisplay = (
 
   const handleTimeChange = async (startTime: Date, endTime?: Date) => {
     if (!startTime) return;
-    const isToday = !endTime || endTime.getDay() === new Date().getDay();
+    const isToday = !endTime || endTime.getDate() === new Date().getDate();
     setIsCustomTime(!isToday);
     handleLiveMetrics(isToday);
 
