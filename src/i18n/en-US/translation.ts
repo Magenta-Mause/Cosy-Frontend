@@ -119,35 +119,9 @@ const translation: i18nLanguage = {
     loading: "Loading...",
     logout: "Logout",
   },
+
   consequence: "asd{{counter}}ajskod",
-  logDisplay: {
-    serverLog: "Server Log",
-    timestampFormat: "HH:mm:ss.SSS",
-  },
-  serverPage: {
-    notFound: "not found",
-    start: "Start",
-    stop: "Shutdown",
-    pullingImage: "Pulling Image...",
-    status: "Status",
-    back: "Back",
-    navbar: {
-      overview: "Dashboard",
-      console: "Console",
-      metrics: "Metrics",
-      file_explorer: "Files",
-      settings: "Settings",
-    },
-  },
-  serverStatus: {
-    RUNNING: "Running",
-    STARTING: "Starting",
-    STOPPED: "Stopped",
-    FAILED: "Failed",
-    PULLING_IMAGE: "Pulling Image",
-    AWAITING_UPDATE: "Loading...",
-    STOPPING: "Stopping...",
-  },
+
   components: {
     TemplateVariableForm: {
       title: "Template Variables",
@@ -165,6 +139,7 @@ const translation: i18nLanguage = {
       booleanTrue: "Yes",
       booleanFalse: "No",
     },
+
     CreateGameServer: {
       backButton: "Back",
       nextStepButton: "Next Step",
@@ -250,6 +225,7 @@ const translation: i18nLanguage = {
         noResultsLabel: "Generic Game",
       },
     },
+
     fileBrowser: {
       filePreview: {
         loadingPreview: "Loading preview...",
@@ -294,6 +270,7 @@ const translation: i18nLanguage = {
         renamePlaceholder: "e.g. server.log",
       },
     },
+
     editGameServer: {
       title: "{{serverName}}",
       description: "Update the configuration of your game server",
@@ -355,6 +332,7 @@ const translation: i18nLanguage = {
         description: "Volume mounts for your server",
       },
     },
+
     userManagement: {
       backButton: "Back",
       userDetailButton: {
@@ -391,9 +369,40 @@ const translation: i18nLanguage = {
       },
     },
   },
+
   genericModal: {
     cancel: "Cancel",
   },
+
+  logDisplay: {
+    serverLog: "Server Log",
+    timestampFormat: "HH:mm:ss.SSS",
+  },
+  serverPage: {
+    notFound: "not found",
+    start: "Start",
+    stop: "Shutdown",
+    back: "Back",
+    pullingImage: "Pulling Image...",
+    status: "Status",
+    navbar: {
+      overview: "Dashboard",
+      console: "Console",
+      metrics: "Metrics",
+      file_explorer: "Files",
+      settings: "Settings",
+    },
+  },
+  serverStatus: {
+    RUNNING: "Running",
+    STARTING: "Starting",
+    STOPPED: "Stopped",
+    FAILED: "Failed",
+    PULLING_IMAGE: "Pulling Image",
+    AWAITING_UPDATE: "Loading...",
+    STOPPING: "Stopping...",
+  },
+
   metrics: {
     metricTitle: "{{type}} - Metric",
     metricDescription: "{{type}} usage over time",
