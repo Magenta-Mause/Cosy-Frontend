@@ -6,7 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select.tsx";
-import { useCallback } from "react";
+import { useCallback, useMemo, useRef } from "react";
+import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
@@ -66,16 +67,30 @@ function PortInputEditGameServer({
     [validateKeyValuePair],
   );
 
+  const uuidPerIndexRef = useRef<string[]>([]);
+
+  const rows = useMemo(() => {
+    const vals = value ?? [];
+
+    const uuids = uuidPerIndexRef.current;
+    if (uuids.length > vals.length) {
+      uuidPerIndexRef.current = uuids.slice(0, vals.length);
+    }
+    while (uuidPerIndexRef.current.length < vals.length) {
+      uuidPerIndexRef.current.push(generateUuid());
+    }
+
+    return vals.map((v, idx) => ({
+      key: v.instance_port?.toString() ?? "",
+      value: v.container_port?.toString() ?? "",
+      protocol: v.protocol ?? PortMappingProtocol.TCP,
+      uuid: uuidPerIndexRef.current[idx],
+    }));
+  }, [value]);
+
   return (
     <ListInputEdit<PortItem>
-      value={
-        value?.map((v) => ({
-          key: v.instance_port?.toString() ?? "",
-          value: v.container_port?.toString() ?? "",
-          protocol: v.protocol ?? PortMappingProtocol.TCP,
-          uuid: crypto.randomUUID(),
-        })) ?? []
-      }
+      value={rows}
       setParentValue={setValue}
       defaultNewItem={{
         key: "4433",

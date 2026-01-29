@@ -1,5 +1,6 @@
 import { Input } from "@components/ui/input.tsx";
-import { Fragment, useCallback } from "react";
+import { Fragment, useCallback, useMemo, useRef } from "react";
+import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
 import ListInputEdit from "./ListInputEditGameServer";
@@ -72,21 +73,35 @@ function EditKeyValueInput<T extends Record<string, string>>({
     [validateKeyValuePair],
   );
 
+  const uuidPerIndexRef = useRef<string[]>([]);
+
+  const rows = useMemo(() => {
+    const vals = value ?? [];
+
+    const uuids = uuidPerIndexRef.current;
+    if (uuids.length > vals.length) {
+      uuidPerIndexRef.current = uuids.slice(0, vals.length);
+    }
+    while (uuidPerIndexRef.current.length < vals.length) {
+      uuidPerIndexRef.current.push(generateUuid());
+    }
+
+    return vals.map((v, idx) => ({
+      key: String(v[objectKey] ?? ""),
+      value: String(v[objectValue] ?? ""),
+      uuid: uuidPerIndexRef.current[idx],
+    }));
+  }, [value, objectKey, objectValue]);
+
   return (
     <ListInputEdit<KeyValueItem>
-      value={
-        value?.map((v) => ({
-          key: String(v[objectKey] ?? ""),
-          value: String(v[objectValue] ?? ""),
-          uuid: crypto.randomUUID(),
-        })) ?? []
-      }
-      setParentValue={() => {
+      value={rows}
+      setParentValue={(rows) => {
         setValue(
-          value?.map((val) => ({
-            ...val,
-            [objectKey]: preProcessInputValue(val.key, inputType),
-            [objectValue]: preProcessInputValue(val.value, inputType),
+          rows?.map((row) => ({
+            ...({} as T),
+            [objectKey]: preProcessInputValue(row.key, inputType),
+            [objectValue]: preProcessInputValue(row.value, inputType),
           })) ?? [],
         );
       }}
