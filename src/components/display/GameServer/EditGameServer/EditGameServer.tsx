@@ -96,9 +96,8 @@ const EditGameServer = (props: {
       gameServerState.volume_mounts.length === 0 ||
       gameServerState.volume_mounts.every((vol) => {
         if (!vol.host_path && !vol.container_path) return true;
-        const hostPathValid = z.string().min(1).safeParse(vol.host_path).success;
         const containerPathValid = z.string().min(1).safeParse(vol.container_path).success;
-        return hostPathValid && containerPathValid;
+        return containerPathValid;
       });
 
     return (
@@ -170,10 +169,9 @@ const EditGameServer = (props: {
   return (
     <div className="relative pr-3">
       <div>
-        <Label className="font-medium text-3xl">
-          {t("title", { serverName: props.serverName })}
-        </Label>
-        <Label className="font-medium text-xl">{t("description")}</Label>
+        <h2 className="font-medium text-3xl">
+          {t("title")}
+        </h2>
       </div>
 
       <div>
@@ -193,7 +191,7 @@ const EditGameServer = (props: {
           label={t("gameSelection.title")}
           description={t("gameSelection.description")}
           errorLabel={t("gameSelection.errorLabel")}
-          value={gameServerState.game_uuid}
+          value={gameServerState.external_game_id}
           disabled={true}
           onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
           optional={true}
@@ -303,7 +301,7 @@ const EditGameServer = (props: {
           setValue={(vals) =>
             setGameServerState((s) => ({
               ...s,
-              volume_mounts: vals,
+              volume_mounts: vals
             }))
           }
           defaultNewItem={{
@@ -320,7 +318,7 @@ const EditGameServer = (props: {
           }
           placeHolderKeyInput="Host Path"
           placeHolderValueInput="Container Path"
-          keyValidator={z.string().min(1)}
+          keyValidator={z.string()}
           valueValidator={z.string().min(1)}
           errorLabel={t("volumeMountSelection.errorLabel")}
           required={false}

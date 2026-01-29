@@ -226,8 +226,7 @@ const translation: i18nLanguage = {
       booleanFalse: "Nein",
     },
     editGameServer: {
-      title: "{{serverName}}",
-      description: "Aktualisiere die Konfiguration deines Game-Servers",
+      title: "Allgemeine Server Einstellungen",
 
       revert: "Zurücksetzen",
       confirm: "Änderungen speichern",

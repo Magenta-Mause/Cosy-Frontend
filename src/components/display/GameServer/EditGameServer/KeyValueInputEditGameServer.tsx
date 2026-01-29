@@ -53,17 +53,22 @@ function EditKeyValueInput<T extends Record<string, string>>({
     (key?: string, value?: string) => {
       if (!key && !value && !required) {
         return true;
-      } else if (!key || !value) {
+      } else if ((!key || !value) && required) {
         return false;
       }
 
-      const preProcessedKey = preProcessInputValue(key, inputType);
-      const preProcessedValue = preProcessInputValue(value, inputType);
+      const preProcessedKey = preProcessInputValue(key ?? "", inputType);
+      const preProcessedValue = preProcessInputValue(value ?? "", inputType);
 
-      return (
-        keyValidator.safeParse(preProcessedKey).success &&
-        valueValidator.safeParse(preProcessedValue).success
-      );
+      const keyValid = keyValidator.safeParse(preProcessedKey).success;
+      const valueValid = valueValidator.safeParse(preProcessedValue).success;
+
+      if (!required) {
+        if (!key) return valueValid;
+        if (!value) return keyValid;
+      }
+
+      return keyValid && valueValid;
     },
     [keyValidator, valueValidator, required, inputType],
   );

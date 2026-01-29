@@ -1,9 +1,7 @@
-import { Label } from "@components/ui/label";
-
 export default function AccessManagementSettingsSection() {
   return (
     <div>
-      <Label className="font-medium text-3xl">Access Management Settings</Label>
+      <h2 className="font-medium text-3xl">Access Management Settings</h2>
     </div>
   );
 }

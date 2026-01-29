@@ -245,8 +245,7 @@ export type i18nLanguage = {
       };
     };
     editGameServer: {
-      title: ContainsVariable<"serverName">;
-      description: string;
+      title: string;
 
       revert: string;
       confirm: string;
