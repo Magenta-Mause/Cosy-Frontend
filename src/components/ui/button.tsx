@@ -12,7 +12,6 @@ const buttonVariants = cva(
     "gap-2",
     "rounded-md",
     "shrink-0",
-    "disabled:pointer-events-none",
 
     // SVG handling
     "[&_svg]:shrink-0",
@@ -114,7 +113,7 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size, className }), `${props.disabled ? "active:shadow-md active:shadow-button-drop-shadow" : ""}`)}
       {...props}
     >
       {props.children}
