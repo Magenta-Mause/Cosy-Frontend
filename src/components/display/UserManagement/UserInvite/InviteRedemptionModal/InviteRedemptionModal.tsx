@@ -28,6 +28,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isOpen, setIsOpen] = useState(true);
+  const formatMemoryLimit = (value: string) => value.replace(/(\d)([a-zA-Z])/g, "$1 $2");
 
   // Fetch invite details to validate and see if username is pre-filled
   const {
@@ -127,16 +128,18 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                   <div className="flex flex-col gap-2 mb-4 justify-center items-center">
                     <div className="flex gap-2">
                       {inviteData.docker_hardware_limits.docker_max_cpu_cores && (
-                        <Badge variant="outline">
+                        <Badge className="px-3 text-sm bg-accent">
                           {t("inviteRedemption.cpuLimit", {
                             cpu: inviteData.docker_hardware_limits.docker_max_cpu_cores,
                           })}
                         </Badge>
                       )}
                       {inviteData.docker_hardware_limits.docker_memory_limit && (
-                        <Badge variant="outline">
+                        <Badge className="px-3 text-sm bg-accent">
                           {t("inviteRedemption.memoryLimit", {
-                            memory: inviteData.docker_hardware_limits.docker_memory_limit,
+                            memory: formatMemoryLimit(
+                              inviteData.docker_hardware_limits.docker_memory_limit,
+                            ),
                           })}
                         </Badge>
                       )}
@@ -146,12 +149,6 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
               </div>
 
               <div className="space-y-2">
-                <label
-                  htmlFor="username"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {t("inviteRedemption.usernameLabel")}
-                </label>
                 <Input
                   header={t("inviteRedemption.usernameLabel")}
                   description={
