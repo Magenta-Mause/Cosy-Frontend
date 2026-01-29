@@ -1,12 +1,13 @@
-import { MemoryLimitInput } from "@components/common/MemoryLimitInput.tsx";
+import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
 import { FieldError } from "@components/ui/field.tsx";
 import { Label } from "@components/ui/label.tsx";
+import type { KeyboardEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
 import type { ZodType } from "zod";
 
-const MemoryLimitInputEditGameServer = (props: {
+const MemoryLimitInputField = (props: {
   id: string;
-  value?: string | null;
+  value?: string | number | null;
   onChange: (value: string | null) => void;
   validator: ZodType;
   placeholder: string;
@@ -17,6 +18,9 @@ const MemoryLimitInputEditGameServer = (props: {
   defaultValue?: string;
   disabled?: boolean;
   maxLimit?: number | string | null;
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
+  onValidityChange?: (isValid: boolean) => void;
+  onTouchedChange?: (touched: boolean) => void;
 }) => {
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -26,34 +30,17 @@ const MemoryLimitInputEditGameServer = (props: {
   const validate = useCallback(
     (value: unknown) => {
       if (props.optional && (value === null || value === undefined || value === "")) return true;
-
-      if (props.maxLimit !== undefined && props.maxLimit !== null) {
-        let maxLimit = props.maxLimit;
-        if (typeof maxLimit === "string") {
-          const lower = maxLimit.toLowerCase();
-          const val = parseFloat(lower);
-          if (!Number.isNaN(val)) {
-            maxLimit = lower.includes("g") ? val * 1024 : val;
-          } else {
-            maxLimit = Number.MAX_VALUE;
-          }
-        }
-
-        let numVal = typeof value === "string" ? parseFloat(value) : Number(value);
-        if (typeof value === "string" && !Number.isNaN(numVal)) {
-          if (value.endsWith("GiB")) {
-            numVal = numVal * 1024;
-          }
-        }
-
-        if (!Number.isNaN(numVal) && numVal > maxLimit) {
-          return false;
-        }
-      }
-
       return props.validator.safeParse(value).success;
     },
-    [props.optional, props.validator, props.maxLimit],
+    [props.optional, props.validator],
+  );
+
+  const reportValidity = useCallback(
+    (valid: boolean, isTouched: boolean) => {
+      props.onValidityChange?.(valid);
+      props.onTouchedChange?.(isTouched);
+    },
+    [props.onTouchedChange, props.onValidityChange],
   );
 
   const changeCallback = useCallback(
@@ -62,38 +49,51 @@ const MemoryLimitInputEditGameServer = (props: {
 
       if (value === "" && props.defaultValue !== undefined) {
         props.onChange(props.defaultValue);
-        setIsValid(validate(props.defaultValue));
+        const valid = validate(props.defaultValue);
+        setIsValid(valid);
+        reportValidity(valid, true);
         return;
       }
 
       const valToSend = value === "" ? null : value;
       props.onChange(valToSend);
-      setIsValid(validate(valToSend));
+      const valid = validate(valToSend);
+      setIsValid(valid);
+      reportValidity(valid, true);
     },
-    [props, validate],
+    [props.defaultValue, props.onChange, reportValidity, validate],
   );
 
   useEffect(() => {
-    if (props.defaultValue !== undefined && props.value === undefined) {
+    if (props.defaultValue !== undefined && (props.value === undefined || props.value === null)) {
       props.onChange(props.defaultValue);
-      setIsValid(validate(props.defaultValue));
+      const valid = validate(props.defaultValue);
+      setIsValid(valid);
+      reportValidity(valid, touched);
     }
-  }, [props, validate]);
+  }, [props.defaultValue, props.onChange, props.value, reportValidity, touched, validate]);
 
   useEffect(() => {
     if (props.optional) {
       setIsValid(true);
       setTouched(true);
+      reportValidity(true, true);
     }
-  }, [props.optional]);
+  }, [props.optional, reportValidity]);
+
+  useEffect(() => {
+    if (!props.onTouchedChange && !props.onValidityChange) return;
+
+    const isEmpty = props.value === null || props.value === undefined || props.value === "";
+    const isTouched = props.optional ? true : !isEmpty;
+    const valid = isEmpty ? !!props.optional : validate(props.value);
+    reportValidity(valid, isTouched);
+  }, [props.value, props.optional, validate, reportValidity, props.onTouchedChange, props.onValidityChange]);
 
   const formatLimit = (limit: number | string | null | undefined) => {
     if (limit === null) return "∞";
     if (limit === undefined) return "";
     if (typeof limit === "string") return limit;
-    if (limit >= 1024 && limit % 1024 === 0) {
-      return `${limit / 1024} GiB`;
-    }
     return `${limit} MiB`;
   };
 
@@ -110,6 +110,7 @@ const MemoryLimitInputEditGameServer = (props: {
         placeholder={props.placeholder}
         value={props.value}
         onChange={(val) => changeCallback(val)}
+        onKeyDown={props.onKeyDown}
       />
       {(props.description || props.maxLimit !== undefined) && (
         <Label htmlFor={props.id} className="pt-2 text-muted-foreground">
@@ -122,4 +123,4 @@ const MemoryLimitInputEditGameServer = (props: {
   );
 };
 
-export default MemoryLimitInputEditGameServer;
+export default MemoryLimitInputField;

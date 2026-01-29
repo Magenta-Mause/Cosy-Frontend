@@ -71,23 +71,13 @@ export const MemoryLimitInput = ({
     const isGiB = stringVal.endsWith("GiB");
     const isMiB = stringVal.endsWith("MiB");
 
-    let numericPart = parseFloat(stringVal);
+    const numericPart = parseFloat(stringVal);
     let detectedUnit: "MiB" | "GiB" = "MiB";
 
     if (isGiB) {
       detectedUnit = "GiB";
     } else if (isMiB) {
       detectedUnit = "MiB";
-    } else {
-      // Legacy number handling (assume MiB)
-      if (!Number.isNaN(numericPart)) {
-        if (numericPart >= 1024 && numericPart % 1024 === 0) {
-          detectedUnit = "GiB";
-          numericPart = numericPart / 1024;
-        } else {
-          detectedUnit = "MiB";
-        }
-      }
     }
 
     if (Number.isNaN(numericPart)) return;
