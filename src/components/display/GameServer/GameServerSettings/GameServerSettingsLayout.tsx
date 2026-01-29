@@ -2,7 +2,14 @@ import { Button } from "@components/ui/button";
 import Link from "@components/ui/Link";
 import { Separator } from "@components/ui/separator.tsx";
 import { ChartAreaIcon, LayoutDashboardIcon, SettingsIcon, User } from "lucide-react";
-import { type CSSProperties, createContext, useCallback, useState } from "react";
+import {
+  type CSSProperties,
+  createContext,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 interface ServerSettingsState {
@@ -18,8 +25,34 @@ interface SettingsContextType {
 
 const SettingsProvider = createContext<SettingsContextType>({
   settings: { serverName: "" },
-  setSettings: () => () => {},
+  setSettings: () => () => { },
 });
+
+const ResizableLabel = ({ label }: { label: string }) => {
+  const ref = useRef<HTMLParagraphElement | null>(null);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const computed = getComputedStyle(el);
+    let fontSize = parseFloat(computed.fontSize) || 16;
+    el.style.fontSize = fontSize + "px";
+
+    let iterations = 0;
+    while (el.scrollWidth > el.clientWidth && fontSize > 12 && iterations < 50) {
+      fontSize -= 1;
+      el.style.fontSize = fontSize + "px";
+      iterations += 1;
+    }
+  }, []);
+
+  return (
+    <p ref={ref} className="truncate overflow-hidden text-left" style={{ margin: 0 }}>
+      {label}
+    </p>
+  );
+};
 
 const iconStyles: CSSProperties = {
   transform: "scale(1.8)",
@@ -76,7 +109,7 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
   return (
     <SettingsProvider.Provider value={{ settings: serverSettings, setSettings }}>
       <div className="flex gap-4 h-full">
-        <div className="flex flex-col justify-center items-end w-[20%] align-top h-fit">
+        <div className="flex flex-col justify-center items-end w-[20%] min-w-0 align-top h-fit">
           {TABS.map(({ label, icon, path }) => (
             <div key={`${label}:${path}`} className={"relative w-full py-0.5"}>
               <Link
@@ -87,12 +120,11 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
               >
                 {({ isActive }) => (
                   <Button
-                    className={`w-full flex justify-start border-0 shadow-none bg-button-primary-default ${
-                      isActive && "bg-button-primary-active hover:bg-button-primary-default"
-                    }`}
+                    className={`w-full min-w-0 flex justify-start border-0 shadow-none bg-button-primary-default ${isActive && "bg-button-primary-active hover:bg-button-primary-default"
+                      }`}
                   >
                     {icon}
-                    <p>{label}</p>
+                    <ResizableLabel label={label} />
                   </Button>
                 )}
               </Link>
