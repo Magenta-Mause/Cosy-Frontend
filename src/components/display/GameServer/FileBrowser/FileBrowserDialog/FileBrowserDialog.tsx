@@ -16,11 +16,9 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 import { downloadSingleFile, joinDir, joinRemotePath, normalizePath } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
 import { zipAndDownload } from "@/lib/zipDownload";
-
+import { type FileBrowserContextValue, FileBrowserProvider } from "../FileBrowserContext";
 import { FileBrowserList } from "../FileBrowserList/FileBrowserList";
 import { FilePreview } from "../FilePreview/FilePreview";
-
-import { FileBrowserProvider, type FileBrowserContextValue } from "../FileBrowserContext";
 
 type FileBrowserDialogProps = {
   width?: number;

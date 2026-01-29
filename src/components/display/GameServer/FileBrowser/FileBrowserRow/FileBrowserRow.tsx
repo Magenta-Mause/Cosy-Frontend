@@ -1,8 +1,7 @@
-import type { FileSystemObjectDto } from "@/api/generated/model";
 import { Download, File, Folder, Pencil, Trash2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import type { FileSystemObjectDto } from "@/api/generated/model";
 import { formatBytes, formatUnixPerms, isDirectory } from "@/lib/fileSystemUtils";
-import { Button } from "@components/ui/button";
+import { cn } from "@/lib/utils";
 
 type Props = {
   obj: FileSystemObjectDto;

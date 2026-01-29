@@ -1,5 +1,5 @@
+import { createContext, useContext, useMemo } from "react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
-import { createContext, useMemo, useContext } from "react";
 
 export type FileBrowserActions = {
   onEntryClick?: (obj: FileSystemObjectDto) => void;

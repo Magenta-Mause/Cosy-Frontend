@@ -1,4 +1,5 @@
-import { cn } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import { useMemo, useState } from "react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import {
@@ -8,15 +9,14 @@ import {
   sortDirsFirst,
   validateName,
 } from "@/lib/fileSystemUtils";
+import { cn } from "@/lib/utils";
 import { DeleteDialog } from "../dialogs/DeleteDialog";
 import { MkdirDialog } from "../dialogs/MkdirDialog";
 import { RenameDialog } from "../dialogs/RenameDialog";
 import { FileBrowserBody } from "../FileBrowserBody/FileBrowserBody";
+import { useFileBrowser } from "../FileBrowserContext";
 import { FileBrowserHeader } from "../FileBrowserHeader/FileBrowserHeader";
 import { FileBrowserPreviewPane } from "../FileBrowserPreviewPane/FileBrowserPreviewPane";
-import { useFileBrowser } from "../FileBrowserContext";
-import { useMemo, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
 
 export const FileBrowserList = () => {
   const {

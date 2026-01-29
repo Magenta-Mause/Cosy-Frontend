@@ -60,7 +60,6 @@ const MetricDisplay = (
     "6": "col-span-6",
   };
 
-
   return (
     <>
       <div className="flex mb-2 w-full items-center justify-end gap-2">

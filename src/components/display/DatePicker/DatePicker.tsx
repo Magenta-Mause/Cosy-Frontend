@@ -1,6 +1,14 @@
 import { Button } from "@components/ui/button";
 import { Calendar } from "@components/ui/calendar";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogMain, DialogTitle } from "@components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogMain,
+  DialogTitle,
+} from "@components/ui/dialog";
 import { addDays } from "date-fns";
 import { useState } from "react";
 import type { DateRange } from "react-day-picker";
@@ -40,14 +48,19 @@ const DatePicker = (props: DatePickerProps) => {
           />
         </DialogMain>
         <DialogFooter>
-          <Button variant="secondary" onClick={() => props.onOpenChange(false)}>{t("timerange.cancel")}</Button>
-          <Button onClick={() => {
-            if (date?.from && date?.to) {
-              props.onRangeChange({ startDate: date.from, endDate: date.to });
-            }
-            props.onOpenChange(false);
-          }}
-          >{t("timerange.apply")}</Button>
+          <Button variant="secondary" onClick={() => props.onOpenChange(false)}>
+            {t("timerange.cancel")}
+          </Button>
+          <Button
+            onClick={() => {
+              if (date?.from && date?.to) {
+                props.onRangeChange({ startDate: date.from, endDate: date.to });
+              }
+              props.onOpenChange(false);
+            }}
+          >
+            {t("timerange.apply")}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

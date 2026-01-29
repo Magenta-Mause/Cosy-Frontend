@@ -101,7 +101,10 @@ const useDataLoading = () => {
       });
       const metricsWithUuid = metrics.map((metric) => ({ ...metric, uuid: generateUuid() }));
       dispatch(
-        gameServerMetricsSliceActions.setGameServerMetrics({ gameServerUuid, metrics: metricsWithUuid })
+        gameServerMetricsSliceActions.setGameServerMetrics({
+          gameServerUuid,
+          metrics: metricsWithUuid,
+        }),
       );
       dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "idle" }));
     } catch {
@@ -139,7 +142,7 @@ const useDataLoading = () => {
     loadInvites,
     loadAllData,
     loadTemplates,
-    loadMetrics
+    loadMetrics,
   };
 };
 
