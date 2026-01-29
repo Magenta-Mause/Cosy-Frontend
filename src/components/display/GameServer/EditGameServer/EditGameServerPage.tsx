@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { parse as parseCommand } from "shell-quote";
 import * as z from "zod";
 import {
+  type EnvironmentVariableConfiguration,
   type GameServerDto,
   type GameServerUpdateDto,
   PortMappingProtocol,
@@ -154,6 +155,18 @@ const EditGameServerPage = (props: {
     const payload: GameServerUpdateDto = {
       ...gameServerState,
       execution_command: parsedExecutionCommand,
+      port_mappings: gameServerState.port_mappings?.filter(
+        (p) => p.instance_port || p.container_port
+      ),
+      environment_variables: gameServerState.environment_variables?.filter(
+        (env) => env.key?.trim() || env.value?.trim()
+      ),
+      volume_mounts: gameServerState.volume_mounts?.filter(
+        (vol) => vol.host_path?.trim() || vol.container_path?.trim()
+      ).map((v) => ({
+        host_path: "DUMMY", // remove this with the host_path refactor
+        container_path: v.container_path,
+      })),
     };
     setLoading(true);
     try {
@@ -231,16 +244,14 @@ const EditGameServerPage = (props: {
           onChange={(ports) =>
             setGameServerState((s) => ({
               ...s,
-              port_mappings: ports
-                .map((p) => {
-                  const hasPorts = p.instance_port || p.container_port;
+              port_mappings: ports.map((p) => {
+                const hasPorts = p.instance_port || p.container_port;
 
-                  return {
-                    ...p,
-                    protocol: hasPorts ? p.protocol || PortMappingProtocol.TCP : undefined,
-                  };
-                })
-                .filter((p) => p.instance_port || p.container_port),
+                return {
+                  ...p,
+                  protocol: hasPorts ? p.protocol || PortMappingProtocol.TCP : undefined,
+                };
+              }),
             }))
           }
           keyValidator={z.number().min(1).max(65535)}
@@ -249,24 +260,23 @@ const EditGameServerPage = (props: {
           required={false}
         />
 
-        <EditKeyValueInput
+        <EditKeyValueInput<{
+          key: string;
+          value: string;
+        }>
           fieldLabel={t("environmentVariablesSelection.title")}
           fieldDescription={t("environmentVariablesSelection.description")}
           value={gameServerState.environment_variables}
           setValue={(vals) =>
             setGameServerState((s) => ({
               ...s,
-              environment_variables: vals,
+              environment_variables: vals as EnvironmentVariableConfiguration[] | undefined,
             }))
           }
-          defaultNewItem={{
-            key: "KEY",
-            value: "VALUE",
-          }}
           onChange={(envs) =>
             setGameServerState((s) => ({
               ...s,
-              environment_variables: envs.filter((env) => env.key?.trim() || env.value?.trim()),
+              environment_variables: envs,
             }))
           }
           placeHolderKeyInput="KEY"
@@ -290,26 +300,23 @@ const EditGameServerPage = (props: {
           onChange={(v) => setExecutionCommandRaw((v ?? "") as string)}
         />
 
-        <EditKeyValueInput
+        <EditKeyValueInput<{
+          host_path: string;
+          container_path: string;
+        }>
           fieldLabel={t("volumeMountSelection.title")}
           fieldDescription={t("volumeMountSelection.description")}
           value={gameServerState.volume_mounts}
           setValue={(vals) =>
             setGameServerState((s) => ({
               ...s,
-              volume_mounts: vals
+              volume_mounts: vals,
             }))
           }
-          defaultNewItem={{
-            host_path: "/etc/cosy",
-            container_path: "/app",
-          }}
           onChange={(volumes) =>
             setGameServerState((s) => ({
               ...s,
-              volume_mounts: volumes.filter(
-                (vol) => vol.host_path?.trim() || vol.container_path?.trim(),
-              ),
+              volume_mounts: volumes,
             }))
           }
           placeHolderKeyInput="Host Path"

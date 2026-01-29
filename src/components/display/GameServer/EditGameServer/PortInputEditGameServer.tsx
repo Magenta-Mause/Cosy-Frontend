@@ -92,11 +92,6 @@ function PortInputEditGameServer({
     <ListInputEdit<PortItem>
       value={rows}
       setParentValue={setValue}
-      defaultNewItem={{
-        key: "4433",
-        value: "4433",
-        protocol: PortMappingProtocol.TCP,
-      }}
       onChange={(rows) => {
         const preProcessValue = (v: string) => Number(v);
         const mapped: PortMapping[] = rows.map((row) => ({

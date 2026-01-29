@@ -14,7 +14,6 @@ interface Props<T extends { uuid: string }> {
   fieldLabel: ReactNode;
   fieldDescription: ReactNode;
   renderRow: (changeCallback: (newVal: T) => void, rowError: boolean) => (item: T) => ReactNode;
-  defaultNewItem: Omit<T, "uuid">;
 }
 
 function ListInputEditGameServer<T extends { uuid: string }>({
@@ -26,7 +25,6 @@ function ListInputEditGameServer<T extends { uuid: string }>({
   fieldLabel,
   checkValidity,
   renderRow,
-  defaultNewItem,
 }: Props<T>) {
   const [rowErrors, setRowErrors] = useState<{ [uuid: string]: boolean }>({});
 
@@ -69,8 +67,8 @@ function ListInputEditGameServer<T extends { uuid: string }>({
   );
 
   const addNewValue = useCallback(() => {
-    setValues((prev) => [...prev, { ...defaultNewItem, uuid: generateUuid() } as T]);
-  }, [setValues, defaultNewItem]);
+    setValues((prev) => [...prev, { uuid: generateUuid() } as T]);
+  }, [setValues]);
 
   return (
     <Field className="py-2">

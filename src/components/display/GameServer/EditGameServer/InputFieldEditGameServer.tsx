@@ -12,7 +12,6 @@ const InputFieldEditGameServer = (props: {
   label?: string;
   description?: string;
   optional?: boolean;
-  defaultValue?: string;
   disabled?: boolean;
 }) => {
   const [touched, setTouched] = useState(false);
@@ -32,24 +31,11 @@ const InputFieldEditGameServer = (props: {
     (value: string) => {
       setTouched(true);
 
-      if (value === "" && props.defaultValue !== undefined) {
-        props.onChange(props.defaultValue);
-        setIsValid(validate(props.defaultValue));
-        return;
-      }
-
       props.onChange(value);
       setIsValid(validate(value));
     },
     [props, validate],
   );
-
-  useEffect(() => {
-    if (props.defaultValue !== undefined && props.value === undefined) {
-      props.onChange(props.defaultValue);
-      setIsValid(validate(props.defaultValue));
-    }
-  }, [props.value, validate, props.defaultValue, props.onChange]);
 
   useEffect(() => {
     if (props.value !== undefined) {

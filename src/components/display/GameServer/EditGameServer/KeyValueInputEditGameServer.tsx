@@ -29,7 +29,6 @@ interface Props<T> {
   inputType: InputType;
   objectKey: keyof T;
   objectValue: keyof T;
-  defaultNewItem: T;
 }
 
 function EditKeyValueInput<T extends Record<string, string>>({
@@ -47,7 +46,6 @@ function EditKeyValueInput<T extends Record<string, string>>({
   inputType,
   objectKey,
   objectValue,
-  defaultNewItem,
 }: Props<T>) {
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
@@ -122,10 +120,6 @@ function EditKeyValueInput<T extends Record<string, string>>({
       errorLabel={errorLabel}
       fieldLabel={fieldLabel}
       fieldDescription={fieldDescription}
-      defaultNewItem={{
-        key: defaultNewItem[objectKey] ?? "",
-        value: defaultNewItem[objectValue] ?? "",
-      }}
       renderRow={(changeCallback, rowError) => (row) => (
         <Fragment key={row.uuid}>
           <div className="flex gap-2 items-center">
