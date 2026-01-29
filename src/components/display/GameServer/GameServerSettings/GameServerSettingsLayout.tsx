@@ -21,7 +21,7 @@ const SettingsProvider = createContext<SettingsContextType>({
 });
 
 const iconStyles: CSSProperties = {
-  scale: 1.8,
+  transform: "scale(1.8)",
 };
 
 const TABS = [
