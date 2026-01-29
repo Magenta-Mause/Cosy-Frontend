@@ -112,11 +112,6 @@ const GenericGameServerCreationInputField = (props: {
 
   return (
     <div>
-      {props.label && (
-        <div className="flex justify-between">
-          <label htmlFor={props.attribute}>{props.label}</label>
-        </div>
-      )}
       <Input
         className={isError ? "border-red-500" : ""}
         description={props.description}
@@ -131,14 +126,6 @@ const GenericGameServerCreationInputField = (props: {
           }
         }}
       />
-      {(props.description || props.maxLimit !== undefined) && (
-        <DialogDescription>
-          {props.description}
-          {props.maxLimit !== undefined && (
-            <span> (Limit: {props.maxLimit !== null ? props.maxLimit : "∞"})</span>
-          )}
-        </DialogDescription>
-      )}
       {isError && <FieldError>{props.errorLabel}</FieldError>}
     </div>
   );
