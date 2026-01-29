@@ -1,10 +1,9 @@
 import { FieldError } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ZodType } from "zod";
 
 const InputFieldEditGameServer = (props: {
-  id: string;
   value?: string | number;
   onChange: (value: string | number | undefined) => void;
   validator: ZodType;
@@ -50,7 +49,13 @@ const InputFieldEditGameServer = (props: {
       props.onChange(props.defaultValue);
       setIsValid(validate(props.defaultValue));
     }
-  }, [props, validate]);
+  }, [props.value, validate, props.defaultValue, props.onChange]);
+
+  useEffect(() => {
+    if (props.value !== undefined) {
+      setIsValid(validate(props.value));
+    }
+  }, [props.value, validate]);
 
   useEffect(() => {
     if (props.optional) {
@@ -64,7 +69,6 @@ const InputFieldEditGameServer = (props: {
       <Input
         header={props.label}
         description={props.description}
-        id={props.id}
         className={isError ? "border-red-500" : ""}
         placeholder={props.placeholder}
         value={props.value ?? ""}

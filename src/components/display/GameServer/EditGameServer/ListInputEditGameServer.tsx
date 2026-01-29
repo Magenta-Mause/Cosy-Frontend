@@ -2,7 +2,7 @@ import { Button } from "@components/ui/button.tsx";
 import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
 import { CircleAlertIcon, Plus, Trash2 } from "lucide-react";
-import { type ReactNode, useCallback, useState } from "react";
+import { type ReactNode, useCallback, useEffect, useState } from "react";
 import { v7 as generateUuid } from "uuid";
 
 interface Props<T extends { uuid: string }> {
@@ -29,6 +29,14 @@ function ListInputEditGameServer<T extends { uuid: string }>({
   defaultNewItem,
 }: Props<T>) {
   const [rowErrors, setRowErrors] = useState<{ [uuid: string]: boolean }>({});
+
+  useEffect(() => {
+    const newRowErrors: { [uuid: string]: boolean } = {};
+    (value ?? []).forEach((item) => {
+      newRowErrors[item.uuid] = !checkValidity(item);
+    });
+    setRowErrors(newRowErrors);
+  }, [value, checkValidity]);
 
   const setValues = useCallback(
     (callback: (prevVals: T[]) => T[]) => {

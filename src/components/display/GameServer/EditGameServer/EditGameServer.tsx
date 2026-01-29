@@ -180,7 +180,6 @@ const EditGameServer = (props: {
 
       <div>
         <InputFieldEditGameServer
-          id="server_name"
           label={t("serverNameSelection.title")}
           value={gameServerState.server_name}
           onChange={(v) => setGameServerState((s) => ({ ...s, server_name: v as string }))}
@@ -191,7 +190,6 @@ const EditGameServer = (props: {
         />
 
         <InputFieldEditGameServer
-          id="game_uuid"
           validator={z.string().min(1)}
           placeholder="Game"
           label={t("gameSelection.title")}
@@ -205,7 +203,6 @@ const EditGameServer = (props: {
 
         <div className="grid grid-cols-2 gap-4">
           <InputFieldEditGameServer
-            id="docker_image_name"
             validator={z.string().min(1)}
             placeholder="nginx"
             label={t("dockerImageSelection.title")}
@@ -216,7 +213,6 @@ const EditGameServer = (props: {
           />
 
           <InputFieldEditGameServer
-            id="docker_image_tag"
             validator={z.string().min(1)}
             placeholder="latest"
             label={t("imageTagSelection.title")}
@@ -290,7 +286,6 @@ const EditGameServer = (props: {
         />
 
         <InputFieldEditGameServer
-          id="execution_command"
           validator={z.string()}
           placeholder="./start.sh"
           label={t("executionCommandSelection.title")}
