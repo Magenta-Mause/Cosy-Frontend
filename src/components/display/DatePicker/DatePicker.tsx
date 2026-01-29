@@ -13,16 +13,41 @@ interface DatePickerProps {
 }
 const DatePicker = (props: DatePickerProps) => {
   const { t } = useTranslation();
+  const [clickCount, setClickCount] = useState(0);
 
   const today = new Date();
-  const [date, setDate] = useState<DateRange | undefined>({
-    from: addDays(today, -7),
-    to: today
-  });
+  const [date, setDate] = useState<DateRange | undefined>(undefined);
 
   const handleSelectRange = (range: DateRange | undefined) => {
-    if (!range?.from || !range?.to) return;
-    setDate(range);
+    if (!range?.from) return;
+
+    if (clickCount === 0) {
+      setDate((prev) => {
+        if (prev?.from && range.from && prev.from > range.from) {
+          return {
+            from: range.from,
+            to: range.from
+          }
+        } else if (range.from && range.to && range.to > range.from) {
+          return {
+            from: range.to,
+            to: range.to
+          }
+        } else {
+          return {
+            from: range.from,
+            to: range.to
+          }
+        }
+      })
+      setClickCount(1);
+    } else {
+      setDate((prev) => ({
+        from: prev?.from,
+        to: range?.to || range?.from
+      }));
+      setClickCount(0);
+    }
   };
 
   return (
