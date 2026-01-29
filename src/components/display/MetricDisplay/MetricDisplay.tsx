@@ -2,7 +2,6 @@ import { Button } from "@components/ui/button";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { set } from "zod";
 import spinner from "@/assets/gifs/spinner.gif";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading";
 import { useTypedSelector } from "@/stores/rootReducer";
