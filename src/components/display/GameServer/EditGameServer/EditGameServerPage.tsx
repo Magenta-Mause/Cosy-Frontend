@@ -290,10 +290,7 @@ const EditGameServerPage = (props: {
           onChange={(v) => setExecutionCommandRaw((v ?? "") as string)}
         />
 
-        <EditKeyValueInput<{
-          host_path: string;
-          container_path: string;
-        }>
+        <EditKeyValueInput
           fieldLabel={t("volumeMountSelection.title")}
           fieldDescription={t("volumeMountSelection.description")}
           value={gameServerState.volume_mounts}
