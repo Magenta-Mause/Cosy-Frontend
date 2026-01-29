@@ -113,7 +113,7 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }), `${props.disabled ? "active:shadow-md active:shadow-button-drop-shadow" : ""}`)}
+      className={cn(buttonVariants({ variant, size, className }), `${props.disabled ? "active:shadow-md" : ""}`)}
       {...props}
     >
       {props.children}
