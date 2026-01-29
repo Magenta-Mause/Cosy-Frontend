@@ -59,7 +59,9 @@ export const InviteForm = ({
             />
           </div>
           <div className="flex flex-col justify-start ">
-            <Label className="font-bold text-sm pb-2 leading-5.5" htmlFor="invite-role">{t("userModal.roleLabel")}</Label>
+            <Label className="font-bold text-sm pb-2 leading-5.5" htmlFor="invite-role">
+              {t("userModal.roleLabel")}
+            </Label>
             <Select defaultValue={userRole} onValueChange={onUserRoleChange}>
               <SelectTrigger id={"invite-role"} className="py-1 text-base w-23.75">
                 <SelectValue placeholder={t("userModal.rolePlaceholder")} />
@@ -80,50 +82,49 @@ export const InviteForm = ({
           <div className="w-[50%]">
             <Input
               header={t("userModal.memoryLimit")}
-              description={t("userModal.memoryDescription")}>
-            </Input>
+              description={t("userModal.memoryDescription")}
+            ></Input>
           </div>
-        <label htmlFor="invite-username">{t("userModal.usernameLabel")}</label>
-        <Input
-          id="invite-username"
-          placeholder={t("userModal.usernamePlaceholder")}
-          value={username}
-          onChange={(e) => onUsernameChange(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              onSubmit();
-            }
-          }}
-        />
-        <p className="text-xs text-muted-foreground">{t("userModal.usernameDescription")}</p>
-        <div className="flex justify-between">
-          <div className="w-[45%]">
-            <Label htmlFor="memory-limit">{t("userModal.memoryLimit")}</Label>
-            <MemoryLimitInput
-              id="memory-limit"
-              placeholder={t("userModal.placeholder")}
-              value={memory}
-              onChange={(val) => onMemoryChange(val === "" ? null : val)}
-              className="no-spinner"
-            />
-          </div>
-          <div className="w-[50%]">
-            <Input
-              header={t("userModal.cpuLimit")}
-              description={t("userModal.cpuDescription")}
-              id="cpu-limit"
-              type="number"
-              placeholder={t("userModal.placeholder")}
-              endDecorator="CPUs"
-              value={cpu ?? ""}
-              onChange={(e) => onCpuChange(e.target.value === "" ? null : Number(e.target.value))}
-              className="no-spinner"
-            />
+          <label htmlFor="invite-username">{t("userModal.usernameLabel")}</label>
+          <Input
+            id="invite-username"
+            placeholder={t("userModal.usernamePlaceholder")}
+            value={username}
+            onChange={(e) => onUsernameChange(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                onSubmit();
+              }
+            }}
+          />
+          <p className="text-xs text-muted-foreground">{t("userModal.usernameDescription")}</p>
+          <div className="flex justify-between">
+            <div className="w-[45%]">
+              <Label htmlFor="memory-limit">{t("userModal.memoryLimit")}</Label>
+              <MemoryLimitInput
+                id="memory-limit"
+                placeholder={t("userModal.placeholder")}
+                value={memory}
+                onChange={(val) => onMemoryChange(val === "" ? null : val)}
+                className="no-spinner"
+              />
+            </div>
+            <div className="w-[50%]">
+              <Input
+                header={t("userModal.cpuLimit")}
+                description={t("userModal.cpuDescription")}
+                id="cpu-limit"
+                type="number"
+                placeholder={t("userModal.placeholder")}
+                endDecorator="CPUs"
+                value={cpu ?? ""}
+                onChange={(e) => onCpuChange(e.target.value === "" ? null : Number(e.target.value))}
+                className="no-spinner"
+              />
+            </div>
           </div>
         </div>
-
       </div>
-    </div>
     </div>
   );
 };
