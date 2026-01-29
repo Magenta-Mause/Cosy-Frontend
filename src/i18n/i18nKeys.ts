@@ -279,6 +279,15 @@ export type i18nLanguage = {
         description: string;
       };
     };
+    GameServerSettings: {
+      tabs: {
+        general: string;
+        privateDashboard: string;
+        publicDashboard: string;
+        metrics: string;
+        accessManagement: string;
+      };
+    };
   };
   genericModal: {
     cancel: string;

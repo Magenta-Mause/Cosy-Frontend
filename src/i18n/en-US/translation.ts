@@ -255,6 +255,15 @@ const translation: i18nLanguage = {
         description: "Volume mounts for your server",
       },
     },
+    GameServerSettings: {
+      tabs: {
+        general: "General",
+        privateDashboard: "Private Dashboard",
+        publicDashboard: "Public Dashboard",
+        metrics: "Metrics",
+        accessManagement: "Access Management",
+      },
+    },
   },
   consequence: "asd{{counter}}ajskod",
   genericModal: {

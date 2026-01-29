@@ -3,6 +3,7 @@ import Link from "@components/ui/Link";
 import { Separator } from "@components/ui/separator.tsx";
 import { ChartAreaIcon, LayoutDashboardIcon, SettingsIcon, User } from "lucide-react";
 import { type CSSProperties, createContext, useCallback, useState } from "react";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 interface ServerSettingsState {
   serverName: string;
@@ -24,34 +25,6 @@ const iconStyles: CSSProperties = {
   transform: "scale(1.8)",
 };
 
-const TABS = [
-  {
-    label: "general",
-    icon: <SettingsIcon style={iconStyles} className="mr-2" />,
-    path: "/server/$serverId/settings/general",
-  },
-  {
-    label: "privateDashboard",
-    icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
-    path: "/server/$serverId/settings/privateDashboard",
-  },
-  {
-    label: "publicDashboard",
-    icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
-    path: "/server/$serverId/settings/publicDashboard",
-  },
-  {
-    label: "metrics",
-    icon: <ChartAreaIcon style={iconStyles} className="mr-2" />,
-    path: "/server/$serverId/settings/metrics",
-  },
-  {
-    label: "accessManagement",
-    icon: <User style={iconStyles} className="mr-2" />,
-    path: "/server/$serverId/settings/accessManagement",
-  },
-];
-
 interface GameServerSettingsProps {
   initialSettings: ServerSettingsState;
   children: React.ReactNode;
@@ -59,6 +32,36 @@ interface GameServerSettingsProps {
 
 const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSettingsProps) => {
   const [serverSettings, setServerSettings] = useState<ServerSettingsState>(initialSettings);
+
+  const { t } = useTranslationPrefix("components.GameServerSettings");
+
+  const TABS = [
+    {
+      label: t("tabs.general"),
+      icon: <SettingsIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/general",
+    },
+    {
+      label: t("tabs.privateDashboard"),
+      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/privateDashboard",
+    },
+    {
+      label: t("tabs.publicDashboard"),
+      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/publicDashboard",
+    },
+    {
+      label: t("tabs.metrics"),
+      icon: <ChartAreaIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/metrics",
+    },
+    {
+      label: t("tabs.accessManagement"),
+      icon: <User style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/accessManagement",
+    },
+  ];
 
   const setSettings: SettingsContextType["setSettings"] = useCallback(
     (settingsKey) => (newValue) => {

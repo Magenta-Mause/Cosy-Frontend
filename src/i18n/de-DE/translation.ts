@@ -259,6 +259,15 @@ const translation: i18nLanguage = {
         description: "Volume-Mounts für deinen Server",
       },
     },
+    GameServerSettings: {
+      tabs: {
+        general: "Allgemein",
+        privateDashboard: "Privates Dashboard",
+        publicDashboard: "Öffentliches Dashboard",
+        metrics: "Metriken",
+        accessManagement: "Zugriffsverwaltung",
+      },
+    },
   },
   genericModal: {
     cancel: "Abbrechen",
