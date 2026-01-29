@@ -45,13 +45,13 @@ export const RenameDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Rename</DialogTitle>
+          <DialogTitle>{t("renameAction")}</DialogTitle>
           <DialogDescription>
             {obj
               ? t("renameDescription", {
-                  fileName: obj.name,
-                  currentPath,
-                })
+                fileName: obj.name,
+                currentPath,
+              })
               : null}
           </DialogDescription>
         </DialogHeader>
@@ -74,7 +74,7 @@ export const RenameDialog = ({
 
         <DialogFooter>
           <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={busy}>
-            Cancel
+            {t("cancel")}
           </Button>
           <Button onClick={onSubmit} disabled={busy || !obj}>
             {busy ? t("renameInProgress") : t("renameAction")}

@@ -1,6 +1,7 @@
 import { FileBrowserDialog } from "@components/display/GameServer/FileBrowser/FileBrowserDialog/FileBrowserDialog";
 import { createFileRoute } from "@tanstack/react-router";
 import useGameServer from "@/hooks/useGameServer/useGameServer";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/server/$serverId/files/")({
   component: RouteComponent,
@@ -9,9 +10,12 @@ export const Route = createFileRoute("/server/$serverId/files/")({
 function RouteComponent() {
   const { serverId } = Route.useParams();
   const gameServer = useGameServer(serverId);
+  const { t } = useTranslation();
 
   if (gameServer === undefined)
-    return <div className="flex justify-center items-center h-screen">Loading Game Server</div>;
+    return (
+      <div className="flex justify-center items-center h-screen">{t("filesPage.loading")}</div>
+    );
 
   return (
     <div className="container mx-auto flex flex-col gap-4 grow h-full">

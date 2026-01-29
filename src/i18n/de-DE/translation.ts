@@ -120,7 +120,6 @@ const translation: i18nLanguage = {
     loading: "Lädt...",
     logout: "Abmelden",
   },
-  consequence: "asd{{counter}}ajskod",
   logDisplay: {
     serverLog: "Server-Protokoll",
     timestampFormat: "HH:mm:ss.SSS",
@@ -148,6 +147,9 @@ const translation: i18nLanguage = {
     PULLING_IMAGE: "Image wird geladen",
     AWAITING_UPDATE: "Lädt...",
     STOPPING: "Stoppt...",
+  },
+  filesPage: {
+    loading: "Lade Gameserver",
   },
   components: {
     TemplateVariableForm: {
@@ -293,7 +295,7 @@ const translation: i18nLanguage = {
         downloadZipFailure: "Zip-Archiv konnte nicht heruntergeladen werden",
         preparing: "Vorbereiten...",
         downloadingFile: "Downloadfortschritt: {{done}}/{{total}}",
-        downloadAllAction: "Alle Herunterladen",
+        downloadAllAction: "Ordner Herunterladen",
         uploadFile: "Hochladen",
         renamePlaceholder: "z. Bsp. server.log",
       },

@@ -119,9 +119,9 @@ const translation: i18nLanguage = {
     loading: "Loading...",
     logout: "Logout",
   },
-
-  consequence: "asd{{counter}}ajskod",
-
+  filesPage: {
+    loading: "Loading Game Server",
+  },
   components: {
     TemplateVariableForm: {
       title: "Template Variables",
@@ -265,7 +265,7 @@ const translation: i18nLanguage = {
         downloadZipFailure: "Failed to download zip",
         preparing: "Preparing...",
         downloadingFile: "Downloading {{done}}/{{total}}",
-        downloadAllAction: "Download All",
+        downloadAllAction: "Download Directory",
         uploadFile: "Upload",
         renamePlaceholder: "e.g. server.log",
       },

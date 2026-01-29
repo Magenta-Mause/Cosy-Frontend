@@ -115,7 +115,6 @@ export type i18nLanguage = {
     loading: string;
     logout: string;
   };
-  consequence: ContainsVariable<"counter">; // example
   logDisplay: {
     serverLog: string;
     timestampFormat: string;
@@ -143,6 +142,9 @@ export type i18nLanguage = {
     PULLING_IMAGE: string;
     AWAITING_UPDATE: string;
     STOPPING: string;
+  };
+  filesPage: {
+    loading: string;
   };
   components: {
     TemplateVariableForm: {

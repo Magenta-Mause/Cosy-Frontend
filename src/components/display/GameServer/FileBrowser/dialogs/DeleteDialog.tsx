@@ -29,7 +29,7 @@ export const DeleteDialog = ({ open, onOpenChange, obj, busy, error, t, onSubmit
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete</DialogTitle>
+          <DialogTitle>{t("deleteAction")}</DialogTitle>
           <DialogDescription>
             {obj ? t("deleteDescription", { fileName: obj.name }) : null}
           </DialogDescription>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getFileSystemForVolume } from "@/api/generated/backend-api";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
 import { normalizePath } from "@/lib/fileSystemUtils";
@@ -96,12 +96,17 @@ export function useFileBrowserCache(opts: {
   const [error, setError] = useState<string | null>(null);
 
   const mountTrie = useMemo(() => buildMountTrie(opts.volumes), [opts.volumes]);
+  const cacheRef = useRef(cache);
+
+  useEffect(() => {
+    cacheRef.current = cache;
+  }, [cache]);
 
   const ensurePathFetched = useCallback(
     async (path: string, depth: number, force?: boolean) => {
       const norm = normalizePath(path);
 
-      const existing = cache.get(norm);
+      const existing = cacheRef.current.get(norm);
       if (!force && existing && existing.fetchDepth >= depth) {
         setObjects(existing.objects);
         return;
@@ -150,7 +155,7 @@ export function useFileBrowserCache(opts: {
         setLoading(false);
       }
     },
-    [cache, mountTrie, opts.serverUuid],
+    [mountTrie, opts.serverUuid],
   );
 
   useEffect(() => {
