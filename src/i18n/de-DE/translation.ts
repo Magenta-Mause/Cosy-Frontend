@@ -55,7 +55,6 @@ const translation: i18nLanguage = {
       "Teilen Sie diesen Link mit der Person, die Sie einladen möchten. Sie kann ihn nutzen, um ihr Konto zu erstellen.",
     copyLink: "Einladungslink kopieren",
     backToUsers: "Zurück zur Erstellung",
-    backToUsers: "Zurück zur Erstellung",
     pendingInvites: "Ausstehende Einladungen",
     unclaimedInvite: "Nicht beanspruchte Einladung",
     created: "Erstellt: {{date}}",

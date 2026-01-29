@@ -1,5 +1,4 @@
 import { Button } from "@components/ui/button.tsx";
-import { Label } from "@components/ui/label";
 import { useEffect, useMemo, useState } from "react";
 import { parse as parseCommand } from "shell-quote";
 import * as z from "zod";

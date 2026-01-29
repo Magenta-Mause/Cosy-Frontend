@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsersRouteImport } from './routes/users'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServerServerIdRouteImport } from './routes/server/$serverId'
-<<<<<<< HEAD
 import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId/index'
 import { Route as ServerServerIdSettingsRouteImport } from './routes/server/$serverId/settings'
 import { Route as ServerServerIdMetricsRouteImport } from './routes/server/$serverId.metrics'
@@ -22,11 +21,6 @@ import { Route as ServerServerIdSettingsPrivateDashboardRouteImport } from './ro
 import { Route as ServerServerIdSettingsMetricsRouteImport } from './routes/server/$serverId/settings/metrics'
 import { Route as ServerServerIdSettingsGeneralRouteImport } from './routes/server/$serverId/settings/general'
 import { Route as ServerServerIdSettingsAccessManagementRouteImport } from './routes/server/$serverId/settings/accessManagement'
-=======
-import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId.index'
-import { Route as ServerServerIdMetricsRouteImport } from './routes/server/$serverId.metrics'
-import { Route as ServerServerIdConsoleRouteImport } from './routes/server/$serverId.console'
->>>>>>> origin
 
 const UsersRoute = UsersRouteImport.update({
   id: '/users',
@@ -48,14 +42,11 @@ const ServerServerIdIndexRoute = ServerServerIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ServerServerIdRoute,
 } as any)
-<<<<<<< HEAD
 const ServerServerIdSettingsRoute = ServerServerIdSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
   getParentRoute: () => ServerServerIdRoute,
 } as any)
-=======
->>>>>>> origin
 const ServerServerIdMetricsRoute = ServerServerIdMetricsRouteImport.update({
   id: '/metrics',
   path: '/metrics',
@@ -103,10 +94,7 @@ export interface FileRoutesByFullPath {
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
-<<<<<<< HEAD
   '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
-=======
->>>>>>> origin
   '/server/$serverId/': typeof ServerServerIdIndexRoute
   '/server/$serverId/settings/accessManagement': typeof ServerServerIdSettingsAccessManagementRoute
   '/server/$serverId/settings/general': typeof ServerServerIdSettingsGeneralRoute
@@ -119,10 +107,7 @@ export interface FileRoutesByTo {
   '/users': typeof UsersRoute
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
-<<<<<<< HEAD
   '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
-=======
->>>>>>> origin
   '/server/$serverId': typeof ServerServerIdIndexRoute
   '/server/$serverId/settings/accessManagement': typeof ServerServerIdSettingsAccessManagementRoute
   '/server/$serverId/settings/general': typeof ServerServerIdSettingsGeneralRoute
@@ -137,10 +122,7 @@ export interface FileRoutesById {
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
-<<<<<<< HEAD
   '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
-=======
->>>>>>> origin
   '/server/$serverId/': typeof ServerServerIdIndexRoute
   '/server/$serverId/settings/accessManagement': typeof ServerServerIdSettingsAccessManagementRoute
   '/server/$serverId/settings/general': typeof ServerServerIdSettingsGeneralRoute
@@ -156,10 +138,7 @@ export interface FileRouteTypes {
     | '/server/$serverId'
     | '/server/$serverId/console'
     | '/server/$serverId/metrics'
-<<<<<<< HEAD
     | '/server/$serverId/settings'
-=======
->>>>>>> origin
     | '/server/$serverId/'
     | '/server/$serverId/settings/accessManagement'
     | '/server/$serverId/settings/general'
@@ -172,7 +151,6 @@ export interface FileRouteTypes {
     | '/users'
     | '/server/$serverId/console'
     | '/server/$serverId/metrics'
-<<<<<<< HEAD
     | '/server/$serverId/settings'
     | '/server/$serverId'
     | '/server/$serverId/settings/accessManagement'
@@ -180,9 +158,6 @@ export interface FileRouteTypes {
     | '/server/$serverId/settings/metrics'
     | '/server/$serverId/settings/privateDashboard'
     | '/server/$serverId/settings/publicDashboard'
-=======
-    | '/server/$serverId'
->>>>>>> origin
   id:
     | '__root__'
     | '/'
@@ -190,10 +165,7 @@ export interface FileRouteTypes {
     | '/server/$serverId'
     | '/server/$serverId/console'
     | '/server/$serverId/metrics'
-<<<<<<< HEAD
     | '/server/$serverId/settings'
-=======
->>>>>>> origin
     | '/server/$serverId/'
     | '/server/$serverId/settings/accessManagement'
     | '/server/$serverId/settings/general'
@@ -238,7 +210,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServerServerIdIndexRouteImport
       parentRoute: typeof ServerServerIdRoute
     }
-<<<<<<< HEAD
     '/server/$serverId/settings': {
       id: '/server/$serverId/settings'
       path: '/settings'
@@ -246,8 +217,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServerServerIdSettingsRouteImport
       parentRoute: typeof ServerServerIdRoute
     }
-=======
->>>>>>> origin
     '/server/$serverId/metrics': {
       id: '/server/$serverId/metrics'
       path: '/metrics'
@@ -328,20 +297,14 @@ const ServerServerIdSettingsRouteWithChildren =
 interface ServerServerIdRouteChildren {
   ServerServerIdConsoleRoute: typeof ServerServerIdConsoleRoute
   ServerServerIdMetricsRoute: typeof ServerServerIdMetricsRoute
-<<<<<<< HEAD
   ServerServerIdSettingsRoute: typeof ServerServerIdSettingsRouteWithChildren
-=======
->>>>>>> origin
   ServerServerIdIndexRoute: typeof ServerServerIdIndexRoute
 }
 
 const ServerServerIdRouteChildren: ServerServerIdRouteChildren = {
   ServerServerIdConsoleRoute: ServerServerIdConsoleRoute,
   ServerServerIdMetricsRoute: ServerServerIdMetricsRoute,
-<<<<<<< HEAD
   ServerServerIdSettingsRoute: ServerServerIdSettingsRouteWithChildren,
-=======
->>>>>>> origin
   ServerServerIdIndexRoute: ServerServerIdIndexRoute,
 }
 
