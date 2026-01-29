@@ -18,33 +18,35 @@ const DatePicker = (props: DatePickerProps) => {
   const today = new Date();
   const [date, setDate] = useState<DateRange | undefined>(undefined);
 
+  const handleFirstSelection = (range: DateRange, prev?: DateRange) => {
+    if (prev?.from && range.from && prev.from > range.from) {
+      return {
+        from: range.from,
+        to: range.from
+      }
+    } else if (range.from && range.to && range.to > range.from) {
+      return {
+        from: range.to,
+        to: range.to
+      }
+    } else {
+      return {
+        from: range.from,
+        to: range.to
+      }
+    }
+  }
+
   const handleSelectRange = (range: DateRange | undefined) => {
     if (!range?.from) return;
 
     if (clickCount === 0) {
-      setDate((prev) => {
-        if (prev?.from && range.from && prev.from > range.from) {
-          return {
-            from: range.from,
-            to: range.from
-          }
-        } else if (range.from && range.to && range.to > range.from) {
-          return {
-            from: range.to,
-            to: range.to
-          }
-        } else {
-          return {
-            from: range.from,
-            to: range.to
-          }
-        }
-      })
+      setDate((prev) => (handleFirstSelection(range, prev)))
       setClickCount(1);
     } else {
       setDate((prev) => ({
         from: prev?.from,
-        to: range?.to || range?.from
+        to: range?.to
       }));
       setClickCount(0);
     }
