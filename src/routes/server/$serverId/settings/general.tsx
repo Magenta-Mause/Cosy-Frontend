@@ -6,9 +6,5 @@ export const Route = createFileRoute("/server/$serverId/settings/general")({
 });
 
 function RouteComponent() {
-  return (
-    <div>
-      <GeneralSettingsSection />
-    </div>
-  );
+  return <GeneralSettingsSection />
 }
