@@ -1,7 +1,6 @@
 import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
 import PortInput from "@components/display/GameServer/CreateGameServer/PortInput.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { DialogDescription } from "@components/ui/dialog.tsx";
 import { useContext } from "react";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";

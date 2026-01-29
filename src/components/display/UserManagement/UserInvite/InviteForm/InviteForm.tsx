@@ -80,7 +80,9 @@ export const InviteForm = ({
           <div className="w-[50%]">
             <Input
               header={t("userModal.memoryLimit")}
-              description={t("userModal.memoryDescription")}
+              description={t("userModal.memoryDescription")}>
+            </Input>
+          </div>
         <label htmlFor="invite-username">{t("userModal.usernameLabel")}</label>
         <Input
           id="invite-username"
@@ -121,6 +123,7 @@ export const InviteForm = ({
         </div>
 
       </div>
+    </div>
     </div>
   );
 };

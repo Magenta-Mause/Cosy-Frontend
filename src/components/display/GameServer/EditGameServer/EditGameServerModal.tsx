@@ -1,3 +1,4 @@
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
@@ -55,7 +56,7 @@ const EditGameServerModal = (props: {
 }) => {
   const { t } = useTranslationPrefix("components.editGameServer");
   const { cpuLimit, memoryLimit } = useContext(AuthContext);
-  const [loading, setLoading] = useState(false) to start. Port 8080 was already in use.;
+  const [loading, setLoading] = useState(false);
   const [gameServerState, setGameServerState] = useState<ExtendedGameServerUpdateDto>(() =>
     mapGameServerDtoToUpdate(props.gameServer),
   );

@@ -27,8 +27,7 @@ const RoleFilter = ({ selectedRole, onRoleChange }: RoleFilterProps) => {
           <Funnel className="size-5" />
           {selectedRole
             ? t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)
-            : t("components.userManagement.userTable.filter")
-          }
+            : t("components.userManagement.userTable.filter")}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

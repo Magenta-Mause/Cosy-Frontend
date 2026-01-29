@@ -123,27 +123,27 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                 </p>
               )}
               <div className="space-y-7">
-
-              {inviteData?.docker_hardware_limits && (
-                <div className="flex flex-col gap-2 mb-4 justify-center items-center">
-                  <div className="flex gap-2">
-                    {inviteData.docker_hardware_limits.docker_max_cpu_cores && (
-                      <Badge variant="outline">
-                        {t("inviteRedemption.cpuLimit", {
-                          cpu: inviteData.docker_hardware_limits.docker_max_cpu_cores,
-                        })}
-                      </Badge>
-                    )}
-                    {inviteData.docker_hardware_limits.docker_memory_limit && (
-                      <Badge variant="outline">
-                        {t("inviteRedemption.memoryLimit", {
-                          memory: inviteData.docker_hardware_limits.docker_memory_limit,
-                        })}
-                      </Badge>
-                    )}
+                {inviteData?.docker_hardware_limits && (
+                  <div className="flex flex-col gap-2 mb-4 justify-center items-center">
+                    <div className="flex gap-2">
+                      {inviteData.docker_hardware_limits.docker_max_cpu_cores && (
+                        <Badge variant="outline">
+                          {t("inviteRedemption.cpuLimit", {
+                            cpu: inviteData.docker_hardware_limits.docker_max_cpu_cores,
+                          })}
+                        </Badge>
+                      )}
+                      {inviteData.docker_hardware_limits.docker_memory_limit && (
+                        <Badge variant="outline">
+                          {t("inviteRedemption.memoryLimit", {
+                            memory: inviteData.docker_hardware_limits.docker_memory_limit,
+                          })}
+                        </Badge>
+                      )}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
 
               <div className="space-y-2">
                 <label
@@ -154,9 +154,8 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                 </label>
                 <Input
                   header={t("inviteRedemption.usernameLabel")}
-                  description={inviteData?.username
-                    ? t("inviteRedemption.usernameSetByInviter")
-                    : ""
+                  description={
+                    inviteData?.username ? t("inviteRedemption.usernameSetByInviter") : ""
                   }
                   id="username"
                   value={username}
