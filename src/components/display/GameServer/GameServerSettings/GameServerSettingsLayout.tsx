@@ -8,14 +8,14 @@ interface ServerSettingsState {
   serverName: string;
 }
 
-interface SettingsProvider {
+interface SettingsContextType {
   settings: ServerSettingsState;
   setSettings: <K extends keyof ServerSettingsState>(
     ServerSettingsStateKey: K,
   ) => (value: ServerSettingsState[K]) => void;
 }
 
-const SettingsProvider = createContext<SettingsProvider>({
+const SettingsProvider = createContext<SettingsContextType>({
   settings: { serverName: "" },
   setSettings: () => () => {},
 });
@@ -60,7 +60,7 @@ interface GameServerSettingsProps {
 const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSettingsProps) => {
   const [serverSettings, setServerSettings] = useState<ServerSettingsState>(initialSettings);
 
-  const setSettings: SettingsProvider["setSettings"] = useCallback(
+  const setSettings: SettingsContextType["setSettings"] = useCallback(
     (settingsKey) => (newValue) => {
       setServerSettings((prevSettings) => ({
         ...prevSettings,
