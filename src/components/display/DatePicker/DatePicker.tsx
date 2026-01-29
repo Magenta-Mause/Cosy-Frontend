@@ -13,9 +13,11 @@ interface DatePickerProps {
 }
 const DatePicker = (props: DatePickerProps) => {
   const { t } = useTranslation();
+
+  const today = new Date();
   const [date, setDate] = useState<DateRange | undefined>({
-    from: new Date(new Date().getFullYear(), 0, 20),
-    to: addDays(new Date(new Date().getFullYear(), 0, 20), 20),
+    from: addDays(today, -7),
+    to: today
   });
 
   const handleSelectRange = (range: DateRange | undefined) => {
@@ -37,6 +39,7 @@ const DatePicker = (props: DatePickerProps) => {
             selected={date}
             onSelect={handleSelectRange}
             numberOfMonths={2}
+            disabled={{ after: today }}
           />
         </DialogMain>
         <DialogFooter>

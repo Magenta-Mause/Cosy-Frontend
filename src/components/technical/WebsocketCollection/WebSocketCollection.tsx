@@ -8,7 +8,7 @@ import type {
 } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
-import { gameServerMetricsSliceActions, gameServerMetricsSliceReducer } from "@/stores/slices/gameServerMetrics";
+import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 interface GameServerStatusUpdateDto {
