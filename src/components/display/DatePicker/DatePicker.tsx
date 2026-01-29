@@ -19,22 +19,29 @@ const DatePicker = (props: DatePickerProps) => {
   const [date, setDate] = useState<DateRange | undefined>(undefined);
 
   const handleFirstSelection = (range: DateRange, prev?: DateRange) => {
-    if (prev?.from && range.from && prev.from > range.from) {
-      return {
-        from: range.from,
-        to: range.from
-      }
-    } else if (range.from && range.to && range.to > range.from) {
-      return {
-        from: range.to,
-        to: range.to
-      }
-    } else {
-      return {
-        from: range.from,
-        to: range.to
-      }
+    const { from, to } = range
+    if (!from) return range
+
+    if (prev?.from && prev.from > from) {
+      return { from: from, to: from }
     }
+
+    if (from && to && to > from) {
+      return { from: to, to: to }
+    }
+
+    return { from, to }
+  }
+
+  const handleSecondSelection = (range: DateRange, prev?: DateRange) => {
+    const { from, to } = range
+    if (!to) return range
+
+    if (from && from < to) {
+      return { from, to }
+    }
+
+    return { from: prev?.from, to }
   }
 
   const handleSelectRange = (range: DateRange | undefined) => {
@@ -44,10 +51,7 @@ const DatePicker = (props: DatePickerProps) => {
       setDate((prev) => (handleFirstSelection(range, prev)))
       setClickCount(1);
     } else {
-      setDate((prev) => ({
-        from: prev?.from,
-        to: range?.to
-      }));
+      setDate((prev) => (handleSecondSelection(range, prev)));
       setClickCount(0);
     }
   };
