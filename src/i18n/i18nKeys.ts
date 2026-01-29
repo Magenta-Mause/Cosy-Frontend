@@ -141,7 +141,7 @@ export type i18nLanguage = {
     pullingImage: string;
     status: string;
     back: string;
-    ockerHardwareLimits: string;
+    dockerHardwareLimits: string;
     cpuLimit: string;
     memoryLimit: string;
     unlimited: string;
