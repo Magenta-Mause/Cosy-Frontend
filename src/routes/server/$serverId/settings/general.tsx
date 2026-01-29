@@ -7,7 +7,7 @@ export const Route = createFileRoute("/server/$serverId/settings/general")({
 
 function RouteComponent() {
   return (
-    <div className="container mx-auto flex flex-col gap-4 grow h-full">
+    <div>
       <GeneralSettingsSection />
     </div>
   );
