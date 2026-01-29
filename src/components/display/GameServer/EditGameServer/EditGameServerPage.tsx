@@ -249,7 +249,7 @@ const EditGameServerPage = (props: {
           required={false}
         />
 
-        <EditKeyValueInput<{ key: string; value: string }>
+        <EditKeyValueInput
           fieldLabel={t("environmentVariablesSelection.title")}
           fieldDescription={t("environmentVariablesSelection.description")}
           value={gameServerState.environment_variables}
