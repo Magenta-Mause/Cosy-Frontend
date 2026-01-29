@@ -29,7 +29,7 @@ const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto =>
   execution_command: server.execution_command,
 });
 
-const EditGameServer = (props: {
+const EditGameServerPage = (props: {
   serverName: string;
   gameServer: GameServerDto;
   onConfirm: (updatedState: GameServerUpdateDto) => Promise<void>;
@@ -352,4 +352,4 @@ const EditGameServer = (props: {
   );
 };
 
-export default EditGameServer;
+export default EditGameServerPage;
