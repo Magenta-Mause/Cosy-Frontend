@@ -293,6 +293,13 @@ const translation: i18nLanguage = {
         metrics: "Metriken",
         accessManagement: "Zugriffsverwaltung",
       },
+      sections: {
+        general: "Allgemeine Einstellungen",
+        privateDashboard: "Einstellungen für privates Dashboard",
+        publicDashboard: "Einstellungen für öffentliches Dashboard",
+        metrics: "Metrik-Einstellungen",
+        accessManagement: "Zugriffsverwaltungs-Einstellungen",
+      },
     },
     userManagement: {
       backButton: "Zurück",

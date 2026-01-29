@@ -347,6 +347,13 @@ export type i18nLanguage = {
         metrics: string;
         accessManagement: string;
       };
+      sections: {
+        general: string;
+        privateDashboard: string;
+        publicDashboard: string;
+        metrics: string;
+        accessManagement: string;
+      };
     };
   };
   genericModal: {

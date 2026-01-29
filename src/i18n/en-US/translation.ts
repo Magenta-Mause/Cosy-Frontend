@@ -324,6 +324,13 @@ const translation: i18nLanguage = {
         metrics: "Metrics",
         accessManagement: "Access Management",
       },
+      sections: {
+        general: "General Settings",
+        privateDashboard: "Private Dashboard Settings",
+        publicDashboard: "Public Dashboard Settings",
+        metrics: "Metrics Settings",
+        accessManagement: "Access Management Settings",
+      },
     },
   },
   consequence: "asd{{counter}}ajskod",
