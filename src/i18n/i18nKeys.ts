@@ -345,8 +345,8 @@ export type i18nLanguage = {
     cancel: string;
   };
   metrics: {
-    metricTitle: string;
-    metricDescription: string;
+    metricTitle: ContainsVariable<"type">;
+    metricDescription: ContainsVariable<"type">;
     configure: string;
     types: {
       CPU_PERCENT: string;
@@ -358,14 +358,16 @@ export type i18nLanguage = {
       BLOCK_READ: string;
       BLOCK_WRITE: string;
     };
+    liveMetricsOn: string;
+    liveMetricsOff: string;
   };
   timerange: {
     localTime: string;
     custom: string;
     button: string;
-    min: string;
-    hour: string;
-    day: string;
+    min: ContainsVariable<"time">;
+    hour: ContainsVariable<"time">;
+    day: ContainsVariable<"time">;
     apply: string;
     cancel: string;
   };
