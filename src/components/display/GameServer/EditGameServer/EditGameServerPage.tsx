@@ -18,9 +18,7 @@ const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto =>
   docker_image_name: server.docker_image_name,
   docker_image_tag: server.docker_image_tag,
   port_mappings: server.port_mappings.map((pm) => ({
-    instance_port: pm.instance_port,
-    container_port: pm.container_port,
-    protocol: pm.protocol,
+    ...pm
   })),
   environment_variables: server.environment_variables,
   volume_mounts: server.volume_mounts?.map((v) => ({
