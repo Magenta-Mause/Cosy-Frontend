@@ -1,14 +1,14 @@
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { GameServerUpdateDto } from "@/api/generated/model/gameServerUpdateDto";
-import useActiveGameServer from "@/hooks/useActiveGameServer/useActiveGameServer";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
+import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer";
 import EditGameServerPage from "../../EditGameServer/EditGameServerPage";
 
 const GeneralSettingsSection = () => {
   const { t } = useTranslation();
   const { updateGameServer } = useDataInteractions();
-  const { gameServer } = useActiveGameServer();
+  const { gameServer } = useSelectedGameServer();
 
   const handleUpdateGameServer = async (updatedState: GameServerUpdateDto) => {
     if (!gameServer.uuid) {

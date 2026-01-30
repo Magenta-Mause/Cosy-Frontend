@@ -1,10 +1,10 @@
 import { GameServerDetailContext } from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageLayout";
 import { useContext } from "react";
 
-const useActiveGameServer = () => {
+const useSelectedGameServer = () => {
   const { gameServer } = useContext(GameServerDetailContext);
 
   return { gameServer };
 };
 
-export default useActiveGameServer;
+export default useSelectedGameServer;
