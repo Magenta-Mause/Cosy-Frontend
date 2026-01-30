@@ -57,7 +57,9 @@ export const InviteForm = ({
             />
           </div>
           <div className="flex flex-col justify-start ">
-            <Label className="font-bold text-sm pb-2 leading-5.5" htmlFor="invite-role">{t("userModal.roleLabel")}</Label>
+            <Label className="font-bold text-sm pb-2 leading-5.5" htmlFor="invite-role">
+              {t("userModal.roleLabel")}
+            </Label>
             <Select defaultValue={userRole} onValueChange={onUserRoleChange}>
               <SelectTrigger id={"invite-role"} className="py-1 text-base w-23.75">
                 <SelectValue placeholder={t("userModal.rolePlaceholder")} />
@@ -104,7 +106,6 @@ export const InviteForm = ({
             />
           </div>
         </div>
-
       </div>
     </div>
   );

@@ -124,9 +124,8 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
               <div className="space-y-7">
                 <Input
                   header={t("inviteRedemption.usernameLabel")}
-                  description={inviteData?.username
-                    ? t("inviteRedemption.usernameSetByInviter")
-                    : ""
+                  description={
+                    inviteData?.username ? t("inviteRedemption.usernameSetByInviter") : ""
                   }
                   id="username"
                   value={username}

@@ -6,5 +6,5 @@ export const Route = createFileRoute("/server/$serverId/settings/general")({
 });
 
 function RouteComponent() {
-  return <GeneralSettingsSection />
+  return <GeneralSettingsSection />;
 }

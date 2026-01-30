@@ -26,7 +26,7 @@ const TIME_RANGE_PRESETS: [number, "min" | "hour" | "day"][] = [
   [1, "day"],
   [7, "day"],
   [30, "day"],
-]
+];
 
 const TimeRangeDropDown = (props: TimeRangeProps) => {
   const { t } = useTranslation();

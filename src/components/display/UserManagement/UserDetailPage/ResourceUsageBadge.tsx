@@ -6,10 +6,10 @@ const ResourceUsageBadge = (props: {
   unit?: string;
   resourceType: string;
 }) => {
-
   return (
     <Badge className="px-3 text-sm bg-accent">
-      {props.currentValue} / {props.limit} {props.unit} - <div className="font-bold">{props.resourceType}</div>
+      {props.currentValue} / {props.limit} {props.unit} -{" "}
+      <div className="font-bold">{props.resourceType}</div>
     </Badge>
   );
 };
