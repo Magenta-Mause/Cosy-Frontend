@@ -276,10 +276,9 @@ export type i18nLanguage = {
     };
 
     editGameServer: {
-      title: ContainsVariable<"serverName">;
-      description: string;
+      title: string;
 
-      cancel: string;
+      revert: string;
       confirm: string;
       missingUuidError: string;
 
@@ -383,14 +382,30 @@ export type i18nLanguage = {
         pendingInvites: string;
       };
     };
+    GameServerSettings: {
+      tabs: {
+        general: string;
+        privateDashboard: string;
+        publicDashboard: string;
+        metrics: string;
+        accessManagement: string;
+      };
+      sections: {
+        general: string;
+        privateDashboard: string;
+        publicDashboard: string;
+        metrics: string;
+        accessManagement: string;
+      };
+    };
   };
 
   genericModal: {
     cancel: string;
   };
   metrics: {
-    metricTitle: string;
-    metricDescription: string;
+    metricTitle: ContainsVariable<"type">;
+    metricDescription: ContainsVariable<"type">;
     configure: string;
     types: {
       CPU_PERCENT: string;
@@ -402,14 +417,16 @@ export type i18nLanguage = {
       BLOCK_READ: string;
       BLOCK_WRITE: string;
     };
+    liveMetricsOn: string;
+    liveMetricsOff: string;
   };
   timerange: {
     localTime: string;
     custom: string;
     button: string;
-    min: string;
-    hour: string;
-    day: string;
+    min: ContainsVariable<"time">;
+    hour: ContainsVariable<"time">;
+    day: ContainsVariable<"time">;
     apply: string;
     cancel: string;
   };

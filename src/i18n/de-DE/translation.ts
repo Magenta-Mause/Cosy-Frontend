@@ -238,10 +238,9 @@ const translation: i18nLanguage = {
       booleanFalse: "Nein",
     },
     editGameServer: {
-      title: "{{serverName}}",
-      description: "Aktualisiere die Konfiguration deines Game-Servers",
+      title: "Allgemeine Server Einstellungen",
 
-      cancel: "Abbrechen",
+      revert: "Zurücksetzen",
       confirm: "Änderungen speichern",
       missingUuidError: "Die Server UUID fehlt",
 
@@ -308,6 +307,22 @@ const translation: i18nLanguage = {
         title: "CPU Kern Limit",
         description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
         errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
+      },
+    },
+    GameServerSettings: {
+      tabs: {
+        general: "Allgemein",
+        privateDashboard: "Privates Dashboard",
+        publicDashboard: "Öffentliches Dashboard",
+        metrics: "Metriken",
+        accessManagement: "Zugriffsverwaltung",
+      },
+      sections: {
+        general: "Allgemeine Einstellungen",
+        privateDashboard: "Einstellungen für privates Dashboard",
+        publicDashboard: "Einstellungen für öffentliches Dashboard",
+        metrics: "Metrik-Einstellungen",
+        accessManagement: "Zugriffsverwaltungs-Einstellungen",
       },
     },
     userManagement: {
@@ -396,6 +411,8 @@ const translation: i18nLanguage = {
       NETWORK_INPUT: "Netzwerk Eingehend",
       NETWORK_OUTPUT: "Netzwerk Ausgehend",
     },
+    liveMetricsOn: "Live-Metriken: An",
+    liveMetricsOff: "Live-Metriken: Aus",
   },
   timerange: {
     localTime: "de-DE",

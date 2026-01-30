@@ -14,7 +14,7 @@ export type AutoCompleteItem<T, U extends GameServerCreationValue> = {
   leftSlot?: React.ReactNode;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: beep boop
 export type AutoCompleteSelections = Record<string, AutoCompleteItem<any, any>>;
 
 export interface AutoCompleteInputFieldProps<
