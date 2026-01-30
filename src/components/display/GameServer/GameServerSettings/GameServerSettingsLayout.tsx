@@ -37,12 +37,12 @@ const ResizableLabel = ({ label }: { label: string }) => {
 
     const computed = getComputedStyle(el);
     let fontSize = parseFloat(computed.fontSize) || 16;
-    el.style.fontSize = fontSize + "px";
+    el.style.fontSize = `${fontSize}px`;
 
     let iterations = 0;
     while (el.scrollWidth > el.clientWidth && fontSize > 12 && iterations < 50) {
       fontSize -= 1;
-      el.style.fontSize = fontSize + "px";
+      el.style.fontSize = `${fontSize}px`;
       iterations += 1;
     }
   }, []);
