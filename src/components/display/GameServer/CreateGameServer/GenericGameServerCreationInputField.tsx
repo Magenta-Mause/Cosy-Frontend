@@ -1,14 +1,14 @@
-import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
+import {
+  GameServerCreationContext,
+  type GameServerCreationFormState,
+} from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 import { FieldError } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
-import { DialogDescription } from "@radix-ui/react-dialog";
 import { useCallback, useContext, useEffect } from "react";
 import type { ZodType } from "zod";
-import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
-
 const GenericGameServerCreationInputField = (props: {
-  attribute: keyof GameServerCreationDto;
+  attribute: keyof GameServerCreationFormState;
   validator: ZodType;
   placeholder: string;
   errorLabel: string;
@@ -17,6 +17,9 @@ const GenericGameServerCreationInputField = (props: {
   optional?: boolean;
   defaultValue?: string;
   maxLimit?: number | null;
+  inputType?: React.ComponentProps<"input">["type"];
+  inputMode?: React.ComponentProps<"input">["inputMode"];
+  step?: React.ComponentProps<"input">["step"];
 }) => {
   const { setGameServerState, creationState, triggerNextPage } =
     useContext(GameServerCreationContext);
@@ -117,6 +120,9 @@ const GenericGameServerCreationInputField = (props: {
         description={props.description}
         header={props.label}
         placeholder={props.placeholder}
+        type={props.inputType}
+        inputMode={props.inputMode}
+        step={props.step}
         onChange={(e) => changeCallback(e.target.value)}
         id={props.attribute}
         value={creationState.gameServerState[props.attribute] as string | number | undefined}

@@ -45,15 +45,20 @@ type UtilState = {
 };
 
 interface CreationState {
-  gameServerState: Partial<GameServerCreationDto>;
+  gameServerState: GameServerCreationFormState;
   utilState: UtilState;
 }
 
+export type GameServerCreationFormState = Partial<GameServerCreationDto> & {
+  docker_max_cpu?: string;
+  docker_max_memory?: string;
+};
+
 export interface GameServerCreationContext {
   creationState: CreationState;
-  setGameServerState: <K extends keyof GameServerCreationDto>(
+  setGameServerState: <K extends keyof GameServerCreationFormState>(
     gameStateKey: K,
-  ) => (value: GameServerCreationDto[K]) => void;
+  ) => (value: GameServerCreationFormState[K]) => void;
   setCurrentPageValid: (isValid: boolean) => void;
   triggerNextPage: () => void;
   setUtilState: <K extends keyof UtilState>(utilStateKey: K) => (value: UtilState[K]) => void;

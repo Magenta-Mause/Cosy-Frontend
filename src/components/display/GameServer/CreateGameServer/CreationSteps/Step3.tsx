@@ -6,10 +6,12 @@ import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
-import { GameServerCreationContext } from "../CreateGameServerModal.tsx";
+import {
+  GameServerCreationContext,
+  type GameServerCreationFormState,
+} from "../CreateGameServerModal.tsx";
 import { GameServerCreationPageContext } from "../GenericGameServerCreationPage.tsx";
 import MemoryLimitInputField from "../../../MemoryLimit/MemoryLimitInputField.tsx";
-import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");
@@ -17,13 +19,13 @@ export default function Step3() {
   const { setGameServerState, creationState, triggerNextPage } =
     useContext(GameServerCreationContext);
   const { setAttributeTouched, setAttributeValid } = useContext(GameServerCreationPageContext);
-  const memoryAttribute = "docker_max_memory" as keyof GameServerCreationDto;
+  const memoryAttribute = "docker_max_memory" as keyof GameServerCreationFormState;
 
   const handleMemoryChange = useCallback(
     (value: string | null) => {
       const nextValue = value === null || value === "" ? undefined : value;
       setGameServerState(memoryAttribute)(
-        nextValue as GameServerCreationDto[keyof GameServerCreationDto],
+        nextValue as GameServerCreationFormState[keyof GameServerCreationFormState],
       );
     },
     [setGameServerState, memoryAttribute],
@@ -120,10 +122,13 @@ export default function Step3() {
       <div className="grid grid-cols-2 gap-4">
         <GenericGameServerCreationInputField
           attribute="docker_max_cpu"
-          validator={z.string().min(1)}
+          validator={z.coerce.number().min(0)}
           placeholder="0.5"
           optional={cpuLimit === null}
           maxLimit={cpuLimit}
+          inputType="number"
+          inputMode="decimal"
+          step="any"
           label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
           description={t("cpuLimitSelection.description")}
           errorLabel={t("cpuLimitSelection.errorLabel")}
