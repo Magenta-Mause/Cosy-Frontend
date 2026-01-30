@@ -12,9 +12,15 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsersRouteImport } from './routes/users'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServerServerIdRouteImport } from './routes/server/$serverId'
-import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId.index'
+import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId/index'
+import { Route as ServerServerIdSettingsRouteImport } from './routes/server/$serverId/settings'
 import { Route as ServerServerIdMetricsRouteImport } from './routes/server/$serverId.metrics'
-import { Route as ServerServerIdConsoleRouteImport } from './routes/server/$serverId.console'
+import { Route as ServerServerIdConsoleRouteImport } from './routes/server/$serverId/console'
+import { Route as ServerServerIdSettingsPublicDashboardRouteImport } from './routes/server/$serverId/settings/public-dashboard'
+import { Route as ServerServerIdSettingsPrivateDashboardRouteImport } from './routes/server/$serverId/settings/private-dashboard'
+import { Route as ServerServerIdSettingsMetricsRouteImport } from './routes/server/$serverId/settings/metrics'
+import { Route as ServerServerIdSettingsGeneralRouteImport } from './routes/server/$serverId/settings/general'
+import { Route as ServerServerIdSettingsAccessManagementRouteImport } from './routes/server/$serverId/settings/access-management'
 
 const UsersRoute = UsersRouteImport.update({
   id: '/users',
@@ -36,6 +42,11 @@ const ServerServerIdIndexRoute = ServerServerIdIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ServerServerIdRoute,
 } as any)
+const ServerServerIdSettingsRoute = ServerServerIdSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ServerServerIdRoute,
+} as any)
 const ServerServerIdMetricsRoute = ServerServerIdMetricsRouteImport.update({
   id: '/metrics',
   path: '/metrics',
@@ -46,6 +57,36 @@ const ServerServerIdConsoleRoute = ServerServerIdConsoleRouteImport.update({
   path: '/console',
   getParentRoute: () => ServerServerIdRoute,
 } as any)
+const ServerServerIdSettingsPublicDashboardRoute =
+  ServerServerIdSettingsPublicDashboardRouteImport.update({
+    id: '/public-dashboard',
+    path: '/public-dashboard',
+    getParentRoute: () => ServerServerIdSettingsRoute,
+  } as any)
+const ServerServerIdSettingsPrivateDashboardRoute =
+  ServerServerIdSettingsPrivateDashboardRouteImport.update({
+    id: '/private-dashboard',
+    path: '/private-dashboard',
+    getParentRoute: () => ServerServerIdSettingsRoute,
+  } as any)
+const ServerServerIdSettingsMetricsRoute =
+  ServerServerIdSettingsMetricsRouteImport.update({
+    id: '/metrics',
+    path: '/metrics',
+    getParentRoute: () => ServerServerIdSettingsRoute,
+  } as any)
+const ServerServerIdSettingsGeneralRoute =
+  ServerServerIdSettingsGeneralRouteImport.update({
+    id: '/general',
+    path: '/general',
+    getParentRoute: () => ServerServerIdSettingsRoute,
+  } as any)
+const ServerServerIdSettingsAccessManagementRoute =
+  ServerServerIdSettingsAccessManagementRouteImport.update({
+    id: '/access-management',
+    path: '/access-management',
+    getParentRoute: () => ServerServerIdSettingsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -53,14 +94,26 @@ export interface FileRoutesByFullPath {
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
+  '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
   '/server/$serverId/': typeof ServerServerIdIndexRoute
+  '/server/$serverId/settings/access-management': typeof ServerServerIdSettingsAccessManagementRoute
+  '/server/$serverId/settings/general': typeof ServerServerIdSettingsGeneralRoute
+  '/server/$serverId/settings/metrics': typeof ServerServerIdSettingsMetricsRoute
+  '/server/$serverId/settings/private-dashboard': typeof ServerServerIdSettingsPrivateDashboardRoute
+  '/server/$serverId/settings/public-dashboard': typeof ServerServerIdSettingsPublicDashboardRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/users': typeof UsersRoute
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
+  '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
   '/server/$serverId': typeof ServerServerIdIndexRoute
+  '/server/$serverId/settings/access-management': typeof ServerServerIdSettingsAccessManagementRoute
+  '/server/$serverId/settings/general': typeof ServerServerIdSettingsGeneralRoute
+  '/server/$serverId/settings/metrics': typeof ServerServerIdSettingsMetricsRoute
+  '/server/$serverId/settings/private-dashboard': typeof ServerServerIdSettingsPrivateDashboardRoute
+  '/server/$serverId/settings/public-dashboard': typeof ServerServerIdSettingsPublicDashboardRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,7 +122,13 @@ export interface FileRoutesById {
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
+  '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
   '/server/$serverId/': typeof ServerServerIdIndexRoute
+  '/server/$serverId/settings/access-management': typeof ServerServerIdSettingsAccessManagementRoute
+  '/server/$serverId/settings/general': typeof ServerServerIdSettingsGeneralRoute
+  '/server/$serverId/settings/metrics': typeof ServerServerIdSettingsMetricsRoute
+  '/server/$serverId/settings/private-dashboard': typeof ServerServerIdSettingsPrivateDashboardRoute
+  '/server/$serverId/settings/public-dashboard': typeof ServerServerIdSettingsPublicDashboardRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -79,14 +138,26 @@ export interface FileRouteTypes {
     | '/server/$serverId'
     | '/server/$serverId/console'
     | '/server/$serverId/metrics'
+    | '/server/$serverId/settings'
     | '/server/$serverId/'
+    | '/server/$serverId/settings/access-management'
+    | '/server/$serverId/settings/general'
+    | '/server/$serverId/settings/metrics'
+    | '/server/$serverId/settings/private-dashboard'
+    | '/server/$serverId/settings/public-dashboard'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/users'
     | '/server/$serverId/console'
     | '/server/$serverId/metrics'
+    | '/server/$serverId/settings'
     | '/server/$serverId'
+    | '/server/$serverId/settings/access-management'
+    | '/server/$serverId/settings/general'
+    | '/server/$serverId/settings/metrics'
+    | '/server/$serverId/settings/private-dashboard'
+    | '/server/$serverId/settings/public-dashboard'
   id:
     | '__root__'
     | '/'
@@ -94,7 +165,13 @@ export interface FileRouteTypes {
     | '/server/$serverId'
     | '/server/$serverId/console'
     | '/server/$serverId/metrics'
+    | '/server/$serverId/settings'
     | '/server/$serverId/'
+    | '/server/$serverId/settings/access-management'
+    | '/server/$serverId/settings/general'
+    | '/server/$serverId/settings/metrics'
+    | '/server/$serverId/settings/private-dashboard'
+    | '/server/$serverId/settings/public-dashboard'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -133,6 +210,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServerServerIdIndexRouteImport
       parentRoute: typeof ServerServerIdRoute
     }
+    '/server/$serverId/settings': {
+      id: '/server/$serverId/settings'
+      path: '/settings'
+      fullPath: '/server/$serverId/settings'
+      preLoaderRoute: typeof ServerServerIdSettingsRouteImport
+      parentRoute: typeof ServerServerIdRoute
+    }
     '/server/$serverId/metrics': {
       id: '/server/$serverId/metrics'
       path: '/metrics'
@@ -147,18 +231,80 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServerServerIdConsoleRouteImport
       parentRoute: typeof ServerServerIdRoute
     }
+    '/server/$serverId/settings/public-dashboard': {
+      id: '/server/$serverId/settings/public-dashboard'
+      path: '/public-dashboard'
+      fullPath: '/server/$serverId/settings/public-dashboard'
+      preLoaderRoute: typeof ServerServerIdSettingsPublicDashboardRouteImport
+      parentRoute: typeof ServerServerIdSettingsRoute
+    }
+    '/server/$serverId/settings/private-dashboard': {
+      id: '/server/$serverId/settings/private-dashboard'
+      path: '/private-dashboard'
+      fullPath: '/server/$serverId/settings/private-dashboard'
+      preLoaderRoute: typeof ServerServerIdSettingsPrivateDashboardRouteImport
+      parentRoute: typeof ServerServerIdSettingsRoute
+    }
+    '/server/$serverId/settings/metrics': {
+      id: '/server/$serverId/settings/metrics'
+      path: '/metrics'
+      fullPath: '/server/$serverId/settings/metrics'
+      preLoaderRoute: typeof ServerServerIdSettingsMetricsRouteImport
+      parentRoute: typeof ServerServerIdSettingsRoute
+    }
+    '/server/$serverId/settings/general': {
+      id: '/server/$serverId/settings/general'
+      path: '/general'
+      fullPath: '/server/$serverId/settings/general'
+      preLoaderRoute: typeof ServerServerIdSettingsGeneralRouteImport
+      parentRoute: typeof ServerServerIdSettingsRoute
+    }
+    '/server/$serverId/settings/access-management': {
+      id: '/server/$serverId/settings/access-management'
+      path: '/access-management'
+      fullPath: '/server/$serverId/settings/access-management'
+      preLoaderRoute: typeof ServerServerIdSettingsAccessManagementRouteImport
+      parentRoute: typeof ServerServerIdSettingsRoute
+    }
   }
 }
+
+interface ServerServerIdSettingsRouteChildren {
+  ServerServerIdSettingsAccessManagementRoute: typeof ServerServerIdSettingsAccessManagementRoute
+  ServerServerIdSettingsGeneralRoute: typeof ServerServerIdSettingsGeneralRoute
+  ServerServerIdSettingsMetricsRoute: typeof ServerServerIdSettingsMetricsRoute
+  ServerServerIdSettingsPrivateDashboardRoute: typeof ServerServerIdSettingsPrivateDashboardRoute
+  ServerServerIdSettingsPublicDashboardRoute: typeof ServerServerIdSettingsPublicDashboardRoute
+}
+
+const ServerServerIdSettingsRouteChildren: ServerServerIdSettingsRouteChildren =
+  {
+    ServerServerIdSettingsAccessManagementRoute:
+      ServerServerIdSettingsAccessManagementRoute,
+    ServerServerIdSettingsGeneralRoute: ServerServerIdSettingsGeneralRoute,
+    ServerServerIdSettingsMetricsRoute: ServerServerIdSettingsMetricsRoute,
+    ServerServerIdSettingsPrivateDashboardRoute:
+      ServerServerIdSettingsPrivateDashboardRoute,
+    ServerServerIdSettingsPublicDashboardRoute:
+      ServerServerIdSettingsPublicDashboardRoute,
+  }
+
+const ServerServerIdSettingsRouteWithChildren =
+  ServerServerIdSettingsRoute._addFileChildren(
+    ServerServerIdSettingsRouteChildren,
+  )
 
 interface ServerServerIdRouteChildren {
   ServerServerIdConsoleRoute: typeof ServerServerIdConsoleRoute
   ServerServerIdMetricsRoute: typeof ServerServerIdMetricsRoute
+  ServerServerIdSettingsRoute: typeof ServerServerIdSettingsRouteWithChildren
   ServerServerIdIndexRoute: typeof ServerServerIdIndexRoute
 }
 
 const ServerServerIdRouteChildren: ServerServerIdRouteChildren = {
   ServerServerIdConsoleRoute: ServerServerIdConsoleRoute,
   ServerServerIdMetricsRoute: ServerServerIdMetricsRoute,
+  ServerServerIdSettingsRoute: ServerServerIdSettingsRouteWithChildren,
   ServerServerIdIndexRoute: ServerServerIdIndexRoute,
 }
 

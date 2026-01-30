@@ -28,8 +28,7 @@ const SortDropdown = ({
 
   const SORT_OPTIONS: SortField[] = ["username", "role", "max_cpu", "max_memory"];
 
-  const getLabel = (field: SortField) =>
-    t(`components.userManagement.userTable.sortBy.${field}`);
+  const getLabel = (field: SortField) => t(`components.userManagement.userTable.sortBy.${field}`);
 
   return (
     <div className="flex flex-row items-center gap-0.5">
@@ -59,11 +58,7 @@ const SortDropdown = ({
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-      <Button
-        disabled={!sortField}
-        onClick={onSortDirectionToggle}
-        className="rounded-l-none"
-      >
+      <Button disabled={!sortField} onClick={onSortDirectionToggle} className="rounded-l-none">
         {!sortField ? (
           <ArrowUpDown className="size-6" />
         ) : isAscending ? (

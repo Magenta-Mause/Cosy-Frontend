@@ -245,10 +245,9 @@ export type i18nLanguage = {
       };
     };
     editGameServer: {
-      title: ContainsVariable<"serverName">;
-      description: string;
+      title: string;
 
-      cancel: string;
+      revert: string;
       confirm: string;
       missingUuidError: string;
 
@@ -338,6 +337,22 @@ export type i18nLanguage = {
         };
         noUsersFound: string;
         pendingInvites: string;
+      };
+    };
+    GameServerSettings: {
+      tabs: {
+        general: string;
+        privateDashboard: string;
+        publicDashboard: string;
+        metrics: string;
+        accessManagement: string;
+      };
+      sections: {
+        general: string;
+        privateDashboard: string;
+        publicDashboard: string;
+        metrics: string;
+        accessManagement: string;
       };
     };
   };

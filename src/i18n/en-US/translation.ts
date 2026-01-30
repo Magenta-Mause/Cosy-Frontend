@@ -222,10 +222,9 @@ const translation: i18nLanguage = {
       booleanFalse: "No",
     },
     editGameServer: {
-      title: "{{serverName}}",
-      description: "Update the configuration of your game server",
+      title: "General Server Settings",
 
-      cancel: "Cancel",
+      revert: "Revert",
       confirm: "Save changes",
       missingUuidError: "UUID is missing",
 
@@ -315,6 +314,22 @@ const translation: i18nLanguage = {
         },
         noUsersFound: "No users found",
         pendingInvites: "Pending Invites",
+      },
+    },
+    GameServerSettings: {
+      tabs: {
+        general: "General",
+        privateDashboard: "Private Dashboard",
+        publicDashboard: "Public Dashboard",
+        metrics: "Metrics",
+        accessManagement: "Access Management",
+      },
+      sections: {
+        general: "General Settings",
+        privateDashboard: "Private Dashboard Settings",
+        publicDashboard: "Public Dashboard Settings",
+        metrics: "Metrics Settings",
+        accessManagement: "Access Management Settings",
       },
     },
   },

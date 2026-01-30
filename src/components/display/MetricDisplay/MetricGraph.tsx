@@ -1,18 +1,18 @@
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@components/ui/chart";
-import {useEffect, useState} from "react";
-import {useTranslation} from "react-i18next";
-import {Area, AreaChart, CartesianGrid, XAxis, YAxis} from "recharts";
-import type {MetricValues} from "@/api/generated/model";
-import type {GameServerMetricsWithUuid} from "@/stores/slices/gameServerMetrics";
-import {MetricsType} from "@/types/metricsTyp";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import type { Payload } from "recharts/types/component/DefaultTooltipContent";
+import type { MetricValues } from "@/api/generated/model";
+import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
+import { MetricsType } from "@/types/metricsTyp";
 import MetricDropDown from "./DropDown/MetricDropDown";
-import type {Payload} from "recharts/types/component/DefaultTooltipContent";
 
 interface MetricGraphProps {
   className?: string;
@@ -41,7 +41,7 @@ const METRIC_KEY_MAP: Record<MetricsType, keyof MetricValues> = {
 } as const;
 
 const MetricGraph = (props: MetricGraphProps) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [metricType, setMetricType] = useState<MetricsType>(props.type);
   const [chartData, setChartData] = useState<{ time: number; value: number }[]>([]);
 
@@ -78,7 +78,7 @@ const MetricGraph = (props: MetricGraphProps) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formatTooltipTime = (_timeString: string, payload: Payload<any, any>[]) => {
     if (!payload[0]) return "";
-    const value = payload[0].payload as { time: number; value: number};
+    const value = payload[0].payload as { time: number; value: number };
     const date = new Date(value.time);
     return date.toLocaleString(t("timerange.localTime"), {
       year: "numeric",
@@ -114,23 +114,23 @@ const MetricGraph = (props: MetricGraphProps) => {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <CardTitle>
-              {t("metrics.metricTitle", {type: t(`metrics.types.${metricType}`)})}
+              {t("metrics.metricTitle", { type: t(`metrics.types.${metricType}`) })}
             </CardTitle>
             <CardDescription>
-              {t("metrics.metricDescription", {type: t(`metrics.types.${metricType}`)})}
+              {t("metrics.metricDescription", { type: t(`metrics.types.${metricType}`) })}
             </CardDescription>
           </div>
-          <MetricDropDown metricType={metricType} setMetricType={setMetricType}/>
+          <MetricDropDown metricType={metricType} setMetricType={setMetricType} />
         </div>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="aspect-auto h-62.5 w-full">
           <AreaChart accessibilityLayer data={chartData}>
-            <CartesianGrid vertical={false}/>
+            <CartesianGrid vertical={false} />
             <XAxis
               dataKey="time"
               type="number"
-              domain={['dataMin', 'dataMax']}
+              domain={["dataMin", "dataMax"]}
               tickCount={10}
               tickLine={false}
               axisLine={false}
@@ -149,10 +149,7 @@ const MetricGraph = (props: MetricGraphProps) => {
                 <ChartTooltipContent
                   labelFormatter={formatTooltipTime}
                   formatter={(value) => {
-                    return [
-                      formateMetric(value as number),
-                      ` ${t(`metrics.types.${metricType}`)}`,
-                    ]
+                    return [formateMetric(value as number), ` ${t(`metrics.types.${metricType}`)}`];
                   }}
                 />
               }

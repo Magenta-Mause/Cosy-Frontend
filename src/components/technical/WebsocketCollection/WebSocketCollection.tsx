@@ -88,7 +88,7 @@ const WebSocketCollection = () => {
     gameServer ? gameServer.map((server) => `/topics/game-servers/metrics/${server.uuid}`) : [],
     (message) => {
       const messageBody = JSON.parse(message.body) as MetricPointDto;
-      const serverMetricState = gameServerMetrics[messageBody.game_server_uuid ?? ""]
+      const serverMetricState = gameServerMetrics[messageBody.game_server_uuid ?? ""];
 
       if (!serverMetricState.enableMetricsLiveUpdates) {
         return;
