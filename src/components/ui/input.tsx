@@ -6,7 +6,7 @@ import { Label } from "@components/ui/label";
 interface InputProps extends React.ComponentProps<"input"> {
   header?: string | React.ReactNode;
   description?: string;
-  endDecorator?: string;
+  endDecorator?: string | React.ReactNode;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({ className, type, header, description, endDecorator, ...props }: InputProps, ref) {
