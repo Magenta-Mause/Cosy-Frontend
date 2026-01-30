@@ -379,6 +379,8 @@ const translation: i18nLanguage = {
       NETWORK_INPUT: "Network Input",
       NETWORK_OUTPUT: "Network Output",
     },
+    liveMetricsOn: "Live Metrics: On",
+    liveMetricsOff: "Live Metrics: Off",
   },
   timerange: {
     localTime: "en-US",

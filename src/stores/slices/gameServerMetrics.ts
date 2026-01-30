@@ -9,6 +9,7 @@ interface GameServerMetricsSliceState {
     [key: GameServerDto["uuid"]]: {
       metrics: GameServerMetricsWithUuid[];
       state: SliceState<void>["state"];
+      enableMetricsLiveUpdates: boolean;
     };
   };
 }
@@ -28,13 +29,14 @@ const gameServerMetricsSlice = createSlice({
     ) => {
       const grouped = Object.groupBy(
         action.payload.metrics,
-        (metric) => metric.uuid ?? "",
+        (metric) => metric.game_server_uuid ?? "",
       ) as Record<string, GameServerMetricsWithUuid[]>;
       const withStatus: GameServerMetricsSliceState["data"] = {};
       Object.keys(grouped).forEach((key) => {
         withStatus[key] = {
           metrics: grouped[key],
           state: "loading",
+          enableMetricsLiveUpdates: true,
         };
       });
       state.data = withStatus;
@@ -52,6 +54,7 @@ const gameServerMetricsSlice = createSlice({
         state.data[gameServerUuid] = {
           metrics: [],
           state: "idle",
+          enableMetricsLiveUpdates: true,
         };
       }
 
@@ -68,9 +71,42 @@ const gameServerMetricsSlice = createSlice({
         state.data[action.payload.gameServerUuid] = {
           state: "loading",
           metrics: [],
+          enableMetricsLiveUpdates: true,
         };
       }
       state.data[action.payload.gameServerUuid].state = action.payload.state;
+    },
+    addMetrics: (state, action: PayloadAction<GameServerMetricsWithUuid>) => {
+      const serverUuid = action.payload.game_server_uuid ?? "";
+      if (!serverUuid) return;
+      if (state.data[serverUuid]) {
+        state.data[serverUuid].metrics.push(action.payload);
+      } else {
+        state.data[serverUuid] = {
+          metrics: [action.payload],
+          state: "loading",
+          enableMetricsLiveUpdates: true,
+        };
+      }
+    },
+    setEnableMetricsLiveUpdates: (
+      state,
+      action: PayloadAction<{
+        gameServerUuid: GameServerDto["uuid"];
+        enable: boolean;
+      }>,
+    ) => {
+      const { gameServerUuid, enable } = action.payload;
+
+      if (!state.data[gameServerUuid]) {
+        state.data[gameServerUuid] = {
+          metrics: [],
+          state: "idle",
+          enableMetricsLiveUpdates: enable,
+        };
+      } else {
+        state.data[gameServerUuid].enableMetricsLiveUpdates = enable;
+      }
     },
   },
 });
