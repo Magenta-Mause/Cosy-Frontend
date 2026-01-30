@@ -5,7 +5,7 @@ export default function PrivateDashboardSettingsSection() {
 
   return (
     <div>
-      <h2 className="font-medium text-3xl">{t("privateDashboard")}</h2>
+      <h2>{t("privateDashboard")}</h2>
     </div>
   );
 }

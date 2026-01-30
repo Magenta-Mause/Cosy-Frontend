@@ -5,7 +5,7 @@ export default function MetricsSettingsSection() {
 
   return (
     <div>
-      <h2 className="font-medium text-3xl">{t("metrics")}</h2>
+      <h2>{t("metrics")}</h2>
     </div>
   );
 }

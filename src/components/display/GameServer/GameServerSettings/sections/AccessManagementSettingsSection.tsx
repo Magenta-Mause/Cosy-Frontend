@@ -5,7 +5,7 @@ export default function AccessManagementSettingsSection() {
 
   return (
     <div>
-      <h2 className="font-medium text-3xl">{t("accessManagement")}</h2>
+      <h2>{t("accessManagement")}</h2>
     </div>
   );
 }

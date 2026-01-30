@@ -179,7 +179,7 @@ const EditGameServerPage = (props: {
   return (
     <div className="relative pr-3">
       <div>
-        <h2 className="font-medium text-3xl">
+        <h2>
           {t("title")}
         </h2>
       </div>

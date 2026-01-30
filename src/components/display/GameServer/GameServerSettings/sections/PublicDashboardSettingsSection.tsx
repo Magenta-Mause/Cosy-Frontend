@@ -5,7 +5,7 @@ export default function PublicDashboardSettingsSection() {
 
   return (
     <div>
-      <h2 className="font-medium text-3xl">{t("publicDashboard")}</h2>
+      <h2>{t("publicDashboard")}</h2>
     </div>
   );
 }
