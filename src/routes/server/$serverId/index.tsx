@@ -33,14 +33,6 @@ function GameServerDetailPageDashboardPage() {
         />
         <LogDisplay logMessages={logs} className="grow" />
       </div>
-      <div>
-        <h2>{t("serverPage.dockerHardwareLimits")}</h2>
-        {t("serverPage.cpuLimit")}:{" "}
-        {gameServer.docker_hardware_limits?.docker_max_cpu_cores ?? t("serverPage.unlimited")}
-        <br />
-        {t("serverPage.memoryLimit")}:{" "}
-        {gameServer.docker_hardware_limits?.docker_memory_limit ?? t("serverPage.unlimited")}
-      </div>
     </div>
   );
 }
