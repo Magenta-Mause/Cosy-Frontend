@@ -77,12 +77,12 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
     {
       label: t("tabs.privateDashboard"),
       icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
-      path: "/server/$serverId/settings/privateDashboard",
+      path: "/server/$serverId/settings/private-dashboard",
     },
     {
       label: t("tabs.publicDashboard"),
       icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
-      path: "/server/$serverId/settings/publicDashboard",
+      path: "/server/$serverId/settings/public-dashboard",
     },
     {
       label: t("tabs.metrics"),
@@ -92,7 +92,7 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
     {
       label: t("tabs.accessManagement"),
       icon: <User style={iconStyles} className="mr-2" />,
-      path: "/server/$serverId/settings/accessManagement",
+      path: "/server/$serverId/settings/access-management",
     },
   ];
 
