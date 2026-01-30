@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/button.tsx";
 import { useEffect, useMemo, useState } from "react";
-import { parse as parseCommand } from "shell-quote";
+import { parse as parseCommand, quote } from "shell-quote";
 import * as z from "zod";
 import {
   type EnvironmentVariableConfiguration,
@@ -18,7 +18,7 @@ const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto =>
   docker_image_name: server.docker_image_name,
   docker_image_tag: server.docker_image_tag,
   port_mappings: server.port_mappings.map((pm) => ({
-    ...pm
+    ...pm,
   })),
   environment_variables: server.environment_variables,
   volume_mounts: server.volume_mounts?.map((v) => ({
@@ -39,13 +39,13 @@ const EditGameServerPage = (props: {
     mapGameServerDtoToUpdate(props.gameServer),
   );
   const [executionCommandRaw, setExecutionCommandRaw] = useState(
-    (gameServerState.execution_command ?? []).join(" "),
+    quote(gameServerState.execution_command ?? []),
   );
 
   useEffect(() => {
     const updatedState = mapGameServerDtoToUpdate(props.gameServer);
     setGameServerState(updatedState);
-    setExecutionCommandRaw((updatedState.execution_command ?? []).join(" "));
+    setExecutionCommandRaw(quote(updatedState.execution_command ?? []));
   }, [props.gameServer]);
 
   const allFieldsValid = useMemo(() => {
@@ -94,8 +94,7 @@ const EditGameServerPage = (props: {
       gameServerState.volume_mounts.length === 0 ||
       gameServerState.volume_mounts.every((vol) => {
         if (!vol.host_path && !vol.container_path) return true;
-        const containerPathValid = z.string().min(1).safeParse(vol.container_path).success;
-        return containerPathValid;
+        return z.string().min(1).safeParse(vol.container_path).success;
       });
 
     return (
@@ -154,17 +153,17 @@ const EditGameServerPage = (props: {
       ...gameServerState,
       execution_command: parsedExecutionCommand,
       port_mappings: gameServerState.port_mappings?.filter(
-        (p) => p.instance_port || p.container_port
+        (p) => p.instance_port || p.container_port,
       ),
       environment_variables: gameServerState.environment_variables?.filter(
-        (env) => env.key?.trim() || env.value?.trim()
+        (env) => env.key?.trim() || env.value?.trim(),
       ),
-      volume_mounts: gameServerState.volume_mounts?.filter(
-        (vol) => vol.host_path?.trim() || vol.container_path?.trim()
-      ).map((v) => ({
-        host_path: "DUMMY", // remove this with the host_path refactor
-        container_path: v.container_path,
-      })),
+      volume_mounts: gameServerState.volume_mounts
+        ?.filter((vol) => vol.host_path?.trim() || vol.container_path?.trim())
+        .map((v) => ({
+          host_path: "DUMMY", // remove this with the host_path refactor
+          container_path: v.container_path,
+        })),
     };
     setLoading(true);
     try {
@@ -179,9 +178,7 @@ const EditGameServerPage = (props: {
   return (
     <div className="relative pr-3">
       <div>
-        <h2>
-          {t("title")}
-        </h2>
+        <h2>{t("title")}</h2>
       </div>
 
       <div>
@@ -336,7 +333,7 @@ const EditGameServerPage = (props: {
           disabled={loading || !isChanged}
           onClick={() => {
             setGameServerState(mapGameServerDtoToUpdate(props.gameServer));
-            setExecutionCommandRaw((props.gameServer.execution_command ?? []).join(" "));
+            setExecutionCommandRaw(quote(props.gameServer.execution_command ?? []));
           }}
         >
           {t("revert")}

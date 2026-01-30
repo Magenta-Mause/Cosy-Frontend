@@ -49,7 +49,7 @@ function PortInputEditGameServer({
   const { t } = useTranslationPrefix("components.editGameServer");
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
-      const preProcessValue = (v: string) => Number(v);
+      const preProcessValue = (v: string) => (v !== "" ? Number(v) : undefined);
 
       if (!key && !value && !required) return true;
       if (!key || !value) return false;
@@ -93,7 +93,7 @@ function PortInputEditGameServer({
       value={rows}
       setParentValue={setValue}
       onChange={(rows) => {
-        const preProcessValue = (v: string) => Number(v);
+        const preProcessValue = (v: string) => (v !== "" ? Number(v) : undefined);
         const mapped: PortMapping[] = rows.map((row) => ({
           instance_port: preProcessValue(row.key),
           container_port: preProcessValue(row.value),
