@@ -33,54 +33,66 @@ function Index() {
     });
   };
 
-  // Deine Maße
-  const topImageHeight = 360;
-  const loopImageHeight = 64;
-  const bottomImageHeight = 124;
-  const loopRepeat = 10; // Erhöhe dies, damit der Content Platz hat!
+  // Original Bildmaße
   const imgWidth = 640;
+  const topImageHeight = 360;
+  const loopImageHeight = 62;
+  const bottomImageHeight = 124;
 
-  const totalHeight = topImageHeight + (loopImageHeight * loopRepeat) + bottomImageHeight;
+  // Berechne Aspektverhältnisse
+  const topAspectRatio = topImageHeight / imgWidth;
+  const loopAspectRatio = loopImageHeight / imgWidth;
+  const bottomAspectRatio = bottomImageHeight / imgWidth;
+
+  const loopRepeat = 1;
 
   return (
-    // Hintergrundfarbe setzen, damit links/rechts vom 640px Bild kein weißer Rand ist
-    <div className="relative min-h-screen w-screen overflow-x-hidden bg-black">
+    <div className="relative min-h-screen w-screen overflow-x-hidden">
 
-      {/* Background Wrapper: Zentriert die 640px Bilder */}
-      <div className="absolute inset-0 flex flex-col items-center">
-        <div style={{ width: `${imgWidth}px`, height: `${totalHeight}px` }}>
+      {/* Background Wrapper */}
+      <div className="absolute inset-0 flex flex-col">
 
-          {/* Top */}
-          <div style={{
+        {/* Top */}
+        <div
+          style={{
             backgroundImage: `url(${bgImageTop})`,
-            backgroundSize: 'contain',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center top',
             backgroundRepeat: 'no-repeat',
-            height: `${topImageHeight}px`
-          }} />
+            width: '100%',
+            paddingTop: `${topAspectRatio * 100}%`,
+            imageRendering: 'pixelated',
+          }}
+        />
 
-          {/* Loop */}
-          <div style={{
+        {/* Loop */}
+        <div
+          style={{
             backgroundImage: `url(${bgImageLoop})`,
-            backgroundSize: 'contain',
+            backgroundSize: '100% auto',
             backgroundRepeat: 'repeat-y',
-            height: `${loopImageHeight * loopRepeat}px`
-          }} />
+            width: '100%',
+            paddingTop: `${loopAspectRatio * loopRepeat * 100}%`,
+            imageRendering: 'pixelated',
+          }}
+        />
 
-          {/* Bottom */}
-          <div style={{
+        {/* Bottom */}
+        <div
+          style={{
             backgroundImage: `url(${bgImageBottom})`,
-            backgroundSize: 'contain',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center top',
             backgroundRepeat: 'no-repeat',
-            height: `${bottomImageHeight}px`
-          }} />
-        </div>
+            width: '100%',
+            paddingTop: `${bottomAspectRatio * 100}%`,
+            imageRendering: 'pixelated',
+          }}
+        />
       </div>
 
-      {/* Content Layer: Liegt über dem Hintergrund */}
-      <div
-        className="relative z-10 flex flex-col items-center pt-20"
-        style={{ minHeight: `${totalHeight}px` }}
-      >
+      {/* Content Layer */}
+      <div className="relative z-10 flex flex-col items-center pt-20 min-h-screen">
         <div className="flex flex-row justify-center items-start w-full max-w-[1200px]">
           <GameServerDisplay gameServerConfigurations={gameServers} />
           <LoginDisplay />
