@@ -24,7 +24,7 @@ interface InviteFormProps {
   isCreating: boolean;
 }
 
-import { MemoryLimitInput } from "@components/common/MemoryLimitInput.tsx";
+import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
 
 export const InviteForm = ({
   username,
@@ -79,49 +79,29 @@ export const InviteForm = ({
           </div>
         </div>
         <div className="flex justify-between gap-5">
-          <div className="w-[50%]">
-            <Input
+          <div className="w-[45%]">
+            <MemoryLimitInput
+              id="memory-limit"
               header={t("userModal.memoryLimit")}
               description={t("userModal.memoryDescription")}
-            ></Input>
+              placeholder={t("userModal.placeholder")}
+              value={memory}
+              onChange={(val) => onMemoryChange(val === "" ? null : val)}
+              className="no-spinner"
+            />
           </div>
-          <label htmlFor="invite-username">{t("userModal.usernameLabel")}</label>
-          <Input
-            id="invite-username"
-            placeholder={t("userModal.usernamePlaceholder")}
-            value={username}
-            onChange={(e) => onUsernameChange(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                onSubmit();
-              }
-            }}
-          />
-          <p className="text-xs text-muted-foreground">{t("userModal.usernameDescription")}</p>
-          <div className="flex justify-between">
-            <div className="w-[45%]">
-              <Label htmlFor="memory-limit">{t("userModal.memoryLimit")}</Label>
-              <MemoryLimitInput
-                id="memory-limit"
-                placeholder={t("userModal.placeholder")}
-                value={memory}
-                onChange={(val) => onMemoryChange(val === "" ? null : val)}
-                className="no-spinner"
-              />
-            </div>
-            <div className="w-[50%]">
-              <Input
-                header={t("userModal.cpuLimit")}
-                description={t("userModal.cpuDescription")}
-                id="cpu-limit"
-                type="number"
-                placeholder={t("userModal.placeholder")}
-                endDecorator="CPUs"
-                value={cpu ?? ""}
-                onChange={(e) => onCpuChange(e.target.value === "" ? null : Number(e.target.value))}
-                className="no-spinner"
-              />
-            </div>
+          <div className="w-[50%]">
+            <Input
+              header={t("userModal.cpuLimit")}
+              description={t("userModal.cpuDescription")}
+              id="cpu-limit"
+              type="number"
+              placeholder={t("userModal.placeholder")}
+              endDecorator="CPUs"
+              value={cpu ?? ""}
+              onChange={(e) => onCpuChange(e.target.value === "" ? null : Number(e.target.value))}
+              className="no-spinner"
+            />
           </div>
         </div>
       </div>

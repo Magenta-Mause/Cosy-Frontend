@@ -22,8 +22,8 @@ import {
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
-import MemoryLimitInputEditGameServer from "./MemoryLimitInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
+import MemoryLimitInputField from "../../MemoryLimit/MemoryLimitInputField.tsx";
 
 // Extended type to include docker_hardware_limits if missing in generated DTO
 type ExtendedGameServerUpdateDto = GameServerUpdateDto & {
@@ -82,6 +82,12 @@ const EditGameServerModal = (props: {
       .string()
       .min(1)
       .safeParse(gameServerState.docker_image_tag).success;
+    const memoryLimitValid =
+      memoryLimit === null ||
+      z
+        .string()
+        .min(1)
+        .safeParse(gameServerState.docker_hardware_limits?.docker_memory_limit ?? "").success;
 
     const portMappingsValid =
       !gameServerState.port_mappings ||
@@ -127,11 +133,12 @@ const EditGameServerModal = (props: {
       gameUuidValid &&
       dockerImageNameValid &&
       dockerImageTagValid &&
+      memoryLimitValid &&
       portMappingsValid &&
       envVarsValid &&
       volumeMountsValid
     );
-  }, [gameServerState]);
+  }, [gameServerState, memoryLimit]);
 
   const isChanged = useMemo(() => {
     const parsedCommand = executionCommandRaw.trim()
@@ -359,7 +366,7 @@ const EditGameServerModal = (props: {
               optional={true}
             />
 
-            <MemoryLimitInputEditGameServer
+            <MemoryLimitInputField
               id="memory_limit"
               validator={z.string().min(1)}
               placeholder="512"
@@ -377,7 +384,7 @@ const EditGameServerModal = (props: {
                   },
                 }))
               }
-              optional={true}
+              optional={memoryLimit === null}
             />
           </div>
         </DialogMain>

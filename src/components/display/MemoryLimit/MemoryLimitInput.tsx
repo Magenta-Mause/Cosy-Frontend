@@ -10,6 +10,8 @@ import { useCallback, useEffect, useState } from "react";
 
 interface MemoryLimitInputProps {
   id?: string;
+  header?: string;
+  description?: string;
   value?: number | string | null;
   onChange: (value: string) => void; // Emits string (e.g. "100MiB" or "1GiB")
   placeholder?: string;
@@ -20,6 +22,8 @@ interface MemoryLimitInputProps {
 
 export const MemoryLimitInput = ({
   id,
+  header,
+  description,
   value,
   onChange,
   placeholder,
@@ -94,7 +98,7 @@ export const MemoryLimitInput = ({
   const unitSelector = (
     <div className="pointer-events-auto h-full flex items-center">
       <Select value={unit} onValueChange={(v) => handleUnitChange(v as "MiB" | "GiB")}>
-        <SelectTrigger className="h-6 w-fit border-none shadow-none bg-transparent focus:ring-0 px-1 gap-1 text-muted-foreground hover:bg-transparent">
+        <SelectTrigger className="text-base h-6 w-fit border-none shadow-none bg-transparent focus:ring-0 px-1 gap-1 text-muted-foreground hover:bg-transparent">
           <SelectValue placeholder="Unit" />
         </SelectTrigger>
         <SelectContent>
@@ -107,7 +111,8 @@ export const MemoryLimitInput = ({
 
   return (
     <Input
-      header
+      header={header}
+      description={description}
       className={`${isError ? "border-red-500" : ""} pr-16 ${className ?? ""}`}
       placeholder={placeholder}
       onChange={(e) => handleInputChange(e.target.value)}

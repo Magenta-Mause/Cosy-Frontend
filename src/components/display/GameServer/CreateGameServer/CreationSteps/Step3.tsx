@@ -1,16 +1,47 @@
 import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
 import PortInput from "@components/display/GameServer/CreateGameServer/PortInput.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
-import MemoryLimitInputField from "../MemoryLimitInputField.tsx";
+import { GameServerCreationContext } from "../CreateGameServerModal.tsx";
+import { GameServerCreationPageContext } from "../GenericGameServerCreationPage.tsx";
+import MemoryLimitInputField from "../../../MemoryLimit/MemoryLimitInputField.tsx";
+import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");
   const { cpuLimit, memoryLimit } = useContext(AuthContext);
+  const { setGameServerState, creationState, triggerNextPage } =
+    useContext(GameServerCreationContext);
+  const { setAttributeTouched, setAttributeValid } = useContext(GameServerCreationPageContext);
+  const memoryAttribute = "docker_max_memory" as keyof GameServerCreationDto;
+
+  const handleMemoryChange = useCallback(
+    (value: string | null) => {
+      const nextValue = value === null || value === "" ? undefined : value;
+      setGameServerState(memoryAttribute)(
+        nextValue as GameServerCreationDto[keyof GameServerCreationDto],
+      );
+    },
+    [setGameServerState, memoryAttribute],
+  );
+
+  const handleMemoryValidityChange = useCallback(
+    (isValid: boolean) => {
+      setAttributeValid(memoryAttribute, isValid);
+    },
+    [setAttributeValid, memoryAttribute],
+  );
+
+  const handleMemoryTouchedChange = useCallback(
+    (touched: boolean) => {
+      setAttributeTouched(memoryAttribute, touched);
+    },
+    [setAttributeTouched, memoryAttribute],
+  );
 
   return (
     <GenericGameServerCreationPage>
@@ -99,7 +130,7 @@ export default function Step3() {
         />
 
         <MemoryLimitInputField
-          attribute="docker_max_memory"
+          id="docker_max_memory"
           validator={z.string().min(1)}
           placeholder="512"
           optional={memoryLimit === null}
@@ -107,6 +138,15 @@ export default function Step3() {
           label={t("memoryLimitSelection.title") + (memoryLimit === null ? " (Optional)" : "")}
           description={t("memoryLimitSelection.description")}
           errorLabel={t("memoryLimitSelection.errorLabel")}
+          value={creationState.gameServerState[memoryAttribute] as string | number | undefined}
+          onChange={handleMemoryChange}
+          onValidityChange={handleMemoryValidityChange}
+          onTouchedChange={handleMemoryTouchedChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              triggerNextPage();
+            }
+          }}
         />
       </div>
     </GenericGameServerCreationPage>
