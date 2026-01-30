@@ -115,7 +115,7 @@ const MemoryLimitInputField = (props: {
       {(props.description || props.maxLimit !== undefined) && (
         <Label htmlFor={props.id} className="pt-2 text-muted-foreground">
           {props.description}
-          {props.maxLimit !== undefined && <span> (Limit: {formatLimit(props.maxLimit)})</span>}
+          {props.maxLimit !== undefined && <span>(limit{":"} {formatLimit(props.maxLimit)})</span>}
         </Label>
       )}
       {isError && <FieldError>{props.errorLabel}</FieldError>}

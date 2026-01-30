@@ -1,5 +1,5 @@
 import { Button } from "@components/ui/button.tsx";
-import { useEffect, useMemo, useState } from "react";
+import {useContext, useEffect, useMemo, useState} from "react";
 import { parse as parseCommand, quote } from "shell-quote";
 import * as z from "zod";
 import {
@@ -12,6 +12,8 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
+import MemoryLimitInputField from "@components/display/MemoryLimit/MemoryLimitInputField.tsx";
+import {AuthContext} from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 
 const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
   server_name: server.server_name,
@@ -26,6 +28,10 @@ const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto =>
     container_path: v.container_path ?? "",
   })),
   execution_command: server.execution_command,
+  docker_hardware_limits: {
+    docker_memory_limit: server.docker_hardware_limits?.docker_memory_limit,
+    docker_max_cpu_cores: server.docker_hardware_limits?.docker_max_cpu_cores,
+  },
 });
 
 const EditGameServerPage = (props: {
@@ -34,6 +40,7 @@ const EditGameServerPage = (props: {
   onConfirm: (updatedState: GameServerUpdateDto) => Promise<void>;
 }) => {
   const { t } = useTranslationPrefix("components.editGameServer");
+  const { cpuLimit, memoryLimit } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(() =>
     mapGameServerDtoToUpdate(props.gameServer),
@@ -323,6 +330,51 @@ const EditGameServerPage = (props: {
           inputType="text"
           objectKey="host_path"
           objectValue="container_path"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <InputFieldEditGameServer
+          validator={z.string().min(1)}
+          placeholder="0.5"
+          label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
+          description={
+            t("cpuLimitSelection.description") +
+            (cpuLimit !== null ? ` (Limit: ${cpuLimit})` : " (Limit: ∞)")
+          }
+          errorLabel={t("cpuLimitSelection.errorLabel")}
+          value={gameServerState.docker_hardware_limits?.docker_max_cpu_cores}
+          onChange={(v) =>
+            setGameServerState((s) => ({
+              ...s,
+              docker_hardware_limits: {
+                ...s.docker_hardware_limits,
+                docker_max_cpu_cores: v ? Number(v) : undefined,
+              },
+            }))
+          }
+          optional={true}
+        />
+
+        <MemoryLimitInputField
+          id="memory_limit"
+          validator={z.string().min(1)}
+          placeholder="512"
+          label={`${t("memoryLimitSelection.title")} ${memoryLimit === null ? " (Optional)" : ""}`}
+          description={t("memoryLimitSelection.description")}
+          maxLimit={memoryLimit}
+          errorLabel={t("memoryLimitSelection.errorLabel")}
+          value={gameServerState.docker_hardware_limits?.docker_memory_limit}
+          onChange={(v) =>
+            setGameServerState((s) => ({
+              ...s,
+              docker_hardware_limits: {
+                ...s.docker_hardware_limits,
+                docker_memory_limit: v ?? undefined,
+              },
+            }))
+          }
+          optional={memoryLimit === null}
         />
       </div>
 

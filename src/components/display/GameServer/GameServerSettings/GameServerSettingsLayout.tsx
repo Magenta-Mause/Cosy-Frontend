@@ -133,7 +133,7 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
           ))}
         </div>
         <Separator className="m-4" orientation="vertical" />
-        <div className="w-full overflow-y-auto">{children}</div>
+        <div className="w-full max-w-full overflow-y-auto">{children}</div>
       </div>
     </SettingsProvider.Provider>
   );
