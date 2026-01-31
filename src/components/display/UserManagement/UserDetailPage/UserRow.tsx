@@ -5,9 +5,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip"
 import { Ellipsis } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
+import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import { cn } from "@/lib/utils";
 import ResourceUsageBadge from "./ResourceUsageBadge";
-import {formatMemoryLimit} from "@/lib/memoryFormatUtil.ts";
 
 const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserEntityDtoRole }) => {
   const { t } = useTranslation();
