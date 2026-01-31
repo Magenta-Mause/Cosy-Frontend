@@ -53,7 +53,10 @@ const GenericGameServerCreationInputField = (props: {
         props.attribute,
         creationState.gameServerState[props.attribute] !== undefined,
       );
-      setAttributeValid(props.attribute, validate(creationState.gameServerState[props.attribute] as string | number | undefined));
+      setAttributeValid(
+        props.attribute,
+        validate(creationState.gameServerState[props.attribute] as string | number | undefined),
+      );
     }
   }, [
     props.optional,

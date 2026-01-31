@@ -42,7 +42,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
         let valueA: string | number | null | undefined;
         let valueB: string | number | null | undefined;
 
-        if (sortField === "max_cpu" || sortField === "max_memory") {
+        if (sortField === "docker_max_cpu_cores" || sortField === "docker_memory_limit") {
           valueA = a.docker_hardware_limits?.[sortField];
           valueB = b.docker_hardware_limits?.[sortField];
         } else {
