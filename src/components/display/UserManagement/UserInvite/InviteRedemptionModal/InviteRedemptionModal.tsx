@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useGetUserInvite, useUseInvite } from "@/api/generated/backend-api.ts";
+import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
 
 interface InviteRedemptionModalProps {
@@ -28,7 +29,6 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isOpen, setIsOpen] = useState(true);
-  const formatMemoryLimit = (value: string) => value.replace(/(\d)([a-zA-Z])/g, "$1 $2");
 
   // Fetch invite details to validate and see if username is pre-filled
   const {
