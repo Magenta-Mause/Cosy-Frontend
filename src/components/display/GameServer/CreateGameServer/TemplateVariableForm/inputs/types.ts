@@ -1,4 +1,4 @@
-import type {TemplateVariable} from "@/api/generated/model";
+import type { TemplateVariable } from "@/api/generated/model";
 
 export interface VariableInputProps {
   variable: TemplateVariable;

@@ -1,5 +1,7 @@
+import MemoryLimitInputField from "@components/display/MemoryLimit/MemoryLimitInputField.tsx";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
-import {useContext, useEffect, useMemo, useState} from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { parse as parseCommand, quote } from "shell-quote";
 import * as z from "zod";
 import {
@@ -12,8 +14,6 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
-import MemoryLimitInputField from "@components/display/MemoryLimit/MemoryLimitInputField.tsx";
-import {AuthContext} from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 
 const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
   server_name: server.server_name,

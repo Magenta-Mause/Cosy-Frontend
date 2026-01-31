@@ -4,14 +4,15 @@ import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthPr
 import { useCallback, useContext } from "react";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
-import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
+import MemoryLimitInputField from "../../../MemoryLimit/MemoryLimitInputField.tsx";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,
 } from "../CreateGameServerModal.tsx";
-import { GameServerCreationPageContext } from "../GenericGameServerCreationPage.tsx";
-import MemoryLimitInputField from "../../../MemoryLimit/MemoryLimitInputField.tsx";
+import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
+import GenericGameServerCreationPage, {
+  GameServerCreationPageContext,
+} from "../GenericGameServerCreationPage.tsx";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");

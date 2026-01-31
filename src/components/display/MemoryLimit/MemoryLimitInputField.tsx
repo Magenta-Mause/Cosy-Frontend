@@ -88,7 +88,14 @@ const MemoryLimitInputField = (props: {
     const isTouched = props.optional ? true : !isEmpty;
     const valid = isEmpty ? !!props.optional : validate(props.value);
     reportValidity(valid, isTouched);
-  }, [props.value, props.optional, validate, reportValidity, props.onTouchedChange, props.onValidityChange]);
+  }, [
+    props.value,
+    props.optional,
+    validate,
+    reportValidity,
+    props.onTouchedChange,
+    props.onValidityChange,
+  ]);
 
   const formatLimit = (limit: number | string | null | undefined) => {
     if (limit === null) return "∞";
@@ -115,7 +122,11 @@ const MemoryLimitInputField = (props: {
       {(props.description || props.maxLimit !== undefined) && (
         <Label htmlFor={props.id} className="pt-2 text-muted-foreground">
           {props.description}
-          {props.maxLimit !== undefined && <span>(limit{":"} {formatLimit(props.maxLimit)})</span>}
+          {props.maxLimit !== undefined && (
+            <span>
+              (limit{":"} {formatLimit(props.maxLimit)})
+            </span>
+          )}
         </Label>
       )}
       {isError && <FieldError>{props.errorLabel}</FieldError>}

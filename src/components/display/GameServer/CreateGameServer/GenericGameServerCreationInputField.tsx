@@ -7,6 +7,7 @@ import { FieldError } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { useCallback, useContext, useEffect } from "react";
 import type { ZodType } from "zod";
+
 const GenericGameServerCreationInputField = (props: {
   attribute: keyof GameServerCreationFormState;
   validator: ZodType;
