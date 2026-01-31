@@ -29,14 +29,6 @@ const GenericGameServerCreationInputField = (props: {
 
   const isError = attributesTouched[props.attribute] && !attributesValid[props.attribute];
 
-  const validate = useCallback(
-    (value: string | number | undefined): boolean => {
-      if (value === undefined || value === "") return props.optional ?? false;
-      return props.validator.safeParse(value).success;
-    },
-    [props.optional, props.validator],
-  );
-
   useEffect(() => {
     if (!props.optional) {
       setAttributeTouched(
@@ -45,7 +37,7 @@ const GenericGameServerCreationInputField = (props: {
       );
       setAttributeValid(
         props.attribute,
-        validate(creationState.gameServerState[props.attribute] as string | number | undefined),
+        props.validator.safeParse(creationState.gameServerState[props.attribute]).success,
       );
     }
   }, [
@@ -54,56 +46,42 @@ const GenericGameServerCreationInputField = (props: {
     props.attribute,
     setAttributeTouched,
     setAttributeValid,
-    validate,
+    props.validator,
   ]);
 
   useEffect(() => {
     if (props.optional) {
-      const val = creationState.gameServerState[props.attribute];
-      if (val !== undefined && val !== "") {
-        setAttributeValid(props.attribute, validate(val as string | number | undefined));
-      } else {
-        setAttributeValid(props.attribute, true);
-      }
+      setAttributeValid(props.attribute, true);
       setAttributeTouched(props.attribute, true);
     }
-  }, [
-    props.optional,
-    props.attribute,
-    setAttributeValid,
-    setAttributeTouched,
-    validate,
-    creationState.gameServerState,
-  ]);
+  }, [props.optional, props.attribute, setAttributeValid, setAttributeTouched]);
 
   const changeCallback = useCallback(
     (value: string) => {
       if (value === "" && props.defaultValue !== undefined)
         return setGameServerState(props.attribute)(props.defaultValue);
       setGameServerState(props.attribute)(value);
-
-      setAttributeValid(props.attribute, validate(value));
-      setAttributeTouched(props.attribute, true);
+      if (!props.optional) {
+        setAttributeValid(props.attribute, props.validator.safeParse(value).success);
+        setAttributeTouched(props.attribute, true);
+      }
     },
     [
+      props.optional,
       props.attribute,
+      props.validator,
       props.defaultValue,
       setAttributeTouched,
       setAttributeValid,
       setGameServerState,
-      validate,
     ],
   );
 
   useEffect(() => {
-    // Only set default value if there's no existing value in the context
-    if (
-      props.defaultValue !== undefined &&
-      creationState.gameServerState[props.attribute] === undefined
-    ) {
+    if (props.defaultValue !== undefined) {
       changeCallback(props.defaultValue);
     }
-  }, [changeCallback, props.defaultValue, props.attribute, creationState.gameServerState]);
+  }, [changeCallback, props.defaultValue]);
 
   return (
     <div>

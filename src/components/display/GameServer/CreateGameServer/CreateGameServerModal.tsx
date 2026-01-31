@@ -49,7 +49,10 @@ interface CreationState {
   utilState: UtilState;
 }
 
-export type GameServerCreationFormState = Omit<Partial<GameServerCreationDto>, 'docker_hardware_limits'> & {
+export type GameServerCreationFormState = Omit<
+  Partial<GameServerCreationDto>,
+  "docker_hardware_limits"
+> & {
   docker_max_cpu?: string;
   docker_max_memory?: string;
 };
