@@ -15,7 +15,7 @@ interface AuthContextType {
   tokenExpirationDate: number | null;
   username: string | null;
   role: UserEntityDtoRole | null;
-  memoryLimit: number | string | null;
+  memoryLimit: string | null;
   cpuLimit: number | null;
   refreshIdentityToken: () => void;
   setToken: (token: string) => void;
@@ -29,7 +29,7 @@ interface DecodedToken {
   sub: string;
   tokenType: "REFRESH_TOKEN" | "IDENTITY_TOKEN";
   role: UserEntityDtoRole;
-  memory_limit?: string | number;
+  memory_limit?: string;
   cpu_cores_limit?: number;
 }
 
@@ -58,7 +58,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
   const { loadAllData } = useDataLoading();
   const [username, setUsername] = useState<string | null>(null);
   const [role, setRole] = useState<UserEntityDtoRole | null>(null);
-  const [memoryLimit, setMemoryLimit] = useState<number | string | null>(null);
+  const [memoryLimit, setMemoryLimit] = useState<string | null>(null);
   const [cpuLimit, setCpuLimit] = useState<number | null>(null);
   const [identityToken, setIdentityToken] = useState<string | null>(null);
   const [authorized, setAuthorized] = useState<boolean | null>(null);

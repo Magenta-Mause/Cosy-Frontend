@@ -1,6 +1,5 @@
 import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
 import { FieldError } from "@components/ui/field.tsx";
-import { Label } from "@components/ui/label.tsx";
 import type { KeyboardEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
 import type { ZodType } from "zod";
@@ -97,38 +96,18 @@ const MemoryLimitInputField = (props: {
     props.onValidityChange,
   ]);
 
-  const formatLimit = (limit: number | string | null | undefined) => {
-    if (limit === null) return "∞";
-    if (limit === undefined) return "";
-    if (typeof limit === "string") return limit;
-    return `${limit} MiB`;
-  };
-
   return (
     <div className="py-2">
-      {props.label && (
-        <Label htmlFor={props.id} className="pb-2 font-bold">
-          {props.label}
-        </Label>
-      )}
       <MemoryLimitInput
         id={props.id}
+        header={props.label}
         className={isError ? "border-red-500" : ""}
         placeholder={props.placeholder}
         value={props.value}
         onChange={(val) => changeCallback(val)}
         onKeyDown={props.onKeyDown}
+        description={props.description}
       />
-      {(props.description || props.maxLimit !== undefined) && (
-        <Label htmlFor={props.id} className="pt-2 text-muted-foreground">
-          {props.description}
-          {props.maxLimit !== undefined && (
-            <span>
-              (limit{":"} {formatLimit(props.maxLimit)})
-            </span>
-          )}
-        </Label>
-      )}
       {isError && <FieldError>{props.errorLabel}</FieldError>}
     </div>
   );

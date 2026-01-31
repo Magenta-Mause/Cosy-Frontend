@@ -12,6 +12,7 @@ import {
   PortMappingProtocol,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
@@ -184,7 +185,7 @@ const EditGameServerPage = (props: {
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   return (
-    <div className="relative pr-3">
+    <div className="relative pr-3 pb-10">
       <div>
         <h2>{t("title")}</h2>
       </div>
@@ -359,7 +360,11 @@ const EditGameServerPage = (props: {
           validator={z.string().min(1)}
           placeholder="512"
           label={`${t("memoryLimitSelection.title")} ${memoryLimit === null ? " (Optional)" : ""}`}
-          description={t("memoryLimitSelection.description")}
+          description={
+            memoryLimit !== null
+              ? `${t("memoryLimitSelection.description")} (Your limit: ${formatMemoryLimit(memoryLimit)})`
+              : t("memoryLimitSelection.description")
+          }
           maxLimit={memoryLimit}
           errorLabel={t("memoryLimitSelection.errorLabel")}
           value={gameServerState.docker_hardware_limits?.docker_memory_limit}

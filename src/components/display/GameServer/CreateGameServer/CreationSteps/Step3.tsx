@@ -5,6 +5,7 @@ import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthPr
 import { useCallback, useContext } from "react";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import MemoryLimitInputField from "../../../MemoryLimit/MemoryLimitInputField.tsx";
 import {
   GameServerCreationContext,
@@ -138,7 +139,11 @@ export default function Step3() {
           optional={memoryLimit === null}
           maxLimit={memoryLimit}
           label={t("memoryLimitSelection.title") + (memoryLimit === null ? " (Optional)" : "")}
-          description={t("memoryLimitSelection.description")}
+          description={
+            memoryLimit !== null
+              ? `${t("memoryLimitSelection.description")} (Your limit: ${formatMemoryLimit(memoryLimit)})`
+              : t("memoryLimitSelection.description")
+          }
           errorLabel={t("memoryLimitSelection.errorLabel")}
           value={creationState.gameServerState[memoryAttribute] as string | number | undefined}
           onChange={handleMemoryChange}
