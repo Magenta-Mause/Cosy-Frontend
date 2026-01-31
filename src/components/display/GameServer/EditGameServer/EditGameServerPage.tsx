@@ -353,7 +353,7 @@ const EditGameServerPage = (props: {
               },
             }))
           }
-          optional={true}
+          optional={cpuLimit === null}
         />
 
         <MemoryLimitInputField
