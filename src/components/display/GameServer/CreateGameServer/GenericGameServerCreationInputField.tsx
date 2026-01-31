@@ -17,7 +17,6 @@ const GenericGameServerCreationInputField = (props: {
   description?: string;
   optional?: boolean;
   defaultValue?: string;
-  maxLimit?: number | null;
   inputType?: React.ComponentProps<"input">["type"];
   inputMode?: React.ComponentProps<"input">["inputMode"];
   step?: React.ComponentProps<"input">["step"];
@@ -33,18 +32,9 @@ const GenericGameServerCreationInputField = (props: {
   const validate = useCallback(
     (value: string | number | undefined): boolean => {
       if (value === undefined || value === "") return props.optional ?? false;
-
-      // Check max limit if exists
-      if (props.maxLimit !== null && props.maxLimit !== undefined) {
-        const numVal = typeof value === "string" ? parseFloat(value) : value;
-        if (!Number.isNaN(numVal) && numVal > props.maxLimit) {
-          return false;
-        }
-      }
-
       return props.validator.safeParse(value).success;
     },
-    [props.optional, props.maxLimit, props.validator],
+    [props.optional, props.validator],
   );
 
   useEffect(() => {
@@ -69,7 +59,6 @@ const GenericGameServerCreationInputField = (props: {
 
   useEffect(() => {
     if (props.optional) {
-      // If optional, we still need to validate if a value is entered (e.g. against limit)
       const val = creationState.gameServerState[props.attribute];
       if (val !== undefined && val !== "") {
         setAttributeValid(props.attribute, validate(val as string | number | undefined));
@@ -93,7 +82,6 @@ const GenericGameServerCreationInputField = (props: {
         return setGameServerState(props.attribute)(props.defaultValue);
       setGameServerState(props.attribute)(value);
 
-      // Always validate, regardless of optional status, if user is typing
       setAttributeValid(props.attribute, validate(value));
       setAttributeTouched(props.attribute, true);
     },

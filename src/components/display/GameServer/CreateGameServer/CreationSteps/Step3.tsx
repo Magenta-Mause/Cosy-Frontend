@@ -1,3 +1,4 @@
+import CpuLimitInputField from "@components/display/GameServer/CreateGameServer/CpuLimitInputField.tsx";
 import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
 import PortInput from "@components/display/GameServer/CreateGameServer/PortInput.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
@@ -121,15 +122,10 @@ export default function Step3() {
       />
 
       <div className="grid grid-cols-2 gap-4">
-        <GenericGameServerCreationInputField
-          attribute="docker_max_cpu"
-          validator={z.coerce.number().min(0)}
+        <CpuLimitInputField
           placeholder="0.5"
           optional={cpuLimit === null}
           maxLimit={cpuLimit}
-          inputType="number"
-          inputMode="decimal"
-          step="any"
           label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
           description={t("cpuLimitSelection.description")}
           errorLabel={t("cpuLimitSelection.errorLabel")}

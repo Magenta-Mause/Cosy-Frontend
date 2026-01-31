@@ -1,3 +1,4 @@
+import CpuLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/CpuLimitInputFieldEdit.tsx";
 import MemoryLimitInputField from "@components/display/MemoryLimit/MemoryLimitInputField.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
@@ -334,14 +335,10 @@ const EditGameServerPage = (props: {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <InputFieldEditGameServer
-          validator={z.string().min(1)}
+        <CpuLimitInputFieldEdit
           placeholder="0.5"
           label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
-          description={
-            t("cpuLimitSelection.description") +
-            (cpuLimit !== null ? ` (Limit: ${cpuLimit})` : " (Limit: ∞)")
-          }
+          description={t("cpuLimitSelection.description")}
           errorLabel={t("cpuLimitSelection.errorLabel")}
           value={gameServerState.docker_hardware_limits?.docker_max_cpu_cores}
           onChange={(v) =>
@@ -349,11 +346,12 @@ const EditGameServerPage = (props: {
               ...s,
               docker_hardware_limits: {
                 ...s.docker_hardware_limits,
-                docker_max_cpu_cores: v ? Number(v) : undefined,
+                docker_max_cpu_cores: v && v !== "" ? Number(v) : undefined,
               },
             }))
           }
           optional={cpuLimit === null}
+          maxLimit={cpuLimit}
         />
 
         <MemoryLimitInputField
