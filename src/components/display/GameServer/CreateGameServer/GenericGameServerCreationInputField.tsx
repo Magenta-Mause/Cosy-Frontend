@@ -31,8 +31,8 @@ const GenericGameServerCreationInputField = (props: {
   const isError = attributesTouched[props.attribute] && !attributesValid[props.attribute];
 
   const validate = useCallback(
-    (value: string | number | undefined) => {
-      if (value === undefined || value === "") return props.optional;
+    (value: string | number | undefined): boolean => {
+      if (value === undefined || value === "") return props.optional ?? false;
 
       // Check max limit if exists
       if (props.maxLimit !== null && props.maxLimit !== undefined) {
@@ -53,7 +53,7 @@ const GenericGameServerCreationInputField = (props: {
         props.attribute,
         creationState.gameServerState[props.attribute] !== undefined,
       );
-      setAttributeValid(props.attribute, validate(creationState.gameServerState[props.attribute]));
+      setAttributeValid(props.attribute, validate(creationState.gameServerState[props.attribute] as string | number | undefined));
     }
   }, [
     props.optional,
@@ -69,7 +69,7 @@ const GenericGameServerCreationInputField = (props: {
       // If optional, we still need to validate if a value is entered (e.g. against limit)
       const val = creationState.gameServerState[props.attribute];
       if (val !== undefined && val !== "") {
-        setAttributeValid(props.attribute, validate(val));
+        setAttributeValid(props.attribute, validate(val as string | number | undefined));
       } else {
         setAttributeValid(props.attribute, true);
       }
