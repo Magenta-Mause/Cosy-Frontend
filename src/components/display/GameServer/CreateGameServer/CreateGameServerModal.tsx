@@ -123,27 +123,33 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
   const handleNextPage = useCallback(() => {
     if (isLastPage) {
-      // biome-ignore lint/suspicious/noExplicitAny: explicit any for form state destructuring
-      const { docker_max_cpu, docker_max_memory, ...rest } = creationState.gameServerState as any;
+      const formState = creationState.gameServerState;
 
-      const gameServerCreationObject = {
-        ...rest,
-        game_uuid:
-          creationState.gameServerState.external_game_id !== GENERIC_GAME_PLACEHOLDER_VALUE
-            ? creationState.gameServerState.external_game_id
+      const gameServerCreationObject: GameServerCreationDto = {
+        server_name: formState.server_name ?? "",
+        docker_image_name: formState.docker_image_name ?? "",
+        docker_image_tag: formState.docker_image_tag ?? "",
+        external_game_id:
+          formState.external_game_id !== GENERIC_GAME_PLACEHOLDER_VALUE
+            ? formState.external_game_id
             : undefined,
-        execution_command: creationState.gameServerState.execution_command
-          ? parseCommand(creationState.gameServerState.execution_command as unknown as string)
+        execution_command: formState.execution_command
+          ? (parseCommand(formState.execution_command as unknown as string) as string[])
           : undefined,
-        port_mappings: creationState.gameServerState.port_mappings?.map((portMapping) => ({
-          ...portMapping,
-        })),
-        docker_hardware_limits: {
-          docker_max_cpu_cores: docker_max_cpu ? parseFloat(docker_max_cpu) : undefined,
-          docker_memory_limit: docker_max_memory || undefined,
-        },
+        port_mappings: formState.port_mappings,
+        environment_variables: formState.environment_variables,
+        volume_mounts: formState.volume_mounts,
+        docker_hardware_limits:
+          formState.docker_max_cpu || formState.docker_max_memory
+            ? {
+                docker_max_cpu_cores: formState.docker_max_cpu
+                  ? parseFloat(formState.docker_max_cpu)
+                  : undefined,
+                docker_memory_limit: formState.docker_max_memory || undefined,
+              }
+            : undefined,
       };
-      createGameServer(gameServerCreationObject as GameServerCreationDto);
+      createGameServer(gameServerCreationObject);
       setCreationState({ gameServerState: {}, utilState: {} });
       setPageValid({});
       setCurrentPage(0);
