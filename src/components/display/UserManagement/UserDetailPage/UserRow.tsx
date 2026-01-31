@@ -52,12 +52,6 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               unit={props.user.max_memory != null ? "MB" : undefined}
               resourceType={t("components.userManagement.userRow.resources.memory")}
             />
-            <ResourceUsageBadge
-              currentValue="55"
-              limit={299}
-              unit="GB"
-              resourceType={t("components.userManagement.userRow.resources.storage")}
-            />
           </div>
         )}
         <div>
