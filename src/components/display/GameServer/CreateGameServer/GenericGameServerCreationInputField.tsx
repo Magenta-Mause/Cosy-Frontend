@@ -31,13 +31,17 @@ const GenericGameServerCreationInputField = (props: {
 
   useEffect(() => {
     if (!props.optional) {
+      const value = creationState.gameServerState[props.attribute];
       setAttributeTouched(
         props.attribute,
-        creationState.gameServerState[props.attribute] !== undefined,
+        value !== undefined,
       );
+      const isValid = value === "" || value === null || value === undefined
+        ? false
+        : props.validator.safeParse(value).success;
       setAttributeValid(
         props.attribute,
-        props.validator.safeParse(creationState.gameServerState[props.attribute]).success,
+        isValid,
       );
     }
   }, [
@@ -62,7 +66,8 @@ const GenericGameServerCreationInputField = (props: {
         return setGameServerState(props.attribute)(props.defaultValue);
       setGameServerState(props.attribute)(value);
       if (!props.optional) {
-        setAttributeValid(props.attribute, props.validator.safeParse(value).success);
+        const isValid = value === "" ? false : props.validator.safeParse(value).success;
+        setAttributeValid(props.attribute, isValid);
         setAttributeTouched(props.attribute, true);
       }
     },
