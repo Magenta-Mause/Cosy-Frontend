@@ -16,7 +16,7 @@ interface MemoryLimitInputFieldCreationProps {
   optional: boolean;
 }
 
-const MEMORY_LIMIT_MIN_ERROR = "Memory limit must be at least 6 MiB";
+export const MEMORY_LIMIT_MIN_ERROR = "Memory limit must be at least 6 MiB";
 
 const memoryLimitValidator = z
   .string()
@@ -34,7 +34,7 @@ const memoryLimitValidator = z
 
       return true;
     },
-    { message: "Memory limit must be at least 6MiB" },
+    { message: MEMORY_LIMIT_MIN_ERROR },
   );
 
 const validateMemoryLimit = (

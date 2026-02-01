@@ -16,6 +16,9 @@ import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
+import {
+  MEMORY_LIMIT_MIN_ERROR
+} from "@components/display/GameServer/CreateGameServer/MemoryLimitInputFieldCreation.tsx";
 
 const memoryLimitValidator = z
   .string()
@@ -33,7 +36,7 @@ const memoryLimitValidator = z
 
       return true;
     },
-    { message: "Memory limit must be at least 6MiB" },
+    { message: MEMORY_LIMIT_MIN_ERROR },
   );
 
 const cpuLimitValidator = z.number().positive();
@@ -435,7 +438,7 @@ const EditGameServerPage = (props: {
                 const [, numStr, unit] = match;
                 const num = parseFloat(numStr);
                 if (unit === "MiB" && num < 6) {
-                  customError = "Memory limit must be at least 6 MiB";
+                  customError = MEMORY_LIMIT_MIN_ERROR;
                 }
               }
             }
