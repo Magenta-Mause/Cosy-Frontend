@@ -20,17 +20,13 @@ const useServerInteractions = () => {
         });
       }
     } catch (e) {
-      const typedE = e as { response: { status: number } };
-      if (typedE.response?.status === 400) {
-        dispatch(
-          gameServerSliceActions.setGameServerState({
-            gameServerUuid: gameServerId,
-            serverState: GameServerDtoStatus.FAILED,
-          }),
-        );
-      } else {
-        toast.error(t("toasts.serverStartError", { error: e }), { duration: 5000 });
-      }
+      dispatch(
+        gameServerSliceActions.setGameServerState({
+          gameServerUuid: gameServerId,
+          serverState: GameServerDtoStatus.FAILED,
+        }),
+      );
+      toast.error(t("toasts.serverStartError", { error: e }), { duration: 5000 });
     }
   };
 
