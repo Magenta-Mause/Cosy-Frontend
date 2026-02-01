@@ -16,6 +16,8 @@ interface MemoryLimitInputFieldCreationProps {
   optional: boolean;
 }
 
+const MEMORY_LIMIT_MIN_ERROR = "Memory limit must be at least 6 MiB";
+
 const memoryLimitValidator = z.string().min(1).refine(
   (value) => {
     const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
@@ -70,7 +72,7 @@ const MemoryLimitInputFieldCreation = ({
             const [, numStr, unit] = match;
             const num = parseFloat(numStr);
             if (unit === "MiB" && num < 6) {
-              customError = "Memory limit must be at least 6 MiB";
+              customError = MEMORY_LIMIT_MIN_ERROR;
             }
           }
         }
@@ -105,7 +107,7 @@ const MemoryLimitInputFieldCreation = ({
             const [, numStr, unit] = match;
             const num = parseFloat(numStr);
             if (unit === "MiB" && num < 6) {
-              customError = "Memory limit must be at least 6 MiB";
+              customError = MEMORY_LIMIT_MIN_ERROR;
             }
           }
         }
@@ -141,7 +143,7 @@ const MemoryLimitInputFieldCreation = ({
               const [, numStr, unit] = match;
               const num = parseFloat(numStr);
               if (unit === "MiB" && num < 6) {
-                customError = "Memory limit must be at least 6 MiB";
+                customError = MEMORY_LIMIT_MIN_ERROR;
               }
             }
           }
@@ -159,7 +161,7 @@ const MemoryLimitInputFieldCreation = ({
               const [, numStr, unit] = match;
               const num = parseFloat(numStr);
               if (unit === "MiB" && num < 6) {
-                customError = "Memory limit must be at least 6 MiB";
+                customError = MEMORY_LIMIT_MIN_ERROR;
               }
             }
           }
