@@ -80,17 +80,6 @@ export const InviteForm = ({
         </div>
         <div className="flex justify-between gap-5">
           <div className="w-[45%]">
-            <MemoryLimitInput
-              id="memory-limit"
-              header={t("userModal.memoryLimit")}
-              description={t("userModal.memoryDescription")}
-              placeholder={t("userModal.placeholder")}
-              value={memory}
-              onChange={(val) => onMemoryChange(val === "" ? null : val)}
-              className="no-spinner"
-            />
-          </div>
-          <div className="w-[50%]">
             <Input
               header={t("userModal.cpuLimit")}
               description={t("userModal.cpuDescription")}
@@ -100,6 +89,17 @@ export const InviteForm = ({
               endDecorator="CPUs"
               value={cpu ?? ""}
               onChange={(e) => onCpuChange(e.target.value === "" ? null : Number(e.target.value))}
+              className="no-spinner"
+            />
+          </div>
+          <div className="w-[50%]">
+            <MemoryLimitInput
+              id="memory-limit"
+              header={t("userModal.memoryLimit")}
+              description={t("userModal.memoryDescription")}
+              placeholder={t("userModal.placeholder")}
+              value={memory}
+              onChange={(val) => onMemoryChange(val === "" ? null : val)}
               className="no-spinner"
             />
           </div>
