@@ -70,7 +70,7 @@ const gameServerSlice = createSlice({
       if (index !== -1) {
         state.data[index].status = action.payload.serverState;
       }
-    }
+    },
   },
 });
 
