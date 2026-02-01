@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import type { GameServerCreationDto } from "@/api/generated/model";
-import { GameServerCreationContext } from "../CreateGameServerModal";
+import { GameServerCreationContext, type GameServerCreationFormState } from "../CreateGameServerModal";
 import { GameServerCreationPageContext } from "../GenericGameServerCreationPage";
 import type { AutoCompleteItem, AutoCompleteSelections, GameServerCreationValue } from "./types";
 
@@ -9,7 +8,7 @@ const DEBOUNCE_DELAY = 300;
 const MAX_ITEMS_DISPLAYED = 5;
 
 interface UseAutoCompleteOptions<TSelectedItem, TAutoCompleteData extends GameServerCreationValue> {
-  attribute?: keyof GameServerCreationDto;
+  attribute?: keyof GameServerCreationFormState;
   selectionKey?: string;
   validator?: (value: TAutoCompleteData) => boolean;
   searchId?: string;

@@ -12,7 +12,7 @@ import { useCallback } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
-import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
+import type { GameServerCreationFormState } from "./CreateGameServerModal.tsx";
 import { cn } from "@/lib/utils.ts";
 
 interface PortItem {
@@ -23,7 +23,7 @@ interface PortItem {
 }
 
 interface Props {
-  attribute: keyof GameServerCreationDto;
+  attribute: keyof GameServerCreationFormState;
   placeHolderKeyInput: string;
   placeHolderValueInput: string;
   fieldLabel: string;
@@ -85,7 +85,7 @@ function PortInput({
   }, []);
 
   const parseInitialValue = useCallback(
-    (contextValue: GameServerCreationDto[keyof GameServerCreationDto]): PortItem[] => {
+    (contextValue: GameServerCreationFormState[keyof GameServerCreationFormState]): PortItem[] => {
       if (!contextValue || !Array.isArray(contextValue)) {
         return [];
       }
