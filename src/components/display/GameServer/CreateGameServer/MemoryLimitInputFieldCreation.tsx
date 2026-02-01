@@ -37,6 +37,38 @@ const memoryLimitValidator = z
     { message: "Memory limit must be at least 6MiB" },
   );
 
+const validateMemoryLimit = (
+  value: string | undefined | null,
+  optional: boolean,
+  defaultErrorLabel: string,
+): { isValid: boolean; errorMessage: string } => {
+  if (value === "" || value === null || value === undefined) {
+    return {
+      isValid: optional,
+      errorMessage: defaultErrorLabel,
+    };
+  }
+
+  const validationResult = memoryLimitValidator.safeParse(value);
+  let errorMessage = defaultErrorLabel;
+
+  if (!validationResult.success && typeof value === "string") {
+    const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
+    if (match) {
+      const [, numStr, unit] = match;
+      const num = parseFloat(numStr);
+      if (unit === "MiB" && num < 6) {
+        errorMessage = MEMORY_LIMIT_MIN_ERROR;
+      }
+    }
+  }
+
+  return {
+    isValid: validationResult.success,
+    errorMessage,
+  };
+};
+
 const MemoryLimitInputFieldCreation = ({
   label,
   description,
@@ -56,32 +88,12 @@ const MemoryLimitInputFieldCreation = ({
 
   useEffect(() => {
     if (!optional) {
-      const value = creationState.gameServerState[attribute];
-      setAttributeTouched(attribute, true); // Always mark as touched
+      const value = creationState.gameServerState[attribute] as string | undefined;
+      setAttributeTouched(attribute, true);
 
-      let isValid = false;
-      let customError = errorLabel;
+      const { isValid, errorMessage } = validateMemoryLimit(value, optional, errorLabel);
 
-      if (value === "" || value === null || value === undefined) {
-        isValid = false;
-        customError = errorLabel;
-      } else {
-        const validationResult = memoryLimitValidator.safeParse(value);
-        isValid = validationResult.success;
-
-        if (!isValid && typeof value === "string") {
-          const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
-          if (match) {
-            const [, numStr, unit] = match;
-            const num = parseFloat(numStr);
-            if (unit === "MiB" && num < 6) {
-              customError = MEMORY_LIMIT_MIN_ERROR;
-            }
-          }
-        }
-      }
-
-      setErrorMessage(customError);
+      setErrorMessage(errorMessage);
       setAttributeValid(attribute, isValid);
     }
   }, [
@@ -95,28 +107,11 @@ const MemoryLimitInputFieldCreation = ({
 
   useEffect(() => {
     if (optional) {
-      const value = creationState.gameServerState[attribute];
+      const value = creationState.gameServerState[attribute] as string | undefined;
 
-      let isValid = true;
-      let customError = errorLabel;
+      const { isValid, errorMessage } = validateMemoryLimit(value, optional, errorLabel);
 
-      if (value !== "" && value !== null && value !== undefined) {
-        const validationResult = memoryLimitValidator.safeParse(value);
-        isValid = validationResult.success;
-
-        if (!isValid && typeof value === "string") {
-          const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
-          if (match) {
-            const [, numStr, unit] = match;
-            const num = parseFloat(numStr);
-            if (unit === "MiB" && num < 6) {
-              customError = MEMORY_LIMIT_MIN_ERROR;
-            }
-          }
-        }
-      }
-
-      setErrorMessage(customError);
+      setErrorMessage(errorMessage);
       setAttributeValid(attribute, isValid);
       setAttributeTouched(attribute, true);
     }
@@ -136,49 +131,9 @@ const MemoryLimitInputFieldCreation = ({
         valToSend as GameServerCreationFormState[keyof GameServerCreationFormState],
       );
 
-      let isValid = false;
-      let customError = errorLabel;
+      const { isValid, errorMessage } = validateMemoryLimit(value, optional, errorLabel);
 
-      if (!optional) {
-        if (value === "") {
-          isValid = false;
-          customError = errorLabel;
-        } else {
-          const validationResult = memoryLimitValidator.safeParse(value);
-          isValid = validationResult.success;
-
-          if (!isValid) {
-            const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
-            if (match) {
-              const [, numStr, unit] = match;
-              const num = parseFloat(numStr);
-              if (unit === "MiB" && num < 6) {
-                customError = MEMORY_LIMIT_MIN_ERROR;
-              }
-            }
-          }
-        }
-      } else {
-        if (value === "") {
-          isValid = true;
-        } else {
-          const validationResult = memoryLimitValidator.safeParse(value);
-          isValid = validationResult.success;
-
-          if (!isValid) {
-            const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
-            if (match) {
-              const [, numStr, unit] = match;
-              const num = parseFloat(numStr);
-              if (unit === "MiB" && num < 6) {
-                customError = MEMORY_LIMIT_MIN_ERROR;
-              }
-            }
-          }
-        }
-      }
-
-      setErrorMessage(customError);
+      setErrorMessage(errorMessage);
       setAttributeValid(attribute, isValid);
       setAttributeTouched(attribute, true);
     },
