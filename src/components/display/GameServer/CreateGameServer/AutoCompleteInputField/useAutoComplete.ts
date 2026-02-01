@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import { GameServerCreationContext, type GameServerCreationFormState } from "../CreateGameServerModal";
+import {
+  GameServerCreationContext,
+  type GameServerCreationFormState,
+} from "../CreateGameServerModal";
 import { GameServerCreationPageContext } from "../GenericGameServerCreationPage";
 import type { AutoCompleteItem, AutoCompleteSelections, GameServerCreationValue } from "./types";
 

@@ -5,7 +5,10 @@ import { CircleAlertIcon, CircleX } from "lucide-react";
 import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { v7 as generateUuid } from "uuid";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { GameServerCreationContext, type GameServerCreationFormState } from "./CreateGameServerModal.tsx";
+import {
+  GameServerCreationContext,
+  type GameServerCreationFormState,
+} from "./CreateGameServerModal.tsx";
 import { GameServerCreationPageContext } from "./GenericGameServerCreationPage.tsx";
 
 interface Props<T extends { uuid: string }> {
@@ -18,7 +21,9 @@ interface Props<T extends { uuid: string }> {
   fieldDescription: ReactNode;
   renderRow: (changeCallback: (newVal: T) => void, rowError: boolean) => (item: T) => ReactNode;
   defaultNewItem?: () => Partial<T>;
-  parseInitialValue?: (contextValue: GameServerCreationFormState[keyof GameServerCreationFormState]) => T[];
+  parseInitialValue?: (
+    contextValue: GameServerCreationFormState[keyof GameServerCreationFormState],
+  ) => T[];
 }
 
 function ListInput<T extends { uuid: string }>({

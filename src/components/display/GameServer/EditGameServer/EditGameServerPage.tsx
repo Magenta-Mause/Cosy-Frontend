@@ -339,7 +339,11 @@ const EditGameServerPage = (props: {
         <CpuLimitInputFieldEdit
           placeholder="0.5"
           label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
-          description={t("cpuLimitSelection.description")}
+          description={
+            cpuLimit !== null
+              ? `${t("cpuLimitSelection.description")} (Your limit: ${cpuLimit} Cores)`
+              : t("cpuLimitSelection.description")
+          }
           errorLabel={t("cpuLimitSelection.errorLabel")}
           value={gameServerState.docker_hardware_limits?.docker_max_cpu_cores}
           onChange={(v) =>

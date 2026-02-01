@@ -127,7 +127,11 @@ export default function Step3() {
           placeholder="0.5"
           optional={cpuLimit === null}
           label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
-          description={t("cpuLimitSelection.description")}
+          description={
+            cpuLimit !== null
+              ? `${t("cpuLimitSelection.description")} (Your limit: ${cpuLimit} Cores)`
+              : t("cpuLimitSelection.description")
+          }
           errorLabel={t("cpuLimitSelection.errorLabel")}
         />
 

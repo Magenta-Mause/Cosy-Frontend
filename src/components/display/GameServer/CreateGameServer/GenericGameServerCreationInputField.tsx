@@ -32,17 +32,12 @@ const GenericGameServerCreationInputField = (props: {
   useEffect(() => {
     if (!props.optional) {
       const value = creationState.gameServerState[props.attribute];
-      setAttributeTouched(
-        props.attribute,
-        value !== undefined,
-      );
-      const isValid = value === "" || value === null || value === undefined
-        ? false
-        : props.validator.safeParse(value).success;
-      setAttributeValid(
-        props.attribute,
-        isValid,
-      );
+      setAttributeTouched(props.attribute, value !== undefined);
+      const isValid =
+        value === "" || value === null || value === undefined
+          ? false
+          : props.validator.safeParse(value).success;
+      setAttributeValid(props.attribute, isValid);
     }
   }, [
     props.optional,

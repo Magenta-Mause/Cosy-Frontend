@@ -80,7 +80,9 @@ function KeyValueInput({
   );
 
   const parseInitialValue = useCallback(
-    (contextValue: GameServerCreationFormState[keyof GameServerCreationFormState]): KeyValueItem[] => {
+    (
+      contextValue: GameServerCreationFormState[keyof GameServerCreationFormState],
+    ): KeyValueItem[] => {
       if (!contextValue || !Array.isArray(contextValue)) {
         return [];
       }

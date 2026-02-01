@@ -12,8 +12,8 @@ import { useCallback } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import { type PortMapping, PortMappingProtocol } from "@/api/generated/model";
-import type { GameServerCreationFormState } from "./CreateGameServerModal.tsx";
 import { cn } from "@/lib/utils.ts";
+import type { GameServerCreationFormState } from "./CreateGameServerModal.tsx";
 
 interface PortItem {
   key: string;
