@@ -126,24 +126,22 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
               <div className="space-y-7">
                 {inviteData?.docker_hardware_limits && (
                   <div className="flex flex-col gap-2 mb-4 justify-center items-center">
-                    <div className="flex gap-2">
-                      {inviteData.docker_hardware_limits.docker_max_cpu_cores && (
-                        <Badge className="px-3 text-sm bg-accent">
-                          {t("inviteRedemption.cpuLimit", {
-                            cpu: inviteData.docker_hardware_limits.docker_max_cpu_cores,
-                          })}
-                        </Badge>
-                      )}
-                      {inviteData.docker_hardware_limits.docker_memory_limit && (
-                        <Badge className="px-3 text-sm bg-accent">
-                          {t("inviteRedemption.memoryLimit", {
-                            memory: formatMemoryLimit(
-                              inviteData.docker_hardware_limits.docker_memory_limit,
-                            ),
-                          })}
-                        </Badge>
-                      )}
-                    </div>
+                    {inviteData.docker_hardware_limits.docker_max_cpu_cores && (
+                      <Badge className="px-3 text-sm bg-accent">
+                        {t("inviteRedemption.cpuLimit", {
+                          cpu: inviteData.docker_hardware_limits.docker_max_cpu_cores,
+                        })}
+                      </Badge>
+                    )}
+                    {inviteData.docker_hardware_limits.docker_memory_limit && (
+                      <Badge className="px-3 text-sm bg-accent">
+                        {t("inviteRedemption.memoryLimit", {
+                          memory: formatMemoryLimit(
+                            inviteData.docker_hardware_limits.docker_memory_limit,
+                          ),
+                        })}
+                      </Badge>
+                    )}
                   </div>
                 )}
               </div>
