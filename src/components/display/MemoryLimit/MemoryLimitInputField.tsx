@@ -1,5 +1,4 @@
 import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
-import { FieldError } from "@components/ui/field.tsx";
 import type { KeyboardEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
 import type { ZodType } from "zod";
@@ -102,14 +101,13 @@ const MemoryLimitInputField = (props: {
       <MemoryLimitInput
         id={props.id}
         header={props.label}
-        className={isError ? "border-red-500" : ""}
+        error={isError ? displayError : undefined}
         placeholder={props.placeholder}
         value={props.value}
         onChange={(val) => changeCallback(val)}
         onKeyDown={props.onKeyDown}
         description={props.description}
       />
-      {isError && <FieldError>{displayError}</FieldError>}
     </div>
   );
 };

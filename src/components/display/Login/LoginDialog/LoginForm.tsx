@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -33,36 +33,17 @@ const LoginForm = (props: {
     >
       <FieldGroup>
         <div className="-mb-5">
-          <FieldLabel
-            htmlFor="username"
-            className={`text-button-accent text-lg ${props.error ? "text-red-700" : ""}`}
-          >
+          <FieldLabel htmlFor="username" className="text-button-accent text-lg">
             {t("signIn.username")}
           </FieldLabel>
-          <Input
-            type="text"
-            id="username"
-            name="username"
-            className={`${props.error ? "border-red-700" : ""}`}
-            required
-          />
+          <Input type="text" id="username" name="username" required />
         </div>
 
         <div>
-          <FieldLabel
-            htmlFor="password"
-            className={`text-button-accent text-lg ${props.error ? "text-red-700" : ""}`}
-          >
+          <FieldLabel htmlFor="password" className="text-button-accent text-lg">
             {t("signIn.password")}
           </FieldLabel>
-          <Input
-            type="password"
-            id="password"
-            name="password"
-            className={`${props.error ? "border-red-700" : ""}`}
-            required
-          />
-          {props.error && <FieldError className="text-red-700 mt-1">{props.error}</FieldError>}
+          <Input type="password" id="password" name="password" error={props.error} required />
         </div>
 
         <a href="#test" className="underline flex justify-end text-link text-lg -my-4">

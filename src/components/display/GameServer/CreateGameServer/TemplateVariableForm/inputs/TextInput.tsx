@@ -1,4 +1,4 @@
-import { FieldError, FieldLabel } from "@components/ui/field";
+import { FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
 import type { VariableInputProps } from "./types";
 
@@ -29,7 +29,7 @@ export default function TextInput({
             onEnterKey();
           }
         }}
-        className={showError ? "border-red-500" : ""}
+        error={showError ? (errorMessage ? t(errorMessage) : t("validationError")) : undefined}
       />
       {variable.regex && (
         <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
@@ -40,9 +40,6 @@ export default function TextInput({
         <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
           {t("example")}: {variable.example}
         </FieldLabel>
-      )}
-      {showError && (
-        <FieldError>{errorMessage ? t(errorMessage) : t("validationError")}</FieldError>
       )}
     </div>
   );

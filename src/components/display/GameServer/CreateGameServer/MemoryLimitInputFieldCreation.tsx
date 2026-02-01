@@ -4,7 +4,6 @@ import {
 } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
 import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
-import { FieldError } from "@components/ui/field.tsx";
 import { useCallback, useContext, useEffect, useState } from "react";
 import * as z from "zod";
 
@@ -145,7 +144,7 @@ const MemoryLimitInputFieldCreation = ({
       <MemoryLimitInput
         id={attribute}
         header={label}
-        className={isError ? "border-red-500" : ""}
+        error={isError ? errorMessage : undefined}
         placeholder={placeholder}
         value={creationState.gameServerState[attribute] as string | number | undefined}
         onChange={(val) => changeCallback(val)}
@@ -156,7 +155,6 @@ const MemoryLimitInputFieldCreation = ({
         }}
         description={description}
       />
-      {isError && <FieldError>{errorMessage}</FieldError>}
     </div>
   );
 };

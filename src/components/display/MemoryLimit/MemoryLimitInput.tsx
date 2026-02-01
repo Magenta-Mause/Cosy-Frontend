@@ -16,8 +16,8 @@ interface MemoryLimitInputProps {
   onChange: (value: string) => void; // Emits string (e.g. "100MiB" or "1GiB")
   placeholder?: string;
   className?: string;
-  isError?: boolean;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  error?: string;
 }
 
 export const MemoryLimitInput = ({
@@ -28,8 +28,8 @@ export const MemoryLimitInput = ({
   onChange,
   placeholder,
   className,
-  isError,
   onKeyDown,
+  error,
 }: MemoryLimitInputProps) => {
   const [unit, setUnit] = useState<"MiB" | "GiB">("MiB");
   const [localInputValue, setLocalInputValue] = useState("");
@@ -113,7 +113,8 @@ export const MemoryLimitInput = ({
     <Input
       header={header}
       description={description}
-      className={`${isError ? "border-red-500" : ""} pr-16 ${className ?? ""}`}
+      className={`pr-16 ${className ?? ""}`}
+      error={error}
       placeholder={placeholder}
       onChange={(e) => handleInputChange(e.target.value)}
       id={id}

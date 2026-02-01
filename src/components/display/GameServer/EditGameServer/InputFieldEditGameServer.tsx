@@ -1,4 +1,3 @@
-import { FieldError } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { useCallback, useEffect, useState } from "react";
 import type { ZodType } from "zod";
@@ -58,7 +57,7 @@ const InputFieldEditGameServer = (props: {
       <Input
         header={props.label}
         description={props.description}
-        className={isError ? "border-red-500" : ""}
+        error={isError ? props.errorLabel : undefined}
         placeholder={props.placeholder}
         value={props.value ?? ""}
         onChange={(e) => changeCallback(e.target.value)}
@@ -67,7 +66,6 @@ const InputFieldEditGameServer = (props: {
         inputMode={props.inputMode}
         step={props.step}
       />
-      {isError && <FieldError>{props.errorLabel}</FieldError>}
     </div>
   );
 };

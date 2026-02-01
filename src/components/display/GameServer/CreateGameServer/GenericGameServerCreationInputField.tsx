@@ -3,7 +3,6 @@ import {
   type GameServerCreationFormState,
 } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { GameServerCreationPageContext } from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationPage.tsx";
-import { FieldError } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { useCallback, useContext, useEffect } from "react";
 import type { ZodType } from "zod";
@@ -86,7 +85,7 @@ const GenericGameServerCreationInputField = (props: {
   return (
     <div>
       <Input
-        className={isError ? "border-red-500" : ""}
+        error={isError ? props.errorLabel : undefined}
         description={props.description}
         header={props.label}
         placeholder={props.placeholder}
@@ -102,7 +101,6 @@ const GenericGameServerCreationInputField = (props: {
           }
         }}
       />
-      {isError && <FieldError>{props.errorLabel}</FieldError>}
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { MEMORY_LIMIT_MIN_ERROR } from "@components/display/GameServer/CreateGameServer/MemoryLimitInputFieldCreation.tsx";
 import CpuLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/CpuLimitInputFieldEdit.tsx";
 import MemoryLimitInputField from "@components/display/MemoryLimit/MemoryLimitInputField.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
@@ -16,9 +17,6 @@ import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
-import {
-  MEMORY_LIMIT_MIN_ERROR
-} from "@components/display/GameServer/CreateGameServer/MemoryLimitInputFieldCreation.tsx";
 
 const memoryLimitValidator = z
   .string()
