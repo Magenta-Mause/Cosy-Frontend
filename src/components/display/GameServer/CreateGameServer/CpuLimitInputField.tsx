@@ -19,7 +19,7 @@ const CpuLimitInputField = ({
   return (
     <GenericGameServerCreationInputField
       attribute="docker_max_cpu"
-      validator={z.coerce.number().min(0)}
+      validator={z.coerce.number().min(0.1)}
       placeholder={placeholder}
       optional={optional}
       inputType="number"

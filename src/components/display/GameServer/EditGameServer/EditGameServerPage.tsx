@@ -17,6 +17,22 @@ import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
 
+const memoryLimitValidator = z.string().min(1).refine(
+  (value) => {
+    const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
+    if (!match) return false;
+    
+    const [, numStr, unit] = match;
+    const num = parseFloat(numStr);
+    
+    if (Number.isNaN(num)) return false;
+    if (unit === "MiB" && num < 6) return false;
+    
+    return true;
+  },
+  { message: "Memory limit must be at least 6MiB" },
+);
+
 const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
   server_name: server.server_name,
   docker_image_name: server.docker_image_name,
@@ -360,7 +376,7 @@ const EditGameServerPage = (props: {
 
         <MemoryLimitInputField
           id="memory_limit"
-          validator={z.string().min(1)}
+          validator={memoryLimitValidator}
           placeholder="512"
           label={`${t("memoryLimitSelection.title")} ${memoryLimit === null ? " (Optional)" : ""}`}
           description={
