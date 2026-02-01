@@ -352,7 +352,6 @@ const EditGameServerPage = (props: {
             }))
           }
           optional={cpuLimit === null}
-          maxLimit={cpuLimit}
         />
 
         <MemoryLimitInputField
@@ -365,7 +364,6 @@ const EditGameServerPage = (props: {
               ? `${t("memoryLimitSelection.description")} (Your limit: ${formatMemoryLimit(memoryLimit)})`
               : t("memoryLimitSelection.description")
           }
-          maxLimit={memoryLimit}
           errorLabel={t("memoryLimitSelection.errorLabel")}
           value={gameServerState.docker_hardware_limits?.docker_memory_limit}
           onChange={(v) =>

@@ -7,7 +7,6 @@ interface CpuLimitInputFieldEditProps {
   errorLabel: string;
   placeholder: string;
   optional: boolean;
-  maxLimit: number | null;
   value: number | undefined;
   onChange: (value: string | null) => void;
 }
@@ -18,19 +17,15 @@ const CpuLimitInputFieldEdit = ({
   errorLabel,
   placeholder,
   optional,
-  maxLimit,
   value,
   onChange,
 }: CpuLimitInputFieldEditProps) => {
-  const descriptionWithLimit =
-    maxLimit !== null ? `${description} (Your limit: ${maxLimit} cores)` : description;
-
   return (
     <InputFieldEditGameServer
       validator={z.string().min(1)}
       placeholder={placeholder}
       label={label}
-      description={descriptionWithLimit}
+      description={description}
       errorLabel={errorLabel}
       value={value}
       onChange={(v) => {

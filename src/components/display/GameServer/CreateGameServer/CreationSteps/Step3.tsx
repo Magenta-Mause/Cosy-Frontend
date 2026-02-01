@@ -126,7 +126,6 @@ export default function Step3() {
         <CpuLimitInputField
           placeholder="0.5"
           optional={cpuLimit === null}
-          maxLimit={cpuLimit}
           label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
           description={t("cpuLimitSelection.description")}
           errorLabel={t("cpuLimitSelection.errorLabel")}
@@ -137,7 +136,6 @@ export default function Step3() {
           validator={z.string().min(1)}
           placeholder="512"
           optional={memoryLimit === null}
-          maxLimit={memoryLimit}
           label={t("memoryLimitSelection.title") + (memoryLimit === null ? " (Optional)" : "")}
           description={
             memoryLimit !== null

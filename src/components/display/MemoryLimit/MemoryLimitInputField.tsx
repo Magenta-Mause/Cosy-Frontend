@@ -16,7 +16,6 @@ const MemoryLimitInputField = (props: {
   optional?: boolean;
   defaultValue?: string;
   disabled?: boolean;
-  maxLimit?: number | string | null;
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
   onValidityChange?: (isValid: boolean) => void;
   onTouchedChange?: (touched: boolean) => void;

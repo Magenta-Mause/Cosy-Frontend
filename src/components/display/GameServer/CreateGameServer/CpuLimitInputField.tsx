@@ -7,7 +7,6 @@ interface CpuLimitInputFieldProps {
   errorLabel: string;
   placeholder: string;
   optional: boolean;
-  maxLimit: number | null;
 }
 
 const CpuLimitInputField = ({
@@ -16,11 +15,7 @@ const CpuLimitInputField = ({
   errorLabel,
   placeholder,
   optional,
-  maxLimit,
 }: CpuLimitInputFieldProps) => {
-  const descriptionWithLimit =
-    maxLimit !== null ? `${description} (Your limit: ${maxLimit} cores)` : description;
-
   return (
     <GenericGameServerCreationInputField
       attribute="docker_max_cpu"
@@ -31,7 +26,7 @@ const CpuLimitInputField = ({
       inputMode="decimal"
       step="any"
       label={label}
-      description={descriptionWithLimit}
+      description={description}
       errorLabel={errorLabel}
     />
   );
