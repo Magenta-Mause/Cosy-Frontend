@@ -1,3 +1,4 @@
+import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
 import { Input } from "@components/ui/input.tsx";
 import {
   Select,
@@ -23,8 +24,6 @@ interface InviteFormProps {
   onSubmit: () => void;
   isCreating: boolean;
 }
-
-import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
 
 export const InviteForm = ({
   username,

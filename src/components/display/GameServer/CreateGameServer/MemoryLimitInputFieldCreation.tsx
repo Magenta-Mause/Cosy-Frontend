@@ -18,21 +18,24 @@ interface MemoryLimitInputFieldCreationProps {
 
 const MEMORY_LIMIT_MIN_ERROR = "Memory limit must be at least 6 MiB";
 
-const memoryLimitValidator = z.string().min(1).refine(
-  (value) => {
-    const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
-    if (!match) return false;
-    
-    const [, numStr, unit] = match;
-    const num = parseFloat(numStr);
-    
-    if (Number.isNaN(num)) return false;
-    if (unit === "MiB" && num < 6) return false;
-    
-    return true;
-  },
-  { message: "Memory limit must be at least 6MiB" },
-);
+const memoryLimitValidator = z
+  .string()
+  .min(1)
+  .refine(
+    (value) => {
+      const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
+      if (!match) return false;
+
+      const [, numStr, unit] = match;
+      const num = parseFloat(numStr);
+
+      if (Number.isNaN(num)) return false;
+      if (unit === "MiB" && num < 6) return false;
+
+      return true;
+    },
+    { message: "Memory limit must be at least 6MiB" },
+  );
 
 const MemoryLimitInputFieldCreation = ({
   label,
@@ -55,17 +58,17 @@ const MemoryLimitInputFieldCreation = ({
     if (!optional) {
       const value = creationState.gameServerState[attribute];
       setAttributeTouched(attribute, true); // Always mark as touched
-      
+
       let isValid = false;
       let customError = errorLabel;
-      
+
       if (value === "" || value === null || value === undefined) {
         isValid = false;
         customError = errorLabel;
       } else {
         const validationResult = memoryLimitValidator.safeParse(value);
         isValid = validationResult.success;
-        
+
         if (!isValid && typeof value === "string") {
           const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
           if (match) {
@@ -77,7 +80,7 @@ const MemoryLimitInputFieldCreation = ({
           }
         }
       }
-      
+
       setErrorMessage(customError);
       setAttributeValid(attribute, isValid);
     }
@@ -93,14 +96,14 @@ const MemoryLimitInputFieldCreation = ({
   useEffect(() => {
     if (optional) {
       const value = creationState.gameServerState[attribute];
-      
+
       let isValid = true;
       let customError = errorLabel;
-      
+
       if (value !== "" && value !== null && value !== undefined) {
         const validationResult = memoryLimitValidator.safeParse(value);
         isValid = validationResult.success;
-        
+
         if (!isValid && typeof value === "string") {
           const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
           if (match) {
@@ -112,12 +115,19 @@ const MemoryLimitInputFieldCreation = ({
           }
         }
       }
-      
+
       setErrorMessage(customError);
       setAttributeValid(attribute, isValid);
       setAttributeTouched(attribute, true);
     }
-  }, [optional, attribute, setAttributeValid, setAttributeTouched, creationState.gameServerState, errorLabel]);
+  }, [
+    optional,
+    attribute,
+    setAttributeValid,
+    setAttributeTouched,
+    creationState.gameServerState,
+    errorLabel,
+  ]);
 
   const changeCallback = useCallback(
     (value: string) => {
@@ -125,10 +135,10 @@ const MemoryLimitInputFieldCreation = ({
       setGameServerState(attribute)(
         valToSend as GameServerCreationFormState[keyof GameServerCreationFormState],
       );
-      
+
       let isValid = false;
       let customError = errorLabel;
-      
+
       if (!optional) {
         if (value === "") {
           isValid = false;
@@ -136,7 +146,7 @@ const MemoryLimitInputFieldCreation = ({
         } else {
           const validationResult = memoryLimitValidator.safeParse(value);
           isValid = validationResult.success;
-          
+
           if (!isValid) {
             const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
             if (match) {
@@ -154,7 +164,7 @@ const MemoryLimitInputFieldCreation = ({
         } else {
           const validationResult = memoryLimitValidator.safeParse(value);
           isValid = validationResult.success;
-          
+
           if (!isValid) {
             const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
             if (match) {
@@ -167,7 +177,7 @@ const MemoryLimitInputFieldCreation = ({
           }
         }
       }
-      
+
       setErrorMessage(customError);
       setAttributeValid(attribute, isValid);
       setAttributeTouched(attribute, true);
@@ -197,4 +207,3 @@ const MemoryLimitInputFieldCreation = ({
 };
 
 export default MemoryLimitInputFieldCreation;
-

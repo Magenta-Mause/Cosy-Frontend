@@ -17,21 +17,24 @@ import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
 
-const memoryLimitValidator = z.string().min(1).refine(
-  (value) => {
-    const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
-    if (!match) return false;
-    
-    const [, numStr, unit] = match;
-    const num = parseFloat(numStr);
-    
-    if (Number.isNaN(num)) return false;
-    if (unit === "MiB" && num < 6) return false;
-    
-    return true;
-  },
-  { message: "Memory limit must be at least 6MiB" },
-);
+const memoryLimitValidator = z
+  .string()
+  .min(1)
+  .refine(
+    (value) => {
+      const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
+      if (!match) return false;
+
+      const [, numStr, unit] = match;
+      const num = parseFloat(numStr);
+
+      if (Number.isNaN(num)) return false;
+      if (unit === "MiB" && num < 6) return false;
+
+      return true;
+    },
+    { message: "Memory limit must be at least 6MiB" },
+  );
 
 const cpuLimitValidator = z.number().positive();
 
@@ -187,15 +190,23 @@ const EditGameServerPage = (props: {
         })) ?? [],
       );
 
-    const normalizeLimitValue = (val: string | number | null | undefined) => (val === null || val === undefined || val === "" ? null : val);
-    
+    const normalizeLimitValue = (val: string | number | null | undefined) =>
+      val === null || val === undefined || val === "" ? null : val;
+
     const hardwareLimitsChanged =
       normalizeLimitValue(gameServerState.docker_hardware_limits?.docker_max_cpu_cores) !==
         normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_max_cpu_cores) ||
       normalizeLimitValue(gameServerState.docker_hardware_limits?.docker_memory_limit) !==
         normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_memory_limit);
 
-    return commandsChanged || fieldsChanged || portsChanged || envChanged || volumesChanged || hardwareLimitsChanged;
+    return (
+      commandsChanged ||
+      fieldsChanged ||
+      portsChanged ||
+      envChanged ||
+      volumesChanged ||
+      hardwareLimitsChanged
+    );
   }, [gameServerState, executionCommandRaw, props.gameServer]);
 
   const handleConfirm = async () => {

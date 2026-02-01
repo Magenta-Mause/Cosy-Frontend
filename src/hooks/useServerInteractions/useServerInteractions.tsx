@@ -2,8 +2,8 @@ import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { startService, stopService } from "@/api/generated/backend-api.ts";
+import { GameServerDtoStatus } from "@/api/generated/model";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
-import {GameServerDtoStatus} from "@/api/generated/model";
 
 const useServerInteractions = () => {
   const dispatch = useDispatch();
@@ -20,9 +20,14 @@ const useServerInteractions = () => {
         });
       }
     } catch (e) {
-      const typedE = e as { response: { status: number }};
+      const typedE = e as { response: { status: number } };
       if (typedE.response?.status === 400) {
-        dispatch(gameServerSliceActions.setGameServerState({ gameServerUuid: gameServerId, serverState: GameServerDtoStatus.FAILED }));
+        dispatch(
+          gameServerSliceActions.setGameServerState({
+            gameServerUuid: gameServerId,
+            serverState: GameServerDtoStatus.FAILED,
+          }),
+        );
       } else {
         toast.error(t("toasts.serverStartError", { error: e }), { duration: 5000 });
       }
