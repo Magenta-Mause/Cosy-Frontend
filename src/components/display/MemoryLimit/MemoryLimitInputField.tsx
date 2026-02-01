@@ -19,11 +19,13 @@ const MemoryLimitInputField = (props: {
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
   onValidityChange?: (isValid: boolean) => void;
   onTouchedChange?: (touched: boolean) => void;
+  customErrorMessage?: string;
 }) => {
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
   const isError = touched && !isValid;
+  const displayError = props.customErrorMessage || props.errorLabel;
 
   const validate = useCallback(
     (value: unknown) => {
@@ -107,7 +109,7 @@ const MemoryLimitInputField = (props: {
         onKeyDown={props.onKeyDown}
         description={props.description}
       />
-      {isError && <FieldError>{props.errorLabel}</FieldError>}
+      {isError && <FieldError>{displayError}</FieldError>}
     </div>
   );
 };

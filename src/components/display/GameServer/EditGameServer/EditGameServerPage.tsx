@@ -33,6 +33,8 @@ const memoryLimitValidator = z.string().min(1).refine(
   { message: "Memory limit must be at least 6MiB" },
 );
 
+const cpuLimitValidator = z.number().positive();
+
 const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
   server_name: server.server_name,
   docker_image_name: server.docker_image_name,
@@ -66,6 +68,7 @@ const EditGameServerPage = (props: {
   const [executionCommandRaw, setExecutionCommandRaw] = useState(
     quote(gameServerState.execution_command ?? []),
   );
+  const [memoryErrorMessage, setMemoryErrorMessage] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const updatedState = mapGameServerDtoToUpdate(props.gameServer);
@@ -122,6 +125,20 @@ const EditGameServerPage = (props: {
         return z.string().min(1).safeParse(vol.container_path).success;
       });
 
+    const cpuLimitValid =
+      cpuLimit === null ||
+      (gameServerState.docker_hardware_limits?.docker_max_cpu_cores !== undefined &&
+        gameServerState.docker_hardware_limits?.docker_max_cpu_cores !== null &&
+        gameServerState.docker_hardware_limits?.docker_max_cpu_cores > 0);
+
+    const memoryLimitValid =
+      memoryLimit === null ||
+      (gameServerState.docker_hardware_limits?.docker_memory_limit !== undefined &&
+        gameServerState.docker_hardware_limits?.docker_memory_limit !== null &&
+        gameServerState.docker_hardware_limits?.docker_memory_limit !== "" &&
+        memoryLimitValidator.safeParse(gameServerState.docker_hardware_limits?.docker_memory_limit)
+          .success);
+
     return (
       serverNameValid &&
       gameUuidValid &&
@@ -129,9 +146,11 @@ const EditGameServerPage = (props: {
       dockerImageTagValid &&
       portMappingsValid &&
       envVarsValid &&
-      volumeMountsValid
+      volumeMountsValid &&
+      cpuLimitValid &&
+      memoryLimitValid
     );
-  }, [gameServerState]);
+  }, [gameServerState, cpuLimit, memoryLimit]);
 
   const isChanged = useMemo(() => {
     const parsedCommand = executionCommandRaw.trim()
@@ -167,7 +186,16 @@ const EditGameServerPage = (props: {
           container_path: v.container_path ?? "",
         })) ?? [],
       );
-    return commandsChanged || fieldsChanged || portsChanged || envChanged || volumesChanged;
+
+    const normalizeLimitValue = (val: string | number | null | undefined) => (val === null || val === undefined || val === "" ? null : val);
+    
+    const hardwareLimitsChanged =
+      normalizeLimitValue(gameServerState.docker_hardware_limits?.docker_max_cpu_cores) !==
+        normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_max_cpu_cores) ||
+      normalizeLimitValue(gameServerState.docker_hardware_limits?.docker_memory_limit) !==
+        normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_memory_limit);
+
+    return commandsChanged || fieldsChanged || portsChanged || envChanged || volumesChanged || hardwareLimitsChanged;
   }, [gameServerState, executionCommandRaw, props.gameServer]);
 
   const handleConfirm = async () => {
@@ -367,11 +395,12 @@ const EditGameServerPage = (props: {
               ...s,
               docker_hardware_limits: {
                 ...s.docker_hardware_limits,
-                docker_max_cpu_cores: v && v !== "" ? Number(v) : undefined,
+                docker_max_cpu_cores: v !== null && v !== "" ? Number(v) : undefined,
               },
             }))
           }
           optional={cpuLimit === null}
+          validator={cpuLimitValidator}
         />
 
         <MemoryLimitInputField
@@ -386,16 +415,31 @@ const EditGameServerPage = (props: {
           }
           errorLabel={t("memoryLimitSelection.errorLabel")}
           value={gameServerState.docker_hardware_limits?.docker_memory_limit}
-          onChange={(v) =>
+          onChange={(v) => {
+            // Check if value is below 6MiB for custom error
+            let customError: string | undefined;
+            if (v && typeof v === "string") {
+              const match = v.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
+              if (match) {
+                const [, numStr, unit] = match;
+                const num = parseFloat(numStr);
+                if (unit === "MiB" && num < 6) {
+                  customError = "Memory limit must be at least 6 MiB";
+                }
+              }
+            }
+            setMemoryErrorMessage(customError);
+
             setGameServerState((s) => ({
               ...s,
               docker_hardware_limits: {
                 ...s.docker_hardware_limits,
-                docker_memory_limit: v ?? undefined,
+                docker_memory_limit: v && v !== "" ? v : undefined,
               },
-            }))
-          }
+            }));
+          }}
           optional={memoryLimit === null}
+          customErrorMessage={memoryErrorMessage}
         />
       </div>
 
