@@ -29,15 +29,20 @@ const GenericGameServerCreationInputField = (props: {
   const isError = attributesTouched[props.attribute] && !attributesValid[props.attribute];
 
   useEffect(() => {
-    if (!props.optional) {
-      const value = creationState.gameServerState[props.attribute];
-      setAttributeTouched(props.attribute, value !== undefined);
-      const isValid =
-        value === "" || value === null || value === undefined
-          ? false
-          : props.validator.safeParse(value).success;
-      setAttributeValid(props.attribute, isValid);
+    const value = creationState.gameServerState[props.attribute];
+    setAttributeTouched(props.attribute, value !== undefined);
+
+    const isEmpty = value === "" || value === null || value === undefined;
+
+    // If optional and empty, it's valid
+    if (props.optional && isEmpty) {
+      setAttributeValid(props.attribute, true);
+      return;
     }
+
+    // If value is provided (or required), validate it
+    const isValid = isEmpty ? false : props.validator.safeParse(value).success;
+    setAttributeValid(props.attribute, isValid);
   }, [
     props.optional,
     creationState.gameServerState,
@@ -47,23 +52,20 @@ const GenericGameServerCreationInputField = (props: {
     props.validator,
   ]);
 
-  useEffect(() => {
-    if (props.optional) {
-      setAttributeValid(props.attribute, true);
-      setAttributeTouched(props.attribute, true);
-    }
-  }, [props.optional, props.attribute, setAttributeValid, setAttributeTouched]);
-
   const changeCallback = useCallback(
     (value: string) => {
       if (value === "" && props.defaultValue !== undefined)
         return setGameServerState(props.attribute)(props.defaultValue);
       setGameServerState(props.attribute)(value);
-      if (!props.optional) {
-        const isValid = value === "" ? false : props.validator.safeParse(value).success;
-        setAttributeValid(props.attribute, isValid);
-        setAttributeTouched(props.attribute, true);
-      }
+
+      const isEmpty = value === "";
+
+      // Validate: empty is OK when optional, otherwise validate
+      const isValid =
+        props.optional && isEmpty ? true : isEmpty ? false : props.validator.safeParse(value).success;
+
+      setAttributeValid(props.attribute, isValid);
+      setAttributeTouched(props.attribute, true);
     },
     [
       props.optional,

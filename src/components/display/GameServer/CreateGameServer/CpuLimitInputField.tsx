@@ -1,5 +1,5 @@
 import GenericGameServerCreationInputField from "@components/display/GameServer/CreateGameServer/GenericGameServerCreationInputField.tsx";
-import * as z from "zod";
+import { cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
 
 interface CpuLimitInputFieldProps {
   label: string;
@@ -19,7 +19,7 @@ const CpuLimitInputField = ({
   return (
     <GenericGameServerCreationInputField
       attribute="docker_max_cpu"
-      validator={z.coerce.number().positive()}
+      validator={cpuLimitValidator}
       placeholder={placeholder}
       optional={optional}
       inputType="number"

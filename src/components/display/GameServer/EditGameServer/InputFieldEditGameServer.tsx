@@ -23,7 +23,11 @@ const InputFieldEditGameServer = (props: {
 
   const validate = useCallback(
     (value: unknown) => {
-      if (props.optional) return true;
+      // If optional and empty, it's valid
+      if (props.optional && (value === null || value === undefined || value === "")) {
+        return true;
+      }
+      // If value is provided, it must pass validation (even when optional)
       return props.validator.safeParse(value).success;
     },
     [props.optional, props.validator],

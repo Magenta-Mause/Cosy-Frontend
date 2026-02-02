@@ -1,7 +1,5 @@
 import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import * as z from "zod";
-
-const cpuLimitValidator = z.coerce.number().positive();
+import { cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
 
 interface CpuLimitInputFieldEditProps {
   label: string;
