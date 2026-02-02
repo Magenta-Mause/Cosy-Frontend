@@ -1,6 +1,9 @@
 import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
+  common: {
+    yourLimit: "Your limit",
+  },
   userRoles: {
     QUOTA_USER: "User",
     ADMIN: "Admin",
@@ -66,9 +69,9 @@ const translation: i18nLanguage = {
     copyTooltip: "Click to copy link",
     roleLabel: "User role",
     editTooltip: "Click to edit user settings",
-    memoryLimit: "RAM limit (Optional)",
+    memoryLimit: "RAM (Optional)",
     memoryDescription: "Leave it empty to allow the user to have unlimited RAM.",
-    cpuLimit: "CPU limit (Optional)",
+    cpuLimit: "CPU Cores (Optional)",
     cpuDescription: "Leave it empty to allow the user to have unlimited CPU cores.",
     placeholder: "Unlimited",
   },
@@ -92,6 +95,8 @@ const translation: i18nLanguage = {
     loginInfo: "Please log in with your new account.",
     createGameServerSuccess: "Game Server created successfully!",
     createGameServerError: "Failed to create Game Server!",
+    cpuLimit: "CPU Cores: {{cpu}}",
+    memoryLimit: "RAM: {{memory}}",
   },
   deleteGameServerDialog: {
     title: "Are you sure?",
@@ -198,6 +203,16 @@ const translation: i18nLanguage = {
             description: "Volume mounts for your server",
             errorLabel: "Either both host path and container path must be provided or neither.",
           },
+          memoryLimitSelection: {
+            title: "RAM Limit",
+            description: "Limit the memory usage of the server",
+            errorLabel: "Please enter a valid memory limit.",
+          },
+          cpuLimitSelection: {
+            title: "CPU Cores",
+            description: "Limit the CPU usage of the server",
+            errorLabel: "Please enter a valid CPU limit.",
+          },
         },
       },
       autoCompleteInputField: {
@@ -280,6 +295,18 @@ const translation: i18nLanguage = {
         errorLabel: "Path must not be empty",
         description: "Volume mounts for your server",
       },
+
+      memoryLimitSelection: {
+        title: "RAM Limit",
+        description: "Limit the memory usage of the server",
+        errorLabel: "Please enter a valid memory limit.",
+      },
+
+      cpuLimitSelection: {
+        title: "CPU Cores",
+        description: "Limit the CPU usage of the server",
+        errorLabel: "Please enter a valid CPU limit.",
+      },
     },
     userManagement: {
       backButton: "Back",
@@ -333,13 +360,13 @@ const translation: i18nLanguage = {
       },
     },
   },
-  consequence: "asd{{counter}}ajskod",
   genericModal: {
     cancel: "Cancel",
   },
   logDisplay: {
     serverLog: "Server Log",
     timestampFormat: "HH:mm:ss.SSS",
+    stickToBottom: "Stick to bottom",
   },
   serverPage: {
     notFound: "not found",
@@ -348,6 +375,10 @@ const translation: i18nLanguage = {
     back: "Back",
     pullingImage: "Pulling Image...",
     status: "Status",
+    unlimited: "Unlimited",
+    dockerHardwareLimits: "Docker Hardware Limits",
+    cpuLimit: "CPU Cores",
+    memoryLimit: "RAM Limit",
     navbar: {
       overview: "Dashboard",
       console: "Console",

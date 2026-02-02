@@ -108,7 +108,7 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
 
   return (
     <SettingsProvider.Provider value={{ settings: serverSettings, setSettings }}>
-      <div className="flex gap-4 h-full">
+      <div className="flex gap-4 h-full overflow-clip">
         <div className="flex flex-col justify-center items-end w-[20%] min-w-0 align-top h-fit">
           {TABS.map(({ label, icon, path }) => (
             <div key={`${label}:${path}`} className={"relative w-full py-0.5"}>
@@ -133,7 +133,7 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
           ))}
         </div>
         <Separator className="m-4" orientation="vertical" />
-        <div className="w-full overflow-y-auto">{children}</div>
+        <div className="w-full max-w-full overflow-y-auto">{children}</div>
       </div>
     </SettingsProvider.Provider>
   );

@@ -1,7 +1,11 @@
 export type i18nLanguage = {
+  common: {
+    yourLimit: string;
+  };
   overviewPage: {
     createNewServer: string;
   };
+
   rightClickMenu: {
     edit: string;
     delete: string;
@@ -13,6 +17,7 @@ export type i18nLanguage = {
     loading: string;
     failed: string;
   };
+
   toasts: {
     notImplemented: string;
     deleteGameServerSuccess: string;
@@ -37,6 +42,7 @@ export type i18nLanguage = {
     updateGameServerError: string;
     missingUuid: string;
   };
+
   userModal: {
     title: string;
     inviteUserTitle: string;
@@ -64,11 +70,13 @@ export type i18nLanguage = {
     cpuDescription: string;
     placeholder: string;
   };
+
   userRoles: {
     QUOTA_USER: string;
     ADMIN: string;
     OWNER: string;
   };
+
   inviteRedemption: {
     title: string;
     description: string;
@@ -89,19 +97,24 @@ export type i18nLanguage = {
     loginInfo: string;
     createGameServerSuccess: string;
     createGameServerError: string;
+    cpuLimit: ContainsVariable<"cpu">;
+    memoryLimit: ContainsVariable<"memory">;
   };
+
   deleteGameServerDialog: {
     title: string;
-    explanation: string;
     description: string;
+    explanation: string;
     inputLabel: string;
     cancel: string;
     confirm: string;
   };
+
   aria: {
     createNewGameServer: string;
     gameServer: ContainsVariable<"serverName">;
   };
+
   signIn: {
     signIn: string;
     desc: string;
@@ -115,11 +128,13 @@ export type i18nLanguage = {
     loading: string;
     logout: string;
   };
-  consequence: ContainsVariable<"counter">; // example
+
   logDisplay: {
     serverLog: string;
     timestampFormat: string;
+    stickToBottom: string;
   };
+
   serverPage: {
     notFound: string;
     start: string;
@@ -127,6 +142,10 @@ export type i18nLanguage = {
     pullingImage: string;
     status: string;
     back: string;
+    dockerHardwareLimits: string;
+    cpuLimit: string;
+    memoryLimit: string;
+    unlimited: string;
     navbar: {
       overview: string;
       console: string;
@@ -135,6 +154,7 @@ export type i18nLanguage = {
       settings: string;
     };
   };
+
   serverStatus: {
     RUNNING: string;
     STARTING: string;
@@ -144,6 +164,7 @@ export type i18nLanguage = {
     AWAITING_UPDATE: string;
     STOPPING: string;
   };
+
   components: {
     TemplateVariableForm: {
       title: string;
@@ -237,6 +258,16 @@ export type i18nLanguage = {
             description: string;
             errorLabel: string;
           };
+          memoryLimitSelection: {
+            title: string;
+            description: string;
+            errorLabel: string;
+          };
+          cpuLimitSelection: {
+            title: string;
+            description: string;
+            errorLabel: string;
+          };
         };
       };
       autoCompleteInputField: {
@@ -244,6 +275,7 @@ export type i18nLanguage = {
         noResultsLabel: string;
       };
     };
+
     editGameServer: {
       title: string;
 
@@ -280,8 +312,8 @@ export type i18nLanguage = {
         errorLabel: string;
         description: string;
         placeholder: {
-          containerPort: string;
           instancePort: string;
+          containerPort: string;
           protocol: string;
         };
       };
@@ -302,6 +334,18 @@ export type i18nLanguage = {
         title: string;
         errorLabel: string;
         description: string;
+      };
+
+      memoryLimitSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+      };
+
+      cpuLimitSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
       };
     };
     userManagement: {
@@ -356,6 +400,7 @@ export type i18nLanguage = {
       };
     };
   };
+
   genericModal: {
     cancel: string;
   };

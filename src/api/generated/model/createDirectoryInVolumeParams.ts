@@ -6,10 +6,9 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface PullProgressDto {
-  status?: string;
-  id?: string;
-  progressDetail?: string;
-  current?: number;
-  total?: number;
-}
+export type CreateDirectoryInVolumeParams = {
+/**
+ * @minLength 1
+ */
+path: string;
+};
