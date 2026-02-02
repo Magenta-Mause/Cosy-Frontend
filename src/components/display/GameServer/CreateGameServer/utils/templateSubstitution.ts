@@ -1,10 +1,10 @@
 import {
   type EnvironmentVariableConfiguration,
-  type GameServerCreationDto,
   type PortMapping,
   PortMappingProtocol,
   type TemplateEntity,
 } from "@/api/generated/model";
+import type { GameServerCreationFormState } from "../CreateGameServerModal";
 
 /**
  * Substitutes template variables in a string
@@ -31,9 +31,9 @@ export function substituteVariables(
 export function applyTemplate(
   template: TemplateEntity,
   variables: Record<string, string | number | boolean>,
-  currentState: Partial<GameServerCreationDto>,
-): Partial<GameServerCreationDto> {
-  const newState: Partial<GameServerCreationDto> = {...currentState};
+  currentState: GameServerCreationFormState,
+): GameServerCreationFormState {
+  const newState: GameServerCreationFormState = {...currentState};
 
   // Substitute docker image name
   if (template.docker_image_name) {
