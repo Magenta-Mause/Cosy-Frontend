@@ -15,8 +15,8 @@ import {
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import {
-  MEMORY_LIMIT_MIN_ERROR,
   memoryLimitValidator,
+  getMemoryLimitError,
 } from "@/lib/validators/memoryLimitValidator.ts";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
@@ -411,19 +411,7 @@ const EditGameServerPage = (props: {
           errorLabel={t("memoryLimitSelection.errorLabel")}
           value={gameServerState.docker_hardware_limits?.docker_memory_limit}
           onChange={(v) => {
-            // Check if value is below 6MiB for custom error
-            let customError: string | undefined;
-            if (v && typeof v === "string") {
-              const match = v.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
-              if (match) {
-                const [, numStr, unit] = match;
-                const num = parseFloat(numStr);
-                if (unit === "MiB" && num < 6) {
-                  customError = MEMORY_LIMIT_MIN_ERROR;
-                }
-              }
-            }
-            setMemoryErrorMessage(customError);
+            setMemoryErrorMessage(getMemoryLimitError(v));
 
             setGameServerState((s) => ({
               ...s,
