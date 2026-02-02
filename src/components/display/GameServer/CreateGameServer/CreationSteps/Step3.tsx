@@ -4,12 +4,12 @@ import MemoryLimitInputFieldCreation from "@components/display/GameServer/Create
 import PortInput from "@components/display/GameServer/CreateGameServer/PortInput.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
-import {useTranslation} from "react-i18next";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");

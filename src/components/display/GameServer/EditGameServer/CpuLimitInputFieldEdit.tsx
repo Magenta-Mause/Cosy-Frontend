@@ -1,5 +1,7 @@
 import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import type * as z from "zod";
+import * as z from "zod";
+
+const cpuLimitValidator = z.coerce.number().positive();
 
 interface CpuLimitInputFieldEditProps {
   label: string;
@@ -9,7 +11,6 @@ interface CpuLimitInputFieldEditProps {
   optional: boolean;
   value: number | undefined;
   onChange: (value: string | null) => void;
-  validator: z.ZodType;
 }
 
 const CpuLimitInputFieldEdit = ({
@@ -20,11 +21,10 @@ const CpuLimitInputFieldEdit = ({
   optional,
   value,
   onChange,
-  validator,
 }: CpuLimitInputFieldEditProps) => {
   return (
     <InputFieldEditGameServer
-      validator={validator}
+      validator={cpuLimitValidator}
       placeholder={placeholder}
       label={label}
       description={description}

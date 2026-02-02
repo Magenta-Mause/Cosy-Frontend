@@ -4,6 +4,7 @@ import MemoryLimitInputField from "@components/display/MemoryLimit/MemoryLimitIn
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
 import { useContext, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { parse as parseCommand, quote } from "shell-quote";
 import * as z from "zod";
 import {
@@ -17,7 +18,6 @@ import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
-import {useTranslation} from "react-i18next";
 
 const memoryLimitValidator = z
   .string()
@@ -37,8 +37,6 @@ const memoryLimitValidator = z
     },
     { message: MEMORY_LIMIT_MIN_ERROR },
   );
-
-const cpuLimitValidator = z.number().positive();
 
 const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
   server_name: server.server_name,
@@ -414,7 +412,6 @@ const EditGameServerPage = (props: {
             }))
           }
           optional={cpuLimit === null}
-          validator={cpuLimitValidator}
         />
 
         <MemoryLimitInputField
