@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { FieldGroup, FieldLabel } from "@/components/ui/field";
+import { FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -32,19 +32,22 @@ const LoginForm = (props: {
       }}
     >
       <FieldGroup>
-        <div className="-mb-5">
-          <FieldLabel htmlFor="username" className="text-button-accent text-lg">
-            {t("signIn.username")}
-          </FieldLabel>
-          <Input type="text" id="username" name="username" required />
-        </div>
+        <Input
+          type="text"
+          id="username"
+          name="username"
+          header={t("signIn.username")}
+          required
+        />
 
-        <div>
-          <FieldLabel htmlFor="password" className="text-button-accent text-lg">
-            {t("signIn.password")}
-          </FieldLabel>
-          <Input type="password" id="password" name="password" error={props.error} required />
-        </div>
+        <Input
+          type="password"
+          id="password"
+          name="password"
+          header={t("signIn.password")}
+          error={props.error}
+          required
+        />
 
         <a href="#test" className="underline flex justify-end text-link text-lg -my-4">
           {t("signIn.resetPassword")}
