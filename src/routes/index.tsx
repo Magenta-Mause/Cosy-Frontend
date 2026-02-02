@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import bgImageBottom from "@/assets/MainPage/bg_day_bottom.png";
 import bgImageLoop from "@/assets/MainPage/bg_day_loop.png";
 import bgImageTop from "@/assets/MainPage/bg_day_top.png";
+import path1 from "@/assets/MainPage/main_page9.png"
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
 import { InviteRedemptionModal } from "@/components/display/UserManagement/UserInvite/InviteRedemptionModal/InviteRedemptionModal.tsx";
@@ -64,8 +65,6 @@ function Index() {
             imageRendering: 'pixelated',
           }}
         />
-
-        {/* Loop */}
         <div
           style={{
             backgroundImage: `url(${bgImageLoop})`,
@@ -76,8 +75,6 @@ function Index() {
             imageRendering: 'pixelated',
           }}
         />
-
-        {/* Bottom */}
         <div
           style={{
             backgroundImage: `url(${bgImageBottom})`,
@@ -90,11 +87,34 @@ function Index() {
           }}
         />
       </div>
+      <div className="absolute inset-0 z-5 pointer-events-none">
+        <img
+          src={path1}
+          alt=""
+          className="w-full h-auto"
+          style={{
+            imageRendering: 'pixelated',
+          }}
+        />
+      </div>
+      <div className="absolute inset-0 z-7 pointer-events-none">
+        <div
+          className="w-full mx-auto"
+          style={{
+            maxWidth: '100vw',
+            aspectRatio: `${imgWidth} / ${topImageHeight + loopImageHeight * loopRepeat + bottomImageHeight}`,
+            height: 'auto',
+          }}
+        >
+          <div className="relative w-full h-full pointer-events-auto">
+            <GameServerDisplay gameServerConfigurations={gameServers} />
+          </div>
+        </div>
+      </div>
 
-      {/* Content Layer */}
+      {/* Content Layer - z-10 */}
       <div className="relative z-10 flex flex-col items-center pt-20 min-h-screen">
-        <div className="flex flex-row justify-center items-start w-full max-w-[1200px]">
-          <GameServerDisplay gameServerConfigurations={gameServers} />
+        <div className="flex flex-row justify-center items-start w-full max-w-300">
           <LoginDisplay />
         </div>
 

@@ -110,26 +110,32 @@ const GameServerHouse = (props: {
     <>
       <RightClickMenu actions={actions}>
         <Link
-          className={cn("block w-[14%] h-auto aspect-square select-none relative", props.className)}
+          className={cn("block h-auto overflow-visible aspect-square select-none relative", props.className)}
           to={`/server/${props.gameServer.uuid}`}
           aria-label={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
           })}
-          style={props.style}
+          style={{
+            ...props.style,
+            width: '22vw',
+            height: '22vw',
+          }}
         >
           <img
             alt={t("aria.gameServerConfiguration", {
               serverName: props.gameServer.server_name,
             })}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-contain"
             aria-label={t("aria.gameServerConfiguration", {
               serverName: props.gameServer.server_name,
             })}
+            style={{
+              imageRendering: 'pixelated',
+            }}
             src={serverHouseImage}
           />
           <GameSign
-            className="bottom-[-2%] right-[5%] w-[25%]"
-            classNameTextChildren="!text-[.5vw]"
+            className="bottom-[8%] right-[10%] w-[21%]"
           >
             {props.gameServer.server_name}
           </GameSign>
