@@ -1,6 +1,9 @@
 import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
+  common: {
+    yourLimit: "Dein Limit",
+  },
   overviewPage: {
     createNewServer: "Neuer Game Server",
   },
@@ -122,7 +125,6 @@ const translation: i18nLanguage = {
     loading: "Lädt...",
     logout: "Abmelden",
   },
-  consequence: "asd{{counter}}ajskod",
   components: {
     CreateGameServer: {
       backButton: "Zurück",
@@ -378,7 +380,7 @@ const translation: i18nLanguage = {
     status: "Status",
     dockerHardwareLimits: "Docker Hardwarelimitierungen",
     cpuLimit: "CPU Kerne",
-    memoryLimit: "RAM",
+    memoryLimit: "RAM Limit",
     unlimited: "Unlimitiert",
     navbar: {
       overview: "Dashboard",

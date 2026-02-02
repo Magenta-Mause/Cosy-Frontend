@@ -1,4 +1,7 @@
 export type i18nLanguage = {
+  common: {
+    yourLimit: string;
+  };
   overviewPage: {
     createNewServer: string;
   };
@@ -125,8 +128,6 @@ export type i18nLanguage = {
     loading: string;
     logout: string;
   };
-
-  consequence: ContainsVariable<"counter">;
 
   logDisplay: {
     serverLog: string;

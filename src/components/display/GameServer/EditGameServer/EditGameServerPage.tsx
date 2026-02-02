@@ -17,6 +17,7 @@ import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
+import {useTranslation} from "react-i18next";
 
 const memoryLimitValidator = z
   .string()
@@ -64,6 +65,7 @@ const EditGameServerPage = (props: {
   onConfirm: (updatedState: GameServerUpdateDto) => Promise<void>;
 }) => {
   const { t } = useTranslationPrefix("components.editGameServer");
+  const { t: t_root } = useTranslation();
   const { cpuLimit, memoryLimit } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(() =>
@@ -397,7 +399,7 @@ const EditGameServerPage = (props: {
           label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
           description={
             cpuLimit !== null
-              ? `${t("cpuLimitSelection.description")} (Your limit: ${cpuLimit} Cores)`
+              ? `${t("cpuLimitSelection.description")} ${t_root("common.yourLimit")}: ${cpuLimit} Cores)`
               : t("cpuLimitSelection.description")
           }
           errorLabel={t("cpuLimitSelection.errorLabel")}
@@ -422,7 +424,7 @@ const EditGameServerPage = (props: {
           label={`${t("memoryLimitSelection.title")} ${memoryLimit === null ? " (Optional)" : ""}`}
           description={
             memoryLimit !== null
-              ? `${t("memoryLimitSelection.description")} (Your limit: ${formatMemoryLimit(memoryLimit)})`
+              ? `${t("memoryLimitSelection.description")} (${t_root("common.yourLimit")}: ${formatMemoryLimit(memoryLimit)})`
               : t("memoryLimitSelection.description")
           }
           errorLabel={t("memoryLimitSelection.errorLabel")}

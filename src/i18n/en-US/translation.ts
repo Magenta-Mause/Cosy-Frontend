@@ -1,6 +1,9 @@
 import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
+  common: {
+    yourLimit: "Your limit",
+  },
   userRoles: {
     QUOTA_USER: "User",
     ADMIN: "Admin",
@@ -201,7 +204,7 @@ const translation: i18nLanguage = {
             errorLabel: "Either both host path and container path must be provided or neither.",
           },
           memoryLimitSelection: {
-            title: "RAM",
+            title: "RAM Limit",
             description: "Limit the memory usage of the server",
             errorLabel: "Please enter a valid memory limit.",
           },
@@ -294,7 +297,7 @@ const translation: i18nLanguage = {
       },
 
       memoryLimitSelection: {
-        title: "RAM",
+        title: "RAM Limit",
         description: "Limit the memory usage of the server",
         errorLabel: "Please enter a valid memory limit.",
       },
@@ -357,7 +360,6 @@ const translation: i18nLanguage = {
       },
     },
   },
-  consequence: "asd{{counter}}ajskod",
   genericModal: {
     cancel: "Cancel",
   },
@@ -376,7 +378,7 @@ const translation: i18nLanguage = {
     unlimited: "Unlimited",
     dockerHardwareLimits: "Docker Hardware Limits",
     cpuLimit: "CPU Cores",
-    memoryLimit: "RAM",
+    memoryLimit: "RAM Limit",
     navbar: {
       overview: "Dashboard",
       console: "Console",

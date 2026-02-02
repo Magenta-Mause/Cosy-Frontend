@@ -9,9 +9,11 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
+import {useTranslation} from "react-i18next";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");
+  const { t: t_root } = useTranslation();
   const { cpuLimit, memoryLimit } = useContext(AuthContext);
 
   return (
@@ -95,7 +97,7 @@ export default function Step3() {
           label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
           description={
             cpuLimit !== null
-              ? `${t("cpuLimitSelection.description")} (Your limit: ${cpuLimit} Cores)`
+              ? `${t("cpuLimitSelection.description")} (${t_root("common.yourLimit")}: ${cpuLimit} Cores)`
               : t("cpuLimitSelection.description")
           }
           errorLabel={t("cpuLimitSelection.errorLabel")}
@@ -107,7 +109,7 @@ export default function Step3() {
           label={t("memoryLimitSelection.title") + (memoryLimit === null ? " (Optional)" : "")}
           description={
             memoryLimit !== null
-              ? `${t("memoryLimitSelection.description")} (Your limit: ${formatMemoryLimit(memoryLimit)})`
+              ? `${t("memoryLimitSelection.description")} (${t_root("common.yourLimit")}: ${formatMemoryLimit(memoryLimit)})`
               : t("memoryLimitSelection.description")
           }
           errorLabel={t("memoryLimitSelection.errorLabel")}
