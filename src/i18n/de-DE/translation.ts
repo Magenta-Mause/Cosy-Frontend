@@ -345,7 +345,8 @@ const translation: i18nLanguage = {
     timestampFormat: "HH:mm:ss.SSS",
   },
   serverPage: {
-    notFound: "Nicht gefunden",
+    notFound: "404 - Server nicht gefunden",
+    notFoundGoBack: "Zurück",
     start: "Starten",
     stop: "Herunterfahren",
     back: "Zurück",
