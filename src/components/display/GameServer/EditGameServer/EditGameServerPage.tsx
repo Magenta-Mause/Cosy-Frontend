@@ -1,4 +1,3 @@
-import { MEMORY_LIMIT_MIN_ERROR } from "@components/display/GameServer/CreateGameServer/MemoryLimitInputFieldCreation.tsx";
 import CpuLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/CpuLimitInputFieldEdit.tsx";
 import MemoryLimitInputField from "@components/display/MemoryLimit/MemoryLimitInputField.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
@@ -15,28 +14,13 @@ import {
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
+import {
+  MEMORY_LIMIT_MIN_ERROR,
+  memoryLimitValidator,
+} from "@/lib/validators/memoryLimitValidator.ts";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
-
-const memoryLimitValidator = z
-  .string()
-  .min(1)
-  .refine(
-    (value) => {
-      const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
-      if (!match) return false;
-
-      const [, numStr, unit] = match;
-      const num = parseFloat(numStr);
-
-      if (Number.isNaN(num)) return false;
-      if (unit === "MiB" && num < 6) return false;
-
-      return true;
-    },
-    { message: MEMORY_LIMIT_MIN_ERROR },
-  );
 
 const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
   server_name: server.server_name,
