@@ -33,7 +33,7 @@ export function applyTemplate(
   variables: Record<string, string | number | boolean>,
   currentState: Partial<GameServerCreationDto>,
 ): Partial<GameServerCreationDto> {
-  const newState: Partial<GameServerCreationDto> = { ...currentState };
+  const newState: Partial<GameServerCreationDto> = {...currentState};
 
   // Substitute docker image name
   if (template.docker_image_name) {
@@ -90,6 +90,15 @@ export function applyTemplate(
       container_path: substituteVariables(path, variables),
       host_path: substituteVariables(path, variables), // Use same path for both by default
     }));
+  }
+
+  // Apply hardware limits - convert to form state format (strings)
+  if (template.resource_limit?.cpu !== undefined) {
+    newState.docker_max_cpu = String(template.resource_limit.cpu);
+  }
+
+  if (template.resource_limit?.memory !== undefined) {
+    newState.docker_max_memory = template.resource_limit.memory;
   }
 
   return newState;
