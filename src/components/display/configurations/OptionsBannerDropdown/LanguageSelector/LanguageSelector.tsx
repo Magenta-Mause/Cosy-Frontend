@@ -1,8 +1,6 @@
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
 import { Button } from "@components/ui/button.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.tsx";
 import { GlobeIcon } from "lucide-react";
-import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.ts";
 
@@ -18,8 +16,7 @@ const LANGUAGES = [
 ];
 
 const LanguageSelector = (props: { className?: string }) => {
-  const { i18n, t } = useTranslation();
-  const { handleLogout } = useContext(AuthContext);
+  const { i18n } = useTranslation();
 
   return (
     <Popover>
@@ -45,10 +42,6 @@ const LanguageSelector = (props: { className?: string }) => {
             {language.label}
           </Button>
         ))}
-        {/* added temporary logout button - should be moved */}
-        <Button className={"text-[1vw] h-[1.5vw]"} onClick={() => handleLogout()}>
-          {t("signIn.logout")}
-        </Button>
       </PopoverContent>
     </Popover>
   );
