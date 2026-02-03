@@ -5,14 +5,14 @@ const UNIQUE_POSITIONS = [
 
 const REPEATING_POSITIONS = [
   { x: 0.645, y: 0.59 },
-  { x: 0.19, y: 0.55 },
+  { x: 0.2, y: 0.55 },
   { x: 0.32, y: 0.8 },
   { x: 0.756, y: 0.92 },
   { x: 0.12, y: 0.97 },
   { x: 0.423, y: 1.06 },
 ];
 
-const VERTICAL_OFFSET = 0.723;
+const VERTICAL_OFFSET = 0.724;
 
 function calculateCoordinate(index: number) {
   if (index < UNIQUE_POSITIONS.length) {

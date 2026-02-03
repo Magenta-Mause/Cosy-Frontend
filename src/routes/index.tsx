@@ -32,7 +32,6 @@ export const Route = createFileRoute("/")({
 const HOUSES_PER_CYCLE = 6;
 const BASE_THRESHOLD = 2;
 
-// Bildpfade
 const images = {
   bg: {
     top: bgImageTop,
@@ -55,17 +54,13 @@ function calculatePathSegments(houseCount: number) {
     return [{ id: "path-base-2", src: images.path[2] }];
   }
 
-  // Ab 3 Häusern: Basis + Loop-Segmente
   const segments = [{ id: "path-base-2", src: images.path[2] }];
   const housesAfterBase = houseCount - BASE_THRESHOLD;
 
-  // Anzahl vollständiger PATH_LOOP_6-Zyklen
   const fullCycles = Math.floor((housesAfterBase - 1) / HOUSES_PER_CYCLE);
 
-  // Restliche Häuser im aktuellen Zyklus
   const remainder = ((housesAfterBase - 1) % HOUSES_PER_CYCLE) + 1;
 
-  // Füge vollständige PATH_LOOP_6 zur Basis hinzu
   for (let i = 0; i < fullCycles; i++) {
     segments.push({
       id: `path-cycle-${i}`,
@@ -73,7 +68,6 @@ function calculatePathSegments(houseCount: number) {
     });
   }
 
-  // Füge aktuelles Loop-Segment hinzu
   segments.push({
     id: `path-loop-${remainder}`,
     src: images.path.loop[remainder - 1],
@@ -83,8 +77,19 @@ function calculatePathSegments(houseCount: number) {
 }
 
 function calculateBgLoops(houseCount: number) {
-  const count = Math.ceil((houseCount - 1) / 2);
-  return Array.from({ length: count }, (_, i) => ({
+  const loopsPerPosition = [2, 0, 3, 1, 1, 1];
+  let loopCount = 0;
+
+  for (let i = 1; i <= houseCount; i++) {
+    if (i < 3) {
+      loopCount += 0.5;
+    } else {
+      const position = (i - 3) % 6;
+      loopCount += loopsPerPosition[position];
+    }
+  }
+
+  return Array.from({ length: loopCount }, (_, i) => ({
     id: `bg-loop-${i}`,
     src: images.bg.loop,
   }));
