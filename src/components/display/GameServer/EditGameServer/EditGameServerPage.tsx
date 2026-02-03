@@ -1,5 +1,9 @@
+import CpuLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/CpuLimitInputFieldEdit.tsx";
+import MemoryLimitInputField from "@components/display/MemoryLimit/MemoryLimitInputField.tsx";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { parse as parseCommand, quote } from "shell-quote";
 import * as z from "zod";
 import {
@@ -9,6 +13,12 @@ import {
   PortMappingProtocol,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
+import {
+  memoryLimitValidator,
+  getMemoryLimitError,
+} from "@/lib/validators/memoryLimitValidator.ts";
+import { cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
@@ -17,7 +27,7 @@ const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto =>
   server_name: server.server_name,
   docker_image_name: server.docker_image_name,
   docker_image_tag: server.docker_image_tag,
-  port_mappings: server.port_mappings.map((pm) => ({
+  port_mappings: server.port_mappings?.map((pm) => ({
     ...pm,
   })),
   environment_variables: server.environment_variables,
@@ -26,6 +36,10 @@ const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto =>
     container_path: v.container_path ?? "",
   })),
   execution_command: server.execution_command,
+  docker_hardware_limits: {
+    docker_memory_limit: server.docker_hardware_limits?.docker_memory_limit,
+    docker_max_cpu_cores: server.docker_hardware_limits?.docker_max_cpu_cores,
+  },
 });
 
 const EditGameServerPage = (props: {
@@ -34,6 +48,8 @@ const EditGameServerPage = (props: {
   onConfirm: (updatedState: GameServerUpdateDto) => Promise<void>;
 }) => {
   const { t } = useTranslationPrefix("components.editGameServer");
+  const { t: t_root } = useTranslation();
+  const { cpuLimit, memoryLimit } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [gameServerState, setGameServerState] = useState<GameServerUpdateDto>(() =>
     mapGameServerDtoToUpdate(props.gameServer),
@@ -41,6 +57,7 @@ const EditGameServerPage = (props: {
   const [executionCommandRaw, setExecutionCommandRaw] = useState(
     quote(gameServerState.execution_command ?? []),
   );
+  const [memoryErrorMessage, setMemoryErrorMessage] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const updatedState = mapGameServerDtoToUpdate(props.gameServer);
@@ -97,6 +114,27 @@ const EditGameServerPage = (props: {
         return z.string().min(1).safeParse(vol.container_path).success;
       });
 
+    const cpuLimitValid =
+      cpuLimit === null
+        ? // Optional: empty is valid, but provided values must be validated
+          gameServerState.docker_hardware_limits?.docker_max_cpu_cores === undefined ||
+          gameServerState.docker_hardware_limits?.docker_max_cpu_cores === null ||
+          cpuLimitValidator.safeParse(gameServerState.docker_hardware_limits?.docker_max_cpu_cores)
+            .success
+        : // Required: must have value AND be valid
+          gameServerState.docker_hardware_limits?.docker_max_cpu_cores !== undefined &&
+          gameServerState.docker_hardware_limits?.docker_max_cpu_cores !== null &&
+          cpuLimitValidator.safeParse(gameServerState.docker_hardware_limits?.docker_max_cpu_cores)
+            .success;
+
+    const memoryLimitValid =
+      memoryLimit === null ||
+      (gameServerState.docker_hardware_limits?.docker_memory_limit !== undefined &&
+        gameServerState.docker_hardware_limits?.docker_memory_limit !== null &&
+        gameServerState.docker_hardware_limits?.docker_memory_limit !== "" &&
+        memoryLimitValidator.safeParse(gameServerState.docker_hardware_limits?.docker_memory_limit)
+          .success);
+
     return (
       serverNameValid &&
       gameUuidValid &&
@@ -104,9 +142,11 @@ const EditGameServerPage = (props: {
       dockerImageTagValid &&
       portMappingsValid &&
       envVarsValid &&
-      volumeMountsValid
+      volumeMountsValid &&
+      cpuLimitValid &&
+      memoryLimitValid
     );
-  }, [gameServerState]);
+  }, [gameServerState, cpuLimit, memoryLimit]);
 
   const isChanged = useMemo(() => {
     const parsedCommand = executionCommandRaw.trim()
@@ -142,7 +182,24 @@ const EditGameServerPage = (props: {
           container_path: v.container_path ?? "",
         })) ?? [],
       );
-    return commandsChanged || fieldsChanged || portsChanged || envChanged || volumesChanged;
+
+    const normalizeLimitValue = (val: string | number | null | undefined) =>
+      val === null || val === undefined || val === "" ? null : val;
+
+    const hardwareLimitsChanged =
+      normalizeLimitValue(gameServerState.docker_hardware_limits?.docker_max_cpu_cores) !==
+        normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_max_cpu_cores) ||
+      normalizeLimitValue(gameServerState.docker_hardware_limits?.docker_memory_limit) !==
+        normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_memory_limit);
+
+    return (
+      commandsChanged ||
+      fieldsChanged ||
+      portsChanged ||
+      envChanged ||
+      volumesChanged ||
+      hardwareLimitsChanged
+    );
   }, [gameServerState, executionCommandRaw, props.gameServer]);
 
   const handleConfirm = async () => {
@@ -176,7 +233,7 @@ const EditGameServerPage = (props: {
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   return (
-    <div className="relative pr-3">
+    <div className="relative pr-3 pb-10">
       <div>
         <h2>{t("title")}</h2>
       </div>
@@ -323,6 +380,57 @@ const EditGameServerPage = (props: {
           inputType="text"
           objectKey="host_path"
           objectValue="container_path"
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <CpuLimitInputFieldEdit
+          placeholder="0.5"
+          label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
+          description={
+            cpuLimit !== null
+              ? `${t("cpuLimitSelection.description")} ${t_root("common.yourLimit")}: ${cpuLimit} Cores)`
+              : t("cpuLimitSelection.description")
+          }
+          errorLabel={t("cpuLimitSelection.errorLabel")}
+          value={gameServerState.docker_hardware_limits?.docker_max_cpu_cores}
+          onChange={(v) =>
+            setGameServerState((s) => ({
+              ...s,
+              docker_hardware_limits: {
+                ...s.docker_hardware_limits,
+                docker_max_cpu_cores: v !== null && v !== "" ? Number(v) : undefined,
+              },
+            }))
+          }
+          optional={cpuLimit === null}
+        />
+
+        <MemoryLimitInputField
+          id="memory_limit"
+          validator={memoryLimitValidator}
+          placeholder="512"
+          label={`${t("memoryLimitSelection.title")} ${memoryLimit === null ? " (Optional)" : ""}`}
+          description={
+            memoryLimit !== null
+              ? `${t("memoryLimitSelection.description")} (${t_root("common.yourLimit")}: ${formatMemoryLimit(memoryLimit)})`
+              : t("memoryLimitSelection.description")
+          }
+          errorLabel={t("memoryLimitSelection.errorLabel")}
+          value={gameServerState.docker_hardware_limits?.docker_memory_limit}
+          onChange={(v) => {
+            setMemoryErrorMessage(getMemoryLimitError(v));
+
+            setGameServerState((s) => ({
+              ...s,
+              docker_hardware_limits: {
+                ...s.docker_hardware_limits,
+                docker_memory_limit: v && v !== "" ? v : undefined,
+              },
+            }));
+          }}
+          optional={memoryLimit === null}
+          customErrorMessage={memoryErrorMessage}
         />
       </div>
 

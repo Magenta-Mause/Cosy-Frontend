@@ -24,7 +24,7 @@ const UserInviteButton = (props: { className?: string }) => {
   const [view, setView] = useState<ViewState>("invite");
   const [inviteUsername, setInviteUsername] = useState("");
   const [userRole, setUserRole] = useState<UserEntityDtoRole>("QUOTA_USER");
-  const [memoryLimit, setMemoryLimit] = useState<number | null>(null);
+  const [memoryLimit, setMemoryLimit] = useState<string | null>(null);
   const [cpuLimit, setCpuLimit] = useState<number | null>(null);
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
@@ -33,14 +33,15 @@ const UserInviteButton = (props: { className?: string }) => {
 
   const handleCreateInvite = async () => {
     setIsCreating(true);
-    const roundedCpuLimit = cpuLimit ? Math.round(cpuLimit * 1000) : null;
 
     try {
       const data = await createInvite({
         username: inviteUsername || undefined,
         role: userRole,
-        max_memory: memoryLimit || undefined,
-        max_cpu: roundedCpuLimit || undefined,
+        docker_hardware_limits: {
+          docker_memory_limit: memoryLimit || undefined,
+          docker_max_cpu_cores: cpuLimit || undefined,
+        },
       });
       setGeneratedKey(data.secret_key || "");
       setView("result");

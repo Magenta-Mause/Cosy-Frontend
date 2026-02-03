@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import type { Payload } from "recharts/types/component/DefaultTooltipContent";
+import type { NameType, Payload, ValueType } from "recharts/types/component/DefaultTooltipContent";
 import type { MetricValues } from "@/api/generated/model";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import { MetricsType } from "@/types/metricsTyp";
@@ -75,8 +75,7 @@ const MetricGraph = (props: MetricGraphProps) => {
     });
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const formatTooltipTime = (_timeString: string, payload: Payload<any, any>[]) => {
+  const formatTooltipTime = (_timeString: string, payload: Payload<ValueType, NameType>[]) => {
     if (!payload[0]) return "";
     const value = payload[0].payload as { time: number; value: number };
     const date = new Date(value.time);

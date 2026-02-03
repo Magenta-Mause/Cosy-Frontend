@@ -5,6 +5,14 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { StartEventDto } from './startEventDto';
 
-export type Heartbeat = StartEventDto;
+export type RenameInVolumeParams = {
+/**
+ * @minLength 1
+ */
+oldPath: string;
+/**
+ * @minLength 1
+ */
+newPath: string;
+};

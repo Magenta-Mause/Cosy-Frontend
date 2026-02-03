@@ -45,15 +45,23 @@ type UtilState = {
 };
 
 interface CreationState {
-  gameServerState: Partial<GameServerCreationDto>;
+  gameServerState: GameServerCreationFormState;
   utilState: UtilState;
 }
 
+export type GameServerCreationFormState = Omit<
+  Partial<GameServerCreationDto>,
+  "docker_hardware_limits"
+> & {
+  docker_max_cpu?: string;
+  docker_max_memory?: string;
+};
+
 export interface GameServerCreationContext {
   creationState: CreationState;
-  setGameServerState: <K extends keyof GameServerCreationDto>(
+  setGameServerState: <K extends keyof GameServerCreationFormState>(
     gameStateKey: K,
-  ) => (value: GameServerCreationDto[K]) => void;
+  ) => (value: GameServerCreationFormState[K]) => void;
   setCurrentPageValid: (isValid: boolean) => void;
   triggerNextPage: () => void;
   setUtilState: <K extends keyof UtilState>(utilStateKey: K) => (value: UtilState[K]) => void;
@@ -115,20 +123,33 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
 
   const handleNextPage = useCallback(() => {
     if (isLastPage) {
-      const gameServerCreationObject = {
-        ...creationState.gameServerState,
-        game_uuid:
-          creationState.gameServerState.external_game_id !== GENERIC_GAME_PLACEHOLDER_VALUE
-            ? creationState.gameServerState.external_game_id
+      const formState = creationState.gameServerState;
+
+      const gameServerCreationObject: GameServerCreationDto = {
+        server_name: formState.server_name ?? "",
+        docker_image_name: formState.docker_image_name ?? "",
+        docker_image_tag: formState.docker_image_tag ?? "",
+        external_game_id:
+          formState.external_game_id !== GENERIC_GAME_PLACEHOLDER_VALUE
+            ? formState.external_game_id
             : undefined,
-        execution_command: creationState.gameServerState.execution_command
-          ? parseCommand(creationState.gameServerState.execution_command as unknown as string)
+        execution_command: formState.execution_command
+          ? (parseCommand(formState.execution_command as unknown as string) as string[])
           : undefined,
-        port_mappings: creationState.gameServerState.port_mappings?.map((portMapping) => ({
-          ...portMapping,
-        })),
+        port_mappings: formState.port_mappings,
+        environment_variables: formState.environment_variables,
+        volume_mounts: formState.volume_mounts,
+        docker_hardware_limits:
+          formState.docker_max_cpu || formState.docker_max_memory
+            ? {
+                docker_max_cpu_cores: formState.docker_max_cpu
+                  ? parseFloat(formState.docker_max_cpu)
+                  : undefined,
+                docker_memory_limit: formState.docker_max_memory || undefined,
+              }
+            : undefined,
       };
-      createGameServer(gameServerCreationObject as GameServerCreationDto);
+      createGameServer(gameServerCreationObject);
       setCreationState({ gameServerState: {}, utilState: {} });
       setPageValid({});
       setCurrentPage(0);

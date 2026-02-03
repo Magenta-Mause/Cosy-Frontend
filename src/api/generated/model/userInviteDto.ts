@@ -6,6 +6,7 @@
  * OpenAPI spec version: v1.0
  */
 import type { UserInviteDtoRole } from './userInviteDtoRole';
+import type { DockerHardwareLimits } from './dockerHardwareLimits';
 
 export interface UserInviteDto {
   uuid?: string;
@@ -15,6 +16,5 @@ export interface UserInviteDto {
   secret_key?: string;
   created_at?: string;
   role?: UserInviteDtoRole;
-  max_memory?: number;
-  max_cpu?: number;
+  docker_hardware_limits?: DockerHardwareLimits;
 }

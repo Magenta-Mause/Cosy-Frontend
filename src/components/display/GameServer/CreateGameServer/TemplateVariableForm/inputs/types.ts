@@ -1,11 +1,11 @@
-import type { Variable } from "@/api/generated/model";
+import type { TemplateVariable } from "@/api/generated/model";
 
 export interface VariableInputProps {
-  variable: Variable;
+  variable: TemplateVariable;
   value: string | number | boolean;
   showError: boolean;
   errorMessage?: string;
-  onValueChange: (variable: Variable, value: string | number | boolean) => void;
+  onValueChange: (variable: TemplateVariable, value: string | number | boolean) => void;
   onEnterKey: () => void;
   t: (key: string) => string;
 }

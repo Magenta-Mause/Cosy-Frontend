@@ -1,4 +1,3 @@
-import { FieldError } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { useCallback, useEffect, useState } from "react";
 import type { ZodType } from "zod";
@@ -13,6 +12,9 @@ const InputFieldEditGameServer = (props: {
   description?: string;
   optional?: boolean;
   disabled?: boolean;
+  inputType?: React.ComponentProps<"input">["type"];
+  inputMode?: React.ComponentProps<"input">["inputMode"];
+  step?: React.ComponentProps<"input">["step"];
 }) => {
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -21,7 +23,11 @@ const InputFieldEditGameServer = (props: {
 
   const validate = useCallback(
     (value: unknown) => {
-      if (props.optional) return true;
+      // If optional and empty, it's valid
+      if (props.optional && (value === null || value === undefined || value === "")) {
+        return true;
+      }
+      // If value is provided, it must pass validation (even when optional)
       return props.validator.safeParse(value).success;
     },
     [props.optional, props.validator],
@@ -55,13 +61,15 @@ const InputFieldEditGameServer = (props: {
       <Input
         header={props.label}
         description={props.description}
-        className={isError ? "border-red-500" : ""}
+        error={isError ? props.errorLabel : undefined}
         placeholder={props.placeholder}
         value={props.value ?? ""}
         onChange={(e) => changeCallback(e.target.value)}
         disabled={props.disabled}
+        type={props.inputType}
+        inputMode={props.inputMode}
+        step={props.step}
       />
-      {isError && <FieldError>{props.errorLabel}</FieldError>}
     </div>
   );
 };

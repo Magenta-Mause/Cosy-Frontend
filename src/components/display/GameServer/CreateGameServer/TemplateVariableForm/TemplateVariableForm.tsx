@@ -1,7 +1,7 @@
 import { GameServerCreationContext } from "@components/display/GameServer/CreateGameServer/CreateGameServerModal.tsx";
 import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card";
 import { useCallback, useContext, useState } from "react";
-import type { TemplateEntity, Variable } from "@/api/generated/model";
+import type { TemplateEntity, TemplateVariable } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { BooleanInput, NumberInput, SelectInput, TextInput } from "./inputs";
 
@@ -43,7 +43,7 @@ export default function TemplateVariableForm({
 
   const validateValue = useCallback(
     (
-      variable: Variable,
+      variable: TemplateVariable,
       value: string | number | boolean,
     ): { isValid: boolean; errorMessage?: string } => {
       const stringValue = String(value);
@@ -89,7 +89,7 @@ export default function TemplateVariableForm({
   );
 
   const handleValueChange = useCallback(
-    (variable: Variable, newValue: string | number | boolean) => {
+    (variable: TemplateVariable, newValue: string | number | boolean) => {
       const placeholder = variable.placeholder ?? "";
       const validation = validateValue(variable, newValue);
 
@@ -115,7 +115,7 @@ export default function TemplateVariableForm({
     [validateValue, onValueChange],
   );
 
-  const renderVariableInput = (variable: Variable) => {
+  const renderVariableInput = (variable: TemplateVariable) => {
     const placeholder = variable.placeholder ?? "";
     const state = variableStates[placeholder];
     const showError = state?.touched && !state?.isValid;

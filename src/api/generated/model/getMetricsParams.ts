@@ -9,4 +9,5 @@
 export type GetMetricsParams = {
 end?: string;
 start?: string;
+pointCount?: number;
 };

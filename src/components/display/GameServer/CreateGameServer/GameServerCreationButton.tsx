@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 
 const GameServerCreationButton = () => {
-  const { triggerNextPage, isLastPage, isPageValid, currentPage, creationState } =
+  const { triggerNextPage, isPageValid, currentPage, creationState } =
     useContext(GameServerCreationContext);
   const { t } = useTranslation();
   const buttonLabel = (() => {
@@ -25,9 +25,6 @@ const GameServerCreationButton = () => {
       type="button"
       variant="primary"
       onClick={triggerNextPage}
-      className={
-        isLastPage ? "bg-emerald-600 text-white hover:bg-emerald-700 focus:ring-emerald-500" : ""
-      }
       disabled={!isPageValid[currentPage]}
     >
       {t(buttonLabel)}
