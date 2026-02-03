@@ -23,9 +23,9 @@ function RouteComponent() {
 
   return (
     <div className="container mx-auto flex flex-col gap-4 grow h-full">
-      <LogDisplay 
-        logMessages={logs} 
-        showCommandInput={true} 
+      <LogDisplay
+        logMessages={logs}
+        showCommandInput={true}
         gameServerUuid={serverId}
         isServerRunning={isServerRunning}
       />

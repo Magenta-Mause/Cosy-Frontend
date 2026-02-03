@@ -34,10 +34,10 @@ function GameServerDetailPageDashboardPage() {
           type={MetricsType.CPU_PERCENT}
           metrics={metrics}
         />
-        <LogDisplay 
-          logMessages={logs} 
-          className="grow" 
-          showCommandInput={true} 
+        <LogDisplay
+          logMessages={logs}
+          className="grow"
+          showCommandInput={true}
           gameServerUuid={serverId}
           isServerRunning={isServerRunning}
         />
