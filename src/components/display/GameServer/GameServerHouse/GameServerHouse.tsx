@@ -117,15 +117,15 @@ const GameServerHouse = (props: {
           })}
           style={{
             ...props.style,
-            width: '22vw',
-            height: '22vw',
+            width: '19vw',
+            height: '19vw',
           }}
         >
           <img
             alt={t("aria.gameServerConfiguration", {
               serverName: props.gameServer.server_name,
             })}
-            className="w-full h-full object-contain"
+            className="w-full h-full object-cover overflow-visible"
             aria-label={t("aria.gameServerConfiguration", {
               serverName: props.gameServer.server_name,
             })}
@@ -135,7 +135,7 @@ const GameServerHouse = (props: {
             src={serverHouseImage}
           />
           <GameSign
-            className="bottom-[8%] right-[10%] w-[21%]"
+            className="bottom-[2%] right-[5%] w-[21%]"
           >
             {props.gameServer.server_name}
           </GameSign>

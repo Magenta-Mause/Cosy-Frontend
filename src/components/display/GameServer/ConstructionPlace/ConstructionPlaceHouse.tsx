@@ -31,7 +31,7 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
         />
         <Link
           className={cn(
-            "block h-auto translate-x-[-2vw] translate-y-[6vw] aspect-[2.18] text-xs relative select-none",
+            "block h-auto translate-x-[-3vw] translate-y-[5.8vw] aspect-[2.18] text-xs relative select-none",
             props.className,
           )}
           aria-label={t("aria.createNewGameServer")}
