@@ -121,6 +121,10 @@ const translation: i18nLanguage = {
     limits: "Ressourcenlimits",
     memory: "Speicher",
     cpu: "CPU-Kerne",
+    password: "Passwort",
+    passwordTooShort: "Passwort muss mindestens 8 Zeichen lang sein",
+    passwordChangeSuccess: "Passwort erfolgreich geändert",
+    passwordChangeError: "Passwort konnte nicht geändert werden",
   },
   aria: {
     createNewGameServer: "Erstelle eine neue Gameserver-Konfiguration",

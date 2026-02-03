@@ -7,6 +7,8 @@
  */
 
 export interface PasswordUpdateDto {
+  /** @minLength 1 */
+  old_password: string;
   /**
    * @minLength 8
    * @maxLength 2147483647

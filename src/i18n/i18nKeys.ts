@@ -124,6 +124,10 @@ export type i18nLanguage = {
     limits: string;
     memory: string;
     cpu: string;
+    password: string;
+    passwordTooShort: string;
+    passwordChangeSuccess: string;
+    passwordChangeError: string;
   };
 
   aria: {
