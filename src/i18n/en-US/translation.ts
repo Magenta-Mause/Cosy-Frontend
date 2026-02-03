@@ -107,6 +107,12 @@ const translation: i18nLanguage = {
     cancel: "Cancel",
     confirm: "Delete",
   },
+  logOutDialog: {
+    title: "Log Out?",
+    description: "Are you sure you want to log out?",
+    cancel: "Cancel",
+    confirm: "Log Out",
+  },
   aria: {
     createNewGameServer: "Create a new Game Server Configuration",
     gameServer: "Game Server Configuration: {{serverName}}",

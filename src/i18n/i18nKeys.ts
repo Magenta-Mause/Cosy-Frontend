@@ -110,6 +110,13 @@ export type i18nLanguage = {
     confirm: string;
   };
 
+  logOutDialog: {
+    title: string;
+    description: string;
+    cancel: string;
+    confirm: string;
+  };
+
   aria: {
     createNewGameServer: string;
     gameServer: ContainsVariable<"serverName">;

@@ -108,6 +108,12 @@ const translation: i18nLanguage = {
     cancel: "Abbrechen",
     confirm: "Löschen",
   },
+  logOutDialog: {
+    title: "Abmelden?",
+    description: "Sind Sie sicher, dass Sie sich abmelden möchten?",
+    cancel: "Abbrechen",
+    confirm: "Abmelden",
+  },
   aria: {
     createNewGameServer: "Erstelle eine neue Gameserver-Konfiguration",
     gameServer: "Gameserver-Konfiguration: {{serverName}}",
