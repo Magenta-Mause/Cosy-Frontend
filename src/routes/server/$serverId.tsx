@@ -1,5 +1,5 @@
 import GameServerDetailPageLayout from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageLayout.tsx";
-import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 
 export const Route = createFileRoute("/server/$serverId")({
@@ -7,7 +7,7 @@ export const Route = createFileRoute("/server/$serverId")({
 });
 
 function GameServerDetailPage() {
-  const navigate = useNavigate();
+  const navigate = Route.useNavigate();
   const { serverId } = Route.useParams();
   const gameServer = useGameServer(serverId ?? "");
 
