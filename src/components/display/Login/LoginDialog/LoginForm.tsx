@@ -32,13 +32,7 @@ const LoginForm = (props: {
       }}
     >
       <FieldGroup>
-        <Input
-          type="text"
-          id="username"
-          name="username"
-          header={t("signIn.username")}
-          required
-        />
+        <Input type="text" id="username" name="username" header={t("signIn.username")} required />
 
         <Input
           type="password"
