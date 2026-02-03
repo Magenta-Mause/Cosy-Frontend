@@ -9,7 +9,7 @@ import {
 import { ArrowDownWideNarrow, ArrowUpDown, ArrowUpWideNarrow } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-export type SortField = "username" | "role" | "max_cpu" | "max_memory";
+export type SortField = "username" | "role" | "docker_max_cpu_cores" | "docker_memory_limit";
 
 interface SortControlProps {
   sortField: SortField | null;
@@ -26,10 +26,14 @@ const SortDropdown = ({
 }: SortControlProps) => {
   const { t } = useTranslation();
 
-  const SORT_OPTIONS: SortField[] = ["username", "role", "max_cpu", "max_memory"];
+  const SORT_OPTIONS: SortField[] = [
+    "username",
+    "role",
+    "docker_max_cpu_cores",
+    "docker_memory_limit",
+  ];
 
-  const getLabel = (field: SortField) =>
-    t(`components.userManagement.userTable.sortBy.${field}`);
+  const getLabel = (field: SortField) => t(`components.userManagement.userTable.sortBy.${field}`);
 
   return (
     <div className="flex flex-row items-center gap-0.5">
@@ -59,11 +63,7 @@ const SortDropdown = ({
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-      <Button
-        disabled={!sortField}
-        onClick={onSortDirectionToggle}
-        className="rounded-l-none"
-      >
+      <Button disabled={!sortField} onClick={onSortDirectionToggle} className="rounded-l-none">
         {!sortField ? (
           <ArrowUpDown className="size-6" />
         ) : isAscending ? (

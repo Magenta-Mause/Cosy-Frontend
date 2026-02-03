@@ -10,7 +10,7 @@ const UserDetailListRedirectButton = () => {
     <Button
       onClick={() => {
         router.navigate({
-          to: '/users',
+          to: "/users",
         });
       }}
     >

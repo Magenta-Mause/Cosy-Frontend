@@ -3,7 +3,7 @@ import { Input } from "@components/ui/input.tsx";
 import { Fragment, useCallback } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
-import type { GameServerCreationDto } from "@/api/generated/model/gameServerCreationDto.ts";
+import type { GameServerCreationFormState } from "./CreateGameServerModal.tsx";
 import { type InputType, preProcessInputValue } from "./util";
 
 interface KeyValueItem {
@@ -13,7 +13,7 @@ interface KeyValueItem {
 }
 
 interface Props {
-  attribute: keyof GameServerCreationDto;
+  attribute: keyof GameServerCreationFormState;
   placeHolderKeyInput: string;
   placeHolderValueInput: string;
   fieldLabel: string;
@@ -74,13 +74,15 @@ function KeyValueInput({
           [objectValue]: preProcessInputValue(item.value, inputType),
         });
       });
-      return mappedItems as unknown as GameServerCreationDto[keyof GameServerCreationDto];
+      return mappedItems as unknown as GameServerCreationFormState[keyof GameServerCreationFormState];
     },
     [inputType, objectKey, objectValue],
   );
 
   const parseInitialValue = useCallback(
-    (contextValue: GameServerCreationDto[keyof GameServerCreationDto]): KeyValueItem[] => {
+    (
+      contextValue: GameServerCreationFormState[keyof GameServerCreationFormState],
+    ): KeyValueItem[] => {
       if (!contextValue || !Array.isArray(contextValue)) {
         return [];
       }

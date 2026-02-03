@@ -1,8 +1,8 @@
 import type * as React from "react";
-import type { GameServerCreationDto } from "@/api/generated/model";
+import type { GameServerCreationFormState } from "../CreateGameServerModal";
 
 export type GameServerCreationValue = Exclude<
-  GameServerCreationDto[keyof GameServerCreationDto],
+  GameServerCreationFormState[keyof GameServerCreationFormState],
   undefined
 >;
 
@@ -14,14 +14,14 @@ export type AutoCompleteItem<T, U extends GameServerCreationValue> = {
   leftSlot?: React.ReactNode;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// biome-ignore lint/suspicious/noExplicitAny: beep boop
 export type AutoCompleteSelections = Record<string, AutoCompleteItem<any, any>>;
 
 export interface AutoCompleteInputFieldProps<
   TSelectedItem,
   TAutoCompleteData extends GameServerCreationValue,
 > {
-  attribute?: keyof GameServerCreationDto;
+  attribute?: keyof GameServerCreationFormState;
   selectionKey?: string;
   validator?: (value: TAutoCompleteData) => boolean;
   placeholder: string;

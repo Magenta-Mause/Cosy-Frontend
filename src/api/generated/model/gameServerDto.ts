@@ -7,6 +7,7 @@
  */
 import type { UserEntityDto } from './userEntityDto';
 import type { GameServerDtoStatus } from './gameServerDtoStatus';
+import type { DockerHardwareLimits } from './dockerHardwareLimits';
 import type { PortMapping } from './portMapping';
 import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
 import type { VolumeMountConfiguration } from './volumeMountConfiguration';
@@ -25,6 +26,7 @@ export interface GameServerDto {
   docker_image_name: string;
   /** @minLength 1 */
   docker_image_tag: string;
+  docker_hardware_limits?: DockerHardwareLimits;
   execution_command?: string[];
   port_mappings: PortMapping[];
   environment_variables: EnvironmentVariableConfiguration[];

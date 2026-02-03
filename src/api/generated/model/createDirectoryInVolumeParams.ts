@@ -6,6 +6,9 @@
  * OpenAPI spec version: v1.0
  */
 
-export type ErrorAllOf = {
-  message?: string;
+export type CreateDirectoryInVolumeParams = {
+/**
+ * @minLength 1
+ */
+path: string;
 };

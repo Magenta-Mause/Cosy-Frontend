@@ -5,7 +5,8 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { StartEventDto } from './startEventDto';
-import type { DoneAllOf } from './doneAllOf';
 
-export type Done = StartEventDto & DoneAllOf;
+export interface DockerHardwareLimits {
+  docker_max_cpu_cores?: number;
+  docker_memory_limit?: string;
+}

@@ -5,6 +5,11 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { StartEventDto } from './startEventDto';
 
-export type Heartbeat = StartEventDto;
+export interface PasswordUpdateDto {
+  /**
+   * @minLength 8
+   * @maxLength 2147483647
+   */
+  new_password: string;
+}

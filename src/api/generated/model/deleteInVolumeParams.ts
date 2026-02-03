@@ -6,6 +6,9 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface GameServerInstanceDto {
-  ports?: number[];
-}
+export type DeleteInVolumeParams = {
+/**
+ * @minLength 1
+ */
+path: string;
+};

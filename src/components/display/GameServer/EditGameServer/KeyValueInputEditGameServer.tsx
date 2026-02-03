@@ -1,5 +1,6 @@
 import { Input } from "@components/ui/input.tsx";
-import { Fragment, useCallback } from "react";
+import { Fragment, useCallback, useMemo, useRef } from "react";
+import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
 import ListInputEdit from "./ListInputEditGameServer";
@@ -12,6 +13,7 @@ interface KeyValueItem {
 
 interface Props<T> {
   value?: T[];
+  setValue: (vals: T[]) => void;
   onChange?: (vals: T[]) => void;
 
   placeHolderKeyInput: string;
@@ -31,6 +33,7 @@ interface Props<T> {
 
 function EditKeyValueInput<T extends Record<string, string>>({
   value,
+  setValue,
   onChange,
   placeHolderKeyInput,
   placeHolderValueInput,
@@ -48,17 +51,22 @@ function EditKeyValueInput<T extends Record<string, string>>({
     (key?: string, value?: string) => {
       if (!key && !value && !required) {
         return true;
-      } else if (!key || !value) {
+      } else if ((!key || !value) && required) {
         return false;
       }
 
-      const preProcessedKey = preProcessInputValue(key, inputType);
-      const preProcessedValue = preProcessInputValue(value, inputType);
+      const preProcessedKey = preProcessInputValue(key ?? "", inputType);
+      const preProcessedValue = preProcessInputValue(value ?? "", inputType);
 
-      return (
-        keyValidator.safeParse(preProcessedKey).success &&
-        valueValidator.safeParse(preProcessedValue).success
-      );
+      const keyValid = keyValidator.safeParse(preProcessedKey).success;
+      const valueValid = valueValidator.safeParse(preProcessedValue).success;
+
+      if (!required) {
+        if (!key) return valueValid;
+        if (!value) return keyValid;
+      }
+
+      return keyValid && valueValid;
     },
     [keyValidator, valueValidator, required, inputType],
   );
@@ -68,15 +76,38 @@ function EditKeyValueInput<T extends Record<string, string>>({
     [validateKeyValuePair],
   );
 
+  const uuidPerIndexRef = useRef<string[]>([]);
+
+  const rows = useMemo(() => {
+    const vals = value ?? [];
+
+    const uuids = uuidPerIndexRef.current;
+    if (uuids.length > vals.length) {
+      uuidPerIndexRef.current = uuids.slice(0, vals.length);
+    }
+    while (uuidPerIndexRef.current.length < vals.length) {
+      uuidPerIndexRef.current.push(generateUuid());
+    }
+
+    return vals.map((v, idx) => ({
+      key: String(v[objectKey] ?? ""),
+      value: String(v[objectValue] ?? ""),
+      uuid: uuidPerIndexRef.current[idx],
+    }));
+  }, [value, objectKey, objectValue]);
+
   return (
     <ListInputEdit<KeyValueItem>
-      value={
-        value?.map((v) => ({
-          key: String(v[objectKey] ?? ""),
-          value: String(v[objectValue] ?? ""),
-          uuid: crypto.randomUUID(),
-        })) ?? []
-      }
+      value={rows}
+      setParentValue={(rows) => {
+        setValue(
+          rows?.map((row) => ({
+            ...({} as T),
+            [objectKey]: preProcessInputValue(row.key, inputType),
+            [objectValue]: preProcessInputValue(row.value, inputType),
+          })) ?? [],
+        );
+      }}
       onChange={(rows) => {
         const mapped = rows.map((row) => ({
           ...({} as T),

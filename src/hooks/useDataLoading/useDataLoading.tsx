@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import {
@@ -92,22 +93,28 @@ const useDataLoading = () => {
     }
   };
 
-  const loadMetrics = async (gameServerUuid: string, start?: Date, end?: Date) => {
-    dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "loading" }));
-    try {
-      const metrics = await getMetrics(gameServerUuid, {
-        start: start ? start.toISOString() : undefined,
-        end: end ? end.toISOString() : undefined,
-      });
-      const metricsWithUuid = metrics.map((metric) => ({ ...metric, uuid: generateUuid() }));
-      dispatch(
-        gameServerMetricsSliceActions.setGameServerMetrics({ gameServerUuid, metrics: metricsWithUuid })
-      );
-      dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "idle" }));
-    } catch {
-      dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "failed" }));
-    }
-  };
+  const loadMetrics = useCallback(
+    async (gameServerUuid: string, start?: Date, end?: Date) => {
+      dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "loading" }));
+      try {
+        const metrics = await getMetrics(gameServerUuid, {
+          start: start ? start.toISOString() : undefined,
+          end: end ? end.toISOString() : undefined,
+        });
+        const metricsWithUuid = metrics.map((metric) => ({ ...metric, uuid: generateUuid() }));
+        dispatch(
+          gameServerMetricsSliceActions.setGameServerMetrics({
+            gameServerUuid,
+            metrics: metricsWithUuid,
+          }),
+        );
+        dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "idle" }));
+      } catch {
+        dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "failed" }));
+      }
+    },
+    [dispatch],
+  );
 
   const loadAllData = async () => {
     const results = await Promise.allSettled([
@@ -139,7 +146,7 @@ const useDataLoading = () => {
     loadInvites,
     loadAllData,
     loadTemplates,
-    loadMetrics
+    loadMetrics,
   };
 };
 

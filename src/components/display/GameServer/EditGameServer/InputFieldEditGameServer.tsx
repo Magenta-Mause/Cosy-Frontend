@@ -1,10 +1,8 @@
-import { FieldError } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { useCallback, useEffect, useState } from "react";
 import type { ZodType } from "zod";
 
 const InputFieldEditGameServer = (props: {
-  id: string;
   value?: string | number;
   onChange: (value: string | number | undefined) => void;
   validator: ZodType;
@@ -13,8 +11,10 @@ const InputFieldEditGameServer = (props: {
   label?: string;
   description?: string;
   optional?: boolean;
-  defaultValue?: string;
   disabled?: boolean;
+  inputType?: React.ComponentProps<"input">["type"];
+  inputMode?: React.ComponentProps<"input">["inputMode"];
+  step?: React.ComponentProps<"input">["step"];
 }) => {
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -23,7 +23,11 @@ const InputFieldEditGameServer = (props: {
 
   const validate = useCallback(
     (value: unknown) => {
-      if (props.optional) return true;
+      // If optional and empty, it's valid
+      if (props.optional && (value === null || value === undefined || value === "")) {
+        return true;
+      }
+      // If value is provided, it must pass validation (even when optional)
       return props.validator.safeParse(value).success;
     },
     [props.optional, props.validator],
@@ -33,12 +37,6 @@ const InputFieldEditGameServer = (props: {
     (value: string) => {
       setTouched(true);
 
-      if (value === "" && props.defaultValue !== undefined) {
-        props.onChange(props.defaultValue);
-        setIsValid(validate(props.defaultValue));
-        return;
-      }
-
       props.onChange(value);
       setIsValid(validate(value));
     },
@@ -46,11 +44,10 @@ const InputFieldEditGameServer = (props: {
   );
 
   useEffect(() => {
-    if (props.defaultValue !== undefined && props.value === undefined) {
-      props.onChange(props.defaultValue);
-      setIsValid(validate(props.defaultValue));
+    if (props.value !== undefined) {
+      setIsValid(validate(props.value));
     }
-  }, [props, validate]);
+  }, [props.value, validate]);
 
   useEffect(() => {
     if (props.optional) {
@@ -64,14 +61,15 @@ const InputFieldEditGameServer = (props: {
       <Input
         header={props.label}
         description={props.description}
-        id={props.id}
-        className={isError ? "border-red-500" : ""}
+        error={isError ? props.errorLabel : undefined}
         placeholder={props.placeholder}
         value={props.value ?? ""}
         onChange={(e) => changeCallback(e.target.value)}
         disabled={props.disabled}
+        type={props.inputType}
+        inputMode={props.inputMode}
+        step={props.step}
       />
-      {isError && <FieldError>{props.errorLabel}</FieldError>}
     </div>
   );
 };

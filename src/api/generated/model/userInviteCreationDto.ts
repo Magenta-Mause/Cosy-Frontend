@@ -6,10 +6,10 @@
  * OpenAPI spec version: v1.0
  */
 import type { UserInviteCreationDtoRole } from './userInviteCreationDtoRole';
+import type { DockerHardwareLimits } from './dockerHardwareLimits';
 
 export interface UserInviteCreationDto {
   username?: string;
   role?: UserInviteCreationDtoRole;
-  max_memory?: number;
-  max_cpu?: number;
+  docker_hardware_limits?: DockerHardwareLimits;
 }

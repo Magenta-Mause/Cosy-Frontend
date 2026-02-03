@@ -1,8 +1,14 @@
 import { Button } from "@components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import spinner from "@/assets/gifs/spinner.gif";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading";
-import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
+import { useTypedSelector } from "@/stores/rootReducer";
+import {
+  type GameServerMetricsWithUuid,
+  gameServerMetricsSliceActions,
+} from "@/stores/slices/gameServerMetrics";
 import { MetricsType } from "@/types/metricsTyp";
 import TimeRangeDropDown from "./DropDown/TimeRangeDropDown";
 import MetricGraph from "./MetricGraph";
@@ -42,14 +48,38 @@ const MetricDisplay = (
 ) => {
   const { t } = useTranslation();
   const [unit, setUnit] = useState<string>("hour");
-  const [startTime, setStartTime] = useState<Date | undefined>();
-  const [endTime, setEndTime] = useState<Date | undefined>();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [isCustomTime, setIsCustomTime] = useState<boolean>(false);
   const { loadMetrics } = useDataLoading();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
+  const liveEnabled = useTypedSelector(
+    (s) =>
+      s.gameServerMetricsSliceReducer.data[props.gameServerUuid]?.enableMetricsLiveUpdates ?? true,
+  );
+
+  const handleLiveMetrics = (enableLiveMetrics: boolean) => {
+    dispatch(
+      gameServerMetricsSliceActions.setEnableMetricsLiveUpdates({
+        gameServerUuid: props.gameServerUuid,
+        enable: enableLiveMetrics,
+      }),
+    );
+  };
+
+  const handleTimeChange = async (startTime: Date, endTime?: Date) => {
     if (!startTime) return;
-    loadMetrics(props.gameServerUuid, startTime, endTime);
-  }, [startTime, endTime, props.gameServerUuid, loadMetrics]);
+    const isToday = !endTime || endTime.getDate() === new Date().getDate();
+    setIsCustomTime(!isToday);
+    handleLiveMetrics(isToday);
+
+    setLoading(true);
+    try {
+      await loadMetrics(props.gameServerUuid, startTime, endTime);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const colSpanMap: Record<string, string> = {
     "1": "col-span-1",
@@ -59,7 +89,6 @@ const MetricDisplay = (
     "5": "col-span-5",
     "6": "col-span-6",
   };
-
 
   return (
     <>
@@ -71,12 +100,22 @@ const MetricDisplay = (
             timeUnit: selectedUnit,
           }) => {
             setUnit(selectedUnit);
-            setStartTime(selectedStartTime);
-            setEndTime(selectedEndTime);
+            handleTimeChange(selectedStartTime, selectedEndTime);
           }}
         />
         <Button>{t("metrics.configure")}</Button>
+        <Button disabled={isCustomTime} onClick={() => handleLiveMetrics(!liveEnabled)}>
+          {liveEnabled ? t("metrics.liveMetricsOn") : t("metrics.liveMetricsOff")}
+        </Button>
       </div>
+      {loading && (
+        <div className="absolute z-10 flex justify-center items-center w-[80%] h-[80%] backdrop-blur-sm">
+          <div className="flex flex-col gap-2">
+            <img src={spinner} alt="spinner" />
+            <div className="flex justify-center text-xl">{t("signIn.loading")}</div>
+          </div>
+        </div>
+      )}
       <div className="grid grid-cols-6 gap-2">
         {METRIC_ORDER.map((metric) => (
           <MetricGraph
@@ -85,6 +124,7 @@ const MetricDisplay = (
             metrics={props.metrics}
             type={metric.type}
             timeUnit={unit}
+            loading={loading}
           />
         ))}
       </div>
