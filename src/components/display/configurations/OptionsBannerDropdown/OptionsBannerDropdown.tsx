@@ -14,7 +14,14 @@ const OptionsBannerDropdown = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (bannerRef.current && !bannerRef.current.contains(event.target as Node)) {
+      const target = event.target as HTMLElement;
+      const isInsideDialog = target.closest('[data-slot="dialog-content"]') !== null;
+
+      if (
+        !isInsideDialog &&
+        bannerRef.current &&
+        !bannerRef.current.contains(event.target as Node)
+      ) {
         setIsExpanded(false);
       }
     };
@@ -28,11 +35,22 @@ const OptionsBannerDropdown = () => {
     };
   }, [isExpanded]);
 
+  const handleBannerClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const target = e.target as HTMLElement;
+    const clickedElement = target.closest('button, a, [role="button"]');
+    const wasBannerClicked = clickedElement?.id === "banner";
+
+    if (wasBannerClicked) {
+      setIsExpanded(!isExpanded);
+    }
+  };
+
   return (
     <button
+      id="banner"
       type="button"
       ref={bannerRef}
-      onClick={() => setIsExpanded(!isExpanded)}
+      onClick={(e) => handleBannerClicked(e)}
       aria-expanded={isExpanded}
       className={cn(
         "flex flex-col gap-4 p-6 items-center justify-center pb-10",
