@@ -7,7 +7,7 @@ import {
 } from "@/api/generated/model";
 
 // 1. Unified styling config for easier maintenance
-const LOG_STYLES: Record<string, { text: string; bg: string; border: string }> = {
+const LOG_STYLES: Record<string, { text: string; bg: string; border: string; opacity?: number }> = {
   [GameServerLogMessageEntityLevel.INFO]: {
     text: "text-sky-400",
     bg: "bg-sky-950/30",
@@ -22,16 +22,19 @@ const LOG_STYLES: Record<string, { text: string; bg: string; border: string }> =
     text: "text-emerald-400",
     bg: "bg-emerald-950/30",
     border: "border-emerald-500",
+    opacity: 0.7,
   },
   [GameServerLogMessageEntityLevel.COSY_INFO]: {
     text: "text-cyan-400",
     bg: "bg-cyan-950/20",
     border: "border-cyan-500",
+    opacity: 0.7,
   },
   [GameServerLogMessageEntityLevel.COSY_DEBUG]: {
     text: "text-violet-400",
     bg: "bg-violet-950/20",
     border: "border-violet-500",
+    opacity: 0.7,
   },
   [GameServerLogMessageEntityLevel.COSY_ERROR]: {
     text: "text-red-400",
@@ -58,19 +61,17 @@ const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
         styles.bg,
         `border-l-${styles.border.split("-")[1]}-500/50`, // Set a faint default border
       )}
+      style={{
+        opacity: styles.opacity,
+      }}
     >
       {/* Timestamp: Dimmed so it doesn't distract from the message */}
-      <span className="font-mono text-gray-500 mr-3 select-none shrink-0 opacity-70 group-hover:opacity-100">
+      <span className="font-mono text-gray-500 mr-3 select-none opacity-70 group-hover:opacity-100">
         {timestamp}
       </span>
 
       {/* Level Tag: Monospaced and slightly bold for alignment */}
-      <span
-        className={clsx(
-          "inline-block min-w-[65px] font-bold text-[10px] uppercase tracking-tighter mr-2 select-none self-center",
-          styles.text,
-        )}
-      >
+      <span className={clsx("min-w-16.25 font-mono uppercase mr-2 select-none", styles.text)}>
         [{level}]
       </span>
 

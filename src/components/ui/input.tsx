@@ -8,6 +8,7 @@ interface InputProps extends React.ComponentProps<"input"> {
   description?: string;
   endDecorator?: string | React.ReactNode;
   error?: string | React.ReactNode;
+  wrapperClassName?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({
@@ -17,10 +18,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({
                                                                               description,
                                                                               endDecorator,
                                                                               error,
+  wrapperClassName,
                                                                               ...props
                                                                             }: InputProps, ref) {
   return (
-    <div>
+    <div className={wrapperClassName}>
       {header && (
         <Label htmlFor={props.id} className="pb-2 font-bold">
           {header}

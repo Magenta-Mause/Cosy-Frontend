@@ -132,13 +132,15 @@ const LogDisplay = (
                 handleSendCommand();
               }
             }}
-            disabled={isPending || !isServerRunning}
-            className="flex-1 bg-gray-900 border-gray-700 text-gray-100 placeholder:text-gray-500"
+            disabled={!isServerRunning}
+            className="bg-gray-900 border-gray-700 text-gray-100 font-mono text-[15px] placeholder:text-gray-500 grow w-auto h-10"
+            wrapperClassName={"w-auto grow"}
           />
           <Button
             onClick={handleSendCommand}
             disabled={!commandInput.trim() || isPending || !isServerRunning}
             size="sm"
+            className={"w-fit h-10"}
           >
             {isPending ? "Sending..." : "Send"}
           </Button>
