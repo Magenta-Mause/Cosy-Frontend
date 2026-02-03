@@ -34,6 +34,7 @@ function Index() {
   return (
     <div className="relative w-screen overflow-x-hidden">
       <div className="relative w-full">
+
         <GameServerBackground houseCount={gameServers.length + 1} />
 
         <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">

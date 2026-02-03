@@ -1,6 +1,7 @@
 import bgImageBottom from "@/assets/MainPage/bg_day_bottom.png";
 import bgImageLoop from "@/assets/MainPage/bg_day_loop.png";
 import bgImageTop from "@/assets/MainPage/bg_day_top.png";
+import logo from "@/assets/MainPage/logo.gif";
 import path_1 from "@/assets/MainPage/path_1.png";
 import path_2 from "@/assets/MainPage/path_2.png";
 import pathLoop_1 from "@/assets/MainPage/platze_loop_1.png";
@@ -121,6 +122,15 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
             style={{ imageRendering: "pixelated" }}
           />
         ))}
+      </div>
+
+      <div className="absolute top-5 left-0 w-full z-20 flex justify-center">
+        <img
+          src={logo}
+          alt="Cosy Logo"
+          className="w-200 h-auto"
+          style={{ imageRendering: "pixelated" }}
+        />
       </div>
     </div>
   );
