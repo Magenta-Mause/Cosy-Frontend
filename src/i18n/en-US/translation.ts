@@ -364,14 +364,16 @@ const translation: i18nLanguage = {
       rconSettings: {
         title: "RCON Configuration",
         description: {
-          part1: "By default COSY attaches to the game server and tries to enter commands directly through STDIN.",
+          part1:
+            "By default COSY attaches to the game server and tries to enter commands directly through STDIN.",
           part2: "Here you can alternatively configure a",
           part3: "connection which should be used for command dispatching.",
         },
         enableRcon: "Enable RCON",
         rconPort: {
           title: "RCON Port",
-          description: "The port number for RCON connections (1-65535)",
+          description:
+            "The port number for RCON connections (1-65535). The RCON-Port needs to be port forwarded from the game server container to the host",
           errorLabel: "Please enter a valid port number between 1 and 65535",
         },
         rconPassword: {
