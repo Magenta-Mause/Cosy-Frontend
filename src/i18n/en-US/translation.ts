@@ -124,6 +124,11 @@ const translation: i18nLanguage = {
     loading: "Loading...",
     logout: "Logout",
   },
+  optionsBanner: {
+    languageSelector: "Select Language",
+    userMenu: "User Menu",
+    logout: "Log Out",
+  },
   components: {
     CreateGameServer: {
       backButton: "Back",

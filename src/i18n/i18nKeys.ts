@@ -129,6 +129,12 @@ export type i18nLanguage = {
     logout: string;
   };
 
+  optionsBanner: {
+    languageSelector: string;
+    userMenu: string;
+    logout: string;
+  };
+
   logDisplay: {
     serverLog: string;
     timestampFormat: string;

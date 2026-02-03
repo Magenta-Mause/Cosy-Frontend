@@ -1,13 +1,16 @@
 import LanguageSelector from "@components/display/configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
 import LogOutButton from "@components/display/configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
 import UserMenuButton from "@components/display/configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import banner from "@/assets/Banner.webp";
 import { cn } from "@/lib/utils.ts";
 
 const OptionsBannerDropdown = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const bannerRef = useRef<HTMLButtonElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -54,9 +57,36 @@ const OptionsBannerDropdown = () => {
           isExpanded ? "opacity-100" : "opacity-0 pointer-events-none",
         )}
       >
-        <LanguageSelector />
-        <UserMenuButton />
-        <LogOutButton />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div>
+              <LanguageSelector />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="right">
+            <p>{t("optionsBanner.languageSelector")}</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div>
+              <UserMenuButton />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="right">
+            <p>{t("optionsBanner.userMenu")}</p>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div>
+              <LogOutButton />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="right">
+            <p>{t("optionsBanner.logout")}</p>
+          </TooltipContent>
+        </Tooltip>
       </div>
     </button>
   );
