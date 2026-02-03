@@ -18,7 +18,7 @@ function GameServerDetailPage() {
     if (shouldRedirect) {
       navigate({ to: "/server/not-found" });
     }
-  }, [shouldRedirect, navigate]);
+  }, [shouldRedirect]);
 
   if (shouldRedirect) {
     return null;
