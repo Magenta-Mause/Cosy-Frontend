@@ -6,7 +6,6 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
 import { useState } from "react";
@@ -18,11 +17,7 @@ interface LogOutAlertDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export function LogOutAlertDialog({
-  onConfirm,
-  open,
-  onOpenChange,
-}: LogOutAlertDialogProps) {
+export function LogOutAlertDialog({ onConfirm, open, onOpenChange }: LogOutAlertDialogProps) {
   const { t } = useTranslationPrefix("logOutDialog");
   const [loading, setLoading] = useState(false);
 
@@ -48,7 +43,6 @@ export function LogOutAlertDialog({
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
-
 
         <DialogFooter>
           <DialogClose asChild>

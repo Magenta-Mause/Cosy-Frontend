@@ -31,16 +31,20 @@ export function UserModal({ open, onOpenChange }: UserModalProps) {
               <p className="font-semibold">{t("username")}:</p>
               <p>{username}</p>
             </div>
-            
+
             <div>
               <p className="font-semibold">{t("role")}:</p>
               <p>{role}</p>
             </div>
-            
+
             <div>
               <p className="font-semibold">{t("limits")}:</p>
-              <p>{t("memory")}: {memoryLimit}</p>
-              <p>{t("cpu")}: {cpuLimit}</p>
+              <p>
+                {t("memory")}: {memoryLimit}
+              </p>
+              <p>
+                {t("cpu")}: {cpuLimit}
+              </p>
             </div>
           </div>
         </DialogMain>

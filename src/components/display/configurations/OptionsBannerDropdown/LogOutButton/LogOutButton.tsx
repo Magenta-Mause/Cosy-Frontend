@@ -18,11 +18,7 @@ const LogOutButton = () => {
       >
         <LogOut className="!h-[1.5vw] p-0 !w-auto aspect-square" />
       </Button>
-      <LogOutAlertDialog
-        open={open}
-        onOpenChange={setOpen}
-        onConfirm={handleLogout}
-      />
+      <LogOutAlertDialog open={open} onOpenChange={setOpen} onConfirm={handleLogout} />
     </>
   );
 };
