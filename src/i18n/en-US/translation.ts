@@ -113,6 +113,14 @@ const translation: i18nLanguage = {
     cancel: "Cancel",
     confirm: "Log Out",
   },
+  userProfileModal: {
+    title: "User Profile",
+    username: "Username",
+    role: "Role",
+    limits: "Resource Limits",
+    memory: "Memory",
+    cpu: "CPU Cores",
+  },
   aria: {
     createNewGameServer: "Create a new Game Server Configuration",
     gameServer: "Game Server Configuration: {{serverName}}",

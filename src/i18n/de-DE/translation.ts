@@ -114,6 +114,14 @@ const translation: i18nLanguage = {
     cancel: "Abbrechen",
     confirm: "Abmelden",
   },
+  userProfileModal: {
+    title: "Benutzerprofil",
+    username: "Benutzername",
+    role: "Rolle",
+    limits: "Ressourcenlimits",
+    memory: "Speicher",
+    cpu: "CPU-Kerne",
+  },
   aria: {
     createNewGameServer: "Erstelle eine neue Gameserver-Konfiguration",
     gameServer: "Gameserver-Konfiguration: {{serverName}}",

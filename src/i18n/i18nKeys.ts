@@ -117,6 +117,15 @@ export type i18nLanguage = {
     confirm: string;
   };
 
+  userProfileModal: {
+    title: string;
+    username: string;
+    role: string;
+    limits: string;
+    memory: string;
+    cpu: string;
+  };
+
   aria: {
     createNewGameServer: string;
     gameServer: ContainsVariable<"serverName">;
