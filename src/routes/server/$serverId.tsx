@@ -10,17 +10,15 @@ export const Route = createFileRoute("/server/$serverId")({
 function GameServerDetailPage() {
   const navigate = Route.useNavigate();
   const { serverId } = Route.useParams();
-  const gameServer = useGameServer(serverId ?? "");
-
-  const isServerMissing = !serverId || !gameServer;
+  const { gameServer, notFound } = useGameServer(serverId ?? "");
 
   useEffect(() => {
-    if (isServerMissing) {
+    if (notFound) {
       navigate({ to: "/server/not-found" });
     }
-  }, [isServerMissing, navigate]);
+  }, [notFound, navigate]);
 
-  if (isServerMissing) {
+  if (notFound || !gameServer) {
     return null;
   }
 

@@ -1,25 +1,31 @@
 import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
 import MetricGraph from "@components/display/MetricDisplay/MetricGraph";
-import { createFileRoute } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";
 import { MetricsType } from "@/types/metricsTyp";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/server/$serverId/")({
   component: GameServerDetailPageDashboardPage,
 });
 
 function GameServerDetailPageDashboardPage() {
-  const { t } = useTranslation();
   const { serverId } = Route.useParams();
-  const gameServer = useGameServer(serverId ?? "");
   const { logs } = useGameServerLogs(serverId ?? "");
   const { metrics } = useGameServerMetrics(serverId ?? "");
+  const { gameServer, notFound } = useGameServer(serverId ?? "");
+  const navigate = useNavigate();
 
-  if (!serverId || !gameServer) {
-    return <div>{t("serverPage.notFound")}</div>;
+  useEffect(() => {
+    if (notFound) {
+      navigate({ to: "/server/not-found" });
+    }
+  }, [notFound, navigate]);
+
+  if (notFound || !gameServer) {
+    return null;
   }
 
   return (

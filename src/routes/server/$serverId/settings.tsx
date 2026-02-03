@@ -1,19 +1,25 @@
 import GameServerSettingsLayout from "@components/display/GameServer/GameServerSettings/GameServerSettingsLayout";
-import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
 import useGameServer from "@/hooks/useGameServer/useGameServer";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/server/$serverId/settings")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { t } = useTranslation();
   const { serverId } = Route.useParams();
-  const gameServer = useGameServer(serverId ?? "");
+  const { gameServer, notFound } = useGameServer(serverId ?? "");
+  const navigate = useNavigate();
 
-  if (!serverId || !gameServer) {
-    return <div>{t("serverPage.notFound")}</div>;
+  useEffect(() => {
+    if (notFound) {
+      navigate({ to: "/server/not-found" });
+    }
+  }, [notFound, navigate]);
+
+  if (notFound || !gameServer) {
+    return null;
   }
 
   return (
