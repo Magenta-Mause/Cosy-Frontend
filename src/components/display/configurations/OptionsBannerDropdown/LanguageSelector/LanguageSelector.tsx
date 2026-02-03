@@ -32,14 +32,15 @@ const LanguageSelector = (props: { className?: string }) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent
+        side="right"
         className={
-          "z-[101] flex flex-col gap-[.5vw] p-[0.4vw] px-[.7vw] w-[9vw] h-[7vw] justify-evenly mt-[.5vw] mr-[1vw] border"
+          "z-[101] flex flex-col gap-[.5vw] p-[0.3vw] w-[9vw] h-auto justify-evenly border-2"
         }
       >
         {LANGUAGES.map((language) => (
           <Button
             key={language.value}
-            className={"text-[1vw] h-[1.5vw]"}
+            className={"text-[1.1vw] h-[2vw] py-[0.4vw]"}
             onClick={() => {
               i18n.changeLanguage(language.value);
             }}
