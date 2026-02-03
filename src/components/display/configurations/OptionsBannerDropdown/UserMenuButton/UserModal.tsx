@@ -8,6 +8,7 @@ import {
 } from "@components/ui/dialog.tsx";
 import { useContext } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge";
 
 interface UserModalProps {
   open: boolean;
@@ -34,7 +35,7 @@ export function UserModal({ open, onOpenChange }: UserModalProps) {
 
             <div>
               <p className="font-semibold">{t("role")}:</p>
-              <p>{role}</p>
+              {role && <UserRoleBadge role={role} />}
             </div>
 
             <div>

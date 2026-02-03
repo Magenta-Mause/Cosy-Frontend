@@ -1,4 +1,3 @@
-import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
@@ -6,31 +5,18 @@ import { Ellipsis } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
-import { cn } from "@/lib/utils";
+import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge";
 import ResourceUsageBadge from "./ResourceUsageBadge";
 
 const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserEntityDtoRole }) => {
   const { t } = useTranslation();
-
-  const USER_COLORS: Record<UserEntityDtoRole, string> = {
-    [UserEntityDtoRole.OWNER]: "bg-[#0eaf9b]",
-    [UserEntityDtoRole.ADMIN]: "bg-[#8ff8e2]",
-    [UserEntityDtoRole.QUOTA_USER]: "bg-white",
-  };
 
   return (
     <Card>
       <CardContent className="flex gap-7 items-center my-3 justify-between">
         <div className="flex gap-2 font-semibold">
           {props.user.username}
-          <Badge
-            className={cn(
-              "rounded-xl text-sm px-3 uppercase",
-              USER_COLORS[props.user.role ?? "QUOTA_USER"],
-            )}
-          >
-            {t(`components.userManagement.userRow.roles.${props.userRole.toLowerCase()}`)}
-          </Badge>
+          <UserRoleBadge role={props.userRole} />
         </div>
         {(props.userRole === "QUOTA_USER" || props.userRole === "ADMIN") && (
           <div className="flex gap-3 flex-1 justify-end">
