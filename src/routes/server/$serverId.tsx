@@ -12,15 +12,15 @@ function GameServerDetailPage() {
   const { serverId } = Route.useParams();
   const gameServer = useGameServer(serverId ?? "");
 
-  const shouldRedirect = !serverId || !gameServer;
+  const isServerMissing = !serverId || !gameServer;
 
   useEffect(() => {
-    if (shouldRedirect) {
+    if (isServerMissing) {
       navigate({ to: "/server/not-found" });
     }
-  }, [shouldRedirect]);
+  }, [isServerMissing]);
 
-  if (shouldRedirect) {
+  if (isServerMissing) {
     return null;
   }
 
