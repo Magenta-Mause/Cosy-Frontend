@@ -13,7 +13,7 @@ function GameServerDetailPage() {
 
   if (!serverId || !gameServer) {
     navigate({ to: "/server/not-found" });
-    return;
+    return null;
   }
 
   return (
