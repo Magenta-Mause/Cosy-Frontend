@@ -49,9 +49,9 @@ export const RenameDialog = ({
           <DialogDescription>
             {obj
               ? t("renameDescription", {
-                fileName: obj.name,
-                currentPath,
-              })
+                  fileName: obj.name,
+                  currentPath,
+                })
               : null}
           </DialogDescription>
         </DialogHeader>

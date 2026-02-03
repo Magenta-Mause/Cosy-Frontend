@@ -1,6 +1,6 @@
 import { ChevronRight, Home, Plus, RefreshCw } from "lucide-react";
-import { cn } from "@/lib/utils";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { cn } from "@/lib/utils";
 
 type Crumb = { label: string; path: string };
 

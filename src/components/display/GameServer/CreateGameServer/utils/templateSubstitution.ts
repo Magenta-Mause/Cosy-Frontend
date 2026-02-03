@@ -33,7 +33,7 @@ export function applyTemplate(
   variables: Record<string, string | number | boolean>,
   currentState: GameServerCreationFormState,
 ): GameServerCreationFormState {
-  const newState: GameServerCreationFormState = {...currentState};
+  const newState: GameServerCreationFormState = { ...currentState };
 
   // Substitute docker image name
   if (template.docker_image_name) {

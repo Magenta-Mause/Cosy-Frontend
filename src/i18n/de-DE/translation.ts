@@ -128,8 +128,13 @@ const translation: i18nLanguage = {
   logDisplay: {
     serverLog: "Server-Protokoll",
     timestampFormat: "HH:mm:ss.SSS",
+    stickToBottom: "Nach unten scrollen",
   },
   serverPage: {
+    dockerHardwareLimits: "Docker Hardwarelimitierungen",
+    cpuLimit: "CPU Kerne",
+    memoryLimit: "RAM Limit",
+    unlimited: "Unlimitiert",
     notFound: "Nicht gefunden",
     start: "Starten",
     stop: "Herunterfahren",

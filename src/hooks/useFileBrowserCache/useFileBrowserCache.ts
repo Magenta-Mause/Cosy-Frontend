@@ -1,8 +1,8 @@
+import { useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getFileSystemForVolume } from "@/api/generated/backend-api";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
 import { normalizePath } from "@/lib/fileSystemUtils";
-import { useNavigate } from "@tanstack/react-router";
 
 type CacheEntry = {
   fetchDepth: number;

@@ -1,8 +1,8 @@
 import { Download, File, Folder, Pencil, Trash2 } from "lucide-react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { formatBytes, formatUnixPerms, isDirectory } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 type Props = {
   obj: FileSystemObjectDto;
