@@ -45,7 +45,7 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
     }
 
     changePassword(
-      { uuid, data: { new_password: newPassword } },
+      { uuid, data: { old_password: oldPassword, new_password: newPassword } },
       {
         onSuccess: () => {
           toast.success(t("passwordChangeSuccess"));
