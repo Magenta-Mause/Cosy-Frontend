@@ -1,34 +1,30 @@
-const POSITIONS = [
+const UNIQUE_POSITIONS = [
   { x: 0.105, y: 0.27 },
   { x: 0.705, y: 0.28 },
-  { x: 0.64, y: 0.6 },
-  { x: 0.19, y: 0.55 },
-  { x: 0.32, y: 0.8 }, //
-  { x: 0.77, y: 0.92 }, //
-  { x: 0.12, y: 0.97 }, //
-  { x: 0.423, y: 1.06 }, //
-  { x: 0.64, y: 0.6 + 0.722 },
-  { x: 0.19, y: 0.55 + 0.722 },
-  { x: 0.32, y: 0.8 + 0.722 }, //
-  { x: 0.77, y: 0.92 + 0.722 }, //
-  { x: 0.12, y: 0.97 + 0.722 }, //
-  { x: 0.423, y: 1.06 + 0.722 }, //
-  { x: 0.64, y: 0.6 + 0.722 * 2 },
-  { x: 0.19, y: 0.55 + 0.722 * 2 },
-  { x: 0.32, y: 0.8 + 0.722 * 2 }, //
-  { x: 0.77, y: 0.92 + 0.722 * 2 }, //
-  { x: 0.12, y: 0.97 + 0.722 * 2 }, //
-  { x: 0.423, y: 1.06 + 0.722 * 2 }, //
-  { x: 0.64, y: 0.6 + 0.722 * 3 },
-  { x: 0.19, y: 0.55 + 0.722 * 3 },
-  { x: 0.32, y: 0.8 + 0.722 * 3 }, //
-  { x: 0.77, y: 0.92 + 0.722 * 3 }, //
-  { x: 0.12, y: 0.97 + 0.722 * 3 }, //
-  { x: 0.423, y: 1.06 + 0.722 * 3 }, //
 ];
 
+const REPEATING_POSITIONS = [
+  { x: 0.645, y: 0.59 },
+  { x: 0.19, y: 0.55 },
+  { x: 0.32, y: 0.8 },
+  { x: 0.756, y: 0.92 },
+  { x: 0.12, y: 0.97 },
+  { x: 0.423, y: 1.06 },
+];
+
+const VERTICAL_OFFSET = 0.723;
+
 function calculateCoordinate(index: number) {
-  const base = POSITIONS[index % POSITIONS.length];
+  if (index < UNIQUE_POSITIONS.length) {
+    const position = UNIQUE_POSITIONS[index];
+    return position ?? { x: 0, y: 0 };
+  }
+
+  const adjustedIndex = index - UNIQUE_POSITIONS.length;
+  const positionIndex = adjustedIndex % REPEATING_POSITIONS.length;
+  const rowMultiplier = Math.floor(adjustedIndex / REPEATING_POSITIONS.length);
+
+  const base = REPEATING_POSITIONS[positionIndex];
 
   if (base === undefined) {
     return { x: 0, y: 0 };
@@ -36,7 +32,7 @@ function calculateCoordinate(index: number) {
 
   return {
     x: base.x,
-    y: base.y,
+    y: base.y + VERTICAL_OFFSET * rowMultiplier,
   };
 }
 
