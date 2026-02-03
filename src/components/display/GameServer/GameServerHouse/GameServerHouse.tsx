@@ -48,6 +48,10 @@ const GameServerHouse = (props: {
     return hash % 2 === 0 ? serverHouseImage1 : serverHouseImage2;
   }, [props.gameServer.uuid]);
 
+  const handleClick = () => {
+    sessionStorage.setItem('homeScrollPosition', window.scrollY.toString());
+  };
+
   const actions: RightClickAction[] = [
     ...(props.gameServer.status === "STOPPED" || props.gameServer.status === "FAILED"
       ? [
@@ -89,6 +93,7 @@ const GameServerHouse = (props: {
     {
       label: t("rightClickMenu.viewLogs"),
       onClick: () => {
+        handleClick();
         router.navigate({
           to: `/server/${props.gameServer.uuid}`,
         });
@@ -132,6 +137,7 @@ const GameServerHouse = (props: {
             width: '19vw',
             height: '19vw',
           }}
+          onClick={handleClick}
         >
           <img
             alt={t("aria.gameServerConfiguration", {

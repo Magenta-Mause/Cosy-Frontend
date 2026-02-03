@@ -1,5 +1,6 @@
 import UserDetailListRedirectButton from "@components/display/UserManagement/UserDetailPage/UserDetailListRedirectButton";
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
@@ -30,6 +31,14 @@ function Index() {
       replace: true,
     });
   };
+
+  useEffect(() => {
+    const savedPosition = sessionStorage.getItem('homeScrollPosition');
+    if (savedPosition) {
+      window.scrollTo(0, parseInt(savedPosition, 10));
+      sessionStorage.removeItem('homeScrollPosition');
+    }
+  }, []);
 
   return (
     <div className="relative w-full min-h-screen">
