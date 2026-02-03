@@ -1,5 +1,6 @@
 import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
 import { Button } from "@components/ui/button.tsx";
+import { Checkbox } from "@components/ui/checkbox.tsx";
 import { useEffect, useMemo, useState } from "react";
 import * as z from "zod";
 import type { GameServerDto, RCONConfiguration } from "@/api/generated/model";
@@ -15,6 +16,7 @@ const RconSettings = (props: {
   const [rconState, setRconState] = useState<RCONConfiguration | undefined>(
     () => props.gameServer.rcon_configuration,
   );
+  const [rconEnabled, setRconEnabled] = useState(rconState?.enabled ?? false);
   const [rconPort, setRconPort] = useState<string | undefined>(rconState?.port?.toString() ?? "");
   const [rconPassword, setRconPassword] = useState<string | undefined>(rconState?.password);
 
@@ -26,25 +28,34 @@ const RconSettings = (props: {
     const rconPortValid = z.coerce.number().min(1).max(65535).safeParse(rconPort).success;
     const rconPasswordValid = z.string().min(1).safeParse(rconPassword).success;
 
-    return rconPasswordValid && rconPortValid;
-  }, [rconPassword, rconPort]);
+    return (rconPasswordValid && rconPortValid) || !rconEnabled;
+  }, [rconPassword, rconPort, rconEnabled]);
 
   const isChanged = useMemo(() => {
+    const rconEnabledChanged = rconEnabled !== rconState?.enabled;
     const rconPasswordChanged = rconPassword !== rconState?.password;
     const rconPortChanged = !(
-      (rconPort === "" && rconState?.port === undefined) ||
+      (rconPort === "" && (rconState?.port === undefined || rconState?.port === null)) ||
       Number(rconPort) === rconState?.port
     );
 
-    return rconPasswordChanged || rconPortChanged;
-  }, [rconPassword, rconPort, rconState?.password, rconState?.port]);
+    return rconPasswordChanged || rconPortChanged || rconEnabledChanged;
+  }, [
+    rconPassword,
+    rconPort,
+    rconState?.password,
+    rconState?.port,
+    rconEnabled,
+    rconState?.enabled,
+  ]);
 
   const handleConfirm = async () => {
     setLoading(true);
     try {
       await props.onConfirm({
+        enabled: rconEnabled,
         password: rconPassword,
-        port: Number(rconPort) ?? rconState?.port ?? undefined,
+        ...(rconPort !== "" && { port: Number(rconPort) }),
       });
     } finally {
       setLoading(false);
@@ -54,12 +65,37 @@ const RconSettings = (props: {
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   return (
-    <div className="relative pr-3 pb-10">
+    <div className="relative pr-3 pb-10 gap-5 flex flex-col">
       <div>
         <h2>{t("title")}</h2>
+        <p className={"text-sm text-muted-foreground leading-none"}>
+          {t("description.part1")} <br />
+          {t("description.part2")}{" "}
+          <a
+            href={"https://developer.valvesoftware.com/wiki/Source_RCON_Protocol"}
+            className={"text-button-primary-active/80 underline"}
+            target={"_blank"}
+            rel="noopener"
+          >
+            RCON
+          </a>{" "}
+          {t("description.part3")}
+        </p>
       </div>
 
-      <div>
+      <div className="flex flex-col gap-4" style={{ maxHeight: "calc(100vh - 20rem)" }}>
+        <button
+          type="button"
+          className={"cursor-pointer flex gap-2 align-middle items-center select-none grow-0 w-fit"}
+          onClick={() => setRconEnabled((prev) => !prev)}
+        >
+          <Checkbox
+            checked={rconEnabled}
+            onClick={() => setRconEnabled((prev) => !prev)}
+            className={"size-5"}
+          />
+          <span className={"text-sm"}>{t("enableRcon")}</span>
+        </button>
         <InputFieldEditGameServer
           label={t("rconPort.title")}
           value={rconPort}
@@ -68,7 +104,8 @@ const RconSettings = (props: {
           placeholder="25575"
           description={t("rconPort.description")}
           errorLabel={t("rconPort.errorLabel")}
-          optional
+          optional={!rconEnabled}
+          disabled={!rconEnabled}
           onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
 
@@ -80,7 +117,8 @@ const RconSettings = (props: {
           placeholder="mysecretpassword"
           description={t("rconPassword.description")}
           errorLabel={t("rconPassword.errorLabel")}
-          optional
+          optional={!rconEnabled}
+          disabled={!rconEnabled}
           onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
       </div>

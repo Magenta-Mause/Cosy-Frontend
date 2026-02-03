@@ -1,6 +1,7 @@
 import LogMessage from "@components/display/LogDisplay/LogMessage";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
+import { Forward } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
@@ -122,7 +123,7 @@ const LogDisplay = (
           <Input
             type="text"
             placeholder={
-              isServerRunning ? "Enter command..." : "Server must be running to send commands"
+              isServerRunning ? t("logDisplay.enterCommand") : t("logDisplay.cantSendCommands")
             }
             value={commandInput}
             onChange={(e) => setCommandInput(e.target.value)}
@@ -135,6 +136,7 @@ const LogDisplay = (
             disabled={!isServerRunning}
             className="bg-gray-900 border-gray-700 text-gray-100 font-mono text-[15px] placeholder:text-gray-500 grow w-auto h-10"
             wrapperClassName={"w-auto grow"}
+            startDecorator={<span className={"pr-1 text-gray-500"}>{">"}</span>}
           />
           <Button
             onClick={handleSendCommand}
@@ -142,7 +144,7 @@ const LogDisplay = (
             size="sm"
             className={"w-fit h-10"}
           >
-            {isPending ? "Sending..." : "Send"}
+            <Forward className={"size-5"} />
           </Button>
         </div>
       )}

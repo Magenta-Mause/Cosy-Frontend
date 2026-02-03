@@ -66,12 +66,12 @@ const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
       }}
     >
       {/* Timestamp: Dimmed so it doesn't distract from the message */}
-      <span className="font-mono text-gray-500 mr-3 select-none opacity-70 group-hover:opacity-100">
+      <span className="font-mono text-gray-500 mr-3 select-none opacity-70 group-hover:opacity-100 leading-relaxed">
         {timestamp}
       </span>
 
       {/* Level Tag: Monospaced and slightly bold for alignment */}
-      <span className={clsx("min-w-16.25 font-mono uppercase mr-2 select-none", styles.text)}>
+      <span className={clsx("min-w-16.25 font-mono uppercase mr-2 leading-relaxed", styles.text)}>
         [{level}]
       </span>
 

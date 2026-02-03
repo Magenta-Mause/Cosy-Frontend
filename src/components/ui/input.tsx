@@ -7,6 +7,7 @@ interface InputProps extends React.ComponentProps<"input"> {
   header?: string | React.ReactNode;
   description?: string;
   endDecorator?: string | React.ReactNode;
+  startDecorator?: string | React.ReactNode;
   error?: string | React.ReactNode;
   wrapperClassName?: string;
 }
@@ -17,10 +18,23 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({
                                                                               header,
                                                                               description,
                                                                               endDecorator,
+  startDecorator,
                                                                               error,
   wrapperClassName,
                                                                               ...props
                                                                             }: InputProps, ref) {
+  const startDecoratorRef = React.useRef<HTMLDivElement>(null);
+  const [startPadding, setStartPadding] = React.useState<number>(0);
+
+  React.useLayoutEffect(() => {
+    if (startDecorator && startDecoratorRef.current) {
+      const width = startDecoratorRef.current.offsetWidth;
+      setStartPadding(width + 16); // 8px buffer on each side
+    } else {
+      setStartPadding(0);
+    }
+  }, [startDecorator]);
+
   return (
     <div className={wrapperClassName}>
       {header && (
@@ -29,6 +43,13 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({
         </Label>
       )}
       <div className="relative flex w-full">
+        {startDecorator && (
+          <div
+            ref={startDecoratorRef}
+            className="pointer-events-none text-base absolute inset-y-0 left-3 z-10 flex items-center text-muted-foreground">
+            {startDecorator}
+          </div>
+        )}
         <input
           ref={ref}
           type={type}
@@ -41,12 +62,15 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({
             error && "border-destructive",
             className
           )}
+          style={{
+            paddingLeft: startPadding ? `${startPadding}px` : undefined,
+          }}
           aria-invalid={error ? true : undefined}
           {...props}
         />
         {endDecorator && (
           <div
-            className="pointer-events-none text-base absolute inset-y-0 right-3 flex items-center text-muted-foreground">
+            className="pointer-events-none text-base absolute inset-y-0 right-3 z-10 flex items-center text-muted-foreground">
             {endDecorator}
           </div>
         )}

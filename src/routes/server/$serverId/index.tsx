@@ -37,7 +37,7 @@ function GameServerDetailPageDashboardPage() {
         <LogDisplay
           logMessages={logs}
           className="grow"
-          showCommandInput={true}
+          showCommandInput={false}
           gameServerUuid={serverId}
           isServerRunning={isServerRunning}
         />

@@ -133,6 +133,8 @@ export type i18nLanguage = {
     serverLog: string;
     timestampFormat: string;
     stickToBottom: string;
+    enterCommand: string;
+    cantSendCommands: string;
   };
 
   serverPage: {
@@ -403,6 +405,12 @@ export type i18nLanguage = {
     gameServerSettings: {
       rconSettings: {
         title: string;
+        description: {
+          part1: string;
+          part2: string;
+          part3: string;
+        };
+        enableRcon: string;
         rconPort: {
           title: string;
           description: string;

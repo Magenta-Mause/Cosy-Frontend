@@ -7,6 +7,7 @@
  */
 
 export interface RCONConfiguration {
+  enabled?: boolean;
   port?: number;
   password?: string;
 }

@@ -363,6 +363,12 @@ const translation: i18nLanguage = {
     gameServerSettings: {
       rconSettings: {
         title: "RCON Configuration",
+        description: {
+          part1: "By default COSY attaches to the game server and tries to enter commands directly through STDIN.",
+          part2: "Here you can alternatively configure a",
+          part3: "connection which should be used for command dispatching.",
+        },
+        enableRcon: "Enable RCON",
         rconPort: {
           title: "RCON Port",
           description: "The port number for RCON connections (1-65535)",
@@ -382,9 +388,11 @@ const translation: i18nLanguage = {
     cancel: "Cancel",
   },
   logDisplay: {
-    serverLog: "Server Log",
+    serverLog: "Console",
     timestampFormat: "HH:mm:ss.SSS",
-    stickToBottom: "Stick to bottom",
+    stickToBottom: "Auto Scroll",
+    enterCommand: "Enter command...",
+    cantSendCommands: "Server must be running to send commands",
   },
   serverPage: {
     notFound: "not found",
