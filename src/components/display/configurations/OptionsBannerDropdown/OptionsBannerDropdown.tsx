@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils.ts";
 
 const OptionsBannerDropdown = () => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const bannerRef = useRef<HTMLDivElement>(null);
+  const bannerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -26,14 +26,16 @@ const OptionsBannerDropdown = () => {
   }, [isExpanded]);
 
   return (
-    <div
+    <button
+      type="button"
       ref={bannerRef}
       onClick={() => setIsExpanded(!isExpanded)}
+      aria-expanded={isExpanded}
       className={cn(
         "flex flex-col gap-4 p-6 items-center justify-center pb-10",
         "absolute z-50 -top-2 left-[5%]",
         "cursor-pointer transition-all duration-300 ease-in-out",
-        "overflow-hidden",
+        "overflow-hidden border-0",
         isExpanded ? "h-auto" : "h-auto hover:translate-y-2",
       )}
       style={{
@@ -56,7 +58,7 @@ const OptionsBannerDropdown = () => {
         <UserMenuButton />
         <LogOutButton />
       </div>
-    </div>
+    </button>
   );
 };
 
