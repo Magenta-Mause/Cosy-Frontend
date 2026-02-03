@@ -18,7 +18,7 @@ function GameServerDetailPage() {
     if (isServerMissing) {
       navigate({ to: "/server/not-found" });
     }
-  }, [isServerMissing]);
+  }, [isServerMissing, navigate]);
 
   if (isServerMissing) {
     return null;
