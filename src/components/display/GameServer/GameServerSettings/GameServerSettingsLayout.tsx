@@ -97,7 +97,7 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
     },
     {
       label: t("tabs.rcon"),
-      icon: <SquareTerminalIcon style={iconStyles} />,
+      icon: <SquareTerminalIcon style={iconStyles} className="mr-2" />,
       path: "/server/$serverId/settings/rcon",
     },
     {
@@ -128,6 +128,7 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
                 to={path}
                 activeOptions={{ exact: true }}
                 className={"group w-full"}
+                tabIndex={-1}
               >
                 {({ isActive }) => (
                   <Button
