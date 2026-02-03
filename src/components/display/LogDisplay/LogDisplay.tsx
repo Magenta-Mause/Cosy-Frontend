@@ -1,19 +1,35 @@
 import LogMessage from "@components/display/LogDisplay/LogMessage";
+import { Button } from "@components/ui/button";
+import { Input } from "@components/ui/input";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso } from "react-virtuoso";
+import { useSendCommand } from "@/api/generated/backend-api";
 import { cn } from "@/lib/utils.ts";
 import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice.ts";
 
 const LogDisplay = (
-  props: { logMessages: GameServerLogWithUuid[] } & React.ComponentProps<"div">,
+  props: {
+    logMessages: GameServerLogWithUuid[];
+    showCommandInput?: boolean;
+    gameServerUuid?: string;
+    isServerRunning?: boolean;
+  } & Omit<React.ComponentProps<"div">, "children">,
 ) => {
   const { t } = useTranslation();
-  const { logMessages: rawLogs } = props;
+  const {
+    logMessages: rawLogs,
+    showCommandInput = false,
+    gameServerUuid,
+    isServerRunning = false,
+  } = props;
 
   const [displayLogs, setDisplayLogs] = useState<GameServerLogWithUuid[]>([]);
   const [sticky, setSticky] = useState(true);
+  const [commandInput, setCommandInput] = useState("");
   const isInitialLoad = useRef(true);
+
+  const { mutate: sendCommand, isPending } = useSendCommand();
 
   useEffect(() => {
     if (isInitialLoad.current && rawLogs.length > 0) {
@@ -30,6 +46,21 @@ const LogDisplay = (
 
     return () => clearTimeout(handler);
   }, [rawLogs]);
+
+  const handleSendCommand = () => {
+    if (!commandInput.trim() || !gameServerUuid || isPending || !isServerRunning) {
+      return;
+    }
+
+    sendCommand(
+      { uuid: gameServerUuid, data: { command: commandInput } },
+      {
+        onSuccess: () => {
+          setCommandInput("");
+        },
+      },
+    );
+  };
 
   return (
     <div
@@ -85,6 +116,34 @@ const LogDisplay = (
           }}
         />
       </div>
+
+      {showCommandInput && gameServerUuid && (
+        <div className="border-t border-gray-800 p-2 flex gap-2">
+          <Input
+            type="text"
+            placeholder={
+              isServerRunning ? "Enter command..." : "Server must be running to send commands"
+            }
+            value={commandInput}
+            onChange={(e) => setCommandInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSendCommand();
+              }
+            }}
+            disabled={isPending || !isServerRunning}
+            className="flex-1 bg-gray-900 border-gray-700 text-gray-100 placeholder:text-gray-500"
+          />
+          <Button
+            onClick={handleSendCommand}
+            disabled={!commandInput.trim() || isPending || !isServerRunning}
+            size="sm"
+          >
+            {isPending ? "Sending..." : "Send"}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

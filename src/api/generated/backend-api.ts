@@ -39,6 +39,7 @@ import type {
   RCONConfiguration,
   ReadFileFromVolumeParams,
   RenameInVolumeParams,
+  SendCommandDto,
   TemplateEntity,
   UploadFileToVolumeParams,
   UserCreationDto,
@@ -649,6 +650,66 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getStartServiceMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const sendCommand = (
+    uuid: string,
+    sendCommandDto: SendCommandDto,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/send-command`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: sendCommandDto, signal
+    },
+      options);
+    }
+  
+
+
+export const getSendCommandMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sendCommand>>, TError,{uuid: string;data: SendCommandDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof sendCommand>>, TError,{uuid: string;data: SendCommandDto}, TContext> => {
+
+const mutationKey = ['sendCommand'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof sendCommand>>, {uuid: string;data: SendCommandDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  sendCommand(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SendCommandMutationResult = NonNullable<Awaited<ReturnType<typeof sendCommand>>>
+    export type SendCommandMutationBody = SendCommandDto
+    export type SendCommandMutationError = unknown
+
+    export const useSendCommand = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sendCommand>>, TError,{uuid: string;data: SendCommandDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof sendCommand>>,
+        TError,
+        {uuid: string;data: SendCommandDto},
+        TContext
+      > => {
+
+      const mutationOptions = getSendCommandMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

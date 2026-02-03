@@ -38,6 +38,7 @@ export * from './rCONConfiguration';
 export * from './readFileFromVolumeParams';
 export * from './renameInVolumeParams';
 export * from './resourceLimit';
+export * from './sendCommandDto';
 export * from './templateEntity';
 export * from './templateEntityEnvironmentVariables';
 export * from './templateEntityPortMappings';
