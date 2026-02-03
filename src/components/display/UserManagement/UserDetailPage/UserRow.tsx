@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge";
-import ResourceUsageBadge from "./ResourceUsageBadge";
+import ResourceUsageBadge from "@components/display/ResourceUsageBadge/ResourceUsageBadge";
 
 const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserEntityDtoRole }) => {
   const { t } = useTranslation();

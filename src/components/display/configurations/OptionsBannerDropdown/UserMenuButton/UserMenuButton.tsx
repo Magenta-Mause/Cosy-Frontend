@@ -2,7 +2,7 @@ import { Button } from "@components/ui/button.tsx";
 import { User } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils.ts";
-import { UserModal } from "./UserModal.tsx";
+import { UserModal } from "../../../UserManagement/UserModal/UserModal.tsx";
 
 const UserMenuButton = () => {
   const [isUserOpen, setIsUserOpen] = useState(false);
