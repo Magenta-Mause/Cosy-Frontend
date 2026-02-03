@@ -360,6 +360,23 @@ const translation: i18nLanguage = {
         accessManagement: "Access Management Settings",
       },
     },
+    gameServerSettings: {
+      rconSettings: {
+        title: "RCON Configuration",
+        rconPort: {
+          title: "RCON Port",
+          description: "The port number for RCON connections (1-65535)",
+          errorLabel: "Please enter a valid port number between 1 and 65535",
+        },
+        rconPassword: {
+          title: "RCON Password",
+          description: "The password required for RCON authentication",
+          errorLabel: "Password is required",
+        },
+        revert: "Revert",
+        confirm: "Confirm",
+      },
+    },
   },
   genericModal: {
     cancel: "Cancel",

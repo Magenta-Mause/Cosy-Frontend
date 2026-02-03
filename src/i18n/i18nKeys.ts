@@ -400,6 +400,23 @@ export type i18nLanguage = {
         accessManagement: string;
       };
     };
+    gameServerSettings: {
+      rconSettings: {
+        title: string;
+        rconPort: {
+          title: string;
+          description: string;
+          errorLabel: string;
+        };
+        rconPassword: {
+          title: string;
+          description: string;
+          errorLabel: string;
+        };
+        revert: string;
+        confirm: string;
+      };
+    };
   };
 
   genericModal: {
