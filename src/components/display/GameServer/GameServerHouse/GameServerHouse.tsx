@@ -5,7 +5,7 @@ import { DeleteGameServerAlertDialog } from "@components/display/GameServer/Dele
 import Link from "@components/ui/Link.tsx";
 import { useRouter } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import {
@@ -21,6 +21,16 @@ import { cn } from "@/lib/utils.ts";
 import EditGameServerModal from "../EditGameServer/EditGameServerModal";
 import GameSign from "../GameSign/GameSign";
 
+const hashUUID = (uuid: string): number => {
+  let hash = 0;
+  for (let i = 0; i < uuid.length; i++) {
+    const char = uuid.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash;
+  }
+  return Math.abs(hash);
+};
+
 const GameServerHouse = (props: {
   gameServer: GameServerDto;
   className?: string;
@@ -32,9 +42,11 @@ const GameServerHouse = (props: {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const router = useRouter();
-  const [serverHouseImage] = useState(() =>
-    Math.random() < 0.5 ? serverHouseImage1 : serverHouseImage2
-  );
+
+  const serverHouseImage = useMemo(() => {
+    const hash = hashUUID(props.gameServer.uuid);
+    return hash % 2 === 0 ? serverHouseImage1 : serverHouseImage2;
+  }, [props.gameServer.uuid]);
 
   const actions: RightClickAction[] = [
     ...(props.gameServer.status === "STOPPED" || props.gameServer.status === "FAILED"
