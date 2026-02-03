@@ -13,34 +13,16 @@ import {
   PortMappingProtocol,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { mapGameServerDtoToUpdate } from "@/lib/gameServerMapper.ts";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
-import {
-  memoryLimitValidator,
-  getMemoryLimitError,
-} from "@/lib/validators/memoryLimitValidator.ts";
 import { cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
+import {
+  getMemoryLimitError,
+  memoryLimitValidator,
+} from "@/lib/validators/memoryLimitValidator.ts";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
-
-const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
-  server_name: server.server_name,
-  docker_image_name: server.docker_image_name,
-  docker_image_tag: server.docker_image_tag,
-  port_mappings: server.port_mappings?.map((pm) => ({
-    ...pm,
-  })),
-  environment_variables: server.environment_variables,
-  volume_mounts: server.volume_mounts?.map((v) => ({
-    host_path: v.host_path ?? "",
-    container_path: v.container_path ?? "",
-  })),
-  execution_command: server.execution_command,
-  docker_hardware_limits: {
-    docker_memory_limit: server.docker_hardware_limits?.docker_memory_limit,
-    docker_max_cpu_cores: server.docker_hardware_limits?.docker_max_cpu_cores,
-  },
-});
 
 const EditGameServerPage = (props: {
   serverName: string;

@@ -1,7 +1,13 @@
 import { Button } from "@components/ui/button";
 import Link from "@components/ui/Link";
 import { Separator } from "@components/ui/separator.tsx";
-import { ChartAreaIcon, LayoutDashboardIcon, SettingsIcon, User } from "lucide-react";
+import {
+  ChartAreaIcon,
+  LayoutDashboardIcon,
+  SettingsIcon,
+  SquareTerminalIcon,
+  User,
+} from "lucide-react";
 import {
   type CSSProperties,
   createContext,
@@ -88,6 +94,11 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
       label: t("tabs.metrics"),
       icon: <ChartAreaIcon style={iconStyles} className="mr-2" />,
       path: "/server/$serverId/settings/metrics",
+    },
+    {
+      label: t("tabs.rcon"),
+      icon: <SquareTerminalIcon style={iconStyles} />,
+      path: "/server/$serverId/settings/rcon",
     },
     {
       label: t("tabs.accessManagement"),

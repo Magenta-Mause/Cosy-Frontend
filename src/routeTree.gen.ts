@@ -16,6 +16,7 @@ import { Route as ServerServerIdIndexRouteImport } from './routes/server/$server
 import { Route as ServerServerIdSettingsRouteImport } from './routes/server/$serverId/settings'
 import { Route as ServerServerIdMetricsRouteImport } from './routes/server/$serverId.metrics'
 import { Route as ServerServerIdConsoleRouteImport } from './routes/server/$serverId/console'
+import { Route as ServerServerIdSettingsRconRouteImport } from './routes/server/$serverId/settings/rcon'
 import { Route as ServerServerIdSettingsPublicDashboardRouteImport } from './routes/server/$serverId/settings/public-dashboard'
 import { Route as ServerServerIdSettingsPrivateDashboardRouteImport } from './routes/server/$serverId/settings/private-dashboard'
 import { Route as ServerServerIdSettingsMetricsRouteImport } from './routes/server/$serverId/settings/metrics'
@@ -57,6 +58,12 @@ const ServerServerIdConsoleRoute = ServerServerIdConsoleRouteImport.update({
   path: '/console',
   getParentRoute: () => ServerServerIdRoute,
 } as any)
+const ServerServerIdSettingsRconRoute =
+  ServerServerIdSettingsRconRouteImport.update({
+    id: '/rcon',
+    path: '/rcon',
+    getParentRoute: () => ServerServerIdSettingsRoute,
+  } as any)
 const ServerServerIdSettingsPublicDashboardRoute =
   ServerServerIdSettingsPublicDashboardRouteImport.update({
     id: '/public-dashboard',
@@ -101,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/server/$serverId/settings/metrics': typeof ServerServerIdSettingsMetricsRoute
   '/server/$serverId/settings/private-dashboard': typeof ServerServerIdSettingsPrivateDashboardRoute
   '/server/$serverId/settings/public-dashboard': typeof ServerServerIdSettingsPublicDashboardRoute
+  '/server/$serverId/settings/rcon': typeof ServerServerIdSettingsRconRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -114,6 +122,7 @@ export interface FileRoutesByTo {
   '/server/$serverId/settings/metrics': typeof ServerServerIdSettingsMetricsRoute
   '/server/$serverId/settings/private-dashboard': typeof ServerServerIdSettingsPrivateDashboardRoute
   '/server/$serverId/settings/public-dashboard': typeof ServerServerIdSettingsPublicDashboardRoute
+  '/server/$serverId/settings/rcon': typeof ServerServerIdSettingsRconRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -129,6 +138,7 @@ export interface FileRoutesById {
   '/server/$serverId/settings/metrics': typeof ServerServerIdSettingsMetricsRoute
   '/server/$serverId/settings/private-dashboard': typeof ServerServerIdSettingsPrivateDashboardRoute
   '/server/$serverId/settings/public-dashboard': typeof ServerServerIdSettingsPublicDashboardRoute
+  '/server/$serverId/settings/rcon': typeof ServerServerIdSettingsRconRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -145,6 +155,7 @@ export interface FileRouteTypes {
     | '/server/$serverId/settings/metrics'
     | '/server/$serverId/settings/private-dashboard'
     | '/server/$serverId/settings/public-dashboard'
+    | '/server/$serverId/settings/rcon'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -158,6 +169,7 @@ export interface FileRouteTypes {
     | '/server/$serverId/settings/metrics'
     | '/server/$serverId/settings/private-dashboard'
     | '/server/$serverId/settings/public-dashboard'
+    | '/server/$serverId/settings/rcon'
   id:
     | '__root__'
     | '/'
@@ -172,6 +184,7 @@ export interface FileRouteTypes {
     | '/server/$serverId/settings/metrics'
     | '/server/$serverId/settings/private-dashboard'
     | '/server/$serverId/settings/public-dashboard'
+    | '/server/$serverId/settings/rcon'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -231,6 +244,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServerServerIdConsoleRouteImport
       parentRoute: typeof ServerServerIdRoute
     }
+    '/server/$serverId/settings/rcon': {
+      id: '/server/$serverId/settings/rcon'
+      path: '/rcon'
+      fullPath: '/server/$serverId/settings/rcon'
+      preLoaderRoute: typeof ServerServerIdSettingsRconRouteImport
+      parentRoute: typeof ServerServerIdSettingsRoute
+    }
     '/server/$serverId/settings/public-dashboard': {
       id: '/server/$serverId/settings/public-dashboard'
       path: '/public-dashboard'
@@ -275,6 +295,7 @@ interface ServerServerIdSettingsRouteChildren {
   ServerServerIdSettingsMetricsRoute: typeof ServerServerIdSettingsMetricsRoute
   ServerServerIdSettingsPrivateDashboardRoute: typeof ServerServerIdSettingsPrivateDashboardRoute
   ServerServerIdSettingsPublicDashboardRoute: typeof ServerServerIdSettingsPublicDashboardRoute
+  ServerServerIdSettingsRconRoute: typeof ServerServerIdSettingsRconRoute
 }
 
 const ServerServerIdSettingsRouteChildren: ServerServerIdSettingsRouteChildren =
@@ -287,6 +308,7 @@ const ServerServerIdSettingsRouteChildren: ServerServerIdSettingsRouteChildren =
       ServerServerIdSettingsPrivateDashboardRoute,
     ServerServerIdSettingsPublicDashboardRoute:
       ServerServerIdSettingsPublicDashboardRoute,
+    ServerServerIdSettingsRconRoute: ServerServerIdSettingsRconRoute,
   }
 
 const ServerServerIdSettingsRouteWithChildren =

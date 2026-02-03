@@ -390,6 +390,7 @@ export type i18nLanguage = {
         publicDashboard: string;
         metrics: string;
         accessManagement: string;
+        rcon: string;
       };
       sections: {
         general: string;

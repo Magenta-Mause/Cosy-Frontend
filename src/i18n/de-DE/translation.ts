@@ -318,6 +318,7 @@ const translation: i18nLanguage = {
         publicDashboard: "Öffentliches Dashboard",
         metrics: "Metriken",
         accessManagement: "Zugriffsverwaltung",
+        rcon: "RCON",
       },
       sections: {
         general: "Allgemeine Einstellungen",
