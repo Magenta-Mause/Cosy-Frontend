@@ -1,9 +1,13 @@
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { Button } from "@components/ui/button";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const NotFoundPage = () => {
-  const navigate = useNavigate();
+export const Route = createFileRoute("/server/not-found")({
+  component: NotFoundPage,
+});
+
+function NotFoundPage() {
+  const navigate = Route.useNavigate();
   const { t } = useTranslationPrefix("serverPage");
 
   return (
@@ -20,8 +24,4 @@ export const NotFoundPage = () => {
       </div>
     </div>
   );
-};
-
-export const Route = createFileRoute("/server/not-found")({
-  component: NotFoundPage,
-});
+}
