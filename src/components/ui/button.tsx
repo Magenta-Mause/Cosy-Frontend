@@ -87,7 +87,7 @@ const buttonVariants = cva(
 
           "active:bg-button-ghost-click",
 
-          "disabled:text-button-secondary-disabled",
+          "disabled:text-button-primary-default",
 
           "focus-visible:ring-2 focus-visible:ring-button-primary-hover",
         ].join(" "),
@@ -126,7 +126,7 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
+      className={cn(buttonVariants({ variant, size, className }), `${props.disabled ? "active:shadow-md" : ""}`)}
       {...props}
     >
       {props.children}

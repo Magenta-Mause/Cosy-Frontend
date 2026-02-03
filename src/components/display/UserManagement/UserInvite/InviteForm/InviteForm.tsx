@@ -1,3 +1,4 @@
+import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
 import { Input } from "@components/ui/input.tsx";
 import {
   Select,
@@ -12,12 +13,12 @@ import { UserEntityDtoRole } from "@/api/generated/model";
 
 interface InviteFormProps {
   username: string;
-  memory: number | null;
+  memory: string | null;
   cpu: number | null;
   userRole: UserEntityDtoRole;
   onUsernameChange: (value: string) => void;
   onUserRoleChange: (value: UserEntityDtoRole) => void;
-  onMemoryChange: (value: number | null) => void;
+  onMemoryChange: (value: string | null) => void;
   onCpuChange: (value: number | null) => void;
   onCancel: () => void;
   onSubmit: () => void;
@@ -77,22 +78,7 @@ export const InviteForm = ({
           </div>
         </div>
         <div className="flex justify-between gap-5">
-          <div className="w-[50%]">
-            <Input
-              header={t("userModal.memoryLimit")}
-              description={t("userModal.memoryDescription")}
-              id="memory-limit"
-              type="number"
-              placeholder={t("userModal.placeholder")}
-              endDecorator="MB"
-              value={memory ?? ""}
-              onChange={(e) =>
-                onMemoryChange(e.target.value === "" ? null : Number(e.target.value))
-              }
-              className="no-spinner"
-            />
-          </div>
-          <div className="w-[50%]">
+          <div className="w-[45%]">
             <Input
               header={t("userModal.cpuLimit")}
               description={t("userModal.cpuDescription")}
@@ -102,6 +88,17 @@ export const InviteForm = ({
               endDecorator="CPUs"
               value={cpu ?? ""}
               onChange={(e) => onCpuChange(e.target.value === "" ? null : Number(e.target.value))}
+              className="no-spinner"
+            />
+          </div>
+          <div className="w-[50%]">
+            <MemoryLimitInput
+              id="memory-limit"
+              header={t("userModal.memoryLimit")}
+              description={t("userModal.memoryDescription")}
+              placeholder={t("userModal.placeholder")}
+              value={memory}
+              onChange={(val) => onMemoryChange(val === "" ? null : val)}
               className="no-spinner"
             />
           </div>

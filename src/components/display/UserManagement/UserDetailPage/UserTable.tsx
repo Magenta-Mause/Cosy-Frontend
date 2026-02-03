@@ -39,8 +39,16 @@ const UserTable = ({ onRevoke }: UserListProps) => {
   const sortedUsers = useMemo(() => {
     return [...filteredUsers].sort((a, b) => {
       if (sortField) {
-        const valueA = a[sortField];
-        const valueB = b[sortField];
+        let valueA: string | number | null | undefined;
+        let valueB: string | number | null | undefined;
+
+        if (sortField === "docker_max_cpu_cores" || sortField === "docker_memory_limit") {
+          valueA = a.docker_hardware_limits?.[sortField];
+          valueB = b.docker_hardware_limits?.[sortField];
+        } else {
+          valueA = a[sortField];
+          valueB = b[sortField];
+        }
 
         if (
           typeof valueA === "number" ||

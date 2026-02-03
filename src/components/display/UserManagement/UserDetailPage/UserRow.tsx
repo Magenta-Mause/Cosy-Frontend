@@ -5,6 +5,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip"
 import { Ellipsis } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
+import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import { cn } from "@/lib/utils";
 import ResourceUsageBadge from "./ResourceUsageBadge";
 
@@ -34,29 +35,22 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
         {(props.userRole === "QUOTA_USER" || props.userRole === "ADMIN") && (
           <div className="flex gap-3 flex-1 justify-end">
             <ResourceUsageBadge
-              currentValue="2"
+              currentValue="calculate_me"
               limit={
-                props.user.max_cpu != null
-                  ? props.user.max_cpu / 1000
+                props.user.docker_hardware_limits?.docker_max_cpu_cores != null
+                  ? props.user.docker_hardware_limits.docker_max_cpu_cores
                   : t("components.userManagement.userRow.resources.unlimited")
               }
               resourceType={t("components.userManagement.userRow.resources.cpus")}
             />
             <ResourceUsageBadge
-              currentValue="4,3"
+              currentValue="calculate_me"
               limit={
-                props.user.max_memory != null
-                  ? props.user.max_memory
+                props.user.docker_hardware_limits?.docker_memory_limit != null
+                  ? formatMemoryLimit(props.user.docker_hardware_limits.docker_memory_limit)
                   : t("components.userManagement.userRow.resources.unlimited")
               }
-              unit={props.user.max_memory != null ? "MB" : undefined}
               resourceType={t("components.userManagement.userRow.resources.memory")}
-            />
-            <ResourceUsageBadge
-              currentValue="55"
-              limit={299}
-              unit="GB"
-              resourceType={t("components.userManagement.userRow.resources.storage")}
             />
           </div>
         )}

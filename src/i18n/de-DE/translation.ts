@@ -1,6 +1,9 @@
 import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
+  common: {
+    yourLimit: "Dein Limit",
+  },
   overviewPage: {
     createNewServer: "Neuer Game Server",
   },
@@ -62,9 +65,9 @@ const translation: i18nLanguage = {
     copyTooltip: "Klicken zum Kopieren",
     roleLabel: "Benutzerrolle",
     editTooltip: "Klicken zum Bearbeiten der Benutzereinstellungen",
-    memoryLimit: "RAM limit (Optional)",
+    memoryLimit: "RAM Limit (Optional)",
     memoryDescription: "Leer lassen, damit der Benutzer unbegrenzt RAM zur Verfügung hat.",
-    cpuLimit: "CPU limit (Optional)",
+    cpuLimit: "CPU Kern Limit (Optional)",
     cpuDescription: "Leer lassen, damit der Benutzer unbegrenzte CPU Kerne zur Verfügung hat.",
     placeholder: "Unbegrenzt",
   },
@@ -93,6 +96,8 @@ const translation: i18nLanguage = {
     loginInfo: "Bitte loggen Sie sich mit Ihrem neuen Konto ein.",
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
     createGameServerError: "Fehler beim Erstellen des Gameservers!",
+    cpuLimit: "CPU Kern Limit: {{cpu}}",
+    memoryLimit: "RAM Limit: {{memory}}",
   },
   deleteGameServerDialog: {
     title: "Sind Sie sicher?",
@@ -248,6 +253,16 @@ const translation: i18nLanguage = {
             errorLabel:
               "Entweder müssen sowohl Host-Pfad als auch Container-Pfad angegeben werden oder keiner von beiden.",
           },
+          memoryLimitSelection: {
+            title: "RAM Limit",
+            description: "Maximaler RAM, der diesem Server zugewiesen wird",
+            errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
+          },
+          cpuLimitSelection: {
+            title: "CPU Kern Limit",
+            description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
+            errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
+          },
         },
       },
       autoCompleteInputField: {
@@ -305,10 +320,9 @@ const translation: i18nLanguage = {
       },
     },
     editGameServer: {
-      title: "{{serverName}}",
-      description: "Aktualisiere die Konfiguration deines Game-Servers",
+      title: "Allgemeine Server Einstellungen",
 
-      cancel: "Abbrechen",
+      revert: "Zurücksetzen",
       confirm: "Änderungen speichern",
       missingUuidError: "Die Server UUID fehlt",
 
@@ -364,6 +378,34 @@ const translation: i18nLanguage = {
         errorLabel: "Pfad darf nicht leer sein",
         description: "Volume-Mounts für deinen Server",
       },
+
+      memoryLimitSelection: {
+        title: "RAM Limit",
+        description: "Maximaler RAM, der diesem Server zugewiesen wird",
+        errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
+      },
+
+      cpuLimitSelection: {
+        title: "CPU Kern Limit",
+        description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
+        errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
+      },
+    },
+    GameServerSettings: {
+      tabs: {
+        general: "Allgemein",
+        privateDashboard: "Privates Dashboard",
+        publicDashboard: "Öffentliches Dashboard",
+        metrics: "Metriken",
+        accessManagement: "Zugriffsverwaltung",
+      },
+      sections: {
+        general: "Allgemeine Einstellungen",
+        privateDashboard: "Einstellungen für privates Dashboard",
+        publicDashboard: "Einstellungen für öffentliches Dashboard",
+        metrics: "Metrik-Einstellungen",
+        accessManagement: "Zugriffsverwaltungs-Einstellungen",
+      },
     },
     userManagement: {
       backButton: "Zurück",
@@ -418,6 +460,8 @@ const translation: i18nLanguage = {
       BLOCK_READ: "Speicher Lesevorgänge",
       BLOCK_WRITE: "Speicher Schreibvorgänge",
     },
+    liveMetricsOn: "Live-Metriken: An",
+    liveMetricsOff: "Live-Metriken: Aus",
   },
   timerange: {
     localTime: "de-DE",

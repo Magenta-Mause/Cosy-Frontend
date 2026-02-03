@@ -1,6 +1,7 @@
 import GameServerDetailPageHeader from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageHeader/GameServerDetailPageHeader.tsx";
 import { Button } from "@components/ui/button.tsx";
 import Link from "@components/ui/Link.tsx";
+import { useRouter } from "@tanstack/react-router";
 import {
   ChartAreaIcon,
   DoorClosedIcon,
@@ -10,7 +11,7 @@ import {
   SettingsIcon,
   SquareTerminalIcon,
 } from "lucide-react";
-import type { CSSProperties } from "react";
+import { type CSSProperties, createContext } from "react";
 import { useTranslation } from "react-i18next";
 import type { GameServerDto } from "@/api/generated/model";
 import { cn } from "@/lib/utils.ts";
@@ -47,56 +48,76 @@ const TABS = [
   {
     label: "settings",
     icon: <SettingsIcon style={iconStyles} />,
-    path: "/server/$serverId/settings",
+    path: "/server/$serverId/settings/general",
+    activePathPattern: /\/server\/.*\/settings/,
   },
 ];
+
+interface GameServerDetailContext {
+  gameServer: GameServerDto;
+}
+
+const GameServerDetailContext = createContext<GameServerDetailContext>({
+  gameServer: {} as GameServerDto,
+});
 
 const GameServerDetailPageLayout = (props: {
   gameServer: GameServerDto;
   children: React.ReactNode;
 }) => {
   const { t } = useTranslation();
-  return (
-    <div className="flex w-full min-h-screen">
-      <div id={"gameServerDetailPage:exitButton"} className={"flex h-25 items-end w-[10%]"}>
-        <Link to={"/"} tabIndex={-1}>
-          <FancyNavigationButton
-            isActive={false}
-            label={t("serverPage.back")}
-            tabIndex={0}
-            direction={"right"}
-            className={"group"}
-          >
-            <DoorClosedIcon
-              className={"group-hover:hidden group-focus:hidden"}
-              style={iconStyles}
-            />
-            <DoorOpenIcon
-              className={"hidden group-hover:inline-block group-focus:inline-block"}
-              style={iconStyles}
-            />
-          </FancyNavigationButton>
-        </Link>
-      </div>
-      <div className="grow py-5 flex flex-col gap-6 h-[92vh]">
-        <GameServerDetailPageHeader gameServer={props.gameServer} />
-        <div className={"grow overflow-scroll"}>{props.children}</div>
-      </div>
+  const router = useRouter();
 
-      <div className="flex flex-col justify-center items-end w-[10%]">
-        {TABS.map(({ label, icon, path }) => (
-          <div key={`${label}:${path}`} className={"relative"}>
-            <Link key={label} to={path} activeOptions={{ exact: true }} className={"group"}>
-              {({ isActive }) => (
-                <FancyNavigationButton isActive={isActive} label={t(`serverPage.navbar.${label}`)}>
-                  {icon}
-                </FancyNavigationButton>
-              )}
-            </Link>
-          </div>
-        ))}
+  return (
+    <GameServerDetailContext.Provider value={{ gameServer: props.gameServer }}>
+      <div className="flex w-full min-h-screen">
+        <div id={"gameServerDetailPage:exitButton"} className={"flex h-25 items-end w-[10%]"}>
+          <Link to={"/"} tabIndex={-1}>
+            <FancyNavigationButton
+              isActive={false}
+              label={t("serverPage.back")}
+              tabIndex={0}
+              direction={"right"}
+              className={"group"}
+            >
+              <DoorClosedIcon
+                className={"group-hover:hidden group-focus:hidden"}
+                style={iconStyles}
+              />
+              <DoorOpenIcon
+                className={"hidden group-hover:inline-block group-focus:inline-block"}
+                style={iconStyles}
+              />
+            </FancyNavigationButton>
+          </Link>
+        </div>
+        <div className="grow py-5 flex flex-col gap-6 h-[92vh]">
+          <GameServerDetailPageHeader gameServer={props.gameServer} />
+          <div className={"grow overflow-y-auto"}>{props.children}</div>
+        </div>
+
+        <div className="flex flex-col justify-center items-end w-[10%]">
+          {TABS.map(({ label, icon, path, activePathPattern }) => (
+            <div key={`${label}:${path}`} className={"relative"}>
+              <Link key={label} to={path} activeOptions={{ exact: true }} className={"group"}>
+                {({ isActive }) => (
+                  <FancyNavigationButton
+                    isActive={
+                      activePathPattern
+                        ? activePathPattern.test(router.state.location.pathname)
+                        : isActive
+                    }
+                    label={t(`serverPage.navbar.${label}`)}
+                  >
+                    {icon}
+                  </FancyNavigationButton>
+                )}
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </GameServerDetailContext.Provider>
   );
 };
 
@@ -142,3 +163,4 @@ const FancyNavigationButton = (
 };
 
 export default GameServerDetailPageLayout;
+export { GameServerDetailContext };

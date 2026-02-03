@@ -65,6 +65,15 @@ const gameServerSlice = createSlice({
         state.data[index] = action.payload;
       }
     },
+    setGameServerState(
+      state,
+      action: PayloadAction<{ gameServerUuid: string; serverState: GameServerDto["status"] }>,
+    ) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1) {
+        state.data[index].status = action.payload.serverState;
+      }
+    },
   },
 });
 

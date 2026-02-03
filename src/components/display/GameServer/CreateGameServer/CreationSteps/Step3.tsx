@@ -1,12 +1,20 @@
+import CpuLimitInputField from "@components/display/GameServer/CreateGameServer/CpuLimitInputField.tsx";
 import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
+import MemoryLimitInputFieldCreation from "@components/display/GameServer/CreateGameServer/MemoryLimitInputFieldCreation.tsx";
 import PortInput from "@components/display/GameServer/CreateGameServer/PortInput.tsx";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import * as z from "zod";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");
+  const { t: t_root } = useTranslation();
+  const { cpuLimit, memoryLimit } = useContext(AuthContext);
 
   return (
     <GenericGameServerCreationPage>
@@ -81,6 +89,32 @@ export default function Step3() {
         objectKey="host_path"
         objectValue="container_path"
       />
+
+      <div className="grid grid-cols-2 gap-4">
+        <CpuLimitInputField
+          placeholder="0.5"
+          optional={cpuLimit === null}
+          label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
+          description={
+            cpuLimit !== null
+              ? `${t("cpuLimitSelection.description")} (${t_root("common.yourLimit")}: ${cpuLimit} Cores)`
+              : t("cpuLimitSelection.description")
+          }
+          errorLabel={t("cpuLimitSelection.errorLabel")}
+        />
+
+        <MemoryLimitInputFieldCreation
+          placeholder="512"
+          optional={memoryLimit === null}
+          label={t("memoryLimitSelection.title") + (memoryLimit === null ? " (Optional)" : "")}
+          description={
+            memoryLimit !== null
+              ? `${t("memoryLimitSelection.description")} (${t_root("common.yourLimit")}: ${formatMemoryLimit(memoryLimit)})`
+              : t("memoryLimitSelection.description")
+          }
+          errorLabel={t("memoryLimitSelection.errorLabel")}
+        />
+      </div>
     </GenericGameServerCreationPage>
   );
 }
