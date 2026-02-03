@@ -32,9 +32,8 @@ function Index() {
   };
 
   return (
-    <div className="relative w-screen overflow-x-hidden">
+    <div className="relative w-full min-h-screen">
       <div className="relative w-full">
-
         <GameServerBackground houseCount={gameServers.length + 1} />
 
         <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
@@ -42,7 +41,7 @@ function Index() {
         </div>
       </div>
 
-      <div className="absolute top-0 left-0 w-full z-10 flex flex-col items-center pt-20 min-h-screen pointer-events-none">
+      <div className="absolute top-0 left-0 w-full z-10 flex flex-col items-center pt-20 pointer-events-none">
         <div className="flex flex-row justify-center items-start w-full max-w-75 pointer-events-auto">
           <LoginDisplay />
         </div>
