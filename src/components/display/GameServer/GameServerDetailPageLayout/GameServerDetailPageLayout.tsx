@@ -143,7 +143,7 @@ const FancyNavigationButton = (
       <div
         className={cn(
           `group-focus:max-w-28 group-focus:${compiledMargin}-1 group-focus:opacity-100`,
-          `group-hover:max-w-25 group-hover:${compiledMargin}-1 group-hover:opacity-100`,
+          `group-hover:max-w-30 group-hover:${compiledMargin}-1 group-hover:opacity-100`,
           "top-[50%] max-w-0 opacity-0 duration-400 transition-all",
           `align-middle justify-center m-auto relative ${compiledMargin}-0 overflow-clip`,
         )}

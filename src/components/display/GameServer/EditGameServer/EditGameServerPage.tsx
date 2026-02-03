@@ -229,6 +229,7 @@ const EditGameServerPage = (props: {
           placeholder="My Game Server"
           description={t("serverNameSelection.description")}
           errorLabel={t("serverNameSelection.errorLabel")}
+          onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
 
         <InputFieldEditGameServer
@@ -252,6 +253,7 @@ const EditGameServerPage = (props: {
             errorLabel={t("dockerImageSelection.errorLabel")}
             value={gameServerState.docker_image_name}
             onChange={(v) => setGameServerState((s) => ({ ...s, docker_image_name: v as string }))}
+            onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
           />
 
           <InputFieldEditGameServer
@@ -262,6 +264,7 @@ const EditGameServerPage = (props: {
             errorLabel={t("imageTagSelection.errorLabel")}
             value={gameServerState.docker_image_tag}
             onChange={(v) => setGameServerState((s) => ({ ...s, docker_image_tag: v as string }))}
+            onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
           />
         </div>
 
@@ -332,6 +335,7 @@ const EditGameServerPage = (props: {
           errorLabel={t("executionCommandSelection.errorLabel")}
           value={executionCommandRaw}
           onChange={(v) => setExecutionCommandRaw((v ?? "") as string)}
+          onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
 
         <EditKeyValueInput<{

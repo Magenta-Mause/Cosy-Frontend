@@ -69,6 +69,7 @@ const RconSettings = (props: {
           description={t("rconPort.description")}
           errorLabel={t("rconPort.errorLabel")}
           optional
+          onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
 
         <InputFieldEditGameServer
@@ -80,6 +81,7 @@ const RconSettings = (props: {
           description={t("rconPassword.description")}
           errorLabel={t("rconPassword.errorLabel")}
           optional
+          onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
       </div>
 

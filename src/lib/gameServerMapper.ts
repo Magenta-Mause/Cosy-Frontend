@@ -1,6 +1,7 @@
 import type { GameServerDto, GameServerUpdateDto } from "@/api/generated/model";
 
 export const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
+  ...server,
   server_name: server.server_name,
   docker_image_name: server.docker_image_name,
   docker_image_tag: server.docker_image_tag,

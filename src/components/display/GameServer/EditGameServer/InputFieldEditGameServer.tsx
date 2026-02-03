@@ -15,6 +15,7 @@ const InputFieldEditGameServer = (props: {
   inputType?: React.ComponentProps<"input">["type"];
   inputMode?: React.ComponentProps<"input">["inputMode"];
   step?: React.ComponentProps<"input">["step"];
+  onEnterPress?: () => void;
 }) => {
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -65,6 +66,12 @@ const InputFieldEditGameServer = (props: {
         placeholder={props.placeholder}
         value={props.value ?? ""}
         onChange={(e) => changeCallback(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && props.onEnterPress) {
+            e.preventDefault();
+            props.onEnterPress();
+          }
+        }}
         disabled={props.disabled}
         type={props.inputType}
         inputMode={props.inputMode}
