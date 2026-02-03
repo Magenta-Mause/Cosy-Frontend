@@ -50,7 +50,7 @@ function Index() {
         </div>
       </div>
 
-      <div className="absolute top-0 left-0 w-full z-10 flex flex-col items-center pt-20 pointer-events-none">
+      <div className="absolute top-0 left-0 w-full z-50 flex flex-col items-center pt-20 pointer-events-none">
         <div className="flex flex-row justify-center items-start w-full max-w-75 pointer-events-auto">
           <LoginDisplay />
         </div>

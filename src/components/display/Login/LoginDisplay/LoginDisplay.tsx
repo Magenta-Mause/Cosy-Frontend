@@ -34,7 +34,7 @@ const LoginDisplay = () => {
   return (
     !authorized && (
       <div>
-        <div className="w-full flex justify-center absolute bottom-10 right-10">
+        <div className="w-full flex justify-center">
           <LoginBanner setOpen={setOpen} />
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
