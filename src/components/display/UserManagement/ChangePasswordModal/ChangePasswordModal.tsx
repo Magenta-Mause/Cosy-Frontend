@@ -26,7 +26,8 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
   const { mutate: changePassword, isPending } = useChangePassword();
 
   const hasPasswordError = newPassword.length > 0 && newPassword.length < 8;
-  const isFormValid = oldPassword.length > 0 && newPassword.length >= 8 && newPassword === confirmPassword;
+  const isFormValid =
+    oldPassword.length > 0 && newPassword.length >= 8 && newPassword === confirmPassword;
 
   const handlePasswordSubmit = () => {
     if (!uuid) {
@@ -100,8 +101,8 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
             {hasPasswordError && (
               <p className="text-sm text-destructive">{t("passwordTooShort")}</p>
             )}
-            <Button 
-              onClick={handlePasswordSubmit} 
+            <Button
+              onClick={handlePasswordSubmit}
               disabled={!isFormValid || isPending || hasPasswordError}
               className="w-full"
             >

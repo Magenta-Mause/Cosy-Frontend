@@ -1,12 +1,12 @@
+import ResourceUsageBadge from "@components/display/ResourceUsageBadge/ResourceUsageBadge";
+import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
 import { Ellipsis } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
+import type { UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
-import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge";
-import ResourceUsageBadge from "@components/display/ResourceUsageBadge/ResourceUsageBadge";
 
 const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserEntityDtoRole }) => {
   const { t } = useTranslation();

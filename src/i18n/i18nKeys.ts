@@ -124,10 +124,23 @@ export type i18nLanguage = {
     limits: string;
     memory: string;
     cpu: string;
-    password: string;
+    changePasswordButton: string;
+  };
+
+  changePasswordModal: {
+    title: string;
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+    oldPasswordPlaceholder: string;
+    newPasswordPlaceholder: string;
+    confirmPasswordPlaceholder: string;
+    changePassword: string;
     passwordTooShort: string;
+    passwordsDoNotMatch: string;
     passwordChangeSuccess: string;
     passwordChangeError: string;
+    missingUuid: string;
   };
 
   aria: {

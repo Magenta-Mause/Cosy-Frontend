@@ -1,6 +1,6 @@
 import ResourceUsageBadge from "@components/display/ResourceUsageBadge/ResourceUsageBadge.tsx";
-import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge.tsx";
 import { ChangePasswordModal } from "@components/display/UserManagement/ChangePasswordModal/ChangePasswordModal.tsx";
+import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
 import {
@@ -79,8 +79,8 @@ export function UserModal({ open, onOpenChange }: UserModalProps) {
         </DialogContent>
       </Dialog>
 
-      <ChangePasswordModal 
-        open={showPasswordModal} 
+      <ChangePasswordModal
+        open={showPasswordModal}
         onOpenChange={setShowPasswordModal}
         uuid={uuid}
       />
