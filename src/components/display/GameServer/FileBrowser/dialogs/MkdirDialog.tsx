@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
 import {
   Dialog,
@@ -37,6 +38,13 @@ export const MkdirDialog = ({
   t,
   onSubmit,
 }: Props) => {
+  const [touched, setTouched] = useState(false);
+  useEffect(() => {
+    if (open) setTouched(false);
+  }, [open]);
+
+  const showError = touched && !!error;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
@@ -50,16 +58,21 @@ export const MkdirDialog = ({
         <DialogMain>
           <div className="flex flex-col gap-3">
             <span className="text-sm text-muted-foreground">{t("folderName")}</span>
+
             <Input
               autoFocus
               value={value}
-              onChange={(e) => onChange(e.target.value)}
+              onChange={(e) => {
+                if (!touched) setTouched(true);
+                onChange(e.target.value);
+              }}
               placeholder="e.g. logs"
               onKeyDown={(e) => {
                 if (e.key === "Enter") void onSubmit();
               }}
             />
-            {error ? <div className="text-sm text-destructive">{error}</div> : null}
+
+            {showError ? <div className="text-sm text-destructive">{error}</div> : null}
           </div>
         </DialogMain>
 

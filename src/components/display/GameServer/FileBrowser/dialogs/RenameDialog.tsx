@@ -63,7 +63,7 @@ export const RenameDialog = ({
               autoFocus
               value={value}
               onChange={(e) => onChange(e.target.value)}
-              placeholder="e.g. server.log"
+              placeholder={t("newName")}
               onKeyDown={(e) => {
                 if (e.key === "Enter") void onSubmit();
               }}

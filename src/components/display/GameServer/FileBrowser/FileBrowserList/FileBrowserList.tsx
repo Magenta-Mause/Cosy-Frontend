@@ -27,6 +27,7 @@ export const FileBrowserList = () => {
     preview,
     showPreview,
     previewedPath,
+    isSynthetic,
     onClosePreview,
     onEntryClick,
     onCrumbClick,
@@ -176,8 +177,8 @@ export const FileBrowserList = () => {
           <FileBrowserHeader
             crumbs={crumbs}
             loading={loading}
-            canWrite={canWrite}
-            canMkdir={Boolean(onMkdir) && canWrite}
+            canWrite={canWrite && !isSynthetic}
+            canMkdir={Boolean(onMkdir) && canWrite && !isSynthetic}
             onHome={() => onCrumbClick?.("/")}
             onCrumbClick={(p) => onCrumbClick?.(p)}
             onRefresh={onRefresh}
@@ -189,10 +190,10 @@ export const FileBrowserList = () => {
             error={error}
             emptyText={t("noFiles")}
             objects={sorted}
-            canWrite={canWrite}
+            canWrite={canWrite && !isSynthetic}
             onEntryClick={onEntryClick}
-            onRename={onRename ? openRename : undefined}
-            onDelete={onDelete ? openDelete : undefined}
+            onRename={onRename && !isSynthetic ? openRename : undefined}
+            onDelete={onDelete && !isSynthetic ? openDelete : undefined}
             onDownload={onDownload}
           />
         </div>

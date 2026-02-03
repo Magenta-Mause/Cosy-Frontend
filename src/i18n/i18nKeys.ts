@@ -385,6 +385,10 @@ export type i18nLanguage = {
         uploadFile: string;
         renamePlaceholder: string;
       };
+      fileBrowserHeader: {
+        newFolder: string;
+        refresh: string;
+      };
     };
   };
   genericModal: {

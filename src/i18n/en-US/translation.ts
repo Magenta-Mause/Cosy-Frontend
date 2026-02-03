@@ -233,6 +233,10 @@ const translation: i18nLanguage = {
         previewFailure: "Failed to preview file",
         selectPreview: "Select a file to preview",
       },
+      fileBrowserHeader: {
+        newFolder: "New Directory",
+        refresh: "Refresh",
+      },
       fileBrowserList: {
         failedToCreateFolder: "Failed to create folder.",
         failedToRename: "Failed to rename.",

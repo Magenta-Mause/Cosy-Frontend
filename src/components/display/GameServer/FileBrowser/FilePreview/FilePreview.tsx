@@ -10,6 +10,24 @@ type FilePreviewProps = {
   error?: unknown;
 };
 
+async function loadTextPreview(
+  blob: Blob,
+  isCancelled: () => boolean,
+  onSuccess: (text: string) => void,
+  onError: (reason: string) => void,
+  t: (key: string) => string,
+) {
+  try {
+    const res = await blobToTextIfLikely(blob);
+    if (isCancelled()) return;
+
+    if (res.ok) onSuccess(res.text);
+    else onError(res.reason);
+  } catch {
+    if (!isCancelled()) onError(t("previewFailure"));
+  }
+}
+
 export function FilePreview(props: FilePreviewProps) {
   const ext = useMemo(() => getExt(props.fileName), [props.fileName]);
 
@@ -37,17 +55,14 @@ export function FilePreview(props: FilePreviewProps) {
     }
 
     let cancelled = false;
-    (async () => {
-      try {
-        if (!props.blob) throw Error(t("previewFailure"));
-        const res = await blobToTextIfLikely(props.blob);
-        if (cancelled) return;
-        if (res.ok) setTextPreview({ text: res.text });
-        else setTextError(res.reason);
-      } catch {
-        if (!cancelled) setTextError(t("previewFailure"));
-      }
-    })();
+
+    loadTextPreview(
+      props.blob,
+      () => cancelled,
+      (text) => setTextPreview({ text }),
+      (reason) => setTextError(reason),
+      t,
+    );
 
     return () => {
       cancelled = true;

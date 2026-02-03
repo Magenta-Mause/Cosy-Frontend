@@ -128,7 +128,7 @@ const translation: i18nLanguage = {
     notFound: "Nicht gefunden",
     start: "Starten",
     stop: "Herunterfahren",
-    pullingImage: "Image wird geladen...",
+    pullingImage: "Image wird heruntergeladen...",
     status: "Status",
     back: "Zurück",
     navbar: {
@@ -261,6 +261,10 @@ const translation: i18nLanguage = {
         noPreviewAvailable: "Keine Dateivorschau verfügbar{{textError}}",
         previewFailure: "Dateivorschau konnte nicht geladen werden",
         selectPreview: "Wählen sie eine Datei zur Vorschau aus",
+      },
+      fileBrowserHeader: {
+        newFolder: "Neuer Ordner",
+        refresh: "Aktualisieren",
       },
       fileBrowserList: {
         failedToCreateFolder: "Konnte keinen Ordner erstellen",

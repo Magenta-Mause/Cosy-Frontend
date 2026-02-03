@@ -69,6 +69,10 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const mkdirMutation = useCreateDirectoryInVolume();
   const deleteMutation = useDeleteInVolume();
 
+  const isSynthetic = useMemo(() => {
+    return !props.volumes.some((v) => v.container_path && currentPath.startsWith(v.container_path));
+  }, [props.volumes, currentPath]);
+
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserDialog");
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: remove search when changing directories
@@ -219,6 +223,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       showPreview: hasSelection,
       previewedPath: selectedFilePath,
       onClosePreview: closePreview,
+      isSynthetic,
 
       onEntryClick: (obj) => {
         onEntryClick(obj);
@@ -300,12 +305,13 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       setSelectedFileName,
       onCrumbClick,
       onEntryClick,
+      isSynthetic,
     ],
   );
 
   return (
     <div
-      className={cn("border-border border-3 rounded-lg flex flex-col gap-2 w-400 h-200 p-4")}
+      className={cn("border-border border-3 rounded-lg flex flex-col gap-2 h-full p-4")}
       style={{
         width: props.width !== undefined ? `${props.width}px` : undefined,
         height: props.height !== undefined ? `${props.height}px` : undefined,
@@ -334,7 +340,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       </FileBrowserProvider>
 
       <div className="flex gap-4">
-        <Button onClick={openFileDialog}>
+        <Button onClick={openFileDialog} disabled={isSynthetic}>
           <Upload />
           {t("uploadFile")}
         </Button>

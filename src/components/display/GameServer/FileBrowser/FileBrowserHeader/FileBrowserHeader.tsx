@@ -1,5 +1,6 @@
 import { ChevronRight, Home, Plus, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 type Crumb = { label: string; path: string };
 
@@ -27,6 +28,8 @@ export const FileBrowserHeader = ({
   onRefresh,
   onNewFolder,
 }: Props) => {
+  const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserHeader");
+
   return (
     <div className="border-b border-b-border px-3 py-2 flex items-center gap-1 text-sm text-muted-foreground">
       <button type="button" className="flex items-center gap-1 hover:underline" onClick={onHome}>
@@ -61,10 +64,10 @@ export const FileBrowserHeader = ({
               "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
             )}
             disabled={loading}
-            title="New folder"
+            title={t("newFolder")}
           >
             <Plus className="h-4 w-4" />
-            <span className="hidden sm:inline">New folder</span>
+            <span className="hidden sm:inline">{t("newFolder")}</span>
           </button>
         ) : null}
 
@@ -75,12 +78,12 @@ export const FileBrowserHeader = ({
             "inline-flex items-center gap-1 rounded-md px-2 py-1",
             "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
           )}
-          aria-label="Refresh"
+          aria-label={t("refresh")}
           disabled={loading}
-          title="Refresh"
+          title={t("refresh")}
         >
           <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
-          <span className="hidden sm:inline">Refresh</span>
+          <span className="hidden sm:inline">{t("refresh")}</span>
         </button>
       </span>
     </div>

@@ -38,6 +38,7 @@ export type FileBrowserState = {
   previewedPath?: string | null;
 
   readOnly?: boolean;
+  isSynthetic: boolean;
 };
 
 export type FileBrowserContextValue = FileBrowserState & FileBrowserActions;

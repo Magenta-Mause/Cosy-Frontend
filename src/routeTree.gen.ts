@@ -12,11 +12,11 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsersRouteImport } from './routes/users'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServerServerIdRouteImport } from './routes/server/$serverId'
-import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId.index'
-import { Route as ServerServerIdMetricsRouteImport } from './routes/server/$serverId.metrics'
-import { Route as ServerServerIdFilesRouteImport } from './routes/server/$serverId.files'
-import { Route as ServerServerIdConsoleRouteImport } from './routes/server/$serverId.console'
-import { Route as ServerServerIdFilesSplatRouteImport } from './routes/server/$serverId.files.$'
+import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId/index'
+import { Route as ServerServerIdMetricsRouteImport } from './routes/server/$serverId/metrics'
+import { Route as ServerServerIdFilesRouteImport } from './routes/server/$serverId/files'
+import { Route as ServerServerIdConsoleRouteImport } from './routes/server/$serverId/console'
+import { Route as ServerServerIdFilesSplatRouteImport } from './routes/server/$serverId/files/$'
 
 const UsersRoute = UsersRouteImport.update({
   id: '/users',

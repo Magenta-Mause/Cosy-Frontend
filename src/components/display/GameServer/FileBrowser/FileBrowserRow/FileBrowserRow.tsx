@@ -83,8 +83,9 @@ export const FileBrowserRow = ({
                 "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
               )}
               disabled={loading}
-              aria-label={`Rename ${obj.name}`}
-              title="Rename"
+              data-loading={loading}
+              aria-label={`${t("renameAction")} ${obj.name}`}
+              title={t("renameAction")}
             >
               <Pencil className="h-4 w-4 mr-1" />
               <span className="hidden sm:inline">{t("renameAction")}</span>
@@ -100,8 +101,9 @@ export const FileBrowserRow = ({
                 "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
               )}
               disabled={loading}
-              aria-label={`Delete ${obj.name}`}
-              title="Delete"
+              data-loading={loading}
+              aria-label={`${t("deleteAction")} ${obj.name}`}
+              title={t("deleteAction")}
             >
               <Trash2 className="h-4 w-4 mr-1" />
               <span className="hidden sm:inline">{t("deleteAction")}</span>
@@ -118,11 +120,12 @@ export const FileBrowserRow = ({
                 dir ? "opacity-0" : "",
               )}
               disabled={loading}
-              aria-label={`Download ${obj.name}`}
-              title="Download"
+              data-loading={loading}
+              aria-label={`${t("downloadAction")} ${obj.name}`}
+              title={t("downloadAction")}
             >
               <Download className="h-4 w-4 mr-1" />
-              <span className="hidden sm:inline">Download</span>
+              <span className="hidden sm:inline">{t("downloadAction")}</span>
             </button>
           ) : null}
         </div>
