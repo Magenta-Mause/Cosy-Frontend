@@ -62,7 +62,11 @@ const GenericGameServerCreationInputField = (props: {
 
       // Validate: empty is OK when optional, otherwise validate
       const isValid =
-        props.optional && isEmpty ? true : isEmpty ? false : props.validator.safeParse(value).success;
+        props.optional && isEmpty
+          ? true
+          : isEmpty
+            ? false
+            : props.validator.safeParse(value).success;
 
       setAttributeValid(props.attribute, isValid);
       setAttributeTouched(props.attribute, true);
