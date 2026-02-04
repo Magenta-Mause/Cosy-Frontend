@@ -18,9 +18,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({
                                                                               header,
                                                                               description,
                                                                               endDecorator,
-  startDecorator,
+                                                                              startDecorator,
                                                                               error,
-  wrapperClassName,
+                                                                              wrapperClassName,
                                                                               ...props
                                                                             }: InputProps, ref) {
   const startDecoratorRef = React.useRef<HTMLDivElement>(null);
