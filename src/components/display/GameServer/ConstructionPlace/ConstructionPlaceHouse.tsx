@@ -40,7 +40,8 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
             ...props.style,
             width: '12.5vw',
             height: '12.5vw',
-          }} onClick={() => setIsOpenGameServerCreationModalOpen((open) => !open)}
+          }}
+          onClick={() => setIsOpenGameServerCreationModalOpen((open) => !open)}
         >
           <img
             className="h-full object-contain max-w-[initial] absolute top-0 left-0"
