@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils.ts";
 
 const OptionsBannerDropdown = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [userTooltipOpen, setUserTooltipOpen] = useState(false);
+  const [logOutTooltipOpen, setLogOutTooltipOpen] = useState(false);
   const bannerRef = useRef<HTMLButtonElement>(null);
   const { t } = useTranslation();
 
@@ -36,6 +38,21 @@ const OptionsBannerDropdown = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isExpanded]);
+
+  useEffect(() => {
+    const closeTooltipsWhenDialogOpens = () => {
+      const hasOpenDialog = document.querySelector('[data-slot="dialog-overlay"]') !== null;
+      if (hasOpenDialog) {
+        setUserTooltipOpen(false);
+        setLogOutTooltipOpen(false);
+      }
+    };
+
+    const observer = new MutationObserver(closeTooltipsWhenDialogOpens);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleBannerClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLElement;
@@ -86,8 +103,12 @@ const OptionsBannerDropdown = () => {
             <p>{t("optionsBanner.languageSelector")}</p>
           </TooltipContent>
         </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
+        <Tooltip open={userTooltipOpen} onOpenChange={setUserTooltipOpen}>
+          <TooltipTrigger
+            asChild
+            onMouseDown={() => setUserTooltipOpen(false)}
+            onPointerDown={() => setUserTooltipOpen(false)}
+          >
             <div>
               <UserMenuButton />
             </div>
@@ -96,8 +117,12 @@ const OptionsBannerDropdown = () => {
             <p>{t("optionsBanner.userMenu")}</p>
           </TooltipContent>
         </Tooltip>
-        <Tooltip>
-          <TooltipTrigger asChild>
+        <Tooltip open={logOutTooltipOpen} onOpenChange={setLogOutTooltipOpen}>
+          <TooltipTrigger
+            asChild
+            onMouseDown={() => setLogOutTooltipOpen(false)}
+            onPointerDown={() => setLogOutTooltipOpen(false)}
+          >
             <div>
               <LogOutButton />
             </div>
