@@ -57,7 +57,7 @@ const OptionsBannerDropdown = () => {
         "absolute z-50 -top-2 left-[5%]",
         "cursor-pointer transition-all duration-300 ease-in-out",
         "overflow-hidden border-0",
-        isExpanded ? "h-auto" : "h-auto hover:translate-y-2",
+        isExpanded ? "h-auto" : "h-auto -translate-y-[75%] hover:translate-y-[calc(-75%+0.5rem)]",
       )}
       style={{
         backgroundImage: banner ? `url(${banner})` : undefined,
@@ -66,7 +66,6 @@ const OptionsBannerDropdown = () => {
         backgroundSize: "cover",
         width: "4rem",
         minHeight: "15rem",
-        transform: !isExpanded ? "translateY(-75%)" : undefined,
       }}
     >
       <div
