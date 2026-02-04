@@ -33,7 +33,9 @@ import type {
   GetMetricsParams,
   GetServiceInfo200,
   LoginDto,
+  MetricLayout,
   MetricPointDto,
+  PasswordUpdateDto,
   QueryGamesParams,
   ReadFileFromVolumeParams,
   RenameInVolumeParams,
@@ -229,6 +231,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getDeleteGameServerByIdMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const updateMetricLayout = (
+    uuid: string,
+    metricLayout: MetricLayout[],
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/layout/metric`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: metricLayout
+    },
+      options);
+    }
+  
+
+
+export const getUpdateMetricLayoutMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext> => {
+
+const mutationKey = ['updateMetricLayout'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateMetricLayout>>, {uuid: string;data: MetricLayout[]}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updateMetricLayout(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateMetricLayoutMutationResult = NonNullable<Awaited<ReturnType<typeof updateMetricLayout>>>
+    export type UpdateMetricLayoutMutationBody = MetricLayout[]
+    export type UpdateMetricLayoutMutationError = unknown
+
+    export const useUpdateMetricLayout = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateMetricLayout>>,
+        TError,
+        {uuid: string;data: MetricLayout[]},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateMetricLayoutMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -1008,6 +1069,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getLoginMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const changePassword = (
+    uuid: string,
+    passwordUpdateDto: PasswordUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/change-password`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: passwordUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getChangePasswordMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePassword>>, TError,{uuid: string;data: PasswordUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof changePassword>>, TError,{uuid: string;data: PasswordUpdateDto}, TContext> => {
+
+const mutationKey = ['changePassword'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof changePassword>>, {uuid: string;data: PasswordUpdateDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  changePassword(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ChangePasswordMutationResult = NonNullable<Awaited<ReturnType<typeof changePassword>>>
+    export type ChangePasswordMutationBody = PasswordUpdateDto
+    export type ChangePasswordMutationError = unknown
+
+    export const useChangePassword = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePassword>>, TError,{uuid: string;data: PasswordUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof changePassword>>,
+        TError,
+        {uuid: string;data: PasswordUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getChangePasswordMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
