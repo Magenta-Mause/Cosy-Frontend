@@ -4,78 +4,74 @@ import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import { X } from "lucide-react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { v7 as generateUuid } from "uuid";
+import { updateMetricLayout } from "@/api/generated/backend-api";
+import type { GameServerDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
 import { MetricsType } from "@/types/metricsTyp";
 
-const METRIC_ORDER = [
-  {
-    uuid: "1",
-    type: MetricsType.CPU_PERCENT,
-    size: "col-span-6",
-  },
-  {
-    uuid: "2",
-    type: MetricsType.MEMORY_PERCENT,
-    size: "col-span-2",
-  },
-  {
-    uuid: "3",
-    type: MetricsType.MEMORY_LIMIT,
-    size: "col-span-2",
-  },
-  {
-    uuid: "4",
-    type: MetricsType.MEMORY_USAGE,
-    size: "col-span-2",
-  },
-  {
-    uuid: "5",
-    type: MetricsType.NETWORK_INPUT,
-    size: "col-span-3",
-  },
-  {
-    uuid: "6",
-    type: MetricsType.NETWORK_OUTPUT,
-    size: "col-span-3",
-  },
-];
+interface MetricSetting {
+  gameServer: GameServerDto;
+}
 
-export default function MetricsSettingsSection() {
+export default function MetricsSettingsSection(props: MetricSetting) {
+  const { gameServer } = props;
   const { t: tSetting } = useTranslationPrefix("components.GameServerSettings");
   const { t: tMetrics } = useTranslationPrefix("metrics");
-  const [metrics, setMetrics] = useState(METRIC_ORDER);
   const [edit, setEdit] = useState<boolean | null>(false);
+  const dispatch = useDispatch();
 
-  const handleWidthSelect = (size: number, uuid: string) => {
-    if (!edit) return;
-
-    setMetrics((prev) =>
-      prev.map((metric) =>
-        metric.uuid === uuid ? { ...metric, size: `col-span-${size}` } : metric,
-      ),
-    );
+  const updateGameServerSlice = (updateFn: (server: GameServerDto) => GameServerDto) => {
+    const updatedServer = updateFn(gameServer);
+    dispatch(gameServerSliceActions.updateGameServer(updatedServer));
+    updateMetricLayout(updatedServer.uuid, updatedServer.metric_layout || []);
   };
 
-  const handleOnDelete = (uuid: string) => {
-    if (!edit) return;
+  const handleWidthSelect = (size: number, uuid?: string) => {
+    if (!edit || !uuid) return;
 
-    setMetrics((prev) => prev.filter((metric) => metric.uuid !== uuid));
+    updateGameServerSlice((server) => ({
+      ...server,
+      metric_layout: server.metric_layout.map((metric) =>
+        metric.uuid === uuid ? { ...metric, size: size } : metric,
+      ),
+    }));
+  };
+
+  const handleOnDelete = (uuid?: string) => {
+    if (!edit || !uuid) return;
+
+    updateGameServerSlice((server) => ({
+      ...server,
+      metric_layout: server.metric_layout.filter((metric) => metric.uuid !== uuid),
+    }));
   };
 
   const handleOnAdd = () => {
+    /* Default to CPU_PERCENT when adding a new metric */
     const newMetric = {
-      uuid: (metrics.length + 1).toString(),
-      type: MetricsType.CPU_PERCENT,
-      size: "col-span-6",
+      uuid: generateUuid(),
+      metric_type: MetricsType.CPU_PERCENT,
+      size: 6,
     };
 
-    setMetrics((prev) => [...prev, newMetric]);
+    updateGameServerSlice((server) => ({
+      ...server,
+      metric_layout: [...server.metric_layout, newMetric],
+    }));
   };
 
-  const handleMetricTypeChange = (type: MetricsType) => {
-    if (edit) {
-      setMetrics((prev) => prev.map((m) => (edit ? { ...m, type: type as typeof m.type } : m)));
-    }
+  const handleMetricTypeChange = (type: MetricsType, uuid?: string) => {
+    if (!edit || !uuid) return;
+
+    updateGameServerSlice((server) => ({
+      ...server,
+      metric_layout: server.metric_layout.map((metric) =>
+        metric.uuid === uuid ? { ...metric, metric_type: type } : metric,
+      ),
+    }));
   };
 
   const handleConfigure = () => {
@@ -92,11 +88,11 @@ export default function MetricsSettingsSection() {
       <div className="flex w-full pt-3">
         <Card className="w-full h-[65vh]">
           <CardContent className="grid grid-cols-6 gap-4 overflow-scroll p-6">
-            {metrics.map((metric) => (
+            {gameServer.metric_layout.map((metric) => (
               <Card
                 key={metric.uuid}
                 className={`relative border border-primary-border rounded-md 
-                w-full h-[16vh] justify-center ${metric.size}`}
+                w-full h-[16vh] justify-center col-span-${metric.size}`}
               >
                 <Button
                   variant={"destructive"}
@@ -116,8 +112,8 @@ export default function MetricsSettingsSection() {
                     <MetricDropDown
                       className="w-full"
                       disabled={!edit}
-                      metricType={metric.type}
-                      setMetricType={(type) => handleMetricTypeChange(type)}
+                      metricType={metric.metric_type}
+                      setMetricType={(type) => handleMetricTypeChange(type, metric.uuid)}
                     />
                     <SizeDropDown
                       edit={edit}

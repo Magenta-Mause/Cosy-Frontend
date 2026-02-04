@@ -17,5 +17,5 @@ function RouteComponent() {
   if (!serverId || !gameServer) {
     return <div>{t("serverPage.notFound")}</div>;
   }
-  return <MetricDisplay metrics={metrics} gameServerUuid={serverId} />;
+  return <MetricDisplay metrics={metrics} gameServer={gameServer} />;
 }
