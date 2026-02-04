@@ -124,13 +124,33 @@ const translation: i18nLanguage = {
     loading: "Loading...",
     logout: "Logout",
   },
+  filesPage: {
+    loading: "Loading Game Server",
+  },
   components: {
+    TemplateVariableForm: {
+      title: "Template Variables",
+      noTemplateSelected: "No Template Selected",
+      noVariables: "This template has no customizable variables",
+      selectPlaceholder: "Select an option",
+      example: "Example",
+      pattern: "Pattern",
+      validationError: "Please enter a valid value",
+      validationErrorRequired: "This field is required",
+      validationErrorNumber: "Please enter a valid number",
+      validationErrorBoolean: "Please select a valid option",
+      validationErrorSelect: "Please select a valid option",
+      validationErrorPattern: "Value does not match the required pattern",
+      booleanTrue: "Yes",
+      booleanFalse: "No",
+    },
+
     CreateGameServer: {
       backButton: "Back",
       nextStepButton: "Next Step",
-      createServerButton: "Create Server",
       useTemplate: "Apply Template",
       useNoTemplate: "Continue without Template",
+      createServerButton: "Create Server",
       reapplyDialog: {
         title: "Reapply Template?",
         description:
@@ -220,22 +240,56 @@ const translation: i18nLanguage = {
         noResultsLabel: "Generic Game",
       },
     },
-    TemplateVariableForm: {
-      title: "Template Variables",
-      noTemplateSelected: "No Template Selected",
-      noVariables: "This template has no customizable variables",
-      selectPlaceholder: "Select an option",
-      example: "Example",
-      pattern: "Pattern",
-      validationError: "Please enter a valid value",
-      validationErrorRequired: "This field is required",
-      validationErrorNumber: "Please enter a valid number",
-      validationErrorBoolean: "Please select a valid option",
-      validationErrorSelect: "Please select a valid option",
-      validationErrorPattern: "Value does not match the required pattern",
-      booleanTrue: "Yes",
-      booleanFalse: "No",
+
+    fileBrowser: {
+      filePreview: {
+        loadingPreview: "Loading preview...",
+        noPreviewAvailable: "No preview available{{textError}}",
+        previewFailure: "Failed to preview file",
+        selectPreview: "Select a file to preview",
+      },
+      fileBrowserHeader: {
+        newFolder: "New Directory",
+        refresh: "Refresh",
+      },
+      fileBrowserList: {
+        failedToCreateFolder: "Failed to create folder.",
+        failedToRename: "Failed to rename.",
+        failedToDelete: "Failed to delete.",
+        newFolderAction: "New folder",
+        refreshAction: "Refresh",
+        noFiles: "No files",
+        directoryType: "Directory",
+        fileType: "File",
+        renameAction: "Rename",
+        deleteAction: "Delete",
+        downloadAction: "Download",
+        downloadFile: "Download {{fileName}}",
+        createFolderAction: "Create folder",
+        createFolderDescription: "Creates a folder inside: {{dirName}}",
+        folderName: "Folder name",
+        creatingInProgress: "Creating...",
+        createAction: "Create",
+        renameDescription: 'Rename "{{fileName}}" in {{currentPath}}',
+        newName: "New name",
+        renameInProgress: "Renaming...",
+        deleteDescription: 'This will permanently delete "{{fileName}}".',
+        deleteDialogFolder: "If this folder is not empty, the server may refuse the operation.",
+        deleteDialogFile: "This cannot be undone.",
+        cancel: "Cancel",
+        deleteInProgress: "Deleting...",
+      },
+      fileBrowserDialog: {
+        uploadFailure: "Failed to upload file",
+        downloadZipFailure: "Failed to download zip",
+        preparing: "Preparing...",
+        downloadingFile: "Downloading {{done}}/{{total}}",
+        downloadAllAction: "Download Directory",
+        uploadFile: "Upload",
+        renamePlaceholder: "e.g. server.log",
+      },
     },
+
     editGameServer: {
       title: "General Server Settings",
 
@@ -308,6 +362,7 @@ const translation: i18nLanguage = {
         errorLabel: "Please enter a valid CPU limit.",
       },
     },
+
     userManagement: {
       backButton: "Back",
       userDetailButton: {
@@ -386,9 +441,11 @@ const translation: i18nLanguage = {
       },
     },
   },
+
   genericModal: {
     cancel: "Cancel",
   },
+
   logDisplay: {
     serverLog: "Console",
     timestampFormat: "HH:mm:ss.SSS",
@@ -424,6 +481,7 @@ const translation: i18nLanguage = {
     AWAITING_UPDATE: "Loading...",
     STOPPING: "Stopping...",
   },
+
   metrics: {
     metricTitle: "{{type}} - Metric",
     metricDescription: "{{type}} usage over time",
@@ -431,12 +489,12 @@ const translation: i18nLanguage = {
     types: {
       CPU_PERCENT: "CPU",
       MEMORY_PERCENT: "Memory",
-      MEMORY_LIMIT: "Memory Limit",
       MEMORY_USAGE: "Memory Usage",
-      BLOCK_READ: "Disk Read",
-      BLOCK_WRITE: "Disk Write",
+      MEMORY_LIMIT: "Memory Limit",
       NETWORK_INPUT: "Network Input",
       NETWORK_OUTPUT: "Network Output",
+      BLOCK_READ: "Disk Read",
+      BLOCK_WRITE: "Disk Write",
     },
     liveMetricsOn: "Live Metrics: On",
     liveMetricsOff: "Live Metrics: Off",
