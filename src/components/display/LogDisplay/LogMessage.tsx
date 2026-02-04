@@ -81,9 +81,12 @@ const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
 
       {/* Level Tag: Monospaced and slightly bold for alignment */}
       <span
-        className={clsx("min-w-[16.25rem] font-mono uppercase mr-2 leading-relaxed", styles.text)}
+        className={clsx(
+          "min-w-[16.25rem] font-mono uppercase mr-2 leading-relaxed contents",
+          styles.text,
+        )}
       >
-        [{level}]
+        <span className={"px-2"}>[{level}]</span>
       </span>
 
       {/* Message: Clean white/off-white for maximum readability */}
