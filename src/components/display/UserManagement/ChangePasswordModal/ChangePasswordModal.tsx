@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@components/ui/dialog.tsx";
 import { Input } from "@components/ui/input.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useChangePassword } from "@/api/generated/backend-api";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
@@ -29,19 +29,17 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
   const isFormValid =
     oldPassword.length > 0 && newPassword.length >= 8 && newPassword === confirmPassword;
 
+  useEffect(() => {
+    if (!open) {
+      setOldPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    }
+  }, [open]);
+
   const handlePasswordSubmit = () => {
     if (!uuid) {
       toast.error(t("missingUuid"));
-      return;
-    }
-
-    if (newPassword.length < 8) {
-      toast.error(t("passwordTooShort"));
-      return;
-    }
-
-    if (newPassword !== confirmPassword) {
-      toast.error(t("passwordsDoNotMatch"));
       return;
     }
 
