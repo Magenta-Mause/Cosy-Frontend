@@ -8,7 +8,6 @@ interface InputProps extends React.ComponentProps<"input"> {
   description?: string;
   startDecorator?: React.ReactNode;
   endDecorator?: string | React.ReactNode;
-  startDecorator?: string | React.ReactNode;
   error?: string | React.ReactNode;
   wrapperClassName?: string;
 }
