@@ -18,13 +18,7 @@ const RconSettingsSection = () => {
     await updateRconConfiguration(gameServer.uuid, updatedState);
   };
 
-  return (
-    <RconSettings
-      serverName={gameServer.server_name ?? ""}
-      gameServer={gameServer}
-      onConfirm={handleUpdateGameServer}
-    />
-  );
+  return <RconSettings gameServer={gameServer} onConfirm={handleUpdateGameServer} />;
 };
 
 export default RconSettingsSection;
