@@ -124,11 +124,11 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
         ))}
       </div>
 
-      <div className="absolute top-0 pt-5 left-0 w-full z-20 flex justify-center">
+      <div className="absolute top-0 pt-[2vw] left-0 w-full z-20 flex justify-center">
         <img
           src={logo}
           alt="Cosy Logo"
-          className="w-[50vw] h-auto"
+          className="w-[45vw] h-auto"
           style={{ imageRendering: "pixelated" }}
         />
       </div>
