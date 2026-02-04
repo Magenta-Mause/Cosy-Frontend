@@ -136,6 +136,7 @@ const RconSettings = (props: {
           variant="secondary"
           disabled={loading || !isChanged}
           onClick={() => {
+            setRconEnabled(rconState?.enabled ?? false);
             setRconPort(rconState?.port?.toString() ?? "");
             setRconPassword(rconState?.password);
           }}
