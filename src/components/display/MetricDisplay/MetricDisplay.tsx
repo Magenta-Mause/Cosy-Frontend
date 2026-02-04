@@ -10,7 +10,7 @@ import {
   gameServerMetricsSliceActions,
 } from "@/stores/slices/gameServerMetrics";
 import { MetricsType } from "@/types/metricsTyp";
-import TimeRangeDropDown from "./DropDown/TimeRangeDropDown";
+import TimeRangeDropDown from "../DropDown/TimeRangeDropDown";
 import MetricGraph from "./MetricGraph";
 
 const METRIC_ORDER = [
@@ -103,7 +103,6 @@ const MetricDisplay = (
             handleTimeChange(selectedStartTime, selectedEndTime);
           }}
         />
-        <Button>{t("metrics.configure")}</Button>
         <Button disabled={isCustomTime} onClick={() => handleLiveMetrics(!liveEnabled)}>
           {liveEnabled ? t("metrics.liveMetricsOn") : t("metrics.liveMetricsOff")}
         </Button>

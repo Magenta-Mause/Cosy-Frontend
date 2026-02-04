@@ -12,7 +12,7 @@ import type { NameType, Payload, ValueType } from "recharts/types/component/Defa
 import type { MetricValues } from "@/api/generated/model";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import { MetricsType } from "@/types/metricsTyp";
-import MetricDropDown from "./DropDown/MetricDropDown";
+import MetricDropDown from "../DropDown/MetricDropDown";
 
 interface MetricGraphProps {
   className?: string;
