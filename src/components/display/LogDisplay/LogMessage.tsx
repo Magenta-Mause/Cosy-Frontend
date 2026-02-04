@@ -7,7 +7,10 @@ import {
 } from "@/api/generated/model";
 
 // 1. Unified styling config for easier maintenance
-const LOG_STYLES: Record<string, { text: string; bg: string; border: string; borderLeft: string; opacity?: number }> = {
+const LOG_STYLES: Record<
+  string,
+  { text: string; bg: string; border: string; borderLeft: string; opacity?: number }
+> = {
   [GameServerLogMessageEntityLevel.INFO]: {
     text: "text-sky-400",
     bg: "bg-sky-950/30",
@@ -77,7 +80,9 @@ const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
       </span>
 
       {/* Level Tag: Monospaced and slightly bold for alignment */}
-      <span className={clsx("min-w-[16.25rem] font-mono uppercase mr-2 leading-relaxed", styles.text)}>
+      <span
+        className={clsx("min-w-[16.25rem] font-mono uppercase mr-2 leading-relaxed", styles.text)}
+      >
         [{level}]
       </span>
 

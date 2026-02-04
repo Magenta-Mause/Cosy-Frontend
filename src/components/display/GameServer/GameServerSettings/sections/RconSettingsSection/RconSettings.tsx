@@ -96,10 +96,7 @@ const RconSettings = (props: {
           className={"cursor-pointer flex gap-2 align-middle items-center select-none grow-0 w-fit"}
           onClick={() => setRconEnabled((prev) => !prev)}
         >
-          <Checkbox
-            checked={rconEnabled}
-            className={"size-5"}
-          />
+          <Checkbox checked={rconEnabled} className={"size-5"} />
           <span className={"text-sm"}>{t("enableRcon")}</span>
         </button>
         <InputFieldEditGameServer
