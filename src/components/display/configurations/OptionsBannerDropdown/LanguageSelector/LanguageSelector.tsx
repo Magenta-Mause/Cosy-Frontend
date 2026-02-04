@@ -15,7 +15,7 @@ const LANGUAGES = [
   },
 ];
 
-const LanguageSelector = (props: { className?: string }) => {
+const LanguageSelector = (props: { className?: string; onLanguageChange?: () => void }) => {
   const { t, i18n } = useTranslation();
 
   return (
@@ -41,8 +41,10 @@ const LanguageSelector = (props: { className?: string }) => {
           <Button
             key={language.value}
             className={"text-[1.1vw] h-[2vw] py-[0.4vw]"}
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               i18n.changeLanguage(language.value);
+              props.onLanguageChange?.();
             }}
           >
             {language.label}

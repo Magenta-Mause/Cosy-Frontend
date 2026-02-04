@@ -18,13 +18,7 @@ const UserRoleBadge = ({ role, className }: UserRoleBadgeProps) => {
   const { t } = useTranslation();
 
   return (
-    <Badge
-      className={cn(
-        "rounded-xl text-sm px-3 uppercase",
-        USER_COLORS[role],
-        className,
-      )}
-    >
+    <Badge className={cn("rounded-xl text-sm px-3 uppercase", USER_COLORS[role], className)}>
       {t(`components.userManagement.userRow.roles.${role.toLowerCase()}`)}
     </Badge>
   );

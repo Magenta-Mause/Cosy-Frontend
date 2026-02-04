@@ -16,9 +16,11 @@ const OptionsBannerDropdown = () => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
       const isInsideDialog = target.closest('[data-slot="dialog-content"]') !== null;
+      const isInsidePopover = target.closest("[data-radix-popper-content-wrapper]") !== null;
 
       if (
         !isInsideDialog &&
+        !isInsidePopover &&
         bannerRef.current &&
         !bannerRef.current.contains(event.target as Node)
       ) {
@@ -77,7 +79,7 @@ const OptionsBannerDropdown = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <div>
-              <LanguageSelector />
+              <LanguageSelector onLanguageChange={() => setIsExpanded(false)} />
             </div>
           </TooltipTrigger>
           <TooltipContent side="right">
