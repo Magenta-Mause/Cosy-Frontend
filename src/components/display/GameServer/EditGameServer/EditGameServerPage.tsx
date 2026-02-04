@@ -14,11 +14,11 @@ import {
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
-import {
-  memoryLimitValidator,
-  getMemoryLimitError,
-} from "@/lib/validators/memoryLimitValidator.ts";
 import { cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
+import {
+  getMemoryLimitError,
+  memoryLimitValidator,
+} from "@/lib/validators/memoryLimitValidator.ts";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
