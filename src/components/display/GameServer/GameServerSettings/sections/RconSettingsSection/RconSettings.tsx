@@ -21,7 +21,15 @@ const RconSettings = (props: {
   const [rconPassword, setRconPassword] = useState<string | undefined>(rconState?.password);
 
   useEffect(() => {
-    setRconState(props.gameServer.rcon_configuration);
+    const newRconConfig = props.gameServer.rcon_configuration;
+    setRconState(newRconConfig);
+    setRconEnabled(newRconConfig?.enabled ?? false);
+    setRconPort(
+      newRconConfig?.port !== undefined && newRconConfig?.port !== null
+        ? newRconConfig.port.toString()
+        : "",
+    );
+    setRconPassword(newRconConfig?.password);
   }, [props.gameServer]);
 
   const allFieldsValid = useMemo(() => {
