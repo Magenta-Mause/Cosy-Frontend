@@ -358,6 +358,11 @@ const translation: i18nLanguage = {
         metrics: "Metrics Settings",
         accessManagement: "Access Management Settings",
       },
+      metrics: {
+        type: "Type",
+        width: "Width",
+        add: "Add Metric",
+      },
     },
   },
   genericModal: {

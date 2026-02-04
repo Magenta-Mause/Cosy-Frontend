@@ -326,6 +326,11 @@ const translation: i18nLanguage = {
         metrics: "Metrik-Einstellungen",
         accessManagement: "Zugriffsverwaltungs-Einstellungen",
       },
+      metrics: {
+        type: "Typen",
+        width: "Breite",
+        add: "Metrik hinzufügen",
+      },
     },
     userManagement: {
       backButton: "Zurück",
