@@ -27,6 +27,7 @@
 
   --color-popover: var(--secondary-background);
   --color-card: var(--color-secondary-background);
+  --color-card-foreground: var(--text);
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -53,7 +54,6 @@
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
   --color-popover-foreground: var(--popover-foreground);
-  --color-card-foreground: var(--card-foreground);
   --color-link: var(--link);
   --color-primary-modal-background: var(--primary-modal-background);
   --color-primary-banner: var(--color-secondary-background);
@@ -122,6 +122,8 @@
 
   /* Shadows*/
   --shadow: oklch(29.893% 0.11327 316.782);
+
+  --text: oklab(37.839% 0.09316 0.04);
 
   /*------- end of design Team colors*/
 
