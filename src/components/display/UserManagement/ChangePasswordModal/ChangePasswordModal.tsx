@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from "@components/ui/dialog.tsx";
 import { Input } from "@components/ui/input.tsx";
+import type * as React from "react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useChangePassword } from "@/api/generated/backend-api";
@@ -37,7 +38,9 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
     }
   }, [open]);
 
-  const handlePasswordSubmit = () => {
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
     if (!uuid) {
       toast.error(t("missingUuid"));
       return;
@@ -68,7 +71,7 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
         </DialogHeader>
 
         <DialogMain>
-          <div className="flex flex-col gap-4">
+          <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4">
             <Input
               type="password"
               header={t("oldPassword")}
@@ -100,13 +103,13 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
               <p className="text-sm text-destructive">{t("passwordTooShort")}</p>
             )}
             <Button
-              onClick={handlePasswordSubmit}
+              type="submit"
               disabled={!isFormValid || isPending || hasPasswordError}
               className="w-full"
             >
               {t("changePassword")}
             </Button>
-          </div>
+          </form>
         </DialogMain>
       </DialogContent>
     </Dialog>
