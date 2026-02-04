@@ -1,5 +1,6 @@
 import { Input } from "@components/ui/input";
 import { Separator } from "@components/ui/separator";
+import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { UserEntityDtoRole } from "@/api/generated/model";
@@ -85,6 +86,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
       <div className="flex flex-row gap-3 justify-between items-center w-full">
         <div className="flex flex-row items-center gap-3">
           <Input
+            startDecorator={<Search />}
             className="h-10 border-2"
             placeholder={t("components.userManagement.userTable.search")}
             value={searchTerm}

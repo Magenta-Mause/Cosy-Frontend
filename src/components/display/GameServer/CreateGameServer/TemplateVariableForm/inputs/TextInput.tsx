@@ -15,11 +15,9 @@ export default function TextInput({
 
   return (
     <div key={placeholder} className="space-y-2">
-      <FieldLabel htmlFor={placeholder} className="text-lg">
-        {variable.name}
-      </FieldLabel>
       <Input
         id={placeholder}
+        header={variable.name}
         type="text"
         placeholder={variable.placeholder}
         value={String(value ?? "")}
