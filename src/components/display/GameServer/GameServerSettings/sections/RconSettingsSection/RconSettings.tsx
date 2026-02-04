@@ -7,7 +7,6 @@ import type { GameServerDto, RCONConfiguration } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 const RconSettings = (props: {
-  serverName: string;
   gameServer: GameServerDto;
   onConfirm: (updatedState: RCONConfiguration) => Promise<void>;
 }) => {
