@@ -28,12 +28,12 @@ const LanguageSelector = (props: { className?: string }) => {
           className={cn("h-auto p-[.5vw] aspect-square", props.className)}
           aria-label={"Select Language"}
         >
-          <GlobeIcon className="!h-[1.5vw] p-0 !w-auto aspect-square" />
+          <GlobeIcon className="h-[1.5vw]! p-0 w-auto! aspect-square" />
         </Button>
       </PopoverTrigger>
       <PopoverContent
         className={
-          "z-[101] flex flex-col gap-[.5vw] p-[0.4vw] px-[.7vw] w-[9vw] h-[7vw] justify-evenly mt-[.5vw] mr-[1vw]"
+          "z-101 flex flex-col gap-[.5vw] p-[0.4vw] px-[.7vw] w-[9vw] h-[7vw] justify-evenly mt-[.5vw] mr-[1vw]"
         }
       >
         {LANGUAGES.map((language) => (
