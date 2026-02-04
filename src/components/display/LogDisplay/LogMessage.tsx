@@ -7,39 +7,45 @@ import {
 } from "@/api/generated/model";
 
 // 1. Unified styling config for easier maintenance
-const LOG_STYLES: Record<string, { text: string; bg: string; border: string; opacity?: number }> = {
+const LOG_STYLES: Record<string, { text: string; bg: string; border: string; borderLeft: string; opacity?: number }> = {
   [GameServerLogMessageEntityLevel.INFO]: {
     text: "text-sky-400",
     bg: "bg-sky-950/30",
     border: "border-sky-500",
+    borderLeft: "border-l-sky-500/50",
   },
   [GameServerLogMessageEntityLevel.ERROR]: {
     text: "text-rose-400",
     bg: "bg-rose-950/30",
     border: "border-rose-500",
+    borderLeft: "border-l-rose-500/50",
   },
   [GameServerLogMessageEntityLevel.INPUT]: {
     text: "text-emerald-400",
     bg: "bg-emerald-950/30",
     border: "border-emerald-500",
+    borderLeft: "border-l-emerald-500/50",
     opacity: 0.7,
   },
   [GameServerLogMessageEntityLevel.COSY_INFO]: {
     text: "text-cyan-400",
     bg: "bg-cyan-950/20",
     border: "border-cyan-500",
+    borderLeft: "border-l-cyan-500/50",
     opacity: 0.7,
   },
   [GameServerLogMessageEntityLevel.COSY_DEBUG]: {
     text: "text-violet-400",
     bg: "bg-violet-950/20",
     border: "border-violet-500",
+    borderLeft: "border-l-violet-500/50",
     opacity: 0.7,
   },
   [GameServerLogMessageEntityLevel.COSY_ERROR]: {
     text: "text-red-400",
     bg: "bg-red-950/40",
     border: "border-red-500",
+    borderLeft: "border-l-red-500/50",
   },
 };
 
@@ -59,7 +65,7 @@ const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
         "border-l-2 border-transparent hover:border-current", // Subtle hover effect
         "hover:bg-white/5",
         styles.bg,
-        `border-l-${styles.border.split("-")[1]}-500/50`, // Set a faint default border
+        styles.borderLeft, // Set a faint default border
       )}
       style={{
         opacity: styles.opacity,

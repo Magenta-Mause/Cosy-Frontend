@@ -1,13 +1,13 @@
 import type { GameServerDto, GameServerUpdateDto } from "@/api/generated/model";
 
 export const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
-  ...server,
   server_name: server.server_name,
   docker_image_name: server.docker_image_name,
   docker_image_tag: server.docker_image_tag,
   port_mappings: server.port_mappings?.map((pm) => ({
     ...pm,
   })),
+  rcon_configuration: server.rcon_configuration,
   environment_variables: server.environment_variables,
   volume_mounts: server.volume_mounts?.map((v) => ({
     host_path: v.host_path ?? "",
