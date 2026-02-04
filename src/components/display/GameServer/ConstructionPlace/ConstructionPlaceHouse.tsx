@@ -38,8 +38,8 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
           to={"/"}
           style={{
             ...props.style,
-            width: '12.5vw',
-            height: '12.5vw',
+            width: '12vw',
+            height: '12vw',
           }}
           onClick={() => setIsOpenGameServerCreationModalOpen((open) => !open)}
         >
