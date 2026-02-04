@@ -99,7 +99,6 @@ const RconSettings = (props: {
         >
           <Checkbox
             checked={rconEnabled}
-            onClick={() => setRconEnabled((prev) => !prev)}
             className={"size-5"}
           />
           <span className={"text-sm"}>{t("enableRcon")}</span>
