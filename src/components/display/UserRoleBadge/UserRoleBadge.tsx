@@ -21,7 +21,7 @@ const UserRoleBadge = ({ role, className }: UserRoleBadgeProps) => {
     <Badge
       className={cn(
         "rounded-xl text-sm px-3 uppercase",
-        USER_COLORS[role ?? UserEntityDtoRole.QUOTA_USER],
+        USER_COLORS[role],
         className,
       )}
     >
