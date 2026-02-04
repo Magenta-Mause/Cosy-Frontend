@@ -16,6 +16,12 @@ interface MetricSetting {
   gameServer: GameServerDto;
 }
 
+const COL_SPAN_MAP: Record<number, string> = {
+  2: "col-span-2",
+  3: "col-span-3",
+  6: "col-span-6",
+};
+
 export default function MetricsSettingsSection(props: MetricSetting) {
   const { gameServer } = props;
   const { t: tSetting } = useTranslationPrefix("components.GameServerSettings");
@@ -92,7 +98,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
               <Card
                 key={metric.uuid}
                 className={`relative border border-primary-border rounded-md 
-                w-full h-[16vh] justify-center col-span-${metric.size}`}
+                w-full h-[16vh] justify-center ${COL_SPAN_MAP[metric.size ?? 6]}`}
               >
                 <Button
                   variant={"destructive"}
