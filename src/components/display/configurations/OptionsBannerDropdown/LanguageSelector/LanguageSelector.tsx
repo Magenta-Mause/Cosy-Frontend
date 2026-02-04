@@ -28,13 +28,13 @@ const LanguageSelector = (props: { className?: string; onLanguageChange?: () => 
             e.stopPropagation();
           }}
         >
-          <GlobeIcon className="!h-[1.5vw] p-0 !w-auto aspect-square" />
+          <GlobeIcon className="h-[1.5vw]! p-0 w-auto! aspect-square" />
         </Button>
       </PopoverTrigger>
       <PopoverContent
         side="right"
         className={
-          "z-[101] flex flex-col gap-[.5vw] p-[0.3vw] w-[9vw] h-auto justify-evenly border-2"
+          "z-101 flex flex-col gap-[.5vw] p-[0.3vw] w-[9vw] h-auto justify-evenly border-2"
         }
       >
         {LANGUAGES.map((language) => (

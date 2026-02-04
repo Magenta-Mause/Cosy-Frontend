@@ -1,4 +1,3 @@
-import { FieldLabel } from "@components/ui/field.tsx";
 import { Input } from "@components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
@@ -60,6 +59,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
             ref={inputRef}
             placeholder={placeholder}
             header={label}
+            description={description}
             id={effectiveId}
             value={displayName}
             onClick={() => defaultOpen && setOpen(true)}
@@ -69,7 +69,6 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
             onKeyDown={handleInputKeyDown}
             className={"w-full"}
           />
-          {description && <FieldLabel htmlFor={effectiveId}>{description}</FieldLabel>}
         </div>
       </PopoverTrigger>
 
