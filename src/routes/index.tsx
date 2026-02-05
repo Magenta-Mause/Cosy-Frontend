@@ -1,6 +1,7 @@
 import UserDetailListRedirectButton from "@components/display/UserManagement/UserDetailPage/UserDetailListRedirectButton";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
@@ -22,6 +23,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
+  const auth = useContext(AuthContext);
   const { inviteToken } = Route.useSearch();
   const navigate = Route.useNavigate();
 
@@ -31,6 +33,27 @@ function Index() {
       replace: true,
     });
   };
+
+  // Filter game servers based on user role
+  const visibleGameServers = useMemo(() => {
+    if (!auth.authorized || !auth.role) {
+      return [];
+    }
+
+    // OWNER and ADMIN can see all servers
+    if (auth.role === "OWNER" || auth.role === "ADMIN") {
+      return gameServers;
+    }
+
+    // QUOTA_USER can only see their own servers
+    if (auth.role === "QUOTA_USER") {
+      return gameServers.filter(
+        (server) => server.owner?.username === auth.username
+      );
+    }
+
+    return [];
+  }, [gameServers, auth.authorized, auth.role, auth.username]);
 
   useEffect(() => {
     const savedPosition = sessionStorage.getItem('homeScrollPosition');
@@ -43,10 +66,10 @@ function Index() {
   return (
     <div className="relative w-full min-h-screen">
       <div className="relative w-full">
-        <GameServerBackground houseCount={gameServers.length + 1} />
+        <GameServerBackground houseCount={visibleGameServers.length + 1} />
 
         <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
-          <GameServerDisplay gameServerConfigurations={gameServers} />
+          <GameServerDisplay gameServerConfigurations={visibleGameServers} />
         </div>
       </div>
 
