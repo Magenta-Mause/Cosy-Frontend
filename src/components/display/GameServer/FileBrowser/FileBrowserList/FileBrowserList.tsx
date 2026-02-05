@@ -188,6 +188,7 @@ export const FileBrowserList = () => {
           <FileBrowserBody
             loading={loading}
             error={error}
+            emptyText={t("noFiles")}
             objects={sorted}
             canWrite={canWrite && !isSynthetic}
             onEntryClick={onEntryClick}
