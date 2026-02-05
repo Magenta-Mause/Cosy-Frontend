@@ -63,7 +63,7 @@ export function UserModal({ open, onOpenChange }: UserModalProps) {
                 <Button
                   onClick={handleChangePasswordClick}
                   size="icon"
-                  className="h-9 w-9 mb-1.75"
+                  className="h-9 w-9"
                   aria-label={t("changePasswordButton")}
                 >
                   <Pencil className="h-4 w-4" />
