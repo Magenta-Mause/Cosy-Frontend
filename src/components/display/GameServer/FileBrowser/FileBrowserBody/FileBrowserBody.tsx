@@ -1,7 +1,6 @@
 import type { FileSystemObjectDto } from "@/api/generated/model";
-import { FileBrowserRow } from "../FileBrowserRow/FileBrowserRow";
 import { useFileBrowser } from "../FileBrowserContext";
-import { useEffect } from "react";
+import { FileBrowserRow } from "../FileBrowserRow/FileBrowserRow";
 
 type Props = {
   loading?: boolean;
