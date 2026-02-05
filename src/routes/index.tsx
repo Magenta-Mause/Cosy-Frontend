@@ -33,10 +33,10 @@ function Index() {
   };
 
   useEffect(() => {
-    const savedPosition = sessionStorage.getItem('homeScrollPosition');
+    const savedPosition = sessionStorage.getItem("homeScrollPosition");
     if (savedPosition) {
       window.scrollTo(0, parseInt(savedPosition, 10));
-      sessionStorage.removeItem('homeScrollPosition');
+      sessionStorage.removeItem("homeScrollPosition");
     }
   }, []);
 
