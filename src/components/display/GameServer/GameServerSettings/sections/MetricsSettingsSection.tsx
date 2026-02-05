@@ -2,7 +2,7 @@ import MetricDropDown from "@components/display/DropDown/MetricDropDown";
 import SizeDropDown from "@components/display/DropDown/SizeDropDown";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
-import { X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
@@ -60,7 +60,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
     const newMetric = {
       uuid: generateUuid(),
       metric_type: MetricsType.CPU_PERCENT,
-      size: 6,
+      size: 3,
     };
 
     updateGameServerSlice((server) => ({
@@ -88,7 +88,6 @@ export default function MetricsSettingsSection(props: MetricSetting) {
     <>
       <h2>{tSetting("sections.metrics")}</h2>
       <div className="flex gap-2 mt-2">
-        <Button onClick={handleOnAdd}>{tSetting("metrics.add")}</Button>
         <Button onClick={handleConfigure}>{tMetrics("configure")}</Button>
       </div>
       <div className="flex w-full pt-3">
@@ -130,6 +129,15 @@ export default function MetricsSettingsSection(props: MetricSetting) {
                 </div>
               </Card>
             ))}
+            <Button onClick={handleOnAdd} disabled={!edit} className="border-4 border-dashed h-[16vh] col-span-3
+            flex items-center justify-center  
+          bg-[#3E8EDE]/50 border-[#3E8EDE] text-[#3E8EDE] 
+          hover:bg-[#3E8EDE]/60 active:bg-[#3E8EDE]/40 disabled:bg-button-primary-disabled/70 disabled:border-button-primary-disabled">
+              <div className="flex items-center">
+                <Plus />
+                {tSetting("metrics.add")}
+              </div>
+            </Button>
           </CardContent>
         </Card>
       </div>
