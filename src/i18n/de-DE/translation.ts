@@ -116,7 +116,7 @@ const translation: i18nLanguage = {
   },
   userProfileModal: {
     title: "Benutzerprofil",
-    username: "Benutzername",
+    usernameAndRole: "Benutzername & Rolle",
     role: "Rolle",
     limits: "Ressourcenlimits",
     memory: "Speicher",

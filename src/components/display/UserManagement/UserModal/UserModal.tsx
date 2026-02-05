@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from "@components/ui/dialog.tsx";
 import { Input } from "@components/ui/input.tsx";
+import { Pencil } from "lucide-react";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
@@ -39,20 +40,38 @@ export function UserModal({ open, onOpenChange }: UserModalProps) {
           </DialogHeader>
 
           <DialogMain>
-            <div className="flex flex-col gap-4">
-              <div className="flex items-start gap-2">
-                <div className="flex-1">
-                  <Input header={t("username")} value={username || ""} readOnly disabled />
+            <div className="flex-col">
+              <p className="text-sm font-bold">{t("usernameAndRole")}</p>
+              <div className="flex items-start gap-2 pb-5">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <span className="text-base font-medium">{username}</span>
+                  {role && <UserRoleBadge className="h-fit" role={role} />}
                 </div>
-                {role && <UserRoleBadge role={role} className="mt-7.5 h-9" />}
               </div>
 
-              <Button onClick={handleChangePasswordClick} className="w-full">
-                {t("changePasswordButton")}
-              </Button>
+              <div className="flex w-full gap-2 items-end pb-5">
+                <div className="flex-1">
+                  <Input
+                    type="password"
+                    header={t("changePasswordButton")}
+                    value="••••••••"
+                    readOnly
+                    disabled
+                  />
+                </div>
+
+                <Button
+                  onClick={handleChangePasswordClick}
+                  size="icon"
+                  className="h-9 w-9 mb-1.75"
+                  aria-label={t("changePasswordButton")}
+                >
+                  <Pencil className="h-4 w-4" />
+                </Button>
+              </div>
 
               <div>
-                <p className="text-sm font-bold">{t("limits")}:</p>
+                <p className="text-sm font-bold">{t("limits")}</p>
                 <div className="flex gap-2 mt-2">
                   <ResourceUsageBadge
                     currentValue="calculate_me"

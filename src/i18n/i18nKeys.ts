@@ -119,7 +119,7 @@ export type i18nLanguage = {
 
   userProfileModal: {
     title: string;
-    username: string;
+    usernameAndRole: string;
     role: string;
     limits: string;
     memory: string;
