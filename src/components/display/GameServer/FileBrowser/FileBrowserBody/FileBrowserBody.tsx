@@ -30,10 +30,6 @@ export const FileBrowserBody = ({
 }: Props) => {
   const { currentPath } = useFileBrowser();
 
-  useEffect(() => {
-    console.log("currentPath", currentPath);
-  }, [currentPath]);
-
   if (error) return <div className="p-3 text-sm text-destructive">{error}</div>;
   if (objects.length === 0 && !loading && currentPath === "/")
     return <div className="p-3 text-sm text-muted-foreground">{emptyText}</div>;
