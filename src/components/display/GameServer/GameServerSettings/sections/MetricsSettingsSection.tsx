@@ -3,7 +3,7 @@ import SizeDropDown from "@components/display/DropDown/SizeDropDown";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import { Plus, X } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import { updateMetricLayout } from "@/api/generated/backend-api";
@@ -24,11 +24,21 @@ const COL_SPAN_MAP: Record<number, string> = {
 
 export default function MetricsSettingsSection(props: MetricSetting) {
   const { gameServer } = props;
-  const { t: tSetting } = useTranslationPrefix("components.GameServerSettings");
-  const { t: tButtons } = useTranslationPrefix("components.editGameServer");
-  const [isChanged, setIsChanged] = useState(false);
+  const { t } = useTranslationPrefix("components");
   const [metricLayoutState, setMetricLayoutState] = useState(gameServer.metric_layout || []);
   const dispatch = useDispatch();
+
+  const isChanged = useMemo(() => {
+    if (metricLayoutState.length !== gameServer.metric_layout.length) return true;
+
+    return metricLayoutState.some((metric, i) => {
+      const original = gameServer.metric_layout[i];
+      return (
+        metric.size !== original.size ||
+        metric.metric_type !== original.metric_type
+      );
+    });
+  }, [metricLayoutState, gameServer.metric_layout]);
 
   const handleConfirm = () => {
     const updatedServer: GameServerDto = {
@@ -37,14 +47,11 @@ export default function MetricsSettingsSection(props: MetricSetting) {
     };
 
     dispatch(gameServerSliceActions.updateGameServer(updatedServer));
-    updateMetricLayout(gameServer.uuid, metricLayoutState).then(() => {
-      setIsChanged(false);
-    });
+    updateMetricLayout(gameServer.uuid, metricLayoutState)
   };
 
   const handleWidthSelect = (size: number, uuid?: string) => {
     if (!uuid) return;
-    setIsChanged(true);
 
     setMetricLayoutState(
       metricLayoutState.map((metric) =>
@@ -55,13 +62,11 @@ export default function MetricsSettingsSection(props: MetricSetting) {
 
   const handleOnDelete = (uuid?: string) => {
     if (!uuid) return;
-    setIsChanged(true);
 
     setMetricLayoutState(metricLayoutState.filter((metric) => metric.uuid !== uuid));
   };
 
   const handleOnAdd = () => {
-    setIsChanged(true);
     /* Default to CPU_PERCENT when adding a new metric */
     const newMetric = {
       uuid: generateUuid(),
@@ -74,7 +79,6 @@ export default function MetricsSettingsSection(props: MetricSetting) {
 
   const handleMetricTypeChange = (type: MetricsType, uuid?: string) => {
     if (!uuid) return;
-    setIsChanged(true);
 
     setMetricLayoutState(
       metricLayoutState.map((metric) =>
@@ -85,7 +89,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
 
   return (
     <>
-      <h2>{tSetting("sections.metrics")}</h2>
+      <h2>{t("GameServerSettings.sections.metrics")}</h2>
       <div className="flex w-full pt-3">
         <Card className="w-full h-[65vh]">
           <CardContent className="grid grid-cols-6 gap-4 overflow-scroll p-6">
@@ -93,7 +97,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
               <Card
                 key={metric.uuid}
                 className={`relative border-2 border-primary-border rounded-md 
-                w-full h-[16vh] justify-center ${COL_SPAN_MAP[metric.size ?? 6]}`}
+                w-full h-[16vh] justify-center ${COL_SPAN_MAP[metric.size ?? 3]}`}
               >
                 <Button
                   variant={"destructive"}
@@ -106,8 +110,8 @@ export default function MetricsSettingsSection(props: MetricSetting) {
                 </Button>
                 <div className="flex gap-2 items-center justify-center">
                   <div>
-                    <span className="flex items-start text-lg">{tSetting("metrics.type")}</span>
-                    <span className="flex items-start text-lg">{tSetting("metrics.width")}</span>
+                    <span className="flex items-start text-lg">{t("GameServerSettings.metrics.type")}</span>
+                    <span className="flex items-start text-lg">{t("GameServerSettings.metrics.width")}</span>
                   </div>
                   <div className="flex flex-col gap-2">
                     <MetricDropDown
@@ -127,7 +131,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
             >
               <div className="flex items-center">
                 <Plus className="-size-2" />
-                {tSetting("metrics.add")}
+                {t("GameServerSettings.metrics.add")}
               </div>
             </Button>
           </CardContent>
@@ -140,13 +144,12 @@ export default function MetricsSettingsSection(props: MetricSetting) {
           disabled={!isChanged}
           onClick={() => {
             setMetricLayoutState(gameServer.metric_layout || []);
-            setIsChanged(false);
           }}
         >
-          {tButtons("revert")}
+          {t("editGameServer.revert")}
         </Button>
         <Button type="button" onClick={handleConfirm} className="h-12.5" disabled={!isChanged}>
-          {tButtons("confirm")}
+          {t("editGameServer.confirm")}
         </Button>
       </div>
     </>
