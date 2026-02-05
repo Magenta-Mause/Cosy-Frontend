@@ -92,7 +92,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
             {metricLayoutState.map((metric) => (
               <Card
                 key={metric.uuid}
-                className={`relative border border-primary-border rounded-md 
+                className={`relative border-2 border-primary-border rounded-md 
                 w-full h-[16vh] justify-center ${COL_SPAN_MAP[metric.size ?? 6]}`}
               >
                 <Button
@@ -122,13 +122,11 @@ export default function MetricsSettingsSection(props: MetricSetting) {
             ))}
             <Button
               onClick={handleOnAdd}
-              className="border-4 border-dashed h-[16vh] col-span-3
-            flex items-center justify-center  
-          bg-[#3E8EDE]/50 border-[#3E8EDE] text-[#3E8EDE] 
-          hover:bg-[#3E8EDE]/60 active:bg-[#3E8EDE]/40"
+              variant="secondary"
+              className="outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none"
             >
               <div className="flex items-center">
-                <Plus />
+                <Plus className="-size-2" />
                 {tSetting("metrics.add")}
               </div>
             </Button>
