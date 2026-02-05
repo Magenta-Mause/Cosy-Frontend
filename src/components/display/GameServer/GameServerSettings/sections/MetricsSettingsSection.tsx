@@ -108,10 +108,10 @@ export default function MetricsSettingsSection(props: MetricSetting) {
                 >
                   <X />
                 </Button>
-                <div className="flex gap-2 items-center justify-center">
+                <div className="flex gap-2 items-center justify-center overflow-x-scroll">
                   <div>
-                    <span className="flex items-start text-lg">{t("GameServerSettings.metrics.type")}</span>
-                    <span className="flex items-start text-lg">{t("GameServerSettings.metrics.width")}</span>
+                    <span className="flex text-lg">{t("GameServerSettings.metrics.type")}</span>
+                    <span className="flex text-lg">{t("GameServerSettings.metrics.width")}</span>
                   </div>
                   <div className="flex flex-col gap-2">
                     <MetricDropDown
