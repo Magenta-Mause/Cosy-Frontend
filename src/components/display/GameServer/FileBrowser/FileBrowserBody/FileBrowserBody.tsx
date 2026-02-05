@@ -4,7 +4,6 @@ import { FileBrowserRow } from "../FileBrowserRow/FileBrowserRow";
 type Props = {
   loading?: boolean;
   error?: string | null;
-  emptyText: string;
 
   objects: FileSystemObjectDto[];
   canWrite: boolean;
@@ -18,7 +17,6 @@ type Props = {
 export const FileBrowserBody = ({
   loading,
   error,
-  emptyText,
   objects,
   canWrite,
   onEntryClick,
@@ -27,8 +25,6 @@ export const FileBrowserBody = ({
   onDownload,
 }: Props) => {
   if (error) return <div className="p-3 text-sm text-destructive">{error}</div>;
-  if (objects.length === 0 && !loading)
-    return <div className="p-3 text-sm text-muted-foreground">{emptyText}</div>;
 
   return (
     <div className="flex-1 overflow-auto">
