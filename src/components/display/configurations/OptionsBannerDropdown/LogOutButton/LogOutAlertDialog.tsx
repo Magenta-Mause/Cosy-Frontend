@@ -12,7 +12,7 @@ import { useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 interface LogOutAlertDialogProps {
-  onConfirm: () => void;
+  onConfirm: () => Promise<void>;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
@@ -21,11 +21,13 @@ export function LogOutAlertDialog({ onConfirm, open, onOpenChange }: LogOutAlert
   const { t } = useTranslationPrefix("logOutDialog");
   const [loading, setLoading] = useState(false);
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     setLoading(true);
     try {
-      onConfirm();
+      await onConfirm();
       onOpenChange(false);
+    } catch (error) {
+      console.error("Logout failed:", error);
     } finally {
       setLoading(false);
     }

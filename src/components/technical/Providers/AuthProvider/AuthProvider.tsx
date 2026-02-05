@@ -20,7 +20,7 @@ interface AuthContextType {
   cpuLimit: number | null;
   refreshIdentityToken: () => void;
   setToken: (token: string) => void;
-  handleLogout: () => void;
+  handleLogout: () => Promise<void>;
 }
 
 interface DecodedToken {
@@ -52,6 +52,7 @@ const AuthContext = createContext<AuthContextType>({
   },
   handleLogout() {
     console.warn("Called logout before auth context ready");
+    return Promise.resolve();
   },
 });
 
@@ -146,10 +147,10 @@ const AuthProvider = (props: { children: ReactNode }) => {
     }
   }, [updateAuthState]);
 
-  const handleLogout = useCallback(() => {
+  const handleLogout = useCallback(async () => {
     updateAuthState(null);
     setAuthToken(null);
-    logout();
+    await logout();
   }, [updateAuthState]);
 
   const setToken = useCallback(
