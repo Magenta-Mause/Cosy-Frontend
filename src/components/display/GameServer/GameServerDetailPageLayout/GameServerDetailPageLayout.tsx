@@ -13,6 +13,7 @@ import {
 import type { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import type { GameServerDto } from "@/api/generated/model";
+import dashboardBg from "@/assets/detailview-backgrounds/dashboard/dashboard_bg.webp";
 import { cn } from "@/lib/utils.ts";
 
 const iconStyles: CSSProperties = {
@@ -57,46 +58,57 @@ const GameServerDetailPageLayout = (props: {
 }) => {
   const { t } = useTranslation();
   return (
-    <div className="flex w-full min-h-screen">
-      <div id={"gameServerDetailPage:exitButton"} className={"flex h-25 items-end w-[10%]"}>
-        <Link to={"/"} tabIndex={-1}>
-          <FancyNavigationButton
-            isActive={false}
-            label={t("serverPage.back")}
-            tabIndex={0}
-            direction={"right"}
-            className={"group"}
-          >
-            <DoorClosedIcon
-              className={"group-hover:hidden group-focus:hidden"}
-              style={iconStyles}
-            />
-            <DoorOpenIcon
-              className={"hidden group-hover:inline-block group-focus:inline-block"}
-              style={iconStyles}
-            />
-          </FancyNavigationButton>
-        </Link>
-      </div>
-      <div className="grow py-5 flex flex-col gap-6 h-[92vh]">
-        <GameServerDetailPageHeader gameServer={props.gameServer} />
-        <div className={"grow overflow-scroll"}>{props.children}</div>
-      </div>
-
-      <div className="flex flex-col justify-center items-end w-[10%]">
-        {TABS.map(({ label, icon, path }) => (
-          <div key={`${label}:${path}`} className={"relative"}>
-            <Link key={label} to={path} activeOptions={{ exact: true }} className={"group"}>
-              {({ isActive }) => (
-                <FancyNavigationButton isActive={isActive} label={t(`serverPage.navbar.${label}`)}>
-                  {icon}
-                </FancyNavigationButton>
-              )}
-            </Link>
+    <div className="max-h-screen overflow-clip">
+      <div
+        className="relative flex w-full h-[100vw]"
+        style={{
+          backgroundImage: `url(${dashboardBg})`,
+          backgroundSize: "contain",
+          backgroundPosition: "center top",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
+        <div id={"gameServerDetailPage:exitButton"} className={"flex h-25 items-end w-[10vw]"}>
+          <Link to={"/"} tabIndex={-1}>
+            <FancyNavigationButton
+              isActive={false}
+              label={t("serverPage.back")}
+              tabIndex={0}
+              direction={"right"}
+              className={"group"}
+            >
+              <DoorClosedIcon
+                className={"group-hover:hidden group-focus:hidden"}
+                style={iconStyles}
+              />
+              <DoorOpenIcon
+                className={"hidden group-hover:inline-block group-focus:inline-block"}
+                style={iconStyles}
+              />
+            </FancyNavigationButton>
+          </Link>
+        </div>
+        <div className="absolute flex flex-col left-[10vw] w-[80vw] h-full">
+          <div className="h-[18vw]">
+            <GameServerDetailPageHeader gameServer={props.gameServer} />
           </div>
-        ))}
-      </div>
-    </div>
+          <div className={"overflow-auto"}>{props.children}</div>
+        </div>
+
+        <div className="flex flex-col justify-center items-end w-full">
+          {TABS.map(({ label, icon, path }) => (
+            <div key={`${label}:${path}`} className={"relative"}>
+              <Link key={label} to={path} activeOptions={{ exact: true }} className={"group"}>
+                {({ isActive }) => (
+                  <FancyNavigationButton isActive={isActive} label={t(`serverPage.navbar.${label}`)}>
+                    {icon}
+                  </FancyNavigationButton>
+                )}
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div></div>
   );
 };
 

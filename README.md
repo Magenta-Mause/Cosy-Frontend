@@ -136,3 +136,10 @@ bun run tsr:gen
 ```
 
 to regenerate the route tree.
+
+header höhe: 64
+footer von unten: 56
+komplette höhe: 360
+
+komplette breite: 640
+main content breite: 512
