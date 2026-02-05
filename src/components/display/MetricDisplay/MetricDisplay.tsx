@@ -88,7 +88,6 @@ const MetricDisplay = (
             metrics={props.metrics}
             type={metric.metric_type ?? MetricsType.CPU_PERCENT}
             timeUnit={unit}
-            loading={loading}
           />
         ))}
       </div>

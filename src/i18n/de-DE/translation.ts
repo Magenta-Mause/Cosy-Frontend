@@ -457,7 +457,6 @@ const translation: i18nLanguage = {
     cancel: "Abbrechen",
   },
   metrics: {
-    metricTitle: "{{type}} Metrik",
     metricDescription: "{{type}} Metrik über Zeit",
     configure: "Metriken konfigurieren",
     types: {

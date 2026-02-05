@@ -462,7 +462,6 @@ export type i18nLanguage = {
     cancel: string;
   };
   metrics: {
-    metricTitle: ContainsVariable<"type">;
     metricDescription: ContainsVariable<"type">;
     configure: string;
     types: {

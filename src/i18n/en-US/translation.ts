@@ -460,7 +460,6 @@ const translation: i18nLanguage = {
   },
 
   metrics: {
-    metricTitle: "{{type}} - Metric",
     metricDescription: "{{type}} usage over time",
     configure: "Configure Metrics",
     types: {
