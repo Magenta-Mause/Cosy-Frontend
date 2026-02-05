@@ -10,18 +10,17 @@ import { ChevronDown } from "lucide-react";
 import type { MetricLayout } from "@/api/generated/model";
 
 interface SizeDropDownProps {
-  edit: boolean | null;
   metric: MetricLayout;
   handleWidthSelect: (size: number, uuid?: string) => void;
 }
 
 const SizeDropDown = (props: SizeDropDownProps) => {
-  const { edit, metric, handleWidthSelect } = props;
+  const { metric, handleWidthSelect } = props;
 
   return (
-    <DropdownMenu open={edit ? undefined : false}>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="w-full" disabled={!edit}>
+        <Button className="w-full">
           {metric.size}
           <ChevronDown className="-m-1" />
         </Button>
