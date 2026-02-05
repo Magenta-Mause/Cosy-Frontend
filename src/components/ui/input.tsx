@@ -31,7 +31,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({
 
       <div className="flex relative w-full">
         {startDecorator && (
-          <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-muted-foreground">
+          <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-muted-foreground z-10">
             {startDecorator}
           </div>
         )}
