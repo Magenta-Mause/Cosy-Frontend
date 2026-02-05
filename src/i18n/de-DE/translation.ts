@@ -486,6 +486,11 @@ const translation: i18nLanguage = {
     title: "Benutzerdefinierter Zeitraum",
     des: "Wählen Sie einen benutzerdefinierten Zeitraum für die Metriken aus.",
   },
+  cardWidth: {
+    2: "Klein",
+    3: "Mittel",
+    6: "Groß",
+  },
 };
 
 export default translation;

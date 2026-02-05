@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { MetricLayout } from "@/api/generated/model";
 
 interface SizeDropDownProps {
@@ -15,13 +16,14 @@ interface SizeDropDownProps {
 }
 
 const SizeDropDown = (props: SizeDropDownProps) => {
+  const { t } = useTranslation();
   const { metric, handleWidthSelect } = props;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className="w-full">
-          {metric.size}
+          {t(`cardWidth.${metric.size}`)}
           <ChevronDown className="-m-1" />
         </Button>
       </DropdownMenuTrigger>
@@ -29,7 +31,7 @@ const SizeDropDown = (props: SizeDropDownProps) => {
         <DropdownMenuGroup>
           {[2, 3, 6].map((size) => (
             <DropdownMenuItem key={size} onSelect={() => handleWidthSelect(size, metric.uuid)}>
-              {size}
+              {t(`cardWidth.${size}`)}
             </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>

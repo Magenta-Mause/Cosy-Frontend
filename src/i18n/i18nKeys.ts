@@ -491,6 +491,11 @@ export type i18nLanguage = {
     title: string;
     des: string;
   };
+  cardWidth: {
+    2: string;
+    3: string;
+    6: string;
+  };
 };
 
 type ContainsVariable<T extends string> = `${string}{{${T}}}${string}`;

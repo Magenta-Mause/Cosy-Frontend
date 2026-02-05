@@ -489,6 +489,11 @@ const translation: i18nLanguage = {
     title: "Select Date Range",
     des: "Choose a start and end date for the range.",
   },
+  cardWidth: {
+    2: "Small",
+    3: "Medium",
+    6: "Large",
+  },
 };
 
 export default translation;
