@@ -80,7 +80,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
       metricLayoutState.map((metric) =>
         metric.uuid === uuid ? { ...metric, metric_type: type } : metric,
       ),
-    )
+    );
   };
 
   return (
@@ -142,16 +142,12 @@ export default function MetricsSettingsSection(props: MetricSetting) {
           disabled={!isChanged}
           onClick={() => {
             setMetricLayoutState(gameServer.metric_layout || []);
+            setIsChanged(false);
           }}
         >
           {tButtons("revert")}
         </Button>
-        <Button
-          type="button"
-          onClick={handleConfirm}
-          className="h-12.5"
-          disabled={!isChanged}
-        >
+        <Button type="button" onClick={handleConfirm} className="h-12.5" disabled={!isChanged}>
           {tButtons("confirm")}
         </Button>
       </div>
