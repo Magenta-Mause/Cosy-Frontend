@@ -6,11 +6,12 @@
  * OpenAPI spec version: v1.0
  */
 
-export type PortMappingProtocol = typeof PortMappingProtocol[keyof typeof PortMappingProtocol];
+export type MetricLayoutSize = typeof MetricLayoutSize[keyof typeof MetricLayoutSize];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const PortMappingProtocol = {
-  TCP: 'TCP',
-  UDP: 'UDP',
+export const MetricLayoutSize = {
+  SMALL: 'SMALL',
+  MEDIUM: 'MEDIUM',
+  LARGE: 'LARGE',
 } as const;
