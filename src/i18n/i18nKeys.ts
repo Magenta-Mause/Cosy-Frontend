@@ -110,6 +110,39 @@ export type i18nLanguage = {
     confirm: string;
   };
 
+  logOutDialog: {
+    title: string;
+    description: string;
+    cancel: string;
+    confirm: string;
+  };
+
+  userProfileModal: {
+    title: string;
+    usernameAndRole: string;
+    role: string;
+    limits: string;
+    memory: string;
+    cpu: string;
+    changePasswordButton: string;
+  };
+
+  changePasswordModal: {
+    title: string;
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+    oldPasswordPlaceholder: string;
+    newPasswordPlaceholder: string;
+    confirmPasswordPlaceholder: string;
+    changePassword: string;
+    passwordTooShort: string;
+    passwordsDoNotMatch: string;
+    passwordChangeSuccess: string;
+    passwordChangeError: string;
+    missingUuid: string;
+  };
+
   aria: {
     createNewGameServer: string;
     gameServer: ContainsVariable<"serverName">;
@@ -126,6 +159,12 @@ export type i18nLanguage = {
     legal: string;
     incorrectCredentials: string;
     loading: string;
+    logout: string;
+  };
+
+  optionsBanner: {
+    languageSelector: string;
+    userMenu: string;
     logout: string;
   };
 
