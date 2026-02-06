@@ -11,6 +11,7 @@ const GameServerHouseAligner = (props: { gameServers: GameServerDto[] }) => {
       position: "absolute",
       left: `${x * 100}vw`,
       top: `${y * 100}vw`,
+      width: "25%",
     };
   };
 

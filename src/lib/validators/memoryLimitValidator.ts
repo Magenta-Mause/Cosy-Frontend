@@ -25,9 +25,7 @@ export const memoryLimitValidator = z
  * Extracts the specific error message for memory limit values that are below the minimum threshold.
  * Returns the error message if the value is below 6 MiB, otherwise returns undefined.
  */
-export const getMemoryLimitError = (
-  value: string | null | undefined,
-): string | undefined => {
+export const getMemoryLimitError = (value: string | null | undefined): string | undefined => {
   if (!value || typeof value !== "string") return undefined;
 
   const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);

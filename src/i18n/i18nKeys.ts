@@ -166,6 +166,10 @@ export type i18nLanguage = {
     STOPPING: string;
   };
 
+  filesPage: {
+    loading: string;
+  };
+
   components: {
     TemplateVariableForm: {
       title: string;
@@ -382,6 +386,54 @@ export type i18nLanguage = {
         };
         noUsersFound: string;
         pendingInvites: string;
+      };
+    };
+    fileBrowser: {
+      filePreview: {
+        previewFailure: string;
+        loadingPreview: string;
+        selectPreview: string;
+        noPreviewAvailable: ContainsVariable<"textError">;
+      };
+      fileBrowserList: {
+        failedToCreateFolder: string;
+        failedToRename: string;
+        failedToDelete: string;
+        newFolderAction: string;
+        refreshAction: string;
+        noFiles: string;
+        directoryType: string;
+        fileType: string;
+        renameAction: string;
+        deleteAction: string;
+        downloadAction: string;
+        downloadFile: ContainsVariable<"fileName">;
+        createFolderAction: string;
+        createFolderDescription: ContainsVariable<"dirName">;
+        folderName: string;
+        creatingInProgress: string;
+        createAction: string;
+        renameDescription: ContainsVariable<"fileName"> & ContainsVariable<"currentPath">;
+        newName: string;
+        renameInProgress: string;
+        deleteDescription: ContainsVariable<"fileName">;
+        deleteDialogFolder: string;
+        deleteDialogFile: string;
+        cancel: string;
+        deleteInProgress: string;
+      };
+      fileBrowserDialog: {
+        uploadFailure: string;
+        downloadZipFailure: string;
+        preparing: string;
+        downloadingFile: ContainsVariable<"done"> & ContainsVariable<"total">;
+        downloadAllAction: string;
+        uploadFile: string;
+        renamePlaceholder: string;
+      };
+      fileBrowserHeader: {
+        newFolder: string;
+        refresh: string;
       };
     };
     GameServerSettings: {

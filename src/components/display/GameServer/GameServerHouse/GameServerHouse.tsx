@@ -5,15 +5,26 @@ import { DeleteGameServerAlertDialog } from "@components/display/GameServer/Dele
 import Link from "@components/ui/Link.tsx";
 import { useRouter } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { type GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
-import serverHouseImage from "@/assets/ai-generated/main-page/house.png";
+import serverHouseImage1 from "@/assets/MainPage/house1.png";
+import serverHouseImage2 from "@/assets/MainPage/house2.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
 import GameSign from "../GameSign/GameSign";
+
+const hashUUID = (uuid: string): number => {
+  let hash = 0;
+  for (let i = 0; i < uuid.length; i++) {
+    const char = uuid.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash;
+  }
+  return Math.abs(hash);
+};
 
 const GameServerHouse = (props: {
   gameServer: GameServerDto;
@@ -25,6 +36,15 @@ const GameServerHouse = (props: {
   const { startServer, stopServer } = useServerInteractions();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const router = useRouter();
+
+  const serverHouseImage = useMemo(() => {
+    const hash = hashUUID(props.gameServer.uuid);
+    return hash % 2 === 0 ? serverHouseImage1 : serverHouseImage2;
+  }, [props.gameServer.uuid]);
+
+  const handleClick = () => {
+    sessionStorage.setItem("homeScrollPosition", window.scrollY.toString());
+  };
 
   const actions: RightClickAction[] = [
     ...(props.gameServer.status === "STOPPED" || props.gameServer.status === "FAILED"
@@ -67,6 +87,7 @@ const GameServerHouse = (props: {
     {
       label: t("rightClickMenu.viewLogs"),
       onClick: () => {
+        handleClick();
         router.navigate({
           to: `/server/${props.gameServer.uuid}`,
         });
@@ -85,27 +106,35 @@ const GameServerHouse = (props: {
     <>
       <RightClickMenu actions={actions}>
         <Link
-          className={cn("block w-[14%] h-auto aspect-square select-none relative", props.className)}
+          className={cn(
+            "block h-auto overflow-visible aspect-square select-none relative",
+            props.className,
+          )}
           to={`/server/${props.gameServer.uuid}`}
           aria-label={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
           })}
-          style={props.style}
+          style={{
+            ...props.style,
+            width: "19vw",
+            height: "19vw",
+          }}
+          onClick={handleClick}
         >
           <img
             alt={t("aria.gameServerConfiguration", {
               serverName: props.gameServer.server_name,
             })}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover overflow-visible"
             aria-label={t("aria.gameServerConfiguration", {
               serverName: props.gameServer.server_name,
             })}
+            style={{
+              imageRendering: "pixelated",
+            }}
             src={serverHouseImage}
           />
-          <GameSign
-            className="bottom-[-2%] right-[5%] w-[25%]"
-            classNameTextChildren="!text-[.5vw]"
-          >
+          <GameSign className="bottom-[2%] right-[5%] w-[21%]">
             {props.gameServer.server_name}
           </GameSign>
           <div
