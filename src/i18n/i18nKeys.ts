@@ -461,6 +461,7 @@ export type i18nLanguage = {
           part1: string;
           part2: string;
           part3: string;
+          rcon: string;
         };
         enableRcon: string;
         rconPort: {

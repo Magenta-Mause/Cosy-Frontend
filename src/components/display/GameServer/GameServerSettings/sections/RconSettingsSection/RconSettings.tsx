@@ -84,7 +84,7 @@ const RconSettings = (props: {
             target={"_blank"}
             rel="noopener"
           >
-            RCON
+            {t("description.rcon")}
           </a>{" "}
           {t("description.part3")}
         </p>

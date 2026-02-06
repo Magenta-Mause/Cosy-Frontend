@@ -388,6 +388,7 @@ const translation: i18nLanguage = {
             "Standardmäßig verbindet sich COSY mit dem Spielserver und versucht, Befehle direkt über STDIN einzugeben.",
           part2: "Hier können Sie alternativ eine",
           part3: "Verbindung konfigurieren, die für die Befehlsübermittlung verwendet werden soll.",
+          rcon: "RCON",
         },
         enableRcon: "RCON aktivieren",
         rconPort: {
@@ -449,7 +450,7 @@ const translation: i18nLanguage = {
     timestampFormat: "HH:mm:ss.SSS",
     stickToBottom: "Auto Scroll",
     enterCommand: "Befehl eingeben...",
-    cantSendCommands: "Server muss laufen um Befehle zu senden",
+    cantSendCommands: "Server muss laufen, um Befehle zu senden",
   },
   serverPage: {
     notFound: "Nicht gefunden",

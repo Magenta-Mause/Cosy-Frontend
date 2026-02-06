@@ -423,6 +423,7 @@ const translation: i18nLanguage = {
             "By default COSY attaches to the game server and tries to enter commands directly through STDIN.",
           part2: "Here you can alternatively configure a",
           part3: "connection which should be used for command dispatching.",
+          rcon: "RCON",
         },
         enableRcon: "Enable RCON",
         rconPort: {
