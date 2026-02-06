@@ -99,13 +99,16 @@ const GameServerDetailPageLayout = (props: {
         <div className="flex flex-col justify-center items-end w-[10%]">
           {TABS.map(({ label, icon, path, activePathPattern }) => (
             <div key={`${label}:${path}`} className={"relative"}>
-              <Link key={label} to={path} activeOptions={{ exact: !activePathPattern }} className={"group"}>
+              <Link
+                key={label}
+                to={path}
+                activeOptions={{ exact: !activePathPattern }}
+                className={"group"}
+              >
                 {({ isActive }) => (
                   <FancyNavigationButton
                     isActive={
-                      activePathPattern
-                        ? activePathPattern.test(location.pathname)
-                        : isActive
+                      activePathPattern ? activePathPattern.test(location.pathname) : isActive
                     }
                     label={t(`serverPage.navbar.${label}`)}
                   >
