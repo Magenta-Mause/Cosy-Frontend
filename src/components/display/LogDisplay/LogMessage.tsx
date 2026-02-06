@@ -6,7 +6,6 @@ import {
   GameServerLogMessageEntityLevel,
 } from "@/api/generated/model";
 
-// 1. Unified styling config for easier maintenance
 const LOG_STYLES: Record<
   string,
   { text: string; bg: string; border: string; borderLeft: string; opacity?: number }
@@ -65,21 +64,19 @@ const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
     <div
       className={clsx(
         "group flex items-start px-3 py-1 text-xs transition-all duration-75",
-        "border-l-2 border-transparent hover:border-current", // Subtle hover effect
+        "border-l-2 border-transparent hover:border-current",
         "hover:bg-white/5",
         styles.bg,
-        styles.borderLeft, // Set a faint default border
+        styles.borderLeft,
       )}
       style={{
         opacity: styles.opacity,
       }}
     >
-      {/* Timestamp: Dimmed so it doesn't distract from the message */}
       <span className="font-mono text-gray-500 mr-3 select-none opacity-70 group-hover:opacity-100 leading-relaxed">
         {timestamp}
       </span>
 
-      {/* Level Tag: Monospaced and slightly bold for alignment */}
       <span
         className={clsx(
           "min-w-[16.25rem] font-mono uppercase mr-2 leading-relaxed contents",
@@ -89,7 +86,6 @@ const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
         <span className={"px-2"}>[{level}]</span>
       </span>
 
-      {/* Message: Clean white/off-white for maximum readability */}
       <span className="text-gray-200 font-mono selection:bg-sky-500/30 leading-relaxed">
         {message.message ?? ""}
       </span>
