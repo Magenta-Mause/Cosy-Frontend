@@ -38,8 +38,8 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
           to={"/"}
           style={{
             ...props.style,
-            width: '11.5vw',
-            height: '11.5vw',
+            width: "11.5vw",
+            height: "11.5vw",
           }}
           onClick={() => setIsOpenGameServerCreationModalOpen((open) => !open)}
         >
@@ -47,7 +47,7 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
             className="h-full object-contain max-w-[initial] absolute top-0 left-0"
             aria-label={t("aria.createNewGameServer")}
             src={constructionImage}
-            style={{ imageRendering: 'pixelated' }}
+            style={{ imageRendering: "pixelated" }}
           />
         </Link>
       </div>
