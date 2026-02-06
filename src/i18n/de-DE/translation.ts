@@ -487,9 +487,9 @@ const translation: i18nLanguage = {
     des: "Wählen Sie einen benutzerdefinierten Zeitraum für die Metriken aus.",
   },
   cardWidth: {
-    2: "Klein",
-    3: "Mittel",
-    6: "Groß",
+    SMALL: "Klein",
+    MEDIUM: "Mittel",
+    LARGE: "Groß",
   },
 };
 

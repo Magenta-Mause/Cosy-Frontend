@@ -490,9 +490,9 @@ const translation: i18nLanguage = {
     des: "Choose a start and end date for the range.",
   },
   cardWidth: {
-    2: "Small",
-    3: "Medium",
-    6: "Large",
+    SMALL: "Small",
+    MEDIUM: "Medium",
+    LARGE: "Large",
   },
 };
 

@@ -492,9 +492,9 @@ export type i18nLanguage = {
     des: string;
   };
   cardWidth: {
-    2: string;
-    3: string;
-    6: string;
+    SMALL: string;
+    MEDIUM: string;
+    LARGE: string;
   };
 };
 

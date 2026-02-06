@@ -8,11 +8,11 @@ import {
 } from "@components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import type { MetricLayout } from "@/api/generated/model";
+import { type MetricLayout, MetricLayoutSize } from "@/api/generated/model";
 
 interface SizeDropDownProps {
   metric: MetricLayout;
-  handleWidthSelect: (size: number, uuid?: string) => void;
+  handleWidthSelect: (size: MetricLayoutSize, uuid?: string) => void;
 }
 
 const SizeDropDown = (props: SizeDropDownProps) => {
@@ -29,7 +29,7 @@ const SizeDropDown = (props: SizeDropDownProps) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-5 bg-primary-modal-background" align="end">
         <DropdownMenuGroup>
-          {[2, 3, 6].map((size) => (
+          {[MetricLayoutSize.SMALL, MetricLayoutSize.MEDIUM, MetricLayoutSize.LARGE].map((size) => (
             <DropdownMenuItem key={size} onSelect={() => handleWidthSelect(size, metric.uuid)}>
               {t(`cardWidth.${size}`)}
             </DropdownMenuItem>

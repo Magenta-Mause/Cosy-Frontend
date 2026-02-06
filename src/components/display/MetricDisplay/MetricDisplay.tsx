@@ -2,7 +2,7 @@ import { Button } from "@components/ui/button";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import type { GameServerDto } from "@/api/generated/model";
+import { type GameServerDto, MetricLayoutSize } from "@/api/generated/model";
 import spinner from "@/assets/gifs/spinner.gif";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading";
 import { useTypedSelector } from "@/stores/rootReducer";
@@ -13,6 +13,7 @@ import {
 import { MetricsType } from "@/types/metricsTyp";
 import TimeRangeDropDown from "../DropDown/TimeRangeDropDown";
 import MetricGraph from "./MetricGraph";
+import { COL_SPAN_MAP } from "./metricLayout";
 
 const MetricDisplay = (
   props: {
@@ -84,7 +85,7 @@ const MetricDisplay = (
         {props.gameServer.metric_layout?.map((metric) => (
           <MetricGraph
             key={metric.metric_type}
-            className={`col-span-${metric.size}`}
+            className={`${COL_SPAN_MAP[metric.size ?? MetricLayoutSize.MEDIUM]}`}
             metrics={props.metrics}
             type={metric.metric_type ?? MetricsType.CPU_PERCENT}
             timeUnit={unit}

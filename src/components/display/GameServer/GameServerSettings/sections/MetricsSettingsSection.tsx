@@ -1,5 +1,6 @@
 import MetricDropDown from "@components/display/DropDown/MetricDropDown";
 import SizeDropDown from "@components/display/DropDown/SizeDropDown";
+import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import { Plus, X } from "lucide-react";
@@ -7,7 +8,7 @@ import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import { updateMetricLayout } from "@/api/generated/backend-api";
-import type { GameServerDto } from "@/api/generated/model";
+import { type GameServerDto, MetricLayoutSize } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
 import { MetricsType } from "@/types/metricsTyp";
@@ -15,12 +16,6 @@ import { MetricsType } from "@/types/metricsTyp";
 interface MetricSetting {
   gameServer: GameServerDto;
 }
-
-const COL_SPAN_MAP: Record<number, string> = {
-  2: "col-span-2",
-  3: "col-span-3",
-  6: "col-span-6",
-};
 
 export default function MetricsSettingsSection(props: MetricSetting) {
   const { gameServer } = props;
@@ -33,10 +28,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
 
     return metricLayoutState.some((metric, i) => {
       const original = gameServer.metric_layout[i];
-      return (
-        metric.size !== original.size ||
-        metric.metric_type !== original.metric_type
-      );
+      return metric.size !== original.size || metric.metric_type !== original.metric_type;
     });
   }, [metricLayoutState, gameServer.metric_layout]);
 
@@ -47,10 +39,10 @@ export default function MetricsSettingsSection(props: MetricSetting) {
     };
 
     dispatch(gameServerSliceActions.updateGameServer(updatedServer));
-    updateMetricLayout(gameServer.uuid, metricLayoutState)
+    updateMetricLayout(gameServer.uuid, metricLayoutState);
   };
 
-  const handleWidthSelect = (size: number, uuid?: string) => {
+  const handleWidthSelect = (size: MetricLayoutSize, uuid?: string) => {
     if (!uuid) return;
 
     setMetricLayoutState(
@@ -71,7 +63,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
     const newMetric = {
       uuid: generateUuid(),
       metric_type: MetricsType.CPU_PERCENT,
-      size: 3,
+      size: MetricLayoutSize.MEDIUM,
     };
 
     setMetricLayoutState([...metricLayoutState, newMetric]);
@@ -97,7 +89,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
               <Card
                 key={metric.uuid}
                 className={`relative border-2 border-primary-border rounded-md 
-                w-full h-[16vh] justify-center ${COL_SPAN_MAP[metric.size ?? 3]}`}
+                w-full h-[16vh] justify-center ${COL_SPAN_MAP[metric.size ?? MetricLayoutSize.MEDIUM]}`}
               >
                 <Button
                   variant={"destructive"}
