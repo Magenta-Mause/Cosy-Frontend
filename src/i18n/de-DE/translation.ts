@@ -131,6 +131,7 @@ const translation: i18nLanguage = {
     stickToBottom: "Nach unten scrollen",
   },
   serverPage: {
+    notFoundGoBack: "404 - Server nicht gefunden",
     dockerHardwareLimits: "Docker Hardwarelimitierungen",
     cpuLimit: "CPU Kerne",
     memoryLimit: "RAM Limit",
