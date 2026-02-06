@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UsersRouteImport } from './routes/users'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ServerNotFoundRouteImport } from './routes/server/not-found'
 import { Route as ServerServerIdRouteImport } from './routes/server/$serverId'
 import { Route as ServerServerIdIndexRouteImport } from './routes/server/$serverId/index'
 import { Route as ServerServerIdSettingsRouteImport } from './routes/server/$serverId/settings'
@@ -31,11 +30,6 @@ const UsersRoute = UsersRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServerNotFoundRoute = ServerNotFoundRouteImport.update({
-  id: '/server/not-found',
-  path: '/server/not-found',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServerServerIdRoute = ServerServerIdRouteImport.update({
@@ -98,7 +92,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/users': typeof UsersRoute
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
-  '/server/not-found': typeof ServerNotFoundRoute
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
   '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
@@ -112,7 +105,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/users': typeof UsersRoute
-  '/server/not-found': typeof ServerNotFoundRoute
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
   '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
@@ -128,7 +120,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/users': typeof UsersRoute
   '/server/$serverId': typeof ServerServerIdRouteWithChildren
-  '/server/not-found': typeof ServerNotFoundRoute
   '/server/$serverId/console': typeof ServerServerIdConsoleRoute
   '/server/$serverId/metrics': typeof ServerServerIdMetricsRoute
   '/server/$serverId/settings': typeof ServerServerIdSettingsRouteWithChildren
@@ -145,7 +136,6 @@ export interface FileRouteTypes {
     | '/'
     | '/users'
     | '/server/$serverId'
-    | '/server/not-found'
     | '/server/$serverId/console'
     | '/server/$serverId/metrics'
     | '/server/$serverId/settings'
@@ -159,7 +149,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/users'
-    | '/server/not-found'
     | '/server/$serverId/console'
     | '/server/$serverId/metrics'
     | '/server/$serverId/settings'
@@ -174,7 +163,6 @@ export interface FileRouteTypes {
     | '/'
     | '/users'
     | '/server/$serverId'
-    | '/server/not-found'
     | '/server/$serverId/console'
     | '/server/$serverId/metrics'
     | '/server/$serverId/settings'
@@ -190,7 +178,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   UsersRoute: typeof UsersRoute
   ServerServerIdRoute: typeof ServerServerIdRouteWithChildren
-  ServerNotFoundRoute: typeof ServerNotFoundRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -207,13 +194,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/server/not-found': {
-      id: '/server/not-found'
-      path: '/server/not-found'
-      fullPath: '/server/not-found'
-      preLoaderRoute: typeof ServerNotFoundRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/server/$serverId': {
@@ -336,7 +316,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   UsersRoute: UsersRoute,
   ServerServerIdRoute: ServerServerIdRouteWithChildren,
-  ServerNotFoundRoute: ServerNotFoundRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

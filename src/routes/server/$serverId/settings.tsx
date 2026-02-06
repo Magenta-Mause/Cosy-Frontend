@@ -1,7 +1,6 @@
 import GameServerSettingsLayout from "@components/display/GameServer/GameServerSettings/GameServerSettingsLayout";
-import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import useGameServer from "@/hooks/useGameServer/useGameServer";
-import { useEffect } from "react";
 
 export const Route = createFileRoute("/server/$serverId/settings")({
   component: RouteComponent,
@@ -9,16 +8,9 @@ export const Route = createFileRoute("/server/$serverId/settings")({
 
 function RouteComponent() {
   const { serverId } = Route.useParams();
-  const { gameServer, notFound } = useGameServer(serverId ?? "");
-  const navigate = useNavigate();
+  const { gameServer } = useGameServer(serverId ?? "");
 
-  useEffect(() => {
-    if (notFound) {
-      navigate({ to: "/server/not-found" });
-    }
-  }, [notFound, navigate]);
-
-  if (notFound || !gameServer) {
+  if (!gameServer) {
     return null;
   }
 

@@ -9,14 +9,14 @@ const useGameServer = (serverUuid: string) => {
 
   return useMemo(() => {
     if (gameServersInitialized === false) {
-      return { server: undefined, notFound: false };
+      return { server: undefined, initialized: false };
     }
 
     const gameServer = gameServers.find((server) => server.uuid === serverUuid);
 
     return {
       gameServer,
-      notFound: !gameServer,
+      initialized: true,
     };
   }, [gameServersInitialized, gameServers, serverUuid]);
 };
