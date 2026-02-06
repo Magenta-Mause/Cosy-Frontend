@@ -107,6 +107,36 @@ const translation: i18nLanguage = {
     cancel: "Cancel",
     confirm: "Delete",
   },
+  logOutDialog: {
+    title: "Log Out?",
+    description: "Are you sure you want to log out?",
+    cancel: "Cancel",
+    confirm: "Log Out",
+  },
+  userProfileModal: {
+    title: "User Profile",
+    usernameAndRole: "Username & Role",
+    role: "Role",
+    limits: "Resource Limits",
+    memory: "Memory",
+    cpu: "CPU Cores",
+    changePasswordButton: "Change Password",
+  },
+  changePasswordModal: {
+    title: "Change Password",
+    oldPassword: "Old Password",
+    newPassword: "New Password",
+    confirmPassword: "Confirm Password",
+    oldPasswordPlaceholder: "Enter old password",
+    newPasswordPlaceholder: "Enter new password",
+    confirmPasswordPlaceholder: "Confirm new password",
+    changePassword: "Change Password",
+    passwordTooShort: "Password must be at least 8 characters long",
+    passwordsDoNotMatch: "Passwords do not match",
+    passwordChangeSuccess: "Password changed successfully",
+    passwordChangeError: "Failed to change password",
+    missingUuid: "User ID is missing",
+  },
   aria: {
     createNewGameServer: "Create a new Game Server Configuration",
     gameServer: "Game Server Configuration: {{serverName}}",
@@ -126,6 +156,11 @@ const translation: i18nLanguage = {
   },
   filesPage: {
     loading: "Loading Game Server",
+  },
+  optionsBanner: {
+    languageSelector: "Select Language",
+    userMenu: "User Menu",
+    logout: "Log Out",
   },
   components: {
     TemplateVariableForm: {
