@@ -8,19 +8,27 @@ import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import { updateMetricLayout } from "@/api/generated/backend-api";
-import { type GameServerDto, MetricLayoutSize } from "@/api/generated/model";
+import { type GameServerDto, type MetricLayout, MetricLayoutSize } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
-import { MetricsType } from "@/types/metricsTyp";
+import { type MetricLayoutUI, MetricsType } from "@/types/metricsTyp";
 
 interface MetricSetting {
   gameServer: GameServerDto;
 }
 
+const wrapMetric = (metric: MetricLayout): MetricLayoutUI => ({
+  ...metric,
+  _uiUuid: metric.uuid ?? generateUuid(),
+});
+
+const wrapMetrics = (metrics: MetricLayout[]): MetricLayoutUI[] =>
+  metrics.map(wrapMetric);
+
 export default function MetricsSettingsSection(props: MetricSetting) {
   const { gameServer } = props;
   const { t } = useTranslationPrefix("components");
-  const [metricLayoutState, setMetricLayoutState] = useState(gameServer.metric_layout || []);
+  const [metricLayoutState, setMetricLayoutState] = useState<MetricLayoutUI[]>(() => wrapMetrics(gameServer.metric_layout));
   const dispatch = useDispatch();
 
   const isChanged = useMemo(() => {
@@ -35,11 +43,11 @@ export default function MetricsSettingsSection(props: MetricSetting) {
   const handleConfirm = () => {
     const updatedServer: GameServerDto = {
       ...gameServer,
-      metric_layout: metricLayoutState,
+      metric_layout: metricLayoutState.map(({ _uiUuid, ...metric }) => metric),
     };
 
     dispatch(gameServerSliceActions.updateGameServer(updatedServer));
-    updateMetricLayout(gameServer.uuid, metricLayoutState);
+    updateMetricLayout(gameServer.uuid, updatedServer.metric_layout);
   };
 
   const handleWidthSelect = (size: MetricLayoutSize, uuid?: string) => {
@@ -47,7 +55,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
 
     setMetricLayoutState(
       metricLayoutState.map((metric) =>
-        metric.uuid === uuid ? { ...metric, size: size } : metric,
+        metric._uiUuid === uuid ? { ...metric, size: size } : metric,
       ),
     );
   };
@@ -55,16 +63,15 @@ export default function MetricsSettingsSection(props: MetricSetting) {
   const handleOnDelete = (uuid?: string) => {
     if (!uuid) return;
 
-    setMetricLayoutState(metricLayoutState.filter((metric) => metric.uuid !== uuid));
+    setMetricLayoutState(metricLayoutState.filter((metric) => metric._uiUuid !== uuid));
   };
 
   const handleOnAdd = () => {
     /* Default to CPU_PERCENT when adding a new metric */
-    const newMetric = {
-      uuid: generateUuid(),
+    const newMetric = wrapMetric({
       metric_type: MetricsType.CPU_PERCENT,
       size: MetricLayoutSize.MEDIUM,
-    };
+    })
 
     setMetricLayoutState([...metricLayoutState, newMetric]);
   };
@@ -87,7 +94,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
           <CardContent className="grid grid-cols-6 gap-4 overflow-scroll p-6">
             {metricLayoutState.map((metric) => (
               <Card
-                key={metric.uuid}
+                key={metric._uiUuid}
                 className={`relative border-2 border-primary-border rounded-md 
                 w-full h-[16vh] justify-center ${COL_SPAN_MAP[metric.size ?? MetricLayoutSize.MEDIUM]}`}
               >
@@ -96,7 +103,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
                   className={
                     "flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2"
                   }
-                  onClick={() => handleOnDelete(metric.uuid)}
+                  onClick={() => handleOnDelete(metric._uiUuid)}
                 >
                   <X />
                 </Button>
@@ -109,7 +116,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
                     <MetricDropDown
                       className="w-full"
                       metricType={metric.metric_type}
-                      setMetricType={(type) => handleMetricTypeChange(type, metric.uuid)}
+                      setMetricType={(type) => handleMetricTypeChange(type, metric._uiUuid)}
                     />
                     <SizeDropDown metric={metric} handleWidthSelect={handleWidthSelect} />
                   </div>
@@ -135,7 +142,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
           variant="secondary"
           disabled={!isChanged}
           onClick={() => {
-            setMetricLayoutState(gameServer.metric_layout || []);
+            setMetricLayoutState(wrapMetrics(gameServer.metric_layout));
           }}
         >
           {t("editGameServer.revert")}

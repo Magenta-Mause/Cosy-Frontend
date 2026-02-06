@@ -1,3 +1,5 @@
+import type { MetricLayout } from "@/api/generated/model";
+
 export type MetricsType = (typeof MetricsType)[keyof typeof MetricsType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -11,3 +13,5 @@ export const MetricsType = {
   BLOCK_READ: "BLOCK_READ",
   BLOCK_WRITE: "BLOCK_WRITE",
 } as const;
+
+export type MetricLayoutUI = MetricLayout & { _uiUuid: string };
