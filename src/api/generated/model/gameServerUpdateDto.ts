@@ -5,7 +5,6 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { RCONConfiguration } from './rCONConfiguration';
 import type { DockerHardwareLimits } from './dockerHardwareLimits';
 import type { PortMapping } from './portMapping';
 import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
@@ -19,7 +18,6 @@ export interface GameServerUpdateDto {
   docker_image_name: string;
   /** @minLength 1 */
   docker_image_tag: string;
-  rcon_configuration?: RCONConfiguration;
   docker_hardware_limits?: DockerHardwareLimits;
   port_mappings?: PortMapping[];
   execution_command?: string[];
