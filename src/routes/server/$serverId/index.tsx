@@ -1,6 +1,7 @@
 import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
 import MetricGraph from "@components/display/MetricDisplay/MetricGraph";
 import { createFileRoute } from "@tanstack/react-router";
+import { GameServerDtoStatus } from "@/api/generated/model";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";
@@ -20,6 +21,8 @@ function GameServerDetailPageDashboardPage() {
     return null;
   }
 
+  const isServerRunning = gameServer.status === GameServerDtoStatus.RUNNING;
+
   return (
     <div className="container mx-auto flex flex-col gap-4 h-[30vh]">
       <div className="flex flex-row gap-2 grow">
@@ -29,7 +32,13 @@ function GameServerDetailPageDashboardPage() {
           type={MetricsType.CPU_PERCENT}
           metrics={metrics}
         />
-        <LogDisplay logMessages={logs} className="grow" />
+        <LogDisplay
+          logMessages={logs}
+          className="grow"
+          showCommandInput={false}
+          gameServerUuid={serverId}
+          isServerRunning={isServerRunning}
+        />
       </div>
     </div>
   );

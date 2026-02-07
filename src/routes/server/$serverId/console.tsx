@@ -1,5 +1,6 @@
 import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
 import { createFileRoute } from "@tanstack/react-router";
+import { GameServerDtoStatus } from "@/api/generated/model";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 
@@ -16,9 +17,16 @@ function RouteComponent() {
     return null;
   }
 
+  const isServerRunning = gameServer.status === GameServerDtoStatus.RUNNING;
+
   return (
     <div className="container mx-auto flex flex-col gap-4 grow h-full">
-      <LogDisplay logMessages={logs} />
+      <LogDisplay
+        logMessages={logs}
+        showCommandInput={true}
+        gameServerUuid={serverId}
+        isServerRunning={isServerRunning}
+      />
     </div>
   );
 }

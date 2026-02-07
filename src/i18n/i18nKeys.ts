@@ -110,6 +110,39 @@ export type i18nLanguage = {
     confirm: string;
   };
 
+  logOutDialog: {
+    title: string;
+    description: string;
+    cancel: string;
+    confirm: string;
+  };
+
+  userProfileModal: {
+    title: string;
+    usernameAndRole: string;
+    role: string;
+    limits: string;
+    memory: string;
+    cpu: string;
+    changePasswordButton: string;
+  };
+
+  changePasswordModal: {
+    title: string;
+    oldPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+    oldPasswordPlaceholder: string;
+    newPasswordPlaceholder: string;
+    confirmPasswordPlaceholder: string;
+    changePassword: string;
+    passwordTooShort: string;
+    passwordsDoNotMatch: string;
+    passwordChangeSuccess: string;
+    passwordChangeError: string;
+    missingUuid: string;
+  };
+
   aria: {
     createNewGameServer: string;
     gameServer: ContainsVariable<"serverName">;
@@ -129,10 +162,18 @@ export type i18nLanguage = {
     logout: string;
   };
 
+  optionsBanner: {
+    languageSelector: string;
+    userMenu: string;
+    logout: string;
+  };
+
   logDisplay: {
     serverLog: string;
     timestampFormat: string;
     stickToBottom: string;
+    enterCommand: string;
+    cantSendCommands: string;
   };
 
   serverPage: {
@@ -443,6 +484,7 @@ export type i18nLanguage = {
         publicDashboard: string;
         metrics: string;
         accessManagement: string;
+        rcon: string;
       };
       sections: {
         general: string;
@@ -450,6 +492,30 @@ export type i18nLanguage = {
         publicDashboard: string;
         metrics: string;
         accessManagement: string;
+      };
+    };
+    gameServerSettings: {
+      rconSettings: {
+        title: string;
+        description: {
+          part1: string;
+          part2: string;
+          part3: string;
+          rcon: string;
+        };
+        enableRcon: string;
+        rconPort: {
+          title: string;
+          description: string;
+          errorLabel: string;
+        };
+        rconPassword: {
+          title: string;
+          description: string;
+          errorLabel: string;
+        };
+        revert: string;
+        confirm: string;
       };
     };
   };

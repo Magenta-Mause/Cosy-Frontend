@@ -36,8 +36,10 @@ import type {
   MetricPointDto,
   PasswordUpdateDto,
   QueryGamesParams,
+  RCONConfiguration,
   ReadFileFromVolumeParams,
   RenameInVolumeParams,
+  SendCommandDto,
   TemplateEntity,
   UploadFileToVolumeParams,
   UserCreationDto,
@@ -652,6 +654,66 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const sendCommand = (
+    uuid: string,
+    sendCommandDto: SendCommandDto,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/send-command`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: sendCommandDto, signal
+    },
+      options);
+    }
+  
+
+
+export const getSendCommandMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sendCommand>>, TError,{uuid: string;data: SendCommandDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof sendCommand>>, TError,{uuid: string;data: SendCommandDto}, TContext> => {
+
+const mutationKey = ['sendCommand'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof sendCommand>>, {uuid: string;data: SendCommandDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  sendCommand(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SendCommandMutationResult = NonNullable<Awaited<ReturnType<typeof sendCommand>>>
+    export type SendCommandMutationBody = SendCommandDto
+    export type SendCommandMutationError = unknown
+
+    export const useSendCommand = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof sendCommand>>, TError,{uuid: string;data: SendCommandDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof sendCommand>>,
+        TError,
+        {uuid: string;data: SendCommandDto},
+        TContext
+      > => {
+
+      const mutationOptions = getSendCommandMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 /**
  * @summary Upload a file to a bind mount volume
  */
@@ -1068,6 +1130,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getChangePasswordMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const updateRconConfiguration = (
+    uuid: string,
+    rCONConfiguration: RCONConfiguration,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<GameServerDto>(
+      {url: `/game-server/${uuid}/rcon-configuration`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: rCONConfiguration
+    },
+      options);
+    }
+  
+
+
+export const getUpdateRconConfigurationMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRconConfiguration>>, TError,{uuid: string;data: RCONConfiguration}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateRconConfiguration>>, TError,{uuid: string;data: RCONConfiguration}, TContext> => {
+
+const mutationKey = ['updateRconConfiguration'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateRconConfiguration>>, {uuid: string;data: RCONConfiguration}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updateRconConfiguration(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateRconConfigurationMutationResult = NonNullable<Awaited<ReturnType<typeof updateRconConfiguration>>>
+    export type UpdateRconConfigurationMutationBody = RCONConfiguration
+    export type UpdateRconConfigurationMutationError = unknown
+
+    export const useUpdateRconConfiguration = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRconConfiguration>>, TError,{uuid: string;data: RCONConfiguration}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateRconConfiguration>>,
+        TError,
+        {uuid: string;data: RCONConfiguration},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateRconConfigurationMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

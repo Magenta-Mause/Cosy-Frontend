@@ -13,6 +13,7 @@ export type GameServerLogMessageEntityLevel = typeof GameServerLogMessageEntityL
 export const GameServerLogMessageEntityLevel = {
   INFO: 'INFO',
   ERROR: 'ERROR',
+  INPUT: 'INPUT',
   COSY_INFO: 'COSY_INFO',
   COSY_DEBUG: 'COSY_DEBUG',
   COSY_ERROR: 'COSY_ERROR',
