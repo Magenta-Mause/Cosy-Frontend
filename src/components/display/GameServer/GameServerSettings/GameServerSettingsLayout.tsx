@@ -1,7 +1,13 @@
 import { Button } from "@components/ui/button";
 import Link from "@components/ui/Link";
 import { Separator } from "@components/ui/separator.tsx";
-import { ChartAreaIcon, LayoutDashboardIcon, SettingsIcon, User } from "lucide-react";
+import {
+  ChartAreaIcon,
+  LayoutDashboardIcon,
+  SettingsIcon,
+  SquareTerminalIcon,
+  User,
+} from "lucide-react";
 import {
   type CSSProperties,
   createContext,
@@ -90,6 +96,11 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
       path: "/server/$serverId/settings/metrics",
     },
     {
+      label: t("tabs.rcon"),
+      icon: <SquareTerminalIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/rcon",
+    },
+    {
       label: t("tabs.accessManagement"),
       icon: <User style={iconStyles} className="mr-2" />,
       path: "/server/$serverId/settings/access-management",
@@ -117,6 +128,7 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
                 to={path}
                 activeOptions={{ exact: true }}
                 className={"group w-full"}
+                tabIndex={-1}
               >
                 {({ isActive }) => (
                   <Button

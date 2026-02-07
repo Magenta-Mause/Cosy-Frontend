@@ -13,6 +13,7 @@ import {
   PortMappingProtocol,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { mapGameServerDtoToUpdate } from "@/lib/gameServerMapper.ts";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import { cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
 import {
@@ -22,25 +23,6 @@ import {
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
-
-const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
-  server_name: server.server_name,
-  docker_image_name: server.docker_image_name,
-  docker_image_tag: server.docker_image_tag,
-  port_mappings: server.port_mappings?.map((pm) => ({
-    ...pm,
-  })),
-  environment_variables: server.environment_variables,
-  volume_mounts: server.volume_mounts?.map((v) => ({
-    host_path: v.host_path ?? "",
-    container_path: v.container_path ?? "",
-  })),
-  execution_command: server.execution_command,
-  docker_hardware_limits: {
-    docker_memory_limit: server.docker_hardware_limits?.docker_memory_limit,
-    docker_max_cpu_cores: server.docker_hardware_limits?.docker_max_cpu_cores,
-  },
-});
 
 const EditGameServerPage = (props: {
   serverName: string;
@@ -247,6 +229,7 @@ const EditGameServerPage = (props: {
           placeholder="My Game Server"
           description={t("serverNameSelection.description")}
           errorLabel={t("serverNameSelection.errorLabel")}
+          onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
 
         <InputFieldEditGameServer
@@ -270,6 +253,7 @@ const EditGameServerPage = (props: {
             errorLabel={t("dockerImageSelection.errorLabel")}
             value={gameServerState.docker_image_name}
             onChange={(v) => setGameServerState((s) => ({ ...s, docker_image_name: v as string }))}
+            onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
           />
 
           <InputFieldEditGameServer
@@ -280,6 +264,7 @@ const EditGameServerPage = (props: {
             errorLabel={t("imageTagSelection.errorLabel")}
             value={gameServerState.docker_image_tag}
             onChange={(v) => setGameServerState((s) => ({ ...s, docker_image_tag: v as string }))}
+            onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
           />
         </div>
 
@@ -350,6 +335,7 @@ const EditGameServerPage = (props: {
           errorLabel={t("executionCommandSelection.errorLabel")}
           value={executionCommandRaw}
           onChange={(v) => setExecutionCommandRaw((v ?? "") as string)}
+          onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
 
         <EditKeyValueInput<{

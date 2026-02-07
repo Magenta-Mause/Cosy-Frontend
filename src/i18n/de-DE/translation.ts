@@ -160,39 +160,6 @@ const translation: i18nLanguage = {
     userMenu: "Benutzermenü",
     logout: "Abmelden",
   },
-  logDisplay: {
-    serverLog: "Server-Protokoll",
-    timestampFormat: "HH:mm:ss.SSS",
-    stickToBottom: "Nach unten scrollen",
-  },
-  serverPage: {
-    dockerHardwareLimits: "Docker Hardwarelimitierungen",
-    cpuLimit: "CPU Kerne",
-    memoryLimit: "RAM Limit",
-    unlimited: "Unlimitiert",
-    notFound: "Nicht gefunden",
-    start: "Starten",
-    stop: "Herunterfahren",
-    pullingImage: "Image wird heruntergeladen...",
-    status: "Status",
-    back: "Zurück",
-    navbar: {
-      overview: "Dashboard",
-      console: "Console",
-      metrics: "Metriken",
-      file_explorer: "Dateien",
-      settings: "Einstellungen",
-    },
-  },
-  serverStatus: {
-    RUNNING: "Läuft",
-    STARTING: "Startet",
-    STOPPED: "Gestoppt",
-    FAILED: "Fehlgeschlagen",
-    PULLING_IMAGE: "Image wird geladen",
-    AWAITING_UPDATE: "Lädt...",
-    STOPPING: "Stoppt...",
-  },
   filesPage: {
     loading: "Lade Gameserver",
   },
@@ -438,6 +405,7 @@ const translation: i18nLanguage = {
         publicDashboard: "Öffentliches Dashboard",
         metrics: "Metriken",
         accessManagement: "Zugriffsverwaltung",
+        rcon: "RCON",
       },
       sections: {
         general: "Allgemeine Einstellungen",
@@ -445,6 +413,32 @@ const translation: i18nLanguage = {
         publicDashboard: "Einstellungen für öffentliches Dashboard",
         metrics: "Metrik-Einstellungen",
         accessManagement: "Zugriffsverwaltungs-Einstellungen",
+      },
+    },
+    gameServerSettings: {
+      rconSettings: {
+        title: "RCON Konfiguration",
+        description: {
+          part1:
+            "Standardmäßig verbindet sich COSY mit dem Spielserver und versucht, Befehle direkt über STDIN einzugeben.",
+          part2: "Hier können Sie alternativ eine",
+          part3: "Verbindung konfigurieren, die für die Befehlsübermittlung verwendet werden soll.",
+          rcon: "RCON",
+        },
+        enableRcon: "RCON aktivieren",
+        rconPort: {
+          title: "RCON Port",
+          description:
+            "Die Portnummer für RCON-Verbindungen (1-65535). Der RCON-Port muss von dem Game Server Container auf den Host freigegeben sein",
+          errorLabel: "Bitte geben Sie eine gültige Portnummer zwischen 1 und 65535 ein",
+        },
+        rconPassword: {
+          title: "RCON Passwort",
+          description: "Das Passwort für die RCON-Authentifizierung",
+          errorLabel: "Passwort ist erforderlich",
+        },
+        revert: "Zurücksetzen",
+        confirm: "Bestätigen",
       },
     },
     userManagement: {
@@ -485,6 +479,41 @@ const translation: i18nLanguage = {
   },
   genericModal: {
     cancel: "Abbrechen",
+  },
+  logDisplay: {
+    serverLog: "Konsole",
+    timestampFormat: "HH:mm:ss.SSS",
+    stickToBottom: "Auto Scroll",
+    enterCommand: "Befehl eingeben...",
+    cantSendCommands: "Server muss laufen, um Befehle zu senden",
+  },
+  serverPage: {
+    notFound: "Nicht gefunden",
+    start: "Starten",
+    stop: "Herunterfahren",
+    back: "Zurück",
+    pullingImage: "Image wird geladen...",
+    status: "Status",
+    dockerHardwareLimits: "Docker Hardwarelimitierungen",
+    cpuLimit: "CPU Kerne",
+    memoryLimit: "RAM Limit",
+    unlimited: "Unlimitiert",
+    navbar: {
+      overview: "Dashboard",
+      console: "Console",
+      metrics: "Metriken",
+      file_explorer: "Dateien",
+      settings: "Einstellungen",
+    },
+  },
+  serverStatus: {
+    RUNNING: "Läuft",
+    STARTING: "Startet",
+    STOPPED: "Gestoppt",
+    FAILED: "Fehlgeschlagen",
+    PULLING_IMAGE: "Image wird geladen",
+    AWAITING_UPDATE: "Lädt...",
+    STOPPING: "Stoppt...",
   },
   metrics: {
     metricTitle: "{{type}} Metrik",

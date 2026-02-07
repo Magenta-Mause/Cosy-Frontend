@@ -6,25 +6,56 @@ import {
   GameServerLogMessageEntityLevel,
 } from "@/api/generated/model";
 
-const levelColors: Record<string, string> = {
-  [GameServerLogMessageEntityLevel.INFO]: "text-sky-300",
-  [GameServerLogMessageEntityLevel.ERROR]: "text-red-400",
-  [GameServerLogMessageEntityLevel.COSY_INFO]: "text-sky-300",
-  [GameServerLogMessageEntityLevel.COSY_DEBUG]: "text-amber-300",
-  [GameServerLogMessageEntityLevel.COSY_ERROR]: "text-red-400",
-};
-
-const levelBgColors: Record<string, string> = {
-  [GameServerLogMessageEntityLevel.INFO]: "bg-sky-900/20",
-  [GameServerLogMessageEntityLevel.ERROR]: "bg-red-900/20",
-  [GameServerLogMessageEntityLevel.COSY_INFO]: "bg-sky-900/20",
-  [GameServerLogMessageEntityLevel.COSY_DEBUG]: "bg-amber-900/20",
-  [GameServerLogMessageEntityLevel.COSY_ERROR]: "bg-red-900/20",
+const LOG_STYLES: Record<
+  string,
+  { text: string; bg: string; border: string; borderLeft: string; opacity?: number }
+> = {
+  [GameServerLogMessageEntityLevel.INFO]: {
+    text: "text-sky-400",
+    bg: "bg-sky-950/30",
+    border: "border-sky-500",
+    borderLeft: "border-l-sky-500/50",
+  },
+  [GameServerLogMessageEntityLevel.ERROR]: {
+    text: "text-rose-400",
+    bg: "bg-rose-950/30",
+    border: "border-rose-500",
+    borderLeft: "border-l-rose-500/50",
+  },
+  [GameServerLogMessageEntityLevel.INPUT]: {
+    text: "text-emerald-400",
+    bg: "bg-emerald-950/30",
+    border: "border-emerald-500",
+    borderLeft: "border-l-emerald-500/50",
+    opacity: 0.7,
+  },
+  [GameServerLogMessageEntityLevel.COSY_INFO]: {
+    text: "text-cyan-400",
+    bg: "bg-cyan-950/20",
+    border: "border-cyan-500",
+    borderLeft: "border-l-cyan-500/50",
+    opacity: 0.7,
+  },
+  [GameServerLogMessageEntityLevel.COSY_DEBUG]: {
+    text: "text-violet-400",
+    bg: "bg-violet-950/20",
+    border: "border-violet-500",
+    borderLeft: "border-l-violet-500/50",
+    opacity: 0.7,
+  },
+  [GameServerLogMessageEntityLevel.COSY_ERROR]: {
+    text: "text-red-400",
+    bg: "bg-red-950/40",
+    border: "border-red-500",
+    borderLeft: "border-l-red-500/50",
+  },
 };
 
 const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
   const { t } = useTranslation();
   const level = (message.level as string) ?? "INFO";
+  const styles = LOG_STYLES[level] ?? LOG_STYLES[GameServerLogMessageEntityLevel.INFO];
+
   const timestamp = message.timestamp
     ? format(new Date(message.timestamp), t("logDisplay.timestampFormat"))
     : "--:--:--.---";
@@ -32,21 +63,32 @@ const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
   return (
     <div
       className={clsx(
-        "px-2 py-[2px] text-xs leading-5 whitespace-pre-wrap break-words",
-        "hover:bg-gray-900/60 transition-colors",
-        levelBgColors[level] ?? "",
+        "group flex items-start px-3 py-1 text-xs transition-all duration-75",
+        "border-l-2 border-transparent hover:border-current",
+        "hover:bg-white/5",
+        styles.bg,
+        styles.borderLeft,
       )}
+      style={{
+        opacity: styles.opacity,
+      }}
     >
-      <span className="text-gray-500 mr-2 select-none">{timestamp}</span>
+      <span className="font-mono text-gray-500 mr-3 select-none opacity-70 group-hover:opacity-100 leading-relaxed">
+        {timestamp}
+      </span>
+
       <span
         className={clsx(
-          "inline-block min-w-[52px] text-[10px] uppercase tracking-wide mr-2 select-none",
-          levelColors[level] ?? "text-sky-300",
+          "min-w-[16.25rem] font-mono uppercase mr-2 leading-relaxed contents",
+          styles.text,
         )}
       >
-        {level}
+        <span className={"px-2"}>[{level}]</span>
       </span>
-      <span className="text-gray-100">{message.message ?? ""}</span>
+
+      <span className="text-gray-200 font-mono selection:bg-sky-500/30 leading-relaxed">
+        {message.message ?? ""}
+      </span>
     </div>
   );
 };
