@@ -449,6 +449,11 @@ const translation: i18nLanguage = {
         metrics: "Metrics Settings",
         accessManagement: "Access Management Settings",
       },
+      metrics: {
+        type: "Type",
+        width: "Width",
+        add: "Add Metric",
+      },
     },
     gameServerSettings: {
       rconSettings: {
@@ -519,7 +524,6 @@ const translation: i18nLanguage = {
   },
 
   metrics: {
-    metricTitle: "{{type}} - Metric",
     metricDescription: "{{type}} usage over time",
     configure: "Configure Metrics",
     types: {
@@ -548,6 +552,11 @@ const translation: i18nLanguage = {
   datepicker: {
     title: "Select Date Range",
     des: "Choose a start and end date for the range.",
+  },
+  cardWidth: {
+    SMALL: "Small",
+    MEDIUM: "Medium",
+    LARGE: "Large",
   },
 };
 

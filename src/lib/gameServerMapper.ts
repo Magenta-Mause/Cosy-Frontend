@@ -7,7 +7,6 @@ export const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdat
   port_mappings: server.port_mappings?.map((pm) => ({
     ...pm,
   })),
-  rcon_configuration: server.rcon_configuration,
   environment_variables: server.environment_variables,
   volume_mounts: server.volume_mounts?.map((v) => ({
     host_path: v.host_path ?? "",
