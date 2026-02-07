@@ -440,6 +440,7 @@ const translation: i18nLanguage = {
         publicDashboard: "Public Dashboard",
         metrics: "Metrics",
         accessManagement: "Access Management",
+        rcon: "RCON",
       },
       sections: {
         general: "General Settings",
@@ -454,6 +455,32 @@ const translation: i18nLanguage = {
         add: "Add Metric",
       },
     },
+    gameServerSettings: {
+      rconSettings: {
+        title: "RCON Configuration",
+        description: {
+          part1:
+            "By default COSY attaches to the game server and tries to enter commands directly through STDIN.",
+          part2: "Here you can alternatively configure a",
+          part3: "connection which should be used for command dispatching.",
+          rcon: "RCON",
+        },
+        enableRcon: "Enable RCON",
+        rconPort: {
+          title: "RCON Port",
+          description:
+            "The port number for RCON connections (1-65535). The RCON-Port needs to be port forwarded from the game server container to the host",
+          errorLabel: "Please enter a valid port number between 1 and 65535",
+        },
+        rconPassword: {
+          title: "RCON Password",
+          description: "The password required for RCON authentication",
+          errorLabel: "Password is required",
+        },
+        revert: "Revert",
+        confirm: "Confirm",
+      },
+    },
   },
 
   genericModal: {
@@ -461,9 +488,11 @@ const translation: i18nLanguage = {
   },
 
   logDisplay: {
-    serverLog: "Server Log",
+    serverLog: "Console",
     timestampFormat: "HH:mm:ss.SSS",
-    stickToBottom: "Stick to bottom",
+    stickToBottom: "Auto Scroll",
+    enterCommand: "Enter command...",
+    cantSendCommands: "Server must be running to send commands",
   },
   serverPage: {
     notFound: "not found",

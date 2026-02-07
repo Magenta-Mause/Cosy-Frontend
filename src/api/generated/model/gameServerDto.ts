@@ -7,6 +7,7 @@
  */
 import type { UserEntityDto } from './userEntityDto';
 import type { GameServerDtoStatus } from './gameServerDtoStatus';
+import type { RCONConfiguration } from './rCONConfiguration';
 import type { DockerHardwareLimits } from './dockerHardwareLimits';
 import type { PortMapping } from './portMapping';
 import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
@@ -21,6 +22,7 @@ export interface GameServerDto {
   owner: UserEntityDto;
   status: GameServerDtoStatus;
   timestamp_last_started: string;
+  rcon_configuration?: RCONConfiguration;
   /** @minLength 1 */
   game_uuid: string;
   /** @minLength 1 */

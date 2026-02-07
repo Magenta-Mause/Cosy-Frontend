@@ -172,6 +172,8 @@ export type i18nLanguage = {
     serverLog: string;
     timestampFormat: string;
     stickToBottom: string;
+    enterCommand: string;
+    cantSendCommands: string;
   };
 
   serverPage: {
@@ -481,6 +483,7 @@ export type i18nLanguage = {
         publicDashboard: string;
         metrics: string;
         accessManagement: string;
+        rcon: string;
       };
       sections: {
         general: string;
@@ -493,6 +496,30 @@ export type i18nLanguage = {
         type: string;
         width: string;
         add: string;
+      };
+    };
+    gameServerSettings: {
+      rconSettings: {
+        title: string;
+        description: {
+          part1: string;
+          part2: string;
+          part3: string;
+          rcon: string;
+        };
+        enableRcon: string;
+        rconPort: {
+          title: string;
+          description: string;
+          errorLabel: string;
+        };
+        rconPassword: {
+          title: string;
+          description: string;
+          errorLabel: string;
+        };
+        revert: string;
+        confirm: string;
       };
     };
   };

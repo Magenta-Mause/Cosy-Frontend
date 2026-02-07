@@ -11,8 +11,9 @@ import {
   useDeleteGameServerById,
   useRevokeInvite,
   useUpdateGameServer,
+  useUpdateRconConfiguration,
 } from "@/api/generated/backend-api.ts";
-import type { UserInviteCreationDto } from "@/api/generated/model";
+import type { RCONConfiguration, UserInviteCreationDto } from "@/api/generated/model";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
@@ -137,12 +138,33 @@ const useDataInteractions = () => {
     });
   };
 
+  const { mutateAsync: updateRconConfigurationMutateAsync } = useUpdateRconConfiguration({
+    mutation: {
+      onSuccess: (updatedGameServer) => {
+        dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
+        toast.success(t("updateGameServerSuccess"));
+      },
+      onError: (err) => {
+        toast.error(t("updateGameServerError"));
+        throw err;
+      },
+    },
+  });
+
+  const updateRconConfiguration = async (uuid: string, rconConfiguration: RCONConfiguration) => {
+    return await updateRconConfigurationMutateAsync({
+      uuid,
+      data: rconConfiguration,
+    });
+  };
+
   return {
     deleteGameServer,
     createInvite,
     revokeInvite,
     createGameServer,
     updateGameServer,
+    updateRconConfiguration,
   };
 };
 
