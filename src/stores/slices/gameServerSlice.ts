@@ -15,10 +15,14 @@ const gameServerSlice = createSlice({
   initialState: {
     data: [],
     state: "idle",
+    initialized: false,
     pullProgress: {},
-  } as SliceState<GameServerDto> & { pullProgress: Record<string, DockerPullProgressDto> },
+  } as SliceState<GameServerDto> & { pullProgress: Record<string, DockerPullProgressDto> } & {
+    initialized: boolean;
+  },
   reducers: {
     setGameServer: (state, action: PayloadAction<GameServerDto[]>) => {
+      state.initialized = true;
       state.data = action.payload;
     },
     updateGameServerStatus: (
@@ -46,6 +50,7 @@ const gameServerSlice = createSlice({
       );
     },
     addGameServer: (state, action: PayloadAction<GameServerDto>) => {
+      state.initialized = true;
       state.data.push(action.payload);
     },
     removeGameServer: (state, action: PayloadAction<string>) => {

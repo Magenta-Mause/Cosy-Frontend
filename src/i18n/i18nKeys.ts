@@ -178,6 +178,7 @@ export type i18nLanguage = {
 
   serverPage: {
     notFound: string;
+    notFoundGoBack: string;
     start: string;
     stop: string;
     pullingImage: string;

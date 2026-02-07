@@ -9,11 +9,11 @@ export const Route = createFileRoute("/server/$serverId/files/$")({
 
 function RouteComponent() {
   const { serverId } = Route.useParams();
-  const gameServer = useGameServer(serverId);
+  const { gameServer } = useGameServer(serverId);
   const { t } = useTranslation();
   const { _splat: path } = Route.useParams();
 
-  if (gameServer === undefined)
+  if (!gameServer)
     return (
       <div className="flex justify-center items-center h-screen">{t("filesPage.loading")}</div>
     );

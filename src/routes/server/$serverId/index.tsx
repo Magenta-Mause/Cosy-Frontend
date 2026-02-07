@@ -1,7 +1,6 @@
 import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
 import MetricGraph from "@components/display/MetricDisplay/MetricGraph";
 import { createFileRoute } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
 import { GameServerDtoStatus } from "@/api/generated/model";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
@@ -13,14 +12,13 @@ export const Route = createFileRoute("/server/$serverId/")({
 });
 
 function GameServerDetailPageDashboardPage() {
-  const { t } = useTranslation();
   const { serverId } = Route.useParams();
-  const gameServer = useGameServer(serverId ?? "");
   const { logs } = useGameServerLogs(serverId ?? "");
   const { metrics } = useGameServerMetrics(serverId ?? "");
+  const { gameServer } = useGameServer(serverId ?? "");
 
-  if (!serverId || !gameServer) {
-    return <div>{t("serverPage.notFound")}</div>;
+  if (!gameServer) {
+    return null;
   }
 
   const isServerRunning = gameServer.status === GameServerDtoStatus.RUNNING;
