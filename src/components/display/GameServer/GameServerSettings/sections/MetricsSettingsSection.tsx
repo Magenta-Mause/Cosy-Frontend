@@ -81,7 +81,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
 
     setMetricLayoutState(
       metricLayoutState.map((metric) =>
-        metric.uuid === uuid ? { ...metric, metric_type: type } : metric,
+        metric._uiUuid === uuid ? { ...metric, metric_type: type } : metric,
       ),
     );
   };
