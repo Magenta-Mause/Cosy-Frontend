@@ -1,6 +1,5 @@
 import GameServerSettingsLayout from "@components/display/GameServer/GameServerSettings/GameServerSettingsLayout";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { useTranslation } from "react-i18next";
 import useGameServer from "@/hooks/useGameServer/useGameServer";
 
 export const Route = createFileRoute("/server/$serverId/settings")({
@@ -8,12 +7,11 @@ export const Route = createFileRoute("/server/$serverId/settings")({
 });
 
 function RouteComponent() {
-  const { t } = useTranslation();
   const { serverId } = Route.useParams();
-  const gameServer = useGameServer(serverId ?? "");
+  const { gameServer } = useGameServer(serverId ?? "");
 
-  if (!serverId || !gameServer) {
-    return <div>{t("serverPage.notFound")}</div>;
+  if (!gameServer) {
+    return null;
   }
 
   return (

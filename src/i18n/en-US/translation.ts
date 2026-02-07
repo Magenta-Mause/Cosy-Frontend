@@ -490,7 +490,8 @@ const translation: i18nLanguage = {
     cantSendCommands: "Server must be running to send commands",
   },
   serverPage: {
-    notFound: "not found",
+    notFound: "404 - Server Not Found",
+    notFoundGoBack: "Take me Home",
     start: "Start",
     stop: "Shutdown",
     back: "Back",

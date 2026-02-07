@@ -3,10 +3,22 @@ import { useTypedSelector } from "@/stores/rootReducer.ts";
 
 const useGameServer = (serverUuid: string) => {
   const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
-  return useMemo(
-    () => gameServers.find((server) => server.uuid === serverUuid),
-    [gameServers, serverUuid],
+  const gameServersInitialized = useTypedSelector(
+    (state) => state.gameServerSliceReducer.initialized,
   );
+
+  return useMemo(() => {
+    if (gameServersInitialized === false) {
+      return { server: undefined, initialized: false };
+    }
+
+    const gameServer = gameServers.find((server) => server.uuid === serverUuid);
+
+    return {
+      gameServer,
+      initialized: true,
+    };
+  }, [gameServersInitialized, gameServers, serverUuid]);
 };
 
 export default useGameServer;
