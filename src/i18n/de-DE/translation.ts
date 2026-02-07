@@ -103,7 +103,7 @@ const translation: i18nLanguage = {
     title: "Sind Sie sicher?",
     description: "Diese Aktion kann nicht rückgängig gemacht werden!",
     explanation:
-      "Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
+      "Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und ALLE zugehörigen Dateien von dem Server entfernt.",
     inputLabel: "Geben Sie den Namen des Gameservers ein, um sicherzugehen:",
     cancel: "Abbrechen",
     confirm: "Löschen",
