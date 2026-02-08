@@ -9,33 +9,46 @@ interface InputProps extends React.ComponentProps<"input"> {
   startDecorator?: React.ReactNode;
   endDecorator?: string | React.ReactNode;
   error?: string | React.ReactNode;
+  wrapperClassName?: string;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({
-  className,
-  type,
-  header,
-  description,
-  startDecorator,
-  endDecorator,
-  error,
-  ...props
-}: InputProps, ref) {
+                                                                              className,
+                                                                              type,
+                                                                              header,
+                                                                              description,
+                                                                              endDecorator,
+                                                                              startDecorator,
+                                                                              error,
+                                                                              wrapperClassName,
+                                                                              ...props
+                                                                            }: InputProps, ref) {
+  const startDecoratorRef = React.useRef<HTMLDivElement>(null);
+  const [startPadding, setStartPadding] = React.useState<number>(0);
+
+  React.useLayoutEffect(() => {
+    if (startDecorator && startDecoratorRef.current) {
+      const width = startDecoratorRef.current.offsetWidth;
+      setStartPadding(width + 16); // 8px buffer on each side
+    } else {
+      setStartPadding(0);
+    }
+  }, [startDecorator]);
+
   return (
-    <div>
+    <div className={wrapperClassName}>
       {header && (
         <Label htmlFor={props.id} className="pb-2 font-bold">
           {header}
         </Label>
       )}
 
-      <div className="relative w-full">
+      <div className="flex relative w-full">
         {startDecorator && (
-          <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-muted-foreground">
+          <div className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-muted-foreground z-10">
             {startDecorator}
           </div>
         )}
-
         <input
           ref={ref}
           type={type}
@@ -50,6 +63,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({
             error && "border-destructive",
             className
           )}
+          style={{
+            paddingLeft: startPadding ? `${startPadding}px` : undefined,
+          }}
           aria-invalid={error ? true : undefined}
           {...props}
         />

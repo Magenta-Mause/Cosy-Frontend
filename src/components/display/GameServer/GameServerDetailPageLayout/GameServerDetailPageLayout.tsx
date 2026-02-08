@@ -1,7 +1,7 @@
 import GameServerDetailPageHeader from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageHeader/GameServerDetailPageHeader.tsx";
 import { Button } from "@components/ui/button.tsx";
 import Link from "@components/ui/Link.tsx";
-import { useRouter } from "@tanstack/react-router";
+import { useLocation } from "@tanstack/react-router";
 import {
   ChartAreaIcon,
   DoorClosedIcon,
@@ -66,7 +66,7 @@ const GameServerDetailPageLayout = (props: {
   children: React.ReactNode;
 }) => {
   const { t } = useTranslation();
-  const router = useRouter();
+  const location = useLocation();
 
   return (
     <GameServerDetailContext.Provider value={{ gameServer: props.gameServer }}>
@@ -99,13 +99,16 @@ const GameServerDetailPageLayout = (props: {
         <div className="flex flex-col justify-center items-end w-[10%]">
           {TABS.map(({ label, icon, path, activePathPattern }) => (
             <div key={`${label}:${path}`} className={"relative"}>
-              <Link key={label} to={path} activeOptions={{ exact: true }} className={"group"}>
+              <Link
+                key={label}
+                to={path}
+                activeOptions={{ exact: !activePathPattern }}
+                className={"group"}
+              >
                 {({ isActive }) => (
                   <FancyNavigationButton
                     isActive={
-                      activePathPattern
-                        ? activePathPattern.test(router.state.location.pathname)
-                        : isActive
+                      activePathPattern ? activePathPattern.test(location.pathname) : isActive
                     }
                     label={t(`serverPage.navbar.${label}`)}
                   >
@@ -143,7 +146,7 @@ const FancyNavigationButton = (
       <div
         className={cn(
           `group-focus:max-w-28 group-focus:${compiledMargin}-1 group-focus:opacity-100`,
-          `group-hover:max-w-25 group-hover:${compiledMargin}-1 group-hover:opacity-100`,
+          `group-hover:max-w-30 group-hover:${compiledMargin}-1 group-hover:opacity-100`,
           "top-[50%] max-w-0 opacity-0 duration-400 transition-all",
           `align-middle justify-center m-auto relative ${compiledMargin}-0 overflow-clip`,
         )}
