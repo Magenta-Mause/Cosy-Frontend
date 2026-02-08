@@ -51,6 +51,11 @@ export type i18nLanguage = {
     usernameLabel: string;
     usernamePlaceholder: string;
     usernameDescription: string;
+    usernameErrors: {
+      tooShort: string;
+      tooLong: string;
+      invalidCharacters: string;
+    };
     cancel: string;
     generateInvite: string;
     creating: string;
