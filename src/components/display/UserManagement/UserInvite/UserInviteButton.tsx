@@ -35,8 +35,6 @@ const UserInviteButton = (props: { className?: string }) => {
   const MIN_USERNAME_LENGTH = 3;
   const MAX_USERNAME_LENGTH = 50;
 
-
-
   const validateUsername = (username: string): string | null => {
     if (!username) return null;
 

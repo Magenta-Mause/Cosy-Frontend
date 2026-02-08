@@ -1,5 +1,5 @@
-import { Button } from "@components/ui/button.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
+import { Button } from "@components/ui/button.tsx";
 import { useRouter } from "@tanstack/react-router";
 import { ArrowBigRight } from "lucide-react";
 import { useContext } from "react";
@@ -17,7 +17,7 @@ const UserDetailListRedirectButton = () => {
       role: auth.role,
       username: auth.username,
     },
-    ["OWNER", "ADMIN"]
+    ["OWNER", "ADMIN"],
   );
 
   if (!hasAccess) {

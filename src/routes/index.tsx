@@ -47,9 +47,7 @@ function Index() {
 
     // QUOTA_USER can only see their own servers
     if (auth.role === "QUOTA_USER") {
-      return gameServers.filter(
-        (server) => server.owner?.username === auth.username
-      );
+      return gameServers.filter((server) => server.owner?.username === auth.username);
     }
 
     return [];

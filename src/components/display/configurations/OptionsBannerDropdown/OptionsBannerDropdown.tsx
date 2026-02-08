@@ -1,21 +1,20 @@
-import LanguageSelector
-  from "@components/display/configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
+import LanguageSelector from "@components/display/configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
 import LogOutButton from "@components/display/configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
 import UserMenuButton from "@components/display/configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
-import {Tooltip, TooltipContent, TooltipTrigger} from "@components/ui/tooltip.tsx";
-import {useContext, useEffect, useRef, useState} from "react";
-import {useTranslation} from "react-i18next";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import banner from "@/assets/Banner.webp";
-import {cn} from "@/lib/utils.ts";
-import {AuthContext} from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { cn } from "@/lib/utils.ts";
 
 const OptionsBannerDropdown = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [userTooltipOpen, setUserTooltipOpen] = useState(false);
   const [logOutTooltipOpen, setLogOutTooltipOpen] = useState(false);
   const bannerRef = useRef<HTMLButtonElement>(null);
-  const {t} = useTranslation();
-  const {authorized} = useContext(AuthContext);
+  const { t } = useTranslation();
+  const { authorized } = useContext(AuthContext);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -52,7 +51,7 @@ const OptionsBannerDropdown = () => {
     };
 
     const observer = new MutationObserver(closeTooltipsWhenDialogOpens);
-    observer.observe(document.body, {childList: true, subtree: true});
+    observer.observe(document.body, { childList: true, subtree: true });
 
     return () => observer.disconnect();
   }, []);
@@ -104,7 +103,7 @@ const OptionsBannerDropdown = () => {
           <Tooltip>
             <TooltipTrigger asChild>
               <div>
-                <LanguageSelector onLanguageChange={() => setIsExpanded(false)}/>
+                <LanguageSelector onLanguageChange={() => setIsExpanded(false)} />
               </div>
             </TooltipTrigger>
             <TooltipContent side="right">
@@ -121,7 +120,7 @@ const OptionsBannerDropdown = () => {
                 onPointerDown={() => setUserTooltipOpen(false)}
               >
                 <div>
-                  <UserMenuButton/>
+                  <UserMenuButton />
                 </div>
               </TooltipTrigger>
               <TooltipContent side="right">
@@ -135,7 +134,7 @@ const OptionsBannerDropdown = () => {
                 onPointerDown={() => setLogOutTooltipOpen(false)}
               >
                 <div>
-                  <LogOutButton/>
+                  <LogOutButton />
                 </div>
               </TooltipTrigger>
               <TooltipContent side="right">

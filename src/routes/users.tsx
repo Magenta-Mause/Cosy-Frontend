@@ -1,6 +1,6 @@
 import UserTable from "@components/display/UserManagement/UserDetailPage/UserTable";
-import { Button } from "@components/ui/button";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
+import { Button } from "@components/ui/button";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 import { useContext, useEffect } from "react";
@@ -25,7 +25,7 @@ function UserDetailPage() {
         role: auth.role,
         username: auth.username,
       },
-      ["OWNER", "ADMIN"]
+      ["OWNER", "ADMIN"],
     );
 
     if (!hasAccess) {
@@ -39,7 +39,7 @@ function UserDetailPage() {
       role: auth.role,
       username: auth.username,
     },
-    ["OWNER", "ADMIN"]
+    ["OWNER", "ADMIN"],
   );
 
   if (!hasAccess) {

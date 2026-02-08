@@ -1,10 +1,10 @@
 import GameServerDetailPageLayout from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageLayout.tsx";
+import { GameServerNotFoundPage } from "@components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { useContext } from "react";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import { canAccessServer } from "@/utils/routeGuards";
-import { GameServerNotFoundPage } from "@components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
 
 export const Route = createFileRoute("/server/$serverId")({
   component: GameServerDetailPage,
@@ -29,7 +29,7 @@ function GameServerDetailPage() {
       role: auth.role,
       username: auth.username,
     },
-    gameServer.owner?.username
+    gameServer.owner?.username,
   );
 
   if (!hasAccess) {
