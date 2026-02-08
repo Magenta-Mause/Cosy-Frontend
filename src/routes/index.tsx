@@ -7,6 +7,7 @@ import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
 import { InviteRedemptionModal } from "@/components/display/UserManagement/UserInvite/InviteRedemptionModal/InviteRedemptionModal.tsx";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
+import { filterVisibleServers } from "@/utils/routeGuards";
 
 interface IndexSearch {
   inviteToken?: string;
@@ -36,21 +37,14 @@ function Index() {
 
   // Filter game servers based on user role
   const visibleGameServers = useMemo(() => {
-    if (!auth.authorized || !auth.role) {
-      return [];
-    }
-
-    // OWNER and ADMIN can see all servers
-    if (auth.role === "OWNER" || auth.role === "ADMIN") {
-      return gameServers;
-    }
-
-    // QUOTA_USER can only see their own servers
-    if (auth.role === "QUOTA_USER") {
-      return gameServers.filter((server) => server.owner?.username === auth.username);
-    }
-
-    return [];
+    return filterVisibleServers(
+      {
+        authorized: auth.authorized,
+        role: auth.role,
+        username: auth.username,
+      },
+      gameServers,
+    );
   }, [gameServers, auth.authorized, auth.role, auth.username]);
 
   useEffect(() => {

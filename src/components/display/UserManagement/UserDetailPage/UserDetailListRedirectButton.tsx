@@ -4,6 +4,7 @@ import { useRouter } from "@tanstack/react-router";
 import { ArrowBigRight } from "lucide-react";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { UserEntityDtoRole } from "@/api/generated/model";
 import { requireRoles } from "@/utils/routeGuards";
 
 const UserDetailListRedirectButton = () => {
@@ -17,7 +18,7 @@ const UserDetailListRedirectButton = () => {
       role: auth.role,
       username: auth.username,
     },
-    ["OWNER", "ADMIN"],
+    [UserEntityDtoRole.OWNER, UserEntityDtoRole.ADMIN],
   );
 
   if (!hasAccess) {
