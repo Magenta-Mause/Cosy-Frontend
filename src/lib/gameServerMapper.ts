@@ -9,8 +9,8 @@ export const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdat
   })),
   environment_variables: server.environment_variables,
   volume_mounts: server.volume_mounts?.map((v) => ({
-    host_path: v.host_path ?? "",
-    container_path: v.container_path ?? "",
+    container_path: v.container_path,
+    uuid: v.uuid,
   })),
   execution_command: server.execution_command,
   docker_hardware_limits: {

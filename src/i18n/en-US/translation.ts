@@ -256,7 +256,7 @@ const translation: i18nLanguage = {
           hostPathSelection: {
             title: "Volume Mount",
             description: "Volume mounts for your server",
-            errorLabel: "Either both host path and container path must be provided or neither.",
+            errorLabel: "Path cannot be equal to '/'.",
           },
           memoryLimitSelection: {
             title: "RAM Limit",

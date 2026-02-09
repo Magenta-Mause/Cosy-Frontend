@@ -8,7 +8,6 @@
 
 export interface VolumeMountConfigurationCreationDto {
   /** @minLength 1 */
-  host_path: string;
-  /** @minLength 1 */
   container_path: string;
+  uuid?: string;
 }
