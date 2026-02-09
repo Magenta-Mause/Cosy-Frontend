@@ -23,7 +23,7 @@ const SizeDropDown = (props: SizeDropDownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="w-full">
+        <Button variant='secondary' className="w-full">
           {t(`cardWidth.${metric.size}`)}
           <ChevronDown className="-m-1" />
         </Button>

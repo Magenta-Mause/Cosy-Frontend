@@ -95,7 +95,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
             {metricLayoutState.map((metric) => (
               <Card
                 key={metric._uiUuid}
-                className={`relative border-2 border-primary-border rounded-md 
+                className={`relative border-2 border-primary-border rounded-md bg-background/80
                 w-full h-[16vh] justify-center ${COL_SPAN_MAP[metric.size ?? MetricLayoutSize.MEDIUM]}`}
               >
                 <Button
@@ -126,7 +126,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
             <Button
               onClick={handleOnAdd}
               variant="secondary"
-              className="outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none"
+              className="outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none bg-background/35"
             >
               <div className="flex items-center">
                 <Plus className="-size-2" />

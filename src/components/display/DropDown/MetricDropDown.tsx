@@ -37,7 +37,7 @@ const MetricDropDown = (props: {
   return (
     <DropdownMenu open={props.disabled ? false : undefined}>
       <DropdownMenuTrigger asChild>
-        <Button className={`${props.className}`} disabled={props.disabled}>
+        <Button variant='secondary' className={`${props.className}`} disabled={props.disabled}>
           <span className="truncate max-w-3 md:max-w-10 lg:max-w-50">
             {t(`metrics.types.${props.metricType}`)}
           </span>
