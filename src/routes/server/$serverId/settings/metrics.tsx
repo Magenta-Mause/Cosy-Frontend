@@ -10,7 +10,7 @@ export const Route = createFileRoute("/server/$serverId/settings/metrics")({
 function RouteComponent() {
   const { t } = useTranslation();
   const { serverId } = Route.useParams();
-  const gameServer = useGameServer(serverId ?? "");
+  const { gameServer } = useGameServer(serverId ?? "");
 
   if (!serverId || !gameServer) {
     return <div>{t("serverPage.notFound")}</div>;
