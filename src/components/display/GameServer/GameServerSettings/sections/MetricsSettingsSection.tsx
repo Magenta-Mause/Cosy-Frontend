@@ -22,13 +22,14 @@ const wrapMetric = (metric: MetricLayout): MetricLayoutUI => ({
   _uiUuid: metric.uuid ?? generateUuid(),
 });
 
-const wrapMetrics = (metrics: MetricLayout[]): MetricLayoutUI[] =>
-  metrics.map(wrapMetric);
+const wrapMetrics = (metrics: MetricLayout[]): MetricLayoutUI[] => metrics.map(wrapMetric);
 
 export default function MetricsSettingsSection(props: MetricSetting) {
   const { gameServer } = props;
   const { t } = useTranslationPrefix("components");
-  const [metricLayoutState, setMetricLayoutState] = useState<MetricLayoutUI[]>(() => wrapMetrics(gameServer.metric_layout));
+  const [metricLayoutState, setMetricLayoutState] = useState<MetricLayoutUI[]>(() =>
+    wrapMetrics(gameServer.metric_layout),
+  );
   const dispatch = useDispatch();
 
   const isChanged = useMemo(() => {
@@ -71,7 +72,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
     const newMetric = wrapMetric({
       metric_type: MetricsType.CPU_PERCENT,
       size: MetricLayoutSize.MEDIUM,
-    })
+    });
 
     setMetricLayoutState([...metricLayoutState, newMetric]);
   };

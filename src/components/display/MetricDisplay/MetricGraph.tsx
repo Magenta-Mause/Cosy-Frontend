@@ -109,9 +109,7 @@ const MetricGraph = (props: MetricGraphProps) => {
     >
       <CardHeader>
         <div>
-          <CardTitle>
-            {t(`metrics.types.${type}`)}
-          </CardTitle>
+          <CardTitle>{t(`metrics.types.${type}`)}</CardTitle>
           <CardDescription>
             {t("metrics.metricDescription", { type: t(`metrics.types.${type}`) })}
           </CardDescription>
