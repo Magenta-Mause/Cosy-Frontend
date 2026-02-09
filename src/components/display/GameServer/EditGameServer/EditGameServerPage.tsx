@@ -94,7 +94,11 @@ const EditGameServerPage = (props: {
       gameServerState.volume_mounts.length === 0 ||
       gameServerState.volume_mounts.every((vol) => {
         if (!vol.container_path) return true;
-        return z.string().min(1).safeParse(vol.container_path).success;
+        return z
+          .string()
+          .min(1)
+          .refine((path) => path !== "/")
+          .safeParse(vol.container_path).success;
       });
 
     const cpuLimitValid =
