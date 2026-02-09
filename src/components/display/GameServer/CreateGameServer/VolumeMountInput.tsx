@@ -33,7 +33,10 @@ function VolumeMountInput({ attribute, label, description, errorLabel, placehold
   const computeValue = useCallback((items: VolumeMountItem[]) => {
     const mapped: VolumeMountConfigurationCreationDto[] = [];
     items.forEach((item) => {
-      mapped.push({ container_path: item.container_path });
+      const trimmed = (item.container_path ?? "").trim();
+      if (trimmed.length > 0) {
+        mapped.push({ container_path: trimmed });
+      }
     });
     return mapped;
   }, []);
