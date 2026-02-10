@@ -1,13 +1,14 @@
-import UserDetailListRedirectButton from "@components/display/UserManagement/UserDetailPage/UserDetailListRedirectButton";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
+import UserDetailListRedirectButton
+  from "@components/display/UserManagement/UserDetailPage/UserDetailListRedirectButton";
 import { createFileRoute } from "@tanstack/react-router";
-import { useContext, useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
-import { InviteRedemptionModal } from "@/components/display/UserManagement/UserInvite/InviteRedemptionModal/InviteRedemptionModal.tsx";
+import {
+  InviteRedemptionModal
+} from "@/components/display/UserManagement/UserInvite/InviteRedemptionModal/InviteRedemptionModal.tsx";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
-import { filterVisibleServers } from "@/utils/routeGuards";
 
 interface IndexSearch {
   inviteToken?: string;
@@ -24,7 +25,6 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
-  const auth = useContext(AuthContext);
   const { inviteToken } = Route.useSearch();
   const navigate = Route.useNavigate();
 
@@ -34,18 +34,6 @@ function Index() {
       replace: true,
     });
   };
-
-  // Filter game servers based on user role
-  const visibleGameServers = useMemo(() => {
-    return filterVisibleServers(
-      {
-        authorized: auth.authorized,
-        role: auth.role,
-        username: auth.username,
-      },
-      gameServers,
-    );
-  }, [gameServers, auth.authorized, auth.role, auth.username]);
 
   useEffect(() => {
     const savedPosition = sessionStorage.getItem("homeScrollPosition");
@@ -58,10 +46,10 @@ function Index() {
   return (
     <div className="relative w-full min-h-screen">
       <div className="relative w-full">
-        <GameServerBackground houseCount={visibleGameServers.length + 1} />
+        <GameServerBackground houseCount={gameServers.length + 1}/>
 
         <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
-          <GameServerDisplay gameServerConfigurations={visibleGameServers} />
+          <GameServerDisplay gameServerConfigurations={gameServers}/>
         </div>
       </div>
 
@@ -81,5 +69,3 @@ function Index() {
     </div>
   );
 }
-
-export default Index;

@@ -31,24 +31,3 @@ export const canAccessServer = (authState: AuthState, serverOwner: string | unde
 
   return false;
 };
-
-export const filterVisibleServers = <T extends { owner?: { username?: string } }>(
-  authState: AuthState,
-  servers: T[],
-): T[] => {
-  if (!requireAuth(authState) || !authState.role) {
-    return [];
-  }
-
-  // OWNER and ADMIN can see all servers
-  if (authState.role === UserEntityDtoRole.OWNER || authState.role === UserEntityDtoRole.ADMIN) {
-    return servers;
-  }
-
-  // QUOTA_USER can only see their own servers
-  if (authState.role === UserEntityDtoRole.QUOTA_USER) {
-    return servers.filter((server) => server.owner?.username === authState.username);
-  }
-
-  return [];
-};
