@@ -1,5 +1,5 @@
 import { Button } from "@components/ui/button.tsx";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
+import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { Copy } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -18,26 +18,24 @@ export const InviteResult = ({ generatedKey, onCopyLink }: InviteResultProps) =>
         <div className="bg-muted p-4 rounded-lg break-all text-center text-xl font-bold border-2 border-dashed border-primary/20 tracking-widest">
           {generatedKey}
         </div>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              type="button"
-              className="text-xs text-center text-muted-foreground break-all px-2 cursor-pointer hover:text-foreground transition-colors focus:outline-none focus:underline bg-transparent border-none p-0"
-              onClick={onCopyLink}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  onCopyLink();
-                }
-              }}
-            >
-              {generatedKey ? `${window.location.origin}/?inviteToken=${generatedKey}` : ""}
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>{t("userModal.copyTooltip")}</p>
-          </TooltipContent>
-        </Tooltip>
+        <TooltipWrapper
+          tooltip={t("userModal.copyTooltip")}
+          asChild
+        >
+          <button
+            type="button"
+            className="text-xs text-center text-muted-foreground break-all px-2 cursor-pointer hover:text-foreground transition-colors focus:outline-none focus:underline bg-transparent border-none p-0"
+            onClick={onCopyLink}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onCopyLink();
+              }
+            }}
+          >
+            {generatedKey ? `${window.location.origin}/?inviteToken=${generatedKey}` : ""}
+          </button>
+        </TooltipWrapper>
       </div>
       <p className="text-sm text-center text-muted-foreground">
         {t("userModal.shareInstructions")}

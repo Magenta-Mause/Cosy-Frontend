@@ -2,7 +2,7 @@ import LanguageSelector from "@components/display/configurations/OptionsBannerDr
 import LogOutButton from "@components/display/configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
 import UserMenuButton from "@components/display/configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
+import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import banner from "@/assets/Banner.webp";
@@ -100,47 +100,48 @@ const OptionsBannerDropdown = () => {
         )}
       >
         <div className={isExpanded && !authorized ? "translate-y-[130%]" : ""}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div>
-                <LanguageSelector onLanguageChange={() => setIsExpanded(false)} />
-              </div>
-            </TooltipTrigger>
-            <TooltipContent side="right">
-              <p>{t("optionsBanner.languageSelector")}</p>
-            </TooltipContent>
-          </Tooltip>
+          <TooltipWrapper
+            tooltip={t("optionsBanner.languageSelector")}
+            side="right"
+            asChild
+          >
+            <div>
+              <LanguageSelector onLanguageChange={() => setIsExpanded(false)} />
+            </div>
+          </TooltipWrapper>
         </div>
         {authorized && (
           <>
-            <Tooltip open={userTooltipOpen} onOpenChange={setUserTooltipOpen}>
-              <TooltipTrigger
-                asChild
-                onMouseDown={() => setUserTooltipOpen(false)}
-                onPointerDown={() => setUserTooltipOpen(false)}
-              >
-                <div>
-                  <UserMenuButton />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent side="right">
-                <p>{t("optionsBanner.userMenu")}</p>
-              </TooltipContent>
-            </Tooltip>
-            <Tooltip open={logOutTooltipOpen} onOpenChange={setLogOutTooltipOpen}>
-              <TooltipTrigger
-                asChild
-                onMouseDown={() => setLogOutTooltipOpen(false)}
-                onPointerDown={() => setLogOutTooltipOpen(false)}
-              >
-                <div>
-                  <LogOutButton />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent side="right">
-                <p>{t("optionsBanner.logout")}</p>
-              </TooltipContent>
-            </Tooltip>
+            <TooltipWrapper
+              tooltip={t("optionsBanner.userMenu")}
+              side="right"
+              open={userTooltipOpen}
+              onOpenChange={setUserTooltipOpen}
+              triggerProps={{
+                onMouseDown: () => setUserTooltipOpen(false),
+                onPointerDown: () => setUserTooltipOpen(false),
+              }}
+              asChild
+            >
+              <div>
+                <UserMenuButton />
+              </div>
+            </TooltipWrapper>
+            <TooltipWrapper
+              tooltip={t("optionsBanner.logout")}
+              side="right"
+              open={logOutTooltipOpen}
+              onOpenChange={setLogOutTooltipOpen}
+              triggerProps={{
+                onMouseDown: () => setLogOutTooltipOpen(false),
+                onPointerDown: () => setLogOutTooltipOpen(false),
+              }}
+              asChild
+            >
+              <div>
+                <LogOutButton />
+              </div>
+            </TooltipWrapper>
           </>
         )}
       </div>
