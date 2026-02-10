@@ -393,6 +393,19 @@ export type i18nLanguage = {
         description: string;
         errorLabel: string;
       };
+      uncosyZone: {
+        title: string;
+        handOver: {
+          title: string;
+          description: string;
+          button: string;
+        };
+        delete: {
+          title: string;
+          description: string;
+          button: string;
+        };
+      };
     };
     userManagement: {
       backButton: string;

@@ -396,6 +396,21 @@ const translation: i18nLanguage = {
         description: "Limit the CPU usage of the server",
         errorLabel: "Please enter a valid CPU limit.",
       },
+      uncosyZone: {
+        title: "Uncosy Zone",
+        handOver: {
+          title: "Hand over Server",
+          description:
+            "If you want to stop hosting this server but don't want to delete it, you can hand it over to someone else. This will transfer ownership of the server to another user, allowing them to manage and host it instead.",
+          button: "Hand over",
+        },
+        delete: {
+          title: "Delete Server",
+          description:
+            "If you want to permanently delete this server, you can do so here. This action cannot be undone and will remove all data associated with the server.",
+          button: "Delete",
+        },
+      },
     },
 
     userManagement: {

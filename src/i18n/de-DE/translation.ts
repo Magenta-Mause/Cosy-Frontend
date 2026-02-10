@@ -397,6 +397,21 @@ const translation: i18nLanguage = {
         description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
         errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
       },
+      uncosyZone: {
+        title: "Uncosy Zone",
+        handOver: {
+          title: "Server übergeben",
+          description:
+            "Wenn du deinen Server an einen anderen Benutzer übergeben möchtest, kannst du das hier tun. Dadurch erhält der andere Benutzer die volle Kontrolle über den Server und seine Konfiguration.",
+          button: "Server übergeben",
+        },
+        delete: {
+          title: "Server löschen",
+          description:
+            "Wenn du deinen Server löschen möchtest, kannst du das hier tun. Dadurch wird deine Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
+          button: "Server löschen",
+        },
+      },
     },
     GameServerSettings: {
       tabs: {
