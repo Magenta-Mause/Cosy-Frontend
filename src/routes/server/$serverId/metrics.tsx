@@ -15,6 +15,5 @@ function RouteComponent() {
   if (!gameServer) {
     return null;
   }
-
-  return <MetricDisplay metrics={metrics} gameServerUuid={serverId} />;
+  return <MetricDisplay metrics={metrics} gameServer={gameServer} />;
 }

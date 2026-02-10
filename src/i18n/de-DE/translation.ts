@@ -414,6 +414,11 @@ const translation: i18nLanguage = {
         metrics: "Metrik-Einstellungen",
         accessManagement: "Zugriffsverwaltungs-Einstellungen",
       },
+      metrics: {
+        type: "Typen",
+        width: "Breite",
+        add: "Metrik hinzufügen",
+      },
     },
     gameServerSettings: {
       rconSettings: {
@@ -470,7 +475,7 @@ const translation: i18nLanguage = {
           username: "Name",
           role: "Rolle",
           max_cpu: "CPU Limit",
-          max_memory: "Speicher Limit",
+          max_memory: "RAM Limit",
         },
         noUsersFound: "Keine Benutzer gefunden",
         pendingInvites: "Ausstehende Einladungen",
@@ -517,18 +522,17 @@ const translation: i18nLanguage = {
     STOPPING: "Stoppt...",
   },
   metrics: {
-    metricTitle: "{{type}} Metrik",
     metricDescription: "{{type}} Metrik über Zeit",
     configure: "Metriken konfigurieren",
     types: {
       CPU_PERCENT: "CPU",
-      MEMORY_PERCENT: "Arbeitsspeicher",
-      MEMORY_USAGE: "Arbeitsspeicher Nutzung",
-      MEMORY_LIMIT: "Arbeitsspeicher Limit",
-      NETWORK_INPUT: "Netzwerk Eingehend",
-      NETWORK_OUTPUT: "Netzwerk Ausgehend",
-      BLOCK_READ: "Speicher Lesevorgänge",
-      BLOCK_WRITE: "Speicher Schreibvorgänge",
+      MEMORY_PERCENT: "RAM",
+      MEMORY_USAGE: "RAM Nutzung",
+      MEMORY_LIMIT: "RAM Limit",
+      NETWORK_INPUT: "Netz Eingang",
+      NETWORK_OUTPUT: "Netz Ausgang",
+      BLOCK_READ: "Speicher Lesen",
+      BLOCK_WRITE: "Speicher Schreiben",
     },
     liveMetricsOn: "Live-Metriken: An",
     liveMetricsOff: "Live-Metriken: Aus",
@@ -546,6 +550,11 @@ const translation: i18nLanguage = {
   datepicker: {
     title: "Benutzerdefinierter Zeitraum",
     des: "Wählen Sie einen benutzerdefinierten Zeitraum für die Metriken aus.",
+  },
+  cardWidth: {
+    SMALL: "Klein",
+    MEDIUM: "Mittel",
+    LARGE: "Groß",
   },
 };
 

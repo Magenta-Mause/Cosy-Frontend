@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { MetricLayoutMetricType } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,24 +24,23 @@ const DROPDOWN_OPTIONS: MetricsType[] = [
 
 const MetricDropDown = (props: {
   className?: string;
-  metricType: MetricsType;
+  disabled?: boolean;
+  metricType?: MetricLayoutMetricType | MetricsType;
   setMetricType: (unit: MetricsType) => void;
 }) => {
   const { t } = useTranslation();
-  const [selectedLabel, setSelectedLabel] = useState<string>(
-    t(`metrics.types.${props.metricType}`),
-  );
 
   const handleSelect = (type: MetricsType) => {
-    setSelectedLabel(t(`metrics.types.${type}`));
     props.setMetricType(type);
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={props.disabled ? false : undefined}>
       <DropdownMenuTrigger asChild>
-        <Button className={`${props.className}`}>
-          {selectedLabel}
+        <Button variant="secondary" className={`${props.className}`} disabled={props.disabled}>
+          <span className="truncate max-w-3 md:max-w-10 lg:max-w-50">
+            {t(`metrics.types.${props.metricType}`)}
+          </span>
           <ChevronDown className="-m-1" />
         </Button>
       </DropdownMenuTrigger>
