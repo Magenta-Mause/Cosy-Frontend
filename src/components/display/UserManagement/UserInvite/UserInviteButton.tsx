@@ -18,6 +18,8 @@ import { InviteForm } from "./InviteForm/InviteForm.tsx";
 import { InviteResult } from "./InviteForm/InviteResult.tsx";
 
 type ViewState = "invite" | "result";
+const MIN_USERNAME_LENGTH = 3;
+const MAX_USERNAME_LENGTH = 50;
 
 const UserInviteButton = (props: { className?: string }) => {
   const { t } = useTranslation();
@@ -31,9 +33,6 @@ const UserInviteButton = (props: { className?: string }) => {
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [usernameError, setUsernameError] = useState<string | null>(null);
-
-  const MIN_USERNAME_LENGTH = 3;
-  const MAX_USERNAME_LENGTH = 50;
 
   const validateUsername = (username: string): string | null => {
     if (!username) return null;
