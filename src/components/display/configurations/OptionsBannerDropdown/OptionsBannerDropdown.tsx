@@ -100,11 +100,7 @@ const OptionsBannerDropdown = () => {
         )}
       >
         <div className={isExpanded && !authorized ? "translate-y-[130%]" : ""}>
-          <TooltipWrapper
-            tooltip={t("optionsBanner.languageSelector")}
-            side="right"
-            asChild
-          >
+          <TooltipWrapper tooltip={t("optionsBanner.languageSelector")} side="right" asChild>
             <div>
               <LanguageSelector onLanguageChange={() => setIsExpanded(false)} />
             </div>

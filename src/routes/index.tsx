@@ -1,13 +1,10 @@
-import UserDetailListRedirectButton
-  from "@components/display/UserManagement/UserDetailPage/UserDetailListRedirectButton";
+import UserDetailListRedirectButton from "@components/display/UserManagement/UserDetailPage/UserDetailListRedirectButton";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
-import {
-  InviteRedemptionModal
-} from "@/components/display/UserManagement/UserInvite/InviteRedemptionModal/InviteRedemptionModal.tsx";
+import { InviteRedemptionModal } from "@/components/display/UserManagement/UserInvite/InviteRedemptionModal/InviteRedemptionModal.tsx";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 
 interface IndexSearch {
@@ -46,10 +43,10 @@ function Index() {
   return (
     <div className="relative w-full min-h-screen">
       <div className="relative w-full">
-        <GameServerBackground houseCount={gameServers.length + 1}/>
+        <GameServerBackground houseCount={gameServers.length + 1} />
 
         <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
-          <GameServerDisplay gameServerConfigurations={gameServers}/>
+          <GameServerDisplay gameServerConfigurations={gameServers} />
         </div>
       </div>
 

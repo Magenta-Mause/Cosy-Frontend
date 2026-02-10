@@ -96,10 +96,7 @@ function ListInputEditGameServer<T extends { uuid: string }>({
               )}
 
               {rowError && (
-                <TooltipWrapper
-                  tooltip={errorLabel}
-                  asChild
-                >
+                <TooltipWrapper tooltip={errorLabel} asChild>
                   <CircleAlertIcon className="text-red-500 w-5 h-5" />
                 </TooltipWrapper>
               )}

@@ -30,10 +30,7 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
           )}
         </div>
         <div className="flex items-center gap-3">
-          <TooltipWrapper
-            tooltip={t("userModal.copyTooltip")}
-            asChild
-          >
+          <TooltipWrapper tooltip={t("userModal.copyTooltip")} asChild>
             <Button
               variant="primary"
               className="h-10 w-10 hover:text-button-secondary-default"
@@ -49,10 +46,7 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
               <span className="sr-only">{t("userModal.copyLink")}</span>
             </Button>
           </TooltipWrapper>
-          <TooltipWrapper
-            tooltip={t("userModal.revokeTooltip")}
-            asChild
-          >
+          <TooltipWrapper tooltip={t("userModal.revokeTooltip")} asChild>
             <Button
               className="h-10 w-10 hover:text-destructive"
               onClick={() => invite.uuid && onRevoke(invite.uuid)}

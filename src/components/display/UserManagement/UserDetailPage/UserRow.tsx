@@ -41,10 +41,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
           </div>
         )}
         <div>
-          <TooltipWrapper
-            tooltip={t("components.userManagement.userRow.moreOptions")}
-            asChild
-          >
+          <TooltipWrapper tooltip={t("components.userManagement.userRow.moreOptions")} asChild>
             <Button className="h-10 w-10">
               <Ellipsis className="size-4" />
             </Button>

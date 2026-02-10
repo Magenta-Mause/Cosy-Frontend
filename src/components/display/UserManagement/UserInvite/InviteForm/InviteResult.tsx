@@ -18,10 +18,7 @@ export const InviteResult = ({ generatedKey, onCopyLink }: InviteResultProps) =>
         <div className="bg-muted p-4 rounded-lg break-all text-center text-xl font-bold border-2 border-dashed border-primary/20 tracking-widest">
           {generatedKey}
         </div>
-        <TooltipWrapper
-          tooltip={t("userModal.copyTooltip")}
-          asChild
-        >
+        <TooltipWrapper tooltip={t("userModal.copyTooltip")} asChild>
           <button
             type="button"
             className="text-xs text-center text-muted-foreground break-all px-2 cursor-pointer hover:text-foreground transition-colors focus:outline-none focus:underline bg-transparent border-none p-0"
