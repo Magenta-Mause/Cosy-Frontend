@@ -1,25 +1,15 @@
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
 import { Button } from "@components/ui/button.tsx";
 import { useRouter } from "@tanstack/react-router";
 import { ArrowBigRight } from "lucide-react";
-import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole } from "@/api/generated/model";
-import { requireRoles } from "@/utils/routeGuards";
+import { useRequireRoles } from "@/utils/routeGuards";
 
 const UserDetailListRedirectButton = () => {
   const router = useRouter();
   const { t } = useTranslation();
-  const auth = useContext(AuthContext);
 
-  const hasAccess = requireRoles(
-    {
-      authorized: auth.authorized,
-      role: auth.role,
-      username: auth.username,
-    },
-    [UserEntityDtoRole.OWNER, UserEntityDtoRole.ADMIN],
-  );
+  const hasAccess = useRequireRoles([UserEntityDtoRole.OWNER, UserEntityDtoRole.ADMIN]);
 
   if (!hasAccess) {
     return null;

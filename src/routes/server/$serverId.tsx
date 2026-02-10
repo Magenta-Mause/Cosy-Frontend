@@ -1,10 +1,8 @@
 import GameServerDetailPageLayout from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageLayout.tsx";
 import { GameServerNotFoundPage } from "@components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { useContext } from "react";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
-import { canAccessServer } from "@/utils/routeGuards";
+import { useCanAccessServer } from "@/utils/routeGuards";
 
 export const Route = createFileRoute("/server/$serverId")({
   component: GameServerDetailPage,
@@ -13,7 +11,7 @@ export const Route = createFileRoute("/server/$serverId")({
 function GameServerDetailPage() {
   const { serverId } = Route.useParams();
   const { gameServer, initialized } = useGameServer(serverId ?? "");
-  const auth = useContext(AuthContext);
+  const hasAccess = useCanAccessServer(gameServer?.owner?.username);
 
   if (initialized && !gameServer) {
     return <GameServerNotFoundPage />;
@@ -22,15 +20,6 @@ function GameServerDetailPage() {
   if (!gameServer) {
     return null;
   }
-
-  const hasAccess = canAccessServer(
-    {
-      authorized: auth.authorized,
-      role: auth.role,
-      username: auth.username,
-    },
-    gameServer.owner?.username,
-  );
 
   if (!hasAccess) {
     return null;

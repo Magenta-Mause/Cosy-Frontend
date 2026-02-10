@@ -1,3 +1,5 @@
+import { useContext, useMemo } from "react";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
 
 export interface AuthState {
@@ -30,4 +32,20 @@ export const canAccessServer = (authState: AuthState, serverOwner: string | unde
   }
 
   return false;
+};
+
+export const useRequireRoles = (allowedRoles: UserRole[]): boolean => {
+  const auth = useContext(AuthContext);
+  return useMemo(
+    () => requireRoles({ authorized: auth.authorized, role: auth.role, username: auth.username }, allowedRoles),
+    [auth.authorized, auth.role, auth.username, allowedRoles],
+  );
+};
+
+export const useCanAccessServer = (serverOwner: string | undefined): boolean => {
+  const auth = useContext(AuthContext);
+  return useMemo(
+    () => canAccessServer({ authorized: auth.authorized, role: auth.role, username: auth.username }, serverOwner),
+    [auth.authorized, auth.role, auth.username, serverOwner],
+  );
 };
