@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip";
+import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { Link, Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -30,41 +30,31 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
           )}
         </div>
         <div className="flex items-center gap-3">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="primary"
-                className="h-10 w-10 hover:text-button-secondary-default"
-                onClick={() => {
-                  if (invite.secret_key) {
-                    const link = `${window.location.origin}/?inviteToken=${invite.secret_key}`;
-                    navigator.clipboard.writeText(link);
-                    toast.success(t("toasts.copyClipboardSuccess"));
-                  }
-                }}
-              >
-                <Link className="size-5" />
-                <span className="sr-only">{t("userModal.copyLink")}</span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{t("userModal.copyTooltip")}</p>
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                className="h-10 w-10 hover:text-destructive"
-                onClick={() => invite.uuid && onRevoke(invite.uuid)}
-              >
-                <Trash2 className="size-5" />
-                <span className="sr-only">{t("userModal.revokeTooltip")}</span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{t("userModal.revokeTooltip")}</p>
-            </TooltipContent>
-          </Tooltip>
+          <TooltipWrapper tooltip={t("userModal.copyTooltip")} asChild>
+            <Button
+              variant="primary"
+              className="h-10 w-10 hover:text-button-secondary-default"
+              onClick={() => {
+                if (invite.secret_key) {
+                  const link = `${window.location.origin}/?inviteToken=${invite.secret_key}`;
+                  navigator.clipboard.writeText(link);
+                  toast.success(t("toasts.copyClipboardSuccess"));
+                }
+              }}
+            >
+              <Link className="size-5" />
+              <span className="sr-only">{t("userModal.copyLink")}</span>
+            </Button>
+          </TooltipWrapper>
+          <TooltipWrapper tooltip={t("userModal.revokeTooltip")} asChild>
+            <Button
+              className="h-10 w-10 hover:text-destructive"
+              onClick={() => invite.uuid && onRevoke(invite.uuid)}
+            >
+              <Trash2 className="size-5" />
+              <span className="sr-only">{t("userModal.revokeTooltip")}</span>
+            </Button>
+          </TooltipWrapper>
         </div>
       </CardContent>
     </Card>

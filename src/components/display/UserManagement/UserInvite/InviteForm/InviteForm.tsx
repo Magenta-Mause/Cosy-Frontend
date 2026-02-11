@@ -23,6 +23,7 @@ interface InviteFormProps {
   onCancel: () => void;
   onSubmit: () => void;
   isCreating: boolean;
+  usernameError?: string | null;
 }
 
 export const InviteForm = ({
@@ -35,6 +36,7 @@ export const InviteForm = ({
   onCpuChange,
   onSubmit,
   onUserRoleChange,
+  usernameError,
 }: InviteFormProps) => {
   const { t } = useTranslation();
 
@@ -55,6 +57,7 @@ export const InviteForm = ({
                   onSubmit();
                 }
               }}
+              error={usernameError}
             />
           </div>
           <div className="flex flex-col justify-start ">

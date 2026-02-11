@@ -18,9 +18,13 @@ import { InviteForm } from "./InviteForm/InviteForm.tsx";
 import { InviteResult } from "./InviteForm/InviteResult.tsx";
 
 type ViewState = "invite" | "result";
+const MIN_USERNAME_LENGTH = 3;
+const MAX_USERNAME_LENGTH = 50;
 
 const UserInviteButton = (props: { className?: string }) => {
   const { t } = useTranslation();
+  const { createInvite } = useDataInteractions();
+
   const [view, setView] = useState<ViewState>("invite");
   const [inviteUsername, setInviteUsername] = useState("");
   const [userRole, setUserRole] = useState<UserEntityDtoRole>("QUOTA_USER");
@@ -28,10 +32,39 @@ const UserInviteButton = (props: { className?: string }) => {
   const [cpuLimit, setCpuLimit] = useState<number | null>(null);
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [usernameError, setUsernameError] = useState<string | null>(null);
 
-  const { createInvite } = useDataInteractions();
+  const validateUsername = (username: string): string | null => {
+    if (!username) return null;
+
+    if (username.length < MIN_USERNAME_LENGTH) {
+      return t("userModal.usernameErrors.tooShort");
+    }
+
+    if (username.length > MAX_USERNAME_LENGTH) {
+      return t("userModal.usernameErrors.tooLong");
+    }
+
+    if (!/^[a-zA-Z0-9_-]*$/.test(username)) {
+      return t("userModal.usernameErrors.invalidCharacters");
+    }
+
+    return null;
+  };
+
+  const handleUsernameChange = (value: string) => {
+    setInviteUsername(value);
+    const error = validateUsername(value);
+    setUsernameError(error);
+  };
 
   const handleCreateInvite = async () => {
+    const error = validateUsername(inviteUsername);
+    if (error) {
+      setUsernameError(error);
+      return;
+    }
+
     setIsCreating(true);
 
     try {
@@ -64,6 +97,7 @@ const UserInviteButton = (props: { className?: string }) => {
     setView("invite");
     setInviteUsername("");
     setGeneratedKey(null);
+    setUsernameError(null);
   }, []);
 
   return (
@@ -95,13 +129,14 @@ const UserInviteButton = (props: { className?: string }) => {
               userRole={userRole}
               memory={memoryLimit}
               cpu={cpuLimit}
-              onUsernameChange={setInviteUsername}
+              onUsernameChange={handleUsernameChange}
               onMemoryChange={setMemoryLimit}
               onCpuChange={setCpuLimit}
               onCancel={() => setView("invite")}
               onSubmit={handleCreateInvite}
               onUserRoleChange={setUserRole}
               isCreating={isCreating}
+              usernameError={usernameError}
             />
           )}
 

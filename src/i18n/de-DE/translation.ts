@@ -51,6 +51,12 @@ const translation: i18nLanguage = {
     usernameLabel: "Benutzername (Optional)",
     usernamePlaceholder: "Benutzername eingeben...",
     usernameDescription: "Leer lassen, damit der Benutzer seinen eigenen Namen wählen kann.",
+    usernameErrors: {
+      tooShort: "Benutzername muss mindestens 3 Zeichen lang sein",
+      tooLong: "Benutzername darf höchstens 50 Zeichen lang sein",
+      invalidCharacters:
+        "Benutzername darf nur Buchstaben, Zahlen, Unterstriche und Bindestriche enthalten",
+    },
     cancel: "Abbrechen",
     generateInvite: "Einladung erstellen",
     creating: "Erstelle...",

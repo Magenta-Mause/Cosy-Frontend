@@ -17,6 +17,15 @@ const appReducer = combineReducers({
   templateSliceReducer,
 });
 
+export const RESET_STORE = "RESET_STORE";
+
+const rootReducer: typeof appReducer = (state, action) => {
+  if (action.type === RESET_STORE) {
+    return appReducer(undefined, action);
+  }
+  return appReducer(state, action);
+};
+
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export default appReducer;
+export default rootReducer;

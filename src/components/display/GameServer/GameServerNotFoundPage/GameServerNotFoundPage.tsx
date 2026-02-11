@@ -1,6 +1,6 @@
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { Button } from "@components/ui/button";
 import { useNavigate } from "@tanstack/react-router";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 export const GameServerNotFoundPage = () => {
   const navigate = useNavigate();

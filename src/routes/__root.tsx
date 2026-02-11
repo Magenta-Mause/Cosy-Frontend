@@ -1,13 +1,21 @@
 import GameServerOverviewPageRightClickHandler from "@components/display/configurations/GameServerOverviewPageRightClickHandler/GameServerOverviewPageRightClickHandler.tsx";
 import OptionsBannerDropdown from "@components/display/configurations/OptionsBannerDropdown/OptionsBannerDropdown.tsx";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import { GameServerNotFoundPage } from "@components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage.tsx";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { createRootRoute, Outlet, useRouterState } from "@tanstack/react-router";
+import { useContext } from "react";
 
 const RootLayout = () => {
+  const { authorized } = useContext(AuthContext);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  const showNotFound = authorized === false && pathname !== "/";
+
   return (
     <GameServerOverviewPageRightClickHandler>
       <div>
         <OptionsBannerDropdown />
-        <Outlet />
+        {showNotFound ? <GameServerNotFoundPage /> : <Outlet />}
       </div>
     </GameServerOverviewPageRightClickHandler>
   );
