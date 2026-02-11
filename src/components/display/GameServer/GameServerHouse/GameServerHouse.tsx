@@ -120,6 +120,7 @@ const GameServerHouse = (props: {
             height: "19vw",
           }}
           onClick={handleClick}
+          preload={"viewport"}
         >
           <img
             alt={t("aria.gameServerConfiguration", {

@@ -44,6 +44,7 @@ const TABS = [
     label: "file_explorer",
     icon: <FolderIcon style={iconStyles} />,
     path: "/server/$serverId/files",
+    activePathPattern: /\/server\/.*\/files/,
   },
   {
     label: "settings",
@@ -72,7 +73,7 @@ const GameServerDetailPageLayout = (props: {
     <GameServerDetailContext.Provider value={{ gameServer: props.gameServer }}>
       <div className="flex w-full min-h-screen">
         <div id={"gameServerDetailPage:exitButton"} className={"flex h-25 items-end w-[10%]"}>
-          <Link to={"/"} tabIndex={-1}>
+          <Link to={"/"} tabIndex={-1} preload={"viewport"}>
             <FancyNavigationButton
               isActive={false}
               label={t("serverPage.back")}
@@ -104,6 +105,7 @@ const GameServerDetailPageLayout = (props: {
                 to={path}
                 activeOptions={{ exact: !activePathPattern }}
                 className={"group"}
+                preload={"viewport"}
               >
                 {({ isActive }) => (
                   <FancyNavigationButton
