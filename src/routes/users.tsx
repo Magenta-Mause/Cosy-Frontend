@@ -1,5 +1,5 @@
-import UserTable from "@components/display/UserManagement/UserDetailPage/UserTable";
 import { GameServerNotFoundPage } from "@components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
+import UserTable from "@components/display/UserManagement/UserDetailPage/UserTable";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
 import { Button } from "@components/ui/button";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
