@@ -12,6 +12,7 @@ import type { DockerHardwareLimits } from './dockerHardwareLimits';
 import type { PortMapping } from './portMapping';
 import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
 import type { VolumeMountConfiguration } from './volumeMountConfiguration';
+import type { MetricLayout } from './metricLayout';
 
 export interface GameServerDto {
   /** @minLength 1 */
@@ -33,4 +34,5 @@ export interface GameServerDto {
   port_mappings: PortMapping[];
   environment_variables: EnvironmentVariableConfiguration[];
   volume_mounts: VolumeMountConfiguration[];
+  metric_layout: MetricLayout[];
 }
