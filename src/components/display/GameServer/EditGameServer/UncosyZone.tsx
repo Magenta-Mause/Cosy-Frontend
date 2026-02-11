@@ -6,10 +6,12 @@ import type { GameServerDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { DeleteGameServerAlertDialog } from "../DeleteGameServerAlertDialog/DeleteGameServerAlertDialog";
+import TransferOwnershipAlertDialog from "../TransferOwnershipDialog/TransferOwnershipAlertDialog";
 
 const UncosyZone = (props: { gameServer: GameServerDto }) => {
   const { t } = useTranslationPrefix("components.editGameServer.uncosyZone");
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isTransferDialogOpen, setIsTransferDialogOpen] = useState(false);
   const { deleteGameServer } = useDataInteractions();
 
   return (
@@ -25,7 +27,14 @@ const UncosyZone = (props: { gameServer: GameServerDto }) => {
                   {t("handOver.description")}
                 </p>
               </div>
-              <Button variant="destructive">{t("handOver.button")}</Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  setIsTransferDialogOpen(true);
+                }}
+              >
+                {t("handOver.button")}
+              </Button>
             </div>
             <Separator />
             <div className="flex justify-between py-2 gap-4 items-center">
@@ -50,6 +59,11 @@ const UncosyZone = (props: { gameServer: GameServerDto }) => {
         onConfirm={() => deleteGameServer(props.gameServer.uuid ?? "")}
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
+      />
+      <TransferOwnershipAlertDialog
+        gameServer={props.gameServer}
+        open={isTransferDialogOpen}
+        onOpenChange={setIsTransferDialogOpen}
       />
     </>
   );

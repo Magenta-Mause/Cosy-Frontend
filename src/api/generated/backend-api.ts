@@ -42,6 +42,7 @@ import type {
   RenameInVolumeParams,
   SendCommandDto,
   TemplateEntity,
+  TransferOwnershipDto,
   UploadFileToVolumeParams,
   UserCreationDto,
   UserEntityDto,
@@ -602,7 +603,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     
 export const transferOwnership = (
     uuid: string,
-    transferOwnershipBody: string,
+    transferOwnershipDto: TransferOwnershipDto,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
@@ -610,7 +611,7 @@ export const transferOwnership = (
       return customInstance<GameServerDto>(
       {url: `/game-server/${uuid}/transfer-ownership`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
-      data: transferOwnershipBody, signal
+      data: transferOwnershipDto, signal
     },
       options);
     }
@@ -618,8 +619,8 @@ export const transferOwnership = (
 
 
 export const getTransferOwnershipMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: string}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: TransferOwnershipDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: TransferOwnershipDto}, TContext> => {
 
 const mutationKey = ['transferOwnership'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -631,7 +632,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof transferOwnership>>, {uuid: string;data: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof transferOwnership>>, {uuid: string;data: TransferOwnershipDto}> = (props) => {
           const {uuid,data} = props ?? {};
 
           return  transferOwnership(uuid,data,requestOptions)
@@ -643,15 +644,15 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   return  { mutationFn, ...mutationOptions }}
 
     export type TransferOwnershipMutationResult = NonNullable<Awaited<ReturnType<typeof transferOwnership>>>
-    export type TransferOwnershipMutationBody = string
+    export type TransferOwnershipMutationBody = TransferOwnershipDto
     export type TransferOwnershipMutationError = unknown
 
     export const useTransferOwnership = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: TransferOwnershipDto}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
         Awaited<ReturnType<typeof transferOwnership>>,
         TError,
-        {uuid: string;data: string},
+        {uuid: string;data: TransferOwnershipDto},
         TContext
       > => {
 

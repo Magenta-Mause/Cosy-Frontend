@@ -10,10 +10,11 @@ import {
   useCreateInvite,
   useDeleteGameServerById,
   useRevokeInvite,
+  useTransferOwnership,
   useUpdateGameServer,
   useUpdateRconConfiguration,
 } from "@/api/generated/backend-api.ts";
-import type { RCONConfiguration, UserInviteCreationDto } from "@/api/generated/model";
+import type { RCONConfiguration, TransferOwnershipDto, UserInviteCreationDto } from "@/api/generated/model";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
@@ -158,6 +159,31 @@ const useDataInteractions = () => {
     });
   };
 
+  const { mutateAsync: transferOwnershipMutateAsync } = useTransferOwnership({
+    mutation: {
+      onSuccess: (updatedGameServer) => {
+        dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
+        toast.success(t("transferOwnershipSuccess"));
+      },
+      onError: (err) => {
+        toast.error(t("transferOwnershipError"));
+        throw err;
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetAllGameServersQueryKey(),
+        });
+      },
+    },
+  });
+
+  const transferOwnership = async (uuid: string, newOwnerName: TransferOwnershipDto) => {
+    return await transferOwnershipMutateAsync({
+      uuid,
+      data: newOwnerName,
+    });
+  };
+
   return {
     deleteGameServer,
     createInvite,
@@ -165,6 +191,7 @@ const useDataInteractions = () => {
     createGameServer,
     updateGameServer,
     updateRconConfiguration,
+    transferOwnership,
   };
 };
 
