@@ -35,7 +35,12 @@ const GameServerHouse = (props: {
 
   const serverHouseImage = useMemo(() => {
     const hash = hashUUID(props.gameServer.uuid);
-    return hash % 2 === 0 ? serverHouseImage1 : serverHouseImage2;
+    const isHouse1 = hash % 2 === 0;
+
+    return {
+      image: isHouse1 ? serverHouseImage1 : serverHouseImage2,
+      size: isHouse1 ? "18vw" : "22vw",
+    };
   }, [props.gameServer.uuid]);
 
   const handleClick = () => {
@@ -104,8 +109,8 @@ const GameServerHouse = (props: {
         })}
         style={{
           ...props.style,
-          width: "19vw",
-          height: "19vw",
+          width: serverHouseImage.size,
+          height: serverHouseImage.size,
         }}
         onClick={handleClick}
       >
@@ -113,14 +118,14 @@ const GameServerHouse = (props: {
           alt={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
           })}
-          className="w-full h-full object-cover overflow-visible"
+          className="w-full h-full object-contain overflow-visible"
           aria-label={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
           })}
           style={{
             imageRendering: "pixelated",
           }}
-          src={serverHouseImage}
+          src={serverHouseImage.image}
         />
         <GameSign className="bottom-[2%] right-[5%] w-[21%]">
           {props.gameServer.server_name}
