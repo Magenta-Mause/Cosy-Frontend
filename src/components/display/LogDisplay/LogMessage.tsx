@@ -58,7 +58,7 @@ const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
 
   const timestamp = message.timestamp
     ? format(new Date(message.timestamp), t("logDisplay.timestampFormat"))
-    : "--:--:--.---";
+    : "--:--:--";
 
   return (
     <div

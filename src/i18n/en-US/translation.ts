@@ -494,7 +494,7 @@ const translation: i18nLanguage = {
 
   logDisplay: {
     serverLog: "Console",
-    timestampFormat: "HH:mm:ss.SSS",
+    timestampFormat: "HH:mm:ss",
     stickToBottom: "Auto Scroll",
     enterCommand: "Enter command...",
     cantSendCommands: "Server must be running to send commands",

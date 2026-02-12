@@ -493,7 +493,7 @@ const translation: i18nLanguage = {
   },
   logDisplay: {
     serverLog: "Konsole",
-    timestampFormat: "HH:mm:ss.SSS",
+    timestampFormat: "HH:mm:ss",
     stickToBottom: "Auto Scroll",
     enterCommand: "Befehl eingeben...",
     cantSendCommands: "Server muss laufen, um Befehle zu senden",
