@@ -6,11 +6,14 @@ import {
   getAllTemplates,
   getAllUserEntities,
   getAllUserInvites,
+  getGameServerById,
   getLogs,
   getMetrics,
+  getUserPermissions,
 } from "@/api/generated/backend-api.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
+import { gameServerPermissionsSliceActions } from "@/stores/slices/gameServerPermissionsSlice.ts";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { templateSliceActions } from "@/stores/slices/templateSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
@@ -26,10 +29,68 @@ const useDataLoading = () => {
       dispatch(templateSliceActions.setTemplates(templates));
       dispatch(templateSliceActions.setState("idle"));
       return true;
-    } catch {
+    } catch (e) {
+      console.error("Unexpected error while loading templates", e);
       dispatch(templateSliceActions.setState("failed"));
       return false;
     }
+  };
+
+  const loadGameServerPermissions = async (gameServerUuid: string) => {
+    dispatch(
+      gameServerPermissionsSliceActions.updateGameServerPermissionsStatus({
+        gameServerUuid,
+        status: "loading",
+      }),
+    );
+    try {
+      const permissions = await getUserPermissions(gameServerUuid);
+      dispatch(
+        gameServerPermissionsSliceActions.setGameServerPermissions({ gameServerUuid, permissions }),
+      );
+      dispatch(
+        gameServerPermissionsSliceActions.updateGameServerPermissionsStatus({
+          gameServerUuid,
+          status: "idle",
+        }),
+      );
+      return true;
+    } catch (e) {
+      console.error("Unexpected error while loading game server permissions", e);
+      dispatch(
+        gameServerPermissionsSliceActions.updateGameServerPermissionsStatus({
+          gameServerUuid,
+          status: "failed",
+        }),
+      );
+      return false;
+    }
+  };
+
+  const loadGameServer = async (gameServerUuid: string) => {
+    dispatch(gameServerSliceActions.setState("loading"));
+    try {
+      const gameServer = await getGameServerById(gameServerUuid);
+      dispatch(gameServerSliceActions.updateGameServer(gameServer));
+
+      await loadAdditionalGameServerData(gameServerUuid);
+
+      dispatch(gameServerSliceActions.setState("idle"));
+
+      return true;
+    } catch (e) {
+      console.error("Unexpected error occured", e);
+      dispatch(gameServerSliceActions.setState("failed"));
+    }
+  };
+
+  const loadAdditionalGameServerData = async (gameServerUuid: string) => {
+    console.log("loading additional game server data for game server: ", gameServerUuid, "");
+    await Promise.allSettled([
+      loadGameServerLogs(gameServerUuid),
+      loadGameServerMetrics(gameServerUuid),
+      loadGameServerPermissions(gameServerUuid),
+    ]);
   };
 
   const loadGameServers = async () => {
@@ -37,12 +98,9 @@ const useDataLoading = () => {
     try {
       const gameServers = await getAllGameServers();
       dispatch(gameServerSliceActions.setState("idle"));
-      dispatch(gameServerSliceActions.setGameServer(gameServers));
-      Promise.allSettled(
-        gameServers.flatMap((gameServer) => [
-          loadLogs(gameServer.uuid),
-          loadMetrics(gameServer.uuid),
-        ]),
+      dispatch(gameServerSliceActions.setGameServers(gameServers));
+      await Promise.allSettled(
+        gameServers.map((gameServer) => loadAdditionalGameServerData(gameServer.uuid)),
       );
       return true;
     } catch {
@@ -77,7 +135,7 @@ const useDataLoading = () => {
     }
   };
 
-  const loadLogs = async (gameServerUuid: string) => {
+  const loadGameServerLogs = async (gameServerUuid: string) => {
     dispatch(gameServerLogSliceActions.setState({ gameServerUuid, state: "loading" }));
     try {
       const logs = await getLogs(gameServerUuid);
@@ -93,7 +151,7 @@ const useDataLoading = () => {
     }
   };
 
-  const loadMetrics = useCallback(
+  const loadGameServerMetrics = useCallback(
     async (gameServerUuid: string, start?: Date, end?: Date) => {
       dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "loading" }));
       try {
@@ -146,7 +204,11 @@ const useDataLoading = () => {
     loadInvites,
     loadAllData,
     loadTemplates,
-    loadMetrics,
+    loadGameServerMetrics,
+    loadGameServerLogs,
+    loadGameServerPermissions,
+    loadAdditionalGameServerData,
+    loadGameServer,
   };
 };
 

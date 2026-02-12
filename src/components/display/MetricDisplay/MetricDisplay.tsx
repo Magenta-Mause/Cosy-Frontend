@@ -25,7 +25,7 @@ const MetricDisplay = (
   const [unit, setUnit] = useState<string>("hour");
   const [loading, setLoading] = useState<boolean>(false);
   const [isCustomTime, setIsCustomTime] = useState<boolean>(false);
-  const { loadMetrics } = useDataLoading();
+  const { loadGameServerMetrics } = useDataLoading();
   const dispatch = useDispatch();
 
   const liveEnabled = useTypedSelector(
@@ -50,7 +50,7 @@ const MetricDisplay = (
 
     setLoading(true);
     try {
-      await loadMetrics(props.gameServer.uuid, startTime, endTime);
+      await loadGameServerMetrics(props.gameServer.uuid, startTime, endTime);
     } finally {
       setLoading(false);
     }

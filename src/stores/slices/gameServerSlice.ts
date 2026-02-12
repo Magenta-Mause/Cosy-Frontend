@@ -21,7 +21,7 @@ const gameServerSlice = createSlice({
     initialized: boolean;
   },
   reducers: {
-    setGameServer: (state, action: PayloadAction<GameServerDto[]>) => {
+    setGameServers: (state, action: PayloadAction<GameServerDto[]>) => {
       state.initialized = true;
       state.data = action.payload;
     },

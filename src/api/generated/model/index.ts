@@ -32,6 +32,7 @@ export * from './getFileSystemForVolumeParams';
 export * from './getLogsParams';
 export * from './getMetricsParams';
 export * from './getServiceInfo200';
+export * from './getUserPermissions200Item';
 export * from './loginDto';
 export * from './metricLayout';
 export * from './metricLayoutMetricType';

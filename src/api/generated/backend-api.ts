@@ -35,6 +35,7 @@ import type {
   GetLogsParams,
   GetMetricsParams,
   GetServiceInfo200,
+  GetUserPermissions200Item,
   LoginDto,
   MetricLayout,
   MetricPointDto,
@@ -1987,6 +1988,69 @@ export function useGetServiceInfo<TData = Awaited<ReturnType<typeof getServiceIn
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetServiceInfoQueryOptions(uuid,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getUserPermissions = (
+    uuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GetUserPermissions200Item[]>(
+      {url: `/game-server/${uuid}/permissions`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetUserPermissionsQueryKey = (uuid?: string,) => {
+    return [
+    `/game-server/${uuid}/permissions`
+    ] as const;
+    }
+
+    
+export const getGetUserPermissionsQueryOptions = <TData = Awaited<ReturnType<typeof getUserPermissions>>, TError = unknown>(uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUserPermissions>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserPermissionsQueryKey(uuid);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserPermissions>>> = ({ signal }) => getUserPermissions(uuid, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserPermissions>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUserPermissionsQueryResult = NonNullable<Awaited<ReturnType<typeof getUserPermissions>>>
+export type GetUserPermissionsQueryError = unknown
+
+
+
+export function useGetUserPermissions<TData = Awaited<ReturnType<typeof getUserPermissions>>, TError = unknown>(
+ uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUserPermissions>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetUserPermissionsQueryOptions(uuid,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
