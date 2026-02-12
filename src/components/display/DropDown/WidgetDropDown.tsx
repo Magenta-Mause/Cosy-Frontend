@@ -1,5 +1,4 @@
 import { ChevronDown } from "lucide-react";
-import { useTranslation } from "react-i18next";
 import {
   PrivateDashboardLayoutPrivateDashboardTypes,
 } from "@/api/generated/model";
