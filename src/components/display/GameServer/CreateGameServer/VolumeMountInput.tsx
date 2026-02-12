@@ -21,7 +21,7 @@ interface Props {
 
 function VolumeMountInput({ attribute, label, description, errorLabel, placeholder }: Props) {
   const validateItem = useCallback((container_path?: string) => {
-    if (container_path === "/") return false;
+    if (container_path?.trim() === "/") return false;
     return true;
   }, []);
 
@@ -71,7 +71,7 @@ function VolumeMountInput({ attribute, label, description, errorLabel, placehold
           id={`volume-mount-input-${item.uuid}`}
           placeholder={placeholder}
           value={item.container_path || ""}
-          onChange={(e) => changeCallback({ ...item, container_path: e.target.value })}
+          onChange={(e) => changeCallback({ ...item, container_path: e.target.value.trim() })}
           type={"text"}
         />
       )}
