@@ -459,6 +459,14 @@ const translation: i18nLanguage = {
         width: "Width",
         add: "Add Metric",
       },
+      privateDashboard: {
+        add: "Add Widget",
+        types: {
+          METRIC: "Metric",
+          LOGS: "Logs",
+          FREETEXT: "Free Text",
+        },
+      },
     },
     gameServerSettings: {
       rconSettings: {
