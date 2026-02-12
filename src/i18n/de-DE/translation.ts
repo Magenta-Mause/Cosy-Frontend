@@ -413,6 +413,9 @@ const translation: i18nLanguage = {
             confirm: "Auswählen",
             cancel: "Abbrechen",
             inputLabel: "Benutzername",
+            successTitle: "Serverübergabe erfolgreich",
+            successMessage: "Die Serverübergabe war erfolgreich!",
+            close: "Schließen",
           },
           confirmationDialog: {
             title: "Bist du sicher?",

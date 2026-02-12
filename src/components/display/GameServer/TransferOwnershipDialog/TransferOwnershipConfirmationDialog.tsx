@@ -13,11 +13,12 @@ import type { GameServerDto, TransferOwnershipDto } from "@/api/generated/model"
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
-const TransferOwnershipAlertDialog = (props: {
+const TransferOwnershipConfirmationDialog = (props: {
   gameServer: GameServerDto;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   newOwnerName: string;
+  onSuccess: () => void;
 }) => {
   const { t } = useTranslationPrefix("components.editGameServer.uncosyZone.transferOwnership.confirmationDialog");
   const { transferOwnership } = useDataInteractions();
@@ -30,10 +31,10 @@ const TransferOwnershipAlertDialog = (props: {
       const dto: TransferOwnershipDto = {
         new_owner_name: props.newOwnerName,
       };
-      console.log(dto);
       await transferOwnership(props.gameServer.uuid, dto);
-      props.onOpenChange(false);
+      props.onSuccess(); // This will trigger the parent to show success and close this dialog
     } catch (_e) {
+      // Error handling
     } finally {
       setLoading(false);
     }
@@ -42,7 +43,6 @@ const TransferOwnershipAlertDialog = (props: {
   const handleOpenChange = (newOpen: boolean) => {
     if (loading) return; // Prevent closing while loading
     props.onOpenChange(newOpen);
-    if (!newOpen) { }
   };
 
   return (
@@ -66,9 +66,10 @@ const TransferOwnershipAlertDialog = (props: {
             type="button"
             variant={"destructive"}
             onClick={handleConfirm}
+            disabled={loading}
             className=""
           >
-            {t("confirm")}
+            {loading ? t("transferring") : t("confirm")}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -76,4 +77,4 @@ const TransferOwnershipAlertDialog = (props: {
   );
 };
 
-export default TransferOwnershipAlertDialog;
+export default TransferOwnershipConfirmationDialog;

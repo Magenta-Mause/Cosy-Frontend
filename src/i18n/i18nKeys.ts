@@ -407,6 +407,9 @@ export type i18nLanguage = {
             confirm: string;
             cancel: string;
             inputLabel: string;
+            successTitle: string;
+            successMessage: string;
+            close: string;
           };
           confirmationDialog: {
             title: string;

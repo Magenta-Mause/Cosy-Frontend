@@ -27,6 +27,7 @@ const TransferOwnershipDialog = (props: {
   const [inputValue, setInputValue] = useState<string>("");
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false);
   const [userCheckError, setUserCheckError] = useState<string | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const isConfirmButtonDisabled = inputValue === "" || loading;
 
@@ -42,6 +43,7 @@ const TransferOwnershipDialog = (props: {
     setLoading(true);
 
     const { data, error } = await refetch();
+
     setLoading(false);
 
     if (error || !data) {
@@ -51,12 +53,18 @@ const TransferOwnershipDialog = (props: {
     }
   };
 
+  const handleTransferSuccess = () => {
+    setIsConfirmationDialogOpen(false);
+    setShowSuccess(true);
+  };
+
   const handleOpenChange = (newOpen: boolean) => {
     if (loading) return;
     props.onOpenChange(newOpen);
     if (!newOpen) {
       setInputValue("");
       setUserCheckError(null);
+      setShowSuccess(false);
     }
   };
 
@@ -66,6 +74,24 @@ const TransferOwnershipDialog = (props: {
       handleConfirm();
     }
   };
+
+  if (showSuccess) {
+    return (
+      <Dialog open={props.open} onOpenChange={handleOpenChange}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("successTitle")}</DialogTitle>
+          </DialogHeader>
+          <DialogMain>
+            <p className="text-base">{t("successMessage")}</p>
+          </DialogMain>
+          <DialogFooter>
+            <Button onClick={() => handleOpenChange(false)}>{t("close")}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  }
 
   return (
     <>
@@ -113,6 +139,7 @@ const TransferOwnershipDialog = (props: {
         open={isConfirmationDialogOpen}
         onOpenChange={setIsConfirmationDialogOpen}
         newOwnerName={inputValue}
+        onSuccess={handleTransferSuccess}
       />
     </>
   );
