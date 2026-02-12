@@ -36,6 +36,7 @@ import type {
   MetricLayout,
   MetricPointDto,
   PasswordUpdateDto,
+  PrivateDashboardLayout,
   QueryGamesParams,
   RCONConfiguration,
   ReadFileFromVolumeParams,
@@ -233,6 +234,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getDeleteGameServerByIdMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const updatePrivateDashboard = (
+    uuid: string,
+    privateDashboardLayout: PrivateDashboardLayout[],
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/layout/private-dashboard`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: privateDashboardLayout
+    },
+      options);
+    }
+  
+
+
+export const getUpdatePrivateDashboardMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePrivateDashboard>>, TError,{uuid: string;data: PrivateDashboardLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updatePrivateDashboard>>, TError,{uuid: string;data: PrivateDashboardLayout[]}, TContext> => {
+
+const mutationKey = ['updatePrivateDashboard'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePrivateDashboard>>, {uuid: string;data: PrivateDashboardLayout[]}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updatePrivateDashboard(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdatePrivateDashboardMutationResult = NonNullable<Awaited<ReturnType<typeof updatePrivateDashboard>>>
+    export type UpdatePrivateDashboardMutationBody = PrivateDashboardLayout[]
+    export type UpdatePrivateDashboardMutationError = unknown
+
+    export const useUpdatePrivateDashboard = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePrivateDashboard>>, TError,{uuid: string;data: PrivateDashboardLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updatePrivateDashboard>>,
+        TError,
+        {uuid: string;data: PrivateDashboardLayout[]},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdatePrivateDashboardMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
