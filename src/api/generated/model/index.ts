@@ -6,6 +6,9 @@
  * OpenAPI spec version: v1.0
  */
 
+export * from './accessGroupCreationDto';
+export * from './accessGroupUpdateDto';
+export * from './accessGroupUpdateDtoPermissionsItem';
 export * from './createDirectoryInVolumeParams';
 export * from './deleteInVolumeParams';
 export * from './dockerHardwareLimits';
@@ -13,9 +16,14 @@ export * from './environmentVariableConfiguration';
 export * from './fileSystemObjectDto';
 export * from './fileSystemObjectDtoType';
 export * from './gameDto';
+export * from './gameEntity';
+export * from './gameServerAccessGroup';
+export * from './gameServerAccessGroupPermissionsItem';
 export * from './gameServerCreationDto';
 export * from './gameServerDto';
 export * from './gameServerDtoStatus';
+export * from './gameServerEntity';
+export * from './gameServerEntityStatus';
 export * from './gameServerFileSystemDto';
 export * from './gameServerLogMessageEntity';
 export * from './gameServerLogMessageEntityLevel';
@@ -45,11 +53,15 @@ export * from './templateEntityPortMappings';
 export * from './templateVariable';
 export * from './uploadFileToVolumeParams';
 export * from './userCreationDto';
+export * from './userEntity';
 export * from './userEntityDto';
 export * from './userEntityDtoRole';
+export * from './userEntityRole';
 export * from './userInviteCreationDto';
 export * from './userInviteCreationDtoRole';
 export * from './userInviteDto';
 export * from './userInviteDtoRole';
+export * from './userInviteEntity';
+export * from './userInviteEntityRole';
 export * from './volumeMountConfiguration';
 export * from './volumeMountConfigurationCreationDto';
