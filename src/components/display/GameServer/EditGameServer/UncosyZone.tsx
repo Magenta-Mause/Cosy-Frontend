@@ -21,7 +21,7 @@ const UncosyZone = (props: { gameServer: GameServerDto }) => {
         <Card className="border-alarm my-5">
           <CardContent>
             <div className="flex justify-between py-2 gap-4 items-center">
-              <div className="">
+              <div>
                 <p className="text-base font-bold">{t("transferOwnership.title")}</p>
                 <p className="text-sm text-muted-foreground leading-7">
                   {t("transferOwnership.description")}
@@ -38,7 +38,7 @@ const UncosyZone = (props: { gameServer: GameServerDto }) => {
             </div>
             <Separator />
             <div className="flex justify-between py-2 gap-4 items-center">
-              <div className="">
+              <div>
                 <p className="text-base font-bold">{t("delete.title")}</p>
                 <p className="text-sm text-muted-foreground leading-7">{t("delete.description")}</p>
               </div>

@@ -127,7 +127,6 @@ const TransferOwnershipDialog = (props: {
               variant={"destructive"}
               onClick={handleConfirm}
               disabled={isConfirmButtonDisabled}
-              className=""
             >
               {loading ? t("checking") || "Checking..." : t("confirm")}
             </Button>

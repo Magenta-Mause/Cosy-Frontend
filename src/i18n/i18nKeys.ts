@@ -423,6 +423,7 @@ export type i18nLanguage = {
             newOwner: string;
             confirm: string;
             cancel: string;
+            transferring: string;
           };
         };
         delete: {

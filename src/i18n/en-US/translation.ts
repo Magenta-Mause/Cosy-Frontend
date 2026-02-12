@@ -428,6 +428,7 @@ const translation: i18nLanguage = {
             newOwner: "New owner: ",
             confirm: "Hand over",
             cancel: "Cancel",
+            transferring: "Handing over server...",
           },
         },
         delete: {
