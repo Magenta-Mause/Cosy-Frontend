@@ -163,7 +163,6 @@ const useDataInteractions = () => {
     mutation: {
       onSuccess: (updatedGameServer) => {
         dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
-        toast.success(t("transferOwnershipSuccess"));
       },
       onError: (err) => {
         toast.error(t("transferOwnershipError"));
