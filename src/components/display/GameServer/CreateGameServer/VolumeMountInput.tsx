@@ -71,7 +71,7 @@ function VolumeMountInput({ attribute, label, description, errorLabel, placehold
           id={`volume-mount-input-${item.uuid}`}
           placeholder={placeholder}
           value={item.container_path || ""}
-          onChange={(e) => changeCallback({ ...item, container_path: e.target.value.trim() })}
+          onChange={(e) => changeCallback({ ...item, container_path: e.target.value })}
           type={"text"}
         />
       )}
