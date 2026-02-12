@@ -165,7 +165,7 @@ const useDataInteractions = () => {
         dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
       },
       onError: (err) => {
-        toast.error(t("transferOwnershipError"));
+        toast.error("Failed to transfer ownership");
         throw err;
       },
       onSettled: () => {
