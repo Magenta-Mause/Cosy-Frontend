@@ -68,6 +68,7 @@ const MetricDisplay = (
             setUnit(selectedUnit);
             handleTimeChange(selectedStartTime, selectedEndTime);
           }}
+          defaultLabel={t("timerange.hour", { time: 1 })}
         />
         <Button disabled={isCustomTime} onClick={() => handleLiveMetrics(!liveEnabled)}>
           {liveEnabled ? t("metrics.liveMetricsOn") : t("metrics.liveMetricsOff")}

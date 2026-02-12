@@ -1,7 +1,7 @@
 import DatePicker from "@components/display/DatePicker/DatePicker";
 import { format } from "date-fns";
 import { ChevronDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +15,7 @@ import {
 interface TimeRangeProps {
   className?: string;
   onChange: (value: { timeUnit: string; startTime: Date; endTime?: Date }) => void;
+  defaultLabel?: string;
 }
 
 const TIME_RANGE_PRESETS: [number, "min" | "hour" | "day"][] = [
@@ -30,7 +31,9 @@ const TIME_RANGE_PRESETS: [number, "min" | "hour" | "day"][] = [
 
 const TimeRangeDropDown = (props: TimeRangeProps) => {
   const { t } = useTranslation();
-  const [selectedLabel, setSelectedLabel] = useState<string>(t("timerange.button"));
+  const [selectedLabel, setSelectedLabel] = useState<string>(
+    props.defaultLabel ?? t("timerange.button"),
+  );
   const [openCustom, setOpenCustom] = useState<boolean>(false);
 
   const timeAgo = (value: number, unit: string): Date => {
@@ -53,10 +56,6 @@ const TimeRangeDropDown = (props: TimeRangeProps) => {
     setSelectedLabel(`${format(startDate, "LLL dd, y")} - ${format(endDate, "LLL dd, y")}`);
     props.onChange({ timeUnit: "day", startTime: startDate, endTime: endDate });
   };
-
-  useEffect(() => {
-    setSelectedLabel(t("timerange.button"));
-  }, [t]);
 
   return (
     <>
