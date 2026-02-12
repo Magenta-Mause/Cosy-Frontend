@@ -5,7 +5,7 @@ import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthPr
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import banner from "@/assets/Banner.webp";
+import banner from "@/assets/header/Banner.webp";
 import { cn } from "@/lib/utils.ts";
 
 const OptionsBannerDropdown = () => {
