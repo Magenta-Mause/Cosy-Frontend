@@ -1,6 +1,6 @@
-import LanguageSelector from "@components/display/configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
-import LogOutButton from "@components/display/configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
-import UserMenuButton from "@components/display/configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
+import LanguageSelector from "@components/display/header/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
+import LogOutButton from "@components/display/header/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
+import UserMenuButton from "@components/display/header/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -75,7 +75,7 @@ const OptionsBannerDropdown = () => {
       aria-expanded={isExpanded}
       className={cn(
         "flex flex-col gap-4 p-6 items-center justify-center pb-10",
-        "absolute z-50 -top-2 left-[5%]",
+        "fixed z-50 -top-2 left-[5%]",
         "cursor-pointer transition-all duration-300 ease-in-out",
         "overflow-hidden border-0",
         isExpanded
