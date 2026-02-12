@@ -419,6 +419,7 @@ const translation: i18nLanguage = {
             successTitle: "Server Transfer successful",
             successMessage: "The server ownership transfer was successful.",
             close: "Close",
+            checking: "Checking user...",
           },
           confirmationDialog: {
             title: "Confirm Hand Over",

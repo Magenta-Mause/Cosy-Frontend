@@ -421,6 +421,7 @@ const translation: i18nLanguage = {
             successTitle: "Serverübergabe erfolgreich",
             successMessage: "Die Serverübergabe war erfolgreich!",
             close: "Schließen",
+            checking: "Überprüfe Benutzer...",
           },
           confirmationDialog: {
             title: "Bist du sicher?",

@@ -415,6 +415,7 @@ export type i18nLanguage = {
             successTitle: string;
             successMessage: string;
             close: string;
+            checking: string;
           };
           confirmationDialog: {
             title: string;
