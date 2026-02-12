@@ -13,33 +13,31 @@ const OptionsBannerDropdown = () => {
   const [userTooltipOpen, setUserTooltipOpen] = useState(false);
   const [logOutTooltipOpen, setLogOutTooltipOpen] = useState(false);
   const bannerRef = useRef<HTMLButtonElement>(null);
+  const collapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { t } = useTranslation();
   const { authorized } = useContext(AuthContext);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      const isInsideDialog = target.closest('[data-slot="dialog-content"]') !== null;
-      const isInsidePopover = target.closest("[data-radix-popper-content-wrapper]") !== null;
+  const handleMouseEnter = () => {
+    if (collapseTimerRef.current) {
+      clearTimeout(collapseTimerRef.current);
+      collapseTimerRef.current = null;
+    }
+    setIsExpanded(true);
+  };
 
-      if (
-        !isInsideDialog &&
-        !isInsidePopover &&
-        bannerRef.current &&
-        !bannerRef.current.contains(event.target as Node)
-      ) {
-        setIsExpanded(false);
+  const handleMouseLeave = () => {
+    collapseTimerRef.current = setTimeout(() => {
+      setIsExpanded(false);
+    }, 400);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (collapseTimerRef.current) {
+        clearTimeout(collapseTimerRef.current);
       }
     };
-
-    if (isExpanded) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isExpanded]);
+  }, []);
 
   useEffect(() => {
     const closeTooltipsWhenDialogOpens = () => {
@@ -56,22 +54,13 @@ const OptionsBannerDropdown = () => {
     return () => observer.disconnect();
   }, []);
 
-  const handleBannerClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const target = e.target as HTMLElement;
-    const clickedElement = target.closest('button, a, [role="button"]');
-    const wasBannerClicked = clickedElement?.id === "banner";
-
-    if (wasBannerClicked) {
-      setIsExpanded(!isExpanded);
-    }
-  };
-
   return (
     <button
       id="banner"
       type="button"
       ref={bannerRef}
-      onClick={(e) => handleBannerClicked(e)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       aria-expanded={isExpanded}
       className={cn(
         "flex flex-col gap-4 p-6 items-center justify-center pb-10",
