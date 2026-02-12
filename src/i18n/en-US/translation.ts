@@ -429,6 +429,7 @@ const translation: i18nLanguage = {
             confirm: "Hand over",
             cancel: "Cancel",
             transferring: "Handing over server...",
+            transferError: "Failed to hand over server",
           },
         },
         delete: {

@@ -431,6 +431,7 @@ const translation: i18nLanguage = {
             cancel: "Abbrechen",
             confirm: "Server übergeben",
             transferring: "Server wird übergeben...",
+            transferError: "Fehler bei der Serverübergabe",
           },
         },
         delete: {

@@ -424,6 +424,7 @@ export type i18nLanguage = {
             confirm: string;
             cancel: string;
             transferring: string;
+            transferError: string;
           };
         };
         delete: {

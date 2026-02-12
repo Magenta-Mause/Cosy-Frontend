@@ -23,6 +23,8 @@ const TransferOwnershipConfirmationDialog = (props: {
   const { t } = useTranslationPrefix("components.editGameServer.uncosyZone.transferOwnership.confirmationDialog");
   const { transferOwnership } = useDataInteractions();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
 
   const handleConfirm = async () => {
     setLoading(true);
@@ -32,16 +34,17 @@ const TransferOwnershipConfirmationDialog = (props: {
         new_owner_name: props.newOwnerName,
       };
       await transferOwnership(props.gameServer.uuid, dto);
-      props.onSuccess(); // This will trigger the parent to show success and close this dialog
-    } catch (_e) {
-      // Error handling
+      props.onSuccess();
+    } catch (e) {
+      const errorMessage = e instanceof Error ? e.message : t("transferError");
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
   const handleOpenChange = (newOpen: boolean) => {
-    if (loading) return; // Prevent closing while loading
+    if (loading) return;
     props.onOpenChange(newOpen);
   };
 
@@ -57,6 +60,8 @@ const TransferOwnershipConfirmationDialog = (props: {
           <p className="font-bold text-base">{props.newOwnerName}</p>
         </DialogMain>
         <DialogFooter>
+          {error && <p className="text-base text-alarm">{error}</p>}
+
           <DialogClose asChild>
             <Button className="" variant="secondary" disabled={loading}>
               {t("cancel")}
