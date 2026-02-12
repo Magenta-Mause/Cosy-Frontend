@@ -12,9 +12,10 @@ import { Input } from "@components/ui/input";
 import { Dialog } from "@radix-ui/react-dialog";
 import type { KeyboardEvent } from "react";
 import { useState } from "react";
-import type { GameServerDto, TransferOwnershipDto } from "@/api/generated/model";
-import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
+import { useGetUserEntityByUsername } from "@/api/generated/backend-api";
+import type { GameServerDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import TransferOwnershipConfirmationDialog from "./TransferOwnershipConfirmationDialog";
 
 const TransferOwnershipAlertDialog = (props: {
   gameServer: GameServerDto;
@@ -22,76 +23,97 @@ const TransferOwnershipAlertDialog = (props: {
   onOpenChange: (open: boolean) => void;
 }) => {
   const { t } = useTranslationPrefix("components.editGameServer.transferOwnership");
-  const { transferOwnership } = useDataInteractions();
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState<string>("");
+  const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false);
+  const [userCheckError, setUserCheckError] = useState<string | null>(null);
+
+  const isConfirmButtonDisabled = inputValue === "" || loading;
+
+  const { refetch } = useGetUserEntityByUsername(inputValue, {
+    query: {
+      enabled: false,
+      retry: false,
+    },
+  });
 
   const handleConfirm = async () => {
+    setUserCheckError(null);
     setLoading(true);
 
-    try {
-      const dto: TransferOwnershipDto = {
-        new_owner_name: inputValue,
-      };
-      console.log(dto);
-      await transferOwnership(props.gameServer.uuid, dto);
-      setInputValue("");
-      props.onOpenChange(false);
-    } catch (_e) {
-    } finally {
-      setLoading(false);
+    const { data, error } = await refetch();
+    setLoading(false);
+
+    if (error || !data) {
+      setUserCheckError(t("userNotFound"));
+    } else {
+      setIsConfirmationDialogOpen(true);
     }
   };
 
   const handleOpenChange = (newOpen: boolean) => {
-    if (loading) return; // Prevent closing while loading
+    if (loading) return;
     props.onOpenChange(newOpen);
     if (!newOpen) {
-      setInputValue(""); // Clear input when dialog closes
+      setInputValue("");
+      setUserCheckError(null);
     }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !isConfirmButtonDisabled) {
       e.preventDefault();
       handleConfirm();
     }
   };
 
   return (
-    <Dialog open={props.open} onOpenChange={handleOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t("title")}</DialogTitle>
-          <DialogDescription>{t("description")}</DialogDescription>
-        </DialogHeader>
-        <DialogMain>
-          <Input
-            id="userName"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={t("inputPlaceholder")}
-            disabled={loading}
-          ></Input>
-        </DialogMain>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button className="" variant="secondary" disabled={loading}>
-              {t("cancel")}
+    <>
+      <Dialog open={props.open} onOpenChange={handleOpenChange}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t("title")}</DialogTitle>
+            <DialogDescription>{t("description")}</DialogDescription>
+          </DialogHeader>
+          <DialogMain>
+            <Input
+              id="userName"
+              value={inputValue}
+              onChange={(e) => {
+                setInputValue(e.target.value);
+                setUserCheckError(null);
+              }}
+              onKeyDown={handleKeyDown}
+              placeholder={t("inputPlaceholder")}
+              disabled={loading}
+            />
+            {userCheckError && <p className="text-sm text-destructive mt-1">{userCheckError}</p>}
+          </DialogMain>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button className="" variant="secondary" disabled={loading}>
+                {t("cancel")}
+              </Button>
+            </DialogClose>
+            <Button
+              type="button"
+              variant={"destructive"}
+              onClick={handleConfirm}
+              disabled={isConfirmButtonDisabled}
+              className=""
+            >
+              {loading ? t("checking") || "Checking..." : t("confirm")}
             </Button>
-          </DialogClose>
-          <Button
-            type="button"
-            variant={"destructive"}
-            onClick={handleConfirm}
-            className=""
-          >
-            {t("confirm")}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      <TransferOwnershipConfirmationDialog
+        gameServer={props.gameServer}
+        open={isConfirmationDialogOpen}
+        onOpenChange={setIsConfirmationDialogOpen}
+        newOwnerName={inputValue}
+      />
+    </>
   );
 };
 
