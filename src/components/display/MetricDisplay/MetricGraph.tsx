@@ -9,17 +9,15 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import type { NameType, Payload, ValueType } from "recharts/types/component/DefaultTooltipContent";
-import type { MetricValues } from "@/api/generated/model";
+import type { MetricLayoutMetricType, MetricValues } from "@/api/generated/model";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import { MetricsType } from "@/types/metricsTyp";
-import MetricDropDown from "./DropDown/MetricDropDown";
 
 interface MetricGraphProps {
   className?: string;
-  type: MetricsType;
+  type: MetricsType | MetricLayoutMetricType;
   timeUnit: string;
   metrics: GameServerMetricsWithUuid[];
-  loading?: boolean;
 }
 
 const chartConfig = {
@@ -42,7 +40,7 @@ const METRIC_KEY_MAP: Record<MetricsType, keyof MetricValues> = {
 
 const MetricGraph = (props: MetricGraphProps) => {
   const { t } = useTranslation();
-  const [metricType, setMetricType] = useState<MetricsType>(props.type);
+  const { className, type, timeUnit, metrics } = props;
   const [chartData, setChartData] = useState<{ time: number; value: number }[]>([]);
 
   const convertBytes = (byte: number, base: number, sizes: string[]) => {
@@ -52,9 +50,9 @@ const MetricGraph = (props: MetricGraphProps) => {
   };
 
   const formateMetric = (value: number) => {
-    if (metricType === MetricsType.CPU_PERCENT || metricType === MetricsType.MEMORY_PERCENT) {
+    if (type === MetricsType.CPU_PERCENT || type === MetricsType.MEMORY_PERCENT) {
       return `${(value).toFixed(2)}%`;
-    } else if (metricType === MetricsType.MEMORY_USAGE || metricType === MetricsType.MEMORY_LIMIT) {
+    } else if (type === MetricsType.MEMORY_USAGE || type === MetricsType.MEMORY_LIMIT) {
       return convertBytes(value, 1024, ["Bytes", "KiB", "MiB", "GiB", "TiB"]);
     }
     return convertBytes(value, 1000, ["Bytes", "KB", "MB", "GB", "TB"]);
@@ -62,7 +60,7 @@ const MetricGraph = (props: MetricGraphProps) => {
 
   const formatTime = (timestamp: number) => {
     const date = new Date(timestamp);
-    if (props.timeUnit === "day") {
+    if (timeUnit === "day") {
       return date.toLocaleDateString(t("timerange.localTime"), {
         month: "2-digit",
         day: "2-digit",
@@ -89,11 +87,11 @@ const MetricGraph = (props: MetricGraphProps) => {
   };
 
   useEffect(() => {
-    if (!props.metrics?.length) return;
+    if (!metrics?.length) return;
 
-    const flattened = props.metrics
+    const flattened = metrics
       .map((metric) => {
-        const value = metric.metric_values?.[METRIC_KEY_MAP[metricType]] ?? 0;
+        const value = metric.metric_values?.[METRIC_KEY_MAP[type]] ?? 0;
         const timeString = metric.time ?? "";
         return {
           time: timeString ? new Date(timeString).getTime() : 0,
@@ -103,23 +101,18 @@ const MetricGraph = (props: MetricGraphProps) => {
       .filter((metric) => metric.time !== 0);
 
     setChartData(flattened);
-  }, [props.metrics, metricType]);
+  }, [metrics, type]);
 
   return (
     <Card
-      className={`flex flex-col col-span-3 text-lg py-5 bg-button-secondary-default border-2 ${props.className}`}
+      className={`flex flex-col col-span-3 text-lg py-5 bg-button-secondary-default border-2 ${className}`}
     >
       <CardHeader>
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
-          <div>
-            <CardTitle>
-              {t("metrics.metricTitle", { type: t(`metrics.types.${metricType}`) })}
-            </CardTitle>
-            <CardDescription>
-              {t("metrics.metricDescription", { type: t(`metrics.types.${metricType}`) })}
-            </CardDescription>
-          </div>
-          <MetricDropDown metricType={metricType} setMetricType={setMetricType} />
+        <div>
+          <CardTitle>{t(`metrics.types.${type}`)}</CardTitle>
+          <CardDescription>
+            {t("metrics.metricDescription", { type: t(`metrics.types.${type}`) })}
+          </CardDescription>
         </div>
       </CardHeader>
       <CardContent>
@@ -148,7 +141,7 @@ const MetricGraph = (props: MetricGraphProps) => {
                 <ChartTooltipContent
                   labelFormatter={formatTooltipTime}
                   formatter={(value) => {
-                    return [formateMetric(value as number), ` ${t(`metrics.types.${metricType}`)}`];
+                    return [formateMetric(value as number), ` ${t(`metrics.types.${type}`)}`];
                   }}
                 />
               }

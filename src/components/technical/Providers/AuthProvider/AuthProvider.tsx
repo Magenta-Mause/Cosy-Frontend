@@ -2,12 +2,14 @@ import WebSocketCollection from "@components/technical/WebsocketCollection/WebSo
 import config from "@config";
 import { jwtDecode } from "jwt-decode";
 import { createContext, type ReactNode, useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { StompSessionProvider } from "react-stomp-hooks";
 import SockJS from "sockjs-client";
 import { setAuthToken } from "@/api/axiosInstance";
 import { fetchToken, logout } from "@/api/generated/backend-api";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
+import { RESET_STORE } from "@/stores/rootReducer";
 
 interface AuthContextType {
   identityToken: string | null;
@@ -60,6 +62,7 @@ const TOKEN_REFRESH_BUFFER = 5 * 60 * 1000;
 
 const AuthProvider = (props: { children: ReactNode }) => {
   const { loadAllData } = useDataLoading();
+  const dispatch = useDispatch();
   const [username, setUsername] = useState<string | null>(null);
   const [uuid, setUuid] = useState<string | null>(null);
   const [role, setRole] = useState<UserEntityDtoRole | null>(null);
@@ -150,8 +153,9 @@ const AuthProvider = (props: { children: ReactNode }) => {
   const handleLogout = useCallback(async () => {
     updateAuthState(null);
     setAuthToken(null);
+    dispatch({ type: RESET_STORE });
     await logout();
-  }, [updateAuthState]);
+  }, [updateAuthState, dispatch]);
 
   const setToken = useCallback(
     (token: string) => {

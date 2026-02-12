@@ -55,6 +55,11 @@ const translation: i18nLanguage = {
     usernameLabel: "Username (Optional)",
     usernamePlaceholder: "Enter username...",
     usernameDescription: "Leave empty to allow the user to choose their own username.",
+    usernameErrors: {
+      tooShort: "Username must be at least 3 characters",
+      tooLong: "Username must be at most 50 characters",
+      invalidCharacters: "Username can only contain letters, numbers, underscores and hyphens",
+    },
     cancel: "Cancel",
     generateInvite: "Generate Invite",
     creating: "Creating...",
@@ -102,7 +107,7 @@ const translation: i18nLanguage = {
     title: "Are you sure?",
     description: "This action cannot be undone!",
     explanation:
-      "This will permanently delete your Game Server Configuration and remove its data from the server.",
+      "This will permanently delete your Game Server Configuration and remove ALL associated files from the server.",
     inputLabel: "Enter the name of the game server to be sure:",
     cancel: "Cancel",
     confirm: "Delete",
@@ -256,7 +261,7 @@ const translation: i18nLanguage = {
           hostPathSelection: {
             title: "Volume Mount",
             description: "Volume mounts for your server",
-            errorLabel: "Either both host path and container path must be provided or neither.",
+            errorLabel: "Path cannot be equal to '/'.",
           },
           memoryLimitSelection: {
             title: "RAM Limit",
@@ -484,6 +489,11 @@ const translation: i18nLanguage = {
         metrics: "Metrics Settings",
         accessManagement: "Access Management Settings",
       },
+      metrics: {
+        type: "Type",
+        width: "Width",
+        add: "Add Metric",
+      },
     },
     gameServerSettings: {
       rconSettings: {
@@ -555,7 +565,6 @@ const translation: i18nLanguage = {
   },
 
   metrics: {
-    metricTitle: "{{type}} - Metric",
     metricDescription: "{{type}} usage over time",
     configure: "Configure Metrics",
     types: {
@@ -584,6 +593,11 @@ const translation: i18nLanguage = {
   datepicker: {
     title: "Select Date Range",
     des: "Choose a start and end date for the range.",
+  },
+  cardWidth: {
+    SMALL: "Small",
+    MEDIUM: "Medium",
+    LARGE: "Large",
   },
 };
 

@@ -3,7 +3,7 @@ import { Separator } from "@components/ui/separator";
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { UserEntityDtoRole } from "@/api/generated/model";
+import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer";
 import UserInviteButton from "../UserInvite/UserInviteButton";
 import PendingInvitesList from "./PendingInvitesList";
@@ -21,7 +21,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
   const { t } = useTranslation();
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedRole, setSelectedRole] = useState<UserEntityDtoRole | null>(null);
+  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [isAsc, setIsAsc] = useState(true);
 
@@ -68,14 +68,14 @@ const UserTable = ({ onRevoke }: UserListProps) => {
         return isAsc ? strA.localeCompare(strB) : strB.localeCompare(strA);
       }
 
-      const roleOrder: Record<UserEntityDtoRole, number> = {
-        OWNER: 1,
-        ADMIN: 2,
-        QUOTA_USER: 3,
+      const roleOrder: Record<UserRole, number> = {
+        [UserEntityDtoRole.OWNER]: 1,
+        [UserEntityDtoRole.ADMIN]: 2,
+        [UserEntityDtoRole.QUOTA_USER]: 3,
       };
 
-      const roleA = roleOrder[a.role ?? "QUOTA_USER"];
-      const roleB = roleOrder[b.role ?? "QUOTA_USER"];
+      const roleA = roleOrder[a.role ?? UserEntityDtoRole.QUOTA_USER];
+      const roleB = roleOrder[b.role ?? UserEntityDtoRole.QUOTA_USER];
 
       return roleA - roleB;
     });
@@ -108,7 +108,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
             key={user.uuid || index}
             user={user}
             userName={user.username ?? "Unknown"}
-            userRole={user.role ?? "QUOTA_USER"}
+            userRole={user.role ?? UserEntityDtoRole.QUOTA_USER}
           />
         ))
       ) : (

@@ -51,6 +51,11 @@ export type i18nLanguage = {
     usernameLabel: string;
     usernamePlaceholder: string;
     usernameDescription: string;
+    usernameErrors: {
+      tooShort: string;
+      tooLong: string;
+      invalidCharacters: string;
+    };
     cancel: string;
     generateInvite: string;
     creating: string;
@@ -525,6 +530,11 @@ export type i18nLanguage = {
         metrics: string;
         accessManagement: string;
       };
+      metrics: {
+        type: string;
+        width: string;
+        add: string;
+      };
     };
     gameServerSettings: {
       rconSettings: {
@@ -556,7 +566,6 @@ export type i18nLanguage = {
     cancel: string;
   };
   metrics: {
-    metricTitle: ContainsVariable<"type">;
     metricDescription: ContainsVariable<"type">;
     configure: string;
     types: {
@@ -585,6 +594,11 @@ export type i18nLanguage = {
   datepicker: {
     title: string;
     des: string;
+  };
+  cardWidth: {
+    SMALL: string;
+    MEDIUM: string;
+    LARGE: string;
   };
 };
 
