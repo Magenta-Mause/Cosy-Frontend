@@ -2,6 +2,7 @@ import { Button } from "@components/ui/button";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
+import { type GameServerDto, MetricLayoutSize } from "@/api/generated/model";
 import spinner from "@/assets/gifs/spinner.gif";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading";
 import { useTypedSelector } from "@/stores/rootReducer";
@@ -10,40 +11,14 @@ import {
   gameServerMetricsSliceActions,
 } from "@/stores/slices/gameServerMetrics";
 import { MetricsType } from "@/types/metricsTyp";
-import TimeRangeDropDown from "./DropDown/TimeRangeDropDown";
+import TimeRangeDropDown from "../DropDown/TimeRangeDropDown";
 import MetricGraph from "./MetricGraph";
-
-const METRIC_ORDER = [
-  {
-    type: MetricsType.CPU_PERCENT,
-    size: "6",
-  },
-  {
-    type: MetricsType.MEMORY_PERCENT,
-    size: "2",
-  },
-  {
-    type: MetricsType.MEMORY_LIMIT,
-    size: "2",
-  },
-  {
-    type: MetricsType.MEMORY_USAGE,
-    size: "2",
-  },
-  {
-    type: MetricsType.NETWORK_INPUT,
-    size: "3",
-  },
-  {
-    type: MetricsType.NETWORK_OUTPUT,
-    size: "3",
-  },
-];
+import { COL_SPAN_MAP } from "./metricLayout";
 
 const MetricDisplay = (
   props: {
     metrics: GameServerMetricsWithUuid[];
-    gameServerUuid: string;
+    gameServer: GameServerDto;
   } & React.ComponentProps<"div">,
 ) => {
   const { t } = useTranslation();
@@ -55,13 +30,13 @@ const MetricDisplay = (
 
   const liveEnabled = useTypedSelector(
     (s) =>
-      s.gameServerMetricsSliceReducer.data[props.gameServerUuid]?.enableMetricsLiveUpdates ?? true,
+      s.gameServerMetricsSliceReducer.data[props.gameServer.uuid]?.enableMetricsLiveUpdates ?? true,
   );
 
   const handleLiveMetrics = (enableLiveMetrics: boolean) => {
     dispatch(
       gameServerMetricsSliceActions.setEnableMetricsLiveUpdates({
-        gameServerUuid: props.gameServerUuid,
+        gameServerUuid: props.gameServer.uuid,
         enable: enableLiveMetrics,
       }),
     );
@@ -75,19 +50,10 @@ const MetricDisplay = (
 
     setLoading(true);
     try {
-      await loadMetrics(props.gameServerUuid, startTime, endTime);
+      await loadMetrics(props.gameServer.uuid, startTime, endTime);
     } finally {
       setLoading(false);
     }
-  };
-
-  const colSpanMap: Record<string, string> = {
-    "1": "col-span-1",
-    "2": "col-span-2",
-    "3": "col-span-3",
-    "4": "col-span-4",
-    "5": "col-span-5",
-    "6": "col-span-6",
   };
 
   return (
@@ -103,7 +69,6 @@ const MetricDisplay = (
             handleTimeChange(selectedStartTime, selectedEndTime);
           }}
         />
-        <Button>{t("metrics.configure")}</Button>
         <Button disabled={isCustomTime} onClick={() => handleLiveMetrics(!liveEnabled)}>
           {liveEnabled ? t("metrics.liveMetricsOn") : t("metrics.liveMetricsOff")}
         </Button>
@@ -117,14 +82,13 @@ const MetricDisplay = (
         </div>
       )}
       <div className="grid grid-cols-6 gap-2">
-        {METRIC_ORDER.map((metric) => (
+        {props.gameServer.metric_layout?.map((metric) => (
           <MetricGraph
-            key={metric.type}
-            className={colSpanMap[metric.size]}
+            key={metric.metric_type}
+            className={`${COL_SPAN_MAP[metric.size ?? MetricLayoutSize.MEDIUM]}`}
             metrics={props.metrics}
-            type={metric.type}
+            type={metric.metric_type ?? MetricsType.CPU_PERCENT}
             timeUnit={unit}
-            loading={loading}
           />
         ))}
       </div>

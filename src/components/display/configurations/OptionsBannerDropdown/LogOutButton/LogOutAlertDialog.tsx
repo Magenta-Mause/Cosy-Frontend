@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
@@ -19,6 +20,7 @@ interface LogOutAlertDialogProps {
 
 export function LogOutAlertDialog({ onConfirm, open, onOpenChange }: LogOutAlertDialogProps) {
   const { t } = useTranslationPrefix("logOutDialog");
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const handleConfirm = async () => {
@@ -26,6 +28,7 @@ export function LogOutAlertDialog({ onConfirm, open, onOpenChange }: LogOutAlert
     try {
       await onConfirm();
       onOpenChange(false);
+      navigate({ to: "/" });
     } catch (error) {
       console.error("Logout failed:", error);
     } finally {

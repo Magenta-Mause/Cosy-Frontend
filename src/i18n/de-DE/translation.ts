@@ -51,6 +51,12 @@ const translation: i18nLanguage = {
     usernameLabel: "Benutzername (Optional)",
     usernamePlaceholder: "Benutzername eingeben...",
     usernameDescription: "Leer lassen, damit der Benutzer seinen eigenen Namen wählen kann.",
+    usernameErrors: {
+      tooShort: "Benutzername muss mindestens 3 Zeichen lang sein",
+      tooLong: "Benutzername darf höchstens 50 Zeichen lang sein",
+      invalidCharacters:
+        "Benutzername darf nur Buchstaben, Zahlen, Unterstriche und Bindestriche enthalten",
+    },
     cancel: "Abbrechen",
     generateInvite: "Einladung erstellen",
     creating: "Erstelle...",
@@ -103,7 +109,7 @@ const translation: i18nLanguage = {
     title: "Sind Sie sicher?",
     description: "Diese Aktion kann nicht rückgängig gemacht werden!",
     explanation:
-      "Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
+      "Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und ALLE zugehörigen Dateien von dem Server entfernt.",
     inputLabel: "Geben Sie den Namen des Gameservers ein, um sicherzugehen:",
     cancel: "Abbrechen",
     confirm: "Löschen",
@@ -413,6 +419,11 @@ const translation: i18nLanguage = {
         metrics: "Metrik-Einstellungen",
         accessManagement: "Zugriffsverwaltungs-Einstellungen",
       },
+      metrics: {
+        type: "Typen",
+        width: "Breite",
+        add: "Metrik hinzufügen",
+      },
     },
     gameServerSettings: {
       rconSettings: {
@@ -469,7 +480,7 @@ const translation: i18nLanguage = {
           username: "Name",
           role: "Rolle",
           max_cpu: "CPU Limit",
-          max_memory: "Speicher Limit",
+          max_memory: "RAM Limit",
         },
         noUsersFound: "Keine Benutzer gefunden",
         pendingInvites: "Ausstehende Einladungen",
@@ -516,18 +527,17 @@ const translation: i18nLanguage = {
     STOPPING: "Stoppt...",
   },
   metrics: {
-    metricTitle: "{{type}} Metrik",
     metricDescription: "{{type}} Metrik über Zeit",
     configure: "Metriken konfigurieren",
     types: {
       CPU_PERCENT: "CPU",
-      MEMORY_PERCENT: "Arbeitsspeicher",
-      MEMORY_USAGE: "Arbeitsspeicher Nutzung",
-      MEMORY_LIMIT: "Arbeitsspeicher Limit",
-      NETWORK_INPUT: "Netzwerk Eingehend",
-      NETWORK_OUTPUT: "Netzwerk Ausgehend",
-      BLOCK_READ: "Speicher Lesevorgänge",
-      BLOCK_WRITE: "Speicher Schreibvorgänge",
+      MEMORY_PERCENT: "RAM",
+      MEMORY_USAGE: "RAM Nutzung",
+      MEMORY_LIMIT: "RAM Limit",
+      NETWORK_INPUT: "Netz Eingang",
+      NETWORK_OUTPUT: "Netz Ausgang",
+      BLOCK_READ: "Speicher Lesen",
+      BLOCK_WRITE: "Speicher Schreiben",
     },
     liveMetricsOn: "Live-Metriken: An",
     liveMetricsOff: "Live-Metriken: Aus",
@@ -545,6 +555,11 @@ const translation: i18nLanguage = {
   datepicker: {
     title: "Benutzerdefinierter Zeitraum",
     des: "Wählen Sie einen benutzerdefinierten Zeitraum für die Metriken aus.",
+  },
+  cardWidth: {
+    SMALL: "Klein",
+    MEDIUM: "Mittel",
+    LARGE: "Groß",
   },
 };
 

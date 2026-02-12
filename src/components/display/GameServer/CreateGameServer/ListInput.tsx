@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/button.tsx";
 import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
+import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { CircleAlertIcon, CircleX } from "lucide-react";
 import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { v7 as generateUuid } from "uuid";
@@ -182,12 +182,9 @@ function ListInput<T extends { uuid: string }>({
                 </Button>
               )}
               {rowError && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <CircleAlertIcon className="text-red-500 w-5 h-5" />
-                  </TooltipTrigger>
-                  <TooltipContent>{errorLabel}</TooltipContent>
-                </Tooltip>
+                <TooltipWrapper tooltip={errorLabel} asChild>
+                  <CircleAlertIcon className="text-red-500 w-5 h-5" />
+                </TooltipWrapper>
               )}
             </div>
           );

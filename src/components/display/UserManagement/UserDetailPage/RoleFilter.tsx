@@ -8,17 +8,21 @@ import {
 } from "@components/ui/dropdown-menu";
 import { Funnel } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import type { UserEntityDtoRole } from "@/api/generated/model";
+import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
 
 interface RoleFilterProps {
-  selectedRole: UserEntityDtoRole | null;
-  onRoleChange: (role: UserEntityDtoRole | null) => void;
+  selectedRole: UserRole | null;
+  onRoleChange: (role: UserRole | null) => void;
 }
 
 const RoleFilter = ({ selectedRole, onRoleChange }: RoleFilterProps) => {
   const { t } = useTranslation();
 
-  const roles: UserEntityDtoRole[] = ["OWNER", "ADMIN", "QUOTA_USER"];
+  const roles: UserRole[] = [
+    UserEntityDtoRole.OWNER,
+    UserEntityDtoRole.ADMIN,
+    UserEntityDtoRole.QUOTA_USER,
+  ];
 
   return (
     <DropdownMenu>

@@ -1,9 +1,13 @@
 import ConstructionPlaceHouse from "@components/display/GameServer/ConstructionPlace/ConstructionPlaceHouse.tsx";
 import GameServerHouse from "@components/display/GameServer/GameServerHouse/GameServerHouse.tsx";
 import calculateCoordinate from "@components/display/GameServer/GameServerHouseAligner/calculateCoordinate.ts";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { useContext } from "react";
 import type { GameServerDto } from "@/api/generated/model";
 
 const GameServerHouseAligner = (props: { gameServers: GameServerDto[] }) => {
+  const { authorized } = useContext(AuthContext);
+
   const getStyle = (index: number): React.CSSProperties => {
     const { x, y } = calculateCoordinate(index);
 
@@ -20,7 +24,7 @@ const GameServerHouseAligner = (props: { gameServers: GameServerDto[] }) => {
       {props.gameServers.map((gameServer, index) => (
         <GameServerHouse key={gameServer.uuid} gameServer={gameServer} style={getStyle(index)} />
       ))}
-      <ConstructionPlaceHouse style={getStyle(props.gameServers.length)} />
+      {authorized && <ConstructionPlaceHouse style={getStyle(props.gameServers.length)} />}
     </div>
   );
 };
