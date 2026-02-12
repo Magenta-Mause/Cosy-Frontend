@@ -398,11 +398,28 @@ const translation: i18nLanguage = {
       },
       uncosyZone: {
         title: "Uncosy Zone",
-        handOver: {
+        transferOwnership: {
           title: "Hand over Server",
           description:
             "If you want to stop hosting this server but don't want to delete it, you can hand it over to someone else. This will transfer ownership of the server to another user, allowing them to manage and host it instead.",
           button: "Hand over",
+          dialog: {
+            title: "Select User",
+            description: "Define the username of the new owner to hand over the server.",
+            userNotFound: "User not found",
+            inputPlaceholder: "Enter username...",
+            confirm: "Select",
+            cancel: "Cancel",
+            inputLabel: "Username",
+          },
+          confirmationDialog: {
+            title: "Confirm Hand Over",
+            description:
+              "Are you sure you want to hand over this server to a new owner? This action cannot be undone.",
+            newOwner: "New owner: ",
+            confirm: "Hand over",
+            cancel: "Cancel",
+          },
         },
         delete: {
           title: "Delete Server",

@@ -6,7 +6,7 @@ import type { GameServerDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { DeleteGameServerAlertDialog } from "../DeleteGameServerAlertDialog/DeleteGameServerAlertDialog";
-import TransferOwnershipAlertDialog from "../TransferOwnershipDialog/TransferOwnershipAlertDialog";
+import TransferOwnershipDialog from "../TransferOwnershipDialog/TransferOwnershipDialog";
 
 const UncosyZone = (props: { gameServer: GameServerDto }) => {
   const { t } = useTranslationPrefix("components.editGameServer.uncosyZone");
@@ -22,9 +22,9 @@ const UncosyZone = (props: { gameServer: GameServerDto }) => {
           <CardContent>
             <div className="flex justify-between py-2 gap-4 items-center">
               <div className="">
-                <p className="text-base font-bold">{t("handOver.title")}</p>
+                <p className="text-base font-bold">{t("transferOwnership.title")}</p>
                 <p className="text-sm text-muted-foreground leading-7">
-                  {t("handOver.description")}
+                  {t("transferOwnership.description")}
                 </p>
               </div>
               <Button
@@ -33,7 +33,7 @@ const UncosyZone = (props: { gameServer: GameServerDto }) => {
                   setIsTransferDialogOpen(true);
                 }}
               >
-                {t("handOver.button")}
+                {t("transferOwnership.button")}
               </Button>
             </div>
             <Separator />
@@ -60,7 +60,7 @@ const UncosyZone = (props: { gameServer: GameServerDto }) => {
         open={isDeleteDialogOpen}
         onOpenChange={setIsDeleteDialogOpen}
       />
-      <TransferOwnershipAlertDialog
+      <TransferOwnershipDialog
         gameServer={props.gameServer}
         open={isTransferDialogOpen}
         onOpenChange={setIsTransferDialogOpen}

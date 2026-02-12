@@ -2,7 +2,6 @@ import { Button } from "@components/ui/button";
 import {
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogMain,
@@ -20,7 +19,7 @@ const TransferOwnershipAlertDialog = (props: {
   onOpenChange: (open: boolean) => void;
   newOwnerName: string;
 }) => {
-  const { t } = useTranslationPrefix("components.editGameServer.transferOwnership.confirmationDialog");
+  const { t } = useTranslationPrefix("components.editGameServer.uncosyZone.transferOwnership.confirmationDialog");
   const { transferOwnership } = useDataInteractions();
   const [loading, setLoading] = useState(false);
 
@@ -51,11 +50,11 @@ const TransferOwnershipAlertDialog = (props: {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
-          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
         <DialogMain>
-          Are you sure you want to transfer ownership to{" "}
-          <strong>{props.newOwnerName}</strong>? This action cannot be undone.
+          <p className="text-base leading-6">{t("description")}</p>
+          <p className="text-base">{t("newOwner")}</p>
+          <p className="font-bold text-base">{props.newOwnerName}</p>
         </DialogMain>
         <DialogFooter>
           <DialogClose asChild>

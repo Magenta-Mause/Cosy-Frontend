@@ -395,10 +395,26 @@ export type i18nLanguage = {
       };
       uncosyZone: {
         title: string;
-        handOver: {
+        transferOwnership: {
           title: string;
           description: string;
           button: string;
+          dialog: {
+            title: string;
+            description: string;
+            userNotFound: string;
+            inputPlaceholder: string;
+            confirm: string;
+            cancel: string;
+            inputLabel: string;
+          };
+          confirmationDialog: {
+            title: string;
+            description: string;
+            newOwner: string;
+            confirm: string;
+            cancel: string;
+          };
         };
         delete: {
           title: string;

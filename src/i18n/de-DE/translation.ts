@@ -399,11 +399,29 @@ const translation: i18nLanguage = {
       },
       uncosyZone: {
         title: "Uncosy Zone",
-        handOver: {
+        transferOwnership: {
           title: "Server übergeben",
           description:
             "Wenn du deinen Server an einen anderen Benutzer übergeben möchtest, kannst du das hier tun. Dadurch erhält der andere Benutzer die volle Kontrolle über den Server und seine Konfiguration.",
           button: "Server übergeben",
+          dialog: {
+            title: "Nutzer Auswählen",
+            description:
+              "Definiere den Benutzernamen des neuen Besitzers, um den Server zu übergeben.",
+            userNotFound: "Benutzer nicht gefunden",
+            inputPlaceholder: "Benutzernamen eingeben...",
+            confirm: "Auswählen",
+            cancel: "Abbrechen",
+            inputLabel: "Benutzername",
+          },
+          confirmationDialog: {
+            title: "Bist du sicher?",
+            description:
+              "Bist du sicher, dass du deinen Server an einen anderen Benutzer übergeben möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+            newOwner: "Neuer Besitzer: ",
+            cancel: "Abbrechen",
+            confirm: "Server übergeben",
+          },
         },
         delete: {
           title: "Server löschen",

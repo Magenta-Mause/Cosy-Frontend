@@ -17,12 +17,12 @@ import type { GameServerDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import TransferOwnershipConfirmationDialog from "./TransferOwnershipConfirmationDialog";
 
-const TransferOwnershipAlertDialog = (props: {
+const TransferOwnershipDialog = (props: {
   gameServer: GameServerDto;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) => {
-  const { t } = useTranslationPrefix("components.editGameServer.transferOwnership");
+  const { t } = useTranslationPrefix("components.editGameServer.uncosyZone.transferOwnership.dialog");
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false);
@@ -78,6 +78,7 @@ const TransferOwnershipAlertDialog = (props: {
           <DialogMain>
             <Input
               id="userName"
+              header={t("inputLabel")}
               value={inputValue}
               onChange={(e) => {
                 setInputValue(e.target.value);
@@ -117,4 +118,4 @@ const TransferOwnershipAlertDialog = (props: {
   );
 };
 
-export default TransferOwnershipAlertDialog;
+export default TransferOwnershipDialog;
