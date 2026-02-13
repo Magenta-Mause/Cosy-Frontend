@@ -42,6 +42,7 @@ import type {
   RenameInVolumeParams,
   SendCommandDto,
   TemplateEntity,
+  TransferOwnershipDto,
   UploadFileToVolumeParams,
   UserCreationDto,
   UserEntityDto,
@@ -596,6 +597,66 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getCreateGameServerMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const transferOwnership = (
+    uuid: string,
+    transferOwnershipDto: TransferOwnershipDto,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameServerDto>(
+      {url: `/game-server/${uuid}/transfer-ownership`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: transferOwnershipDto, signal
+    },
+      options);
+    }
+  
+
+
+export const getTransferOwnershipMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: TransferOwnershipDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: TransferOwnershipDto}, TContext> => {
+
+const mutationKey = ['transferOwnership'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof transferOwnership>>, {uuid: string;data: TransferOwnershipDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  transferOwnership(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type TransferOwnershipMutationResult = NonNullable<Awaited<ReturnType<typeof transferOwnership>>>
+    export type TransferOwnershipMutationBody = TransferOwnershipDto
+    export type TransferOwnershipMutationError = unknown
+
+    export const useTransferOwnership = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: TransferOwnershipDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof transferOwnership>>,
+        TError,
+        {uuid: string;data: TransferOwnershipDto},
+        TContext
+      > => {
+
+      const mutationOptions = getTransferOwnershipMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -1498,6 +1559,69 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const getUserEntityByUsername = (
+    username: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/username/${username}`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetUserEntityByUsernameQueryKey = (username?: string,) => {
+    return [
+    `/user-entity/username/${username}`
+    ] as const;
+    }
+
+    
+export const getGetUserEntityByUsernameQueryOptions = <TData = Awaited<ReturnType<typeof getUserEntityByUsername>>, TError = unknown>(username: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUserEntityByUsername>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserEntityByUsernameQueryKey(username);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserEntityByUsername>>> = ({ signal }) => getUserEntityByUsername(username, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(username), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserEntityByUsername>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUserEntityByUsernameQueryResult = NonNullable<Awaited<ReturnType<typeof getUserEntityByUsername>>>
+export type GetUserEntityByUsernameQueryError = unknown
+
+
+
+export function useGetUserEntityByUsername<TData = Awaited<ReturnType<typeof getUserEntityByUsername>>, TError = unknown>(
+ username: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUserEntityByUsername>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetUserEntityByUsernameQueryOptions(username,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
 export const getAllTemplates = (
     
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal

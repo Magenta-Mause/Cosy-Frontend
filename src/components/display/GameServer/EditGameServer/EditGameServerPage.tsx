@@ -217,7 +217,7 @@ const EditGameServerPage = (props: {
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   return (
-    <div className="relative pr-3 pb-10">
+    <div>
       <div>
         <h2>{t("title")}</h2>
       </div>
@@ -416,7 +416,7 @@ const EditGameServerPage = (props: {
         />
       </div>
 
-      <div className="sticky bottom-4 w-fit ml-auto flex gap-4">
+      <div className="pt-5 sticky bottom-4 w-fit ml-auto flex gap-4">
         <Button
           className="h-12.5"
           variant="secondary"

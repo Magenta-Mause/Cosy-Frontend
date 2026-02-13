@@ -6,10 +6,7 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface RCONConfiguration {
-  enabled?: boolean;
-  port?: number;
-  password?: string;
-  port_valid?: boolean;
-  password_valid?: boolean;
+export interface TransferOwnershipDto {
+  /** @minLength 1 */
+  new_owner_name: string;
 }

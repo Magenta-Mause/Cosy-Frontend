@@ -43,6 +43,7 @@ export * from './templateEntity';
 export * from './templateEntityEnvironmentVariables';
 export * from './templateEntityPortMappings';
 export * from './templateVariable';
+export * from './transferOwnershipDto';
 export * from './uploadFileToVolumeParams';
 export * from './userCreationDto';
 export * from './userEntityDto';
