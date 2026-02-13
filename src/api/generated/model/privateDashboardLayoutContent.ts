@@ -6,10 +6,4 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface RCONConfiguration {
-  enabled?: boolean;
-  port?: number;
-  password?: string;
-  port_valid?: boolean;
-  password_valid?: boolean;
-}
+export type PrivateDashboardLayoutContent = {[key: string]: string};
