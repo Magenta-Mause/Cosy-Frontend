@@ -10,6 +10,7 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import GenericGameServerCreationInputField from "../GenericGameServerCreationInputField.tsx";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
+import VolumeMountInput from "../VolumeMountInput.tsx";
 
 export default function Step3() {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3");
@@ -76,18 +77,12 @@ export default function Step3() {
         errorLabel={t("executionCommandSelection.errorLabel")}
       />
 
-      <KeyValueInput
+      <VolumeMountInput
         attribute="volume_mounts"
-        fieldLabel={t("hostPathSelection.title")}
-        fieldDescription={t("hostPathSelection.description")}
+        label={t("hostPathSelection.title")}
+        description={t("hostPathSelection.description")}
         errorLabel={t("hostPathSelection.errorLabel")}
-        placeHolderKeyInput="Host Path"
-        placeHolderValueInput="Container Path"
-        keyValidator={z.string().min(1)}
-        valueValidator={z.string().min(1)}
-        inputType={"text"}
-        objectKey="host_path"
-        objectValue="container_path"
+        placeholder="Container Path"
       />
 
       <div className="grid grid-cols-2 gap-4">
