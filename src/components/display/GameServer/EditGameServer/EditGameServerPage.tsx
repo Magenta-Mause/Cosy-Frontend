@@ -217,7 +217,7 @@ const EditGameServerPage = (props: {
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   return (
-    <div className="relative pr-3">
+    <div>
       <div>
         <h2>{t("title")}</h2>
       </div>

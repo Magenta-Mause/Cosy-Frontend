@@ -31,7 +31,7 @@ interface SettingsContextType {
 
 const SettingsProvider = createContext<SettingsContextType>({
   settings: { serverName: "" },
-  setSettings: () => () => {},
+  setSettings: () => () => { },
 });
 
 const ResizableLabel = ({ label }: { label: string }) => {
@@ -132,9 +132,8 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
               >
                 {({ isActive }) => (
                   <Button
-                    className={`w-full min-w-0 flex justify-start border-0 shadow-none bg-button-primary-default ${
-                      isActive && "bg-button-primary-active hover:bg-button-primary-default"
-                    }`}
+                    className={`w-full min-w-0 flex justify-start border-0 shadow-none bg-button-primary-default ${isActive && "bg-button-primary-active hover:bg-button-primary-default"
+                      }`}
                   >
                     {icon}
                     <ResizableLabel label={label} />
