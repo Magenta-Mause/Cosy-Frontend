@@ -503,6 +503,24 @@ export type i18nLanguage = {
         width: string;
         add: string;
       };
+      privateDashboard: {
+        add: string;
+        types: {
+          METRIC: string;
+          LOGS: string;
+          FREETEXT: string;
+        };
+        freetext: {
+          title: string;
+          desc: string;
+          key: string;
+          value: string;
+          confirm: string;
+          cancel: string;
+          placeholder: string;
+          label: string;
+        };
+      };
     };
     gameServerSettings: {
       rconSettings: {
