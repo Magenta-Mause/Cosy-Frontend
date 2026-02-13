@@ -412,7 +412,7 @@ const translation: i18nLanguage = {
           dialog: {
             title: "Nutzer Auswählen",
             description:
-              "Definiere den Benutzernamen des neuen Besitzers, um den Server zu übergeben.",
+              "Gib den Namen des Benutzers ein, an den der Server übergeben werden soll.",
             userNotFound: "Benutzer nicht gefunden",
             inputPlaceholder: "Benutzernamen eingeben...",
             confirm: "Auswählen",

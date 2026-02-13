@@ -410,7 +410,7 @@ const translation: i18nLanguage = {
           button: "Hand over",
           dialog: {
             title: "Select User",
-            description: "Define the username of the new owner to hand over the server.",
+            description: "Enter the username of the new owner to hand over the server.",
             userNotFound: "User not found",
             inputPlaceholder: "Enter username...",
             confirm: "Select",
