@@ -466,6 +466,16 @@ const translation: i18nLanguage = {
           LOGS: "Logs",
           FREETEXT: "Free Text",
         },
+        freetext: {
+          title: "Free Text",
+          desc: "Add custom key value text",
+          key: "Key",
+          value: "Value",
+          confirm: "Confirm",
+          cancel: "Cancel",
+          placeholder: "Title",
+          label: "Enter Title (optional)",
+        },
       },
     },
     gameServerSettings: {

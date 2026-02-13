@@ -19,7 +19,7 @@ interface Props<T> {
   placeHolderKeyInput: string;
   placeHolderValueInput: string;
   fieldLabel: string;
-  fieldDescription: string;
+  fieldDescription?: string;
 
   keyValidator: ZodType;
   valueValidator: ZodType;

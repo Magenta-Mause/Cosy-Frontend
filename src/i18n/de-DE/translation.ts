@@ -432,6 +432,16 @@ const translation: i18nLanguage = {
           LOGS: "Logs",
           FREETEXT: "Freitext",
         },
+        freetext: {
+          title: "Freitext",
+          desc: "Benutzerdefinierte Schlüssel-Wert Paare",
+          key: "Schlüssel",
+          value: "Wert",
+          confirm: "Bestätigen",
+          cancel: "Abbrechen",
+          placeholder: "Titel",
+          label: "Titel eingeben (optional)",
+        },
       },
     },
     gameServerSettings: {

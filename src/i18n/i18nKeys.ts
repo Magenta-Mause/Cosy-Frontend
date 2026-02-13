@@ -510,6 +510,16 @@ export type i18nLanguage = {
           LOGS: string;
           FREETEXT: string;
         };
+        freetext: {
+          title: string;
+          desc: string;
+          key: string;
+          value: string;
+          confirm: string;
+          cancel: string;
+          placeholder: string;
+          label: string;
+        };
       };
     };
     gameServerSettings: {
