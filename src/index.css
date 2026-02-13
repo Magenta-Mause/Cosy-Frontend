@@ -2,14 +2,14 @@
 
 @font-face {
   font-family: "Glasstown";
-  src: url("./assets/glasstown_nbp.ttf") format("truetype");
+  src: url("assets/font-family/glasstown_nbp.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Fipps";
-  src: url("./assets/FippsRegular-enqx.otf");
+  src: url("assets/font-family/FippsRegular-enqx.otf");
   font-weight: normal;
   font-style: normal;
 }
