@@ -74,7 +74,7 @@ export function DeleteGameServerAlertDialog({
         </DialogHeader>
 
         <DialogMain>
-          <div className="flex flex-col items-start gap-4">
+          <div className="flex text-base flex-col items-start gap-4">
             {t("explanation")}
             <div>
               <Label htmlFor="serverName">{t("inputLabel")}</Label>
