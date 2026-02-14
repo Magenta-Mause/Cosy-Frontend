@@ -1,11 +1,18 @@
+import AccessGroupEditComponent from "@components/display/AccessGroups/AccessGroupEditComponent/AccessGroupEditComponent";
+import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 export default function AccessManagementSettingsSection() {
-  const { t } = useTranslationPrefix("components.GameServerSettings.sections");
+  const { t } = useTranslationPrefix("components.GameServerSettings.accessManagement");
+  const { gameServer } = useSelectedGameServer();
 
   return (
-    <div>
-      <h2>{t("accessManagement")}</h2>
+    <div className="relative pr-3 pb-10 gap-5 flex flex-col">
+      <div>
+        <h2>{t("title")}</h2>
+        <p className={"text-sm text-muted-foreground leading-none"}>{t("description")}</p>
+      </div>
+      <AccessGroupEditComponent gameServer={gameServer} />
     </div>
   );
 }

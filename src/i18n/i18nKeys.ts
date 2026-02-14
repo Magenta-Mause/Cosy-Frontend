@@ -498,6 +498,10 @@ export type i18nLanguage = {
         metrics: string;
         accessManagement: string;
       };
+      accessManagement: {
+        title: string;
+        description: string;
+      };
       metrics: {
         type: string;
         width: string;

@@ -424,6 +424,10 @@ const translation: i18nLanguage = {
         width: "Breite",
         add: "Metrik hinzufügen",
       },
+      accessManagement: {
+        title: "Zugriffsverwaltung",
+        description: "Bestimme wer welchen Zugriff auf deinen Server haben soll",
+      },
     },
     gameServerSettings: {
       rconSettings: {

@@ -7,13 +7,19 @@ import {
   getGetAllUserInvitesQueryKey,
   type UpdateGameServerMutationBody,
   useCreateGameServer,
+  useCreateGameServerAccessGroup,
   useCreateInvite,
+  useDeleteGameServerAccessGroup,
   useDeleteGameServerById,
   useRevokeInvite,
   useUpdateGameServer,
   useUpdateRconConfiguration,
 } from "@/api/generated/backend-api.ts";
-import type { RCONConfiguration, UserInviteCreationDto } from "@/api/generated/model";
+import type {
+  AccessGroupCreationDto,
+  RCONConfiguration,
+  UserInviteCreationDto,
+} from "@/api/generated/model";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
@@ -158,6 +164,59 @@ const useDataInteractions = () => {
     });
   };
 
+  const { mutateAsync: createGameServerAccessGroupMutateAsync } = useCreateGameServerAccessGroup({
+    mutation: {
+      onSuccess: (createdAccessGroup) => {
+        dispatch(
+          gameServerSliceActions.addGameServerAccessGroup({
+            gameServerUuid: createdAccessGroup.game_server_uuid,
+            accessGroup: createdAccessGroup,
+          }),
+        );
+        toast.success(t("updateGameServerSuccess"));
+      },
+      onError: (err) => {
+        toast.error(t("updateGameServerError"));
+        throw err;
+      },
+    },
+  });
+
+  const createGameServerAccessGroup = async (
+    gameServerUuid: string,
+    accessGroupCreationDto: AccessGroupCreationDto,
+  ) => {
+    return await createGameServerAccessGroupMutateAsync({
+      gameServerUuid: gameServerUuid,
+      data: accessGroupCreationDto,
+    });
+  };
+
+  const { mutateAsync: deleteGameServerAccessGroupMutateAsync } = useDeleteGameServerAccessGroup({
+    mutation: {
+      onSuccess: (_, props) => {
+        dispatch(
+          gameServerSliceActions.removeGameServerAccessGroup({
+            gameServerUuid: props.gameServerUuid,
+            accessGroupUuid: props.accessGroupUuid,
+          }),
+        );
+        toast.success(t("updateGameServerSuccess"));
+      },
+      onError: (err) => {
+        toast.error(t("updateGameServerError"));
+        throw err;
+      },
+    },
+  });
+
+  const deleteGameServerAccessGroup = async (gameServerUuid: string, accessGroupUuid: string) => {
+    return await deleteGameServerAccessGroupMutateAsync({
+      gameServerUuid: gameServerUuid,
+      accessGroupUuid: accessGroupUuid,
+    });
+  };
+
   return {
     deleteGameServer,
     createInvite,
@@ -165,6 +224,8 @@ const useDataInteractions = () => {
     createGameServer,
     updateGameServer,
     updateRconConfiguration,
+    createGameServerAccessGroup,
+    deleteGameServerAccessGroup,
   };
 };
 

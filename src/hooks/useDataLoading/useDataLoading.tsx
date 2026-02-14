@@ -85,7 +85,6 @@ const useDataLoading = () => {
   };
 
   const loadAdditionalGameServerData = async (gameServerUuid: string) => {
-    console.log("loading additional game server data for game server: ", gameServerUuid, "");
     await Promise.allSettled([
       loadGameServerLogs(gameServerUuid),
       loadGameServerMetrics(gameServerUuid),

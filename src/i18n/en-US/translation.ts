@@ -459,6 +459,10 @@ const translation: i18nLanguage = {
         width: "Width",
         add: "Add Metric",
       },
+      accessManagement: {
+        title: "Access Management",
+        description: "Manage who should be able to access your server in which way",
+      },
     },
     gameServerSettings: {
       rconSettings: {
