@@ -6,11 +6,11 @@
  * OpenAPI spec version: v1.0
  */
 
-export type GameServerAccessGroupPermissionsItem = typeof GameServerAccessGroupPermissionsItem[keyof typeof GameServerAccessGroupPermissionsItem];
+export type GameServerAccessGroupDtoPermissionsItem = typeof GameServerAccessGroupDtoPermissionsItem[keyof typeof GameServerAccessGroupDtoPermissionsItem];
 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GameServerAccessGroupPermissionsItem = {
+export const GameServerAccessGroupDtoPermissionsItem = {
   ADMIN: 'ADMIN',
   SEE_SERVER: 'SEE_SERVER',
   READ_SERVER_SERVER_FILES: 'READ_SERVER_SERVER_FILES',

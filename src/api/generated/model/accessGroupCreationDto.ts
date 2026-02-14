@@ -7,5 +7,6 @@
  */
 
 export interface AccessGroupCreationDto {
-  name?: string;
+  /** @minLength 1 */
+  name: string;
 }

@@ -25,7 +25,7 @@ import type {
   CreateDirectoryInVolumeParams,
   DeleteInVolumeParams,
   GameDto,
-  GameServerAccessGroup,
+  GameServerAccessGroupDto,
   GameServerCreationDto,
   GameServerDto,
   GameServerFileSystemDto,
@@ -971,7 +971,7 @@ export const createGameServerAccessGroup = (
 ) => {
       
       
-      return customInstance<GameServerAccessGroup>(
+      return customInstance<GameServerAccessGroupDto>(
       {url: `/game-server/${gameServerUuid}/access-groups`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: accessGroupCreationDto, signal
@@ -1381,7 +1381,7 @@ export const updateGameServerAccessGroups = (
  options?: SecondParameter<typeof customInstance>,) => {
       
       
-      return customInstance<GameServerAccessGroup[]>(
+      return customInstance<GameServerAccessGroupDto[]>(
       {url: `/game-server/${gameServerUuid}/access-groups/${accessGroupUuid}`, method: 'PATCH',
       headers: {'Content-Type': 'application/json', },
       data: accessGroupUpdateDto

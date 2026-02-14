@@ -1,6 +1,6 @@
-import LanguageSelector from "@components/display/configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
-import LogOutButton from "@components/display/configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
-import UserMenuButton from "@components/display/configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
+import LanguageSelector from "@components/display/Configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
+import LogOutButton from "@components/display/Configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
+import UserMenuButton from "@components/display/Configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useContext, useEffect, useRef, useState } from "react";

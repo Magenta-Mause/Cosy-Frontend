@@ -1,6 +1,6 @@
 import RightClickMenu, {
   type RightClickAction,
-} from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
+} from "@components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
 import { DeleteGameServerAlertDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
 import Link from "@components/ui/Link.tsx";
 import { useRouter } from "@tanstack/react-router";
