@@ -122,7 +122,8 @@ const GameServerHouse = (props: {
           onClick={handleClick}
         >
           <NameAndStatusBanner
-            className="absolute -translate-x-1/2 py-0.5 font-bold whitespace-nowrap z-10"
+            className="absolute -translate-x-1/2 font-bold whitespace-nowrap z-10"
+            classNameTextChildren="-translate-y-[1.1vw]"
             status={props.gameServer.status}
           >
             {props.gameServer.server_name}
