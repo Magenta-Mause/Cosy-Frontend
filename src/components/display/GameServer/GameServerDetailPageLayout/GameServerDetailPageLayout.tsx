@@ -137,6 +137,11 @@ const FancyNavigationButton = (
 ) => {
   const compiledDirection = props.direction ?? "left";
   const compiledMargin = compiledDirection === "left" ? "mr" : "ml";
+
+  // Calculate max-width based on label length (approximately 5px per character)
+  const labelLength = typeof props.label === 'string' ? props.label.length : 20;
+  const calculatedMaxWidth = labelLength * 13;
+
   return (
     <Button
       style={buttonStyles}
@@ -147,10 +152,11 @@ const FancyNavigationButton = (
       {compiledDirection === "right" && props.children}
       <div
         className={cn(
-          `group-focus:max-w-28 group-focus:${compiledMargin}-1 group-focus:opacity-100`,
-          `group-hover:max-w-30 group-hover:${compiledMargin}-1 group-hover:opacity-100`,
+          `group-focus:${compiledMargin}-1 group-focus:opacity-100`,
+          `group-hover:${compiledMargin}-1 group-hover:opacity-100`,
           "top-[50%] max-w-0 opacity-0 duration-400 transition-all",
           `align-middle justify-center m-auto relative ${compiledMargin}-0 overflow-clip`,
+          "group-hover:[max-width:var(--label-max-width)] group-focus:[max-width:var(--label-max-width)]",
         )}
         style={{
           transform:
@@ -158,6 +164,7 @@ const FancyNavigationButton = (
             (compiledDirection === "left" ? "-" : "") +
             SIDE_MARGIN +
             "px) translateY(-50%)",
+          ['--label-max-width' as string]: `${calculatedMaxWidth}px`,
         }}
       >
         {props.label}

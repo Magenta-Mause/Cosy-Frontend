@@ -618,7 +618,7 @@ const translation: i18nLanguage = {
     unlimited: "Unlimitiert",
     navbar: {
       overview: "Dashboard",
-      console: "Console",
+      console: "Konsole",
       metrics: "Metriken",
       file_explorer: "Dateien",
       settings: "Einstellungen",
