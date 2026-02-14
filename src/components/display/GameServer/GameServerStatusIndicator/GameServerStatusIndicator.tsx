@@ -2,15 +2,7 @@ import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { type GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
-
-const STATUS_CLASSES: Record<GameServerDtoStatus, string> = {
-  [GameServerDtoStatus.FAILED]: "bg-yellow-400",
-  [GameServerDtoStatus.STOPPED]: "bg-red-400",
-  [GameServerDtoStatus.RUNNING]: "bg-green-500",
-  [GameServerDtoStatus.PULLING_IMAGE]: "bg-blue-400",
-  [GameServerDtoStatus.AWAITING_UPDATE]: "bg-gray-400",
-  [GameServerDtoStatus.STOPPING]: "bg-red-600",
-};
+import GameServerStatusDot from "../GameServerStatusDot/GameServerStatusDot.tsx";
 
 const GameServerStatusIndicator = (props: { gameServer: GameServerDto }) => {
   const { t } = useTranslation();
@@ -33,11 +25,10 @@ const GameServerStatusIndicator = (props: { gameServer: GameServerDto }) => {
       buttonLabel = t("serverStatus.PULLING_IMAGE");
     }
   }
+
   return (
     <div className={"flex gap-2 align-middle items-center"}>
-      <div
-        className={`w-5 h-5 border-button-primary-default border-2 rounded-4xl ${STATUS_CLASSES[status]}`}
-      />
+      <GameServerStatusDot status={status} />
       <div className={"text-lg"}>{buttonLabel}</div>
     </div>
   );
