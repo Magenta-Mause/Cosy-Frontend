@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import type { GameServerAccessGroupPermissionsItem, GameServerDto } from "@/api/generated/model";
+import type { GameServerAccessGroupDtoPermissionsItem, GameServerDto } from "@/api/generated/model";
 import type { SliceState } from "@/stores";
 
 interface GameServerPermissionsSliceState {
@@ -21,7 +21,7 @@ const gameServerPermissionsSlice = createSlice({
       state,
       action: PayloadAction<{
         gameServerUuid: string;
-        permissions: GameServerAccessGroupPermissionsItem[];
+        permissions: GameServerAccessGroupDtoPermissionsItem[];
       }>,
     ) => {
       state.data[action.payload.gameServerUuid] = {

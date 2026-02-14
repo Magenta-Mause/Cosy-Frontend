@@ -1679,6 +1679,69 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const getUUIDByUsername = (
+    username: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<string>(
+      {url: `/user-entity/uuid-by-username/${username}`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetUUIDByUsernameQueryKey = (username?: string,) => {
+    return [
+    `/user-entity/uuid-by-username/${username}`
+    ] as const;
+    }
+
+    
+export const getGetUUIDByUsernameQueryOptions = <TData = Awaited<ReturnType<typeof getUUIDByUsername>>, TError = unknown>(username: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUUIDByUsername>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUUIDByUsernameQueryKey(username);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUUIDByUsername>>> = ({ signal }) => getUUIDByUsername(username, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(username), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUUIDByUsername>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUUIDByUsernameQueryResult = NonNullable<Awaited<ReturnType<typeof getUUIDByUsername>>>
+export type GetUUIDByUsernameQueryError = unknown
+
+
+
+export function useGetUUIDByUsername<TData = Awaited<ReturnType<typeof getUUIDByUsername>>, TError = unknown>(
+ username: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUUIDByUsername>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetUUIDByUsernameQueryOptions(username,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
 export const getAllTemplates = (
     
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal

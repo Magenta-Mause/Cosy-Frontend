@@ -13,10 +13,12 @@ import {
   useDeleteGameServerById,
   useRevokeInvite,
   useUpdateGameServer,
+  useUpdateGameServerAccessGroups,
   useUpdateRconConfiguration,
 } from "@/api/generated/backend-api.ts";
 import type {
   AccessGroupCreationDto,
+  AccessGroupUpdateDto,
   RCONConfiguration,
   UserInviteCreationDto,
 } from "@/api/generated/model";
@@ -217,6 +219,36 @@ const useDataInteractions = () => {
     });
   };
 
+  const { mutateAsync: updateGameServerAccessGroupsMutateAsync } = useUpdateGameServerAccessGroups({
+    mutation: {
+      onSuccess: (updatedAccessGroups, props) => {
+        dispatch(
+          gameServerSliceActions.updateGameServerAccessGroups({
+            gameServerUuid: props.gameServerUuid,
+            newAccessGroups: updatedAccessGroups,
+          }),
+        );
+        toast.success(t("updateGameServerSuccess"));
+      },
+      onError: (err) => {
+        toast.error(t("updateGameServerError"));
+        throw err;
+      },
+    },
+  });
+
+  const updateGameServerAccessGroups = async (
+    gameServerUuid: string,
+    accessGroupUuid: string,
+    accessGroupUpdateDto: AccessGroupUpdateDto,
+  ) => {
+    return await updateGameServerAccessGroupsMutateAsync({
+      gameServerUuid: gameServerUuid,
+      accessGroupUuid: accessGroupUuid,
+      data: accessGroupUpdateDto,
+    });
+  };
+
   return {
     deleteGameServer,
     createInvite,
@@ -226,6 +258,7 @@ const useDataInteractions = () => {
     updateRconConfiguration,
     createGameServerAccessGroup,
     deleteGameServerAccessGroup,
+    updateGameServerAccessGroups,
   };
 };
 
