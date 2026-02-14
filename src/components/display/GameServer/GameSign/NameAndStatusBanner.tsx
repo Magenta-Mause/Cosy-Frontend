@@ -30,18 +30,16 @@ const NameAndStatusBanner = (props: {
         className={cn(
           "absolute inset-0 select-none overflow-hidden",
           "flex items-center justify-center gap-2",
-          "px-[12%] py-[25%]",
+          "px-[18%] py-[25%]",
           "text-amber-950",
-          "text-[1.2vw] leading-[1.2vw]", // bigger text (tweak these)
+          "text-[1.2vw] leading-[1.2vw]",
           props.classNameTextChildren,
         )}
       >
-        <GameServerStatusDot
-          status={status}
-          showTooltip={true}
-          className="w-4 h-4" // bigger dot (tweak these)
-        />
-        <span className="min-w-0 truncate whitespace-nowrap">{props.children}</span>
+        <GameServerStatusDot status={status} showTooltip={true} className="w-4 h-4 shrink-0" />
+        <span className="min-w-0 font-bold truncate whitespace-nowrap text-center">
+          {props.children}
+        </span>
       </div>
     </div>
   );
