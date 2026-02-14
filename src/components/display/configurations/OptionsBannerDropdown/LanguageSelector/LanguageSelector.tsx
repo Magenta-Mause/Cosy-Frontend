@@ -1,7 +1,7 @@
 import { Button } from "@components/ui/button.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.tsx";
-import { GlobeIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import globe from "@/assets/icons/globe.svg";
 import { cn } from "@/lib/utils.ts";
 
 const LANGUAGES = [
@@ -22,13 +22,13 @@ const LanguageSelector = (props: { className?: string; onLanguageChange?: () => 
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          className={cn("h-auto p-[.5vw] aspect-square", props.className)}
+          className={cn("w-fit p-[.5vw] aspect-square", props.className)}
           aria-label={t("optionsBanner.languageSelector")}
           onClick={(e) => {
             e.stopPropagation();
           }}
         >
-          <GlobeIcon className="h-[1.5vw]! p-0 w-auto! aspect-square" />
+          <img src={globe} alt="Logout Icon" className="h-[2.5vw] p-1 w-[2.5vw] aspect-square" />
         </Button>
       </PopoverTrigger>
       <PopoverContent

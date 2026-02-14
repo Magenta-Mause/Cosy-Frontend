@@ -1,7 +1,7 @@
 import { Button } from "@components/ui/button.tsx";
-import { User } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import person from "@/assets/icons/person.svg";
 import { cn } from "@/lib/utils.ts";
 import { UserModal } from "../../../UserManagement/UserModal/UserModal.tsx";
 
@@ -13,10 +13,10 @@ const UserMenuButton = () => {
     <>
       <Button
         onClick={() => setIsUserOpen((prev) => !prev)}
-        className={cn("h-auto p-[.5vw] aspect-square")}
+        className={cn("w-fit p-[.5vw] aspect-square")}
         aria-label={t("optionsBanner.userMenu")}
       >
-        <User className="!h-[1.5vw] p-0 !w-auto aspect-square" />
+        <img src={person} alt="User Menu Icon" className="h-[2.5vw] p-0 w-auto aspect-square" />
       </Button>
       <UserModal open={isUserOpen} onOpenChange={setIsUserOpen} />
     </>
