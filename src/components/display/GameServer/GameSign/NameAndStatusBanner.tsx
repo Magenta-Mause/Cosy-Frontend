@@ -1,20 +1,23 @@
 import type { ReactNode } from "react";
-import signImage from "@/assets/ai-generated/main-page/sign.png";
+import gameServerStatusBanner from "@/assets/PapyrusBanner.webp";
 import { cn } from "@/lib/utils.ts";
 
-const GameSign = (props: {
+const NameAndStatusBanner = (props: {
   children: ReactNode;
   className?: string;
   classNameTextChildren?: string;
 }) => {
   return (
     <div
-      className={cn("absolute select-none h-auto aspect-square", props.className)}
+      className={cn("absolute select-none", props.className)}
       tabIndex={-1}
       style={{
-        backgroundImage: `url(${signImage})`,
-        backgroundSize: "contain",
+        backgroundImage: `url(${gameServerStatusBanner})`,
+        backgroundSize: "100% 100%",
         backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        width: "14vw",
+        height: "4vw",
       }}
     >
       <div
@@ -31,4 +34,4 @@ const GameSign = (props: {
   );
 };
 
-export default GameSign;
+export default NameAndStatusBanner;

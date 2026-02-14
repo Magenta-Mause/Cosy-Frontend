@@ -8,13 +8,13 @@ import type { CSSProperties } from "react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { type GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
+import type { GameServerDto } from "@/api/generated/model";
 import serverHouseImage1 from "@/assets/MainPage/house1.png";
 import serverHouseImage2 from "@/assets/MainPage/house2.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
-import GameSign from "../GameSign/GameSign";
+import NameAndStatusBanner from "../GameSign/NameAndStatusBanner.tsx";
 
 const hashUUID = (uuid: string): number => {
   let hash = 0;
@@ -121,6 +121,9 @@ const GameServerHouse = (props: {
           }}
           onClick={handleClick}
         >
+          <NameAndStatusBanner className="absolute -translate-x-1/2 py-0.5 font-bold whitespace-nowrap z-10">
+            {props.gameServer.server_name}
+          </NameAndStatusBanner>
           <img
             alt={t("aria.gameServerConfiguration", {
               serverName: props.gameServer.server_name,
@@ -134,23 +137,6 @@ const GameServerHouse = (props: {
             }}
             src={serverHouseImage}
           />
-          <GameSign className="bottom-[2%] right-[5%] w-[21%]">
-            {props.gameServer.server_name}
-          </GameSign>
-          <div
-            className={cn(
-              "absolute -top-4 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full text-[0.6rem] font-bold text-white shadow-md whitespace-nowrap z-10",
-              {
-                "bg-green-500": props.gameServer.status === GameServerDtoStatus.RUNNING,
-                "bg-red-500":
-                  props.gameServer.status === GameServerDtoStatus.STOPPED ||
-                  props.gameServer.status === GameServerDtoStatus.FAILED,
-                "bg-yellow-500": props.gameServer.status === GameServerDtoStatus.PULLING_IMAGE,
-              },
-            )}
-          >
-            {t(`serverStatus.${props.gameServer.status}`)}
-          </div>
         </Link>
       </RightClickMenu>
       <DeleteGameServerAlertDialog
