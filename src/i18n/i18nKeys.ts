@@ -531,6 +531,94 @@ export type i18nLanguage = {
         revert: string;
         confirm: string;
       };
+      accessManagement: {
+        title: string;
+        description: string;
+        createNewGroup: string;
+        createGroupTitle: string;
+        createGroupDescription: string;
+        groupSettings: string;
+        groupNameLabel: string;
+        groupNamePlaceholder: string;
+        groupNameRequired: string;
+        members: string;
+        noUsersAssigned: string;
+        addUserLabel: string;
+        addUserPlaceholder: string;
+        addUserError: string;
+        addUserButton: string;
+        userAlreadyInGroup: string;
+        usernameNotFound: string;
+        permissions: string;
+        adminNote: string;
+        seeServerNote: string;
+        revert: string;
+        confirm: string;
+        deleteGroup: string;
+        deleteGroupTitle: string;
+        deleteGroupDescription: ContainsVariable<"groupName">;
+        cancel: string;
+        delete: string;
+        create: string;
+        permissionDescriptions: {
+          ADMIN: {
+            name: string;
+            description: string;
+          };
+          SEE_SERVER: {
+            name: string;
+            description: string;
+          };
+          READ_SERVER_SERVER_FILES: {
+            name: string;
+            description: string;
+          };
+          CHANGE_SERVER_FILES: {
+            name: string;
+            description: string;
+          };
+          CHANGE_SERVER_CONFIGS: {
+            name: string;
+            description: string;
+          };
+          CHANGE_METRICS_SETTINGS: {
+            name: string;
+            description: string;
+          };
+          CHANGE_PERMISSIONS_SETTINGS: {
+            name: string;
+            description: string;
+          };
+          CHANGE_RCON_SETTINGS: {
+            name: string;
+            description: string;
+          };
+          START_STOP_SERVER: {
+            name: string;
+            description: string;
+          };
+          SEND_COMMANDS: {
+            name: string;
+            description: string;
+          };
+          READ_SERVER_LOGS: {
+            name: string;
+            description: string;
+          };
+          READ_SERVER_METRICS: {
+            name: string;
+            description: string;
+          };
+          TRANSFER_SERVER_OWNERSHIP: {
+            name: string;
+            description: string;
+          };
+          DELETE_SERVER: {
+            name: string;
+            description: string;
+          };
+        };
+      };
     };
   };
 

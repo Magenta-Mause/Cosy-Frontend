@@ -454,6 +454,109 @@ const translation: i18nLanguage = {
         revert: "Zurücksetzen",
         confirm: "Bestätigen",
       },
+      accessManagement: {
+        title: "Zugriffsverwaltung",
+        description: "Konfiguriere Benutzer und Berechtigungen für Zugriffsgruppen",
+        createNewGroup: "Neue Zugriffsgruppe erstellen",
+        createGroupTitle: "Neue Zugriffsgruppe erstellen",
+        createGroupDescription: "Gib einen Namen für die neue Zugriffsgruppe ein.",
+        groupSettings: "Zugriffsgruppeneinstellungen",
+        groupNameLabel: "Gruppenname",
+        groupNamePlaceholder: "Gruppennamen eingeben",
+        groupNameRequired: "Gruppenname ist erforderlich",
+        members: "Mitglieder",
+        noUsersAssigned: "Keine Benutzer zugewiesen",
+        addUserLabel: "Benutzer per Benutzername hinzufügen",
+        addUserPlaceholder: "Benutzernamen eingeben",
+        addUserError: "Ungültiger Benutzername",
+        addUserButton: "Hinzufügen",
+        userAlreadyInGroup: "Benutzer bereits in Gruppe",
+        usernameNotFound: "Benutzername nicht gefunden",
+        permissions: "Berechtigungen",
+        adminNote: "ADMIN-Berechtigung gewährt alle anderen Berechtigungen",
+        seeServerNote: '"Server sehen" aktivieren, um auf andere Berechtigungen zuzugreifen',
+        revert: "Zurücksetzen",
+        confirm: "Bestätigen",
+        deleteGroup: "Zugriffsgruppe löschen",
+        deleteGroupTitle: "Zugriffsgruppe löschen",
+        deleteGroupDescription:
+          'Bist du sicher, dass du die Zugriffsgruppe "{{groupName}}" löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.',
+        cancel: "Abbrechen",
+        delete: "Löschen",
+        create: "Erstellen",
+        permissionDescriptions: {
+          ADMIN: {
+            name: "Administrator",
+            description:
+              "Voller Administratorzugriff. Gewährt alle Berechtigungen und kann nicht eingeschränkt werden.",
+          },
+          SEE_SERVER: {
+            name: "Server sehen",
+            description:
+              "Server in der Serverliste anzeigen. Erforderlich für alle anderen Berechtigungen.",
+          },
+          READ_SERVER_SERVER_FILES: {
+            name: "Serverdateien lesen",
+            description:
+              "Serverdateien über den Dateimanager anzeigen und herunterladen.",
+          },
+          CHANGE_SERVER_FILES: {
+            name: "Serverdateien ändern",
+            description:
+              "Serverdateien über den Dateimanager hochladen, bearbeiten und löschen.",
+          },
+          CHANGE_SERVER_CONFIGS: {
+            name: "Allgemeine Einstellungen ändern",
+            description:
+              "Allgemeine Serverkonfiguration und Einstellungen ändern.",
+          },
+          CHANGE_METRICS_SETTINGS: {
+            name: "Metrik-Einstellungen ändern",
+            description:
+              "Server-Überwachung und Metrik-Erfassungseinstellungen konfigurieren.",
+          },
+          CHANGE_PERMISSIONS_SETTINGS: {
+            name: "Berechtigungseinstellungen ändern",
+            description:
+              "Zugriffsgruppen und Benutzerberechtigungen für diesen Server verwalten.",
+          },
+          CHANGE_RCON_SETTINGS: {
+            name: "RCON-Einstellungen ändern",
+            description:
+              "Fernkonsolen (RCON) Verbindungseinstellungen konfigurieren.",
+          },
+          START_STOP_SERVER: {
+            name: "Server starten/stoppen",
+            description:
+              "Gameserver starten, stoppen und neustarten.",
+          },
+          SEND_COMMANDS: {
+            name: "Befehle senden",
+            description:
+              "Konsolenbefehle auf dem laufenden Server ausführen.",
+          },
+          READ_SERVER_LOGS: {
+            name: "Server-Logs lesen",
+            description:
+              "Serverkonsolenprotokolle und Ausgaben anzeigen.",
+          },
+          READ_SERVER_METRICS: {
+            name: "Server-Metriken lesen",
+            description:
+              "Server-Leistungsmetriken und Statistiken anzeigen.",
+          },
+          TRANSFER_SERVER_OWNERSHIP: {
+            name: "Serverbesitz übertragen",
+            description:
+              "Übertrage den Besitz des Servers an einen anderen Benutzer. Kann nicht rückgängig gemacht werden.",
+          },
+          DELETE_SERVER: {
+            name: "Server löschen",
+            description:
+              "Den Server dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
+          },
+        },
+      },
     },
     userManagement: {
       backButton: "Zurück",

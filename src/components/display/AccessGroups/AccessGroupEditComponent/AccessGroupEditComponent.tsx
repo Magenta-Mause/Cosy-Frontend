@@ -1,6 +1,6 @@
 import {Button} from "@components/ui/button.tsx";
 import {PlusIcon, XIcon} from "lucide-react";
-import {useEffect, useMemo, useState} from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import type {ButtonProps} from "react-day-picker";
 import type {
   GameServerAccessGroupDto,
@@ -26,17 +26,27 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 const AccessGroupEditComponent = (props: { gameServer: GameServerDto }) => {
   const navigate = useNavigate();
   const search = useSearch({strict: false}) as { groupId?: string };
   const accessGroups = props.gameServer?.access_groups;
+  const { createGameServerAccessGroup } = useDataInteractions();
 
   // Initialize from URL or default to first group
   const [selectedAccessGroup, setSelectedAccessGroup] = useState<string | null>(() => {
     if (search.groupId) return search.groupId;
     return accessGroups?.[0]?.uuid ?? null;
   });
+
+  // Track if there are unsaved changes
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
+  // Wrap in useCallback to prevent unnecessary re-renders
+  const handleChangeStatusUpdate = useCallback((hasChanges: boolean) => {
+    setHasUnsavedChanges(hasChanges);
+  }, []);
 
   const selectedAccessGroupIndex = useMemo(
     () => accessGroups?.findIndex((accessGroup) => accessGroup.uuid === selectedAccessGroup),
@@ -51,6 +61,16 @@ const AccessGroupEditComponent = (props: { gameServer: GameServerDto }) => {
       search: (prev: Record<string, unknown>) => ({ ...prev, groupId: accessGroup.uuid }),
       replace: true,
     });
+  };
+
+  // Handle creating new access group
+  const handleCreateAccessGroup = async (groupName: string) => {
+    const newGroup = await createGameServerAccessGroup(props.gameServer.uuid, { name: groupName });
+    
+    // If no unsaved changes, auto-select the new group
+    if (!hasUnsavedChanges && newGroup) {
+      handleAccessGroupSelection(newGroup);
+    }
   };
 
   // Sync state from URL on mount
@@ -76,9 +96,13 @@ const AccessGroupEditComponent = (props: { gameServer: GameServerDto }) => {
         gameServer={props.gameServer}
         onAccessGroupSelection={handleAccessGroupSelection}
         selectedAccessGroup={selectedAccessGroup}
+        onCreateAccessGroup={handleCreateAccessGroup}
       />
       {accessGroups[selectedAccessGroupIndex] && (
-        <SelectedAccessGroupDisplay accessGroup={accessGroups[selectedAccessGroupIndex]}/>
+        <SelectedAccessGroupDisplay
+          accessGroup={accessGroups[selectedAccessGroupIndex]}
+          onChangeStatusUpdate={handleChangeStatusUpdate}
+        />
       )}
     </div>
   );
@@ -89,9 +113,8 @@ const AccessGroupList = (props: {
   gameServer: GameServerDto;
   onAccessGroupSelection: (accessGroup: GameServerAccessGroupDto) => void;
   selectedAccessGroup: string | null;
+  onCreateAccessGroup: (groupName: string) => Promise<void>;
 }) => {
-  const {createGameServerAccessGroup} = useDataInteractions();
-
   return (
     <div className={"flex gap-2 pl-2"}>
       {props.accessGroups.map((accessGroup) => (
@@ -105,9 +128,7 @@ const AccessGroupList = (props: {
         />
       ))}
       <CreateGameServerAccessGroupButton
-        onCreate={(accessGroupName: string) =>
-          createGameServerAccessGroup(props.gameServer.uuid, {name: accessGroupName})
-        }
+        onCreate={props.onCreateAccessGroup}
       />
     </div>
   );
@@ -126,19 +147,19 @@ const AccessGroupListItem = (props: {
   );
 };
 
-const CreateGameServerAccessGroupButton = (props: { onCreate: (groupName: string) => void }) => {
+const CreateGameServerAccessGroupButton = (props: { onCreate: (groupName: string) => Promise<void> }) => {
+  const { t } = useTranslationPrefix("components.gameServerSettings.accessManagement");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [groupName, setGroupName] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleCreate = async () => {
     if (!groupName.trim()) return;
-    
+
     setLoading(true);
     try {
       await props.onCreate(groupName.trim());
       setDialogOpen(false);
-      setGroupName("");
     } finally {
       setLoading(false);
     }
@@ -156,26 +177,26 @@ const CreateGameServerAccessGroupButton = (props: { onCreate: (groupName: string
     <>
       <AccessGroupButton onClick={() => setDialogOpen(true)}>
         <PlusIcon/>
-        <span>Create new access group</span>
+        <span>{t("createNewGroup")}</span>
       </AccessGroupButton>
 
       <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create New Access Group</DialogTitle>
+            <DialogTitle>{t("createGroupTitle")}</DialogTitle>
             <DialogDescription>
-              Enter a name for the new access group.
+              {t("createGroupDescription")}
             </DialogDescription>
           </DialogHeader>
 
           <div className="py-4">
             <InputFieldEditGameServer
-              label="Group Name"
+              label={t("groupNameLabel")}
               value={groupName}
               onChange={(v) => setGroupName(v as string)}
               validator={z.string().min(1)}
-              placeholder="Enter group name"
-              errorLabel="Group name is required"
+              placeholder={t("groupNamePlaceholder")}
+              errorLabel={t("groupNameRequired")}
               disabled={loading}
               onEnterPress={groupName.trim() ? handleCreate : undefined}
             />
@@ -184,7 +205,7 @@ const CreateGameServerAccessGroupButton = (props: { onCreate: (groupName: string
           <DialogFooter>
             <DialogClose asChild>
               <Button className="h-[50px]" variant="secondary" disabled={loading}>
-                Cancel
+                {t("cancel")}
               </Button>
             </DialogClose>
             <Button
@@ -193,7 +214,7 @@ const CreateGameServerAccessGroupButton = (props: { onCreate: (groupName: string
               className="h-[50px]"
               disabled={loading || !groupName.trim()}
             >
-              Create
+              {t("create")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -216,7 +237,14 @@ const AccessGroupButton = (props: ButtonProps & { isSelected?: boolean }) => {
   );
 };
 
-const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAccessGroupDto }) => {
+const SelectedAccessGroupDisplay = ({
+  accessGroup,
+  onChangeStatusUpdate,
+}: {
+  accessGroup: GameServerAccessGroupDto;
+  onChangeStatusUpdate: (hasChanges: boolean) => void;
+}) => {
+  const { t } = useTranslationPrefix("components.gameServerSettings.accessManagement");
   const {deleteGameServerAccessGroup, updateGameServerAccessGroups} = useDataInteractions();
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -268,6 +296,11 @@ const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAcce
     return nameChanged || usersChanged || permissionsChanged;
   }, [localGroupName, localUsers, localPermissions, accessGroup]);
 
+  // Notify parent when change status updates
+  useEffect(() => {
+    onChangeStatusUpdate(isChanged);
+  }, [isChanged, onChangeStatusUpdate]);
+
   // Add user by username
   const handleAddUser = async () => {
     if (!usernameInput.trim()) return;
@@ -278,7 +311,7 @@ const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAcce
 
       // Check if user already exists
       if (localUsers.some((u) => u.uuid === userUuid)) {
-        setUsernameError("User already in group");
+        setUsernameError(t("userAlreadyInGroup"));
         return;
       }
 
@@ -286,7 +319,7 @@ const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAcce
       setLocalUsers((prev) => [...prev, {uuid: userUuid, username: usernameInput.trim()}]);
       setUsernameInput("");
     } catch (_error) {
-      setUsernameError("Username not found");
+      setUsernameError(t("usernameNotFound"));
     }
   };
 
@@ -345,9 +378,9 @@ const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAcce
     <>
       <Card className="relative p-3 gap-5 flex flex-col mt-5">
         <div>
-          <h2 className="text-lg font-semibold">Access Group Settings</h2>
+          <h2 className="text-lg font-semibold">{t("groupSettings")}</h2>
           <p className="text-sm text-muted-foreground">
-            Configure users and permissions for this access group
+            {t("description")}
           </p>
         </div>
 
@@ -355,24 +388,24 @@ const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAcce
           {/* Group Name Section */}
           <div className="flex flex-col gap-3">
             <InputFieldEditGameServer
-              label="Group Name"
+              label={t("groupNameLabel")}
               value={localGroupName}
               onChange={(v) => setLocalGroupName(v as string)}
               validator={z.string().min(1)}
-              placeholder="Enter group name"
-              errorLabel="Group name is required"
+              placeholder={t("groupNamePlaceholder")}
+              errorLabel={t("groupNameRequired")}
               disabled={loading}
               onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
             />
           </div>
           {/* User Management Section */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-sm font-medium">Members</h3>
+            <h3 className="text-sm font-medium">{t("members")}</h3>
 
             {/* User List */}
             <div className="flex flex-col gap-2">
               {localUsers.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No users assigned</p>
+                <p className="text-sm text-muted-foreground">{t("noUsersAssigned")}</p>
               ) : (
                 localUsers.map((user) => (
                   <div
@@ -397,15 +430,15 @@ const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAcce
             <div className="flex gap-2 items-start">
               <div className="flex-1">
                 <InputFieldEditGameServer
-                  label="Add user by username"
+                  label={t("addUserLabel")}
                   value={usernameInput}
                   onChange={(v) => {
                     setUsernameInput(v as string);
                     setUsernameError(null);
                   }}
                   validator={z.string().min(1)}
-                  placeholder="Enter username"
-                  errorLabel={usernameError || "Invalid username"}
+                  placeholder={t("addUserPlaceholder")}
+                  errorLabel={usernameError || t("addUserError")}
                   disabled={loading}
                   optional={true}
                   onEnterPress={handleAddUser}
@@ -420,39 +453,70 @@ const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAcce
                 disabled={loading || !usernameInput.trim()}
                 className="mt-8"
               >
-                Add
+                {t("addUserButton")}
               </Button>
             </div>
           </div>
 
           {/* Permissions Section */}
           <div className="flex flex-col gap-3">
-            <h3 className="text-sm font-medium">Permissions</h3>
+            <h3 className="text-sm font-medium">{t("permissions")}</h3>
             <div className="flex flex-col gap-2">
               {Object.values(PermissionEnum).map((permission) => {
                 const isChecked = localPermissions.includes(permission);
-                const isDisabled = loading || (isAdminChecked && permission !== PermissionEnum.ADMIN);
+
+                // Admin disables all others
+                const disabledByAdmin = isAdminChecked && permission !== PermissionEnum.ADMIN;
+
+                // SEE_SERVER must be enabled for all others (except ADMIN and SEE_SERVER itself)
+                const needsSeeServer = permission !== PermissionEnum.ADMIN &&
+                                        permission !== PermissionEnum.SEE_SERVER &&
+                                        !localPermissions.includes(PermissionEnum.SEE_SERVER);
+
+                const isDisabled = loading || disabledByAdmin || needsSeeServer;
+
+                // Dangerous permissions get red styling
+                const isDangerous = permission === PermissionEnum.DELETE_SERVER ||
+                                   permission === PermissionEnum.TRANSFER_SERVER_OWNERSHIP;
+
+                const permissionKey = permission as keyof typeof PermissionEnum;
+                const permissionName = t(`permissionDescriptions.${permissionKey}.name`);
+                const permissionDescription = t(`permissionDescriptions.${permissionKey}.description`);
 
                 return (
-                  <button
-                    key={permission}
-                    type="button"
-                    className={cn(
-                      "cursor-pointer flex gap-2 align-middle items-center select-none grow-0 w-fit",
-                      isDisabled && "opacity-50 cursor-not-allowed",
-                    )}
-                    onClick={() => !isDisabled && handleTogglePermission(permission)}
-                    disabled={isDisabled}
-                  >
-                    <Checkbox checked={isChecked} className="size-4"/>
-                    <span className="text-sm">{formatPermissionName(permission)}</span>
-                  </button>
+                  <div key={permission} className="flex flex-col gap-1">
+                    <button
+                      type="button"
+                      className={cn(
+                        "cursor-pointer flex gap-2 align-middle items-center select-none grow-0 w-fit",
+                        isDisabled && "opacity-50 cursor-not-allowed",
+                      )}
+                      onClick={() => !isDisabled && handleTogglePermission(permission)}
+                      disabled={isDisabled}
+                    >
+                      <Checkbox checked={isChecked} className="size-4"/>
+                      <span className={cn(
+                        "text-sm font-medium",
+                        isDangerous && "text-destructive"
+                      )}>
+                        {permissionName}
+                      </span>
+                    </button>
+                    <p className="text-xs text-muted-foreground ml-6">
+                      {permissionDescription}
+                    </p>
+                  </div>
                 );
               })}
             </div>
             {isAdminChecked && (
               <p className="text-xs text-muted-foreground">
-                ADMIN permission grants all other permissions
+                {t("adminNote")}
+              </p>
+            )}
+            {!isAdminChecked && !localPermissions.includes(PermissionEnum.SEE_SERVER) && (
+              <p className="text-xs text-muted-foreground">
+                {t("seeServerNote")}
               </p>
             )}
           </div>
@@ -466,7 +530,7 @@ const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAcce
             disabled={loading || !isChanged}
             onClick={handleRevert}
           >
-            Revert
+            {t("revert")}
           </Button>
           <Button
             type="button"
@@ -474,7 +538,7 @@ const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAcce
             className="h-12.5"
             disabled={isConfirmButtonDisabled}
           >
-            Confirm
+            {t("confirm")}
           </Button>
         </div>
 
@@ -485,7 +549,7 @@ const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAcce
             onClick={() => setDeleteDialogOpen(true)}
             disabled={loading}
           >
-            Delete Access Group
+            {t("deleteGroup")}
           </Button>
         </div>
       </Card>
@@ -494,16 +558,16 @@ const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAcce
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete Access Group</DialogTitle>
+            <DialogTitle>{t("deleteGroupTitle")}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete the access group "{accessGroup.group_name}"? This action cannot be undone.
+              {t("deleteGroupDescription", { groupName: accessGroup.group_name })}
             </DialogDescription>
           </DialogHeader>
 
           <DialogFooter>
             <DialogClose asChild>
               <Button className="h-[50px]" variant="secondary" disabled={loading}>
-                Cancel
+                {t("cancel")}
               </Button>
             </DialogClose>
             <Button
@@ -513,21 +577,13 @@ const SelectedAccessGroupDisplay = ({accessGroup}: { accessGroup: GameServerAcce
               className="h-[50px]"
               disabled={loading}
             >
-              Delete
+              {t("delete")}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
   );
-};
-
-// Helper function to format permission names
-const formatPermissionName = (permission: string): string => {
-  return permission
-    .split("_")
-    .map((word) => word.charAt(0) + word.slice(1).toLowerCase())
-    .join(" ");
 };
 
 export default AccessGroupEditComponent;
