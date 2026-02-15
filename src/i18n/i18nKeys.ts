@@ -193,6 +193,7 @@ export type i18nLanguage = {
     cpuLimit: string;
     memoryLimit: string;
     unlimited: string;
+    noAccessFor: ContainsVariable<"element">;
     navbar: {
       overview: string;
       console: string;

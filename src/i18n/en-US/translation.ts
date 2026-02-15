@@ -605,6 +605,7 @@ const translation: i18nLanguage = {
     dockerHardwareLimits: "Docker Hardware Limits",
     cpuLimit: "CPU Cores",
     memoryLimit: "RAM Limit",
+    noAccessFor: "No access for {{element}}",
     navbar: {
       overview: "Dashboard",
       console: "Console",

@@ -606,6 +606,7 @@ const translation: i18nLanguage = {
     cpuLimit: "CPU Kerne",
     memoryLimit: "RAM Limit",
     unlimited: "Unlimitiert",
+    noAccessFor: "Kein Zugriff auf {{element}}",
     navbar: {
       overview: "Dashboard",
       console: "Konsole",

@@ -96,7 +96,7 @@ const WebSocketCollection = () => {
       const messageBody = JSON.parse(message.body) as MetricPointDto;
       const serverMetricState = gameServerMetrics[messageBody.game_server_uuid ?? ""];
 
-      if (!serverMetricState.enableMetricsLiveUpdates) {
+      if (!serverMetricState || !serverMetricState.enableMetricsLiveUpdates) {
         return;
       }
 
