@@ -2,6 +2,7 @@ import RightClickMenu, {
   type RightClickAction,
 } from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
 import { DeleteGameServerAlertDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
+import NameAndStatusBanner from "@components/display/GameServer/NameAndStatusBanner/NameAndStatusBanner.tsx";
 import Link from "@components/ui/Link.tsx";
 import { useRouter } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
@@ -14,7 +15,6 @@ import serverHouseImage2 from "@/assets/MainPage/house2.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
-import NameAndStatusBanner from "../GameSign/NameAndStatusBanner.tsx";
 
 const hashUUID = (uuid: string): number => {
   let hash = 0;
