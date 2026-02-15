@@ -11,6 +11,8 @@ import {
   getMetrics,
   getUserPermissions,
 } from "@/api/generated/backend-api.ts";
+import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
+import { containsPermission } from "@/lib/permissionCalculations.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
 import { gameServerPermissionsSliceActions } from "@/stores/slices/gameServerPermissionsSlice.ts";
@@ -36,7 +38,10 @@ const useDataLoading = () => {
     }
   };
 
-  const loadGameServerPermissions = async (gameServerUuid: string) => {
+  const loadGameServerPermissions = async (
+    gameServerUuid: string,
+    permissions?: GameServerAccessGroupDtoPermissionsItem[],
+  ) => {
     dispatch(
       gameServerPermissionsSliceActions.updateGameServerPermissionsStatus({
         gameServerUuid,
@@ -44,9 +49,12 @@ const useDataLoading = () => {
       }),
     );
     try {
-      const permissions = await getUserPermissions(gameServerUuid);
+      const fetchedPermissions = permissions || (await getUserPermissions(gameServerUuid));
       dispatch(
-        gameServerPermissionsSliceActions.setGameServerPermissions({ gameServerUuid, permissions }),
+        gameServerPermissionsSliceActions.setGameServerPermissions({
+          gameServerUuid,
+          permissions: fetchedPermissions,
+        }),
       );
       dispatch(
         gameServerPermissionsSliceActions.updateGameServerPermissionsStatus({
@@ -54,7 +62,7 @@ const useDataLoading = () => {
           status: "idle",
         }),
       );
-      return true;
+      return fetchedPermissions;
     } catch (e) {
       console.error("Unexpected error while loading game server permissions", e);
       dispatch(
@@ -63,32 +71,65 @@ const useDataLoading = () => {
           status: "failed",
         }),
       );
-      return false;
+      return null;
     }
   };
 
-  const loadGameServer = async (gameServerUuid: string) => {
+  const removeGameServer = async (gameServerUuid: string) => {
+    dispatch(gameServerSliceActions.removeGameServer(gameServerUuid));
+    dispatch(gameServerLogSliceActions.removeLogsFromServer(gameServerUuid));
+    dispatch(gameServerMetricsSliceActions.removeMetricsFromServer(gameServerUuid));
+  };
+
+  const loadGameServer = async (
+    gameServerUuid: string,
+    deleteIfNotFound?: boolean,
+    permissions?: GameServerAccessGroupDtoPermissionsItem[],
+  ) => {
+    if (
+      !containsPermission(permissions ?? [], GameServerAccessGroupDtoPermissionsItem.SEE_SERVER)
+    ) {
+      removeGameServer(gameServerUuid);
+      return false;
+    }
+
     dispatch(gameServerSliceActions.setState("loading"));
     try {
       const gameServer = await getGameServerById(gameServerUuid);
       dispatch(gameServerSliceActions.updateGameServer(gameServer));
+    } catch (e) {
+      if (deleteIfNotFound) {
+        console.error("Game server not found, deleting from store", e);
+        dispatch(gameServerSliceActions.removeGameServer(gameServerUuid));
+        return false;
+      } else {
+        console.error("Unexpected error while loading game server", e);
+        dispatch(gameServerSliceActions.setState("failed"));
+        return false;
+      }
+    }
 
-      await loadAdditionalGameServerData(gameServerUuid);
+    try {
+      await loadAdditionalGameServerData(gameServerUuid, permissions);
 
       dispatch(gameServerSliceActions.setState("idle"));
-
       return true;
     } catch (e) {
-      console.error("Unexpected error occured", e);
-      dispatch(gameServerSliceActions.setState("failed"));
+      console.error("Could not load ", e);
+      return false;
     }
   };
 
-  const loadAdditionalGameServerData = async (gameServerUuid: string) => {
+  const loadAdditionalGameServerData = async (
+    gameServerUuid: string,
+    permissions?: GameServerAccessGroupDtoPermissionsItem[],
+  ) => {
+    const fetchedPermissions =
+      (await loadGameServerPermissions(gameServerUuid, permissions)) || undefined;
+
     await Promise.allSettled([
-      loadGameServerLogs(gameServerUuid),
-      loadGameServerMetrics(gameServerUuid),
-      loadGameServerPermissions(gameServerUuid),
+      loadGameServerLogs(gameServerUuid, fetchedPermissions),
+      loadGameServerMetrics(gameServerUuid, undefined, undefined, fetchedPermissions),
     ]);
   };
 
@@ -134,7 +175,20 @@ const useDataLoading = () => {
     }
   };
 
-  const loadGameServerLogs = async (gameServerUuid: string) => {
+  const loadGameServerLogs = async (
+    gameServerUuid: string,
+    permissions?: GameServerAccessGroupDtoPermissionsItem[],
+  ) => {
+    if (
+      !containsPermission(
+        permissions ?? [],
+        GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS,
+      )
+    ) {
+      dispatch(gameServerLogSliceActions.removeLogsFromServer(gameServerUuid));
+      return;
+    }
+
     dispatch(gameServerLogSliceActions.setState({ gameServerUuid, state: "loading" }));
     try {
       const logs = await getLogs(gameServerUuid);
@@ -151,7 +205,21 @@ const useDataLoading = () => {
   };
 
   const loadGameServerMetrics = useCallback(
-    async (gameServerUuid: string, start?: Date, end?: Date) => {
+    async (
+      gameServerUuid: string,
+      start?: Date,
+      end?: Date,
+      permissions?: GameServerAccessGroupDtoPermissionsItem[],
+    ) => {
+      if (
+        !containsPermission(
+          permissions ?? [],
+          GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS,
+        )
+      ) {
+        dispatch(gameServerMetricsSliceActions.removeMetricsFromServer(gameServerUuid));
+        return;
+      }
       dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "loading" }));
       try {
         const metrics = await getMetrics(gameServerUuid, {
