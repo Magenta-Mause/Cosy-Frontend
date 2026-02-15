@@ -34,6 +34,7 @@ function RouteComponent() {
         gameServerUuid={serverId}
         isServerRunning={isServerRunning}
         canReadLogs={canReadLogs}
+        showExtendedTimestamps
       />
     </div>
   );

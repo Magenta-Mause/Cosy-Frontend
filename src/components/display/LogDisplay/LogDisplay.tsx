@@ -16,6 +16,7 @@ const LogDisplay = (
     gameServerUuid?: string;
     isServerRunning?: boolean;
     canReadLogs?: boolean;
+    showExtendedTimestamps?: boolean;
   } & Omit<React.ComponentProps<"div">, "children">,
 ) => {
   const { t } = useTranslation();
@@ -106,7 +107,7 @@ const LogDisplay = (
           initialTopMostItemIndex={displayLogs.length > 0 ? displayLogs.length - 1 : 0}
           itemContent={(_index, message) => (
             <div className="w-full overflow-hidden">
-              <LogMessage message={message} />
+              <LogMessage message={message} showExtendedTimestamps={props.showExtendedTimestamps} />
             </div>
           )}
           style={{ height: "100%" }}
@@ -121,7 +122,7 @@ const LogDisplay = (
         />
         {!canReadLogs && (
           <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center">
-            <div className="text-gray-400 text-center">
+            <div className="text-gray-400 text-center px-2">
               <div className="text-lg font-semibold mb-2">
                 {t("serverPage.noAccessFor", { element: t("serverPage.navbar.console") })}
               </div>

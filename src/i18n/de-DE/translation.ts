@@ -331,6 +331,8 @@ const translation: i18nLanguage = {
         renamePlaceholder: "z. Bsp. server.log",
         noFilesPermission: "Kein Dateizugriff",
         noFilesPermissionDesc: "Du hast keine Berechtigung, die Server-Dateien anzuzeigen",
+        uploadInSyntheticDir: "Dateien können nicht in virtuelle Verzeichnisse hochgeladen werden",
+        uploadNoPermission: "Du hast keine Berechtigung, Dateien hochzuladen",
       },
     },
     editGameServer: {
@@ -592,6 +594,7 @@ const translation: i18nLanguage = {
   logDisplay: {
     serverLog: "Konsole",
     timestampFormat: "HH:mm:ss",
+    timestampFormatDetailed: "HH:mm:ss.SSS",
     stickToBottom: "Auto Scroll",
     enterCommand: "Befehl eingeben...",
     cantSendCommands: "Server muss laufen, um Befehle zu senden",
@@ -610,6 +613,7 @@ const translation: i18nLanguage = {
     memoryLimit: "RAM Limit",
     unlimited: "Unlimitiert",
     noAccessFor: "Kein Zugriff auf {{element}}",
+    noStartStopPermission: "Du hast keine Berechtigung, diesen Server zu starten oder zu stoppen",
     navbar: {
       overview: "Dashboard",
       console: "Konsole",
@@ -634,6 +638,8 @@ const translation: i18nLanguage = {
   metrics: {
     metricDescription: "{{type}} Metrik über Zeit",
     configure: "Metriken konfigurieren",
+    noMetricsPermission: "Kein Metrik-Zugriff",
+    noMetricsPermissionDesc: "Du hast keine Berechtigung, die Server-Metriken anzuzeigen",
     types: {
       CPU_PERCENT: "CPU",
       MEMORY_PERCENT: "RAM",

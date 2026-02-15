@@ -329,6 +329,8 @@ const translation: i18nLanguage = {
         renamePlaceholder: "e.g. server.log",
         noFilesPermission: "No File Access",
         noFilesPermissionDesc: "You don't have permission to view server files",
+        uploadInSyntheticDir: "Cannot upload files in virtual directories",
+        uploadNoPermission: "You don't have permission to upload files",
       },
     },
 
@@ -591,6 +593,7 @@ const translation: i18nLanguage = {
   logDisplay: {
     serverLog: "Console",
     timestampFormat: "HH:mm:ss",
+    timestampFormatDetailed: "HH:mm:ss.SSS",
     stickToBottom: "Auto Scroll",
     enterCommand: "Enter command...",
     cantSendCommands: "Server must be running to send commands",
@@ -609,6 +612,7 @@ const translation: i18nLanguage = {
     cpuLimit: "CPU Cores",
     memoryLimit: "RAM Limit",
     noAccessFor: "No access for {{element}}",
+    noStartStopPermission: "You don't have permission to start or stop this server",
     navbar: {
       overview: "Dashboard",
       console: "Console",
@@ -634,6 +638,8 @@ const translation: i18nLanguage = {
   metrics: {
     metricDescription: "{{type}} usage over time",
     configure: "Configure Metrics",
+    noMetricsPermission: "No Metrics Access",
+    noMetricsPermissionDesc: "You don't have permission to view server metrics",
     types: {
       CPU_PERCENT: "CPU",
       MEMORY_PERCENT: "Memory",

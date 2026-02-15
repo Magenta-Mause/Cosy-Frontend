@@ -180,6 +180,7 @@ export type i18nLanguage = {
     enterCommand: string;
     cantSendCommands: string;
     noLogsPermission: string;
+    timestampFormatDetailed: string;
   };
 
   serverPage: {
@@ -195,6 +196,7 @@ export type i18nLanguage = {
     memoryLimit: string;
     unlimited: string;
     noAccessFor: ContainsVariable<"element">;
+    noStartStopPermission: string;
     navbar: {
       overview: string;
       console: string;
@@ -485,6 +487,8 @@ export type i18nLanguage = {
         renamePlaceholder: string;
         noFilesPermission: string;
         noFilesPermissionDesc: string;
+        uploadInSyntheticDir: string;
+        uploadNoPermission: string;
       };
       fileBrowserHeader: {
         newFolder: string;
@@ -637,6 +641,8 @@ export type i18nLanguage = {
   metrics: {
     metricDescription: ContainsVariable<"type">;
     configure: string;
+    noMetricsPermission: string;
+    noMetricsPermissionDesc: string;
     types: {
       CPU_PERCENT: string;
       MEMORY_PERCENT: string;

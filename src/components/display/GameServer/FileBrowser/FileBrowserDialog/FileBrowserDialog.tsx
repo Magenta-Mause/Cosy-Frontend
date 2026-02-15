@@ -1,5 +1,6 @@
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
+import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { Download, Search, Upload, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -75,7 +76,9 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const deleteMutation = useDeleteInVolume();
 
   const isSynthetic = useMemo(() => {
-    return !props.volumes.some((v) => v.container_path && currentPath.startsWith(v.container_path));
+    return !props.volumes?.some(
+      (v) => v.container_path && currentPath.startsWith(v.container_path),
+    );
   }, [props.volumes, currentPath]);
 
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserDialog");
@@ -347,10 +350,22 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       </FileBrowserProvider>
 
       <div className="flex gap-4">
-        <Button onClick={openFileDialog} disabled={isSynthetic || !canChangeFiles}>
-          <Upload />
-          {t("uploadFile")}
-        </Button>
+        <TooltipWrapper
+          tooltip={
+            isSynthetic
+              ? t("uploadInSyntheticDir")
+              : !canChangeFiles
+                ? t("uploadNoPermission")
+                : null
+          }
+          side="top"
+          align="center"
+        >
+          <Button onClick={openFileDialog} disabled={isSynthetic || !canChangeFiles} className="transition-all duration-300">
+            <Upload />
+            {t("uploadFile")}
+          </Button>
+        </TooltipWrapper>
 
         <Button
           onClick={onDownloadAll}

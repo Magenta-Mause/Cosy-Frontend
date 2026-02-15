@@ -88,6 +88,7 @@ const useDataLoading = () => {
     permissions?: GameServerAccessGroupDtoPermissionsItem[],
   ) => {
     if (
+      permissions !== undefined &&
       !containsPermission(permissions ?? [], GameServerAccessGroupDtoPermissionsItem.SEE_SERVER)
     ) {
       removeGameServer(gameServerUuid);

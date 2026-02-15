@@ -51,13 +51,24 @@ const LOG_STYLES: Record<
   },
 };
 
-const LogMessage = ({ message }: { message: GameServerLogMessageEntity }) => {
+const LogMessage = ({
+  message,
+  showExtendedTimestamps,
+}: {
+  message: GameServerLogMessageEntity;
+  showExtendedTimestamps?: boolean;
+}) => {
   const { t } = useTranslation();
   const level = (message.level as string) ?? "INFO";
   const styles = LOG_STYLES[level] ?? LOG_STYLES[GameServerLogMessageEntityLevel.INFO];
 
   const timestamp = message.timestamp
-    ? format(new Date(message.timestamp), t("logDisplay.timestampFormat"))
+    ? format(
+        new Date(message.timestamp),
+        showExtendedTimestamps
+          ? t("logDisplay.timestampFormatDetailed")
+          : t("logDisplay.timestampFormat"),
+      )
     : "--:--:--";
 
   return (

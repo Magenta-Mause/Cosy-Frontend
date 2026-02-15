@@ -22,6 +22,7 @@ import type {
   RCONConfiguration,
   UserInviteCreationDto,
 } from "@/api/generated/model";
+import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
@@ -31,6 +32,7 @@ const useDataInteractions = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { t } = useTranslationPrefix("toasts");
+  const { loadGameServer } = useDataLoading();
 
   const { mutateAsync: deleteGameServerById } = useDeleteGameServerById({
     mutation: {
@@ -111,8 +113,8 @@ const useDataInteractions = () => {
 
   const { mutateAsync: createGameServerMutateAsync } = useCreateGameServer({
     mutation: {
-      onSuccess: (data) => {
-        dispatch(gameServerSliceActions.addGameServer(data));
+      onSuccess: async (data) => {
+        await loadGameServer(data.uuid);
         toast.success(t("createGameServerSuccess"));
       },
       onError: (err) => {
