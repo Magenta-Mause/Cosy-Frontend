@@ -1,5 +1,5 @@
-import { PlusIcon } from "lucide-react";
-import { useState } from "react";
+import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
+import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogClose,
@@ -9,15 +9,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import { Button } from "@components/ui/button.tsx";
-import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { PlusIcon } from "lucide-react";
+import { useState } from "react";
 import * as z from "zod";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import AccessGroupButton from "./AccessGroupButton";
 
-const CreateAccessGroupDialog = (props: {
-  onCreate: (groupName: string) => Promise<void>;
-}) => {
+const CreateAccessGroupDialog = (props: { onCreate: (groupName: string) => Promise<void> }) => {
   const { t } = useTranslationPrefix("components.gameServerSettings.accessManagement");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [groupName, setGroupName] = useState("");
@@ -30,6 +28,7 @@ const CreateAccessGroupDialog = (props: {
     try {
       await props.onCreate(groupName.trim());
       setDialogOpen(false);
+      setTimeout(() => setGroupName(""), 200);
     } finally {
       setLoading(false);
     }
@@ -38,9 +37,6 @@ const CreateAccessGroupDialog = (props: {
   const handleOpenChange = (open: boolean) => {
     if (loading) return;
     setDialogOpen(open);
-    if (!open) {
-      setGroupName("");
-    }
   };
 
   return (

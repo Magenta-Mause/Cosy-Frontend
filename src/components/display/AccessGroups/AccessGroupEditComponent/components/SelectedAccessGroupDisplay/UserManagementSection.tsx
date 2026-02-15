@@ -1,4 +1,3 @@
-import { Button } from "@components/ui/button.tsx";
 import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
 import { XIcon } from "lucide-react";
 import type { UserEntityDto } from "@/api/generated/model";
@@ -57,33 +56,23 @@ const UserManagementSection = ({
       </div>
 
       {/* Add User Input */}
-      <div className="flex gap-2 items-start">
-        <div className="flex-1">
-          <InputFieldEditGameServer
-            label={t("addUserLabel")}
-            value={usernameInput}
-            onChange={(v) => {
-              setUsernameInput(v as string);
-              setUsernameError(null);
-            }}
-            validator={z.string().min(1)}
-            placeholder={t("addUserPlaceholder")}
-            errorLabel={usernameError || t("addUserError")}
-            disabled={loading}
-            optional={true}
-            onEnterPress={handleAddUser}
-          />
-          {usernameError && <p className="text-xs text-destructive mt-1">{usernameError}</p>}
-        </div>
-        <Button
-          type="button"
-          onClick={handleAddUser}
-          disabled={loading || !usernameInput.trim()}
-          className="mt-8"
-        >
-          {t("addUserButton")}
-        </Button>
-      </div>
+      <InputFieldEditGameServer
+        label={t("addUserLabel")}
+        value={usernameInput}
+        onChange={(v) => {
+          setUsernameInput(v as string);
+          setUsernameError(null);
+        }}
+        validator={z.string().min(1)}
+        placeholder={t("addUserPlaceholder")}
+        errorLabel={usernameError || t("addUserError")}
+        disabled={loading}
+        optional={true}
+        onEnterPress={handleAddUser}
+        submitButtonLabel={t("addUserButton")}
+        onSubmit={handleAddUser}
+        submitDisabled={loading || !usernameInput.trim()}
+      />
     </div>
   );
 };
