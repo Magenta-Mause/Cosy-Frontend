@@ -116,11 +116,6 @@ const WebSocketCollection = () => {
         game_server_uuid: string;
         permissions: GameServerAccessGroupDtoPermissionsItem[];
       };
-      console.log(
-        "On server: " + messageBody.game_server_uuid,
-        "New Perms: ",
-        messageBody.permissions,
-      );
       loadGameServer(messageBody.game_server_uuid, true, messageBody.permissions);
     },
   );

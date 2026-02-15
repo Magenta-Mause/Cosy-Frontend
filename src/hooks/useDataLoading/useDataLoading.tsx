@@ -79,6 +79,7 @@ const useDataLoading = () => {
     dispatch(gameServerSliceActions.removeGameServer(gameServerUuid));
     dispatch(gameServerLogSliceActions.removeLogsFromServer(gameServerUuid));
     dispatch(gameServerMetricsSliceActions.removeMetricsFromServer(gameServerUuid));
+    dispatch(gameServerPermissionsSliceActions.removeGameServerPermissions(gameServerUuid));
   };
 
   const loadGameServer = async (
@@ -256,8 +257,14 @@ const useDataLoading = () => {
     const summary = {
       gameServers: results[0].status === "fulfilled" && results[0].value === true,
       templates: results[1].status === "fulfilled" && results[1].value === true,
-      users: isAdmin && results[2] ? results[2].status === "fulfilled" && results[2].value === true : undefined,
-      invites: isAdmin && results[3] ? results[3].status === "fulfilled" && results[3].value === true : undefined,
+      users:
+        isAdmin && results[2]
+          ? results[2].status === "fulfilled" && results[2].value === true
+          : undefined,
+      invites:
+        isAdmin && results[3]
+          ? results[3].status === "fulfilled" && results[3].value === true
+          : undefined,
     };
 
     results.forEach((result, idx) => {

@@ -6,7 +6,6 @@ export const containsPermission = (
 ) => {
   if (!permissions) return false;
   if (permissions.includes(GameServerAccessGroupDtoPermissionsItem.ADMIN)) {
-    console.log("admin");
     return true;
   }
   return permissions.includes(permission);

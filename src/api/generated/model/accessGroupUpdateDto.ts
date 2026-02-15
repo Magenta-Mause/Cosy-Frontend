@@ -8,7 +8,8 @@
 import type { AccessGroupUpdateDtoPermissionsItem } from './accessGroupUpdateDtoPermissionsItem';
 
 export interface AccessGroupUpdateDto {
-  access_group_name?: string;
+  /** @minLength 1 */
+  access_group_name: string;
   user_uuids?: string[];
   permissions?: AccessGroupUpdateDtoPermissionsItem[];
 }

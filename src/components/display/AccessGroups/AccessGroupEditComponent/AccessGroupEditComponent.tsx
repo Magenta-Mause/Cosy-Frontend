@@ -485,22 +485,32 @@ const SelectedAccessGroupDisplay = ({
 
                 return (
                   <div key={permission} className="flex flex-col gap-1">
-                    <button
-                      type="button"
+                    {/* biome-ignore lint/a11y/noStaticElementInteractions: Checkbox wrapper needs to be clickable */}
+                    <div
                       className={cn(
                         "cursor-pointer flex gap-2 align-middle items-center select-none grow-0 w-fit",
                         isDisabled && "opacity-50 cursor-not-allowed",
                       )}
                       onClick={() => !isDisabled && handleTogglePermission(permission)}
-                      disabled={isDisabled}
+                      onKeyDown={(e) => {
+                        if ((e.key === "Enter" || e.key === " ") && !isDisabled) {
+                          e.preventDefault();
+                          handleTogglePermission(permission);
+                        }
+                      }}
                     >
-                      <Checkbox checked={isChecked} className="size-4" />
+                      <Checkbox
+                        checked={isChecked}
+                        className="size-4"
+                        disabled={isDisabled}
+                        tabIndex={-1}
+                      />
                       <span
                         className={cn("text-sm font-medium", isDangerous && "text-destructive")}
                       >
                         {permissionName}
                       </span>
-                    </button>
+                    </div>
                     <p className="text-xs text-muted-foreground ml-6">{permissionDescription}</p>
                   </div>
                 );
