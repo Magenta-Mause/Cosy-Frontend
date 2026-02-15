@@ -116,7 +116,7 @@ const AccessGroupList = (props: {
   onCreateAccessGroup: (groupName: string) => Promise<void>;
 }) => {
   return (
-    <div className={"flex gap-2 pl-2"}>
+    <div className={"flex flex-wrap gap-2 pl-2"}>
       {props.accessGroups.map((accessGroup) => (
         <AccessGroupListItem
           key={accessGroup.uuid}

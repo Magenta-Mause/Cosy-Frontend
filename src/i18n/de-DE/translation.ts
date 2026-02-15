@@ -460,7 +460,7 @@ const translation: i18nLanguage = {
         createNewGroup: "Neue Zugriffsgruppe erstellen",
         createGroupTitle: "Neue Zugriffsgruppe erstellen",
         createGroupDescription: "Gib einen Namen für die neue Zugriffsgruppe ein.",
-        groupSettings: "Zugriffsgruppeneinstellungen",
+        groupSettings: "Gruppeneinstellungen",
         groupNameLabel: "Gruppenname",
         groupNamePlaceholder: "Gruppennamen eingeben",
         groupNameRequired: "Gruppenname ist erforderlich",
@@ -497,53 +497,43 @@ const translation: i18nLanguage = {
           },
           READ_SERVER_SERVER_FILES: {
             name: "Serverdateien lesen",
-            description:
-              "Serverdateien über den Dateimanager anzeigen und herunterladen.",
+            description: "Serverdateien über den Dateimanager anzeigen und herunterladen.",
           },
           CHANGE_SERVER_FILES: {
             name: "Serverdateien ändern",
-            description:
-              "Serverdateien über den Dateimanager hochladen, bearbeiten und löschen.",
+            description: "Serverdateien über den Dateimanager hochladen, bearbeiten und löschen.",
           },
           CHANGE_SERVER_CONFIGS: {
             name: "Allgemeine Einstellungen ändern",
-            description:
-              "Allgemeine Serverkonfiguration und Einstellungen ändern.",
+            description: "Allgemeine Serverkonfiguration und Einstellungen ändern.",
           },
           CHANGE_METRICS_SETTINGS: {
             name: "Metrik-Einstellungen ändern",
-            description:
-              "Server-Überwachung und Metrik-Erfassungseinstellungen konfigurieren.",
+            description: "Server-Überwachung und Metrik-Erfassungseinstellungen konfigurieren.",
           },
           CHANGE_PERMISSIONS_SETTINGS: {
             name: "Berechtigungseinstellungen ändern",
-            description:
-              "Zugriffsgruppen und Benutzerberechtigungen für diesen Server verwalten.",
+            description: "Zugriffsgruppen und Benutzerberechtigungen für diesen Server verwalten.",
           },
           CHANGE_RCON_SETTINGS: {
             name: "RCON-Einstellungen ändern",
-            description:
-              "Fernkonsolen (RCON) Verbindungseinstellungen konfigurieren.",
+            description: "Fernkonsolen (RCON) Verbindungseinstellungen konfigurieren.",
           },
           START_STOP_SERVER: {
             name: "Server starten/stoppen",
-            description:
-              "Gameserver starten, stoppen und neustarten.",
+            description: "Gameserver starten, stoppen und neustarten.",
           },
           SEND_COMMANDS: {
             name: "Befehle senden",
-            description:
-              "Konsolenbefehle auf dem laufenden Server ausführen.",
+            description: "Konsolenbefehle auf dem laufenden Server ausführen.",
           },
           READ_SERVER_LOGS: {
             name: "Server-Logs lesen",
-            description:
-              "Serverkonsolenprotokolle und Ausgaben anzeigen.",
+            description: "Serverkonsolenprotokolle und Ausgaben anzeigen.",
           },
           READ_SERVER_METRICS: {
             name: "Server-Metriken lesen",
-            description:
-              "Server-Leistungsmetriken und Statistiken anzeigen.",
+            description: "Server-Leistungsmetriken und Statistiken anzeigen.",
           },
           TRANSFER_SERVER_OWNERSHIP: {
             name: "Serverbesitz übertragen",
