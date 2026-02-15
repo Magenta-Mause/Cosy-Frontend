@@ -135,21 +135,22 @@ const FancyNavigationButton = (
     direction?: "left" | "right";
   } & React.ComponentProps<"button">,
 ) => {
-  const compiledDirection = props.direction ?? "left";
+  const { isActive, label, children, direction, ...buttonProps } = props;
+  const compiledDirection = direction ?? "left";
   const compiledMargin = compiledDirection === "left" ? "mr" : "ml";
 
   // Calculate max-width based on label length (approximately 5px per character)
-  const labelLength = typeof props.label === 'string' ? props.label.length : 20;
+  const labelLength = typeof label === 'string' ? label.length : 20;
   const calculatedMaxWidth = labelLength * 13;
 
   return (
     <Button
       style={buttonStyles}
       tabIndex={-1}
-      {...props}
-      className={cn(props.isActive ? "bg-button-primary-active!" : "", "gap-0", props.className)}
+      {...buttonProps}
+      className={cn(isActive ? "bg-button-primary-active!" : "", "gap-0", buttonProps.className)}
     >
-      {compiledDirection === "right" && props.children}
+      {compiledDirection === "right" && children}
       <div
         className={cn(
           `group-focus:${compiledMargin}-1 group-focus:opacity-100`,
@@ -167,9 +168,9 @@ const FancyNavigationButton = (
           ['--label-max-width' as string]: `${calculatedMaxWidth}px`,
         }}
       >
-        {props.label}
+        {label}
       </div>
-      {compiledDirection === "left" && props.children}
+      {compiledDirection === "left" && children}
     </Button>
   );
 };

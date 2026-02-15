@@ -23,6 +23,7 @@ const LogDisplay = (
     showCommandInput = false,
     gameServerUuid,
     isServerRunning = false,
+    ...divProps
   } = props;
 
   const [displayLogs, setDisplayLogs] = useState<GameServerLogWithUuid[]>([]);
@@ -65,10 +66,10 @@ const LogDisplay = (
 
   return (
     <div
-      {...props}
+      {...divProps}
       className={cn(
         "flex flex-col border rounded-md bg-gray-950 text-gray-100 font-mono h-full",
-        props.className,
+        divProps.className,
       )}
     >
       <div className="flex items-center justify-between px-3 py-1 border-b border-gray-800 text-xs uppercase tracking-wide text-gray-400">
