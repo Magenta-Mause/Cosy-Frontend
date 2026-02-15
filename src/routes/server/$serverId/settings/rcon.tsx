@@ -22,9 +22,7 @@ function RouteComponent() {
           <div className="text-2xl font-semibold mb-2">
             {t("settings.noAccessFor", { element: t("components.GameServerSettings.tabs.rcon") })}
           </div>
-          <div className="text-muted-foreground">
-            {t("settings.noAccessDescription")}
-          </div>
+          <div className="text-muted-foreground">{t("settings.noAccessDescription")}</div>
         </div>
       </div>
     );

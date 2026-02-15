@@ -13,18 +13,20 @@ function RouteComponent() {
   const { hasPermission } = useGameServerPermissions(serverId ?? "");
   const { t } = useTranslation();
 
-  const canAccess = hasPermission(GameServerAccessGroupDtoPermissionsItem.CHANGE_PERMISSIONS_SETTINGS);
+  const canAccess = hasPermission(
+    GameServerAccessGroupDtoPermissionsItem.CHANGE_PERMISSIONS_SETTINGS,
+  );
 
   if (!canAccess) {
     return (
       <div className="flex items-center justify-center h-full">
         <div className="text-center">
           <div className="text-2xl font-semibold mb-2">
-            {t("settings.noAccessFor", { element: t("components.GameServerSettings.tabs.accessManagement") })}
+            {t("settings.noAccessFor", {
+              element: t("components.GameServerSettings.tabs.accessManagement"),
+            })}
           </div>
-          <div className="text-muted-foreground">
-            {t("settings.noAccessDescription")}
-          </div>
+          <div className="text-muted-foreground">{t("settings.noAccessDescription")}</div>
         </div>
       </div>
     );

@@ -1,6 +1,6 @@
 import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import * as z from "zod";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 type Props = {
   localGroupName: string;

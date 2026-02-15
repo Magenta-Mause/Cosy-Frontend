@@ -10,10 +10,10 @@ import type {
 import { GameServerAccessGroupDtoPermissionsItem as PermissionEnum } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import GroupNameSection from "./GroupNameSection";
-import UserManagementSection from "./UserManagementSection";
-import PermissionsSection from "./PermissionsSection";
 import ActionButtons from "./ActionButtons";
+import GroupNameSection from "./GroupNameSection";
+import PermissionsSection from "./PermissionsSection";
+import UserManagementSection from "./UserManagementSection";
 
 type Props = {
   accessGroup: GameServerAccessGroupDto;
@@ -154,54 +154,52 @@ const SelectedAccessGroupDisplay = ({ accessGroup, onChangeStatusUpdate }: Props
   };
 
   return (
-    <>
-      <Card className="relative p-3 gap-5 flex flex-col mt-5">
-        <div>
-          <h2 className="text-lg font-semibold">{t("groupSettings")}</h2>
-          <p className="text-sm text-muted-foreground">{t("description")}</p>
-        </div>
+    <Card className="relative p-3 gap-5 flex flex-col mt-5">
+      <div>
+        <h2 className="text-lg font-semibold">{t("groupSettings")}</h2>
+        <p className="text-sm text-muted-foreground">{t("description")}</p>
+      </div>
 
-        <div className="flex flex-col gap-6">
-          <GroupNameSection
-            localGroupName={localGroupName}
-            setLocalGroupName={setLocalGroupName}
-            loading={loading}
-            isConfirmButtonDisabled={isConfirmButtonDisabled}
-            handleConfirm={handleConfirm}
-          />
-
-          <UserManagementSection
-            localUsers={localUsers}
-            usernameInput={usernameInput}
-            setUsernameInput={setUsernameInput}
-            usernameError={usernameError}
-            setUsernameError={setUsernameError}
-            handleAddUser={handleAddUser}
-            handleRemoveUser={handleRemoveUser}
-            loading={loading}
-          />
-
-          <PermissionsSection
-            localPermissions={localPermissions}
-            handleTogglePermission={handleTogglePermission}
-            loading={loading}
-            isAdminChecked={isAdminChecked}
-          />
-        </div>
-
-        <ActionButtons
+      <div className="flex flex-col gap-6">
+        <GroupNameSection
+          localGroupName={localGroupName}
+          setLocalGroupName={setLocalGroupName}
           loading={loading}
-          isChanged={isChanged}
           isConfirmButtonDisabled={isConfirmButtonDisabled}
           handleConfirm={handleConfirm}
-          handleRevert={handleRevert}
-          handleDelete={handleDelete}
-          deleteDialogOpen={deleteDialogOpen}
-          setDeleteDialogOpen={setDeleteDialogOpen}
-          accessGroupName={accessGroup.group_name}
         />
-      </Card>
-    </>
+
+        <UserManagementSection
+          localUsers={localUsers}
+          usernameInput={usernameInput}
+          setUsernameInput={setUsernameInput}
+          usernameError={usernameError}
+          setUsernameError={setUsernameError}
+          handleAddUser={handleAddUser}
+          handleRemoveUser={handleRemoveUser}
+          loading={loading}
+        />
+
+        <PermissionsSection
+          localPermissions={localPermissions}
+          handleTogglePermission={handleTogglePermission}
+          loading={loading}
+          isAdminChecked={isAdminChecked}
+        />
+      </div>
+
+      <ActionButtons
+        loading={loading}
+        isChanged={isChanged}
+        isConfirmButtonDisabled={isConfirmButtonDisabled}
+        handleConfirm={handleConfirm}
+        handleRevert={handleRevert}
+        handleDelete={handleDelete}
+        deleteDialogOpen={deleteDialogOpen}
+        setDeleteDialogOpen={setDeleteDialogOpen}
+        accessGroupName={accessGroup.group_name}
+      />
+    </Card>
   );
 };
 

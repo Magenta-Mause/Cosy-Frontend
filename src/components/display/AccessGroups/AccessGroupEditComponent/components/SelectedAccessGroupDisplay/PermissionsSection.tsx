@@ -44,9 +44,7 @@ const PermissionsSection = ({
 
           const permissionKey = permission as keyof typeof PermissionEnum;
           const permissionName = t(`permissionDescriptions.${permissionKey}.name`);
-          const permissionDescription = t(
-            `permissionDescriptions.${permissionKey}.description`,
-          );
+          const permissionDescription = t(`permissionDescriptions.${permissionKey}.description`);
 
           return (
             <div key={permission} className="flex flex-col gap-1">
@@ -70,9 +68,7 @@ const PermissionsSection = ({
                   disabled={isDisabled}
                   tabIndex={-1}
                 />
-                <span
-                  className={cn("text-sm font-medium", isDangerous && "text-destructive")}
-                >
+                <span className={cn("text-sm font-medium", isDangerous && "text-destructive")}>
                   {permissionName}
                 </span>
               </div>

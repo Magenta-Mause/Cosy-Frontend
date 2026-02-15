@@ -24,9 +24,7 @@ function RouteComponent() {
   const canReadFiles = hasPermission(
     GameServerAccessGroupDtoPermissionsItem.READ_SERVER_SERVER_FILES,
   );
-  const canChangeFiles = hasPermission(
-    GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_FILES,
-  );
+  const canChangeFiles = hasPermission(GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_FILES);
 
   return (
     <div className="container mx-auto flex flex-col gap-4 grow h-full">

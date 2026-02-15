@@ -371,9 +371,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       {!canReadFiles && (
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
           <div className="text-muted-foreground text-center">
-            <div className="text-lg font-semibold mb-2">
-              {t("noFilesPermission")}
-            </div>
+            <div className="text-lg font-semibold mb-2">{t("noFilesPermission")}</div>
             <div className="text-sm">{t("noFilesPermissionDesc")}</div>
           </div>
         </div>

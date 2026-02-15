@@ -59,11 +59,7 @@ const ActionButtons = ({
 
       {/* Delete Group Button */}
       <div className="pt-4 border-t">
-        <Button
-          variant="destructive"
-          onClick={() => setDeleteDialogOpen(true)}
-          disabled={loading}
-        >
+        <Button variant="destructive" onClick={() => setDeleteDialogOpen(true)} disabled={loading}>
           {t("deleteGroup")}
         </Button>
       </div>

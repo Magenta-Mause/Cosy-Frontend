@@ -1,8 +1,8 @@
 import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
 import { XIcon } from "lucide-react";
+import * as z from "zod";
 import type { UserEntityDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import * as z from "zod";
 
 type Props = {
   localUsers: UserEntityDto[];

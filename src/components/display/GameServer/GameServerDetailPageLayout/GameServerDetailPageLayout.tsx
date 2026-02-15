@@ -90,7 +90,10 @@ const GameServerDetailPageLayout = (props: {
   return (
     <GameServerDetailContext.Provider value={{ gameServer: props.gameServer }}>
       <div className="flex w-full min-h-screen">
-        <div id={"gameServerDetailPage:exitButton"} className={"flex h-25 items-end w-[10%] flex-shrink-0"}>
+        <div
+          id={"gameServerDetailPage:exitButton"}
+          className={"flex h-25 items-end w-[10%] flex-shrink-0"}
+        >
           <Link to={"/"} tabIndex={-1} preload={"viewport"}>
             <FancyNavigationButton
               isActive={false}

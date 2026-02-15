@@ -514,7 +514,8 @@ const translation: i18nLanguage = {
         confirm: "Confirm",
         deleteGroup: "Delete Access Group",
         deleteGroupTitle: "Delete Access Group",
-        deleteGroupDescription: 'Are you sure you want to delete the access group "{{groupName}}"? This action cannot be undone.',
+        deleteGroupDescription:
+          'Are you sure you want to delete the access group "{{groupName}}"? This action cannot be undone.',
         cancel: "Cancel",
         delete: "Delete",
         createGroupTitle: "Create New Access Group",
@@ -523,7 +524,8 @@ const translation: i18nLanguage = {
         permissionDescriptions: {
           ADMIN: {
             name: "Admin",
-            description: "Full administrative access to the server. Grants all other permissions automatically.",
+            description:
+              "Full administrative access to the server. Grants all other permissions automatically.",
           },
           SEE_SERVER: {
             name: "See Server",
@@ -571,13 +573,11 @@ const translation: i18nLanguage = {
           },
           TRANSFER_SERVER_OWNERSHIP: {
             name: "Transfer Server Ownership",
-            description:
-              "Transfer ownership of the server to another user. Cannot be undone.",
+            description: "Transfer ownership of the server to another user. Cannot be undone.",
           },
           DELETE_SERVER: {
             name: "Delete Server",
-            description:
-              "Permanently delete the server. This action cannot be undone.",
+            description: "Permanently delete the server. This action cannot be undone.",
           },
         },
       },

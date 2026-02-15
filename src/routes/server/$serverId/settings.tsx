@@ -15,7 +15,7 @@ function RouteComponent() {
   }
 
   return (
-    <GameServerSettingsLayout 
+    <GameServerSettingsLayout
       initialSettings={{ serverName: gameServer.server_name }}
       serverUuid={serverId ?? ""}
     >
