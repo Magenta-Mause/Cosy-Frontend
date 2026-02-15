@@ -92,7 +92,7 @@ const GameServerDetailPageLayout = (props: {
       <div className="flex w-full min-h-screen">
         <div
           id={"gameServerDetailPage:exitButton"}
-          className={"flex h-25 items-end w-[10%] flex-shrink-0"}
+          className={"flex h-25 items-end w-[10%] flex-shrink-0 relative z-10"}
         >
           <Link to={"/"} tabIndex={-1} preload={"viewport"}>
             <FancyNavigationButton
