@@ -329,6 +329,8 @@ const translation: i18nLanguage = {
         downloadAllAction: "Ordner Herunterladen",
         uploadFile: "Hochladen",
         renamePlaceholder: "z. Bsp. server.log",
+        noFilesPermission: "Kein Dateizugriff",
+        noFilesPermissionDesc: "Du hast keine Berechtigung, die Server-Dateien anzuzeigen",
       },
     },
     editGameServer: {
@@ -593,6 +595,7 @@ const translation: i18nLanguage = {
     stickToBottom: "Auto Scroll",
     enterCommand: "Befehl eingeben...",
     cantSendCommands: "Server muss laufen, um Befehle zu senden",
+    noLogsPermission: "Du hast keine Berechtigung, die Server-Logs anzuzeigen",
   },
   serverPage: {
     notFound: "404 - Server nicht gefunden",
@@ -614,6 +617,10 @@ const translation: i18nLanguage = {
       file_explorer: "Dateien",
       settings: "Einstellungen",
     },
+  },
+  settings: {
+    noAccessDescription: "Du hast keine Berechtigung, diese Einstellung zu ändern",
+    noAccessFor: "Kein Zugriff auf Einstellungen: {{element}}",
   },
   serverStatus: {
     RUNNING: "Läuft",

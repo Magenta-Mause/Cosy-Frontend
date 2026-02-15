@@ -90,7 +90,7 @@ const GameServerDetailPageLayout = (props: {
   return (
     <GameServerDetailContext.Provider value={{ gameServer: props.gameServer }}>
       <div className="flex w-full min-h-screen">
-        <div id={"gameServerDetailPage:exitButton"} className={"flex h-25 items-end w-[10%]"}>
+        <div id={"gameServerDetailPage:exitButton"} className={"flex h-25 items-end w-[10%] flex-shrink-0"}>
           <Link to={"/"} tabIndex={-1} preload={"viewport"}>
             <FancyNavigationButton
               isActive={false}
@@ -110,17 +110,16 @@ const GameServerDetailPageLayout = (props: {
             </FancyNavigationButton>
           </Link>
         </div>
-        <div className="grow py-5 flex flex-col gap-6 h-[92vh]">
+        <div className="grow py-5 flex flex-col gap-6 h-[92vh] min-w-0">
           <GameServerDetailPageHeader gameServer={props.gameServer} />
           <div className={"grow overflow-y-auto"}>{props.children}</div>
         </div>
 
-        <div className="flex flex-col justify-center items-end w-[10%]">
+        <div className="flex flex-col justify-center items-end w-[10%] flex-shrink-0">
           {TABS.map(({ label, icon, path, activePathPattern, permissions }) => {
             const isLinkReachable = permissions
               ? permissions.some((perm) => hasPermission(perm))
               : true;
-            console.log(isLinkReachable);
 
             return (
               <div key={`${label}:${path}`} className={"relative"}>

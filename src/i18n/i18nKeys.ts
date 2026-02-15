@@ -179,6 +179,7 @@ export type i18nLanguage = {
     stickToBottom: string;
     enterCommand: string;
     cantSendCommands: string;
+    noLogsPermission: string;
   };
 
   serverPage: {
@@ -201,6 +202,11 @@ export type i18nLanguage = {
       file_explorer: string;
       settings: string;
     };
+  };
+
+  settings: {
+    noAccessDescription: string;
+    noAccessFor: ContainsVariable<"element">;
   };
 
   serverStatus: {
@@ -477,6 +483,8 @@ export type i18nLanguage = {
         downloadAllAction: string;
         uploadFile: string;
         renamePlaceholder: string;
+        noFilesPermission: string;
+        noFilesPermissionDesc: string;
       };
       fileBrowserHeader: {
         newFolder: string;

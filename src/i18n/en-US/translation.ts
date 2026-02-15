@@ -327,6 +327,8 @@ const translation: i18nLanguage = {
         downloadAllAction: "Download Directory",
         uploadFile: "Upload",
         renamePlaceholder: "e.g. server.log",
+        noFilesPermission: "No File Access",
+        noFilesPermissionDesc: "You don't have permission to view server files",
       },
     },
 
@@ -592,6 +594,7 @@ const translation: i18nLanguage = {
     stickToBottom: "Auto Scroll",
     enterCommand: "Enter command...",
     cantSendCommands: "Server must be running to send commands",
+    noLogsPermission: "You don't have permission to view server logs",
   },
   serverPage: {
     notFound: "404 - Server Not Found",
@@ -613,6 +616,10 @@ const translation: i18nLanguage = {
       file_explorer: "Files",
       settings: "Settings",
     },
+  },
+  settings: {
+    noAccessDescription: "You don't have permission to modify this setting",
+    noAccessFor: "No access for settings: {{element}}",
   },
   serverStatus: {
     RUNNING: "Running",

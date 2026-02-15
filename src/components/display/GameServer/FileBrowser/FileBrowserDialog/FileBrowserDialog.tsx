@@ -27,6 +27,8 @@ type FileBrowserDialogProps = {
   path?: string;
   serverUuid: string;
   volumes: VolumeMountConfiguration[];
+  canReadFiles?: boolean;
+  canChangeFiles?: boolean;
 };
 
 export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
@@ -57,6 +59,9 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     setSelectedFilePath,
     setSelectedObj,
   } = useFileSelection();
+
+  const canReadFiles = props.canReadFiles ?? true;
+  const canChangeFiles = props.canChangeFiles ?? true;
 
   const [search, setSearch] = useState("");
 
@@ -224,6 +229,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       previewedPath: selectedFilePath,
       onClosePreview: closePreview,
       isSynthetic,
+      readOnly: !canChangeFiles,
 
       onEntryClick: (obj) => {
         onEntryClick(obj);
@@ -306,12 +312,13 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       onCrumbClick,
       onEntryClick,
       isSynthetic,
+      canChangeFiles,
     ],
   );
 
   return (
     <div
-      className={cn("border-border border-3 rounded-lg flex flex-col gap-2 h-full p-4")}
+      className={cn("border-border border-3 rounded-lg flex flex-col gap-2 h-full p-4 relative")}
       style={{
         width: props.width !== undefined ? `${props.width}px` : undefined,
         height: props.height !== undefined ? `${props.height}px` : undefined,
@@ -340,7 +347,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       </FileBrowserProvider>
 
       <div className="flex gap-4">
-        <Button onClick={openFileDialog} disabled={isSynthetic}>
+        <Button onClick={openFileDialog} disabled={isSynthetic || !canChangeFiles}>
           <Upload />
           {t("uploadFile")}
         </Button>
@@ -348,7 +355,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
         <Button
           onClick={onDownloadAll}
           data-loading={downloadingAll || loading}
-          disabled={downloadingAll || loading}
+          disabled={downloadingAll || loading || !canReadFiles}
         >
           <Download />
           {downloadingAll
@@ -360,6 +367,17 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
         <input ref={fileInputRef} type="file" className="hidden" onChange={onFilePicked} />
       </div>
+
+      {!canReadFiles && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
+          <div className="text-muted-foreground text-center">
+            <div className="text-lg font-semibold mb-2">
+              {t("noFilesPermission")}
+            </div>
+            <div className="text-sm">{t("noFilesPermissionDesc")}</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
