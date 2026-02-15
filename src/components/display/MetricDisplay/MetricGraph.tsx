@@ -160,13 +160,11 @@ const MetricGraph = (props: MetricGraphProps) => {
           </AreaChart>
         </ChartContainer>
       </CardContent>
-      
+
       {!canReadMetrics && (
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
           <div className="text-center">
-            <div className="text-lg font-semibold mb-1">
-              {t("metrics.noMetricsPermission")}
-            </div>
+            <div className="text-lg font-semibold mb-1">{t("metrics.noMetricsPermission")}</div>
             <div className="text-sm text-muted-foreground">
               {t("metrics.noMetricsPermissionDesc")}
             </div>

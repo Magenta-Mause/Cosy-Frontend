@@ -361,7 +361,11 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
           side="top"
           align="center"
         >
-          <Button onClick={openFileDialog} disabled={isSynthetic || !canChangeFiles} className="transition-all duration-300">
+          <Button
+            onClick={openFileDialog}
+            disabled={isSynthetic || !canChangeFiles}
+            className="transition-all duration-300"
+          >
             <Upload />
             {t("uploadFile")}
           </Button>

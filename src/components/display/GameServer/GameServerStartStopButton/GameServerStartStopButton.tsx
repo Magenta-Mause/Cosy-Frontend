@@ -2,7 +2,11 @@ import { Button } from "@components/ui/button.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { Power } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
+import {
+  GameServerAccessGroupDtoPermissionsItem,
+  type GameServerDto,
+  GameServerDtoStatus,
+} from "@/api/generated/model";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
 import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
 
@@ -11,7 +15,9 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
   const { stopServer, startServer } = useServerInteractions();
   const { hasPermission } = useGameServerPermissions(props.gameServer.uuid);
 
-  const canStartStopServer = hasPermission(GameServerAccessGroupDtoPermissionsItem.START_STOP_SERVER);
+  const canStartStopServer = hasPermission(
+    GameServerAccessGroupDtoPermissionsItem.START_STOP_SERVER,
+  );
 
   const buttonProps: React.ComponentProps<"button"> = (() => {
     switch (props.gameServer.status) {
@@ -71,7 +77,8 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
     }
   })();
 
-  const isLoadingState = props.gameServer.status === GameServerDtoStatus.PULLING_IMAGE ||
+  const isLoadingState =
+    props.gameServer.status === GameServerDtoStatus.PULLING_IMAGE ||
     props.gameServer.status === GameServerDtoStatus.AWAITING_UPDATE ||
     props.gameServer.status === GameServerDtoStatus.STOPPING;
 
