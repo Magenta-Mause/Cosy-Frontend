@@ -46,7 +46,9 @@ import type {
   UserCreationDto,
   UserEntityDto,
   UserInviteCreationDto,
-  UserInviteDto
+  UserInviteDto,
+  WebhookCreationDto,
+  WebhookDto
 } from './model';
 
 import { customInstance } from '../axiosInstance';
@@ -1015,6 +1017,129 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getDeleteInVolumeMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const getAllWebhooks = (
+    gameserverUuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<WebhookDto[]>(
+      {url: `/game-server/${gameserverUuid}/webhooks`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetAllWebhooksQueryKey = (gameserverUuid?: string,) => {
+    return [
+    `/game-server/${gameserverUuid}/webhooks`
+    ] as const;
+    }
+
+    
+export const getGetAllWebhooksQueryOptions = <TData = Awaited<ReturnType<typeof getAllWebhooks>>, TError = unknown>(gameserverUuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllWebhooks>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAllWebhooksQueryKey(gameserverUuid);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllWebhooks>>> = ({ signal }) => getAllWebhooks(gameserverUuid, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(gameserverUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllWebhooks>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetAllWebhooksQueryResult = NonNullable<Awaited<ReturnType<typeof getAllWebhooks>>>
+export type GetAllWebhooksQueryError = unknown
+
+
+
+export function useGetAllWebhooks<TData = Awaited<ReturnType<typeof getAllWebhooks>>, TError = unknown>(
+ gameserverUuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllWebhooks>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetAllWebhooksQueryOptions(gameserverUuid,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const createWebhook = (
+    gameserverUuid: string,
+    webhookCreationDto: WebhookCreationDto,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<WebhookDto>(
+      {url: `/game-server/${gameserverUuid}/webhooks`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: webhookCreationDto, signal
+    },
+      options);
+    }
+  
+
+
+export const getCreateWebhookMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createWebhook>>, TError,{gameserverUuid: string;data: WebhookCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof createWebhook>>, TError,{gameserverUuid: string;data: WebhookCreationDto}, TContext> => {
+
+const mutationKey = ['createWebhook'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createWebhook>>, {gameserverUuid: string;data: WebhookCreationDto}> = (props) => {
+          const {gameserverUuid,data} = props ?? {};
+
+          return  createWebhook(gameserverUuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateWebhookMutationResult = NonNullable<Awaited<ReturnType<typeof createWebhook>>>
+    export type CreateWebhookMutationBody = WebhookCreationDto
+    export type CreateWebhookMutationError = unknown
+
+    export const useCreateWebhook = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createWebhook>>, TError,{gameserverUuid: string;data: WebhookCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createWebhook>>,
+        TError,
+        {gameserverUuid: string;data: WebhookCreationDto},
+        TContext
+      > => {
+
+      const mutationOptions = getCreateWebhookMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -2208,6 +2333,63 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getRevokeInviteMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const deleteWebhook = (
+    gameserverUuid: string,
+    webhookUuid: string,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${gameserverUuid}/webhooks/${webhookUuid}`, method: 'DELETE'
+    },
+      options);
+    }
+  
+
+
+export const getDeleteWebhookMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteWebhook>>, TError,{gameserverUuid: string;webhookUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteWebhook>>, TError,{gameserverUuid: string;webhookUuid: string}, TContext> => {
+
+const mutationKey = ['deleteWebhook'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteWebhook>>, {gameserverUuid: string;webhookUuid: string}> = (props) => {
+          const {gameserverUuid,webhookUuid} = props ?? {};
+
+          return  deleteWebhook(gameserverUuid,webhookUuid,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteWebhookMutationResult = NonNullable<Awaited<ReturnType<typeof deleteWebhook>>>
+    
+    export type DeleteWebhookMutationError = unknown
+
+    export const useDeleteWebhook = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteWebhook>>, TError,{gameserverUuid: string;webhookUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteWebhook>>,
+        TError,
+        {gameserverUuid: string;webhookUuid: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteWebhookMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
