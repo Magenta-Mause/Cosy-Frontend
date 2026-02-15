@@ -15,7 +15,6 @@ const useGameServerPermissions = (gameServerId: string) => {
   }, [gameServerPermissions, gameServerId]);
 
   const hasPermission = (permission: GameServerAccessGroupDtoPermissionsItem) => {
-    console.log(permissions, permission, containsPermission(permissions, permission));
     return containsPermission(permissions, permission);
   };
 

@@ -91,7 +91,7 @@ const RconSettings = (props: {
       </div>
 
       <div className="flex flex-col gap-4" style={{ maxHeight: "calc(100vh - 20rem)" }}>
-        {/* biome-ignore lint/a11y/noStaticElementInteractions: Checkbox wrapper needs to be clickable */}
+        {/* biome-ignore lint/a11y/useSemanticElements: Checkbox wrapper needs to be clickable */}
         <div
           className={"cursor-pointer flex gap-2 align-middle items-center select-none grow-0 w-fit"}
           onClick={() => setRconEnabled((prev) => !prev)}
@@ -101,6 +101,8 @@ const RconSettings = (props: {
               setRconEnabled((prev) => !prev);
             }
           }}
+          role={"button"}
+          tabIndex={0}
         >
           <Checkbox checked={rconEnabled} className={"size-5"} tabIndex={-1} />
           <span className={"text-sm"}>{t("enableRcon")}</span>

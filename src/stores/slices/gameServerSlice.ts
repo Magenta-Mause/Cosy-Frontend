@@ -85,18 +85,6 @@ const gameServerSlice = createSlice({
         state.data[index].status = action.payload.serverState;
       }
     },
-    setGameServerAccessGroups(
-      state,
-      action: PayloadAction<{
-        gameServerUuid: string;
-        newAccessGroups: GameServerAccessGroupDto[];
-      }>,
-    ) {
-      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
-      if (index !== -1) {
-        state.data[index].access_groups = action.payload.newAccessGroups;
-      }
-    },
     addGameServerAccessGroup(
       state,
       action: PayloadAction<{ gameServerUuid: string; accessGroup: GameServerAccessGroupDto }>,

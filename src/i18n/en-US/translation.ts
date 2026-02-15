@@ -540,7 +540,7 @@ const translation: i18nLanguage = {
             description: "Upload, edit, delete and manage server files.",
           },
           CHANGE_SERVER_CONFIGS: {
-            name: "Change Gemeral Settings",
+            name: "Change General Settings",
             description: "Modify server configuration settings and parameters.",
           },
           CHANGE_METRICS_SETTINGS: {

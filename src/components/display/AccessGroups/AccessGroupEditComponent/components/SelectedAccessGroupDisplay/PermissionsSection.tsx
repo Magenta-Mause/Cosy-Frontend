@@ -48,7 +48,7 @@ const PermissionsSection = ({
 
           return (
             <div key={permission} className="flex flex-col gap-1">
-              {/* biome-ignore lint/a11y/noStaticElementInteractions: Checkbox wrapper needs to be clickable */}
+              {/* biome-ignore lint/a11y/useSemanticElements: Checkbox wrapper needs to be clickable */}
               <div
                 className={cn(
                   "cursor-pointer flex gap-2 align-middle items-center select-none grow-0 w-fit",
@@ -61,6 +61,8 @@ const PermissionsSection = ({
                     handleTogglePermission(permission);
                   }
                 }}
+                tabIndex={0}
+                role={"button"}
               >
                 <Checkbox
                   checked={isChecked}
