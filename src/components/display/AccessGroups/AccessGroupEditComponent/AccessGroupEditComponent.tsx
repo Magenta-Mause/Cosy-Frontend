@@ -1,22 +1,7 @@
-import {Button} from "@components/ui/button.tsx";
-import {PlusIcon, XIcon} from "lucide-react";
-import {useCallback, useEffect, useMemo, useState} from "react";
-import type {ButtonProps} from "react-day-picker";
-import type {
-  GameServerAccessGroupDto,
-  GameServerAccessGroupDtoPermissionsItem,
-  GameServerDto,
-  UserEntityDto,
-} from "@/api/generated/model";
-import {getUUIDByUsername} from "@/api/generated/backend-api.ts";
-import {GameServerAccessGroupDtoPermissionsItem as PermissionEnum} from "@/api/generated/model";
-import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
-import {cn} from "@/lib/utils.ts";
-import {Checkbox} from "@components/ui/checkbox.tsx";
 import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import * as z from "zod";
-import {Card} from "@components/ui/card.tsx";
-import {useNavigate, useSearch} from "@tanstack/react-router";
+import { Button } from "@components/ui/button.tsx";
+import { Card } from "@components/ui/card.tsx";
+import { Checkbox } from "@components/ui/checkbox.tsx";
 import {
   Dialog,
   DialogClose,
@@ -26,11 +11,26 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { PlusIcon, XIcon } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type { ButtonProps } from "react-day-picker";
+import * as z from "zod";
+import { getUUIDByUsername } from "@/api/generated/backend-api.ts";
+import type {
+  GameServerAccessGroupDto,
+  GameServerAccessGroupDtoPermissionsItem,
+  GameServerDto,
+  UserEntityDto,
+} from "@/api/generated/model";
+import { GameServerAccessGroupDtoPermissionsItem as PermissionEnum } from "@/api/generated/model";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { cn } from "@/lib/utils.ts";
 
 const AccessGroupEditComponent = (props: { gameServer: GameServerDto }) => {
   const navigate = useNavigate();
-  const search = useSearch({strict: false}) as { groupId?: string };
+  const search = useSearch({ strict: false }) as { groupId?: string };
   const accessGroups = props.gameServer?.access_groups;
   const { createGameServerAccessGroup } = useDataInteractions();
 
@@ -66,7 +66,7 @@ const AccessGroupEditComponent = (props: { gameServer: GameServerDto }) => {
   // Handle creating new access group
   const handleCreateAccessGroup = async (groupName: string) => {
     const newGroup = await createGameServerAccessGroup(props.gameServer.uuid, { name: groupName });
-    
+
     // If no unsaved changes, auto-select the new group
     if (!hasUnsavedChanges && newGroup) {
       handleAccessGroupSelection(newGroup);
@@ -121,15 +121,12 @@ const AccessGroupList = (props: {
         <AccessGroupListItem
           key={accessGroup.uuid}
           accessGroup={accessGroup}
-          onRemove={() => {
-          }}
+          onRemove={() => {}}
           onSelect={() => props.onAccessGroupSelection(accessGroup)}
           isSelected={props.selectedAccessGroup === accessGroup.uuid}
         />
       ))}
-      <CreateGameServerAccessGroupButton
-        onCreate={props.onCreateAccessGroup}
-      />
+      <CreateGameServerAccessGroupButton onCreate={props.onCreateAccessGroup} />
     </div>
   );
 };
@@ -147,7 +144,9 @@ const AccessGroupListItem = (props: {
   );
 };
 
-const CreateGameServerAccessGroupButton = (props: { onCreate: (groupName: string) => Promise<void> }) => {
+const CreateGameServerAccessGroupButton = (props: {
+  onCreate: (groupName: string) => Promise<void>;
+}) => {
   const { t } = useTranslationPrefix("components.gameServerSettings.accessManagement");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [groupName, setGroupName] = useState("");
@@ -176,7 +175,7 @@ const CreateGameServerAccessGroupButton = (props: { onCreate: (groupName: string
   return (
     <>
       <AccessGroupButton onClick={() => setDialogOpen(true)}>
-        <PlusIcon/>
+        <PlusIcon />
         <span>{t("createNewGroup")}</span>
       </AccessGroupButton>
 
@@ -184,9 +183,7 @@ const CreateGameServerAccessGroupButton = (props: { onCreate: (groupName: string
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("createGroupTitle")}</DialogTitle>
-            <DialogDescription>
-              {t("createGroupDescription")}
-            </DialogDescription>
+            <DialogDescription>{t("createGroupDescription")}</DialogDescription>
           </DialogHeader>
 
           <div className="py-4">
@@ -224,13 +221,14 @@ const CreateGameServerAccessGroupButton = (props: { onCreate: (groupName: string
 };
 
 const AccessGroupButton = (props: ButtonProps & { isSelected?: boolean }) => {
+  const { isSelected, ...rest } = props;
   return (
     <button
-      {...props}
+      {...rest}
       type={"button"}
       className={cn(
         "flex align-middle items-center gap-1 bg-primary p-1.5 rounded-xl transition-all",
-        props.isSelected && "ring-2 ring-ring ring-offset-2 ring-offset-background",
+        isSelected && "ring-2 ring-ring ring-offset-2 ring-offset-background",
         props.className,
       )}
     />
@@ -245,7 +243,7 @@ const SelectedAccessGroupDisplay = ({
   onChangeStatusUpdate: (hasChanges: boolean) => void;
 }) => {
   const { t } = useTranslationPrefix("components.gameServerSettings.accessManagement");
-  const {deleteGameServerAccessGroup, updateGameServerAccessGroups} = useDataInteractions();
+  const { deleteGameServerAccessGroup, updateGameServerAccessGroups } = useDataInteractions();
   const [loading, setLoading] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -258,7 +256,9 @@ const SelectedAccessGroupDisplay = ({
   const [localGroupName, setLocalGroupName] = useState("");
 
   // Permissions state
-  const [localPermissions, setLocalPermissions] = useState<GameServerAccessGroupDtoPermissionsItem[]>([]);
+  const [localPermissions, setLocalPermissions] = useState<
+    GameServerAccessGroupDtoPermissionsItem[]
+  >([]);
 
   // Initialize state from props
   useEffect(() => {
@@ -316,7 +316,7 @@ const SelectedAccessGroupDisplay = ({
       }
 
       // Add user to local state
-      setLocalUsers((prev) => [...prev, {uuid: userUuid, username: usernameInput.trim()}]);
+      setLocalUsers((prev) => [...prev, { uuid: userUuid, username: usernameInput.trim() }]);
       setUsernameInput("");
     } catch (_error) {
       setUsernameError(t("usernameNotFound"));
@@ -379,9 +379,7 @@ const SelectedAccessGroupDisplay = ({
       <Card className="relative p-3 gap-5 flex flex-col mt-5">
         <div>
           <h2 className="text-lg font-semibold">{t("groupSettings")}</h2>
-          <p className="text-sm text-muted-foreground">
-            {t("description")}
-          </p>
+          <p className="text-sm text-muted-foreground">{t("description")}</p>
         </div>
 
         <div className="flex flex-col gap-6">
@@ -419,7 +417,7 @@ const SelectedAccessGroupDisplay = ({
                       disabled={loading}
                       className="text-destructive hover:text-destructive/80 disabled:opacity-50"
                     >
-                      <XIcon className="size-4"/>
+                      <XIcon className="size-4" />
                     </button>
                   </div>
                 ))
@@ -443,9 +441,7 @@ const SelectedAccessGroupDisplay = ({
                   optional={true}
                   onEnterPress={handleAddUser}
                 />
-                {usernameError && (
-                  <p className="text-xs text-destructive mt-1">{usernameError}</p>
-                )}
+                {usernameError && <p className="text-xs text-destructive mt-1">{usernameError}</p>}
               </div>
               <Button
                 type="button"
@@ -469,19 +465,23 @@ const SelectedAccessGroupDisplay = ({
                 const disabledByAdmin = isAdminChecked && permission !== PermissionEnum.ADMIN;
 
                 // SEE_SERVER must be enabled for all others (except ADMIN and SEE_SERVER itself)
-                const needsSeeServer = permission !== PermissionEnum.ADMIN &&
-                                        permission !== PermissionEnum.SEE_SERVER &&
-                                        !localPermissions.includes(PermissionEnum.SEE_SERVER);
+                const needsSeeServer =
+                  permission !== PermissionEnum.ADMIN &&
+                  permission !== PermissionEnum.SEE_SERVER &&
+                  !localPermissions.includes(PermissionEnum.SEE_SERVER);
 
                 const isDisabled = loading || disabledByAdmin || needsSeeServer;
 
                 // Dangerous permissions get red styling
-                const isDangerous = permission === PermissionEnum.DELETE_SERVER ||
-                                   permission === PermissionEnum.TRANSFER_SERVER_OWNERSHIP;
+                const isDangerous =
+                  permission === PermissionEnum.DELETE_SERVER ||
+                  permission === PermissionEnum.TRANSFER_SERVER_OWNERSHIP;
 
                 const permissionKey = permission as keyof typeof PermissionEnum;
                 const permissionName = t(`permissionDescriptions.${permissionKey}.name`);
-                const permissionDescription = t(`permissionDescriptions.${permissionKey}.description`);
+                const permissionDescription = t(
+                  `permissionDescriptions.${permissionKey}.description`,
+                );
 
                 return (
                   <div key={permission} className="flex flex-col gap-1">
@@ -494,30 +494,21 @@ const SelectedAccessGroupDisplay = ({
                       onClick={() => !isDisabled && handleTogglePermission(permission)}
                       disabled={isDisabled}
                     >
-                      <Checkbox checked={isChecked} className="size-4"/>
-                      <span className={cn(
-                        "text-sm font-medium",
-                        isDangerous && "text-destructive"
-                      )}>
+                      <Checkbox checked={isChecked} className="size-4" />
+                      <span
+                        className={cn("text-sm font-medium", isDangerous && "text-destructive")}
+                      >
                         {permissionName}
                       </span>
                     </button>
-                    <p className="text-xs text-muted-foreground ml-6">
-                      {permissionDescription}
-                    </p>
+                    <p className="text-xs text-muted-foreground ml-6">{permissionDescription}</p>
                   </div>
                 );
               })}
             </div>
-            {isAdminChecked && (
-              <p className="text-xs text-muted-foreground">
-                {t("adminNote")}
-              </p>
-            )}
+            {isAdminChecked && <p className="text-xs text-muted-foreground">{t("adminNote")}</p>}
             {!isAdminChecked && !localPermissions.includes(PermissionEnum.SEE_SERVER) && (
-              <p className="text-xs text-muted-foreground">
-                {t("seeServerNote")}
-              </p>
+              <p className="text-xs text-muted-foreground">{t("seeServerNote")}</p>
             )}
           </div>
         </div>

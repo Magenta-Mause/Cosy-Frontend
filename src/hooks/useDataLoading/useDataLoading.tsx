@@ -241,24 +241,28 @@ const useDataLoading = () => {
     [dispatch],
   );
 
-  const loadAllData = async () => {
-    const results = await Promise.allSettled([
-      loadGameServers(),
-      loadUsers(),
-      loadInvites(),
-      loadTemplates(),
-    ]);
+  const loadAllData = async (isAdmin: boolean = false) => {
+    const tasks = [loadGameServers(), loadTemplates()];
+    const taskNames = ["gameServers", "templates"];
+
+    // Only load users and invites for admin users
+    if (isAdmin) {
+      tasks.push(loadUsers(), loadInvites());
+      taskNames.push("users", "invites");
+    }
+
+    const results = await Promise.allSettled(tasks);
 
     const summary = {
       gameServers: results[0].status === "fulfilled" && results[0].value === true,
-      users: results[1].status === "fulfilled" && results[1].value === true,
-      invites: results[2].status === "fulfilled" && results[2].value === true,
+      templates: results[1].status === "fulfilled" && results[1].value === true,
+      users: isAdmin && results[2] ? results[2].status === "fulfilled" && results[2].value === true : undefined,
+      invites: isAdmin && results[3] ? results[3].status === "fulfilled" && results[3].value === true : undefined,
     };
 
     results.forEach((result, idx) => {
       if (result.status === "rejected") {
-        const names = ["gameServers", "users", "invites"];
-        console.error(`Failed to load ${names[idx]}:`, result.reason);
+        console.error(`Failed to load ${taskNames[idx]}:`, result.reason);
       }
     });
 
