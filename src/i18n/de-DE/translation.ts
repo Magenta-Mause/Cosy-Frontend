@@ -411,6 +411,7 @@ const translation: i18nLanguage = {
         metrics: "Metriken",
         accessManagement: "Zugriffsverwaltung",
         rcon: "RCON",
+        webhooks: "Webhooks",
       },
       sections: {
         general: "Allgemeine Einstellungen",
@@ -418,11 +419,38 @@ const translation: i18nLanguage = {
         publicDashboard: "Einstellungen für öffentliches Dashboard",
         metrics: "Metrik-Einstellungen",
         accessManagement: "Zugriffsverwaltungs-Einstellungen",
+        webhooks: "Webhook-Einstellungen",
       },
       metrics: {
         type: "Typen",
         width: "Breite",
         add: "Metrik hinzufügen",
+      },
+      webhooks: {
+        title: "Webhook-Einstellungen",
+        form: {
+          webhookType: "Webhook-Typ",
+          webhookUrl: "Webhook-URL",
+          enabled: "Aktiviert",
+          subscribedEvents: "Abonnierte Ereignisse",
+        },
+        create: "Webhook erstellen",
+        configuredWebhooks: "Konfigurierte Webhooks",
+        loading: "Webhooks werden geladen...",
+        empty: "Noch keine Webhooks konfiguriert.",
+        delete: "Löschen",
+        labels: {
+          type: "Typ",
+          url: "URL",
+          enabled: "Aktiviert",
+          events: "Ereignisse",
+        },
+        state: {
+          enabled: "Aktiviert",
+          disabled: "Deaktiviert",
+        },
+        createSuccess: "Webhook wurde erfolgreich erstellt.",
+        deleteSuccess: "Webhook wurde erfolgreich gelöscht.",
       },
     },
     gameServerSettings: {

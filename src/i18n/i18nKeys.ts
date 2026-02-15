@@ -490,6 +490,7 @@ export type i18nLanguage = {
         metrics: string;
         accessManagement: string;
         rcon: string;
+        webhooks: string;
       };
       sections: {
         general: string;
@@ -497,11 +498,38 @@ export type i18nLanguage = {
         publicDashboard: string;
         metrics: string;
         accessManagement: string;
+        webhooks: string;
       };
       metrics: {
         type: string;
         width: string;
         add: string;
+      };
+      webhooks: {
+        title: string;
+        form: {
+          webhookType: string;
+          webhookUrl: string;
+          enabled: string;
+          subscribedEvents: string;
+        };
+        create: string;
+        configuredWebhooks: string;
+        loading: string;
+        empty: string;
+        delete: string;
+        labels: {
+          type: string;
+          url: string;
+          enabled: string;
+          events: string;
+        };
+        state: {
+          enabled: string;
+          disabled: string;
+        };
+        createSuccess: string;
+        deleteSuccess: string;
       };
     };
     gameServerSettings: {

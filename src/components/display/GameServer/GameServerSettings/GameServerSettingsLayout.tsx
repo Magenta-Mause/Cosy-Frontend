@@ -7,6 +7,7 @@ import {
   SettingsIcon,
   SquareTerminalIcon,
   User,
+  WebhookIcon,
 } from "lucide-react";
 import {
   type CSSProperties,
@@ -99,6 +100,11 @@ const GameServerSettingsLayout = ({ initialSettings, children }: GameServerSetti
       label: t("tabs.rcon"),
       icon: <SquareTerminalIcon style={iconStyles} className="mr-2" />,
       path: "/server/$serverId/settings/rcon",
+    },
+    {
+      label: t("tabs.webhooks"),
+      icon: <WebhookIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/webhooks",
     },
     {
       label: t("tabs.accessManagement"),
