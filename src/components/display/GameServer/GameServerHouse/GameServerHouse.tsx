@@ -10,8 +10,8 @@ import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { GameServerDto } from "@/api/generated/model";
-import serverHouseImage1 from "@/assets/MainPage/house1.png";
-import serverHouseImage2 from "@/assets/MainPage/house2.png";
+import castle from "@/assets/MainPage/castle.png";
+import house from "@/assets/MainPage/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
@@ -39,7 +39,12 @@ const GameServerHouse = (props: {
 
   const serverHouseImage = useMemo(() => {
     const hash = hashUUID(props.gameServer.uuid);
-    return hash % 2 === 0 ? serverHouseImage1 : serverHouseImage2;
+    return hash % 2 === 0 ? castle : house;
+  }, [props.gameServer.uuid]);
+
+  const isCastle = useMemo(() => {
+    const hash = hashUUID(props.gameServer.uuid);
+    return hash % 2 === 0;
   }, [props.gameServer.uuid]);
 
   const handleClick = () => {
@@ -122,8 +127,12 @@ const GameServerHouse = (props: {
           onClick={handleClick}
         >
           <NameAndStatusBanner
-            className="absolute translate-x-[20%] -translate-y-[75%] whitespace-nowrap z-10"
-            classNameTextChildren="-translate-y-[1.1vw]"
+            className={
+              isCastle
+                ? "absolute translate-x-[8%] -translate-y-[75%] whitespace-nowrap z-10"
+                : "absolute translate-x-[20%] -translate-y-[60%] whitespace-nowrap z-10"
+            }
+            classNameTextChildren={"-translate-y-[1.1vw]"}
             status={props.gameServer.status}
           >
             {props.gameServer.server_name}
