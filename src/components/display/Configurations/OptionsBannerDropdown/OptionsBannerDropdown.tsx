@@ -1,6 +1,6 @@
-import LanguageSelector from "@components/display/configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
-import LogOutButton from "@components/display/configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
-import UserMenuButton from "@components/display/configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
+import LanguageSelector from "@components/display/Configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
+import LogOutButton from "@components/display/Configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
+import UserMenuButton from "@components/display/Configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -12,7 +12,7 @@ const OptionsBannerDropdown = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [userTooltipOpen, setUserTooltipOpen] = useState(false);
   const [logOutTooltipOpen, setLogOutTooltipOpen] = useState(false);
-  const bannerRef = useRef<HTMLButtonElement>(null);
+  const bannerRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
   const { authorized } = useContext(AuthContext);
 
@@ -56,10 +56,10 @@ const OptionsBannerDropdown = () => {
     return () => observer.disconnect();
   }, []);
 
-  const handleBannerClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleBannerClicked = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
     const clickedElement = target.closest('button, a, [role="button"]');
-    const wasBannerClicked = clickedElement?.id === "banner";
+    const wasBannerClicked = clickedElement?.id === "banner" || target.id === "banner";
 
     if (wasBannerClicked) {
       setIsExpanded(!isExpanded);
@@ -67,12 +67,17 @@ const OptionsBannerDropdown = () => {
   };
 
   return (
-    <button
+    // biome-ignore lint/a11y/noStaticElementInteractions: Banner is an interactive container for nested controls
+    <div
       id="banner"
-      type="button"
       ref={bannerRef}
       onClick={(e) => handleBannerClicked(e)}
-      aria-expanded={isExpanded}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setIsExpanded(!isExpanded);
+        }
+      }}
       className={cn(
         "flex flex-col gap-4 p-6 items-center justify-center pb-10",
         "absolute z-50 -top-2 left-[5%]",
@@ -141,7 +146,7 @@ const OptionsBannerDropdown = () => {
           </>
         )}
       </div>
-    </button>
+    </div>
   );
 };
 

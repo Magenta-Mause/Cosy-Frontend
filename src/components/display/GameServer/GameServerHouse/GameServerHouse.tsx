@@ -1,6 +1,6 @@
 import RightClickMenu, {
   type RightClickAction,
-} from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
+} from "@components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
 import Link from "@components/ui/Link.tsx";
 import { useRouter } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
@@ -113,6 +113,7 @@ const GameServerHouse = (props: {
           height: serverHouseImage.size,
         }}
         onClick={handleClick}
+        preload={"viewport"}
       >
         <img
           alt={t("aria.gameServerConfiguration", {

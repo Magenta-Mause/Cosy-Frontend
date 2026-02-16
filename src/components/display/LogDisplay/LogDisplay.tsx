@@ -15,6 +15,8 @@ const LogDisplay = (
     showCommandInput?: boolean;
     gameServerUuid?: string;
     isServerRunning?: boolean;
+    canReadLogs?: boolean;
+    showExtendedTimestamps?: boolean;
   } & Omit<React.ComponentProps<"div">, "children">,
 ) => {
   const { t } = useTranslation();
@@ -23,6 +25,8 @@ const LogDisplay = (
     showCommandInput = false,
     gameServerUuid,
     isServerRunning = false,
+    canReadLogs = true,
+    ...divProps
   } = props;
 
   const [displayLogs, setDisplayLogs] = useState<GameServerLogWithUuid[]>([]);
@@ -65,10 +69,10 @@ const LogDisplay = (
 
   return (
     <div
-      {...props}
+      {...divProps}
       className={cn(
         "flex flex-col border rounded-md bg-gray-950 text-gray-100 font-mono h-full",
-        props.className,
+        divProps.className,
       )}
     >
       <div className="flex items-center justify-between px-3 py-1 border-b border-gray-800 text-xs uppercase tracking-wide text-gray-400">
@@ -84,7 +88,7 @@ const LogDisplay = (
         </label>
       </div>
 
-      <div className="flex-1 min-h-0">
+      <div className="flex-1 min-h-0 relative">
         <Virtuoso
           key={displayLogs.length === 0 ? "empty" : "loaded"}
           data={displayLogs}
@@ -103,7 +107,7 @@ const LogDisplay = (
           initialTopMostItemIndex={displayLogs.length > 0 ? displayLogs.length - 1 : 0}
           itemContent={(_index, message) => (
             <div className="w-full overflow-hidden">
-              <LogMessage message={message} />
+              <LogMessage message={message} showExtendedTimestamps={props.showExtendedTimestamps} />
             </div>
           )}
           style={{ height: "100%" }}
@@ -116,6 +120,16 @@ const LogDisplay = (
             Footer: () => <div className="h-2" />,
           }}
         />
+        {!canReadLogs && (
+          <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center">
+            <div className="text-gray-400 text-center px-2">
+              <div className="text-lg font-semibold mb-2">
+                {t("serverPage.noAccessFor", { element: t("serverPage.navbar.console") })}
+              </div>
+              <div className="text-sm">{t("logDisplay.noLogsPermission")}</div>
+            </div>
+          </div>
+        )}
       </div>
 
       {showCommandInput && gameServerUuid && (

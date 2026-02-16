@@ -1,5 +1,6 @@
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
+import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { Download, Search, Upload, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -27,6 +28,8 @@ type FileBrowserDialogProps = {
   path?: string;
   serverUuid: string;
   volumes: VolumeMountConfiguration[];
+  canReadFiles?: boolean;
+  canChangeFiles?: boolean;
 };
 
 export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
@@ -58,6 +61,9 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     setSelectedObj,
   } = useFileSelection();
 
+  const canReadFiles = props.canReadFiles ?? true;
+  const canChangeFiles = props.canChangeFiles ?? true;
+
   const [search, setSearch] = useState("");
 
   const [downloadingAll, setDownloadingAll] = useState(false);
@@ -70,7 +76,9 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const deleteMutation = useDeleteInVolume();
 
   const isSynthetic = useMemo(() => {
-    return !props.volumes.some((v) => v.container_path && currentPath.startsWith(v.container_path));
+    return !props.volumes?.some(
+      (v) => v.container_path && currentPath.startsWith(v.container_path),
+    );
   }, [props.volumes, currentPath]);
 
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserDialog");
@@ -224,6 +232,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       previewedPath: selectedFilePath,
       onClosePreview: closePreview,
       isSynthetic,
+      readOnly: !canChangeFiles,
 
       onEntryClick: (obj) => {
         onEntryClick(obj);
@@ -306,12 +315,13 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       onCrumbClick,
       onEntryClick,
       isSynthetic,
+      canChangeFiles,
     ],
   );
 
   return (
     <div
-      className={cn("border-border border-3 rounded-lg flex flex-col gap-2 h-full p-4")}
+      className={cn("border-border border-3 rounded-lg flex flex-col gap-2 h-full p-4 relative")}
       style={{
         width: props.width !== undefined ? `${props.width}px` : undefined,
         height: props.height !== undefined ? `${props.height}px` : undefined,
@@ -340,15 +350,31 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       </FileBrowserProvider>
 
       <div className="flex gap-4">
-        <Button onClick={openFileDialog} disabled={isSynthetic}>
-          <Upload />
-          {t("uploadFile")}
-        </Button>
+        <TooltipWrapper
+          tooltip={
+            isSynthetic
+              ? t("uploadInSyntheticDir")
+              : !canChangeFiles
+                ? t("uploadNoPermission")
+                : null
+          }
+          side="top"
+          align="center"
+        >
+          <Button
+            onClick={openFileDialog}
+            disabled={isSynthetic || !canChangeFiles}
+            className="transition-all duration-300"
+          >
+            <Upload />
+            {t("uploadFile")}
+          </Button>
+        </TooltipWrapper>
 
         <Button
           onClick={onDownloadAll}
           data-loading={downloadingAll || loading}
-          disabled={downloadingAll || loading}
+          disabled={downloadingAll || loading || !canReadFiles}
         >
           <Download />
           {downloadingAll
@@ -360,6 +386,15 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
         <input ref={fileInputRef} type="file" className="hidden" onChange={onFilePicked} />
       </div>
+
+      {!canReadFiles && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
+          <div className="text-muted-foreground text-center">
+            <div className="text-lg font-semibold mb-2">{t("noFilesPermission")}</div>
+            <div className="text-sm">{t("noFilesPermissionDesc")}</div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
