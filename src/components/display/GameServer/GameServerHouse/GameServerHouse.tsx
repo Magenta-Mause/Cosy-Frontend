@@ -129,8 +129,8 @@ const GameServerHouse = (props: {
           <NameAndStatusBanner
             className={
               isCastle
-                ? "absolute translate-x-[8%] -translate-y-[75%] whitespace-nowrap z-10"
-                : "absolute translate-x-[10%] -translate-y-[60%] whitespace-nowrap z-10"
+                ? "absolute translate-x-[7%] -translate-y-[65%] whitespace-nowrap z-10"
+                : "absolute translate-x-[10%] -translate-y-[50%] whitespace-nowrap z-10"
             }
             classNameTextChildren={"-translate-y-[1.1vw]"}
             status={props.gameServer.status}
