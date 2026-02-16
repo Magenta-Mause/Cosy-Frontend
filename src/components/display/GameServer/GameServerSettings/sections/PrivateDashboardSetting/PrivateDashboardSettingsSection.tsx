@@ -132,7 +132,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
             <div className="flex gap-2">
               <WidgetDropDown
                 widgetType={dashboard.private_dashboard_types}
-                setPrivateDashboardType={(type) => handleTypeSelect(type, dashboard._uiUuid)}
+                setWidgetType={(type) => handleTypeSelect(type, dashboard._uiUuid)}
               />
               {dashboard.private_dashboard_types ===
                 PrivateDashboardLayoutPrivateDashboardTypes.METRIC && (
