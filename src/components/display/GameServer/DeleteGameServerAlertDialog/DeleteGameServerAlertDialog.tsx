@@ -11,6 +11,7 @@ import {
 } from "@components/ui/dialog.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { Label } from "@radix-ui/react-label";
+import { useNavigate } from "@tanstack/react-router";
 import type { KeyboardEvent } from "react";
 import { useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
@@ -29,6 +30,7 @@ export function DeleteGameServerAlertDialog({
   onOpenChange,
 }: DeleteGameServerAlertDialogProps) {
   const { t } = useTranslationPrefix("deleteGameServerDialog");
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
   const isConfirmButtonDisabled = inputValue !== serverName || loading;
@@ -42,6 +44,7 @@ export function DeleteGameServerAlertDialog({
         await onConfirm();
         setInputValue(""); // Clear input after confirmation
         onOpenChange(false); // Close dialog on success
+        navigate({ to: "/" });
       } catch (_e) {
         // Error is already handled by the hook, no need to toast here
       } finally {
