@@ -46,6 +46,8 @@ import type {
   RenameInVolumeParams,
   SendCommandDto,
   TemplateEntity,
+  UpdateCustomMetric200,
+  UpdateCustomMetricBody,
   UploadFileToVolumeParams,
   UserCreationDto,
   UserEntityDto,
@@ -63,6 +65,66 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 
+export const updateCustomMetric = (
+    uuid: string,
+    secret: string,
+    updateCustomMetricBody: UpdateCustomMetricBody,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UpdateCustomMetric200>(
+      {url: `/internal/game-server/custom-metric/${uuid}/${secret}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateCustomMetricBody
+    },
+      options);
+    }
+  
+
+
+export const getUpdateCustomMetricMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCustomMetric>>, TError,{uuid: string;secret: string;data: UpdateCustomMetricBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateCustomMetric>>, TError,{uuid: string;secret: string;data: UpdateCustomMetricBody}, TContext> => {
+
+const mutationKey = ['updateCustomMetric'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCustomMetric>>, {uuid: string;secret: string;data: UpdateCustomMetricBody}> = (props) => {
+          const {uuid,secret,data} = props ?? {};
+
+          return  updateCustomMetric(uuid,secret,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateCustomMetricMutationResult = NonNullable<Awaited<ReturnType<typeof updateCustomMetric>>>
+    export type UpdateCustomMetricMutationBody = UpdateCustomMetricBody
+    export type UpdateCustomMetricMutationError = unknown
+
+    export const useUpdateCustomMetric = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCustomMetric>>, TError,{uuid: string;secret: string;data: UpdateCustomMetricBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateCustomMetric>>,
+        TError,
+        {uuid: string;secret: string;data: UpdateCustomMetricBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateCustomMetricMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const getGameServerById = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -965,14 +1027,14 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
     
 export const createGameServerAccessGroup = (
-    gameServerUuid: string,
+    uuid: string,
     accessGroupCreationDto: AccessGroupCreationDto,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
       
       return customInstance<GameServerAccessGroupDto>(
-      {url: `/game-server/${gameServerUuid}/access-groups`, method: 'POST',
+      {url: `/game-server/${uuid}/access-groups`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: accessGroupCreationDto, signal
     },
@@ -982,8 +1044,8 @@ export const createGameServerAccessGroup = (
 
 
 export const getCreateGameServerAccessGroupMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{gameServerUuid: string;data: AccessGroupCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{gameServerUuid: string;data: AccessGroupCreationDto}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{uuid: string;data: AccessGroupCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{uuid: string;data: AccessGroupCreationDto}, TContext> => {
 
 const mutationKey = ['createGameServerAccessGroup'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -995,10 +1057,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createGameServerAccessGroup>>, {gameServerUuid: string;data: AccessGroupCreationDto}> = (props) => {
-          const {gameServerUuid,data} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createGameServerAccessGroup>>, {uuid: string;data: AccessGroupCreationDto}> = (props) => {
+          const {uuid,data} = props ?? {};
 
-          return  createGameServerAccessGroup(gameServerUuid,data,requestOptions)
+          return  createGameServerAccessGroup(uuid,data,requestOptions)
         }
 
         
@@ -1011,11 +1073,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateGameServerAccessGroupMutationError = unknown
 
     export const useCreateGameServerAccessGroup = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{gameServerUuid: string;data: AccessGroupCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{uuid: string;data: AccessGroupCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
         Awaited<ReturnType<typeof createGameServerAccessGroup>>,
         TError,
-        {gameServerUuid: string;data: AccessGroupCreationDto},
+        {uuid: string;data: AccessGroupCreationDto},
         TContext
       > => {
 
@@ -1318,13 +1380,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
     
 export const deleteGameServerAccessGroup = (
-    gameServerUuid: string,
+    uuid: string,
     accessGroupUuid: string,
  options?: SecondParameter<typeof customInstance>,) => {
       
       
       return customInstance<void>(
-      {url: `/game-server/${gameServerUuid}/access-groups/${accessGroupUuid}`, method: 'DELETE'
+      {url: `/game-server/${uuid}/access-groups/${accessGroupUuid}`, method: 'DELETE'
     },
       options);
     }
@@ -1332,8 +1394,8 @@ export const deleteGameServerAccessGroup = (
 
 
 export const getDeleteGameServerAccessGroupMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{gameServerUuid: string;accessGroupUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{gameServerUuid: string;accessGroupUuid: string}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{uuid: string;accessGroupUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{uuid: string;accessGroupUuid: string}, TContext> => {
 
 const mutationKey = ['deleteGameServerAccessGroup'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -1345,10 +1407,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, {gameServerUuid: string;accessGroupUuid: string}> = (props) => {
-          const {gameServerUuid,accessGroupUuid} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, {uuid: string;accessGroupUuid: string}> = (props) => {
+          const {uuid,accessGroupUuid} = props ?? {};
 
-          return  deleteGameServerAccessGroup(gameServerUuid,accessGroupUuid,requestOptions)
+          return  deleteGameServerAccessGroup(uuid,accessGroupUuid,requestOptions)
         }
 
         
@@ -1361,11 +1423,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type DeleteGameServerAccessGroupMutationError = unknown
 
     export const useDeleteGameServerAccessGroup = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{gameServerUuid: string;accessGroupUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{uuid: string;accessGroupUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
         Awaited<ReturnType<typeof deleteGameServerAccessGroup>>,
         TError,
-        {gameServerUuid: string;accessGroupUuid: string},
+        {uuid: string;accessGroupUuid: string},
         TContext
       > => {
 
@@ -1375,14 +1437,14 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
     
 export const updateGameServerAccessGroups = (
-    gameServerUuid: string,
+    uuid: string,
     accessGroupUuid: string,
     accessGroupUpdateDto: AccessGroupUpdateDto,
  options?: SecondParameter<typeof customInstance>,) => {
       
       
       return customInstance<GameServerAccessGroupDto[]>(
-      {url: `/game-server/${gameServerUuid}/access-groups/${accessGroupUuid}`, method: 'PATCH',
+      {url: `/game-server/${uuid}/access-groups/${accessGroupUuid}`, method: 'PATCH',
       headers: {'Content-Type': 'application/json', },
       data: accessGroupUpdateDto
     },
@@ -1392,8 +1454,8 @@ export const updateGameServerAccessGroups = (
 
 
 export const getUpdateGameServerAccessGroupsMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{uuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{uuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext> => {
 
 const mutationKey = ['updateGameServerAccessGroups'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -1405,10 +1467,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, {gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}> = (props) => {
-          const {gameServerUuid,accessGroupUuid,data} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, {uuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}> = (props) => {
+          const {uuid,accessGroupUuid,data} = props ?? {};
 
-          return  updateGameServerAccessGroups(gameServerUuid,accessGroupUuid,data,requestOptions)
+          return  updateGameServerAccessGroups(uuid,accessGroupUuid,data,requestOptions)
         }
 
         
@@ -1421,11 +1483,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateGameServerAccessGroupsMutationError = unknown
 
     export const useUpdateGameServerAccessGroups = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{uuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
         Awaited<ReturnType<typeof updateGameServerAccessGroups>>,
         TError,
-        {gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto},
+        {uuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto},
         TContext
       > => {
 
