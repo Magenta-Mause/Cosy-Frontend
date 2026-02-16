@@ -242,124 +242,6 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
-export const updateMetricLayout = (
-    uuid: string,
-    metricLayout: MetricLayout[],
- options?: SecondParameter<typeof customInstance>,) => {
-      
-      
-      return customInstance<void>(
-      {url: `/game-server/${uuid}/layout/metric`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: metricLayout
-    },
-      options);
-    }
-  
-
-
-export const getUpdateMetricLayoutMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext> => {
-
-const mutationKey = ['updateMetricLayout'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateMetricLayout>>, {uuid: string;data: MetricLayout[]}> = (props) => {
-          const {uuid,data} = props ?? {};
-
-          return  updateMetricLayout(uuid,data,requestOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type UpdateMetricLayoutMutationResult = NonNullable<Awaited<ReturnType<typeof updateMetricLayout>>>
-    export type UpdateMetricLayoutMutationBody = MetricLayout[]
-    export type UpdateMetricLayoutMutationError = unknown
-
-    export const useUpdateMetricLayout = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
- ): UseMutationResult<
-        Awaited<ReturnType<typeof updateMetricLayout>>,
-        TError,
-        {uuid: string;data: MetricLayout[]},
-        TContext
-      > => {
-
-      const mutationOptions = getUpdateMetricLayoutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
-export const updateMetricLayout1 = (
-    uuid: string,
-    metricLayout: MetricLayout[],
- options?: SecondParameter<typeof customInstance>,) => {
-      
-      
-      return customInstance<void>(
-      {url: `/game-server/${uuid}/layout/metric`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: metricLayout
-    },
-      options);
-    }
-  
-
-
-export const getUpdateMetricLayout1MutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout1>>, TError,{uuid: string;data: MetricLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout1>>, TError,{uuid: string;data: MetricLayout[]}, TContext> => {
-
-const mutationKey = ['updateMetricLayout1'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateMetricLayout1>>, {uuid: string;data: MetricLayout[]}> = (props) => {
-          const {uuid,data} = props ?? {};
-
-          return  updateMetricLayout1(uuid,data,requestOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type UpdateMetricLayout1MutationResult = NonNullable<Awaited<ReturnType<typeof updateMetricLayout1>>>
-    export type UpdateMetricLayout1MutationBody = MetricLayout[]
-    export type UpdateMetricLayout1MutationError = unknown
-
-    export const useUpdateMetricLayout1 = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout1>>, TError,{uuid: string;data: MetricLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
- ): UseMutationResult<
-        Awaited<ReturnType<typeof updateMetricLayout1>>,
-        TError,
-        {uuid: string;data: MetricLayout[]},
-        TContext
-      > => {
-
-      const mutationOptions = getUpdateMetricLayout1MutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
 export const getAllUserInvites = (
     
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -1433,6 +1315,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getUpdateRconConfigurationMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const updateMetricLayout = (
+    uuid: string,
+    metricLayout: MetricLayout[],
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/layout/metric`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: metricLayout
+    },
+      options);
+    }
+  
+
+
+export const getUpdateMetricLayoutMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext> => {
+
+const mutationKey = ['updateMetricLayout'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateMetricLayout>>, {uuid: string;data: MetricLayout[]}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updateMetricLayout(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateMetricLayoutMutationResult = NonNullable<Awaited<ReturnType<typeof updateMetricLayout>>>
+    export type UpdateMetricLayoutMutationBody = MetricLayout[]
+    export type UpdateMetricLayoutMutationError = unknown
+
+    export const useUpdateMetricLayout = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateMetricLayout>>,
+        TError,
+        {uuid: string;data: MetricLayout[]},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateMetricLayoutMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
