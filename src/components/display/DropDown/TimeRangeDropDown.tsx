@@ -1,7 +1,7 @@
 import DatePicker from "@components/display/DatePicker/DatePicker";
 import { format } from "date-fns";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,12 +29,26 @@ const TIME_RANGE_PRESETS: [number, "min" | "hour" | "day"][] = [
   [30, "day"],
 ];
 
+type Selection =
+  | { type: "default" }
+  | { type: "preset"; time: number; unit: "min" | "hour" | "day" }
+  | { type: "custom"; startDate: Date; endDate: Date };
+
 const TimeRangeDropDown = (props: TimeRangeProps) => {
   const { t } = useTranslation();
-  const [selectedLabel, setSelectedLabel] = useState<string>(
-    props.defaultLabel ?? t("timerange.button"),
-  );
+  const [selection, setSelection] = useState<Selection>({ type: "default" });
   const [openCustom, setOpenCustom] = useState<boolean>(false);
+
+  const selectedLabel = useMemo(() => {
+    switch (selection.type) {
+      case "default":
+        return props.defaultLabel ?? t("timerange.button");
+      case "preset":
+        return t(`timerange.${selection.unit}`, { time: selection.time });
+      case "custom":
+        return `${format(selection.startDate, "LLL dd, y")} - ${format(selection.endDate, "LLL dd, y")}`;
+    }
+  }, [selection, t, props.defaultLabel]);
 
   const timeAgo = (value: number, unit: string): Date => {
     const ms =
@@ -48,12 +62,12 @@ const TimeRangeDropDown = (props: TimeRangeProps) => {
   };
 
   const handleSelect = (time: number, unit: "min" | "hour" | "day") => {
-    setSelectedLabel(t(`timerange.${unit}`, { time: time }));
+    setSelection({ type: "preset", time, unit });
     props.onChange({ timeUnit: unit, startTime: timeAgo(time, unit) });
   };
 
   const handleCustomRange = ({ startDate, endDate }: { startDate: Date; endDate: Date }) => {
-    setSelectedLabel(`${format(startDate, "LLL dd, y")} - ${format(endDate, "LLL dd, y")}`);
+    setSelection({ type: "custom", startDate, endDate });
     props.onChange({ timeUnit: "day", startTime: startDate, endTime: endDate });
   };
 
