@@ -2,13 +2,16 @@ import SizeDropDown from "@components/display/DropDown/SizeDropDown";
 import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
+import { useBlocker } from "@tanstack/react-router";
 import { Plus, X } from "lucide-react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import type { GameServerDto, MetricLayout, PrivateDashboardLayout } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
 import { LayoutSize } from "@/types/layoutSize";
+import UnsavedModal from "./UnsavedModal";
 
 interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: LayoutSize }> {
   gameServer: GameServerDto;
@@ -25,10 +28,20 @@ interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: Layout
 export default function GenericLayoutSelection<T extends { _uiUuid: string; size?: LayoutSize }>(
   props: GenericLayoutSelectionProps<T>,
 ) {
-  const { gameServer, isChanged, layouts, layoutSection, setLayouts, defaultAddNew, children, saveHandler } =
-    props;
+  const {
+    gameServer,
+    isChanged,
+    layouts,
+    layoutSection,
+    setLayouts,
+    defaultAddNew,
+    children,
+    saveHandler,
+  } = props;
   const { t } = useTranslationPrefix("components");
   const dispatch = useDispatch();
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const resolverRef = useRef<((block: boolean) => void) | null>(null);
 
   const wrap = (layout: T): T => ({ ...layout, _uiUuid: generateUuid() });
 
@@ -61,6 +74,20 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
   const handleOnAdd = () => {
     setLayouts([...layouts, { ...defaultAddNew, _uiUuid: generateUuid() }]);
   };
+
+  useBlocker({
+    shouldBlockFn: () => {
+      if (!isChanged) return false;
+
+      return new Promise<boolean>((resolve) => {
+        resolverRef.current = (block) => {
+          resolve(block);
+        };
+
+        setShowUpdateModal(true);
+      });
+    },
+  });
 
   return (
     <>
@@ -126,6 +153,24 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
           {t("editGameServer.confirm")}
         </Button>
       </div>
+      <UnsavedModal
+        open={showUpdateModal}
+        setOpen={setShowUpdateModal}
+        onLeave={() => {
+          setShowUpdateModal(false);
+          setLayouts(gameServer[layoutSection] ? wrapper(gameServer[layoutSection] as T[]) : []);
+          resolverRef.current?.(false);
+        }}
+        onSaveAndLeave={() => {
+          setShowUpdateModal(false);
+          resolverRef.current?.(false);
+          handleConfirm();
+        }}
+        onStay={() => {
+          setShowUpdateModal(false);
+          resolverRef.current?.(true);
+        }}
+      />
     </>
   );
 }

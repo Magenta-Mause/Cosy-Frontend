@@ -41,7 +41,7 @@ const FreeTextModal = (props: FreeTextModalProps) => {
         </DialogHeader>
         <DialogMain>
           <div className="flex flex-col">
-            <Label className="text-sm font-bold">Enter Title</Label>
+            <Label className="text-sm font-bold">{t("GameServerSettings.privateDashboard.freetext.label")}</Label>
             <Input
               placeholder={t("GameServerSettings.privateDashboard.freetext.placeholder")}
               value={freeText.title ?? ""}

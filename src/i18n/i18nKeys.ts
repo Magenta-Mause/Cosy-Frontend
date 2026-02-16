@@ -550,6 +550,13 @@ export type i18nLanguage = {
 
   genericModal: {
     cancel: string;
+    unsavedModal: {
+      title: string;
+      leave: string;
+      stay: string;
+      saveAndLeave: string;
+      message: string;
+    };
   };
   metrics: {
     metricDescription: ContainsVariable<"type">;

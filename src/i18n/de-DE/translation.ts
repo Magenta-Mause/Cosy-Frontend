@@ -507,6 +507,13 @@ const translation: i18nLanguage = {
   },
   genericModal: {
     cancel: "Abbrechen",
+    unsavedModal: {
+      title: "Ungespeicherte Änderungen",
+      message: "Sie haben ungespeicherte Änderungen. Möchten Sie diese wirklich verwerfen?",
+      stay: "Bleiben",
+      leave: "Verwerfen trotzdem",
+      saveAndLeave: "Speichern und verlassen",
+    },
   },
   logDisplay: {
     serverLog: "Konsole",
