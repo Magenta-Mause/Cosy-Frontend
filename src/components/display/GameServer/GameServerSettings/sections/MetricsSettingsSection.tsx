@@ -4,7 +4,7 @@ import { v7 as generateUuid } from "uuid";
 import { type GameServerDto, type MetricLayout, MetricLayoutSize } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { type MetricLayoutUI, MetricsType } from "@/types/metricsTyp";
-import GenericLayoutSelection from "./GenericLayoutSelection/GenericLayoutSelection";
+import GenericLayoutSelection from "./GenericLayoutBuilder/GenericLayoutBuilder";
 
 interface MetricSetting {
   gameServer: GameServerDto;

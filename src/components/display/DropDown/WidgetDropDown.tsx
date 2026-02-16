@@ -22,12 +22,12 @@ const WidgetDropDown = (props: {
   className?: string;
   disabled?: boolean;
   widgetType?: PrivateDashboardLayoutPrivateDashboardTypes;
-  setPrivateDashboard: (unit: PrivateDashboardLayoutPrivateDashboardTypes) => void;
+  setPrivateDashboardType: (unit: PrivateDashboardLayoutPrivateDashboardTypes) => void;
 }) => {
   const { t } = useTranslationPrefix("components.GameServerSettings.privateDashboard.types");
 
   const handleSelect = (type: PrivateDashboardLayoutPrivateDashboardTypes) => {
-    props.setPrivateDashboard(type);
+    props.setPrivateDashboardType(type);
   };
 
   return (

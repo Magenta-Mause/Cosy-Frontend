@@ -13,7 +13,7 @@ import {
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { MetricsType } from "@/types/metricsTyp";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
-import GenericLayoutSelection from "../GenericLayoutSelection/GenericLayoutSelection";
+import GenericLayoutSelection from "../GenericLayoutBuilder/GenericLayoutBuilder";
 import FreeTextModal from "./FreeTextModal";
 
 const wrapPrivateDashboard = (dashboard: PrivateDashboardLayout): PrivateDashboardLayoutUI => ({
@@ -133,7 +133,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
             <div className="flex gap-2">
               <WidgetDropDown
                 widgetType={dashboard.private_dashboard_types}
-                setPrivateDashboard={(type) => handleTypeSelect(type, dashboard._uiUuid)}
+                setPrivateDashboardType={(type) => handleTypeSelect(type, dashboard._uiUuid)}
               />
               {dashboard.private_dashboard_types ===
                 PrivateDashboardLayoutPrivateDashboardTypes.METRIC && (
