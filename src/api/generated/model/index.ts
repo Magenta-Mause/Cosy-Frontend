@@ -41,7 +41,6 @@ export * from './passwordUpdateDto';
 export * from './portMapping';
 export * from './portMappingProtocol';
 export * from './privateDashboardLayout';
-export * from './privateDashboardLayoutContent';
 export * from './privateDashboardLayoutMetricType';
 export * from './privateDashboardLayoutPrivateDashboardTypes';
 export * from './privateDashboardLayoutSize';
