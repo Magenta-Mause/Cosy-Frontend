@@ -1,6 +1,7 @@
 import MetricDropDown from "@components/display/DropDown/MetricDropDown";
 import { useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
+import { updateMetricLayout } from "@/api/generated/backend-api";
 import { type GameServerDto, type MetricLayout, MetricLayoutSize } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { type MetricLayoutUI, MetricsType } from "@/types/metricsTyp";
@@ -56,6 +57,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
         layoutSection="metric_layout"
         isChanged={isChanged}
         layouts={metricLayoutState}
+        saveHandler={updateMetricLayout}
         setLayouts={setMetricLayoutState}
         wrapper={wrapMetrics}
         defaultAddNew={newMetric}

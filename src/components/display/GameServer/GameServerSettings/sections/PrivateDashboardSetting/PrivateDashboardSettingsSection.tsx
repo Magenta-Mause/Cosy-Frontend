@@ -4,6 +4,7 @@ import { Button } from "@components/ui/button";
 import { SquarePen } from "lucide-react";
 import { useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
+import { updatePrivateDashboard } from "@/api/generated/backend-api";
 import {
   type GameServerDto,
   MetricLayoutSize,
@@ -51,16 +52,13 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
   const isModalChanged = useMemo(() => {
     if (!freeText) return false;
 
-    const original = privateDashboard.find(
-      (d) => d._uiUuid === freeText._uiUuid
-    );
+    const original = privateDashboard.find((d) => d._uiUuid === freeText._uiUuid);
 
     if (!original) return false;
 
     return (
       freeText.title !== original.title ||
-      JSON.stringify(freeText.content ?? []) !==
-      JSON.stringify(original.content ?? [])
+      JSON.stringify(freeText.content ?? []) !== JSON.stringify(original.content ?? [])
     );
   }, [freeText, privateDashboard]);
 
@@ -124,6 +122,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
         layoutSection="private_dashboard_layouts"
         isChanged={isChanged}
         layouts={privateDashboard}
+        saveHandler={updatePrivateDashboard}
         setLayouts={setPrivateDashboard}
         wrapper={wrapPrivateDashboards}
         defaultAddNew={newWidget}

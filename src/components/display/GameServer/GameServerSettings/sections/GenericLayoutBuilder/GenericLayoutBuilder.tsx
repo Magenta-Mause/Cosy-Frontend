@@ -5,8 +5,7 @@ import { Card, CardContent } from "@components/ui/card";
 import { Plus, X } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
-import { updatePrivateDashboard } from "@/api/generated/backend-api";
-import type { GameServerDto } from "@/api/generated/model";
+import type { GameServerDto, MetricLayout, PrivateDashboardLayout } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
 import { LayoutSize } from "@/types/layoutSize";
@@ -17,6 +16,7 @@ interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: Layout
   layoutSection: "private_dashboard_layouts" | "metric_layout";
   isChanged: boolean;
   layouts: T[];
+  saveHandler?: (uuid: string, layouts: PrivateDashboardLayout[] | MetricLayout[]) => void;
   setLayouts: React.Dispatch<React.SetStateAction<T[]>>;
   wrapper: (layouts: T[]) => T[];
   children?: (layout: T) => React.ReactNode;
@@ -25,7 +25,7 @@ interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: Layout
 export default function GenericLayoutSelection<T extends { _uiUuid: string; size?: LayoutSize }>(
   props: GenericLayoutSelectionProps<T>,
 ) {
-  const { gameServer, isChanged, layouts, layoutSection, setLayouts, defaultAddNew, children } =
+  const { gameServer, isChanged, layouts, layoutSection, setLayouts, defaultAddNew, children, saveHandler } =
     props;
   const { t } = useTranslationPrefix("components");
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
     };
 
     dispatch(gameServerSliceActions.updateGameServer(updatedServer));
-    updatePrivateDashboard(gameServer.uuid, updatedServer[layoutSection]);
+    saveHandler?.(gameServer.uuid, updatedServer[layoutSection]);
   };
 
   const handleWidthSelect = (size: LayoutSize, uuid?: string) => {

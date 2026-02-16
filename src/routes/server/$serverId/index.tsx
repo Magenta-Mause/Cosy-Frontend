@@ -40,6 +40,7 @@ function GameServerDetailPageDashboardPage() {
                 timeUnit="hour"
                 type={dashboard.metric_type as MetricsType}
                 metrics={metrics}
+                className={`${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}
               />
             );
 
@@ -61,15 +62,15 @@ function GameServerDetailPageDashboardPage() {
           case PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT:
             return (
               <div key={dashboard.uuid} className={`h-95  ${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}>
-                <Card className="w-full h-full" key={dashboard.uuid}>
+                <Card className={`w-full h-full`} key={dashboard.uuid}>
                   <h2 className="mt-5 ml-5">
                     {dashboard.title}
                   </h2>
                   {dashboard.content?.map((keyValue) => (
                     <div key={dashboard.uuid} className="flex flex-col">
                       <div className="mx-5">
-                        <p className="text-base font-bold bg-button-primary-default text-button-secondary-default w-fit px-2 rounded-t-md">{keyValue.key}</p>
-                        <p className="text-lg w-full border-2 rounded-b-md rounded-r-md px-2 ">{keyValue.value}</p>
+                        <p className="overflow-y-scroll text-base font-bold bg-button-primary-default text-button-secondary-default w-fit px-2 rounded-t-md ">{keyValue.key}</p>
+                        <p className="overflow-y-scroll text-lg w-full border-2 rounded-b-md rounded-r-md px-2 ">{keyValue.value}</p>
                       </div>
                     </div>
                   ))}
