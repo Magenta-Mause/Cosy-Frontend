@@ -1,5 +1,5 @@
-import GameServerOverviewPageRightClickHandler from "@components/display/configurations/GameServerOverviewPageRightClickHandler/GameServerOverviewPageRightClickHandler.tsx";
-import OptionsBannerDropdown from "@components/display/configurations/OptionsBannerDropdown/OptionsBannerDropdown.tsx";
+import GameServerOverviewPageRightClickHandler from "@components/display/Configurations/GameServerOverviewPageRightClickHandler/GameServerOverviewPageRightClickHandler.tsx";
+import OptionsBannerDropdown from "@components/display/Configurations/OptionsBannerDropdown/OptionsBannerDropdown.tsx";
 import { GameServerNotFoundPage } from "@components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { createRootRoute, Outlet, useRouterState } from "@tanstack/react-router";

@@ -22,12 +22,16 @@ function GameServerDetailPageDashboardPage() {
   const { logs } = useGameServerLogs(serverId ?? "");
   const { metrics } = useGameServerMetrics(serverId ?? "");
   const { gameServer } = useGameServer(serverId ?? "");
+  const { hasPermission } = useGameServerPermissions(serverId ?? "");
 
   if (!gameServer) {
     return null;
   }
 
   const isServerRunning = gameServer.status === GameServerDtoStatus.RUNNING;
+  const canReadMetrics = hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS);
+  const canReadLogs = hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS);
+  const canSendCommands = hasPermission(GameServerAccessGroupDtoPermissionsItem.SEND_COMMANDS);
 
   return (
     <div className="grid grid-cols-6 gap-2">
