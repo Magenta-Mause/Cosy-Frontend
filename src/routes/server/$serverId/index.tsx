@@ -73,7 +73,7 @@ function GameServerDetailPageDashboardPage() {
                 key={dashboard.uuid}
                 className={`h-95  ${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}
               >
-                <Card className={`w-full h-full`} key={dashboard.uuid}>
+                <Card className={`w-full h-full overflow-y-scroll`} key={dashboard.uuid}>
                   <h2 className="mt-5 ml-5">{dashboard.title}</h2>
                   {dashboard.content?.map((keyValue) => (
                     <div key={dashboard.uuid} className="flex flex-col">

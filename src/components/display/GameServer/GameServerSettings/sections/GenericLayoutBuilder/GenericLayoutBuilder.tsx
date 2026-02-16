@@ -40,7 +40,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
   } = props;
   const { t } = useTranslationPrefix("components");
   const dispatch = useDispatch();
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showUnsavedModal, setShowUnsavedModal] = useState(false);
   const resolverRef = useRef<((block: boolean) => void) | null>(null);
 
   const wrap = (layout: T): T => ({ ...layout, _uiUuid: generateUuid() });
@@ -84,7 +84,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
           resolve(block);
         };
 
-        setShowUpdateModal(true);
+        setShowUnsavedModal(true);
       });
     },
   });
@@ -154,20 +154,20 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
         </Button>
       </div>
       <UnsavedModal
-        open={showUpdateModal}
-        setOpen={setShowUpdateModal}
+        open={showUnsavedModal}
+        setOpen={setShowUnsavedModal}
         onLeave={() => {
-          setShowUpdateModal(false);
+          setShowUnsavedModal(false);
           setLayouts(gameServer[layoutSection] ? wrapper(gameServer[layoutSection] as T[]) : []);
           resolverRef.current?.(false);
         }}
         onSaveAndLeave={() => {
-          setShowUpdateModal(false);
+          setShowUnsavedModal(false);
           resolverRef.current?.(false);
           handleConfirm();
         }}
         onStay={() => {
-          setShowUpdateModal(false);
+          setShowUnsavedModal(false);
           resolverRef.current?.(true);
         }}
       />
