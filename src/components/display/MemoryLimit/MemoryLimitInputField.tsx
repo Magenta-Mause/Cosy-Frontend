@@ -39,7 +39,7 @@ const MemoryLimitInputField = (props: {
       props.onValidityChange?.(valid);
       props.onTouchedChange?.(isTouched);
     },
-    [props.onTouchedChange, props.onValidityChange, props],
+    [props.onTouchedChange, props.onValidityChange],
   );
 
   const changeCallback = useCallback(
@@ -60,7 +60,7 @@ const MemoryLimitInputField = (props: {
       setIsValid(valid);
       reportValidity(valid, true);
     },
-    [props.defaultValue, props.onChange, reportValidity, validate, props],
+    [props.defaultValue, props.onChange, reportValidity, validate],
   );
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const MemoryLimitInputField = (props: {
       setIsValid(valid);
       reportValidity(valid, touched);
     }
-  }, [props.defaultValue, props.onChange, props.value, reportValidity, touched, validate, props]);
+  }, [props.defaultValue, props.onChange, props.value, reportValidity, touched, validate]);
 
   useEffect(() => {
     if (props.optional) {
