@@ -214,6 +214,7 @@ const useDataLoading = () => {
       permissions?: GameServerAccessGroupDtoPermissionsItem[],
     ) => {
       if (
+        permissions !== undefined &&
         !containsPermission(
           permissions ?? [],
           GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS,
