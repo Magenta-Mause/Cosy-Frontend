@@ -2,7 +2,7 @@ import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
   common: {
-    yourLimit: "Ihr Limit",
+    yourLimit: "Dein Limit",
   },
   overviewPage: {
     createNewServer: "Neuer Game Server",
@@ -32,7 +32,7 @@ const translation: i18nLanguage = {
     passwordsDoNotMatch: "Passwörter stimmen nicht überein",
     usernameRequired: "Benutzername ist erforderlich",
     accountCreatedSuccess:
-      "Konto erfolgreich erstellt! Melden Sie sich jetzt an, um Ihr Profil zu erstellen.",
+      "Konto erfolgreich erstellt! Melde dich jetzt an, um dein Profil zu erstellen.",
     accountCreateError: 'Fehler beim Erstellen des Kontos. "{{error}}"',
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
     serverStartError: 'Fehler beim Starten des Servers. "{{error}}"',
@@ -61,7 +61,7 @@ const translation: i18nLanguage = {
     generateInvite: "Einladung erstellen",
     creating: "Erstelle...",
     shareInstructions:
-      "Teilen Sie diesen Link mit der Person, die Sie einladen möchten. Sie kann ihn nutzen, um ihr Konto zu erstellen.",
+      "Teile diesen Link mit der Person, die du einladen möchtest. Sie kann ihn nutzen, um ihr Konto zu erstellen.",
     copyLink: "Einladungslink kopieren",
     backToUsers: "Zurück zur Erstellung",
     pendingInvites: "Ausstehende Einladungen",
@@ -84,7 +84,7 @@ const translation: i18nLanguage = {
   },
   inviteRedemption: {
     title: "Einladung annehmen",
-    description: "Erstellen Sie Ihr Konto, um dem Server Yard beizutreten.",
+    description: "Erstelle dein Konto, um dem Server Yard beizutreten.",
     invalidLink: "Ungültiger oder abgelaufener Einladungslink.",
     close: "Schließen",
     invitedBy: "Eingeladen von {{username}}",
@@ -99,24 +99,24 @@ const translation: i18nLanguage = {
     createAccount: "Konto erstellen",
     creating: "Erstelle...",
     loginSuccess: "Erfolgreich eingeloggt",
-    loginInfo: "Bitte loggen Sie sich mit Ihrem neuen Konto ein.",
+    loginInfo: "Bitte logge dich mit deinem neuen Konto ein.",
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
     createGameServerError: "Fehler beim Erstellen des Gameservers!",
     cpuLimit: "CPU Kern Limit: {{cpu}}",
     memoryLimit: "RAM Limit: {{memory}}",
   },
   deleteGameServerDialog: {
-    title: "Sind Sie sicher?",
+    title: "Bist du sicher?",
     description: "Diese Aktion kann nicht rückgängig gemacht werden!",
     explanation:
-      "Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und ALLE zugehörigen Dateien von dem Server entfernt.",
-    inputLabel: "Geben Sie den Namen des Gameservers ein, um sicherzugehen:",
+      "Dadurch wird deine Gameserver-Konfiguration dauerhaft gelöscht und ALLE zugehörigen Dateien von dem Server entfernt.",
+    inputLabel: "Gib den Namen des Gameservers ein, um sicherzugehen:",
     cancel: "Abbrechen",
     confirm: "Löschen",
   },
   logOutDialog: {
     title: "Abmelden?",
-    description: "Sind Sie sicher, dass Sie sich abmelden möchten?",
+    description: "Bist du sicher, dass du dich abmelden möchtest?",
     cancel: "Abbrechen",
     confirm: "Abmelden",
   },
@@ -154,8 +154,8 @@ const translation: i18nLanguage = {
     username: "Benutzername",
     password: "Passwort",
     resetPassword: "Passwort vergessen?",
-    question: "Sie sind nicht angemeldet",
-    continueMeansAccept: "Durch die Anmeldung akzeptieren Sie unsere",
+    question: "Du bist nicht angemeldet",
+    continueMeansAccept: "Durch die Anmeldung akzeptierst du unsere",
     legal: "Datenschutzerklärung",
     incorrectCredentials: "Falscher Benutzername oder Passwort.",
     loading: "Lädt...",
@@ -174,14 +174,14 @@ const translation: i18nLanguage = {
       title: "Template-Variablen",
       noTemplateSelected: "Kein Template ausgewählt",
       noVariables: "Dieses Template hat keine anpassbaren Variablen",
-      selectPlaceholder: "Wählen Sie eine Option",
+      selectPlaceholder: "Wähle eine Option",
       example: "Beispiel",
       pattern: "Muster",
-      validationError: "Bitte geben Sie einen gültigen Wert ein",
+      validationError: "Bitte gib einen gültigen Wert ein",
       validationErrorRequired: "Dieses Feld ist erforderlich",
-      validationErrorNumber: "Bitte geben Sie eine gültige Zahl ein",
-      validationErrorBoolean: "Bitte wählen Sie eine gültige Option",
-      validationErrorSelect: "Bitte wählen Sie eine gültige Option",
+      validationErrorNumber: "Bitte gib eine gültige Zahl ein",
+      validationErrorBoolean: "Bitte wähle eine gültige Option",
+      validationErrorSelect: "Bitte wähle eine gültige Option",
       validationErrorPattern: "Der Wert entspricht nicht dem erforderlichen Muster",
       booleanTrue: "Ja",
       booleanFalse: "Nein",
@@ -195,7 +195,7 @@ const translation: i18nLanguage = {
       reapplyDialog: {
         title: "Template erneut anwenden?",
         description:
-          "Sie haben die Template-Variablen geändert. Möchten Sie das Template mit den neuen Werten erneut anwenden? Dies überschreibt alle manuellen Änderungen, die Sie in Schritt 3 vorgenommen haben.",
+          "Du hast die Template-Variablen geändert. Möchtest du das Template mit den neuen Werten erneut anwenden? Dies überschreibt alle manuellen Änderungen, die du in Schritt 3 vorgenommen hast.",
         cancel: "Aktuelle Werte behalten",
         confirm: "Template erneut anwenden",
       },
@@ -207,73 +207,73 @@ const translation: i18nLanguage = {
           title: "Schritt 1: Server Namen und Spiel auswählen",
           serverNameSelection: {
             title: "Servername",
-            description: "Benennen Sie Ihren Server",
-            errorLabel: "Bitte geben Sie einen gültigen Servernamen ein.",
+            description: "Benenne deinen Server",
+            errorLabel: "Bitte gib einen gültigen Servernamen ein.",
           },
           gameSelection: {
             title: "Spiel auswählen",
-            description: "Wählen Sie ein Spiel für Ihren Server aus.",
-            errorLabel: "Bitte wählen Sie ein gültiges Spiel aus.",
+            description: "Wähle ein Spiel für deinen Server aus.",
+            errorLabel: "Bitte wähle ein gültiges Spiel aus.",
             placeholder: "Spiel suchen...",
             noGamesFound:
-              "Fehler beim Abrufen der Spiele. Wählen Sie dies für das Standardspiel. (kein spezifisches Spiel)",
+              "Fehler beim Abrufen der Spiele. Wähle dies für das Standardspiel. (kein spezifisches Spiel)",
             noResultsLabel: "Generisches Spiel",
           },
         },
         step2: {
           title: "Schritt 2: Template auswählen",
-          description: "Wählen Sie ein Template für Ihren Server aus.",
+          description: "Wähle ein Template für deinen Server aus.",
           templateSelection: {
             title: "Template",
-            description: "Wählen Sie ein Template für Ihren Server aus",
-            errorLabel: "Bitte wählen Sie eine gültiges Template aus.",
+            description: "Wähle ein Template für deinen Server aus",
+            errorLabel: "Bitte wähle ein gültiges Template aus.",
             noResultsLabel: "Keine Templates gefunden.",
             placeholder: "Template auswählen...",
           },
         },
         step3: {
-          title: "Schritt 3: Konfigurieren Sie Ihren Server",
-          description: "Hier können Sie Ihren Server konfigurieren.",
+          title: "Schritt 3: Konfiguriere deinen Server",
+          description: "Hier kannst du deinen Server konfigurieren.",
           dockerImageSelection: {
             title: "Docker-Image",
-            description: "Docker-Image für Ihren Server",
-            errorLabel: "Bitte geben Sie ein gültiges Docker-Image ein.",
+            description: "Docker-Image für deinen Server",
+            errorLabel: "Bitte gib ein gültiges Docker-Image ein.",
           },
           imageTagSelection: {
             title: "Image-Tag",
             description: "Tag für das Docker-Image",
-            errorLabel: "Bitte geben Sie ein gültiges Image-Tag ein.",
+            errorLabel: "Bitte gib ein gültiges Image-Tag ein.",
           },
           portSelection: {
             title: "Port",
-            description: "Port, der zu Ihrem Server weitergeleitet wird.",
-            errorLabel: "Bitte geben Sie einen gültigen Port ein.",
+            description: "Port, der zu deinem Server weitergeleitet wird.",
+            errorLabel: "Bitte gib einen gültigen Port ein.",
           },
           environmentVariablesSelection: {
             title: "Umgebungsvariable",
-            description: "Umgebungsvariablen für Ihren Server",
+            description: "Umgebungsvariablen für deinen Server",
             errorLabel:
               "Entweder müssen sowohl Schlüssel als auch Wert angegeben werden oder keiner von beiden.",
           },
           executionCommandSelection: {
             title: "Ausführungsbefehl",
-            description: "Befehl zum Starten Ihres Servers",
-            errorLabel: "Bitte geben Sie ein gültiges Ausführungsbefehl ein.",
+            description: "Befehl zum Starten deines Servers",
+            errorLabel: "Bitte gib ein gültiges Ausführungsbefehl ein.",
           },
           hostPathSelection: {
             title: "Volume-Mount",
-            description: "Volume-Mounts für Ihren Server",
+            description: "Volume-Mounts für deinen Server",
             errorLabel: "Containerpfad darf nicht '/' sein.",
           },
           memoryLimitSelection: {
             title: "RAM Limit",
             description: "Maximaler RAM, der diesem Server zugewiesen wird",
-            errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
+            errorLabel: "Bitte gib ein gültiges Speicherlimit ein.",
           },
           cpuLimitSelection: {
             title: "CPU Kern Limit",
             description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
-            errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
+            errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
           },
         },
       },
@@ -287,7 +287,7 @@ const translation: i18nLanguage = {
         loadingPreview: "Lade Dateivorschau...",
         noPreviewAvailable: "Keine Dateivorschau verfügbar{{textError}}",
         previewFailure: "Dateivorschau konnte nicht geladen werden",
-        selectPreview: "Wählen Sie eine Datei zur Vorschau aus",
+        selectPreview: "Wähle eine Datei zur Vorschau aus",
       },
       fileBrowserHeader: {
         newFolder: "Neuer Ordner",
@@ -330,9 +330,9 @@ const translation: i18nLanguage = {
         uploadFile: "Hochladen",
         renamePlaceholder: "z. Bsp. server.log",
         noFilesPermission: "Kein Dateizugriff",
-        noFilesPermissionDesc: "Sie haben keine Berechtigung, die Server-Dateien anzuzeigen",
+        noFilesPermissionDesc: "Du hast keine Berechtigung, die Server-Dateien anzuzeigen",
         uploadInSyntheticDir: "Dateien können nicht in virtuelle Verzeichnisse hochgeladen werden",
-        uploadNoPermission: "Sie haben keine Berechtigung, Dateien hochzuladen",
+        uploadNoPermission: "Du hast keine Berechtigung, Dateien hochzuladen",
       },
     },
     editGameServer: {
@@ -350,7 +350,7 @@ const translation: i18nLanguage = {
 
       serverNameSelection: {
         title: "Servername",
-        description: "Der Name Ihres Servers",
+        description: "Der Name deines Servers",
         errorLabel: "Servername ist erforderlich",
       },
 
@@ -369,7 +369,7 @@ const translation: i18nLanguage = {
       portSelection: {
         title: "Port-Zuordnungen",
         errorLabel: "Port muss eine Zahl zwischen 1 und 65535 sein",
-        description: "Port, auf dem Ihr Server läuft",
+        description: "Port, auf dem dein Server läuft",
         placeholder: {
           instancePort: "Instanz Port",
           containerPort: "Container Port",
@@ -380,7 +380,7 @@ const translation: i18nLanguage = {
       environmentVariablesSelection: {
         title: "Umgebungsvariablen",
         errorLabel: "Sowohl Schlüssel als auch Wert sind erforderlich",
-        description: "Umgebungsvariablen für Ihren Server",
+        description: "Umgebungsvariablen für deinen Server",
       },
 
       executionCommandSelection: {
@@ -392,19 +392,19 @@ const translation: i18nLanguage = {
       volumeMountSelection: {
         title: "Volume-Mounts",
         errorLabel: "Pfad darf nicht leer sein",
-        description: "Volume-Mounts für Ihren Server",
+        description: "Volume-Mounts für deinen Server",
       },
 
       memoryLimitSelection: {
         title: "RAM Limit",
         description: "Maximaler RAM, der diesem Server zugewiesen wird",
-        errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
+        errorLabel: "Bitte gib ein gültiges Speicherlimit ein.",
       },
 
       cpuLimitSelection: {
         title: "CPU Kern Limit",
         description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
-        errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
+        errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
       },
     },
     GameServerSettings: {
@@ -430,7 +430,7 @@ const translation: i18nLanguage = {
       },
       accessManagement: {
         title: "Zugriffsverwaltung",
-        description: "Bestimmen Sie, wer welchen Zugriff auf Ihren Server haben soll",
+        description: "Bestimme, wer welchen Zugriff auf deinen Server haben soll",
       },
     },
     gameServerSettings: {
@@ -439,7 +439,7 @@ const translation: i18nLanguage = {
         description: {
           part1:
             "Standardmäßig verbindet sich COSY mit dem Spielserver und versucht, Befehle direkt über STDIN einzugeben.",
-          part2: "Hier können Sie alternativ eine",
+          part2: "Hier kannst du alternativ eine",
           part3: "Verbindung konfigurieren, die für die Befehlsübermittlung verwendet werden soll.",
           rcon: "RCON",
         },
@@ -448,7 +448,7 @@ const translation: i18nLanguage = {
           title: "RCON Port",
           description:
             "Die Portnummer für RCON-Verbindungen (1-65535). Der RCON-Port muss von dem Game Server Container auf den Host freigegeben sein",
-          errorLabel: "Bitte geben Sie eine gültige Portnummer zwischen 1 und 65535 ein",
+          errorLabel: "Bitte gib eine gültige Portnummer zwischen 1 und 65535 ein",
         },
         rconPassword: {
           title: "RCON Passwort",
@@ -460,10 +460,10 @@ const translation: i18nLanguage = {
       },
       accessManagement: {
         title: "Zugriffsverwaltung",
-        description: "Konfigurieren Sie Benutzer und Berechtigungen für Zugriffsgruppen",
+        description: "Konfiguriere Benutzer und Berechtigungen für Zugriffsgruppen",
         createNewGroup: "Neue Zugriffsgruppe erstellen",
         createGroupTitle: "Neue Zugriffsgruppe erstellen",
-        createGroupDescription: "Geben Sie einen Namen für die neue Zugriffsgruppe ein.",
+        createGroupDescription: "Gib einen Namen für die neue Zugriffsgruppe ein.",
         groupSettings: "Gruppeneinstellungen",
         groupNameLabel: "Gruppenname",
         groupNamePlaceholder: "Gruppennamen eingeben",
@@ -484,7 +484,7 @@ const translation: i18nLanguage = {
         deleteGroup: "Zugriffsgruppe löschen",
         deleteGroupTitle: "Zugriffsgruppe löschen",
         deleteGroupDescription:
-          'Sind Sie sicher, dass Sie die Zugriffsgruppe "{{groupName}}" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
+          'Bist du sicher, dass du die Zugriffsgruppe "{{groupName}}" löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.',
         cancel: "Abbrechen",
         delete: "Löschen",
         create: "Erstellen",
@@ -598,11 +598,11 @@ const translation: i18nLanguage = {
     stickToBottom: "Auto Scroll",
     enterCommand: "Befehl eingeben...",
     cantSendCommands: "Server muss laufen, um Befehle zu senden",
-    noLogsPermission: "Sie haben keine Berechtigung, die Server-Logs anzuzeigen",
+    noLogsPermission: "Du hast keine Berechtigung, die Server-Logs anzuzeigen",
   },
   serverPage: {
     notFound: "404 - Server nicht gefunden",
-    notFoundGoBack: "Bringen Sie mich zurück",
+    notFoundGoBack: "Bring mich zurück",
     start: "Starten",
     stop: "Herunterfahren",
     back: "Zurück",
@@ -613,7 +613,7 @@ const translation: i18nLanguage = {
     memoryLimit: "RAM Limit",
     unlimited: "Unlimitiert",
     noAccessFor: "Kein Zugriff auf {{element}}",
-    noStartStopPermission: "Sie haben keine Berechtigung, diesen Server zu starten oder zu stoppen",
+    noStartStopPermission: "Du hast keine Berechtigung, diesen Server zu starten oder zu stoppen",
     navbar: {
       overview: "Dashboard",
       console: "Konsole",
@@ -623,7 +623,7 @@ const translation: i18nLanguage = {
     },
   },
   settings: {
-    noAccessDescription: "Sie haben keine Berechtigung, diese Einstellung zu ändern",
+    noAccessDescription: "Du hast keine Berechtigung, diese Einstellung zu ändern",
     noAccessFor: "Kein Zugriff auf Einstellungen: {{element}}",
   },
   serverStatus: {
@@ -639,7 +639,7 @@ const translation: i18nLanguage = {
     metricDescription: "{{type}} Metrik über Zeit",
     configure: "Metriken konfigurieren",
     noMetricsPermission: "Kein Metrik-Zugriff",
-    noMetricsPermissionDesc: "Sie haben keine Berechtigung, die Server-Metriken anzuzeigen",
+    noMetricsPermissionDesc: "Du hast keine Berechtigung, die Server-Metriken anzuzeigen",
     types: {
       CPU_PERCENT: "CPU",
       MEMORY_PERCENT: "RAM",
@@ -665,7 +665,7 @@ const translation: i18nLanguage = {
   },
   datepicker: {
     title: "Benutzerdefinierter Zeitraum",
-    des: "Wählen Sie einen benutzerdefinierten Zeitraum für die Metriken aus.",
+    des: "Wähle einen benutzerdefinierten Zeitraum für die Metriken aus.",
   },
   cardWidth: {
     SMALL: "Klein",
