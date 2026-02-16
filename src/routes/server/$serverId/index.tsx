@@ -4,17 +4,16 @@ import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
 import { Card } from "@components/ui/card";
 import { createFileRoute } from "@tanstack/react-router";
 import {
+  GameServerAccessGroupDtoPermissionsItem,
   GameServerDtoStatus,
   MetricLayoutSize,
   PrivateDashboardLayoutPrivateDashboardTypes,
-  GameServerAccessGroupDtoPermissionsItem,
-  GameServerDtoStatus,
 } from "@/api/generated/model";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
-import { MetricsType } from "@/types/metricsTyp";
+import type { MetricsType } from "@/types/metricsTyp";
 
 export const Route = createFileRoute("/server/$serverId/")({
   component: GameServerDetailPageDashboardPage,
@@ -70,16 +69,21 @@ function GameServerDetailPageDashboardPage() {
 
           case PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT:
             return (
-              <div key={dashboard.uuid} className={`h-95  ${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}>
+              <div
+                key={dashboard.uuid}
+                className={`h-95  ${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}
+              >
                 <Card className={`w-full h-full`} key={dashboard.uuid}>
-                  <h2 className="mt-5 ml-5">
-                    {dashboard.title}
-                  </h2>
+                  <h2 className="mt-5 ml-5">{dashboard.title}</h2>
                   {dashboard.content?.map((keyValue) => (
                     <div key={dashboard.uuid} className="flex flex-col">
                       <div className="mx-5">
-                        <p className="overflow-y-scroll text-base font-bold bg-button-primary-default text-button-secondary-default w-fit px-2 rounded-t-md ">{keyValue.key}</p>
-                        <p className="overflow-y-scroll text-lg w-full border-2 rounded-b-md rounded-r-md px-2 ">{keyValue.value}</p>
+                        <p className="overflow-y-scroll text-base font-bold bg-button-primary-default text-button-secondary-default w-fit px-2 rounded-t-md ">
+                          {keyValue.key}
+                        </p>
+                        <p className="overflow-y-scroll text-lg w-full border-2 rounded-b-md rounded-r-md px-2 ">
+                          {keyValue.value}
+                        </p>
                       </div>
                     </div>
                   ))}
