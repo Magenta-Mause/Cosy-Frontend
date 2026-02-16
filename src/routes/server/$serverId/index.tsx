@@ -7,11 +7,14 @@ import {
   GameServerDtoStatus,
   MetricLayoutSize,
   PrivateDashboardLayoutPrivateDashboardTypes,
+  GameServerAccessGroupDtoPermissionsItem,
+  GameServerDtoStatus,
 } from "@/api/generated/model";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";
-import type { MetricsType } from "@/types/metricsTyp";
+import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
+import { MetricsType } from "@/types/metricsTyp";
 
 export const Route = createFileRoute("/server/$serverId/")({
   component: GameServerDetailPageDashboardPage,
@@ -45,6 +48,7 @@ function GameServerDetailPageDashboardPage() {
                 type={dashboard.metric_type as MetricsType}
                 metrics={metrics}
                 className={`${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}
+                canReadMetrics={canReadMetrics}
               />
             );
 
@@ -56,9 +60,10 @@ function GameServerDetailPageDashboardPage() {
               >
                 <LogDisplay
                   logMessages={logs}
-                  showCommandInput={false}
+                  showCommandInput={canSendCommands}
                   gameServerUuid={serverId}
                   isServerRunning={isServerRunning}
+                  canReadLogs={canReadLogs}
                 />
               </div>
             );
