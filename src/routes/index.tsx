@@ -1,20 +1,11 @@
+import { DeleteGameServerSuccessDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerSuccessDialog";
 import UserDetailListRedirectButton from "@components/display/UserManagement/UserDetailPage/UserDetailListRedirectButton";
-import { Button } from "@components/ui/button.tsx";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@components/ui/dialog.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
 import { InviteRedemptionModal } from "@/components/display/UserManagement/UserInvite/InviteRedemptionModal/InviteRedemptionModal.tsx";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 
 interface IndexSearch {
@@ -41,7 +32,6 @@ function Index() {
   const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
   const { inviteToken, deleted } = Route.useSearch();
   const navigate = Route.useNavigate();
-  const { t } = useTranslationPrefix("deleteGameServerSuccessDialog");
 
   const handleCloseInvite = () => {
     navigate({
@@ -84,26 +74,7 @@ function Index() {
           <InviteRedemptionModal inviteToken={inviteToken} onClose={handleCloseInvite} />
         )}
 
-        <Dialog
-          open={deleted === true}
-          onOpenChange={(isOpen) => {
-            if (!isOpen) {
-              handleCloseDeleteSuccess();
-            }
-          }}
-        >
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{t("title")}</DialogTitle>
-              <DialogDescription>{t("description")}</DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <Button className="h-[50px]" onClick={handleCloseDeleteSuccess}>
-                {t("confirm")}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+        <DeleteGameServerSuccessDialog open={deleted === true} onClose={handleCloseDeleteSuccess} />
 
         <div className="fixed right-10 top-1/4 -translate-y-1/2 pointer-events-auto">
           <UserDetailListRedirectButton />
