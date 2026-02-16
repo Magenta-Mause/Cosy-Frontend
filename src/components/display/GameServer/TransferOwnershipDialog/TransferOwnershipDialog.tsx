@@ -12,7 +12,7 @@ import { Input } from "@components/ui/input";
 import { Dialog } from "@radix-ui/react-dialog";
 import type { KeyboardEvent } from "react";
 import { useState } from "react";
-import { useGetUserEntityByUsername } from "@/api/generated/backend-api";
+import { useGetUUIDByUsername } from "@/api/generated/backend-api";
 import type { GameServerDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import TransferOwnershipConfirmationDialog from "./TransferOwnershipConfirmationDialog";
@@ -22,7 +22,9 @@ const TransferOwnershipDialog = (props: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) => {
-  const { t } = useTranslationPrefix("components.editGameServer.uncosyZone.transferOwnership.dialog");
+  const { t } = useTranslationPrefix(
+    "components.editGameServer.uncosyZone.transferOwnership.dialog",
+  );
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false);
@@ -31,7 +33,7 @@ const TransferOwnershipDialog = (props: {
 
   const isConfirmButtonDisabled = inputValue === "" || loading;
 
-  const { refetch } = useGetUserEntityByUsername(inputValue, {
+  const { refetch } = useGetUUIDByUsername(inputValue, {
     query: {
       enabled: false,
       retry: false,
