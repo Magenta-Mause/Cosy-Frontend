@@ -1,7 +1,7 @@
-import type { ButtonProps } from "react-day-picker";
+import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils.ts";
 
-const AccessGroupButton = (props: ButtonProps & { isSelected?: boolean }) => {
+const AccessGroupButton = (props: ComponentProps<"button"> & { isSelected?: boolean }) => {
   const { isSelected, ...rest } = props;
   return (
     <button

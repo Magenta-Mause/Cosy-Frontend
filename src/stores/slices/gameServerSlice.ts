@@ -101,7 +101,7 @@ const gameServerSlice = createSlice({
     ) {
       const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
       if (index !== -1) {
-        state.data[index].access_groups = state.data[index].access_groups.filter(
+        state.data[index].access_groups = (state.data[index].access_groups ?? []).filter(
           (group) => group.uuid !== action.payload.accessGroupUuid,
         );
       }

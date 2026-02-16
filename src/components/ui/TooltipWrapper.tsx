@@ -1,12 +1,12 @@
-import type { ReactNode } from 'react';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip.tsx';
+import type { ReactNode } from "react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
 
 interface TooltipWrapperProps {
   children?: ReactNode;
   tooltip: string | ReactNode | false | null | undefined;
   asChild?: boolean;
-  side?: 'top' | 'right' | 'bottom' | 'left';
-  align?: 'start' | 'center' | 'end';
+  side?: "top" | "right" | "bottom" | "left";
+  align?: "start" | "center" | "end";
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   triggerProps?: React.ComponentProps<typeof TooltipTrigger>;
@@ -17,7 +17,7 @@ const TooltipWrapper = ({
   tooltip,
   asChild = true,
   side,
-  align = 'center',
+  align = "center",
   open,
   onOpenChange,
   triggerProps = {},
@@ -33,7 +33,7 @@ const TooltipWrapper = ({
         {children}
       </TooltipTrigger>
       <TooltipContent side={side} align={align}>
-        {typeof tooltip === 'string' ? <p>{tooltip}</p> : tooltip}
+        {typeof tooltip === "string" ? <p>{tooltip}</p> : tooltip}
       </TooltipContent>
     </Tooltip>
   );
