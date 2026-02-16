@@ -216,7 +216,7 @@ const useDataInteractions = () => {
     accessGroupCreationDto: AccessGroupCreationDto,
   ) => {
     return await createGameServerAccessGroupMutateAsync({
-      gameServerUuid: gameServerUuid,
+      uuid: gameServerUuid,
       data: accessGroupCreationDto,
     });
   };
@@ -226,7 +226,7 @@ const useDataInteractions = () => {
       onSuccess: (_, props) => {
         dispatch(
           gameServerSliceActions.removeGameServerAccessGroup({
-            gameServerUuid: props.gameServerUuid,
+            gameServerUuid: props.uuid,
             accessGroupUuid: props.accessGroupUuid,
           }),
         );
@@ -241,7 +241,7 @@ const useDataInteractions = () => {
 
   const deleteGameServerAccessGroup = async (gameServerUuid: string, accessGroupUuid: string) => {
     return await deleteGameServerAccessGroupMutateAsync({
-      gameServerUuid: gameServerUuid,
+      uuid: gameServerUuid,
       accessGroupUuid: accessGroupUuid,
     });
   };
@@ -251,7 +251,7 @@ const useDataInteractions = () => {
       onSuccess: (updatedAccessGroups, props) => {
         dispatch(
           gameServerSliceActions.updateGameServerAccessGroups({
-            gameServerUuid: props.gameServerUuid,
+            gameServerUuid: props.uuid,
             newAccessGroups: updatedAccessGroups,
           }),
         );
@@ -270,7 +270,7 @@ const useDataInteractions = () => {
     accessGroupUpdateDto: AccessGroupUpdateDto,
   ) => {
     return await updateGameServerAccessGroupsMutateAsync({
-      gameServerUuid: gameServerUuid,
+      uuid: gameServerUuid,
       accessGroupUuid: accessGroupUuid,
       data: accessGroupUpdateDto,
     });
