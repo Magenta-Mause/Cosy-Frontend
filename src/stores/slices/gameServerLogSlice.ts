@@ -74,6 +74,9 @@ const gameServerLogSlice = createSlice({
       }
       state.data[action.payload.gameServerUuid].state = action.payload.state;
     },
+    removeLogsFromServer(state, action: PayloadAction<string>) {
+      delete state.data[action.payload];
+    },
   },
 });
 

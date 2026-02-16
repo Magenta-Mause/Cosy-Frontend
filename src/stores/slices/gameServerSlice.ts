@@ -1,5 +1,9 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { type GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
+import {
+  type GameServerAccessGroupDto,
+  type GameServerDto,
+  GameServerDtoStatus,
+} from "@/api/generated/model";
 import type { SliceState } from "@/stores";
 
 export interface DockerPullProgressDto {
@@ -21,7 +25,7 @@ const gameServerSlice = createSlice({
     initialized: boolean;
   },
   reducers: {
-    setGameServer: (state, action: PayloadAction<GameServerDto[]>) => {
+    setGameServers: (state, action: PayloadAction<GameServerDto[]>) => {
       state.initialized = true;
       state.data = action.payload;
     },
@@ -68,6 +72,8 @@ const gameServerSlice = createSlice({
       const index = state.data.findIndex((server) => server.uuid === action.payload.uuid);
       if (index !== -1) {
         state.data[index] = action.payload;
+      } else {
+        state.data.push(action.payload);
       }
     },
     setGameServerState(
@@ -77,6 +83,39 @@ const gameServerSlice = createSlice({
       const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
       if (index !== -1) {
         state.data[index].status = action.payload.serverState;
+      }
+    },
+    addGameServerAccessGroup(
+      state,
+      action: PayloadAction<{ gameServerUuid: string; accessGroup: GameServerAccessGroupDto }>,
+    ) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1) {
+        if (!state.data[index].access_groups) state.data[index].access_groups = [];
+        state.data[index].access_groups.push(action.payload.accessGroup);
+      }
+    },
+    removeGameServerAccessGroup(
+      state,
+      action: PayloadAction<{ gameServerUuid: string; accessGroupUuid: string }>,
+    ) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1) {
+        state.data[index].access_groups = (state.data[index].access_groups ?? []).filter(
+          (group) => group.uuid !== action.payload.accessGroupUuid,
+        );
+      }
+    },
+    updateGameServerAccessGroups(
+      state,
+      action: PayloadAction<{
+        gameServerUuid: string;
+        newAccessGroups: GameServerAccessGroupDto[];
+      }>,
+    ) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1) {
+        state.data[index].access_groups = action.payload.newAccessGroups;
       }
     },
   },

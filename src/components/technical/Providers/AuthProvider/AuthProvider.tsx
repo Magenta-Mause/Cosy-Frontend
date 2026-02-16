@@ -188,9 +188,10 @@ const AuthProvider = (props: { children: ReactNode }) => {
 
   useEffect(() => {
     if (authorized) {
-      loadAllData();
+      const isAdmin = role === "ADMIN" || role === "OWNER";
+      loadAllData(isAdmin);
     }
-  }, [authorized, loadAllData]);
+  }, [authorized, role, loadAllData]);
 
   return (
     <AuthContext.Provider
@@ -208,17 +209,21 @@ const AuthProvider = (props: { children: ReactNode }) => {
         handleLogout,
       }}
     >
-      <StompSessionProvider
-        url={config.backendBrokerUrl}
-        webSocketFactory={() => {
-          return new SockJS(
-            `${config.websocketFactory}${identityToken ? `?authToken=${identityToken}` : ``}`,
-          );
-        }}
-      >
-        <WebSocketCollection />
-        {props.children}
-      </StompSessionProvider>
+      {authorized && identityToken ? (
+        <StompSessionProvider
+          url={config.backendBrokerUrl}
+          webSocketFactory={() => {
+            return new SockJS(
+              `${config.websocketFactory}${identityToken ? `?authToken=${identityToken}` : ``}`,
+            );
+          }}
+        >
+          <WebSocketCollection />
+          {props.children}
+        </StompSessionProvider>
+      ) : (
+        props.children
+      )}
     </AuthContext.Provider>
   );
 };

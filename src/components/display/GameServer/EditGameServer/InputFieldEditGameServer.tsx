@@ -16,6 +16,9 @@ const InputFieldEditGameServer = (props: {
   inputMode?: React.ComponentProps<"input">["inputMode"];
   step?: React.ComponentProps<"input">["step"];
   onEnterPress?: () => void;
+  submitButtonLabel?: string;
+  onSubmit?: () => void;
+  submitDisabled?: boolean;
 }) => {
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -76,6 +79,9 @@ const InputFieldEditGameServer = (props: {
         type={props.inputType}
         inputMode={props.inputMode}
         step={props.step}
+        submitButtonLabel={props.submitButtonLabel}
+        onSubmit={props.onSubmit}
+        submitDisabled={props.submitDisabled}
       />
     </div>
   );

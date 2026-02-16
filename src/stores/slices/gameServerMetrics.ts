@@ -108,6 +108,9 @@ const gameServerMetricsSlice = createSlice({
         state.data[gameServerUuid].enableMetricsLiveUpdates = enable;
       }
     },
+    removeMetricsFromServer(state, action: PayloadAction<string>) {
+      delete state.data[action.payload];
+    },
   },
 });
 
