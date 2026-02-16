@@ -1,11 +1,15 @@
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useSubscription } from "react-stomp-hooks";
 import { v7 as generateUuid } from "uuid";
 import type {
+  GameServerAccessGroupDtoPermissionsItem,
   GameServerDtoStatus,
   GameServerLogMessageEntity,
   MetricPointDto,
 } from "@/api/generated/model";
+import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
@@ -32,6 +36,8 @@ interface GameServerDockerProgressUpdateDto {
 const WebSocketCollection = () => {
   const gameServer = useTypedSelector((state) => state.gameServerSliceReducer.data);
   const gameServerMetrics = useTypedSelector((state) => state.gameServerMetricsSliceReducer.data);
+  const { uuid: userUuid, authorized } = useContext(AuthContext);
+  const { loadGameServer } = useDataLoading();
   const dispatch = useDispatch();
 
   useSubscription(
@@ -90,7 +96,7 @@ const WebSocketCollection = () => {
       const messageBody = JSON.parse(message.body) as MetricPointDto;
       const serverMetricState = gameServerMetrics[messageBody.game_server_uuid ?? ""];
 
-      if (!serverMetricState.enableMetricsLiveUpdates) {
+      if (!serverMetricState || !serverMetricState.enableMetricsLiveUpdates) {
         return;
       }
 
@@ -100,6 +106,17 @@ const WebSocketCollection = () => {
           uuid: generateUuid(),
         }),
       );
+    },
+  );
+
+  useSubscription(
+    authorized && userUuid ? `/topics/game-servers/permissions-config-change/${userUuid}` : [],
+    (message) => {
+      const messageBody = JSON.parse(message.body) as {
+        game_server_uuid: string;
+        permissions: GameServerAccessGroupDtoPermissionsItem[];
+      };
+      loadGameServer(messageBody.game_server_uuid, true, messageBody.permissions);
     },
   );
 

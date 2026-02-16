@@ -20,9 +20,12 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  AccessGroupCreationDto,
+  AccessGroupUpdateDto,
   CreateDirectoryInVolumeParams,
   DeleteInVolumeParams,
   GameDto,
+  GameServerAccessGroupDto,
   GameServerCreationDto,
   GameServerDto,
   GameServerFileSystemDto,
@@ -32,6 +35,7 @@ import type {
   GetLogsParams,
   GetMetricsParams,
   GetServiceInfo200,
+  GetUserPermissions200Item,
   LoginDto,
   MetricLayout,
   MetricPointDto,
@@ -65,14 +69,14 @@ export const getGameServerById = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<GameServerDto>(
       {url: `/game-server/${uuid}`, method: 'GET', signal
     },
       options);
     }
-  
+
 
 
 
@@ -82,7 +86,7 @@ export const getGetGameServerByIdQueryKey = (uuid?: string,) => {
     ] as const;
     }
 
-    
+
 export const getGetGameServerByIdQueryOptions = <TData = Awaited<ReturnType<typeof getGameServerById>>, TError = unknown>(uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameServerById>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -90,13 +94,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetGameServerByIdQueryKey(uuid);
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getGameServerById>>> = ({ signal }) => getGameServerById(uuid, requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGameServerById>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -108,7 +112,7 @@ export type GetGameServerByIdQueryError = unknown
 
 export function useGetGameServerById<TData = Awaited<ReturnType<typeof getGameServerById>>, TError = unknown>(
  uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameServerById>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetGameServerByIdQueryOptions(uuid,options)
@@ -128,8 +132,8 @@ export const updateGameServer = (
     uuid: string,
     gameServerUpdateDto: GameServerUpdateDto,
  options?: SecondParameter<typeof customInstance>,) => {
-      
-      
+
+
       return customInstance<GameServerDto>(
       {url: `/game-server/${uuid}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
@@ -137,7 +141,7 @@ export const updateGameServer = (
     },
       options);
     }
-  
+
 
 
 export const getUpdateGameServerMutationOptions = <TError = unknown,
@@ -151,7 +155,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateGameServer>>, {uuid: string;data: GameServerUpdateDto}> = (props) => {
@@ -160,7 +164,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  updateGameServer(uuid,data,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
@@ -182,18 +186,18 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const deleteGameServerById = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,) => {
-      
-      
+
+
       return customInstance<void>(
       {url: `/game-server/${uuid}`, method: 'DELETE'
     },
       options);
     }
-  
+
 
 
 export const getDeleteGameServerByIdMutationOptions = <TError = unknown,
@@ -207,7 +211,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteGameServerById>>, {uuid: string}> = (props) => {
@@ -216,13 +220,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  deleteGameServerById(uuid,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
 
     export type DeleteGameServerByIdMutationResult = NonNullable<Awaited<ReturnType<typeof deleteGameServerById>>>
-    
+
     export type DeleteGameServerByIdMutationError = unknown
 
     export const useDeleteGameServerById = <TError = unknown,
@@ -238,78 +242,19 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
-export const updateMetricLayout = (
-    uuid: string,
-    metricLayout: MetricLayout[],
- options?: SecondParameter<typeof customInstance>,) => {
-      
-      
-      return customInstance<void>(
-      {url: `/game-server/${uuid}/layout/metric`, method: 'PUT',
-      headers: {'Content-Type': 'application/json', },
-      data: metricLayout
-    },
-      options);
-    }
-  
 
-
-export const getUpdateMetricLayoutMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext> => {
-
-const mutationKey = ['updateMetricLayout'];
-const {mutation: mutationOptions, request: requestOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }, request: undefined};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateMetricLayout>>, {uuid: string;data: MetricLayout[]}> = (props) => {
-          const {uuid,data} = props ?? {};
-
-          return  updateMetricLayout(uuid,data,requestOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type UpdateMetricLayoutMutationResult = NonNullable<Awaited<ReturnType<typeof updateMetricLayout>>>
-    export type UpdateMetricLayoutMutationBody = MetricLayout[]
-    export type UpdateMetricLayoutMutationError = unknown
-
-    export const useUpdateMetricLayout = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
- ): UseMutationResult<
-        Awaited<ReturnType<typeof updateMetricLayout>>,
-        TError,
-        {uuid: string;data: MetricLayout[]},
-        TContext
-      > => {
-
-      const mutationOptions = getUpdateMetricLayoutMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    
 export const getAllUserInvites = (
-    
+
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<UserInviteDto[]>(
       {url: `/user-invites`, method: 'GET', signal
     },
       options);
     }
-  
+
 
 
 
@@ -319,7 +264,7 @@ export const getGetAllUserInvitesQueryKey = () => {
     ] as const;
     }
 
-    
+
 export const getGetAllUserInvitesQueryOptions = <TData = Awaited<ReturnType<typeof getAllUserInvites>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllUserInvites>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -327,13 +272,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllUserInvitesQueryKey();
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUserInvites>>> = ({ signal }) => getAllUserInvites(requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllUserInvites>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -345,7 +290,7 @@ export type GetAllUserInvitesQueryError = unknown
 
 export function useGetAllUserInvites<TData = Awaited<ReturnType<typeof getAllUserInvites>>, TError = unknown>(
   options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllUserInvites>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetAllUserInvitesQueryOptions(options)
@@ -365,8 +310,8 @@ export const createInvite = (
     userInviteCreationDto: UserInviteCreationDto,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<UserInviteDto>(
       {url: `/user-invites`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
@@ -374,7 +319,7 @@ export const createInvite = (
     },
       options);
     }
-  
+
 
 
 export const getCreateInviteMutationOptions = <TError = unknown,
@@ -388,7 +333,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createInvite>>, {data: UserInviteCreationDto}> = (props) => {
@@ -397,7 +342,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  createInvite(data,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
@@ -419,14 +364,14 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const useInvite = (
     secretKey: string,
     userCreationDto: UserCreationDto,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<UserEntityDto>(
       {url: `/user-invites/use/${secretKey}`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
@@ -434,7 +379,7 @@ export const useInvite = (
     },
       options);
     }
-  
+
 
 
 export const getUseInviteMutationOptions = <TError = unknown,
@@ -448,7 +393,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof useInvite>>, {secretKey: string;data: UserCreationDto}> = (props) => {
@@ -457,7 +402,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  useInvite(secretKey,data,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
@@ -479,19 +424,19 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const getAllGameServers = (
-    
+
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<GameServerDto[]>(
       {url: `/game-server`, method: 'GET', signal
     },
       options);
     }
-  
+
 
 
 
@@ -501,7 +446,7 @@ export const getGetAllGameServersQueryKey = () => {
     ] as const;
     }
 
-    
+
 export const getGetAllGameServersQueryOptions = <TData = Awaited<ReturnType<typeof getAllGameServers>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllGameServers>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -509,13 +454,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllGameServersQueryKey();
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllGameServers>>> = ({ signal }) => getAllGameServers(requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllGameServers>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -527,7 +472,7 @@ export type GetAllGameServersQueryError = unknown
 
 export function useGetAllGameServers<TData = Awaited<ReturnType<typeof getAllGameServers>>, TError = unknown>(
   options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllGameServers>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetAllGameServersQueryOptions(options)
@@ -547,8 +492,8 @@ export const createGameServer = (
     gameServerCreationDto: GameServerCreationDto,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<GameServerDto>(
       {url: `/game-server`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
@@ -556,7 +501,7 @@ export const createGameServer = (
     },
       options);
     }
-  
+
 
 
 export const getCreateGameServerMutationOptions = <TError = unknown,
@@ -570,7 +515,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createGameServer>>, {data: GameServerCreationDto}> = (props) => {
@@ -579,7 +524,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  createGameServer(data,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
@@ -601,19 +546,19 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const stopService = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<void>(
       {url: `/game-server/${uuid}/stop`, method: 'POST', signal
     },
       options);
     }
-  
+
 
 
 export const getStopServiceMutationOptions = <TError = unknown,
@@ -627,7 +572,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof stopService>>, {uuid: string}> = (props) => {
@@ -636,13 +581,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  stopService(uuid,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
 
     export type StopServiceMutationResult = NonNullable<Awaited<ReturnType<typeof stopService>>>
-    
+
     export type StopServiceMutationError = unknown
 
     export const useStopService = <TError = unknown,
@@ -658,19 +603,19 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const startService = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<void>(
       {url: `/game-server/${uuid}/start`, method: 'POST', signal
     },
       options);
     }
-  
+
 
 
 export const getStartServiceMutationOptions = <TError = unknown,
@@ -684,7 +629,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof startService>>, {uuid: string}> = (props) => {
@@ -693,13 +638,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  startService(uuid,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
 
     export type StartServiceMutationResult = NonNullable<Awaited<ReturnType<typeof startService>>>
-    
+
     export type StartServiceMutationError = unknown
 
     export const useStartService = <TError = unknown,
@@ -715,14 +660,14 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const sendCommand = (
     uuid: string,
     sendCommandDto: SendCommandDto,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<void>(
       {url: `/game-server/${uuid}/send-command`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
@@ -730,7 +675,7 @@ export const sendCommand = (
     },
       options);
     }
-  
+
 
 
 export const getSendCommandMutationOptions = <TError = unknown,
@@ -744,7 +689,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof sendCommand>>, {uuid: string;data: SendCommandDto}> = (props) => {
@@ -753,7 +698,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  sendCommand(uuid,data,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
@@ -775,7 +720,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 /**
  * @summary Upload a file to a bind mount volume
  */
@@ -785,8 +730,8 @@ export const uploadFileToVolume = (
     params: UploadFileToVolumeParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<void>(
       {url: `/game-server/${uuid}/file-system/upload`, method: 'POST',
       headers: {'Content-Type': 'application/octet-stream', },
@@ -795,7 +740,7 @@ export const uploadFileToVolume = (
     },
       options);
     }
-  
+
 
 
 export const getUploadFileToVolumeMutationOptions = <TError = unknown,
@@ -809,7 +754,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof uploadFileToVolume>>, {uuid: string;data: Blob;params: UploadFileToVolumeParams}> = (props) => {
@@ -818,7 +763,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  uploadFileToVolume(uuid,data,params,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
@@ -843,21 +788,21 @@ export const useUploadFileToVolume = <TError = unknown,
 
       return useMutation(mutationOptions);
     }
-    
+
 export const renameInVolume = (
     uuid: string,
     params: RenameInVolumeParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<void>(
       {url: `/game-server/${uuid}/file-system/rename`, method: 'POST',
         params, signal
     },
       options);
     }
-  
+
 
 
 export const getRenameInVolumeMutationOptions = <TError = unknown,
@@ -871,7 +816,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof renameInVolume>>, {uuid: string;params: RenameInVolumeParams}> = (props) => {
@@ -880,13 +825,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  renameInVolume(uuid,params,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
 
     export type RenameInVolumeMutationResult = NonNullable<Awaited<ReturnType<typeof renameInVolume>>>
-    
+
     export type RenameInVolumeMutationError = unknown
 
     export const useRenameInVolume = <TError = unknown,
@@ -902,21 +847,21 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const createDirectoryInVolume = (
     uuid: string,
     params: CreateDirectoryInVolumeParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<void>(
       {url: `/game-server/${uuid}/file-system/mkdir`, method: 'POST',
         params, signal
     },
       options);
     }
-  
+
 
 
 export const getCreateDirectoryInVolumeMutationOptions = <TError = unknown,
@@ -930,7 +875,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createDirectoryInVolume>>, {uuid: string;params: CreateDirectoryInVolumeParams}> = (props) => {
@@ -939,13 +884,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  createDirectoryInVolume(uuid,params,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
 
     export type CreateDirectoryInVolumeMutationResult = NonNullable<Awaited<ReturnType<typeof createDirectoryInVolume>>>
-    
+
     export type CreateDirectoryInVolumeMutationError = unknown
 
     export const useCreateDirectoryInVolume = <TError = unknown,
@@ -961,21 +906,21 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const deleteInVolume = (
     uuid: string,
     params: DeleteInVolumeParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<void>(
       {url: `/game-server/${uuid}/file-system/delete`, method: 'POST',
         params, signal
     },
       options);
     }
-  
+
 
 
 export const getDeleteInVolumeMutationOptions = <TError = unknown,
@@ -989,7 +934,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteInVolume>>, {uuid: string;params: DeleteInVolumeParams}> = (props) => {
@@ -998,13 +943,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  deleteInVolume(uuid,params,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
 
     export type DeleteInVolumeMutationResult = NonNullable<Awaited<ReturnType<typeof deleteInVolume>>>
-    
+
     export type DeleteInVolumeMutationError = unknown
 
     export const useDeleteInVolume = <TError = unknown,
@@ -1020,19 +965,19 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const getAllWebhooks = (
     gameserverUuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<WebhookDto[]>(
       {url: `/game-server/${gameserverUuid}/webhooks`, method: 'GET', signal
     },
       options);
     }
-  
+
 
 
 
@@ -1042,7 +987,7 @@ export const getGetAllWebhooksQueryKey = (gameserverUuid?: string,) => {
     ] as const;
     }
 
-    
+
 export const getGetAllWebhooksQueryOptions = <TData = Awaited<ReturnType<typeof getAllWebhooks>>, TError = unknown>(gameserverUuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllWebhooks>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -1050,13 +995,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllWebhooksQueryKey(gameserverUuid);
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllWebhooks>>> = ({ signal }) => getAllWebhooks(gameserverUuid, requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, enabled: !!(gameserverUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllWebhooks>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -1068,7 +1013,7 @@ export type GetAllWebhooksQueryError = unknown
 
 export function useGetAllWebhooks<TData = Awaited<ReturnType<typeof getAllWebhooks>>, TError = unknown>(
  gameserverUuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllWebhooks>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetAllWebhooksQueryOptions(gameserverUuid,options)
@@ -1089,8 +1034,8 @@ export const createWebhook = (
     webhookCreationDto: WebhookCreationDto,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<WebhookDto>(
       {url: `/game-server/${gameserverUuid}/webhooks`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
@@ -1098,7 +1043,7 @@ export const createWebhook = (
     },
       options);
     }
-  
+
 
 
 export const getCreateWebhookMutationOptions = <TError = unknown,
@@ -1112,7 +1057,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof createWebhook>>, {gameserverUuid: string;data: WebhookCreationDto}> = (props) => {
@@ -1121,7 +1066,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  createWebhook(gameserverUuid,data,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
@@ -1143,19 +1088,79 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
-export const logout = (
-    
+
+export const createGameServerAccessGroup = (
+    gameServerUuid: string,
+    accessGroupCreationDto: AccessGroupCreationDto,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
+      return customInstance<GameServerAccessGroupDto>(
+      {url: `/game-server/${gameServerUuid}/access-groups`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: accessGroupCreationDto, signal
+    },
+      options);
+    }
+
+
+
+export const getCreateGameServerAccessGroupMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{gameServerUuid: string;data: AccessGroupCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{gameServerUuid: string;data: AccessGroupCreationDto}, TContext> => {
+
+const mutationKey = ['createGameServerAccessGroup'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createGameServerAccessGroup>>, {gameServerUuid: string;data: AccessGroupCreationDto}> = (props) => {
+          const {gameServerUuid,data} = props ?? {};
+
+          return  createGameServerAccessGroup(gameServerUuid,data,requestOptions)
+        }
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateGameServerAccessGroupMutationResult = NonNullable<Awaited<ReturnType<typeof createGameServerAccessGroup>>>
+    export type CreateGameServerAccessGroupMutationBody = AccessGroupCreationDto
+    export type CreateGameServerAccessGroupMutationError = unknown
+
+    export const useCreateGameServerAccessGroup = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{gameServerUuid: string;data: AccessGroupCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createGameServerAccessGroup>>,
+        TError,
+        {gameServerUuid: string;data: AccessGroupCreationDto},
+        TContext
+      > => {
+
+      const mutationOptions = getCreateGameServerAccessGroupMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+
+export const logout = (
+
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+
+
       return customInstance<void>(
       {url: `/auth/logout`, method: 'POST', signal
     },
       options);
     }
-  
+
 
 
 export const getLogoutMutationOptions = <TError = unknown,
@@ -1169,22 +1174,22 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof logout>>, void> = () => {
-          
+
 
           return  logout(requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
 
     export type LogoutMutationResult = NonNullable<Awaited<ReturnType<typeof logout>>>
-    
+
     export type LogoutMutationError = unknown
 
     export const useLogout = <TError = unknown,
@@ -1200,13 +1205,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const login = (
     loginDto: LoginDto,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<void>(
       {url: `/auth/login`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
@@ -1214,7 +1219,7 @@ export const login = (
     },
       options);
     }
-  
+
 
 
 export const getLoginMutationOptions = <TError = unknown,
@@ -1228,7 +1233,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof login>>, {data: LoginDto}> = (props) => {
@@ -1237,7 +1242,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  login(data,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
@@ -1259,13 +1264,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const changePassword = (
     uuid: string,
     passwordUpdateDto: PasswordUpdateDto,
  options?: SecondParameter<typeof customInstance>,) => {
-      
-      
+
+
       return customInstance<UserEntityDto>(
       {url: `/user-entity/${uuid}/change-password`, method: 'PATCH',
       headers: {'Content-Type': 'application/json', },
@@ -1273,7 +1278,7 @@ export const changePassword = (
     },
       options);
     }
-  
+
 
 
 export const getChangePasswordMutationOptions = <TError = unknown,
@@ -1287,7 +1292,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof changePassword>>, {uuid: string;data: PasswordUpdateDto}> = (props) => {
@@ -1296,7 +1301,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  changePassword(uuid,data,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
@@ -1318,13 +1323,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const updateRconConfiguration = (
     uuid: string,
     rCONConfiguration: RCONConfiguration,
  options?: SecondParameter<typeof customInstance>,) => {
-      
-      
+
+
       return customInstance<GameServerDto>(
       {url: `/game-server/${uuid}/rcon-configuration`, method: 'PATCH',
       headers: {'Content-Type': 'application/json', },
@@ -1332,7 +1337,7 @@ export const updateRconConfiguration = (
     },
       options);
     }
-  
+
 
 
 export const getUpdateRconConfigurationMutationOptions = <TError = unknown,
@@ -1346,7 +1351,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateRconConfiguration>>, {uuid: string;data: RCONConfiguration}> = (props) => {
@@ -1355,7 +1360,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  updateRconConfiguration(uuid,data,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
@@ -1377,19 +1382,195 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
+export const updateMetricLayout = (
+    uuid: string,
+    metricLayout: MetricLayout[],
+ options?: SecondParameter<typeof customInstance>,) => {
+
+
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/layout/metric`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: metricLayout
+    },
+      options);
+    }
+
+
+
+export const getUpdateMetricLayoutMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext> => {
+
+const mutationKey = ['updateMetricLayout'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateMetricLayout>>, {uuid: string;data: MetricLayout[]}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updateMetricLayout(uuid,data,requestOptions)
+        }
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateMetricLayoutMutationResult = NonNullable<Awaited<ReturnType<typeof updateMetricLayout>>>
+    export type UpdateMetricLayoutMutationBody = MetricLayout[]
+    export type UpdateMetricLayoutMutationError = unknown
+
+    export const useUpdateMetricLayout = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMetricLayout>>, TError,{uuid: string;data: MetricLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateMetricLayout>>,
+        TError,
+        {uuid: string;data: MetricLayout[]},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateMetricLayoutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+
+export const deleteGameServerAccessGroup = (
+    gameServerUuid: string,
+    accessGroupUuid: string,
+ options?: SecondParameter<typeof customInstance>,) => {
+
+
+      return customInstance<void>(
+      {url: `/game-server/${gameServerUuid}/access-groups/${accessGroupUuid}`, method: 'DELETE'
+    },
+      options);
+    }
+
+
+
+export const getDeleteGameServerAccessGroupMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{gameServerUuid: string;accessGroupUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{gameServerUuid: string;accessGroupUuid: string}, TContext> => {
+
+const mutationKey = ['deleteGameServerAccessGroup'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, {gameServerUuid: string;accessGroupUuid: string}> = (props) => {
+          const {gameServerUuid,accessGroupUuid} = props ?? {};
+
+          return  deleteGameServerAccessGroup(gameServerUuid,accessGroupUuid,requestOptions)
+        }
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteGameServerAccessGroupMutationResult = NonNullable<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>>
+
+    export type DeleteGameServerAccessGroupMutationError = unknown
+
+    export const useDeleteGameServerAccessGroup = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{gameServerUuid: string;accessGroupUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteGameServerAccessGroup>>,
+        TError,
+        {gameServerUuid: string;accessGroupUuid: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteGameServerAccessGroupMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+
+export const updateGameServerAccessGroups = (
+    gameServerUuid: string,
+    accessGroupUuid: string,
+    accessGroupUpdateDto: AccessGroupUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+
+
+      return customInstance<GameServerAccessGroupDto[]>(
+      {url: `/game-server/${gameServerUuid}/access-groups/${accessGroupUuid}`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: accessGroupUpdateDto
+    },
+      options);
+    }
+
+
+
+export const getUpdateGameServerAccessGroupsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext> => {
+
+const mutationKey = ['updateGameServerAccessGroups'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, {gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}> = (props) => {
+          const {gameServerUuid,accessGroupUuid,data} = props ?? {};
+
+          return  updateGameServerAccessGroups(gameServerUuid,accessGroupUuid,data,requestOptions)
+        }
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateGameServerAccessGroupsMutationResult = NonNullable<Awaited<ReturnType<typeof updateGameServerAccessGroups>>>
+    export type UpdateGameServerAccessGroupsMutationBody = AccessGroupUpdateDto
+    export type UpdateGameServerAccessGroupsMutationError = unknown
+
+    export const useUpdateGameServerAccessGroups = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateGameServerAccessGroups>>,
+        TError,
+        {gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateGameServerAccessGroupsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+
 export const getUserInvite = (
     secretKey: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<UserInviteDto>(
       {url: `/user-invites/${secretKey}`, method: 'GET', signal
     },
       options);
     }
-  
+
 
 
 
@@ -1399,7 +1580,7 @@ export const getGetUserInviteQueryKey = (secretKey?: string,) => {
     ] as const;
     }
 
-    
+
 export const getGetUserInviteQueryOptions = <TData = Awaited<ReturnType<typeof getUserInvite>>, TError = unknown>(secretKey: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUserInvite>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -1407,13 +1588,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetUserInviteQueryKey(secretKey);
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserInvite>>> = ({ signal }) => getUserInvite(secretKey, requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, enabled: !!(secretKey), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserInvite>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -1425,7 +1606,7 @@ export type GetUserInviteQueryError = unknown
 
 export function useGetUserInvite<TData = Awaited<ReturnType<typeof getUserInvite>>, TError = unknown>(
  secretKey: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUserInvite>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetUserInviteQueryOptions(secretKey,options)
@@ -1442,17 +1623,17 @@ export function useGetUserInvite<TData = Awaited<ReturnType<typeof getUserInvite
 
 
 export const getAllUserEntities = (
-    
+
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<UserEntityDto[]>(
       {url: `/user-entity`, method: 'GET', signal
     },
       options);
     }
-  
+
 
 
 
@@ -1462,7 +1643,7 @@ export const getGetAllUserEntitiesQueryKey = () => {
     ] as const;
     }
 
-    
+
 export const getGetAllUserEntitiesQueryOptions = <TData = Awaited<ReturnType<typeof getAllUserEntities>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllUserEntities>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -1470,13 +1651,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllUserEntitiesQueryKey();
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllUserEntities>>> = ({ signal }) => getAllUserEntities(requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllUserEntities>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -1488,7 +1669,7 @@ export type GetAllUserEntitiesQueryError = unknown
 
 export function useGetAllUserEntities<TData = Awaited<ReturnType<typeof getAllUserEntities>>, TError = unknown>(
   options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllUserEntities>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetAllUserEntitiesQueryOptions(options)
@@ -1508,14 +1689,14 @@ export const getUserEntity = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<UserEntityDto>(
       {url: `/user-entity/${uuid}`, method: 'GET', signal
     },
       options);
     }
-  
+
 
 
 
@@ -1525,7 +1706,7 @@ export const getGetUserEntityQueryKey = (uuid?: string,) => {
     ] as const;
     }
 
-    
+
 export const getGetUserEntityQueryOptions = <TData = Awaited<ReturnType<typeof getUserEntity>>, TError = unknown>(uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUserEntity>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -1533,13 +1714,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetUserEntityQueryKey(uuid);
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserEntity>>> = ({ signal }) => getUserEntity(uuid, requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserEntity>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -1551,7 +1732,7 @@ export type GetUserEntityQueryError = unknown
 
 export function useGetUserEntity<TData = Awaited<ReturnType<typeof getUserEntity>>, TError = unknown>(
  uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUserEntity>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetUserEntityQueryOptions(uuid,options)
@@ -1570,14 +1751,14 @@ export function useGetUserEntity<TData = Awaited<ReturnType<typeof getUserEntity
 export const deleteUserEntity = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,) => {
-      
-      
+
+
       return customInstance<void>(
       {url: `/user-entity/${uuid}`, method: 'DELETE'
     },
       options);
     }
-  
+
 
 
 export const getDeleteUserEntityMutationOptions = <TError = unknown,
@@ -1591,7 +1772,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteUserEntity>>, {uuid: string}> = (props) => {
@@ -1600,13 +1781,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  deleteUserEntity(uuid,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
 
     export type DeleteUserEntityMutationResult = NonNullable<Awaited<ReturnType<typeof deleteUserEntity>>>
-    
+
     export type DeleteUserEntityMutationError = unknown
 
     export const useDeleteUserEntity = <TError = unknown,
@@ -1622,19 +1803,82 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
-export const getAllTemplates = (
-    
+
+export const getUUIDByUsername = (
+    username: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
+      return customInstance<string>(
+      {url: `/user-entity/uuid-by-username/${username}`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getGetUUIDByUsernameQueryKey = (username?: string,) => {
+    return [
+    `/user-entity/uuid-by-username/${username}`
+    ] as const;
+    }
+
+
+export const getGetUUIDByUsernameQueryOptions = <TData = Awaited<ReturnType<typeof getUUIDByUsername>>, TError = unknown>(username: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUUIDByUsername>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUUIDByUsernameQueryKey(username);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUUIDByUsername>>> = ({ signal }) => getUUIDByUsername(username, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(username), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUUIDByUsername>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUUIDByUsernameQueryResult = NonNullable<Awaited<ReturnType<typeof getUUIDByUsername>>>
+export type GetUUIDByUsernameQueryError = unknown
+
+
+
+export function useGetUUIDByUsername<TData = Awaited<ReturnType<typeof getUUIDByUsername>>, TError = unknown>(
+ username: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUUIDByUsername>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetUUIDByUsernameQueryOptions(username,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getAllTemplates = (
+
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+
+
       return customInstance<TemplateEntity[]>(
       {url: `/templates`, method: 'GET', signal
     },
       options);
     }
-  
+
 
 
 
@@ -1644,7 +1888,7 @@ export const getGetAllTemplatesQueryKey = () => {
     ] as const;
     }
 
-    
+
 export const getGetAllTemplatesQueryOptions = <TData = Awaited<ReturnType<typeof getAllTemplates>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllTemplates>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -1652,13 +1896,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetAllTemplatesQueryKey();
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllTemplates>>> = ({ signal }) => getAllTemplates(requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllTemplates>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -1670,7 +1914,7 @@ export type GetAllTemplatesQueryError = unknown
 
 export function useGetAllTemplates<TData = Awaited<ReturnType<typeof getAllTemplates>>, TError = unknown>(
   options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllTemplates>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetAllTemplatesQueryOptions(options)
@@ -1691,15 +1935,15 @@ export const getMetrics = (
     params?: GetMetricsParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<MetricPointDto[]>(
       {url: `/metrics/${gameServerUuid}`, method: 'GET',
         params, signal
     },
       options);
     }
-  
+
 
 
 
@@ -1710,7 +1954,7 @@ export const getGetMetricsQueryKey = (gameServerUuid?: string,
     ] as const;
     }
 
-    
+
 export const getGetMetricsQueryOptions = <TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(gameServerUuid: string,
     params?: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
@@ -1719,13 +1963,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetMetricsQueryKey(gameServerUuid,params);
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getMetrics>>> = ({ signal }) => getMetrics(gameServerUuid,params, requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, enabled: !!(gameServerUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -1738,7 +1982,7 @@ export type GetMetricsQueryError = unknown
 export function useGetMetrics<TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(
  gameServerUuid: string,
     params?: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetMetricsQueryOptions(gameServerUuid,params,options)
@@ -1758,15 +2002,15 @@ export const queryGames = (
     params?: QueryGamesParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<GameDto[]>(
       {url: `/games`, method: 'GET',
         params, signal
     },
       options);
     }
-  
+
 
 
 
@@ -1776,7 +2020,7 @@ export const getQueryGamesQueryKey = (params?: QueryGamesParams,) => {
     ] as const;
     }
 
-    
+
 export const getQueryGamesQueryOptions = <TData = Awaited<ReturnType<typeof queryGames>>, TError = unknown>(params?: QueryGamesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof queryGames>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -1784,13 +2028,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getQueryGamesQueryKey(params);
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof queryGames>>> = ({ signal }) => queryGames(params, requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof queryGames>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -1802,7 +2046,7 @@ export type QueryGamesQueryError = unknown
 
 export function useQueryGames<TData = Awaited<ReturnType<typeof queryGames>>, TError = unknown>(
  params?: QueryGamesParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof queryGames>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getQueryGamesQueryOptions(params,options)
@@ -1822,14 +2066,14 @@ export const getGameById = (
     id: number,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<GameDto>(
       {url: `/games/external/${id}`, method: 'GET', signal
     },
       options);
     }
-  
+
 
 
 
@@ -1839,7 +2083,7 @@ export const getGetGameByIdQueryKey = (id?: number,) => {
     ] as const;
     }
 
-    
+
 export const getGetGameByIdQueryOptions = <TData = Awaited<ReturnType<typeof getGameById>>, TError = unknown>(id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameById>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -1847,13 +2091,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetGameByIdQueryKey(id);
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getGameById>>> = ({ signal }) => getGameById(id, requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGameById>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -1865,7 +2109,7 @@ export type GetGameByIdQueryError = unknown
 
 export function useGetGameById<TData = Awaited<ReturnType<typeof getGameById>>, TError = unknown>(
  id: number, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getGameById>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetGameByIdQueryOptions(id,options)
@@ -1885,14 +2129,14 @@ export const getServiceInfo = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<GetServiceInfo200>(
       {url: `/game-server/${uuid}/status`, method: 'GET', signal
     },
       options);
     }
-  
+
 
 
 
@@ -1902,7 +2146,7 @@ export const getGetServiceInfoQueryKey = (uuid?: string,) => {
     ] as const;
     }
 
-    
+
 export const getGetServiceInfoQueryOptions = <TData = Awaited<ReturnType<typeof getServiceInfo>>, TError = unknown>(uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getServiceInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -1910,13 +2154,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetServiceInfoQueryKey(uuid);
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getServiceInfo>>> = ({ signal }) => getServiceInfo(uuid, requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getServiceInfo>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -1928,10 +2172,73 @@ export type GetServiceInfoQueryError = unknown
 
 export function useGetServiceInfo<TData = Awaited<ReturnType<typeof getServiceInfo>>, TError = unknown>(
  uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getServiceInfo>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetServiceInfoQueryOptions(uuid,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getUserPermissions = (
+    uuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+
+
+      return customInstance<GetUserPermissions200Item[]>(
+      {url: `/game-server/${uuid}/permissions`, method: 'GET', signal
+    },
+      options);
+    }
+
+
+
+
+export const getGetUserPermissionsQueryKey = (uuid?: string,) => {
+    return [
+    `/game-server/${uuid}/permissions`
+    ] as const;
+    }
+
+
+export const getGetUserPermissionsQueryOptions = <TData = Awaited<ReturnType<typeof getUserPermissions>>, TError = unknown>(uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUserPermissions>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetUserPermissionsQueryKey(uuid);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getUserPermissions>>> = ({ signal }) => getUserPermissions(uuid, requestOptions, signal);
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getUserPermissions>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetUserPermissionsQueryResult = NonNullable<Awaited<ReturnType<typeof getUserPermissions>>>
+export type GetUserPermissionsQueryError = unknown
+
+
+
+export function useGetUserPermissions<TData = Awaited<ReturnType<typeof getUserPermissions>>, TError = unknown>(
+ uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getUserPermissions>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetUserPermissionsQueryOptions(uuid,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
@@ -1952,8 +2259,8 @@ export const readFileFromVolume = (
     params: ReadFileFromVolumeParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<Blob>(
       {url: `/game-server/${uuid}/file-system/file`, method: 'GET',
         params,
@@ -1961,7 +2268,7 @@ export const readFileFromVolume = (
     },
       options);
     }
-  
+
 
 
 
@@ -1972,7 +2279,7 @@ export const getReadFileFromVolumeQueryKey = (uuid?: string,
     ] as const;
     }
 
-    
+
 export const getReadFileFromVolumeQueryOptions = <TData = Awaited<ReturnType<typeof readFileFromVolume>>, TError = unknown>(uuid: string,
     params: ReadFileFromVolumeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof readFileFromVolume>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
@@ -1981,13 +2288,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getReadFileFromVolumeQueryKey(uuid,params);
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof readFileFromVolume>>> = ({ signal }) => readFileFromVolume(uuid,params, requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof readFileFromVolume>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -2003,7 +2310,7 @@ export type ReadFileFromVolumeQueryError = unknown
 export function useReadFileFromVolume<TData = Awaited<ReturnType<typeof readFileFromVolume>>, TError = unknown>(
  uuid: string,
     params: ReadFileFromVolumeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof readFileFromVolume>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getReadFileFromVolumeQueryOptions(uuid,params,options)
@@ -2024,15 +2331,15 @@ export const getFileSystemForVolume = (
     params?: GetFileSystemForVolumeParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<GameServerFileSystemDto>(
       {url: `/game-server/${uuid}/file-system/`, method: 'GET',
         params, signal
     },
       options);
     }
-  
+
 
 
 
@@ -2043,7 +2350,7 @@ export const getGetFileSystemForVolumeQueryKey = (uuid?: string,
     ] as const;
     }
 
-    
+
 export const getGetFileSystemForVolumeQueryOptions = <TData = Awaited<ReturnType<typeof getFileSystemForVolume>>, TError = unknown>(uuid: string,
     params?: GetFileSystemForVolumeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFileSystemForVolume>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
@@ -2052,13 +2359,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetFileSystemForVolumeQueryKey(uuid,params);
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getFileSystemForVolume>>> = ({ signal }) => getFileSystemForVolume(uuid,params, requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFileSystemForVolume>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -2071,7 +2378,7 @@ export type GetFileSystemForVolumeQueryError = unknown
 export function useGetFileSystemForVolume<TData = Awaited<ReturnType<typeof getFileSystemForVolume>>, TError = unknown>(
  uuid: string,
     params?: GetFileSystemForVolumeParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFileSystemForVolume>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetFileSystemForVolumeQueryOptions(uuid,params,options)
@@ -2092,15 +2399,15 @@ export const getLogs = (
     params?: GetLogsParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<GameServerLogMessageEntity[]>(
       {url: `/game-server/${gameServerUuid}/logs`, method: 'GET',
         params, signal
     },
       options);
     }
-  
+
 
 
 
@@ -2111,7 +2418,7 @@ export const getGetLogsQueryKey = (gameServerUuid?: string,
     ] as const;
     }
 
-    
+
 export const getGetLogsQueryOptions = <TData = Awaited<ReturnType<typeof getLogs>>, TError = unknown>(gameServerUuid: string,
     params?: GetLogsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getLogs>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
@@ -2120,13 +2427,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getGetLogsQueryKey(gameServerUuid,params);
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getLogs>>> = ({ signal }) => getLogs(gameServerUuid,params, requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, enabled: !!(gameServerUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getLogs>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -2139,7 +2446,7 @@ export type GetLogsQueryError = unknown
 export function useGetLogs<TData = Awaited<ReturnType<typeof getLogs>>, TError = unknown>(
  gameServerUuid: string,
     params?: GetLogsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getLogs>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetLogsQueryOptions(gameServerUuid,params,options)
@@ -2156,17 +2463,17 @@ export function useGetLogs<TData = Awaited<ReturnType<typeof getLogs>>, TError =
 
 
 export const fetchToken = (
-    
+
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<string>(
       {url: `/auth/token`, method: 'GET', signal
     },
       options);
     }
-  
+
 
 
 
@@ -2176,7 +2483,7 @@ export const getFetchTokenQueryKey = () => {
     ] as const;
     }
 
-    
+
 export const getFetchTokenQueryOptions = <TData = Awaited<ReturnType<typeof fetchToken>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof fetchToken>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -2184,13 +2491,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getFetchTokenQueryKey();
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof fetchToken>>> = ({ signal }) => fetchToken(requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof fetchToken>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -2202,7 +2509,7 @@ export type FetchTokenQueryError = unknown
 
 export function useFetchToken<TData = Awaited<ReturnType<typeof fetchToken>>, TError = unknown>(
   options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof fetchToken>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getFetchTokenQueryOptions(options)
@@ -2219,17 +2526,17 @@ export function useFetchToken<TData = Awaited<ReturnType<typeof fetchToken>>, TE
 
 
 export const root = (
-    
+
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
-      
-      
+
+
       return customInstance<string>(
       {url: `/`, method: 'GET', signal
     },
       options);
     }
-  
+
 
 
 
@@ -2239,7 +2546,7 @@ export const getRootQueryKey = () => {
     ] as const;
     }
 
-    
+
 export const getRootQueryOptions = <TData = Awaited<ReturnType<typeof root>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof root>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
@@ -2247,13 +2554,13 @@ const {query: queryOptions, request: requestOptions} = options ?? {};
 
   const queryKey =  queryOptions?.queryKey ?? getRootQueryKey();
 
-  
+
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof root>>> = ({ signal }) => root(requestOptions, signal);
 
-      
 
-      
+
+
 
    return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof root>>, TError, TData> & { queryKey: QueryKey }
 }
@@ -2265,7 +2572,7 @@ export type RootQueryError = unknown
 
 export function useRoot<TData = Awaited<ReturnType<typeof root>>, TError = unknown>(
   options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof root>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
+
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getRootQueryOptions(options)
@@ -2284,14 +2591,14 @@ export function useRoot<TData = Awaited<ReturnType<typeof root>>, TError = unkno
 export const revokeInvite = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,) => {
-      
-      
+
+
       return customInstance<void>(
       {url: `/user-invites/${uuid}`, method: 'DELETE'
     },
       options);
     }
-  
+
 
 
 export const getRevokeInviteMutationOptions = <TError = unknown,
@@ -2305,7 +2612,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof revokeInvite>>, {uuid: string}> = (props) => {
@@ -2314,13 +2621,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  revokeInvite(uuid,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
 
     export type RevokeInviteMutationResult = NonNullable<Awaited<ReturnType<typeof revokeInvite>>>
-    
+
     export type RevokeInviteMutationError = unknown
 
     export const useRevokeInvite = <TError = unknown,
@@ -2336,19 +2643,19 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions);
     }
-    
+
 export const deleteWebhook = (
     gameserverUuid: string,
     webhookUuid: string,
  options?: SecondParameter<typeof customInstance>,) => {
-      
-      
+
+
       return customInstance<void>(
       {url: `/game-server/${gameserverUuid}/webhooks/${webhookUuid}`, method: 'DELETE'
     },
       options);
     }
-  
+
 
 
 export const getDeleteWebhookMutationOptions = <TError = unknown,
@@ -2362,7 +2669,7 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
+
 
 
       const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteWebhook>>, {gameserverUuid: string;webhookUuid: string}> = (props) => {
@@ -2371,13 +2678,13 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
           return  deleteWebhook(gameserverUuid,webhookUuid,requestOptions)
         }
 
-        
+
 
 
   return  { mutationFn, ...mutationOptions }}
 
     export type DeleteWebhookMutationResult = NonNullable<Awaited<ReturnType<typeof deleteWebhook>>>
-    
+
     export type DeleteWebhookMutationError = unknown
 
     export const useDeleteWebhook = <TError = unknown,

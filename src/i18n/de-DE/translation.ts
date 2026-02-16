@@ -61,7 +61,7 @@ const translation: i18nLanguage = {
     generateInvite: "Einladung erstellen",
     creating: "Erstelle...",
     shareInstructions:
-      "Teilen Sie diesen Link mit der Person, die Sie einladen möchten. Sie kann ihn nutzen, um ihr Konto zu erstellen.",
+      "Teile diesen Link mit der Person, die du einladen möchtest. Sie kann ihn nutzen, um ihr Konto zu erstellen.",
     copyLink: "Einladungslink kopieren",
     backToUsers: "Zurück zur Erstellung",
     pendingInvites: "Ausstehende Einladungen",
@@ -84,7 +84,7 @@ const translation: i18nLanguage = {
   },
   inviteRedemption: {
     title: "Einladung annehmen",
-    description: "Erstellen Sie Ihr Konto, um dem Server Yard beizutreten.",
+    description: "Erstelle dein Konto, um dem Server Yard beizutreten.",
     invalidLink: "Ungültiger oder abgelaufener Einladungslink.",
     close: "Schließen",
     invitedBy: "Eingeladen von {{username}}",
@@ -99,24 +99,24 @@ const translation: i18nLanguage = {
     createAccount: "Konto erstellen",
     creating: "Erstelle...",
     loginSuccess: "Erfolgreich eingeloggt",
-    loginInfo: "Bitte loggen Sie sich mit Ihrem neuen Konto ein.",
+    loginInfo: "Bitte logge dich mit deinem neuen Konto ein.",
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
     createGameServerError: "Fehler beim Erstellen des Gameservers!",
     cpuLimit: "CPU Kern Limit: {{cpu}}",
     memoryLimit: "RAM Limit: {{memory}}",
   },
   deleteGameServerDialog: {
-    title: "Sind Sie sicher?",
+    title: "Bist du sicher?",
     description: "Diese Aktion kann nicht rückgängig gemacht werden!",
     explanation:
-      "Dadurch wird Ihre Gameserver-Konfiguration dauerhaft gelöscht und ALLE zugehörigen Dateien von dem Server entfernt.",
-    inputLabel: "Geben Sie den Namen des Gameservers ein, um sicherzugehen:",
+      "Dadurch wird deine Gameserver-Konfiguration dauerhaft gelöscht und ALLE zugehörigen Dateien von dem Server entfernt.",
+    inputLabel: "Gib den Namen des Gameservers ein, um sicherzugehen:",
     cancel: "Abbrechen",
     confirm: "Löschen",
   },
   logOutDialog: {
     title: "Abmelden?",
-    description: "Sind Sie sicher, dass Sie sich abmelden möchten?",
+    description: "Bist du sicher, dass du dich abmelden möchtest?",
     cancel: "Abbrechen",
     confirm: "Abmelden",
   },
@@ -155,7 +155,7 @@ const translation: i18nLanguage = {
     password: "Passwort",
     resetPassword: "Passwort vergessen?",
     question: "Du bist nicht angemeldet",
-    continueMeansAccept: "Durch die Anmeldung akzeptieren Sie unsere",
+    continueMeansAccept: "Durch die Anmeldung akzeptierst du unsere",
     legal: "Datenschutzerklärung",
     incorrectCredentials: "Falscher Benutzername oder Passwort.",
     loading: "Lädt...",
@@ -177,11 +177,11 @@ const translation: i18nLanguage = {
       selectPlaceholder: "Wähle eine Option",
       example: "Beispiel",
       pattern: "Muster",
-      validationError: "Bitte geben Sie einen gültigen Wert ein",
+      validationError: "Bitte gib einen gültigen Wert ein",
       validationErrorRequired: "Dieses Feld ist erforderlich",
-      validationErrorNumber: "Bitte geben Sie eine gültige Zahl ein",
-      validationErrorBoolean: "Bitte wählen Sie eine gültige Option",
-      validationErrorSelect: "Bitte wählen Sie eine gültige Option",
+      validationErrorNumber: "Bitte gib eine gültige Zahl ein",
+      validationErrorBoolean: "Bitte wähle eine gültige Option",
+      validationErrorSelect: "Bitte wähle eine gültige Option",
       validationErrorPattern: "Der Wert entspricht nicht dem erforderlichen Muster",
       booleanTrue: "Ja",
       booleanFalse: "Nein",
@@ -195,7 +195,7 @@ const translation: i18nLanguage = {
       reapplyDialog: {
         title: "Template erneut anwenden?",
         description:
-          "Sie haben die Template-Variablen geändert. Möchten Sie das Template mit den neuen Werten erneut anwenden? Dies überschreibt alle manuellen Änderungen, die Sie in Schritt 3 vorgenommen haben.",
+          "Du hast die Template-Variablen geändert. Möchtest du das Template mit den neuen Werten erneut anwenden? Dies überschreibt alle manuellen Änderungen, die du in Schritt 3 vorgenommen hast.",
         cancel: "Aktuelle Werte behalten",
         confirm: "Template erneut anwenden",
       },
@@ -207,73 +207,73 @@ const translation: i18nLanguage = {
           title: "Schritt 1: Server Namen und Spiel auswählen",
           serverNameSelection: {
             title: "Servername",
-            description: "Benennen Sie Ihren Server",
-            errorLabel: "Bitte geben Sie einen gültigen Servernamen ein.",
+            description: "Benenne deinen Server",
+            errorLabel: "Bitte gib einen gültigen Servernamen ein.",
           },
           gameSelection: {
             title: "Spiel auswählen",
-            description: "Wählen Sie ein Spiel für Ihren Server aus.",
-            errorLabel: "Bitte wählen Sie ein gültiges Spiel aus.",
+            description: "Wähle ein Spiel für deinen Server aus.",
+            errorLabel: "Bitte wähle ein gültiges Spiel aus.",
             placeholder: "Spiel suchen...",
             noGamesFound:
-              "Fehler beim Abrufen der Spiele. Wählen Sie dies für das Standardspiel. (kein spezifisches Spiel)",
+              "Fehler beim Abrufen der Spiele. Wähle dies für das Standardspiel. (kein spezifisches Spiel)",
             noResultsLabel: "Generisches Spiel",
           },
         },
         step2: {
           title: "Schritt 2: Template auswählen",
-          description: "Wählen Sie ein Template für Ihren Server aus.",
+          description: "Wähle ein Template für deinen Server aus.",
           templateSelection: {
             title: "Template",
-            description: "Wählen Sie ein Template für Ihren Server aus",
-            errorLabel: "Bitte wählen Sie eine gültiges Template aus.",
+            description: "Wähle ein Template für deinen Server aus",
+            errorLabel: "Bitte wähle ein gültiges Template aus.",
             noResultsLabel: "Keine Templates gefunden.",
             placeholder: "Template auswählen...",
           },
         },
         step3: {
-          title: "Schritt 3: Konfigurieren Sie Ihren Server",
-          description: "Hier können Sie Ihren Server konfigurieren.",
+          title: "Schritt 3: Konfiguriere deinen Server",
+          description: "Hier kannst du deinen Server konfigurieren.",
           dockerImageSelection: {
             title: "Docker-Image",
-            description: "Docker-Image für Ihren Server",
-            errorLabel: "Bitte geben Sie ein gültiges Docker-Image ein.",
+            description: "Docker-Image für deinen Server",
+            errorLabel: "Bitte gib ein gültiges Docker-Image ein.",
           },
           imageTagSelection: {
             title: "Image-Tag",
             description: "Tag für das Docker-Image",
-            errorLabel: "Bitte geben Sie ein gültiges Image-Tag ein.",
+            errorLabel: "Bitte gib ein gültiges Image-Tag ein.",
           },
           portSelection: {
             title: "Port",
-            description: "Port, der zu Ihrem Server weitergeleitet wird.",
-            errorLabel: "Bitte geben Sie einen gültigen Port ein.",
+            description: "Port, der zu deinem Server weitergeleitet wird.",
+            errorLabel: "Bitte gib einen gültigen Port ein.",
           },
           environmentVariablesSelection: {
             title: "Umgebungsvariable",
-            description: "Umgebungsvariablen für Ihren Server",
+            description: "Umgebungsvariablen für deinen Server",
             errorLabel:
               "Entweder müssen sowohl Schlüssel als auch Wert angegeben werden oder keiner von beiden.",
           },
           executionCommandSelection: {
             title: "Ausführungsbefehl",
-            description: "Befehl zum Starten Ihres Servers",
-            errorLabel: "Bitte geben Sie ein gültiges Ausführungsbefehl ein.",
+            description: "Befehl zum Starten deines Servers",
+            errorLabel: "Bitte gib ein gültiges Ausführungsbefehl ein.",
           },
           hostPathSelection: {
             title: "Volume-Mount",
-            description: "Volume-Mounts für Ihren Server",
+            description: "Volume-Mounts für deinen Server",
             errorLabel: "Containerpfad darf nicht '/' sein.",
           },
           memoryLimitSelection: {
             title: "RAM Limit",
             description: "Maximaler RAM, der diesem Server zugewiesen wird",
-            errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
+            errorLabel: "Bitte gib ein gültiges Speicherlimit ein.",
           },
           cpuLimitSelection: {
             title: "CPU Kern Limit",
             description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
-            errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
+            errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
           },
         },
       },
@@ -287,7 +287,7 @@ const translation: i18nLanguage = {
         loadingPreview: "Lade Dateivorschau...",
         noPreviewAvailable: "Keine Dateivorschau verfügbar{{textError}}",
         previewFailure: "Dateivorschau konnte nicht geladen werden",
-        selectPreview: "Wählen sie eine Datei zur Vorschau aus",
+        selectPreview: "Wähle eine Datei zur Vorschau aus",
       },
       fileBrowserHeader: {
         newFolder: "Neuer Ordner",
@@ -329,6 +329,10 @@ const translation: i18nLanguage = {
         downloadAllAction: "Ordner Herunterladen",
         uploadFile: "Hochladen",
         renamePlaceholder: "z. Bsp. server.log",
+        noFilesPermission: "Kein Dateizugriff",
+        noFilesPermissionDesc: "Du hast keine Berechtigung, die Server-Dateien anzuzeigen",
+        uploadInSyntheticDir: "Dateien können nicht in virtuelle Verzeichnisse hochgeladen werden",
+        uploadNoPermission: "Du hast keine Berechtigung, Dateien hochzuladen",
       },
     },
     editGameServer: {
@@ -394,13 +398,13 @@ const translation: i18nLanguage = {
       memoryLimitSelection: {
         title: "RAM Limit",
         description: "Maximaler RAM, der diesem Server zugewiesen wird",
-        errorLabel: "Bitte geben Sie ein gültiges Speicherlimit ein.",
+        errorLabel: "Bitte gib ein gültiges Speicherlimit ein.",
       },
 
       cpuLimitSelection: {
         title: "CPU Kern Limit",
         description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
-        errorLabel: "Bitte geben Sie ein gültiges CPU-Limit ein.",
+        errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
       },
     },
     GameServerSettings: {
@@ -452,6 +456,10 @@ const translation: i18nLanguage = {
         createSuccess: "Webhook wurde erfolgreich erstellt.",
         deleteSuccess: "Webhook wurde erfolgreich gelöscht.",
       },
+      accessManagement: {
+        title: "Zugriffsverwaltung",
+        description: "Bestimme, wer welchen Zugriff auf deinen Server haben soll",
+      },
     },
     gameServerSettings: {
       rconSettings: {
@@ -459,7 +467,7 @@ const translation: i18nLanguage = {
         description: {
           part1:
             "Standardmäßig verbindet sich COSY mit dem Spielserver und versucht, Befehle direkt über STDIN einzugeben.",
-          part2: "Hier können Sie alternativ eine",
+          part2: "Hier kannst du alternativ eine",
           part3: "Verbindung konfigurieren, die für die Befehlsübermittlung verwendet werden soll.",
           rcon: "RCON",
         },
@@ -468,7 +476,7 @@ const translation: i18nLanguage = {
           title: "RCON Port",
           description:
             "Die Portnummer für RCON-Verbindungen (1-65535). Der RCON-Port muss von dem Game Server Container auf den Host freigegeben sein",
-          errorLabel: "Bitte geben Sie eine gültige Portnummer zwischen 1 und 65535 ein",
+          errorLabel: "Bitte gib eine gültige Portnummer zwischen 1 und 65535 ein",
         },
         rconPassword: {
           title: "RCON Passwort",
@@ -477,6 +485,99 @@ const translation: i18nLanguage = {
         },
         revert: "Zurücksetzen",
         confirm: "Bestätigen",
+      },
+      accessManagement: {
+        title: "Zugriffsverwaltung",
+        description: "Konfiguriere Benutzer und Berechtigungen für Zugriffsgruppen",
+        createNewGroup: "Neue Zugriffsgruppe erstellen",
+        createGroupTitle: "Neue Zugriffsgruppe erstellen",
+        createGroupDescription: "Gib einen Namen für die neue Zugriffsgruppe ein.",
+        groupSettings: "Gruppeneinstellungen",
+        groupNameLabel: "Gruppenname",
+        groupNamePlaceholder: "Gruppennamen eingeben",
+        groupNameRequired: "Gruppenname ist erforderlich",
+        members: "Mitglieder",
+        noUsersAssigned: "Keine Benutzer zugewiesen",
+        addUserLabel: "Benutzer per Benutzername hinzufügen",
+        addUserPlaceholder: "Benutzernamen eingeben",
+        addUserError: "Ungültiger Benutzername",
+        addUserButton: "Hinzufügen",
+        userAlreadyInGroup: "Benutzer bereits in Gruppe",
+        usernameNotFound: "Benutzername nicht gefunden",
+        permissions: "Berechtigungen",
+        adminNote: "ADMIN-Berechtigung gewährt alle anderen Berechtigungen",
+        seeServerNote: '"Server sehen" aktivieren, um auf andere Berechtigungen zuzugreifen',
+        revert: "Zurücksetzen",
+        confirm: "Bestätigen",
+        deleteGroup: "Zugriffsgruppe löschen",
+        deleteGroupTitle: "Zugriffsgruppe löschen",
+        deleteGroupDescription:
+          'Bist du sicher, dass du die Zugriffsgruppe "{{groupName}}" löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.',
+        cancel: "Abbrechen",
+        delete: "Löschen",
+        create: "Erstellen",
+        permissionDescriptions: {
+          ADMIN: {
+            name: "Administrator",
+            description:
+              "Voller Administratorzugriff. Gewährt alle Berechtigungen und kann nicht eingeschränkt werden.",
+          },
+          SEE_SERVER: {
+            name: "Server sehen",
+            description:
+              "Server in der Serverliste anzeigen. Erforderlich für alle anderen Berechtigungen.",
+          },
+          READ_SERVER_SERVER_FILES: {
+            name: "Serverdateien lesen",
+            description: "Serverdateien über den Dateimanager anzeigen und herunterladen.",
+          },
+          CHANGE_SERVER_FILES: {
+            name: "Serverdateien ändern",
+            description: "Serverdateien über den Dateimanager hochladen, bearbeiten und löschen.",
+          },
+          CHANGE_SERVER_CONFIGS: {
+            name: "Allgemeine Einstellungen ändern",
+            description: "Allgemeine Serverkonfiguration und Einstellungen ändern.",
+          },
+          CHANGE_METRICS_SETTINGS: {
+            name: "Metrik-Einstellungen ändern",
+            description: "Server-Überwachung und Metrik-Erfassungseinstellungen konfigurieren.",
+          },
+          CHANGE_PERMISSIONS_SETTINGS: {
+            name: "Berechtigungseinstellungen ändern",
+            description: "Zugriffsgruppen und Benutzerberechtigungen für diesen Server verwalten.",
+          },
+          CHANGE_RCON_SETTINGS: {
+            name: "RCON-Einstellungen ändern",
+            description: "Fernkonsolen (RCON) Verbindungseinstellungen konfigurieren.",
+          },
+          START_STOP_SERVER: {
+            name: "Server starten/stoppen",
+            description: "Gameserver starten, stoppen und neustarten.",
+          },
+          SEND_COMMANDS: {
+            name: "Befehle senden",
+            description: "Konsolenbefehle auf dem laufenden Server ausführen.",
+          },
+          READ_SERVER_LOGS: {
+            name: "Server-Logs lesen",
+            description: "Serverkonsolenprotokolle und Ausgaben anzeigen.",
+          },
+          READ_SERVER_METRICS: {
+            name: "Server-Metriken lesen",
+            description: "Server-Leistungsmetriken und Statistiken anzeigen.",
+          },
+          TRANSFER_SERVER_OWNERSHIP: {
+            name: "Serverbesitz übertragen",
+            description:
+              "Den Besitz des Servers an einen anderen Benutzer übertragen. Kann nicht rückgängig gemacht werden.",
+          },
+          DELETE_SERVER: {
+            name: "Server löschen",
+            description:
+              "Den Server dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
+          },
+        },
       },
     },
     userManagement: {
@@ -520,10 +621,12 @@ const translation: i18nLanguage = {
   },
   logDisplay: {
     serverLog: "Konsole",
-    timestampFormat: "HH:mm:ss.SSS",
+    timestampFormat: "HH:mm:ss",
+    timestampFormatDetailed: "HH:mm:ss.SSS",
     stickToBottom: "Auto Scroll",
     enterCommand: "Befehl eingeben...",
     cantSendCommands: "Server muss laufen, um Befehle zu senden",
+    noLogsPermission: "Du hast keine Berechtigung, die Server-Logs anzuzeigen",
   },
   serverPage: {
     notFound: "404 - Server nicht gefunden",
@@ -537,13 +640,19 @@ const translation: i18nLanguage = {
     cpuLimit: "CPU Kerne",
     memoryLimit: "RAM Limit",
     unlimited: "Unlimitiert",
+    noAccessFor: "Kein Zugriff auf {{element}}",
+    noStartStopPermission: "Du hast keine Berechtigung, diesen Server zu starten oder zu stoppen",
     navbar: {
       overview: "Dashboard",
-      console: "Console",
+      console: "Konsole",
       metrics: "Metriken",
       file_explorer: "Dateien",
       settings: "Einstellungen",
     },
+  },
+  settings: {
+    noAccessDescription: "Du hast keine Berechtigung, diese Einstellung zu ändern",
+    noAccessFor: "Kein Zugriff auf Einstellungen: {{element}}",
   },
   serverStatus: {
     RUNNING: "Läuft",
@@ -557,6 +666,8 @@ const translation: i18nLanguage = {
   metrics: {
     metricDescription: "{{type}} Metrik über Zeit",
     configure: "Metriken konfigurieren",
+    noMetricsPermission: "Kein Metrik-Zugriff",
+    noMetricsPermissionDesc: "Du hast keine Berechtigung, die Server-Metriken anzuzeigen",
     types: {
       CPU_PERCENT: "CPU",
       MEMORY_PERCENT: "RAM",
@@ -582,7 +693,7 @@ const translation: i18nLanguage = {
   },
   datepicker: {
     title: "Benutzerdefinierter Zeitraum",
-    des: "Wählen Sie einen benutzerdefinierten Zeitraum für die Metriken aus.",
+    des: "Wähle einen benutzerdefinierten Zeitraum für die Metriken aus.",
   },
   cardWidth: {
     SMALL: "Klein",

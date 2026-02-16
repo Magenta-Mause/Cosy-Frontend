@@ -327,6 +327,10 @@ const translation: i18nLanguage = {
         downloadAllAction: "Download Directory",
         uploadFile: "Upload",
         renamePlaceholder: "e.g. server.log",
+        noFilesPermission: "No File Access",
+        noFilesPermissionDesc: "You don't have permission to view server files",
+        uploadInSyntheticDir: "Cannot upload files in virtual directories",
+        uploadNoPermission: "You don't have permission to upload files",
       },
     },
 
@@ -487,6 +491,10 @@ const translation: i18nLanguage = {
         createSuccess: "Webhook created successfully.",
         deleteSuccess: "Webhook deleted successfully.",
       },
+      accessManagement: {
+        title: "Access Management",
+        description: "Manage who should be able to access your server in which way",
+      },
     },
     gameServerSettings: {
       rconSettings: {
@@ -513,6 +521,96 @@ const translation: i18nLanguage = {
         revert: "Revert",
         confirm: "Confirm",
       },
+      accessManagement: {
+        title: "Access Management",
+        description: "Configure users and permissions for access groups",
+        createNewGroup: "Create new access group",
+        groupSettings: "Access Group Settings",
+        groupNameLabel: "Group Name",
+        groupNamePlaceholder: "Enter group name",
+        groupNameRequired: "Group name is required",
+        members: "Members",
+        noUsersAssigned: "No users assigned",
+        addUserLabel: "Add user by username",
+        addUserPlaceholder: "Enter username",
+        addUserError: "Invalid username",
+        addUserButton: "Add",
+        userAlreadyInGroup: "User already in group",
+        usernameNotFound: "Username not found",
+        permissions: "Permissions",
+        adminNote: "ADMIN permission grants all other permissions",
+        seeServerNote: 'Enable "See Server" to access other permissions',
+        revert: "Revert",
+        confirm: "Confirm",
+        deleteGroup: "Delete Access Group",
+        deleteGroupTitle: "Delete Access Group",
+        deleteGroupDescription:
+          'Are you sure you want to delete the access group "{{groupName}}"? This action cannot be undone.',
+        cancel: "Cancel",
+        delete: "Delete",
+        createGroupTitle: "Create New Access Group",
+        createGroupDescription: "Enter a name for the new access group.",
+        create: "Create",
+        permissionDescriptions: {
+          ADMIN: {
+            name: "Admin",
+            description:
+              "Full administrative access to the server. Grants all other permissions automatically.",
+          },
+          SEE_SERVER: {
+            name: "See Server",
+            description: "View the server in the list. Required for all other permissions.",
+          },
+          READ_SERVER_SERVER_FILES: {
+            name: "Read Server Files",
+            description: "View and download server files and directories.",
+          },
+          CHANGE_SERVER_FILES: {
+            name: "Change Server Files",
+            description: "Upload, edit, delete and manage server files.",
+          },
+          CHANGE_SERVER_CONFIGS: {
+            name: "Change General Settings",
+            description: "Modify server configuration settings and parameters.",
+          },
+          CHANGE_METRICS_SETTINGS: {
+            name: "Change Metrics Settings",
+            description: "Configure server monitoring and metrics collection.",
+          },
+          CHANGE_PERMISSIONS_SETTINGS: {
+            name: "Change Permissions Settings",
+            description: "Manage access groups and user permissions.",
+          },
+          CHANGE_RCON_SETTINGS: {
+            name: "Change RCON Settings",
+            description: "Configure remote console (RCON) connection settings.",
+          },
+          START_STOP_SERVER: {
+            name: "Start/Stop Server",
+            description: "Start, stop and restart the game server.",
+          },
+          SEND_COMMANDS: {
+            name: "Send Commands",
+            description: "Execute console commands on the server.",
+          },
+          READ_SERVER_LOGS: {
+            name: "Read Server Logs",
+            description: "View server console logs and output.",
+          },
+          READ_SERVER_METRICS: {
+            name: "Read Server Metrics",
+            description: "View server performance metrics and statistics.",
+          },
+          TRANSFER_SERVER_OWNERSHIP: {
+            name: "Transfer Server Ownership",
+            description: "Transfer ownership of the server to another user. Cannot be undone.",
+          },
+          DELETE_SERVER: {
+            name: "Delete Server",
+            description: "Permanently delete the server. This action cannot be undone.",
+          },
+        },
+      },
     },
   },
 
@@ -522,10 +620,12 @@ const translation: i18nLanguage = {
 
   logDisplay: {
     serverLog: "Console",
-    timestampFormat: "HH:mm:ss.SSS",
+    timestampFormat: "HH:mm:ss",
+    timestampFormatDetailed: "HH:mm:ss.SSS",
     stickToBottom: "Auto Scroll",
     enterCommand: "Enter command...",
     cantSendCommands: "Server must be running to send commands",
+    noLogsPermission: "You don't have permission to view server logs",
   },
   serverPage: {
     notFound: "404 - Server Not Found",
@@ -539,6 +639,8 @@ const translation: i18nLanguage = {
     dockerHardwareLimits: "Docker Hardware Limits",
     cpuLimit: "CPU Cores",
     memoryLimit: "RAM Limit",
+    noAccessFor: "No access for {{element}}",
+    noStartStopPermission: "You don't have permission to start or stop this server",
     navbar: {
       overview: "Dashboard",
       console: "Console",
@@ -546,6 +648,10 @@ const translation: i18nLanguage = {
       file_explorer: "Files",
       settings: "Settings",
     },
+  },
+  settings: {
+    noAccessDescription: "You don't have permission to modify this setting",
+    noAccessFor: "No access for settings: {{element}}",
   },
   serverStatus: {
     RUNNING: "Running",
@@ -560,6 +666,8 @@ const translation: i18nLanguage = {
   metrics: {
     metricDescription: "{{type}} usage over time",
     configure: "Configure Metrics",
+    noMetricsPermission: "No Metrics Access",
+    noMetricsPermissionDesc: "You don't have permission to view server metrics",
     types: {
       CPU_PERCENT: "CPU",
       MEMORY_PERCENT: "Memory",
