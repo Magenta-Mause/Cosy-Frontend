@@ -19,11 +19,7 @@ function RouteComponent() {
   );
 
   if (!canAccess) {
-    return (
-      <NoAccess
-        element={t("components.GameServerSettings.tabs.accessManagement")}
-      />
-    );
+    return <NoAccess element={t("components.GameServerSettings.tabs.accessManagement")} />;
   }
 
   return <AccessManagementSettingsSection />;

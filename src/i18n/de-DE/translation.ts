@@ -2,7 +2,7 @@ import type { i18nLanguage } from "@/i18n/i18nKeys";
 
 const translation: i18nLanguage = {
   common: {
-    yourLimit: "Dein Limit",
+    yourLimit: "Ihr Limit",
   },
   overviewPage: {
     createNewServer: "Neuer Game Server",
@@ -32,7 +32,7 @@ const translation: i18nLanguage = {
     passwordsDoNotMatch: "Passwörter stimmen nicht überein",
     usernameRequired: "Benutzername ist erforderlich",
     accountCreatedSuccess:
-      "Konto erfolgreich erstellt! Melde dich jetzt an, um dein Profil zu erstellen.",
+      "Konto erfolgreich erstellt! Melden Sie sich jetzt an, um Ihr Profil zu erstellen.",
     accountCreateError: 'Fehler beim Erstellen des Kontos. "{{error}}"',
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
     serverStartError: 'Fehler beim Starten des Servers. "{{error}}"',
@@ -154,7 +154,7 @@ const translation: i18nLanguage = {
     username: "Benutzername",
     password: "Passwort",
     resetPassword: "Passwort vergessen?",
-    question: "Du bist nicht angemeldet",
+    question: "Sie sind nicht angemeldet",
     continueMeansAccept: "Durch die Anmeldung akzeptieren Sie unsere",
     legal: "Datenschutzerklärung",
     incorrectCredentials: "Falscher Benutzername oder Passwort.",
@@ -174,7 +174,7 @@ const translation: i18nLanguage = {
       title: "Template-Variablen",
       noTemplateSelected: "Kein Template ausgewählt",
       noVariables: "Dieses Template hat keine anpassbaren Variablen",
-      selectPlaceholder: "Wähle eine Option",
+      selectPlaceholder: "Wählen Sie eine Option",
       example: "Beispiel",
       pattern: "Muster",
       validationError: "Bitte geben Sie einen gültigen Wert ein",
@@ -287,7 +287,7 @@ const translation: i18nLanguage = {
         loadingPreview: "Lade Dateivorschau...",
         noPreviewAvailable: "Keine Dateivorschau verfügbar{{textError}}",
         previewFailure: "Dateivorschau konnte nicht geladen werden",
-        selectPreview: "Wählen sie eine Datei zur Vorschau aus",
+        selectPreview: "Wählen Sie eine Datei zur Vorschau aus",
       },
       fileBrowserHeader: {
         newFolder: "Neuer Ordner",
@@ -330,9 +330,9 @@ const translation: i18nLanguage = {
         uploadFile: "Hochladen",
         renamePlaceholder: "z. Bsp. server.log",
         noFilesPermission: "Kein Dateizugriff",
-        noFilesPermissionDesc: "Du hast keine Berechtigung, die Server-Dateien anzuzeigen",
+        noFilesPermissionDesc: "Sie haben keine Berechtigung, die Server-Dateien anzuzeigen",
         uploadInSyntheticDir: "Dateien können nicht in virtuelle Verzeichnisse hochgeladen werden",
-        uploadNoPermission: "Du hast keine Berechtigung, Dateien hochzuladen",
+        uploadNoPermission: "Sie haben keine Berechtigung, Dateien hochzuladen",
       },
     },
     editGameServer: {
@@ -350,7 +350,7 @@ const translation: i18nLanguage = {
 
       serverNameSelection: {
         title: "Servername",
-        description: "Der Name deines Servers",
+        description: "Der Name Ihres Servers",
         errorLabel: "Servername ist erforderlich",
       },
 
@@ -369,7 +369,7 @@ const translation: i18nLanguage = {
       portSelection: {
         title: "Port-Zuordnungen",
         errorLabel: "Port muss eine Zahl zwischen 1 und 65535 sein",
-        description: "Port, auf dem dein Server läuft",
+        description: "Port, auf dem Ihr Server läuft",
         placeholder: {
           instancePort: "Instanz Port",
           containerPort: "Container Port",
@@ -380,7 +380,7 @@ const translation: i18nLanguage = {
       environmentVariablesSelection: {
         title: "Umgebungsvariablen",
         errorLabel: "Sowohl Schlüssel als auch Wert sind erforderlich",
-        description: "Umgebungsvariablen für deinen Server",
+        description: "Umgebungsvariablen für Ihren Server",
       },
 
       executionCommandSelection: {
@@ -392,7 +392,7 @@ const translation: i18nLanguage = {
       volumeMountSelection: {
         title: "Volume-Mounts",
         errorLabel: "Pfad darf nicht leer sein",
-        description: "Volume-Mounts für deinen Server",
+        description: "Volume-Mounts für Ihren Server",
       },
 
       memoryLimitSelection: {
@@ -430,7 +430,7 @@ const translation: i18nLanguage = {
       },
       accessManagement: {
         title: "Zugriffsverwaltung",
-        description: "Bestimme wer welchen Zugriff auf deinen Server haben soll",
+        description: "Bestimmen Sie, wer welchen Zugriff auf Ihren Server haben soll",
       },
     },
     gameServerSettings: {
@@ -460,10 +460,10 @@ const translation: i18nLanguage = {
       },
       accessManagement: {
         title: "Zugriffsverwaltung",
-        description: "Konfiguriere Benutzer und Berechtigungen für Zugriffsgruppen",
+        description: "Konfigurieren Sie Benutzer und Berechtigungen für Zugriffsgruppen",
         createNewGroup: "Neue Zugriffsgruppe erstellen",
         createGroupTitle: "Neue Zugriffsgruppe erstellen",
-        createGroupDescription: "Gib einen Namen für die neue Zugriffsgruppe ein.",
+        createGroupDescription: "Geben Sie einen Namen für die neue Zugriffsgruppe ein.",
         groupSettings: "Gruppeneinstellungen",
         groupNameLabel: "Gruppenname",
         groupNamePlaceholder: "Gruppennamen eingeben",
@@ -484,7 +484,7 @@ const translation: i18nLanguage = {
         deleteGroup: "Zugriffsgruppe löschen",
         deleteGroupTitle: "Zugriffsgruppe löschen",
         deleteGroupDescription:
-          'Bist du sicher, dass du die Zugriffsgruppe "{{groupName}}" löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.',
+          'Sind Sie sicher, dass Sie die Zugriffsgruppe "{{groupName}}" löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
         cancel: "Abbrechen",
         delete: "Löschen",
         create: "Erstellen",
@@ -542,7 +542,7 @@ const translation: i18nLanguage = {
           TRANSFER_SERVER_OWNERSHIP: {
             name: "Serverbesitz übertragen",
             description:
-              "Übertrage den Besitz des Servers an einen anderen Benutzer. Kann nicht rückgängig gemacht werden.",
+              "Den Besitz des Servers an einen anderen Benutzer übertragen. Kann nicht rückgängig gemacht werden.",
           },
           DELETE_SERVER: {
             name: "Server löschen",
@@ -598,11 +598,11 @@ const translation: i18nLanguage = {
     stickToBottom: "Auto Scroll",
     enterCommand: "Befehl eingeben...",
     cantSendCommands: "Server muss laufen, um Befehle zu senden",
-    noLogsPermission: "Du hast keine Berechtigung, die Server-Logs anzuzeigen",
+    noLogsPermission: "Sie haben keine Berechtigung, die Server-Logs anzuzeigen",
   },
   serverPage: {
     notFound: "404 - Server nicht gefunden",
-    notFoundGoBack: "Bring mich zurück",
+    notFoundGoBack: "Bringen Sie mich zurück",
     start: "Starten",
     stop: "Herunterfahren",
     back: "Zurück",
@@ -613,7 +613,7 @@ const translation: i18nLanguage = {
     memoryLimit: "RAM Limit",
     unlimited: "Unlimitiert",
     noAccessFor: "Kein Zugriff auf {{element}}",
-    noStartStopPermission: "Du hast keine Berechtigung, diesen Server zu starten oder zu stoppen",
+    noStartStopPermission: "Sie haben keine Berechtigung, diesen Server zu starten oder zu stoppen",
     navbar: {
       overview: "Dashboard",
       console: "Konsole",
@@ -623,7 +623,7 @@ const translation: i18nLanguage = {
     },
   },
   settings: {
-    noAccessDescription: "Du hast keine Berechtigung, diese Einstellung zu ändern",
+    noAccessDescription: "Sie haben keine Berechtigung, diese Einstellung zu ändern",
     noAccessFor: "Kein Zugriff auf Einstellungen: {{element}}",
   },
   serverStatus: {
@@ -639,7 +639,7 @@ const translation: i18nLanguage = {
     metricDescription: "{{type}} Metrik über Zeit",
     configure: "Metriken konfigurieren",
     noMetricsPermission: "Kein Metrik-Zugriff",
-    noMetricsPermissionDesc: "Du hast keine Berechtigung, die Server-Metriken anzuzeigen",
+    noMetricsPermissionDesc: "Sie haben keine Berechtigung, die Server-Metriken anzuzeigen",
     types: {
       CPU_PERCENT: "CPU",
       MEMORY_PERCENT: "RAM",

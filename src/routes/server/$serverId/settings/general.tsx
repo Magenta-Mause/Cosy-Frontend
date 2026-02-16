@@ -17,11 +17,7 @@ function RouteComponent() {
   const canAccess = hasPermission(GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_CONFIGS);
 
   if (!canAccess) {
-    return (
-      <NoAccess
-        element={t("components.GameServerSettings.tabs.general")}
-      />
-    );
+    return <NoAccess element={t("components.GameServerSettings.tabs.general")} />;
   }
 
   return <GeneralSettingsSection />;

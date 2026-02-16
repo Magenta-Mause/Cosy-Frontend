@@ -23,11 +23,7 @@ function RouteComponent() {
   const canAccess = hasPermission(GameServerAccessGroupDtoPermissionsItem.CHANGE_METRICS_SETTINGS);
 
   if (!canAccess) {
-    return (
-      <NoAccess
-        element={t("components.GameServerSettings.tabs.metrics")}
-      />
-    );
+    return <NoAccess element={t("components.GameServerSettings.tabs.metrics")} />;
   }
 
   return <MetricsSettingsSection gameServer={gameServer} />;

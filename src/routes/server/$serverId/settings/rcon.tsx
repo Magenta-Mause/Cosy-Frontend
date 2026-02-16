@@ -17,11 +17,7 @@ function RouteComponent() {
   const canAccess = hasPermission(GameServerAccessGroupDtoPermissionsItem.CHANGE_RCON_SETTINGS);
 
   if (!canAccess) {
-    return (
-      <NoAccess
-        element={t("components.GameServerSettings.tabs.rcon")}
-      />
-    );
+    return <NoAccess element={t("components.GameServerSettings.tabs.rcon")} />;
   }
 
   return <RconSettingsSection />;
