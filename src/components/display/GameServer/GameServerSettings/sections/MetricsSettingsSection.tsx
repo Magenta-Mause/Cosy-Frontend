@@ -8,7 +8,12 @@ import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import { updateMetricLayout } from "@/api/generated/backend-api";
-import { type GameServerDto, type MetricLayout, MetricLayoutSize } from "@/api/generated/model";
+import {
+  type GameServerDto,
+  type MetricLayout,
+  type MetricLayoutMetricType,
+  MetricLayoutSize,
+} from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
 import { type MetricLayoutUI, MetricsType } from "@/types/metricsTyp";
@@ -77,12 +82,12 @@ export default function MetricsSettingsSection(props: MetricSetting) {
     setMetricLayoutState([...metricLayoutState, newMetric]);
   };
 
-  const handleMetricTypeChange = (type: MetricsType, uuid?: string) => {
+  const handleMetricTypeChange = (type: string, uuid?: string) => {
     if (!uuid) return;
 
     setMetricLayoutState(
       metricLayoutState.map((metric) =>
-        metric._uiUuid === uuid ? { ...metric, metric_type: type } : metric,
+        metric._uiUuid === uuid ? { ...metric, metric_type: type as MetricLayoutMetricType } : metric,
       ),
     );
   };
@@ -118,6 +123,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
                       className="w-full"
                       metricType={metric.metric_type}
                       setMetricType={(type) => handleMetricTypeChange(type, metric._uiUuid)}
+                      gameServerUuid={gameServer.uuid}
                     />
                     <SizeDropDown metric={metric} handleWidthSelect={handleWidthSelect} />
                   </div>

@@ -1,0 +1,26 @@
+import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
+import { createCustomMetricType } from "@/types/metricsTyp";
+
+/**
+ * Extracts available custom metric keys from the latest metric point
+ * @param metrics Array of metrics for a game server
+ * @returns Array of custom metric types (with prefix)
+ */
+export const getAvailableCustomMetrics = (
+  metrics: GameServerMetricsWithUuid[] | undefined,
+): string[] => {
+  if (!metrics || metrics.length === 0) {
+    return [];
+  }
+
+  // Get the most recent metric point
+  const latestMetric = metrics[metrics.length - 1];
+  const customMetricHolder = latestMetric?.metric_values?.custom_metric_holder;
+
+  if (!customMetricHolder || typeof customMetricHolder !== "object") {
+    return [];
+  }
+
+  // Extract keys and convert to custom metric types
+  return Object.keys(customMetricHolder).map((key) => createCustomMetricType(key));
+};

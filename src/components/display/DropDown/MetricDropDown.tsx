@@ -1,4 +1,5 @@
 import { ChevronDown } from "lucide-react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { MetricLayoutMetricType } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
@@ -7,9 +8,18 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MetricsType } from "@/types/metricsTyp";
+import { useTypedSelector } from "@/stores/rootReducer";
+import {
+  extractCustomMetricKey,
+  formatMetricDisplayName,
+  isCustomMetric,
+  MetricsType,
+} from "@/types/metricsTyp";
+import { getAvailableCustomMetrics } from "@/utils/customMetrics";
 
 const DROPDOWN_OPTIONS: MetricsType[] = [
   MetricsType.CPU_PERCENT,
@@ -26,12 +36,33 @@ const MetricDropDown = (props: {
   className?: string;
   disabled?: boolean;
   metricType?: MetricLayoutMetricType | MetricsType;
-  setMetricType: (unit: MetricsType) => void;
+  setMetricType: (unit: string) => void;
+  gameServerUuid?: string;
 }) => {
   const { t } = useTranslation();
 
-  const handleSelect = (type: MetricsType) => {
+  // Get metrics from Redux to extract custom metrics
+  const metrics = useTypedSelector((state) =>
+    props.gameServerUuid
+      ? state.gameServerMetricsSliceReducer.data[props.gameServerUuid]?.metrics
+      : undefined,
+  );
+
+  const customMetrics = useMemo(() => getAvailableCustomMetrics(metrics), [metrics]);
+
+  const handleSelect = (type: string) => {
     props.setMetricType(type);
+  };
+
+  const getDisplayName = (metricType: string | undefined): string => {
+    if (!metricType) return "";
+    
+    if (isCustomMetric(metricType)) {
+      const key = extractCustomMetricKey(metricType);
+      return formatMetricDisplayName(key);
+    }
+    
+    return t(`metrics.types.${metricType}`);
   };
 
   return (
@@ -39,18 +70,40 @@ const MetricDropDown = (props: {
       <DropdownMenuTrigger asChild>
         <Button variant="secondary" className={`${props.className}`} disabled={props.disabled}>
           <span className="truncate max-w-3 md:max-w-10 lg:max-w-50">
-            {t(`metrics.types.${props.metricType}`)}
+            {getDisplayName(props.metricType)}
           </span>
           <ChevronDown className="-m-1" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-30 bg-primary-modal-background" align="end">
+        <DropdownMenuLabel className="text-xs text-muted-foreground uppercase tracking-wide">
+          {t("metrics.standardMetrics")}
+        </DropdownMenuLabel>
         <DropdownMenuGroup>
           {DROPDOWN_OPTIONS.map((type) => (
             <DropdownMenuItem key={type} onSelect={() => handleSelect(type)}>
               {t(`metrics.types.${type}`)}
             </DropdownMenuItem>
           ))}
+        </DropdownMenuGroup>
+        
+        <DropdownMenuSeparator />
+        
+        <DropdownMenuLabel className="text-xs text-muted-foreground uppercase tracking-wide">
+          {t("metrics.customMetrics")}
+        </DropdownMenuLabel>
+        <DropdownMenuGroup>
+          {customMetrics.length > 0 ? (
+            customMetrics.map((type) => (
+              <DropdownMenuItem key={type} onSelect={() => handleSelect(type)}>
+                {formatMetricDisplayName(extractCustomMetricKey(type))}
+              </DropdownMenuItem>
+            ))
+          ) : (
+            <DropdownMenuItem disabled>
+              {t("metrics.noCustomMetrics")}
+            </DropdownMenuItem>
+          )}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
