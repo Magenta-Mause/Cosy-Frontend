@@ -115,6 +115,12 @@ export type i18nLanguage = {
     confirm: string;
   };
 
+  deleteGameServerSuccessDialog: {
+    title: string;
+    description: string;
+    confirm: string;
+  };
+
   logOutDialog: {
     title: string;
     description: string;

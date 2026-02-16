@@ -44,7 +44,7 @@ export function DeleteGameServerAlertDialog({
         await onConfirm();
         setInputValue(""); // Clear input after confirmation
         onOpenChange(false); // Close dialog on success
-        navigate({ to: "/" });
+        navigate({ to: "/", search: { deleted: true } });
       } catch (_e) {
         // Error is already handled by the hook, no need to toast here
       } finally {

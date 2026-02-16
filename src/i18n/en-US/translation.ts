@@ -112,6 +112,11 @@ const translation: i18nLanguage = {
     cancel: "Cancel",
     confirm: "Delete",
   },
+  deleteGameServerSuccessDialog: {
+    title: "Deleted",
+    description: "Game Server was deleted successfully.",
+    confirm: "OK",
+  },
   logOutDialog: {
     title: "Log Out?",
     description: "Are you sure you want to log out?",

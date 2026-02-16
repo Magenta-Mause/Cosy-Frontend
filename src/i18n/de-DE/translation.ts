@@ -114,6 +114,11 @@ const translation: i18nLanguage = {
     cancel: "Abbrechen",
     confirm: "Löschen",
   },
+  deleteGameServerSuccessDialog: {
+    title: "Gelöscht",
+    description: "Gameserver wurde erfolgreich gelöscht.",
+    confirm: "OK",
+  },
   logOutDialog: {
     title: "Abmelden?",
     description: "Sind Sie sicher, dass Sie sich abmelden möchten?",
