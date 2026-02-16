@@ -191,10 +191,13 @@ const MetricGraph = (props: MetricGraphProps) => {
         <div>
           <CardTitle>{displayName}</CardTitle>
           <CardDescription>
-            {showStringValue 
-              ? t("metrics.currentValue", { type: displayName })
-              : t("metrics.metricDescription", { type: displayName })
-            }
+            {showStringValue ? (
+              t("metrics.currentValue", { type: displayName })
+            ) : isCustomMetric(type) ? (
+              t("metrics.metricDescriptionCustom", { type: displayName })
+            ) : (
+              t("metrics.metricDescription", { type: displayName })
+            )}
           </CardDescription>
         </div>
       </CardHeader>

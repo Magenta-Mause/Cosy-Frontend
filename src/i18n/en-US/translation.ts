@@ -637,6 +637,7 @@ const translation: i18nLanguage = {
 
   metrics: {
     metricDescription: "{{type}} usage over time",
+    metricDescriptionCustom: "{{type}} over time",
     currentValue: "Current {{type}} value",
     configure: "Configure Metrics",
     noMetricsPermission: "No Metrics Access",

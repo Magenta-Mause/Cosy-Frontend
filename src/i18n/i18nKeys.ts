@@ -640,6 +640,7 @@ export type i18nLanguage = {
   };
   metrics: {
     metricDescription: ContainsVariable<"type">;
+    metricDescriptionCustom: ContainsVariable<"type">;
     currentValue: ContainsVariable<"type">;
     configure: string;
     noMetricsPermission: string;
