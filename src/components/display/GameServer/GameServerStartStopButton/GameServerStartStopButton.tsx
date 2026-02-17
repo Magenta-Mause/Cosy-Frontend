@@ -1,12 +1,12 @@
 import { Button } from "@components/ui/button.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { Power } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import {
   GameServerAccessGroupDtoPermissionsItem,
   type GameServerDto,
   GameServerDtoStatus,
 } from "@/api/generated/model";
+import power from "@/assets/icons/power.svg";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
 import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
 
@@ -27,7 +27,12 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
           disabled: !canStartStopServer,
           children: (
             <>
-              <Power />
+              <img
+                //TODO: hier auch background color und spacing anpassen
+                src={power}
+                alt="Power Icon"
+                className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+              />
               {t("serverPage.stop")}
             </>
           ),
@@ -39,7 +44,12 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
           disabled: !canStartStopServer,
           children: (
             <>
-              <Power />
+              <img
+                //TODO: hier auch background color und spacing anpassen
+                src={power}
+                alt="Power Icon"
+                className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+              />
               {t("serverPage.start")}
             </>
           ),
@@ -56,7 +66,12 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
           "data-loading": true,
           children: (
             <>
-              <Power />
+              <img
+                //TODO: hier auch background color und spacing anpassen
+                src={power}
+                alt="Power Icon"
+                className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+              />
               {t("serverStatus.AWAITING_UPDATE")}
             </>
           ),
@@ -67,7 +82,12 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
           "data-loading": true,
           children: (
             <>
-              <Power />
+              <img
+                //TODO: hier auch background color und spacing anpassen
+                src={power}
+                alt="Power Icon"
+                className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+              />
               {t("serverStatus.STOPPING")}
             </>
           ),

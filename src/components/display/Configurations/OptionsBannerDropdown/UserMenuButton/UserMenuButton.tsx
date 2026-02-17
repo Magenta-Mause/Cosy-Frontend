@@ -1,7 +1,7 @@
 import { Button } from "@components/ui/button.tsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import person from "@/assets/icons/person.svg";
+import person from "@/assets/icons/user.svg";
 import { cn } from "@/lib/utils.ts";
 import { UserModal } from "../../../UserManagement/UserModal/UserModal.tsx";
 

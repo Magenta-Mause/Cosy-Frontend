@@ -2,13 +2,7 @@ import { Button } from "@components/ui/button";
 import Link from "@components/ui/Link";
 import { Separator } from "@components/ui/separator.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import {
-  ChartAreaIcon,
-  LayoutDashboardIcon,
-  SettingsIcon,
-  SquareTerminalIcon,
-  User,
-} from "lucide-react";
+import { ChartAreaIcon, LayoutDashboardIcon } from "lucide-react";
 import {
   type CSSProperties,
   createContext,
@@ -19,6 +13,9 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
+import consoleIcon from "@/assets/icons/console.svg";
+import settingsIcon from "@/assets/icons/settings.svg";
+import userIcon from "@/assets/icons/user.svg";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils.ts";
@@ -108,7 +105,14 @@ const GameServerSettingsLayout = ({
   const TABS = [
     {
       label: t("tabs.general"),
-      icon: <SettingsIcon style={iconStyles} className="mr-2" />,
+      icon: (
+        <img
+          //TODO: hier auch background color und spacing anpassen
+          src={settingsIcon}
+          alt="Settings Icon"
+          className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+        />
+      ),
       path: "/server/$serverId/settings/general",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_CONFIGS],
     },
@@ -130,13 +134,27 @@ const GameServerSettingsLayout = ({
     },
     {
       label: t("tabs.rcon"),
-      icon: <SquareTerminalIcon style={iconStyles} className="mr-2" />,
+      icon: (
+        <img
+          //TODO: hier auch background color und spacing anpassen
+          src={consoleIcon}
+          alt="Console Icon"
+          className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+        />
+      ),
       path: "/server/$serverId/settings/rcon",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_RCON_SETTINGS],
     },
     {
       label: t("tabs.accessManagement"),
-      icon: <User style={iconStyles} className="mr-2" />,
+      icon: (
+        <img
+          //TODO: hier auch background color und spacing anpassen
+          src={userIcon}
+          alt="User Icon"
+          className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+        />
+      ),
       path: "/server/$serverId/settings/access-management",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_PERMISSIONS_SETTINGS],
     },
