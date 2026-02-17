@@ -40,14 +40,11 @@ const GameServerHouse = (props: {
   }, [props.gameServer.uuid]);
 
   const serverHouseImage = useMemo(() => {
-    const hash = hashUUID(props.gameServer.uuid);
-    const isHouse = hash % 2 === 0;
-
     return {
       image: isHouse ? house : castle,
       size: isHouse ? "18vw" : "22vw",
     };
-  }, [props.gameServer.uuid]);
+  }, [isHouse]);
 
   const handleClick = () => {
     sessionStorage.setItem("homeScrollPosition", window.scrollY.toString());
