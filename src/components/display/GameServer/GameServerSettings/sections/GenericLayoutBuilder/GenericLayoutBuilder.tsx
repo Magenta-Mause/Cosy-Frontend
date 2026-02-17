@@ -144,7 +144,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
           variant="secondary"
           disabled={!isChanged}
           onClick={() => {
-            setLayouts(wrapper(layouts));
+            setLayouts(wrapper(gameServer[layoutSection] ? (gameServer[layoutSection] as T[]) : []));
           }}
         >
           {t("editGameServer.revert")}
