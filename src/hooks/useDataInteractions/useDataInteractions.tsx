@@ -20,7 +20,8 @@ import {
 import type {
   AccessGroupCreationDto,
   AccessGroupUpdateDto,
-  RCONConfiguration, TransferOwnershipDto,
+  RCONConfiguration,
+  TransferOwnershipDto,
   UserInviteCreationDto,
 } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
