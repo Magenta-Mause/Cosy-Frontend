@@ -14,6 +14,7 @@ import type { KeyboardEvent } from "react";
 import { useState } from "react";
 import { useGetUUIDByUsername } from "@/api/generated/backend-api";
 import type { GameServerDto } from "@/api/generated/model";
+import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import TransferOwnershipConfirmationDialog from "./TransferOwnershipConfirmationDialog";
 
@@ -29,6 +30,8 @@ const TransferOwnershipDialog = (props: {
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false);
   const [userCheckError, setUserCheckError] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
+  const { loadGameServers } = useDataLoading();
+
 
   const {
     refetch,
@@ -55,6 +58,7 @@ const TransferOwnershipDialog = (props: {
   };
 
   const handleTransferSuccess = () => {
+    loadGameServers();
     setIsConfirmationDialogOpen(false);
     setShowSuccess(true);
   };
