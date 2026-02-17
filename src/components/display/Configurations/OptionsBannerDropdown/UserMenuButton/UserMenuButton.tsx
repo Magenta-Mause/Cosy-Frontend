@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import person from "@/assets/icons/user.svg";
 import { cn } from "@/lib/utils.ts";
-import { UserModal } from "../../../UserManagement/UserModal/UserModal.tsx";
+import { UserProfileModal } from "@components/display/UserManagement/UserProfileModal/UserProfileModal.tsx";
 
 const UserMenuButton = () => {
   const [isUserOpen, setIsUserOpen] = useState(false);
@@ -18,7 +18,7 @@ const UserMenuButton = () => {
       >
         <img src={person} alt="User Menu Icon" className="h-[2.5vw] p-0 w-auto aspect-square" />
       </Button>
-      <UserModal open={isUserOpen} onOpenChange={setIsUserOpen} />
+      <UserProfileModal open={isUserOpen} onOpenChange={setIsUserOpen} />
     </>
   );
 };

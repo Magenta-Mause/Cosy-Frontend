@@ -16,12 +16,12 @@ import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
-interface UserModalProps {
+interface UserProfileModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function UserModal({ open, onOpenChange }: UserModalProps) {
+export function UserProfileModal({ open, onOpenChange }: UserProfileModalProps) {
   const { t } = useTranslationPrefix("userProfileModal");
   const { t: tCommon } = useTranslation();
   const { username, role, memoryLimit, cpuLimit, uuid } = useContext(AuthContext);
