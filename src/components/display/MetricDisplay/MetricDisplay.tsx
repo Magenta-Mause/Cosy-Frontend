@@ -25,18 +25,18 @@ const MetricDisplay = (
   const [unit, setUnit] = useState<string>("hour");
   const [loading, setLoading] = useState<boolean>(false);
   const [isCustomTime, setIsCustomTime] = useState<boolean>(false);
-  const { loadMetrics } = useDataLoading();
+  const { loadGameServerMetrics } = useDataLoading();
   const dispatch = useDispatch();
+  const { metrics, gameServer } = props;
 
   const liveEnabled = useTypedSelector(
-    (s) =>
-      s.gameServerMetricsSliceReducer.data[props.gameServer.uuid]?.enableMetricsLiveUpdates ?? true,
+    (s) => s.gameServerMetricsSliceReducer.data[gameServer.uuid]?.enableMetricsLiveUpdates ?? true,
   );
 
   const handleLiveMetrics = (enableLiveMetrics: boolean) => {
     dispatch(
       gameServerMetricsSliceActions.setEnableMetricsLiveUpdates({
-        gameServerUuid: props.gameServer.uuid,
+        gameServerUuid: gameServer.uuid,
         enable: enableLiveMetrics,
       }),
     );
@@ -50,7 +50,7 @@ const MetricDisplay = (
 
     setLoading(true);
     try {
-      await loadMetrics(props.gameServer.uuid, startTime, endTime);
+      await loadGameServerMetrics(gameServer.uuid, startTime, endTime);
     } finally {
       setLoading(false);
     }
@@ -68,6 +68,7 @@ const MetricDisplay = (
             setUnit(selectedUnit);
             handleTimeChange(selectedStartTime, selectedEndTime);
           }}
+          defaultLabel={t("timerange.hour", { time: 1 })}
         />
         <Button disabled={isCustomTime} onClick={() => handleLiveMetrics(!liveEnabled)}>
           {liveEnabled ? t("metrics.liveMetricsOn") : t("metrics.liveMetricsOff")}
@@ -82,11 +83,11 @@ const MetricDisplay = (
         </div>
       )}
       <div className="grid grid-cols-6 gap-2">
-        {props.gameServer.metric_layout?.map((metric) => (
+        {gameServer.metric_layout?.map((metric) => (
           <MetricGraph
             key={metric.metric_type}
             className={`${COL_SPAN_MAP[metric.size ?? MetricLayoutSize.MEDIUM]}`}
-            metrics={props.metrics}
+            metrics={metrics}
             type={metric.metric_type ?? MetricsType.CPU_PERCENT}
             timeUnit={unit}
           />

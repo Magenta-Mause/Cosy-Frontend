@@ -18,6 +18,7 @@ interface MetricGraphProps {
   type: MetricsType | MetricLayoutMetricType;
   timeUnit: string;
   metrics: GameServerMetricsWithUuid[];
+  canReadMetrics?: boolean;
 }
 
 const chartConfig = {
@@ -40,7 +41,7 @@ const METRIC_KEY_MAP: Record<MetricsType, keyof MetricValues> = {
 
 const MetricGraph = (props: MetricGraphProps) => {
   const { t } = useTranslation();
-  const { className, type, timeUnit, metrics } = props;
+  const { className, type, timeUnit, metrics, canReadMetrics = true } = props;
   const [chartData, setChartData] = useState<{ time: number; value: number }[]>([]);
 
   const convertBytes = (byte: number, base: number, sizes: string[]) => {
@@ -105,7 +106,7 @@ const MetricGraph = (props: MetricGraphProps) => {
 
   return (
     <Card
-      className={`flex flex-col col-span-3 text-lg py-5 bg-button-secondary-default border-2 ${className}`}
+      className={`flex flex-col col-span-3 text-lg py-5 bg-button-secondary-default border-2 relative ${className}`}
     >
       <CardHeader>
         <div>
@@ -159,6 +160,17 @@ const MetricGraph = (props: MetricGraphProps) => {
           </AreaChart>
         </ChartContainer>
       </CardContent>
+
+      {!canReadMetrics && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
+          <div className="text-center">
+            <div className="text-lg font-semibold mb-1">{t("metrics.noMetricsPermission")}</div>
+            <div className="text-sm text-muted-foreground">
+              {t("metrics.noMetricsPermissionDesc")}
+            </div>
+          </div>
+        </div>
+      )}
     </Card>
   );
 };
