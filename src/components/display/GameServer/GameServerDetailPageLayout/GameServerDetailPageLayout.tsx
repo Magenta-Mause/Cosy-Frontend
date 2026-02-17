@@ -3,24 +3,18 @@ import { Button } from "@components/ui/button.tsx";
 import Link from "@components/ui/Link.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useLocation } from "@tanstack/react-router";
-import {
-  ChartAreaIcon,
-  DoorClosedIcon,
-  DoorOpenIcon,
-  FolderIcon,
-  HomeIcon,
-  SettingsIcon,
-  SquareTerminalIcon,
-} from "lucide-react";
 import { type CSSProperties, createContext } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
+import consoleIcon from "@/assets/icons/console.svg";
+import dashboardIcon from "@/assets/icons/dashboard.svg";
+import doorClosedIcon from "@/assets/icons/doorClosed.svg";
+import doorOpenIcon from "@/assets/icons/doorOpen.svg";
+import folderIcon from "@/assets/icons/folder.svg";
+import houseIcon from "@/assets/icons/house.svg";
+import settingsIcon from "@/assets/icons/settings.svg";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import { cn } from "@/lib/utils.ts";
-
-const iconStyles: CSSProperties = {
-  scale: 1.8,
-};
 
 const buttonStyles: CSSProperties = {
   padding: "25px",
@@ -29,12 +23,26 @@ const buttonStyles: CSSProperties = {
 const TABS = [
   {
     label: "overview",
-    icon: <HomeIcon style={iconStyles} />,
+    icon: (
+      <img
+        //TODO: hier auch background color und spacing anpassen
+        src={houseIcon}
+        alt="House Icon"
+        className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+      />
+    ),
     path: "/server/$serverId",
   },
   {
     label: "console",
-    icon: <SquareTerminalIcon style={iconStyles} />,
+    icon: (
+      <img
+        //TODO: hier auch background color und spacing anpassen
+        src={consoleIcon}
+        alt="Dashboard Icon"
+        className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+      />
+    ),
     path: "/server/$serverId/console",
     permissions: [
       GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS,
@@ -43,13 +51,27 @@ const TABS = [
   },
   {
     label: "metrics",
-    icon: <ChartAreaIcon style={iconStyles} />,
+    icon: (
+      <img
+        //TODO: hier auch background color und spacing anpassen
+        src={dashboardIcon}
+        alt="Dashboard Icon"
+        className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+      />
+    ),
     path: "/server/$serverId/metrics",
     permissions: [GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS],
   },
   {
     label: "file_explorer",
-    icon: <FolderIcon style={iconStyles} />,
+    icon: (
+      <img
+        //TODO: hier auch background color und spacing anpassen
+        src={folderIcon}
+        alt="Folder Icon"
+        className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+      />
+    ),
     path: "/server/$serverId/files",
     activePathPattern: /\/server\/.*\/files/,
     permissions: [
@@ -59,7 +81,14 @@ const TABS = [
   },
   {
     label: "settings",
-    icon: <SettingsIcon style={iconStyles} />,
+    icon: (
+      <img
+        //TODO: hier auch background color und spacing anpassen
+        src={settingsIcon}
+        alt="Settings Icon"
+        className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+      />
+    ),
     path: "/server/$serverId/settings/general",
     activePathPattern: /\/server\/.*\/settings/,
     permissions: [
@@ -102,13 +131,23 @@ const GameServerDetailPageLayout = (props: {
               direction={"right"}
               className={"group"}
             >
-              <DoorClosedIcon
-                className={"group-hover:hidden group-focus:hidden"}
-                style={iconStyles}
+              <img
+                //TODO: hier auch background color und spacing anpassen
+                src={doorClosedIcon}
+                alt="Door Closed Icon"
+                className={cn(
+                  "h-[2.5vw] p-1 w-[2.5vw] aspect-square",
+                  "group-hover:hidden group-focus:hidden",
+                )}
               />
-              <DoorOpenIcon
-                className={"hidden group-hover:inline-block group-focus:inline-block"}
-                style={iconStyles}
+              <img
+                //TODO: hier auch background color und spacing anpassen
+                src={doorOpenIcon}
+                alt="Door Open Icon"
+                className={cn(
+                  "h-[2.5vw] p-1 w-[2.5vw] aspect-square",
+                  "hidden group-hover:inline-block group-focus:inline-block",
+                )}
               />
             </FancyNavigationButton>
           </Link>

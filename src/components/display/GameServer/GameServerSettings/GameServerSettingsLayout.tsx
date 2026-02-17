@@ -2,7 +2,7 @@ import { Button } from "@components/ui/button";
 import Link from "@components/ui/Link";
 import { Separator } from "@components/ui/separator.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { ChartAreaIcon, LayoutDashboardIcon } from "lucide-react";
+import { ChartAreaIcon } from "lucide-react";
 import {
   type CSSProperties,
   createContext,
@@ -14,6 +14,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
 import consoleIcon from "@/assets/icons/console.svg";
+import dashboardIcon from "@/assets/icons/dashboard.svg";
 import settingsIcon from "@/assets/icons/settings.svg";
 import userIcon from "@/assets/icons/user.svg";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
@@ -118,12 +119,26 @@ const GameServerSettingsLayout = ({
     },
     {
       label: t("tabs.privateDashboard"),
-      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
+      icon: (
+        <img
+          //TODO: hier auch background color und spacing anpassen
+          src={dashboardIcon}
+          alt="Dashboard Icon"
+          className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+        />
+      ),
       path: "/server/$serverId/settings/private-dashboard",
     },
     {
       label: t("tabs.publicDashboard"),
-      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
+      icon: (
+        <img
+          //TODO: hier auch background color und spacing anpassen
+          src={dashboardIcon}
+          alt="Dashboard Icon"
+          className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
+        />
+      ),
       path: "/server/$serverId/settings/public-dashboard",
     },
     {

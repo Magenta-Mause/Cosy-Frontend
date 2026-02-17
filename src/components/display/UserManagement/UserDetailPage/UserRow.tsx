@@ -3,9 +3,9 @@ import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { Ellipsis } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
+import dotsIcon from "@/assets/icons/dots.svg";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 
 const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserEntityDtoRole }) => {
@@ -43,7 +43,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
         <div>
           <TooltipWrapper tooltip={t("components.userManagement.userRow.moreOptions")} asChild>
             <Button className="h-10 w-10">
-              <Ellipsis className="size-4" />
+              <img src={dotsIcon} alt="Dots Icon" className="aspect-square" />
             </Button>
           </TooltipWrapper>
         </div>

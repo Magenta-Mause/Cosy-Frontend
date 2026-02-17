@@ -8,11 +8,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/ui/dialog.tsx";
-import { ArrowLeft, UserRoundPlus } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { UserEntityDtoRole } from "@/api/generated/model";
+import addUserIcon from "@/assets/icons/addUser.svg";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { InviteForm } from "./InviteForm/InviteForm.tsx";
 import { InviteResult } from "./InviteForm/InviteResult.tsx";
@@ -111,7 +112,7 @@ const UserInviteButton = (props: { className?: string }) => {
     >
       <DialogTrigger asChild>
         <Button className={props.className} aria-label={t("userModal.title")}>
-          <UserRoundPlus className="size-6 mr-2" />
+          <img src={addUserIcon} alt="User add Icon" className="aspect-square" />
           {t("userModal.inviteUserTitle")}
         </Button>
       </DialogTrigger>

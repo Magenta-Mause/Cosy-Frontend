@@ -1,7 +1,7 @@
 import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import { XIcon } from "lucide-react";
 import * as z from "zod";
 import type { UserEntityDto } from "@/api/generated/model";
+import closeIcon from "@/assets/icons/close.svg";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 type Props = {
@@ -48,7 +48,7 @@ const UserManagementSection = ({
                 disabled={loading}
                 className="text-destructive hover:text-destructive/80 disabled:opacity-50"
               >
-                <XIcon className="size-4" />
+                <img src={closeIcon} alt="Close Icon" className="aspect-square" />
               </button>
             </div>
           ))

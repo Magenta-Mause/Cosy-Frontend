@@ -11,9 +11,9 @@ import {
   DialogTitle,
 } from "@components/ui/dialog.tsx";
 import { Input } from "@components/ui/input.tsx";
-import { Pencil } from "lucide-react";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
+import pencilWrite from "@/assets/icons/pencilWrite.svg";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 interface UserProfileModalProps {
@@ -66,7 +66,11 @@ export function UserProfileModal({ open, onOpenChange }: UserProfileModalProps) 
                   className="h-9 w-9"
                   aria-label={t("changePasswordButton")}
                 >
-                  <Pencil className="h-4 w-4" />
+                  <img
+                    src={pencilWrite}
+                    alt="Pencil Write Button"
+                    className="h-[2.5vw] p-0 w-auto aspect-square"
+                  />
                 </Button>
               </div>
 

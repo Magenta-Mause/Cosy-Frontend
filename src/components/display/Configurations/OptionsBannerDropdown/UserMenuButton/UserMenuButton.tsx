@@ -1,9 +1,9 @@
+import { UserProfileModal } from "@components/display/UserManagement/UserProfileModal/UserProfileModal.tsx";
 import { Button } from "@components/ui/button.tsx";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import person from "@/assets/icons/user.svg";
 import { cn } from "@/lib/utils.ts";
-import { UserProfileModal } from "@components/display/UserManagement/UserProfileModal/UserProfileModal.tsx";
 
 const UserMenuButton = () => {
   const [isUserOpen, setIsUserOpen] = useState(false);
