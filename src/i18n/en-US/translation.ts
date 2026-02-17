@@ -607,7 +607,7 @@ const translation: i18nLanguage = {
   genericModal: {
     cancel: "Cancel",
     unsavedModal: {
-      title: "Unsaved changes",
+      title: "Unsaved Changes",
       message: "Are you sure you want to leave without saving?",
       leave: "Leave anyway",
       stay: "Stay",

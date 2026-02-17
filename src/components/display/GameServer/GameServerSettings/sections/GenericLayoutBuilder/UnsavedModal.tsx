@@ -32,13 +32,13 @@ const UnsavedModal = ({ open, setOpen, onLeave, onStay, onSaveAndLeave }: Update
           <p>{t("message")}</p>
         </DialogMain>
         <DialogFooter>
+          <Button variant="destructive" onClick={onLeave}>
+            {t("leave")}
+          </Button>
           <Button variant="secondary" onClick={onStay}>
             {t("stay")}
           </Button>
           <Button onClick={onSaveAndLeave}>{t("saveAndLeave")}</Button>
-          <Button variant="destructive" onClick={onLeave}>
-            {t("leave")}
-          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
