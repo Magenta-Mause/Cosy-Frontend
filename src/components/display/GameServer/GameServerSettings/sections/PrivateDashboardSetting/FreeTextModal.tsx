@@ -22,6 +22,7 @@ interface FreeTextModalProps {
   >;
   handleModalConfirm: () => void;
   isModalChanged: boolean;
+  errorText: string | null;
 }
 
 const FreeTextModal = (props: FreeTextModalProps) => {
@@ -79,6 +80,7 @@ const FreeTextModal = (props: FreeTextModalProps) => {
             objectKey="key"
             objectValue="value"
           />
+          {props.errorText && <p className="text-sm text-destructive -mt-5 ">{props.errorText}</p>}
         </DialogMain>
         <DialogFooter>
           <Button className="h-11" variant="secondary" onClick={() => setFreeText(null)}>

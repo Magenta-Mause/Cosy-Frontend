@@ -448,6 +448,7 @@ const translation: i18nLanguage = {
           cancel: "Abbrechen",
           placeholder: "Titel",
           label: "Titel eingeben (optional)",
+          error: "Fehlendes Schlüssel-Wert-Paar",
         },
       },
     },

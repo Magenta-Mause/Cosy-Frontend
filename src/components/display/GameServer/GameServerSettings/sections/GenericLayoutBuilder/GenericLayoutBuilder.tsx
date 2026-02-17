@@ -7,10 +7,17 @@ import { Plus, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
-import type { GameServerDto, MetricLayout, PrivateDashboardLayout } from "@/api/generated/model";
+import {
+  type GameServerDto,
+  type MetricLayout,
+  type PrivateDashboardLayout,
+  PrivateDashboardLayoutPrivateDashboardTypes,
+} from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { cn } from "@/lib/utils";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
 import { LayoutSize } from "@/types/layoutSize";
+import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
 import UnsavedModal from "./UnsavedModal";
 
 interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: LayoutSize }> {
@@ -19,6 +26,8 @@ interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: Layout
   layoutSection: "private_dashboard_layouts" | "metric_layout";
   isChanged: boolean;
   layouts: T[];
+  unfulfilledChanges?: string | null;
+  setUnfulfilledChanges?: (message: string | null) => void;
   saveHandler?: (uuid: string, layouts: PrivateDashboardLayout[] | MetricLayout[]) => void;
   setLayouts: React.Dispatch<React.SetStateAction<T[]>>;
   wrapper: (layouts: T[]) => T[];
@@ -32,15 +41,18 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
     gameServer,
     isChanged,
     layouts,
+    unfulfilledChanges,
     layoutSection,
     setLayouts,
     defaultAddNew,
+    setUnfulfilledChanges,
     children,
     saveHandler,
   } = props;
   const { t } = useTranslationPrefix("components");
   const dispatch = useDispatch();
   const [showUnsavedModal, setShowUnsavedModal] = useState(false);
+  const [cardErrors, setCardErrors] = useState<Set<string>>(new Set());
   const resolverRef = useRef<((block: boolean) => void) | null>(null);
 
   const wrap = (layout: T): T => ({ ...layout, _uiUuid: generateUuid() });
@@ -52,6 +64,27 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
       ...gameServer,
       [layoutSection]: layouts.map(({ _uiUuid, ...layout }) => layout),
     };
+
+    const errorUuids = layouts
+      .filter((layout) => {
+        const l = layout as PrivateDashboardLayoutUI;
+        return (
+          l.private_dashboard_types === PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT &&
+          (l.content === undefined ||
+            l.content?.length === 0 ||
+            l.content?.some((c) => !c.key || !c.value))
+        );
+      })
+      .map((layout) => layout._uiUuid);
+
+    if (errorUuids.length > 0) {
+      setCardErrors(new Set(errorUuids));
+      setUnfulfilledChanges?.(t("GameServerSettings.privateDashboard.freetext.error"));
+      return;
+    }
+
+    setCardErrors(new Set());
+    setUnfulfilledChanges?.(null);
 
     dispatch(gameServerSliceActions.updateGameServer(updatedServer));
     saveHandler?.(gameServer.uuid, updatedServer[layoutSection]);
@@ -69,6 +102,11 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
     if (!uuid) return;
 
     setLayouts(layouts.filter((layout) => layout._uiUuid !== uuid));
+    setCardErrors((prev) => {
+      const next = new Set(prev);
+      next.delete(uuid);
+      return next;
+    });
   };
 
   const handleOnAdd = () => {
@@ -97,8 +135,11 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
             {layouts.map((layout) => (
               <Card
                 key={layout._uiUuid}
-                className={`relative border-2 border-primary-border rounded-md bg-background/80
-                w-full h-[16vh] justify-center ${COL_SPAN_MAP[layout.size ?? LayoutSize.MEDIUM]}`}
+                className={cn(
+                  "relative border-2 border-primary-border rounded-md bg-background/80 w-full h-[16vh] justify-center",
+                  COL_SPAN_MAP[layout.size ?? LayoutSize.MEDIUM],
+                  cardErrors.has(layout._uiUuid) && "border-destructive bg-destructive/20",
+                )}
               >
                 <Button
                   variant={"destructive"}
@@ -139,19 +180,28 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
         </Card>
       </div>
       <div className="fixed right-[10%] mt-3 w-fit ml-auto flex gap-4">
-        <Button
-          className="h-12.5"
-          variant="secondary"
-          disabled={!isChanged}
-          onClick={() => {
-            setLayouts(wrapper(gameServer[layoutSection] ? (gameServer[layoutSection] as T[]) : []));
-          }}
-        >
-          {t("editGameServer.revert")}
-        </Button>
-        <Button type="button" onClick={handleConfirm} className="h-12.5" disabled={!isChanged}>
-          {t("editGameServer.confirm")}
-        </Button>
+        <div className="flex items-center gap-2">
+          {cardErrors.size > 0 && (
+            <p className="text-base text-destructive">{unfulfilledChanges}</p>
+          )}
+          <Button
+            className="h-12.5"
+            variant="secondary"
+            disabled={!isChanged}
+            onClick={() => {
+              setLayouts(
+                wrapper(gameServer[layoutSection] ? (gameServer[layoutSection] as T[]) : []),
+              );
+              setCardErrors(new Set());
+              setUnfulfilledChanges?.(null);
+            }}
+          >
+            {t("editGameServer.revert")}
+          </Button>
+          <Button type="button" onClick={handleConfirm} className="h-12.5" disabled={!isChanged}>
+            {t("editGameServer.confirm")}
+          </Button>
+        </div>
       </div>
       <UnsavedModal
         open={showUnsavedModal}

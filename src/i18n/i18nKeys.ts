@@ -536,6 +536,7 @@ export type i18nLanguage = {
           cancel: string;
           placeholder: string;
           label: string;
+          error: string;
         };
       };
     };

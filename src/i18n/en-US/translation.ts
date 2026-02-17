@@ -483,6 +483,7 @@ const translation: i18nLanguage = {
           cancel: "Cancel",
           placeholder: "Title",
           label: "Enter Title (optional)",
+          error: "Please set a key value pair",
         },
       },
     },

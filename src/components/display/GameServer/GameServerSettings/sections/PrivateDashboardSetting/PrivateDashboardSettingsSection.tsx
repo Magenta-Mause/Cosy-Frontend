@@ -32,6 +32,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
     wrapPrivateDashboards(gameServer.private_dashboard_layouts),
   );
   const [freeText, setFreeText] = useState<PrivateDashboardLayoutUI | null>(null);
+  const [unfurfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
 
   const isChanged = useMemo(() => {
     if (privateDashboard.length !== gameServer.private_dashboard_layouts.length) return true;
@@ -62,12 +63,28 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
     );
   }, [freeText, privateDashboard]);
 
-  const handleTypeSelect = (type: PrivateDashboardLayoutPrivateDashboardTypes, uuid?: string) => {
+  const sanitizePrivateDashboardLayout = (
+    layout: PrivateDashboardLayoutUI,
+    type: PrivateDashboardLayoutPrivateDashboardTypes,
+  ): PrivateDashboardLayoutUI => ({
+    ...layout,
+    private_dashboard_types: type,
+    metric_type: undefined,
+    title: undefined,
+    content: undefined,
+  });
+
+  const handleTypeSelect = (
+    type: PrivateDashboardLayoutPrivateDashboardTypes,
+    uuid?: string,
+  ) => {
     if (!uuid) return;
 
-    setPrivateDashboard(
-      privateDashboard.map((dashboard) =>
-        dashboard._uiUuid === uuid ? { ...dashboard, private_dashboard_types: type } : dashboard,
+    setPrivateDashboard((prev) =>
+      prev.map((dashboard) =>
+        dashboard._uiUuid === uuid
+          ? sanitizePrivateDashboardLayout(dashboard, type)
+          : dashboard,
       ),
     );
   };
@@ -126,19 +143,23 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
         setLayouts={setPrivateDashboard}
         wrapper={wrapPrivateDashboards}
         defaultAddNew={newWidget}
+        unfulfilledChanges={unfurfilledChanges}
+        setUnfulfilledChanges={setUnfulfilledChanges}
       >
         {(dashboard) => (
           <>
             <div className="flex gap-2">
               <WidgetDropDown
                 widgetType={dashboard.private_dashboard_types}
-                setWidgetType={(type) => handleTypeSelect(type, dashboard._uiUuid)}
+                setWidgetType={(type) => {
+                  handleTypeSelect(type, dashboard._uiUuid);
+                }}
               />
               {dashboard.private_dashboard_types ===
                 PrivateDashboardLayoutPrivateDashboardTypes.METRIC && (
                   <MetricDropDown
                     className="flex-1"
-                    metricType={dashboard.metric_type}
+                    metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
                     setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
                   />
                 )}
@@ -157,6 +178,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
         setFreeText={setFreeText}
         handleModalConfirm={handleModalConfirm}
         isModalChanged={isModalChanged}
+        errorText={unfurfilledChanges}
       />
     </>
   );
