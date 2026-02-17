@@ -25,30 +25,29 @@ const TransferOwnershipDialog = (props: {
   const { t } = useTranslationPrefix(
     "components.editGameServer.uncosyZone.transferOwnership.dialog",
   );
-  const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false);
   const [userCheckError, setUserCheckError] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  const isConfirmButtonDisabled = inputValue === "" || loading;
-
-  const { refetch } = useGetUUIDByUsername(inputValue, {
+  const {
+    refetch,
+    isFetching,
+    error: queryError,
+  } = useGetUUIDByUsername(inputValue, {
     query: {
       enabled: false,
       retry: false,
     },
   });
 
+  const isConfirmButtonDisabled = inputValue === "" || isFetching;
+
   const handleConfirm = async () => {
     setUserCheckError(null);
-    setLoading(true);
+    const { data } = await refetch();
 
-    const { data, error } = await refetch();
-
-    setLoading(false);
-
-    if (error || !data) {
+    if (queryError || !data) {
       setUserCheckError(t("userNotFound"));
     } else {
       setIsConfirmationDialogOpen(true);
@@ -61,7 +60,7 @@ const TransferOwnershipDialog = (props: {
   };
 
   const handleOpenChange = (newOpen: boolean) => {
-    if (loading) return;
+    if (isFetching) return;
     props.onOpenChange(newOpen);
     if (!newOpen) {
       setInputValue("");
@@ -114,13 +113,13 @@ const TransferOwnershipDialog = (props: {
               }}
               onKeyDown={handleKeyDown}
               placeholder={t("inputPlaceholder")}
-              disabled={loading}
+              disabled={isFetching}
             />
             {userCheckError && <p className="text-sm text-destructive mt-1">{userCheckError}</p>}
           </DialogMain>
           <DialogFooter>
             <DialogClose asChild>
-              <Button className="" variant="secondary" disabled={loading}>
+              <Button className="" variant="secondary" disabled={isFetching}>
                 {t("cancel")}
               </Button>
             </DialogClose>
@@ -130,7 +129,7 @@ const TransferOwnershipDialog = (props: {
               onClick={handleConfirm}
               disabled={isConfirmButtonDisabled}
             >
-              {loading ? t("checking") || "Checking..." : t("confirm")}
+              {isFetching ? t("checking") || "Checking..." : t("confirm")}
             </Button>
           </DialogFooter>
         </DialogContent>
