@@ -100,27 +100,27 @@ const MetricGraph = (props: MetricGraphProps) => {
       const customKey = extractCustomMetricKey(type);
       const customValue = metric.metric_values?.custom_metric_holder?.[customKey];
       // Return the raw value (can be number or string)
-      if (typeof customValue === 'number' || typeof customValue === 'string') {
+      if (typeof customValue === "number" || typeof customValue === "string") {
         return customValue;
       }
       return 0;
     }
-    
+
     return (metric.metric_values?.[METRIC_KEY_MAP[type as MetricsType]] as number) ?? 0;
   };
 
   const isStringMetric = (): boolean => {
     if (!isCustomMetric(type) || !metrics?.length) return false;
-    
+
     const latestMetric = metrics[metrics.length - 1];
     const value = getMetricValue(latestMetric);
-    
+
     // Check if value is a string or cannot be parsed as a number
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       const parsed = Number(value);
       return Number.isNaN(parsed);
     }
-    
+
     return false;
   };
 
@@ -128,7 +128,7 @@ const MetricGraph = (props: MetricGraphProps) => {
     if (!metrics?.length) return "";
     const latestMetric = metrics[metrics.length - 1];
     const value = getMetricValue(latestMetric);
-    return typeof value === 'string' ? value : String(value);
+    return typeof value === "string" ? value : String(value);
   };
 
   const getDisplayName = (): string => {
@@ -140,14 +140,14 @@ const MetricGraph = (props: MetricGraphProps) => {
 
   useEffect(() => {
     if (!metrics?.length) return;
-    
+
     // Check if this is a string metric
     if (isCustomMetric(type) && metrics.length > 0) {
       const latestMetric = metrics[metrics.length - 1];
       if (isCustomMetric(type)) {
         const customKey = extractCustomMetricKey(type);
         const customValue = latestMetric?.metric_values?.custom_metric_holder?.[customKey];
-        if (typeof customValue === 'string' && Number.isNaN(Number(customValue))) {
+        if (typeof customValue === "string" && Number.isNaN(Number(customValue))) {
           return; // Skip chart data for string metrics
         }
       }
@@ -159,7 +159,7 @@ const MetricGraph = (props: MetricGraphProps) => {
         if (isCustomMetric(type)) {
           const customKey = extractCustomMetricKey(type);
           const customValue = metric.metric_values?.custom_metric_holder?.[customKey];
-          if (typeof customValue === 'number' || typeof customValue === 'string') {
+          if (typeof customValue === "number" || typeof customValue === "string") {
             value = customValue;
           } else {
             value = 0;
@@ -167,8 +167,8 @@ const MetricGraph = (props: MetricGraphProps) => {
         } else {
           value = (metric.metric_values?.[METRIC_KEY_MAP[type as MetricsType]] as number) ?? 0;
         }
-        
-        const numericValue = typeof value === 'number' ? value : Number(value);
+
+        const numericValue = typeof value === "number" ? value : Number(value);
         const timeString = metric.time ?? "";
         return {
           time: timeString ? new Date(timeString).getTime() : 0,
@@ -191,13 +191,11 @@ const MetricGraph = (props: MetricGraphProps) => {
         <div>
           <CardTitle>{displayName}</CardTitle>
           <CardDescription>
-            {showStringValue ? (
-              t("metrics.currentValue", { type: displayName })
-            ) : isCustomMetric(type) ? (
-              t("metrics.metricDescriptionCustom", { type: displayName })
-            ) : (
-              t("metrics.metricDescription", { type: displayName })
-            )}
+            {showStringValue
+              ? t("metrics.currentValue", { type: displayName })
+              : isCustomMetric(type)
+                ? t("metrics.metricDescriptionCustom", { type: displayName })
+                : t("metrics.metricDescription", { type: displayName })}
           </CardDescription>
         </div>
       </CardHeader>

@@ -35,7 +35,7 @@ const DROPDOWN_OPTIONS: MetricsType[] = [
 const MetricDropDown = (props: {
   className?: string;
   disabled?: boolean;
-  metricType?: MetricLayoutMetricType | MetricsType;
+  metricType?: MetricLayoutMetricType | MetricsType | string;
   setMetricType: (unit: string) => void;
   gameServerUuid?: string;
 }) => {
@@ -56,12 +56,12 @@ const MetricDropDown = (props: {
 
   const getDisplayName = (metricType: string | undefined): string => {
     if (!metricType) return "";
-    
+
     if (isCustomMetric(metricType)) {
       const key = extractCustomMetricKey(metricType);
       return formatMetricDisplayName(key);
     }
-    
+
     return t(`metrics.types.${metricType}`);
   };
 
@@ -86,9 +86,9 @@ const MetricDropDown = (props: {
             </DropdownMenuItem>
           ))}
         </DropdownMenuGroup>
-        
+
         <DropdownMenuSeparator />
-        
+
         <DropdownMenuLabel className="text-xs text-muted-foreground uppercase tracking-wide">
           {t("metrics.customMetrics")}
         </DropdownMenuLabel>
@@ -100,9 +100,7 @@ const MetricDropDown = (props: {
               </DropdownMenuItem>
             ))
           ) : (
-            <DropdownMenuItem disabled>
-              {t("metrics.noCustomMetrics")}
-            </DropdownMenuItem>
+            <DropdownMenuItem disabled>{t("metrics.noCustomMetrics")}</DropdownMenuItem>
           )}
         </DropdownMenuGroup>
       </DropdownMenuContent>

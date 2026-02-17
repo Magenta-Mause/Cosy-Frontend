@@ -33,10 +33,6 @@ const MetricDisplay = (
     (s) => s.gameServerMetricsSliceReducer.data[gameServer.uuid]?.enableMetricsLiveUpdates ?? true,
   );
 
-  const permissions = useTypedSelector(
-    (s) => s.gameServerPermissionsSliceReducer.data[gameServer.uuid]?.permissions,
-  );
-
   const handleLiveMetrics = (enableLiveMetrics: boolean) => {
     dispatch(
       gameServerMetricsSliceActions.setEnableMetricsLiveUpdates({
@@ -54,8 +50,7 @@ const MetricDisplay = (
 
     setLoading(true);
     try {
-      console.log("[Timerange] calling loadGameServerMetrics", { loadGameServerMetrics, permissions });
-      await loadGameServerMetrics(gameServer.uuid, startTime, endTime, permissions);
+      await loadGameServerMetrics(gameServer.uuid, startTime, endTime);
     } finally {
       setLoading(false);
     }

@@ -1935,6 +1935,73 @@ export function useGetMetrics<TData = Awaited<ReturnType<typeof getMetrics>>, TE
 
 
 
+export const checkConnection = (
+    uuid: string,
+    secret: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<boolean>(
+      {url: `/internal/game-server/test-connection/${uuid}/${secret}`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getCheckConnectionQueryKey = (uuid?: string,
+    secret?: string,) => {
+    return [
+    `/internal/game-server/test-connection/${uuid}/${secret}`
+    ] as const;
+    }
+
+    
+export const getCheckConnectionQueryOptions = <TData = Awaited<ReturnType<typeof checkConnection>>, TError = unknown>(uuid: string,
+    secret: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof checkConnection>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCheckConnectionQueryKey(uuid,secret);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof checkConnection>>> = ({ signal }) => checkConnection(uuid,secret, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid && secret), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof checkConnection>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type CheckConnectionQueryResult = NonNullable<Awaited<ReturnType<typeof checkConnection>>>
+export type CheckConnectionQueryError = unknown
+
+
+
+export function useCheckConnection<TData = Awaited<ReturnType<typeof checkConnection>>, TError = unknown>(
+ uuid: string,
+    secret: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof checkConnection>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getCheckConnectionQueryOptions(uuid,secret,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
 export const queryGames = (
     params?: QueryGamesParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
