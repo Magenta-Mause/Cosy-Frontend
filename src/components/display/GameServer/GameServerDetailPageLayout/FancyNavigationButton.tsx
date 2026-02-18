@@ -1,4 +1,5 @@
 import { Button } from "@components/ui/button.tsx";
+import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils.ts";
 
 const buttonStyles = {
@@ -10,11 +11,11 @@ const SIDE_MARGIN = 15;
 const FancyNavigationButton = (
   props: {
     isActive: boolean;
-    label: React.ReactNode;
-    children: React.ReactNode;
+    label: ReactNode;
+    children: ReactNode;
     direction?: "left" | "right";
     disabled?: boolean;
-  } & React.ComponentProps<"button">,
+  } & ComponentProps<"button">,
 ) => {
   const { isActive, label, children, direction, disabled, ...buttonProps } = props;
   const compiledDirection = direction ?? "left";
