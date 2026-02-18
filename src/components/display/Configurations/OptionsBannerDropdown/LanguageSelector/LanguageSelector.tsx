@@ -15,7 +15,11 @@ const LANGUAGES = [
   },
 ];
 
-const LanguageSelector = (props: { className?: string; onLanguageChange?: () => void }) => {
+const LanguageSelector = (props: {
+  className?: string;
+  tabIndex?: number;
+  onLanguageChange?: () => void;
+}) => {
   const { t, i18n } = useTranslation();
 
   return (
@@ -23,6 +27,7 @@ const LanguageSelector = (props: { className?: string; onLanguageChange?: () => 
       <PopoverTrigger asChild>
         <Button
           className={cn("h-auto p-[.5vw] aspect-square", props.className)}
+          tabIndex={props.tabIndex}
           aria-label={t("optionsBanner.languageSelector")}
           onClick={(e) => {
             e.stopPropagation();

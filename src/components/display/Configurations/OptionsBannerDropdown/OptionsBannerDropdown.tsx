@@ -120,7 +120,10 @@ const OptionsBannerDropdown = () => {
         <div className={isExpanded && !authorized ? "translate-y-[130%]" : ""}>
           <TooltipWrapper tooltip={t("optionsBanner.languageSelector")} side="right" asChild>
             <div>
-              <LanguageSelector onLanguageChange={() => setIsExpanded(false)} />
+              <LanguageSelector
+                tabIndex={isExpanded ? undefined : -1}
+                onLanguageChange={() => setIsExpanded(false)}
+              />
             </div>
           </TooltipWrapper>
         </div>
@@ -137,7 +140,7 @@ const OptionsBannerDropdown = () => {
               }}
               asChild
             >
-              <UserMenuButton />
+              <UserMenuButton tabIndex={isExpanded ? undefined : -1} />
             </TooltipWrapper>
             <TooltipWrapper
               tooltip={t("optionsBanner.logout")}
@@ -150,7 +153,7 @@ const OptionsBannerDropdown = () => {
               }}
               asChild
             >
-              <LogOutButton />
+              <LogOutButton tabIndex={isExpanded ? undefined : -1} />
             </TooltipWrapper>
           </>
         )}
