@@ -1,11 +1,9 @@
 import { GameServerNotFoundPage } from "@components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
+import BackToHomeLink from "@components/display/GameServer/GameServerDetailPageLayout/BackToHomeLink";
 import UserTable from "@components/display/UserManagement/UserDetailPage/UserTable";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
-import { Button } from "@components/ui/button";
-import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { ArrowLeft } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
 import { useContext } from "react";
-import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import { useRequireRoles } from "@/utils/routeGuards";
@@ -15,10 +13,8 @@ export const Route = createFileRoute("/users")({
 });
 
 function UserDetailPage() {
-  const { t } = useTranslation();
   const { revokeInvite } = useDataInteractions();
   const auth = useContext(AuthContext);
-  const router = useRouter();
 
   const hasAccess = useRequireRoles([UserEntityDtoRole.OWNER, UserEntityDtoRole.ADMIN]);
 
@@ -32,13 +28,12 @@ function UserDetailPage() {
   }
 
   return (
-    <div className="p-2">
-      <Button onClick={() => router.navigate({ to: "/" })}>
-        <ArrowLeft className="size-5" />
-        {t("components.userManagement.backButton")}
-      </Button>
+    <div className="relative p-2">
+      <BackToHomeLink className="absolute left-4 top-22" />
 
-      <UserTable onRevoke={revokeInvite} />
+      <div className="flex justify-center">
+        <UserTable onRevoke={revokeInvite} />
+      </div>
     </div>
   );
 }
