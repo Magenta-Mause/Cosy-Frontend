@@ -30,7 +30,12 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
           isModalOpen={isGameServerCreationModalOpen}
           setIsModalOpen={setIsOpenGameServerCreationModalOpen}
         />
-        <TooltipWrapper tooltip={t("rightClickMenu.createNewGameserver")} side="top" asChild>
+        <TooltipWrapper
+          tooltip={t("rightClickMenu.createNewGameserver")}
+          side="top"
+          contentClassName="translate-x-20 translate-y-15"
+          asChild
+        >
           <Link
             className={cn(
               "block h-auto translate-x-[-3vw] translate-y-[5.8vw] aspect-[2.18] text-xs relative select-none",
