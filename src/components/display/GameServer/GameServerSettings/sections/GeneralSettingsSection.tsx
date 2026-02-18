@@ -28,7 +28,6 @@ const GeneralSettingsSection = () => {
       />
       <UncosyZone gameServer={gameServer} />
     </div>
-
   );
 };
 
