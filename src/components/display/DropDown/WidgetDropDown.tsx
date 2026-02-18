@@ -1,7 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import {
-  PrivateDashboardLayoutPrivateDashboardTypes,
-} from "@/api/generated/model";
+import { PrivateDashboardLayoutPrivateDashboardTypes } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -33,7 +31,11 @@ const WidgetDropDown = (props: {
   return (
     <DropdownMenu open={props.disabled ? false : undefined}>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" className={`flex-1 ${props.className}`} disabled={props.disabled}>
+        <Button
+          variant="secondary"
+          className={`flex-1 ${props.className}`}
+          disabled={props.disabled}
+        >
           <span className="truncate max-w-3 md:max-w-10 lg:max-w-50">
             {t(props.widgetType ?? PrivateDashboardLayoutPrivateDashboardTypes.METRIC)}
           </span>

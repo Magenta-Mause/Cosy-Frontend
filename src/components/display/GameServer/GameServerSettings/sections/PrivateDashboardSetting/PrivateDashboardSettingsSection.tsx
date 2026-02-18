@@ -12,6 +12,7 @@ import {
   PrivateDashboardLayoutPrivateDashboardTypes,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { LayoutSize } from "@/types/layoutSize.ts";
 import { MetricsType } from "@/types/metricsTyp";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
 import GenericLayoutSelection from "../GenericLayoutBuilder/GenericLayoutBuilder";
@@ -32,7 +33,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
     wrapPrivateDashboards(gameServer.private_dashboard_layouts),
   );
   const [freeText, setFreeText] = useState<PrivateDashboardLayoutUI | null>(null);
-  const [unfurfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
+  const [unfulfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
 
   const isChanged = useMemo(() => {
     if (privateDashboard.length !== gameServer.private_dashboard_layouts.length) return true;
@@ -66,25 +67,33 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
   const sanitizePrivateDashboardLayout = (
     layout: PrivateDashboardLayoutUI,
     type: PrivateDashboardLayoutPrivateDashboardTypes,
-  ): PrivateDashboardLayoutUI => ({
-    ...layout,
-    private_dashboard_types: type,
-    metric_type: undefined,
-    title: undefined,
-    content: undefined,
-  });
+  ): PrivateDashboardLayoutUI => {
+    const layoutObject: PrivateDashboardLayoutUI = {
+      _uiUuid: layout._uiUuid,
+      private_dashboard_types: type,
+      size: layout.size ?? LayoutSize.MEDIUM,
+      uuid: layout.uuid,
+      valid: true,
+    };
 
-  const handleTypeSelect = (
-    type: PrivateDashboardLayoutPrivateDashboardTypes,
-    uuid?: string,
-  ) => {
+    if (type === PrivateDashboardLayoutPrivateDashboardTypes.METRIC) {
+      layoutObject.metric_type = layout.metric_type ?? "CPU_PERCENT";
+    }
+
+    if (type === PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT) {
+      layoutObject.content = layout.content ?? [{ key: "", value: "" }];
+      layoutObject.title = layout.title ?? "";
+    }
+
+    return layoutObject;
+  };
+
+  const handleTypeSelect = (type: PrivateDashboardLayoutPrivateDashboardTypes, uuid?: string) => {
     if (!uuid) return;
 
     setPrivateDashboard((prev) =>
       prev.map((dashboard) =>
-        dashboard._uiUuid === uuid
-          ? sanitizePrivateDashboardLayout(dashboard, type)
-          : dashboard,
+        dashboard._uiUuid === uuid ? sanitizePrivateDashboardLayout(dashboard, type) : dashboard,
       ),
     );
   };
@@ -143,7 +152,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
         setLayouts={setPrivateDashboard}
         wrapper={wrapPrivateDashboards}
         defaultAddNew={newWidget}
-        unfulfilledChanges={unfurfilledChanges}
+        unfulfilledChanges={unfulfilledChanges}
         setUnfulfilledChanges={setUnfulfilledChanges}
       >
         {(dashboard) => (
@@ -157,18 +166,18 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
               />
               {dashboard.private_dashboard_types ===
                 PrivateDashboardLayoutPrivateDashboardTypes.METRIC && (
-                  <MetricDropDown
-                    className="flex-1"
-                    metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
-                    setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
-                  />
-                )}
+                <MetricDropDown
+                  className="flex-1"
+                  metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
+                  setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
+                />
+              )}
               {dashboard.private_dashboard_types ===
                 PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT && (
-                  <Button variant={"secondary"} onClick={() => handleFreeTextEdit(dashboard)}>
-                    <SquarePen className="size-6" />
-                  </Button>
-                )}
+                <Button variant={"secondary"} onClick={() => handleFreeTextEdit(dashboard)}>
+                  <SquarePen className="size-6" />
+                </Button>
+              )}
             </div>
           </>
         )}
@@ -178,7 +187,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
         setFreeText={setFreeText}
         handleModalConfirm={handleModalConfirm}
         isModalChanged={isModalChanged}
-        errorText={unfurfilledChanges}
+        errorText={unfulfilledChanges}
       />
     </>
   );

@@ -17,9 +17,7 @@ import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
 
 interface FreeTextModalProps {
   freeText: PrivateDashboardLayoutUI | null;
-  setFreeText: React.Dispatch<
-    React.SetStateAction<PrivateDashboardLayoutUI | null>
-  >;
+  setFreeText: React.Dispatch<React.SetStateAction<PrivateDashboardLayoutUI | null>>;
   handleModalConfirm: () => void;
   isModalChanged: boolean;
   errorText: string | null;
@@ -42,7 +40,9 @@ const FreeTextModal = (props: FreeTextModalProps) => {
         </DialogHeader>
         <DialogMain>
           <div className="flex flex-col">
-            <Label className="text-sm font-bold">{t("GameServerSettings.privateDashboard.freetext.label")}</Label>
+            <Label className="text-sm font-bold">
+              {t("GameServerSettings.privateDashboard.freetext.label")}
+            </Label>
             <Input
               placeholder={t("GameServerSettings.privateDashboard.freetext.placeholder")}
               value={freeText.title ?? ""}
@@ -64,9 +64,9 @@ const FreeTextModal = (props: FreeTextModalProps) => {
               setFreeText((prev) =>
                 prev
                   ? {
-                    ...prev,
-                    content: vals,
-                  }
+                      ...prev,
+                      content: vals,
+                    }
                   : prev,
               )
             }

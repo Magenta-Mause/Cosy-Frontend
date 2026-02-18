@@ -4,7 +4,7 @@ import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import { useBlocker } from "@tanstack/react-router";
 import { Plus, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import {
@@ -125,7 +125,12 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
         setShowUnsavedModal(true);
       });
     },
+    enableBeforeUnload: isChanged,
   });
+
+  useEffect(() => {
+    console.log("changed:", isChanged);
+  }, [isChanged]);
 
   return (
     <>
