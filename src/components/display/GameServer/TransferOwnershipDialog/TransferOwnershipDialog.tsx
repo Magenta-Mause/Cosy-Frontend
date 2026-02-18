@@ -32,7 +32,6 @@ const TransferOwnershipDialog = (props: {
   const [showSuccess, setShowSuccess] = useState(false);
   const { loadGameServers } = useDataLoading();
 
-
   const {
     refetch,
     isFetching,
