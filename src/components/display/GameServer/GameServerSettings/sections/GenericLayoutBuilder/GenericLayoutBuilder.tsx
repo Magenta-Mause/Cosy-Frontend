@@ -3,9 +3,11 @@ import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import {
-  closestCenter,
+  closestCorners,
   DndContext,
   type DragEndEvent,
+  DragOverlay,
+  type DragStartEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -13,7 +15,6 @@ import {
 } from "@dnd-kit/core";
 import {
   arrayMove,
-  rectSortingStrategy,
   SortableContext,
   sortableKeyboardCoordinates,
   useSortable,
@@ -21,7 +22,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useBlocker } from "@tanstack/react-router";
 import { Plus, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import {
@@ -50,8 +51,8 @@ function SortableCard({
     id,
   });
 
-  const style: React.CSSProperties = {
-    transform: CSS.Transform.toString(transform),
+  const style = {
+    transform: CSS.Translate.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
   };
@@ -60,7 +61,11 @@ function SortableCard({
     <Card
       ref={setNodeRef}
       style={style}
-      className={cn(className, "cursor-grab active:cursor-grabbing")}
+      className={cn(
+        className,
+        "cursor-grab active:cursor-grabbing touch-manipulation shadow-lg",
+        isDragging && "!scale-100 shadow-2xl z-10",
+      )}
       {...attributes}
       {...listeners}
     >
@@ -103,17 +108,21 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
   const [showUnsavedModal, setShowUnsavedModal] = useState(false);
   const [cardErrors, setCardErrors] = useState<Set<string>>(new Set());
   const resolverRef = useRef<((block: boolean) => void) | null>(null);
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+    useSensor(PointerSensor, {
+      activationConstraint: { distance: 8 },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
   );
 
-  const wrap = (layout: T): T => ({ ...layout, _uiUuid: generateUuid() });
+  const wrap = useCallback((layout: T): T => ({ ...layout, _uiUuid: generateUuid() }), []);
+  const wrapper = useCallback((layouts: T[]): T[] => layouts.map(wrap), [wrap]);
 
-  const wrapper = (layouts: T[]): T[] => layouts.map(wrap);
-
-  const handleConfirm = () => {
+  const handleConfirm = useCallback(() => {
     const updatedServer: GameServerDto = {
       ...gameServer,
       [layoutSection]: layouts.map(({ _uiUuid, ...layout }) => layout),
@@ -142,88 +151,139 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
 
     dispatch(gameServerSliceActions.updateGameServer(updatedServer));
     saveHandler?.(gameServer.uuid, updatedServer[layoutSection]);
-  };
+  }, [gameServer, layoutSection, layouts, dispatch, saveHandler, setUnfulfilledChanges, t]);
 
-  const handleWidthSelect = (size: LayoutSize, uuid?: string) => {
-    if (!uuid) return;
+  const handleWidthSelect = useCallback(
+    (size: LayoutSize, uuid?: string) => {
+      if (!uuid) return;
+      setLayouts(
+        layouts.map((layout) => (layout._uiUuid === uuid ? { ...layout, size: size } : layout)),
+      );
+    },
+    [layouts, setLayouts],
+  );
 
-    setLayouts(
-      layouts.map((layout) => (layout._uiUuid === uuid ? { ...layout, size: size } : layout)),
-    );
-  };
-
-  const handleOnDelete = (uuid?: string) => {
-    if (!uuid) return;
-
-    setLayouts(layouts.filter((layout) => layout._uiUuid !== uuid));
-    setCardErrors((prev) => {
-      const next = new Set(prev);
-      next.delete(uuid);
-      return next;
-    });
-  };
-
-  const handleOnAdd = () => {
-    setLayouts([...layouts, { ...defaultAddNew, _uiUuid: generateUuid() }]);
-  };
-
-  useBlocker({
-    shouldBlockFn: () => {
-      if (!isChanged) return false;
-
-      return new Promise<boolean>((resolve) => {
-        resolverRef.current = (block) => {
-          resolve(block);
-        };
-
-        setShowUnsavedModal(true);
+  const handleOnDelete = useCallback(
+    (uuid?: string) => {
+      if (!uuid) return;
+      setLayouts(layouts.filter((layout) => layout._uiUuid !== uuid));
+      setCardErrors((prev) => {
+        const next = new Set(prev);
+        next.delete(uuid);
+        return next;
       });
     },
+    [layouts, setLayouts],
+  );
+
+  const handleOnAdd = useCallback(() => {
+    setLayouts([...layouts, { ...defaultAddNew, _uiUuid: generateUuid() }]);
+  }, [layouts, defaultAddNew, setLayouts]);
+
+  const handleDragStart = useCallback((event: DragStartEvent) => {
+    setActiveId(event.active.id as string);
+  }, []);
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+      if (over && active.id !== over.id) {
+        const oldIndex = layouts.findIndex((l) => l._uiUuid === active.id);
+        const newIndex = layouts.findIndex((l) => l._uiUuid === over.id);
+        if (oldIndex !== -1 && newIndex !== -1) {
+          setLayouts(arrayMove(layouts, oldIndex, newIndex));
+        }
+      }
+      setActiveId(null);
+    },
+    [layouts, setLayouts],
+  );
+
+  const activeLayout = activeId ? layouts.find((l) => l._uiUuid === activeId) : null;
+
+  const sortableItems = useMemo(
+    () =>
+      layouts.map((layout) => (
+        <SortableCard
+          key={layout._uiUuid}
+          id={layout._uiUuid}
+          className={cn(
+            "relative border-2 border-primary-border rounded-md bg-background/80 w-full h-[16vh] justify-center",
+            COL_SPAN_MAP[layout.size ?? LayoutSize.MEDIUM],
+            cardErrors.has(layout._uiUuid) && "border-destructive bg-destructive/20",
+          )}
+        >
+          <Button
+            variant="destructive"
+            className="flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 z-10"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleOnDelete(layout._uiUuid);
+            }}
+          >
+            <X />
+          </Button>
+          <div className="flex gap-2 items-center justify-center overflow-x-auto p-2">
+            <div>
+              <span className="flex text-lg">{t("GameServerSettings.metrics.type")}</span>
+              <span className="flex text-lg">{t("GameServerSettings.metrics.width")}</span>
+            </div>
+            <div className="flex flex-col gap-2">
+              {children?.(layout)}
+              <SizeDropDown
+                size={layout?.size ?? LayoutSize.MEDIUM}
+                uuid={layout._uiUuid}
+                handleWidthSelect={handleWidthSelect}
+              />
+            </div>
+          </div>
+        </SortableCard>
+      )),
+    [layouts, cardErrors, children, t, handleWidthSelect, handleOnDelete],
+  );
+
+  useBlocker({
+    shouldBlockFn: useCallback(() => {
+      if (!isChanged) return false;
+      return new Promise<boolean>((resolve) => {
+        resolverRef.current = (block) => resolve(block);
+        setShowUnsavedModal(true);
+      });
+    }, [isChanged]),
     enableBeforeUnload: isChanged,
   });
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over || active.id === over.id) return;
-
-    setLayouts((prev) => {
-      const oldIndex = prev.findIndex((l) => l._uiUuid === active.id);
-      const newIndex = prev.findIndex((l) => l._uiUuid === over.id);
-      return arrayMove(prev, oldIndex, newIndex);
-    });
-  };
 
   return (
     <>
       <div className="flex w-full pt-3">
         <Card className="w-full h-[65vh]">
-          <CardContent className="grid grid-cols-6 gap-4 overflow-scroll p-6">
+          <CardContent className="grid grid-cols-6 gap-4 overflow-auto p-6">
             <DndContext
               sensors={sensors}
-              collisionDetection={closestCenter}
+              collisionDetection={closestCorners}
+              onDragStart={handleDragStart}
               onDragEnd={handleDragEnd}
             >
-              <SortableContext items={layouts.map((l) => l._uiUuid)} strategy={rectSortingStrategy}>
-                {layouts.map((layout) => (
-                  <SortableCard
-                    key={layout._uiUuid}
-                    id={layout._uiUuid}
+              <SortableContext items={layouts.map((l) => l._uiUuid)}>
+                {sortableItems}
+              </SortableContext>
+              <DragOverlay dropAnimation={null}>
+                {activeLayout ? (
+                  <Card
                     className={cn(
-                      "relative border-2 border-primary-border rounded-md bg-background/80 w-full h-[16vh] justify-center",
-                      COL_SPAN_MAP[layout.size ?? LayoutSize.MEDIUM],
-                      cardErrors.has(layout._uiUuid) && "border-destructive bg-destructive/20",
+                      "relative border-2 border-primary rounded-md bg-background/90 shadow-2xl h-[16vh] justify-center cursor-dragging z-50",
+                      COL_SPAN_MAP[activeLayout.size ?? LayoutSize.MEDIUM],
+                      cardErrors.has(activeLayout._uiUuid) &&
+                        "border-destructive bg-destructive/20",
                     )}
                   >
                     <Button
-                      variant={"destructive"}
-                      className={
-                        "flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2"
-                      }
-                      onClick={() => handleOnDelete(layout._uiUuid)}
+                      variant="destructive"
+                      className="pointer-events-none flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 opacity-50 z-10"
                     >
                       <X />
                     </Button>
-                    <div className="flex gap-2 items-center justify-center overflow-x-scroll">
+                    <div className="flex gap-2 items-center justify-center overflow-x-auto p-2">
                       <div>
                         <span className="flex text-lg">{t("GameServerSettings.metrics.type")}</span>
                         <span className="flex text-lg">
@@ -231,17 +291,17 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
                         </span>
                       </div>
                       <div className="flex flex-col gap-2">
-                        {children?.(layout)}
+                        {children?.(activeLayout)}
                         <SizeDropDown
-                          size={layout?.size ?? LayoutSize.MEDIUM}
-                          uuid={layout._uiUuid}
-                          handleWidthSelect={handleWidthSelect}
+                          size={activeLayout?.size ?? LayoutSize.MEDIUM}
+                          uuid={activeLayout._uiUuid}
+                          handleWidthSelect={() => {}} // Disabled during drag
                         />
                       </div>
                     </div>
-                  </SortableCard>
-                ))}
-              </SortableContext>
+                  </Card>
+                ) : null}
+              </DragOverlay>
             </DndContext>
             <Button
               onClick={handleOnAdd}
