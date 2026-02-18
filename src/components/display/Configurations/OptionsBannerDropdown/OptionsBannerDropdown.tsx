@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils.ts";
 
 const OptionsBannerDropdown = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [hasOpenDialog, setHasOpenDialog] = useState(false);
   const [userTooltipOpen, setUserTooltipOpen] = useState(false);
   const [logOutTooltipOpen, setLogOutTooltipOpen] = useState(false);
   const bannerRef = useRef<HTMLDivElement>(null);
@@ -18,6 +19,7 @@ const OptionsBannerDropdown = () => {
   const { authorized } = useContext(AuthContext);
 
   const handleMouseEnter = () => {
+    if (hasOpenDialog) return;
     if (collapseTimerRef.current) {
       clearTimeout(collapseTimerRef.current);
       collapseTimerRef.current = null;
@@ -26,6 +28,7 @@ const OptionsBannerDropdown = () => {
   };
 
   const handleMouseLeave = () => {
+    if (hasOpenDialog) return;
     collapseTimerRef.current = setTimeout(() => {
       setIsExpanded(false);
     }, 400);
@@ -40,8 +43,9 @@ const OptionsBannerDropdown = () => {
   }, []);
 
   useEffect(() => {
-    const closeTooltipsWhenDialogOpens = () => {
+    const syncDialogState = () => {
       const hasOpenDialog = document.querySelector('[data-slot="dialog-overlay"]') !== null;
+      setHasOpenDialog(hasOpenDialog);
       if (hasOpenDialog) {
         setIsExpanded(false);
         setUserTooltipOpen(false);
@@ -49,13 +53,16 @@ const OptionsBannerDropdown = () => {
       }
     };
 
-    const observer = new MutationObserver(closeTooltipsWhenDialogOpens);
+    syncDialogState();
+
+    const observer = new MutationObserver(syncDialogState);
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => observer.disconnect();
   }, []);
 
   const handleBannerClicked = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (hasOpenDialog) return;
     const target = e.target as HTMLElement;
     const clickedElement = target.closest('button, a, [role="button"]');
     const wasBannerClicked = clickedElement?.id === "banner" || target.id === "banner";
@@ -74,6 +81,7 @@ const OptionsBannerDropdown = () => {
       onMouseLeave={handleMouseLeave}
       onClick={(e) => handleBannerClicked(e)}
       onKeyDown={(e) => {
+        if (hasOpenDialog) return;
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           setIsExpanded(!isExpanded);
@@ -84,6 +92,7 @@ const OptionsBannerDropdown = () => {
         "fixed z-50 -top-2 left-[5%]",
         "cursor-pointer transition-all duration-300 ease-in-out",
         "overflow-hidden border-0",
+        hasOpenDialog && "pointer-events-none",
         isExpanded
           ? authorized
             ? "h-auto"
