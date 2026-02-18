@@ -476,6 +476,25 @@ const translation: i18nLanguage = {
         title: "Zugriffsverwaltung",
         description: "Bestimme, wer welchen Zugriff auf deinen Server haben soll",
       },
+      privateDashboard: {
+        add: "Widget hinzufügen",
+        types: {
+          METRIC: "Metrik",
+          LOGS: "Logs",
+          FREETEXT: "Freitext",
+        },
+        freetext: {
+          title: "Freitext",
+          desc: "Benutzerdefinierte Schlüssel-Wert Paare",
+          key: "Schlüssel",
+          value: "Wert",
+          confirm: "Bestätigen",
+          cancel: "Abbrechen",
+          placeholder: "Titel",
+          label: "Titel eingeben (optional)",
+          error: "Fehlendes Schlüssel-Wert-Paar",
+        },
+      },
     },
     gameServerSettings: {
       rconSettings: {
@@ -634,6 +653,13 @@ const translation: i18nLanguage = {
   },
   genericModal: {
     cancel: "Abbrechen",
+    unsavedModal: {
+      title: "Ungespeicherte Änderungen",
+      message: "Sie haben ungespeicherte Änderungen. Möchten Sie diese wirklich verwerfen?",
+      stay: "Bleiben",
+      leave: "Verwerfen trotzdem",
+      saveAndLeave: "Speichern und verlassen",
+    },
   },
   logDisplay: {
     serverLog: "Konsole",
