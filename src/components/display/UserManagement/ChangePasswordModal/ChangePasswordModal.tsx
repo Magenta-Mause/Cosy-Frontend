@@ -73,7 +73,11 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
         </DialogHeader>
 
         <DialogMain>
-          <form id="change-password-form" onSubmit={handlePasswordSubmit} className="flex flex-col gap-4">
+          <form
+            id="change-password-form"
+            onSubmit={handlePasswordSubmit}
+            className="flex flex-col gap-4"
+          >
             <Input
               type="password"
               header={t("oldPassword")}
