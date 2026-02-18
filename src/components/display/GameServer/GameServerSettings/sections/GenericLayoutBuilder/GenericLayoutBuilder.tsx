@@ -2,9 +2,26 @@ import SizeDropDown from "@components/display/DropDown/SizeDropDown";
 import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
+import {
+  closestCenter,
+  DndContext,
+  type DragEndEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  rectSortingStrategy,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { useBlocker } from "@tanstack/react-router";
 import { Plus, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import {
@@ -19,6 +36,38 @@ import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
 import { LayoutSize } from "@/types/layoutSize";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
 import UnsavedModal from "./UnsavedModal";
+
+function SortableCard({
+  id,
+  className,
+  children,
+}: {
+  id: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id,
+  });
+
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <Card
+      ref={setNodeRef}
+      style={style}
+      className={cn(className, "cursor-grab active:cursor-grabbing")}
+      {...attributes}
+      {...listeners}
+    >
+      {children}
+    </Card>
+  );
+}
 
 interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: LayoutSize }> {
   gameServer: GameServerDto;
@@ -54,6 +103,11 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
   const [showUnsavedModal, setShowUnsavedModal] = useState(false);
   const [cardErrors, setCardErrors] = useState<Set<string>>(new Set());
   const resolverRef = useRef<((block: boolean) => void) | null>(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
 
   const wrap = (layout: T): T => ({ ...layout, _uiUuid: generateUuid() });
 
@@ -128,49 +182,67 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
     enableBeforeUnload: isChanged,
   });
 
-  useEffect(() => {
-    console.log("changed:", isChanged);
-  }, [isChanged]);
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    setLayouts((prev) => {
+      const oldIndex = prev.findIndex((l) => l._uiUuid === active.id);
+      const newIndex = prev.findIndex((l) => l._uiUuid === over.id);
+      return arrayMove(prev, oldIndex, newIndex);
+    });
+  };
 
   return (
     <>
       <div className="flex w-full pt-3">
         <Card className="w-full h-[65vh]">
           <CardContent className="grid grid-cols-6 gap-4 overflow-scroll p-6">
-            {layouts.map((layout) => (
-              <Card
-                key={layout._uiUuid}
-                className={cn(
-                  "relative border-2 border-primary-border rounded-md bg-background/80 w-full h-[16vh] justify-center",
-                  COL_SPAN_MAP[layout.size ?? LayoutSize.MEDIUM],
-                  cardErrors.has(layout._uiUuid) && "border-destructive bg-destructive/20",
-                )}
-              >
-                <Button
-                  variant={"destructive"}
-                  className={
-                    "flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2"
-                  }
-                  onClick={() => handleOnDelete(layout._uiUuid)}
-                >
-                  <X />
-                </Button>
-                <div className="flex gap-2 items-center justify-center overflow-x-scroll">
-                  <div>
-                    <span className="flex text-lg">{t("GameServerSettings.metrics.type")}</span>
-                    <span className="flex text-lg">{t("GameServerSettings.metrics.width")}</span>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    {children?.(layout)}
-                    <SizeDropDown
-                      size={layout?.size ?? LayoutSize.MEDIUM}
-                      uuid={layout._uiUuid}
-                      handleWidthSelect={handleWidthSelect}
-                    />
-                  </div>
-                </div>
-              </Card>
-            ))}
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext items={layouts.map((l) => l._uiUuid)} strategy={rectSortingStrategy}>
+                {layouts.map((layout) => (
+                  <SortableCard
+                    key={layout._uiUuid}
+                    id={layout._uiUuid}
+                    className={cn(
+                      "relative border-2 border-primary-border rounded-md bg-background/80 w-full h-[16vh] justify-center",
+                      COL_SPAN_MAP[layout.size ?? LayoutSize.MEDIUM],
+                      cardErrors.has(layout._uiUuid) && "border-destructive bg-destructive/20",
+                    )}
+                  >
+                    <Button
+                      variant={"destructive"}
+                      className={
+                        "flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2"
+                      }
+                      onClick={() => handleOnDelete(layout._uiUuid)}
+                    >
+                      <X />
+                    </Button>
+                    <div className="flex gap-2 items-center justify-center overflow-x-scroll">
+                      <div>
+                        <span className="flex text-lg">{t("GameServerSettings.metrics.type")}</span>
+                        <span className="flex text-lg">
+                          {t("GameServerSettings.metrics.width")}
+                        </span>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        {children?.(layout)}
+                        <SizeDropDown
+                          size={layout?.size ?? LayoutSize.MEDIUM}
+                          uuid={layout._uiUuid}
+                          handleWidthSelect={handleWidthSelect}
+                        />
+                      </div>
+                    </div>
+                  </SortableCard>
+                ))}
+              </SortableContext>
+            </DndContext>
             <Button
               onClick={handleOnAdd}
               variant="secondary"
