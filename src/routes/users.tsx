@@ -1,5 +1,5 @@
-import { GameServerNotFoundPage } from "@components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
 import BackToHomeLink from "@components/display/GameServer/GameServerDetailPageLayout/BackToHomeLink";
+import { GameServerNotFoundPage } from "@components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
 import UserTable from "@components/display/UserManagement/UserDetailPage/UserTable";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
 import { createFileRoute } from "@tanstack/react-router";

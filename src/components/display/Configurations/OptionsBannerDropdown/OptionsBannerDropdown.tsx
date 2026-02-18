@@ -71,7 +71,6 @@ const OptionsBannerDropdown = () => {
       ref={bannerRef}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      aria-expanded={isExpanded}
       onClick={(e) => handleBannerClicked(e)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {

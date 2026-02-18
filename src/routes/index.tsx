@@ -74,7 +74,6 @@ function Index() {
         )}
 
         <DeleteGameServerSuccessDialog open={deleted === true} onClose={handleCloseDeleteSuccess} />
-
       </div>
     </div>
   );

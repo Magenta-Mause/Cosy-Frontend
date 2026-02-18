@@ -1,6 +1,6 @@
 import Link from "@components/ui/Link.tsx";
 import { DoorClosedIcon, DoorOpenIcon } from "lucide-react";
-import { type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.ts";
 import FancyNavigationButton from "./FancyNavigationButton.tsx";

@@ -27,10 +27,7 @@ const MarketplaceSign = () => {
       }}
     >
       <div className="pt-16 pb-3 px-2">
-        <Button
-          size="sm"
-          onClick={() => router.navigate({ to: "/users" })}
-        >
+        <Button size="sm" onClick={() => router.navigate({ to: "/users" })}>
           {t("components.userManagement.userDetailButton.viewUsers")} <ArrowBigRight />
         </Button>
       </div>
