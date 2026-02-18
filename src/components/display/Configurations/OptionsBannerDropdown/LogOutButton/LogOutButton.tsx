@@ -1,12 +1,13 @@
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
 import { LogOut } from "lucide-react";
+import type { ComponentProps } from "react";
 import { forwardRef, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.ts";
 import { LogOutAlertDialog } from "./LogOutAlertDialog.tsx";
 
-type LogOutButtonProps = React.ComponentProps<typeof Button>;
+type LogOutButtonProps = ComponentProps<typeof Button>;
 
 const LogOutButton = forwardRef<HTMLButtonElement, LogOutButtonProps>(
   ({ onClick, ...props }, ref) => {
@@ -19,7 +20,7 @@ const LogOutButton = forwardRef<HTMLButtonElement, LogOutButtonProps>(
         <Button
           {...props}
           ref={ref}
-          className={cn("h-auto p-[.5vw] aspect-square")}
+          className={cn("h-auto p-[.5vw] aspect-square", props.className)}
           aria-label={t("optionsBanner.logout")}
           onClick={(event) => {
             onClick?.(event);
