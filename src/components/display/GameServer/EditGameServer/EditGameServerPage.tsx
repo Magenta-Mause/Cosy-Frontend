@@ -20,6 +20,7 @@ import {
   getMemoryLimitError,
   memoryLimitValidator,
 } from "@/lib/validators/memoryLimitValidator.ts";
+import EditVolumeMountConfigurationInput from "./EditVolumeMountConfigurationInput";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
 import PortInputEditGameServer from "./PortInputEditGameServer";
@@ -92,8 +93,12 @@ const EditGameServerPage = (props: {
       !gameServerState.volume_mounts ||
       gameServerState.volume_mounts.length === 0 ||
       gameServerState.volume_mounts.every((vol) => {
-        if (!vol.host_path && !vol.container_path) return true;
-        return z.string().min(1).safeParse(vol.container_path).success;
+        if (!vol.container_path) return true;
+        return z
+          .string()
+          .min(1)
+          .refine((path) => path !== "/")
+          .safeParse(vol.container_path).success;
       });
 
     const cpuLimitValid =
@@ -154,13 +159,11 @@ const EditGameServerPage = (props: {
     const volumesChanged =
       JSON.stringify(
         gameServerState.volume_mounts?.map((v) => ({
-          host_path: v.host_path ?? "",
           container_path: v.container_path ?? "",
         })) ?? [],
       ) !==
       JSON.stringify(
         props.gameServer.volume_mounts?.map((v) => ({
-          host_path: v.host_path ?? "",
           container_path: v.container_path ?? "",
         })) ?? [],
       );
@@ -198,9 +201,8 @@ const EditGameServerPage = (props: {
         (env) => env.key?.trim() || env.value?.trim(),
       ),
       volume_mounts: gameServerState.volume_mounts
-        ?.filter((vol) => vol.host_path?.trim() || vol.container_path?.trim())
+        ?.filter((vol) => vol.container_path?.trim())
         .map((v) => ({
-          host_path: "DUMMY", // remove this with the host_path refactor
           container_path: v.container_path,
         })),
     };
@@ -215,7 +217,7 @@ const EditGameServerPage = (props: {
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   return (
-    <div className="relative pr-3 pb-10">
+    <div>
       <div>
         <h2>{t("title")}</h2>
       </div>
@@ -338,10 +340,7 @@ const EditGameServerPage = (props: {
           onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
 
-        <EditKeyValueInput<{
-          host_path: string;
-          container_path: string;
-        }>
+        <EditVolumeMountConfigurationInput<{ container_path: string }>
           fieldLabel={t("volumeMountSelection.title")}
           fieldDescription={t("volumeMountSelection.description")}
           value={gameServerState.volume_mounts}
@@ -357,15 +356,12 @@ const EditGameServerPage = (props: {
               volume_mounts: volumes,
             }))
           }
-          placeHolderKeyInput="Host Path"
-          placeHolderValueInput="Container Path"
-          keyValidator={z.string()}
-          valueValidator={z.string().min(1)}
+          placeholder="Container Path"
+          validator={z.string().min(1)}
           errorLabel={t("volumeMountSelection.errorLabel")}
           required={false}
           inputType="text"
-          objectKey="host_path"
-          objectValue="container_path"
+          objectKey="container_path"
         />
       </div>
 
@@ -420,7 +416,7 @@ const EditGameServerPage = (props: {
         />
       </div>
 
-      <div className="sticky bottom-4 w-fit ml-auto flex gap-4">
+      <div className="pt-5 sticky bottom-4 w-fit ml-auto flex gap-4">
         <Button
           className="h-12.5"
           variant="secondary"

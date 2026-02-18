@@ -7,13 +7,24 @@ import {
   getGetAllUserInvitesQueryKey,
   type UpdateGameServerMutationBody,
   useCreateGameServer,
+  useCreateGameServerAccessGroup,
   useCreateInvite,
+  useDeleteGameServerAccessGroup,
   useDeleteGameServerById,
   useRevokeInvite,
+  useTransferOwnership,
   useUpdateGameServer,
+  useUpdateGameServerAccessGroups,
   useUpdateRconConfiguration,
 } from "@/api/generated/backend-api.ts";
-import type { RCONConfiguration, UserInviteCreationDto } from "@/api/generated/model";
+import type {
+  AccessGroupCreationDto,
+  AccessGroupUpdateDto,
+  RCONConfiguration,
+  TransferOwnershipDto,
+  UserInviteCreationDto,
+} from "@/api/generated/model";
+import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
@@ -23,6 +34,7 @@ const useDataInteractions = () => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { t } = useTranslationPrefix("toasts");
+  const { loadGameServer } = useDataLoading();
 
   const { mutateAsync: deleteGameServerById } = useDeleteGameServerById({
     mutation: {
@@ -103,8 +115,8 @@ const useDataInteractions = () => {
 
   const { mutateAsync: createGameServerMutateAsync } = useCreateGameServer({
     mutation: {
-      onSuccess: (data) => {
-        dispatch(gameServerSliceActions.addGameServer(data));
+      onSuccess: async (data) => {
+        await loadGameServer(data.uuid);
         toast.success(t("createGameServerSuccess"));
       },
       onError: (err) => {
@@ -158,6 +170,113 @@ const useDataInteractions = () => {
     });
   };
 
+  const { mutateAsync: transferOwnershipMutateAsync } = useTransferOwnership({
+    mutation: {
+      onSuccess: (updatedGameServer) => {
+        dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
+      },
+      onError: (err) => {
+        toast.error("Failed to transfer ownership");
+        throw err;
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetAllGameServersQueryKey(),
+        });
+      },
+    },
+  });
+
+  const transferOwnership = async (uuid: string, newOwnerName: TransferOwnershipDto) => {
+    return await transferOwnershipMutateAsync({
+      uuid,
+      data: newOwnerName,
+    });
+  };
+
+  const { mutateAsync: createGameServerAccessGroupMutateAsync } = useCreateGameServerAccessGroup({
+    mutation: {
+      onSuccess: (createdAccessGroup) => {
+        dispatch(
+          gameServerSliceActions.addGameServerAccessGroup({
+            gameServerUuid: createdAccessGroup.game_server_uuid,
+            accessGroup: createdAccessGroup,
+          }),
+        );
+        toast.success(t("updateGameServerSuccess"));
+      },
+      onError: (err) => {
+        toast.error(t("updateGameServerError"));
+        throw err;
+      },
+    },
+  });
+
+  const createGameServerAccessGroup = async (
+    gameServerUuid: string,
+    accessGroupCreationDto: AccessGroupCreationDto,
+  ) => {
+    return await createGameServerAccessGroupMutateAsync({
+      uuid: gameServerUuid,
+      data: accessGroupCreationDto,
+    });
+  };
+
+  const { mutateAsync: deleteGameServerAccessGroupMutateAsync } = useDeleteGameServerAccessGroup({
+    mutation: {
+      onSuccess: (_, props) => {
+        dispatch(
+          gameServerSliceActions.removeGameServerAccessGroup({
+            gameServerUuid: props.uuid,
+            accessGroupUuid: props.accessGroupUuid,
+          }),
+        );
+        toast.success(t("updateGameServerSuccess"));
+      },
+      onError: (err) => {
+        toast.error(t("updateGameServerError"));
+        throw err;
+      },
+    },
+  });
+
+  const deleteGameServerAccessGroup = async (gameServerUuid: string, accessGroupUuid: string) => {
+    return await deleteGameServerAccessGroupMutateAsync({
+      uuid: gameServerUuid,
+      accessGroupUuid: accessGroupUuid,
+    });
+  };
+
+  const { mutateAsync: updateGameServerAccessGroupsMutateAsync } = useUpdateGameServerAccessGroups({
+    mutation: {
+      onSuccess: (updatedAccessGroups, props) => {
+        dispatch(
+          gameServerSliceActions.updateGameServerAccessGroups({
+            gameServerUuid: props.uuid,
+            newAccessGroups: updatedAccessGroups,
+          }),
+        );
+        toast.success(t("updateGameServerSuccess"));
+      },
+      onError: (err) => {
+        toast.error(t("updateGameServerError"));
+        throw err;
+      },
+    },
+  });
+
+  const updateGameServerAccessGroups = async (
+    gameServerUuid: string,
+    accessGroupUuid: string,
+    accessGroupUpdateDto: AccessGroupUpdateDto,
+  ) => {
+    return await updateGameServerAccessGroupsMutateAsync({
+      uuid: gameServerUuid,
+      accessGroupUuid: accessGroupUuid,
+      data: accessGroupUpdateDto,
+    });
+  };
+
   return {
     deleteGameServer,
     createInvite,
@@ -165,6 +284,10 @@ const useDataInteractions = () => {
     createGameServer,
     updateGameServer,
     updateRconConfiguration,
+    transferOwnership,
+    createGameServerAccessGroup,
+    deleteGameServerAccessGroup,
+    updateGameServerAccessGroups,
   };
 };
 

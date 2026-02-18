@@ -6,6 +6,9 @@
  * OpenAPI spec version: v1.0
  */
 
+export * from './accessGroupCreationDto';
+export * from './accessGroupUpdateDto';
+export * from './accessGroupUpdateDtoPermissionsItem';
 export * from './createDirectoryInVolumeParams';
 export * from './deleteInVolumeParams';
 export * from './dockerHardwareLimits';
@@ -13,6 +16,8 @@ export * from './environmentVariableConfiguration';
 export * from './fileSystemObjectDto';
 export * from './fileSystemObjectDtoType';
 export * from './gameDto';
+export * from './gameServerAccessGroupDto';
+export * from './gameServerAccessGroupDtoPermissionsItem';
 export * from './gameServerCreationDto';
 export * from './gameServerDto';
 export * from './gameServerDtoStatus';
@@ -24,6 +29,7 @@ export * from './getFileSystemForVolumeParams';
 export * from './getLogsParams';
 export * from './getMetricsParams';
 export * from './getServiceInfo200';
+export * from './getUserPermissions200Item';
 export * from './loginDto';
 export * from './metricLayout';
 export * from './metricLayoutMetricType';
@@ -43,6 +49,7 @@ export * from './templateEntity';
 export * from './templateEntityEnvironmentVariables';
 export * from './templateEntityPortMappings';
 export * from './templateVariable';
+export * from './transferOwnershipDto';
 export * from './uploadFileToVolumeParams';
 export * from './userCreationDto';
 export * from './userEntityDto';

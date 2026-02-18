@@ -115,6 +115,12 @@ export type i18nLanguage = {
     confirm: string;
   };
 
+  deleteGameServerSuccessDialog: {
+    title: string;
+    description: string;
+    confirm: string;
+  };
+
   logOutDialog: {
     title: string;
     description: string;
@@ -179,6 +185,8 @@ export type i18nLanguage = {
     stickToBottom: string;
     enterCommand: string;
     cantSendCommands: string;
+    noLogsPermission: string;
+    timestampFormatDetailed: string;
   };
 
   serverPage: {
@@ -193,6 +201,8 @@ export type i18nLanguage = {
     cpuLimit: string;
     memoryLimit: string;
     unlimited: string;
+    noAccessFor: ContainsVariable<"element">;
+    noStartStopPermission: string;
     navbar: {
       overview: string;
       console: string;
@@ -200,6 +210,11 @@ export type i18nLanguage = {
       file_explorer: string;
       settings: string;
     };
+  };
+
+  settings: {
+    noAccessDescription: string;
+    noAccessFor: ContainsVariable<"element">;
   };
 
   serverStatus: {
@@ -398,6 +413,41 @@ export type i18nLanguage = {
         description: string;
         errorLabel: string;
       };
+      uncosyZone: {
+        title: string;
+        transferOwnership: {
+          title: string;
+          description: string;
+          button: string;
+          dialog: {
+            title: string;
+            description: string;
+            userNotFound: string;
+            inputPlaceholder: string;
+            confirm: string;
+            cancel: string;
+            inputLabel: string;
+            successTitle: string;
+            successMessage: string;
+            close: string;
+            checking: string;
+          };
+          confirmationDialog: {
+            title: string;
+            description: string;
+            newOwner: string;
+            confirm: string;
+            cancel: string;
+            transferring: string;
+            transferError: string;
+          };
+        };
+        delete: {
+          title: string;
+          description: string;
+          button: string;
+        };
+      };
     };
     userManagement: {
       backButton: string;
@@ -476,6 +526,10 @@ export type i18nLanguage = {
         downloadAllAction: string;
         uploadFile: string;
         renamePlaceholder: string;
+        noFilesPermission: string;
+        noFilesPermissionDesc: string;
+        uploadInSyntheticDir: string;
+        uploadNoPermission: string;
       };
       fileBrowserHeader: {
         newFolder: string;
@@ -497,6 +551,10 @@ export type i18nLanguage = {
         publicDashboard: string;
         metrics: string;
         accessManagement: string;
+      };
+      accessManagement: {
+        title: string;
+        description: string;
       };
       metrics: {
         type: string;
@@ -527,6 +585,94 @@ export type i18nLanguage = {
         revert: string;
         confirm: string;
       };
+      accessManagement: {
+        title: string;
+        description: string;
+        createNewGroup: string;
+        createGroupTitle: string;
+        createGroupDescription: string;
+        groupSettings: string;
+        groupNameLabel: string;
+        groupNamePlaceholder: string;
+        groupNameRequired: string;
+        members: string;
+        noUsersAssigned: string;
+        addUserLabel: string;
+        addUserPlaceholder: string;
+        addUserError: string;
+        addUserButton: string;
+        userAlreadyInGroup: string;
+        usernameNotFound: string;
+        permissions: string;
+        adminNote: string;
+        seeServerNote: string;
+        revert: string;
+        confirm: string;
+        deleteGroup: string;
+        deleteGroupTitle: string;
+        deleteGroupDescription: ContainsVariable<"groupName">;
+        cancel: string;
+        delete: string;
+        create: string;
+        permissionDescriptions: {
+          ADMIN: {
+            name: string;
+            description: string;
+          };
+          SEE_SERVER: {
+            name: string;
+            description: string;
+          };
+          READ_SERVER_SERVER_FILES: {
+            name: string;
+            description: string;
+          };
+          CHANGE_SERVER_FILES: {
+            name: string;
+            description: string;
+          };
+          CHANGE_SERVER_CONFIGS: {
+            name: string;
+            description: string;
+          };
+          CHANGE_METRICS_SETTINGS: {
+            name: string;
+            description: string;
+          };
+          CHANGE_PERMISSIONS_SETTINGS: {
+            name: string;
+            description: string;
+          };
+          CHANGE_RCON_SETTINGS: {
+            name: string;
+            description: string;
+          };
+          START_STOP_SERVER: {
+            name: string;
+            description: string;
+          };
+          SEND_COMMANDS: {
+            name: string;
+            description: string;
+          };
+          READ_SERVER_LOGS: {
+            name: string;
+            description: string;
+          };
+          READ_SERVER_METRICS: {
+            name: string;
+            description: string;
+          };
+          TRANSFER_SERVER_OWNERSHIP: {
+            name: string;
+            description: string;
+          };
+          DELETE_SERVER: {
+            name: string;
+            description: string;
+          };
+        };
+      };
     };
   };
 
@@ -536,6 +682,8 @@ export type i18nLanguage = {
   metrics: {
     metricDescription: ContainsVariable<"type">;
     configure: string;
+    noMetricsPermission: string;
+    noMetricsPermissionDesc: string;
     types: {
       CPU_PERCENT: string;
       MEMORY_PERCENT: string;

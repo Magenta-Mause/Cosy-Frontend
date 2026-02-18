@@ -1,4 +1,4 @@
-
+import { DeleteGameServerSuccessDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerSuccessDialog";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
@@ -9,12 +9,19 @@ import { useTypedSelector } from "@/stores/rootReducer.ts";
 
 interface IndexSearch {
   inviteToken?: string;
+  deleted?: boolean;
 }
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): IndexSearch => {
     return {
       inviteToken: typeof search.inviteToken === "string" ? search.inviteToken : undefined,
+      deleted:
+        typeof search.deleted === "boolean"
+          ? search.deleted
+          : typeof search.deleted === "string"
+            ? search.deleted === "true"
+            : undefined,
     };
   },
   component: Index,
@@ -22,12 +29,19 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
-  const { inviteToken } = Route.useSearch();
+  const { inviteToken, deleted } = Route.useSearch();
   const navigate = Route.useNavigate();
 
   const handleCloseInvite = () => {
     navigate({
       search: {},
+      replace: true,
+    });
+  };
+
+  const handleCloseDeleteSuccess = () => {
+    navigate({
+      search: inviteToken ? { inviteToken } : {},
       replace: true,
     });
   };
@@ -59,6 +73,7 @@ function Index() {
           <InviteRedemptionModal inviteToken={inviteToken} onClose={handleCloseInvite} />
         )}
 
+        <DeleteGameServerSuccessDialog open={deleted === true} onClose={handleCloseDeleteSuccess} />
 
       </div>
     </div>

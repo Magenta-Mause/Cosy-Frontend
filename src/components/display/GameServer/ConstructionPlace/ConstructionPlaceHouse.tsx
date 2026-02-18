@@ -1,6 +1,6 @@
 import RightClickMenu, {
   type RightClickAction,
-} from "@components/display/configurations/RightClickMenu/RightClickMenu.tsx";
+} from "@components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
 import CreateGameServer from "@components/display/GameServer/CreateGameServer/CreateGameServer";
 import { Link } from "@tanstack/react-router";
 import { type CSSProperties, useState } from "react";

@@ -88,7 +88,6 @@ export function applyTemplate(
   if (template.file_mounts) {
     newState.volume_mounts = template.file_mounts.map((path) => ({
       container_path: substituteVariables(path, variables),
-      host_path: substituteVariables(path, variables), // Use same path for both by default
     }));
   }
 
