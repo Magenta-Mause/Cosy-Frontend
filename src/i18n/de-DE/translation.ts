@@ -114,6 +114,11 @@ const translation: i18nLanguage = {
     cancel: "Abbrechen",
     confirm: "Löschen",
   },
+  deleteGameServerSuccessDialog: {
+    title: "Gelöscht",
+    description: "Gameserver wurde erfolgreich gelöscht.",
+    confirm: "OK",
+  },
   logOutDialog: {
     title: "Abmelden?",
     description: "Bist du sicher, dass du dich abmelden möchtest?",
@@ -405,6 +410,45 @@ const translation: i18nLanguage = {
         title: "CPU Kern Limit",
         description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
         errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
+      },
+      uncosyZone: {
+        title: "Uncosy Zone",
+        transferOwnership: {
+          title: "Server übergeben",
+          description:
+            "Wenn du deinen Server an einen anderen Benutzer übergeben möchtest, kannst du das hier tun. Dadurch erhält der andere Benutzer die volle Kontrolle über den Server und seine Konfiguration.",
+          button: "Server übergeben",
+          dialog: {
+            title: "Nutzer Auswählen",
+            description:
+              "Gib den Namen des Benutzers ein, an den der Server übergeben werden soll.",
+            userNotFound: "Benutzer nicht gefunden",
+            inputPlaceholder: "Benutzernamen eingeben...",
+            confirm: "Auswählen",
+            cancel: "Abbrechen",
+            inputLabel: "Benutzername",
+            successTitle: "Serverübergabe erfolgreich",
+            successMessage: "Die Serverübergabe war erfolgreich!",
+            close: "Schließen",
+            checking: "Überprüfe Benutzer...",
+          },
+          confirmationDialog: {
+            title: "Bist du sicher?",
+            description:
+              "Bist du sicher, dass du deinen Server an einen anderen Benutzer übergeben möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+            newOwner: "Neuer Besitzer: ",
+            cancel: "Abbrechen",
+            confirm: "Server übergeben",
+            transferring: "Server wird übergeben...",
+            transferError: "Fehler bei der Serverübergabe",
+          },
+        },
+        delete: {
+          title: "Server löschen",
+          description:
+            "Wenn du deinen Server löschen möchtest, kannst du das hier tun. Dadurch wird deine Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
+          button: "Server löschen",
+        },
       },
     },
     GameServerSettings: {

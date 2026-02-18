@@ -12,6 +12,7 @@ import {
   useDeleteGameServerAccessGroup,
   useDeleteGameServerById,
   useRevokeInvite,
+  useTransferOwnership,
   useUpdateGameServer,
   useUpdateGameServerAccessGroups,
   useUpdateRconConfiguration,
@@ -20,6 +21,7 @@ import type {
   AccessGroupCreationDto,
   AccessGroupUpdateDto,
   RCONConfiguration,
+  TransferOwnershipDto,
   UserInviteCreationDto,
 } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
@@ -168,6 +170,30 @@ const useDataInteractions = () => {
     });
   };
 
+  const { mutateAsync: transferOwnershipMutateAsync } = useTransferOwnership({
+    mutation: {
+      onSuccess: (updatedGameServer) => {
+        dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
+      },
+      onError: (err) => {
+        toast.error("Failed to transfer ownership");
+        throw err;
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetAllGameServersQueryKey(),
+        });
+      },
+    },
+  });
+
+  const transferOwnership = async (uuid: string, newOwnerName: TransferOwnershipDto) => {
+    return await transferOwnershipMutateAsync({
+      uuid,
+      data: newOwnerName,
+    });
+  };
+
   const { mutateAsync: createGameServerAccessGroupMutateAsync } = useCreateGameServerAccessGroup({
     mutation: {
       onSuccess: (createdAccessGroup) => {
@@ -258,6 +284,7 @@ const useDataInteractions = () => {
     createGameServer,
     updateGameServer,
     updateRconConfiguration,
+    transferOwnership,
     createGameServerAccessGroup,
     deleteGameServerAccessGroup,
     updateGameServerAccessGroups,

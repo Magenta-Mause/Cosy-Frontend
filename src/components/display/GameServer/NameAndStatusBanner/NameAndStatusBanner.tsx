@@ -23,6 +23,7 @@ const NameAndStatusBanner = (props: {
         backgroundPosition: "center",
         width: "14vw",
         height: "4vw",
+        imageRendering: "pixelated",
       }}
     >
       <div
