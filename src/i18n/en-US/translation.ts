@@ -510,6 +510,25 @@ const translation: i18nLanguage = {
         title: "Access Management",
         description: "Manage who should be able to access your server in which way",
       },
+      privateDashboard: {
+        add: "Add Widget",
+        types: {
+          METRIC: "Metric",
+          LOGS: "Logs",
+          FREETEXT: "Free Text",
+        },
+        freetext: {
+          title: "Free Text",
+          desc: "Add custom key value text",
+          key: "Key",
+          value: "Value",
+          confirm: "Confirm",
+          cancel: "Cancel",
+          placeholder: "Title",
+          label: "Enter Title (optional)",
+          error: "Please set a key value pair",
+        },
+      },
     },
     gameServerSettings: {
       rconSettings: {
@@ -631,6 +650,13 @@ const translation: i18nLanguage = {
 
   genericModal: {
     cancel: "Cancel",
+    unsavedModal: {
+      title: "Unsaved Changes",
+      message: "Are you sure you want to leave without saving?",
+      leave: "Leave anyway",
+      stay: "Stay",
+      saveAndLeave: "Save and Leave",
+    },
   },
 
   logDisplay: {

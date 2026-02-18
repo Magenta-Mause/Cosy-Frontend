@@ -13,6 +13,7 @@ import type { PortMapping } from './portMapping';
 import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
 import type { VolumeMountConfiguration } from './volumeMountConfiguration';
 import type { MetricLayout } from './metricLayout';
+import type { PrivateDashboardLayout } from './privateDashboardLayout';
 import type { GameServerAccessGroupDto } from './gameServerAccessGroupDto';
 
 export interface GameServerDto {
@@ -36,5 +37,6 @@ export interface GameServerDto {
   environment_variables: EnvironmentVariableConfiguration[];
   volume_mounts: VolumeMountConfiguration[];
   metric_layout: MetricLayout[];
+  private_dashboard_layouts: PrivateDashboardLayout[];
   access_groups: GameServerAccessGroupDto[];
 }

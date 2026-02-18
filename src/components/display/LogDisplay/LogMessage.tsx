@@ -54,9 +54,11 @@ const LOG_STYLES: Record<
 const LogMessage = ({
   message,
   showExtendedTimestamps,
+  hideTimestamp,
 }: {
   message: GameServerLogMessageEntity;
   showExtendedTimestamps?: boolean;
+  hideTimestamp?: boolean;
 }) => {
   const { t } = useTranslation();
   const level = (message.level as string) ?? "INFO";
@@ -84,20 +86,19 @@ const LogMessage = ({
         opacity: styles.opacity,
       }}
     >
-      <span className="font-mono text-gray-500 mr-3 select-none opacity-70 group-hover:opacity-100 leading-relaxed">
-        {timestamp}
-      </span>
+      {!hideTimestamp && (
+        <span className="font-mono text-gray-500 mr-3 select-none opacity-70 group-hover:opacity-100 leading-relaxed">
+          {timestamp}
+        </span>
+      )}
 
       <span
-        className={clsx(
-          "min-w-[16.25rem] font-mono uppercase mr-2 leading-relaxed contents",
-          styles.text,
-        )}
+        className={clsx("min-w-65 font-mono uppercase mr-2 leading-relaxed contents", styles.text)}
       >
-        <span className={"px-2"}>[{level}]</span>
+        <span className={!hideTimestamp ? "px-2" : "pr-2"}>[{level}]</span>
       </span>
 
-      <span className="text-gray-200 font-mono selection:bg-sky-500/30 leading-relaxed">
+      <span className="text-gray-200 font-mono selection:bg-sky-500/30 leading-relaxed wrap-anywhere">
         {message.message ?? ""}
       </span>
     </div>

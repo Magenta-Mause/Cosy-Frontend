@@ -16,6 +16,7 @@ const LogDisplay = (
     gameServerUuid?: string;
     isServerRunning?: boolean;
     canReadLogs?: boolean;
+    hideTimestamps?: boolean;
     showExtendedTimestamps?: boolean;
   } & Omit<React.ComponentProps<"div">, "children">,
 ) => {
@@ -107,7 +108,11 @@ const LogDisplay = (
           initialTopMostItemIndex={displayLogs.length > 0 ? displayLogs.length - 1 : 0}
           itemContent={(_index, message) => (
             <div className="w-full overflow-hidden">
-              <LogMessage message={message} showExtendedTimestamps={props.showExtendedTimestamps} />
+              <LogMessage
+                message={message}
+                showExtendedTimestamps={props.showExtendedTimestamps}
+                hideTimestamp={props.hideTimestamps}
+              />
             </div>
           )}
           style={{ height: "100%" }}
