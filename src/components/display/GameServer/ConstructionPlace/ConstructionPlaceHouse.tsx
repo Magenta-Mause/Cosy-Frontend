@@ -52,7 +52,7 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
           >
             <img
               className="h-full object-contain max-w-[initial] absolute top-0 left-0"
-              aria-label={t("aria.createNewGameServer")}
+              alt=""
               src={constructionImage}
               style={{ imageRendering: "pixelated" }}
             />
