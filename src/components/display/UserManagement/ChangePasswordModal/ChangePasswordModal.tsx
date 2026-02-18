@@ -2,6 +2,7 @@ import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogMain,
   DialogTitle,
@@ -72,7 +73,7 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
         </DialogHeader>
 
         <DialogMain>
-          <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4">
+          <form id="change-password-form" onSubmit={handlePasswordSubmit} className="flex flex-col gap-4">
             <Input
               type="password"
               header={t("oldPassword")}
@@ -102,15 +103,20 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
               className="w-full"
               error={hasConfirmPasswordError ? t("passwordsDoNotMatch") : undefined}
             />
-            <Button
-              type="submit"
-              disabled={!isFormValid || isPending || hasPasswordError}
-              className="w-full"
-            >
-              {t("changePassword")}
-            </Button>
           </form>
         </DialogMain>
+        <DialogFooter>
+          <Button variant="secondary" onClick={() => onOpenChange(false)} disabled={isPending}>
+            {t("cancel")}
+          </Button>
+          <Button
+            type="submit"
+            form="change-password-form"
+            disabled={!isFormValid || isPending || hasPasswordError}
+          >
+            {t("changePassword")}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
