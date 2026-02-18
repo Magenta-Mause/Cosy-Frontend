@@ -43,6 +43,7 @@ const OptionsBannerDropdown = () => {
     const closeTooltipsWhenDialogOpens = () => {
       const hasOpenDialog = document.querySelector('[data-slot="dialog-overlay"]') !== null;
       if (hasOpenDialog) {
+        setIsExpanded(false);
         setUserTooltipOpen(false);
         setLogOutTooltipOpen(false);
       }
@@ -127,9 +128,7 @@ const OptionsBannerDropdown = () => {
               }}
               asChild
             >
-              <div>
-                <UserMenuButton />
-              </div>
+              <UserMenuButton />
             </TooltipWrapper>
             <TooltipWrapper
               tooltip={t("optionsBanner.logout")}
@@ -142,9 +141,7 @@ const OptionsBannerDropdown = () => {
               }}
               asChild
             >
-              <div>
-                <LogOutButton />
-              </div>
+              <LogOutButton />
             </TooltipWrapper>
           </>
         )}
