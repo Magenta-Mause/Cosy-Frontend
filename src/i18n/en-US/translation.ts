@@ -59,6 +59,7 @@ const translation: i18nLanguage = {
       tooShort: "Username must be at least 3 characters",
       tooLong: "Username must be at most 50 characters",
       invalidCharacters: "Username can only contain letters, numbers, underscores and hyphens",
+      alreadyExists: "Username already exists",
     },
     cancel: "Cancel",
     generateInvite: "Generate Invite",

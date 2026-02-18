@@ -55,6 +55,7 @@ export type i18nLanguage = {
       tooShort: string;
       tooLong: string;
       invalidCharacters: string;
+      alreadyExists: string;
     };
     cancel: string;
     generateInvite: string;

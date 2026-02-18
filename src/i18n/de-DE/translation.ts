@@ -56,6 +56,7 @@ const translation: i18nLanguage = {
       tooLong: "Benutzername darf höchstens 50 Zeichen lang sein",
       invalidCharacters:
         "Benutzername darf nur Buchstaben, Zahlen, Unterstriche und Bindestriche enthalten",
+      alreadyExists: "Benutzername existiert bereits",
     },
     cancel: "Abbrechen",
     generateInvite: "Einladung erstellen",

@@ -12,8 +12,10 @@ import { ArrowLeft, UserRoundPlus } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { getUUIDByUsername } from "@/api/generated/backend-api.ts";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
+import type { InvalidRequestError } from "@/types/errors.ts";
 import { InviteForm } from "./InviteForm/InviteForm.tsx";
 import { InviteResult } from "./InviteForm/InviteResult.tsx";
 
@@ -63,6 +65,30 @@ const UserInviteButton = (props: { className?: string }) => {
     if (error) {
       setUsernameError(error);
       return;
+    }
+
+    setUsernameError(null);
+
+    if (inviteUsername) {
+      try {
+        await getUUIDByUsername(inviteUsername);
+        setUsernameError(t("userModal.usernameErrors.alreadyExists"));
+        return;
+      } catch (e) {
+        const typedError = e as InvalidRequestError;
+        if (typedError.status !== 404) {
+          const errorData = typedError.response?.data.data;
+          let errorMessage = "Unknown Error";
+          if (errorData && typeof errorData === "object") {
+            const error = Object.entries(errorData)[0];
+            errorMessage = error ? error[1] : "Unknown Error";
+          } else if (errorData) {
+            errorMessage = errorData;
+          }
+          toast.error(t("toasts.inviteCreateError", { error: errorMessage }));
+          return;
+        }
+      }
     }
 
     setIsCreating(true);
