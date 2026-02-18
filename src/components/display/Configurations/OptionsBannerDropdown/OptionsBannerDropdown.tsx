@@ -79,7 +79,7 @@ const OptionsBannerDropdown = () => {
         }
       }}
       className={cn(
-        "flex flex-col gap-4 p-6 items-center justify-center pb-10",
+        "flex flex-col gap-4 items-center justify-center",
         "fixed z-50 -top-2 left-[5%]",
         "cursor-pointer transition-all duration-300 ease-in-out",
         "overflow-hidden border-0",
@@ -94,6 +94,9 @@ const OptionsBannerDropdown = () => {
         backgroundRepeat: "no-repeat",
         backgroundPosition: "bottom",
         backgroundSize: "cover",
+        paddingInline: "2%",
+        paddingTop: "2%",
+        paddingBottom: "3%",
         width: "4rem",
         minHeight: "15rem",
       }}
