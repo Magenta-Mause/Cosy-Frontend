@@ -36,7 +36,7 @@ interface SettingsContextType {
 
 const SettingsProvider = createContext<SettingsContextType>({
   settings: { serverName: "" },
-  setSettings: () => () => {},
+  setSettings: () => () => { },
 });
 
 const ResizableLabel = ({ label }: { label: string }) => {
@@ -176,8 +176,8 @@ const GameServerSettingsLayout = ({
                       tooltip={
                         !isLinkReachable
                           ? tGlobal("settings.noAccessFor", {
-                              element: label,
-                            })
+                            element: label,
+                          })
                           : null
                       }
                       side={"right"}

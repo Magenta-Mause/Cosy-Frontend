@@ -115,6 +115,12 @@ export type i18nLanguage = {
     confirm: string;
   };
 
+  deleteGameServerSuccessDialog: {
+    title: string;
+    description: string;
+    confirm: string;
+  };
+
   logOutDialog: {
     title: string;
     description: string;
@@ -406,6 +412,41 @@ export type i18nLanguage = {
         title: string;
         description: string;
         errorLabel: string;
+      };
+      uncosyZone: {
+        title: string;
+        transferOwnership: {
+          title: string;
+          description: string;
+          button: string;
+          dialog: {
+            title: string;
+            description: string;
+            userNotFound: string;
+            inputPlaceholder: string;
+            confirm: string;
+            cancel: string;
+            inputLabel: string;
+            successTitle: string;
+            successMessage: string;
+            close: string;
+            checking: string;
+          };
+          confirmationDialog: {
+            title: string;
+            description: string;
+            newOwner: string;
+            confirm: string;
+            cancel: string;
+            transferring: string;
+            transferError: string;
+          };
+        };
+        delete: {
+          title: string;
+          description: string;
+          button: string;
+        };
       };
     };
     userManagement: {
