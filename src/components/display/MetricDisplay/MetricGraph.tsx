@@ -11,11 +11,16 @@ import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import type { NameType, Payload, ValueType } from "recharts/types/component/DefaultTooltipContent";
 import type { MetricLayoutMetricType, MetricValues } from "@/api/generated/model";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
-import { MetricsType } from "@/types/metricsTyp";
+import {
+  extractCustomMetricKey,
+  formatMetricDisplayName,
+  isCustomMetric,
+  MetricsType,
+} from "@/types/metricsTyp";
 
 interface MetricGraphProps {
   className?: string;
-  type: MetricsType | MetricLayoutMetricType;
+  type: MetricsType | MetricLayoutMetricType | string;
   timeUnit: string;
   metrics: GameServerMetricsWithUuid[];
   canReadMetrics?: boolean;
@@ -55,6 +60,9 @@ const MetricGraph = (props: MetricGraphProps) => {
       return `${(value).toFixed(2)}%`;
     } else if (type === MetricsType.MEMORY_USAGE || type === MetricsType.MEMORY_LIMIT) {
       return convertBytes(value, 1024, ["Bytes", "KiB", "MiB", "GiB", "TiB"]);
+    } else if (isCustomMetric(type)) {
+      // For custom metrics, show raw value with 2 decimal places
+      return value.toFixed(2);
     }
     return convertBytes(value, 1000, ["Bytes", "KB", "MB", "GB", "TB"]);
   };
@@ -87,16 +95,84 @@ const MetricGraph = (props: MetricGraphProps) => {
     });
   };
 
+  const getMetricValue = (metric: GameServerMetricsWithUuid): number | string => {
+    if (isCustomMetric(type)) {
+      const customKey = extractCustomMetricKey(type);
+      const customValue = metric.metric_values?.custom_metric_holder?.[customKey];
+      // Return the raw value (can be number or string)
+      if (typeof customValue === "number" || typeof customValue === "string") {
+        return customValue;
+      }
+      return 0;
+    }
+
+    return (metric.metric_values?.[METRIC_KEY_MAP[type as MetricsType]] as number) ?? 0;
+  };
+
+  const isStringMetric = (): boolean => {
+    if (!isCustomMetric(type) || !metrics?.length) return false;
+
+    const latestMetric = metrics[metrics.length - 1];
+    const value = getMetricValue(latestMetric);
+
+    // Check if value is a string or cannot be parsed as a number
+    if (typeof value === "string") {
+      const parsed = Number(value);
+      return Number.isNaN(parsed);
+    }
+
+    return false;
+  };
+
+  const getLatestStringValue = (): string => {
+    if (!metrics?.length) return "";
+    const latestMetric = metrics[metrics.length - 1];
+    const value = getMetricValue(latestMetric);
+    return typeof value === "string" ? value : String(value);
+  };
+
+  const getDisplayName = (): string => {
+    if (isCustomMetric(type)) {
+      return formatMetricDisplayName(extractCustomMetricKey(type));
+    }
+    return t(`metrics.types.${type}`);
+  };
+
   useEffect(() => {
     if (!metrics?.length) return;
 
+    // Check if this is a string metric
+    if (isCustomMetric(type) && metrics.length > 0) {
+      const latestMetric = metrics[metrics.length - 1];
+      if (isCustomMetric(type)) {
+        const customKey = extractCustomMetricKey(type);
+        const customValue = latestMetric?.metric_values?.custom_metric_holder?.[customKey];
+        if (typeof customValue === "string" && Number.isNaN(Number(customValue))) {
+          return; // Skip chart data for string metrics
+        }
+      }
+    }
+
     const flattened = metrics
       .map((metric) => {
-        const value = metric.metric_values?.[METRIC_KEY_MAP[type]] ?? 0;
+        let value: number | string = 0;
+        if (isCustomMetric(type)) {
+          const customKey = extractCustomMetricKey(type);
+          const customValue = metric.metric_values?.custom_metric_holder?.[customKey];
+          if (typeof customValue === "number" || typeof customValue === "string") {
+            value = customValue;
+          } else {
+            value = 0;
+          }
+        } else {
+          value = (metric.metric_values?.[METRIC_KEY_MAP[type as MetricsType]] as number) ?? 0;
+        }
+
+        const numericValue = typeof value === "number" ? value : Number(value);
         const timeString = metric.time ?? "";
         return {
           time: timeString ? new Date(timeString).getTime() : 0,
-          value,
+          value: Number.isNaN(numericValue) ? 0 : numericValue,
         };
       })
       .filter((metric) => metric.time !== 0);
@@ -104,61 +180,78 @@ const MetricGraph = (props: MetricGraphProps) => {
     setChartData(flattened);
   }, [metrics, type]);
 
+  const displayName = getDisplayName();
+  const showStringValue = isStringMetric();
+
   return (
     <Card
       className={`flex flex-col col-span-3 text-lg py-5 bg-button-secondary-default border-2 relative ${className}`}
     >
       <CardHeader>
         <div>
-          <CardTitle>{t(`metrics.types.${type}`)}</CardTitle>
+          <CardTitle>{displayName}</CardTitle>
           <CardDescription>
-            {t("metrics.metricDescription", { type: t(`metrics.types.${type}`) })}
+            {showStringValue
+              ? t("metrics.currentValue", { type: displayName })
+              : isCustomMetric(type)
+                ? t("metrics.metricDescriptionCustom", { type: displayName })
+                : t("metrics.metricDescription", { type: displayName })}
           </CardDescription>
         </div>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="aspect-auto h-62.5 w-full">
-          <AreaChart accessibilityLayer data={chartData}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="time"
-              type="number"
-              domain={["dataMin", "dataMax"]}
-              tickCount={10}
-              tickLine={false}
-              axisLine={false}
-              tickMargin={10}
-              tickFormatter={formatTime}
-            />
-            <YAxis
-              tickLine={false}
-              axisLine={false}
-              tickMargin={10}
-              tickFormatter={formateMetric}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  labelFormatter={formatTooltipTime}
-                  formatter={(value) => {
-                    return [formateMetric(value as number), ` ${t(`metrics.types.${type}`)}`];
-                  }}
-                />
-              }
-            />
-            <Area
-              dataKey="value"
-              type="monotone"
-              stroke="#3E8EDE"
-              fill="#3E8EDE"
-              fillOpacity={0.4}
-              strokeWidth={2}
-              dot={false}
-              isAnimationActive={false}
-            />
-          </AreaChart>
-        </ChartContainer>
+        {showStringValue ? (
+          <div className="flex items-center justify-center h-62.5 w-full">
+            <div className="text-center">
+              <div className="text-5xl font-bold text-primary mb-2 break-words max-w-full px-4">
+                {getLatestStringValue()}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <ChartContainer config={chartConfig} className="aspect-auto h-62.5 w-full">
+            <AreaChart accessibilityLayer data={chartData}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="time"
+                type="number"
+                domain={["dataMin", "dataMax"]}
+                tickCount={10}
+                tickLine={false}
+                axisLine={false}
+                tickMargin={10}
+                tickFormatter={formatTime}
+              />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickMargin={10}
+                tickFormatter={formateMetric}
+              />
+              <ChartTooltip
+                cursor={false}
+                content={
+                  <ChartTooltipContent
+                    labelFormatter={formatTooltipTime}
+                    formatter={(value) => {
+                      return [formateMetric(value as number), ` ${displayName}`];
+                    }}
+                  />
+                }
+              />
+              <Area
+                dataKey="value"
+                type="monotone"
+                stroke="#3E8EDE"
+                fill="#3E8EDE"
+                fillOpacity={0.4}
+                strokeWidth={2}
+                dot={false}
+                isAnimationActive={false}
+              />
+            </AreaChart>
+          </ChartContainer>
+        )}
       </CardContent>
 
       {!canReadMetrics && (
