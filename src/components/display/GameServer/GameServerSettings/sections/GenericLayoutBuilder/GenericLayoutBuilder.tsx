@@ -7,15 +7,11 @@ import { Plus, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
-import {
-  type GameServerDto,
-  type MetricLayout,
-  type PrivateDashboardLayout,
-  PrivateDashboardLayoutPrivateDashboardTypes,
-} from "@/api/generated/model";
+import type { GameServerDto, MetricLayout, PrivateDashboardLayout } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
+import { DashboardTypes } from "@/types/DashboardTypes";
 import { LayoutSize } from "@/types/layoutSize";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
 import UnsavedModal from "./UnsavedModal";
@@ -23,10 +19,11 @@ import UnsavedModal from "./UnsavedModal";
 interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: LayoutSize }> {
   gameServer: GameServerDto;
   defaultAddNew: T;
-  layoutSection: "private_dashboard_layouts" | "metric_layout";
+  layoutSection: "private_dashboard_layouts" | "metric_layout" | "public_dashboard_layouts";
   isChanged: boolean;
   layouts: T[];
   unfulfilledChanges?: string | null;
+  publicIsEnabled?: boolean;
   setUnfulfilledChanges?: (message: string | null) => void;
   saveHandler?: (uuid: string, layouts: PrivateDashboardLayout[] | MetricLayout[]) => void;
   setLayouts: React.Dispatch<React.SetStateAction<T[]>>;
@@ -43,8 +40,9 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
     layouts,
     unfulfilledChanges,
     layoutSection,
-    setLayouts,
     defaultAddNew,
+    publicIsEnabled,
+    setLayouts,
     setUnfulfilledChanges,
     children,
     saveHandler,
@@ -62,6 +60,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
   const handleConfirm = () => {
     const updatedServer: GameServerDto = {
       ...gameServer,
+      public_dashboard_enabled: publicIsEnabled,
       [layoutSection]: layouts.map(({ _uiUuid, ...layout }) => layout),
     };
 
@@ -69,7 +68,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
       .filter((layout) => {
         const l = layout as PrivateDashboardLayoutUI;
         return (
-          l.private_dashboard_types === PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT &&
+          l.private_dashboard_types === DashboardTypes.FREETEXT &&
           (l.content === undefined ||
             l.content?.length === 0 ||
             l.content?.some((c) => !c.key || !c.value))
@@ -128,15 +127,13 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
     enableBeforeUnload: isChanged,
   });
 
-  useEffect(() => {
-    console.log("changed:", isChanged);
-  }, [isChanged]);
+  useEffect(() => { console.log(publicIsEnabled) }, [publicIsEnabled]);
 
   return (
     <>
-      <div className="flex w-full pt-3">
-        <Card className="w-full h-[65vh]">
-          <CardContent className="grid grid-cols-6 gap-4 overflow-scroll p-6">
+      <div className={`flex w-full pt-3 ${!publicIsEnabled ? "pointer-events-none blur-xs " : ""}`}>
+        <Card className={"w-full h-[65vh]"}>
+          <CardContent className={"grid grid-cols-6 gap-4 overflow-scroll p-6"}>
             {layouts.map((layout) => (
               <Card
                 key={layout._uiUuid}
@@ -149,7 +146,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
                 <Button
                   variant={"destructive"}
                   className={
-                    "flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2"
+                    cn("flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2", publicIsEnabled)
                   }
                   onClick={() => handleOnDelete(layout._uiUuid)}
                 >

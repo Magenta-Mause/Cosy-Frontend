@@ -1,46 +1,64 @@
 import MetricDropDown from "@components/display/DropDown/MetricDropDown";
 import WidgetDropDown from "@components/display/DropDown/WidgetDropDown";
 import { Button } from "@components/ui/button";
+import { Checkbox } from "@components/ui/checkbox";
+import { Field, FieldGroup, FieldLabel } from "@components/ui/field";
 import { SquarePen } from "lucide-react";
 import { useMemo, useState } from "react";
+import { v7 as generateUuid } from "uuid";
+import { updatePublicDashboardLayout } from "@/api/generated/backend-api";
 import {
+  type GameServerDto,
   MetricLayoutSize,
-  type PrivateDashboardLayoutPrivateDashboardTypes,
+  type PublicDashboardLayout,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { DashboardTypes } from "@/types/DashboardTypes";
+import { LayoutSize } from "@/types/layoutSize";
 import { MetricsType } from "@/types/metricsTyp";
+import type { PublicDashboardLayoutUI } from "@/types/publicDashboard";
 import GenericLayoutSelection from "./GenericLayoutBuilder/GenericLayoutBuilder";
 import FreeTextModal from "./PrivateDashboardSetting/FreeTextModal";
 
-export default function PublicDashboardSettingsSection() {
+const wrapPublicDashboard = (dashboard: PublicDashboardLayout): PublicDashboardLayoutUI => ({
+  ...dashboard,
+  _uiUuid: dashboard.uuid ?? generateUuid(),
+});
+
+const wrapPublicDashboards = (dashboard: PublicDashboardLayout[]): PublicDashboardLayoutUI[] =>
+  dashboard.map(wrapPublicDashboard);
+
+export default function PublicDashboardSettingsSection(props: { gameServer: GameServerDto }) {
   const { gameServer } = props;
   const { t } = useTranslationPrefix("components");
-  const [privateDashboard, setPrivateDashboard] = useState<PrivateDashboardLayoutUI[]>(() =>
-    wrapPrivateDashboards(gameServer.private_dashboard_layouts),
+  const [publicDashboard, setPublicDashboard] = useState<PublicDashboardLayoutUI[]>(() =>
+    wrapPublicDashboards(gameServer.public_dashboard_layouts),
   );
-  const [freeText, setFreeText] = useState<PrivateDashboardLayoutUI | null>(null);
+  const [freeText, setFreeText] = useState<PublicDashboardLayoutUI | null>(null);
   const [unfulfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
+  const [checked, setChecked] = useState(gameServer.public_dashboard_enabled ?? false);
 
   const isChanged = useMemo(() => {
-    if (privateDashboard.length !== gameServer.private_dashboard_layouts.length) return true;
+    if (publicDashboard.length !== gameServer.public_dashboard_layouts.length) return true;
 
-    return privateDashboard.some((dashboard, i) => {
-      const original = gameServer.private_dashboard_layouts[i];
+    return publicDashboard.some((dashboard, i) => {
+      const original = gameServer.public_dashboard_layouts[i];
       return (
+        gameServer.public_dashboard_enabled !== checked ||
         dashboard.size !== original.size ||
         dashboard.metric_type !== original.metric_type ||
         dashboard.content !== original.content ||
         dashboard.title !== original.title ||
-        dashboard.private_dashboard_types !== original.private_dashboard_types ||
+        dashboard.public_dashboard_types !== original.public_dashboard_types ||
         JSON.stringify(dashboard.content ?? []) !== JSON.stringify(original.content ?? [])
       );
     });
-  }, [gameServer.private_dashboard_layouts, privateDashboard]);
+  }, [gameServer.public_dashboard_layouts, publicDashboard, gameServer.public_dashboard_enabled, checked]);
 
   const isModalChanged = useMemo(() => {
     if (!freeText) return false;
 
-    const original = privateDashboard.find((d) => d._uiUuid === freeText._uiUuid);
+    const original = publicDashboard.find((d) => d._uiUuid === freeText._uiUuid);
 
     if (!original) return false;
 
@@ -48,25 +66,25 @@ export default function PublicDashboardSettingsSection() {
       freeText.title !== original.title ||
       JSON.stringify(freeText.content ?? []) !== JSON.stringify(original.content ?? [])
     );
-  }, [freeText, privateDashboard]);
+  }, [freeText, publicDashboard]);
 
   const sanitizePrivateDashboardLayout = (
-    layout: PrivateDashboardLayoutUI,
-    type: PrivateDashboardLayoutPrivateDashboardTypes,
-  ): PrivateDashboardLayoutUI => {
-    const layoutObject: PrivateDashboardLayoutUI = {
+    layout: PublicDashboardLayoutUI,
+    type: DashboardTypes,
+  ): PublicDashboardLayoutUI => {
+    const layoutObject: PublicDashboardLayoutUI = {
       _uiUuid: layout._uiUuid,
-      private_dashboard_types: type,
+      public_dashboard_types: type,
       size: layout.size ?? LayoutSize.MEDIUM,
       uuid: layout.uuid,
       valid: true,
     };
 
-    if (type === PrivateDashboardLayoutPrivateDashboardTypes.METRIC) {
-      layoutObject.metric_type = layout.metric_type ?? "CPU_PERCENT";
+    if (type === DashboardTypes.METRIC) {
+      layoutObject.metric_type = layout.metric_type ?? MetricsType.CPU_PERCENT;
     }
 
-    if (type === PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT) {
+    if (type === DashboardTypes.FREETEXT) {
       layoutObject.content = layout.content ?? [{ key: "", value: "" }];
       layoutObject.title = layout.title ?? "";
     }
@@ -74,10 +92,10 @@ export default function PublicDashboardSettingsSection() {
     return layoutObject;
   };
 
-  const handleTypeSelect = (type: PrivateDashboardLayoutPrivateDashboardTypes, uuid?: string) => {
+  const handleTypeSelect = (type: DashboardTypes, uuid?: string) => {
     if (!uuid) return;
 
-    setPrivateDashboard((prev) =>
+    setPublicDashboard((prev) =>
       prev.map((dashboard) =>
         dashboard._uiUuid === uuid ? sanitizePrivateDashboardLayout(dashboard, type) : dashboard,
       ),
@@ -87,8 +105,8 @@ export default function PublicDashboardSettingsSection() {
   const handleMetricTypeChange = (type: MetricsType, uuid?: string) => {
     if (!uuid) return;
 
-    setPrivateDashboard(
-      privateDashboard.map((dashboard) =>
+    setPublicDashboard(
+      publicDashboard.map((dashboard) =>
         dashboard._uiUuid === uuid ? { ...dashboard, metric_type: type } : dashboard,
       ),
     );
@@ -97,7 +115,7 @@ export default function PublicDashboardSettingsSection() {
   const handleModalConfirm = () => {
     if (!freeText) return;
 
-    setPrivateDashboard((prev) =>
+    setPublicDashboard((prev) =>
       prev.map((dashboard) =>
         dashboard._uiUuid === freeText._uiUuid
           ? { ...dashboard, content: freeText.content, title: freeText.title }
@@ -107,7 +125,7 @@ export default function PublicDashboardSettingsSection() {
     setFreeText(null);
   };
 
-  const handleFreeTextEdit = (dashboard: PrivateDashboardLayoutUI) => {
+  const handleFreeTextEdit = (dashboard: PublicDashboardLayoutUI) => {
     const normalized =
       dashboard.content?.map((item) => ({
         key: item.key ?? "",
@@ -120,8 +138,8 @@ export default function PublicDashboardSettingsSection() {
     });
   };
 
-  const newWidget = wrapPrivateDashboard({
-    private_dashboard_types: PrivateDashboardLayoutPrivateDashboardTypes.METRIC,
+  const newWidget = wrapPublicDashboard({
+    public_dashboard_types: DashboardTypes.METRIC,
     metric_type: MetricsType.CPU_PERCENT,
     size: MetricLayoutSize.MEDIUM,
   });
@@ -129,41 +147,52 @@ export default function PublicDashboardSettingsSection() {
   return (
     <>
       <h2>{t("GameServerSettings.sections.publicDashboard")}</h2>
-      <GenericLayoutSelection<PrivateDashboardLayoutUI>
+      <FieldGroup className="my-1">
+        <Field orientation={"horizontal"}>
+          <Checkbox
+            checked={checked}
+            onCheckedChange={(checked) => {
+              if (checked === "indeterminate") return;
+              setChecked(checked);
+            }}
+          />
+          <FieldLabel>Make Visable</FieldLabel>
+        </Field>
+      </FieldGroup>
+      <GenericLayoutSelection<PublicDashboardLayoutUI>
         gameServer={gameServer}
-        layoutSection="private_dashboard_layouts"
+        layoutSection="public_dashboard_layouts"
         isChanged={isChanged}
-        layouts={privateDashboard}
-        saveHandler={updatePrivateDashboard}
-        setLayouts={setPrivateDashboard}
-        wrapper={wrapPrivateDashboards}
+        layouts={publicDashboard}
+        saveHandler={updatePublicDashboardLayout}
+        setLayouts={setPublicDashboard}
+        wrapper={wrapPublicDashboards}
         defaultAddNew={newWidget}
         unfulfilledChanges={unfulfilledChanges}
         setUnfulfilledChanges={setUnfulfilledChanges}
+        publicIsEnabled={checked}
       >
         {(dashboard) => (
           <>
-            <div className="flex gap-2">
+            <div className={"flex gap-2"}>
               <WidgetDropDown
-                widgetType={dashboard.private_dashboard_types}
+                widgetType={dashboard.public_dashboard_types}
                 setWidgetType={(type) => {
                   handleTypeSelect(type, dashboard._uiUuid);
                 }}
               />
-              {dashboard.private_dashboard_types ===
-                PrivateDashboardLayoutPrivateDashboardTypes.METRIC && (
-                  <MetricDropDown
-                    className="flex-1"
-                    metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
-                    setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
-                  />
-                )}
-              {dashboard.private_dashboard_types ===
-                PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT && (
-                  <Button variant={"secondary"} onClick={() => handleFreeTextEdit(dashboard)}>
-                    <SquarePen className="size-6" />
-                  </Button>
-                )}
+              {dashboard.public_dashboard_types === DashboardTypes.METRIC && (
+                <MetricDropDown
+                  className="flex-1"
+                  metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
+                  setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
+                />
+              )}
+              {dashboard.public_dashboard_types === DashboardTypes.FREETEXT && (
+                <Button variant={"secondary"} onClick={() => handleFreeTextEdit(dashboard)}>
+                  <SquarePen className="size-6" />
+                </Button>
+              )}
             </div>
           </>
         )}
