@@ -29,7 +29,7 @@ import type { GameServerDto, MetricLayout, PrivateDashboardLayout } from "@/api/
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
-import { DashboardTypes } from "@/types/DashboardTypes";
+import { DashboardTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
 import UnsavedModal from "./UnsavedModal";
@@ -60,7 +60,7 @@ function SortableCard({
       className={cn(
         className,
         "cursor-grab active:cursor-grabbing touch-manipulation shadow-lg",
-        isDragging && "!scale-100 shadow-2xl z-10",
+        isDragging && "scale-100! shadow-2xl z-10",
       )}
       {...attributes}
       {...listeners}
@@ -152,7 +152,16 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
 
     dispatch(gameServerSliceActions.updateGameServer(updatedServer));
     saveHandler?.(gameServer.uuid, updatedServer[layoutSection]);
-  }, [gameServer, layoutSection, layouts, dispatch, saveHandler, setUnfulfilledChanges, t]);
+  }, [
+    gameServer,
+    layoutSection,
+    layouts,
+    dispatch,
+    saveHandler,
+    setUnfulfilledChanges,
+    t,
+    publicIsEnabled,
+  ]);
 
   const handleWidthSelect = useCallback(
     (size: LayoutSize, uuid?: string) => {

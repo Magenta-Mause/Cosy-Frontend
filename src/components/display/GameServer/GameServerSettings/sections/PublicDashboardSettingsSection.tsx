@@ -13,7 +13,7 @@ import {
   type PublicDashboardLayout,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { DashboardTypes } from "@/types/DashboardTypes";
+import { DashboardTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize";
 import { MetricsType } from "@/types/metricsTyp";
 import type { PublicDashboardLayoutUI } from "@/types/publicDashboard";
