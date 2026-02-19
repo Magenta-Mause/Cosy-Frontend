@@ -46,6 +46,12 @@ const translation: i18nLanguage = {
     updateGameServerSuccess: "Game Server updated successfully!",
     updateGameServerError: "Failed to update Game Server",
     missingUuid: "UUID is missing",
+    createWebhookSuccess: "Webhook created successfully!",
+    createWebhookError: "Failed to create webhook",
+    updateWebhookSuccess: "Webhook updated successfully!",
+    updateWebhookError: "Failed to update webhook",
+    deleteWebhookSuccess: "Webhook deleted successfully!",
+    deleteWebhookError: "Failed to delete webhook",
   },
   userModal: {
     title: "Users",
@@ -534,6 +540,20 @@ const translation: i18nLanguage = {
         },
         createSuccess: "Webhook created successfully.",
         deleteSuccess: "Webhook deleted successfully.",
+        types: {
+          DISCORD: "Discord",
+          SLACK: "Slack",
+          N8N: "n8n",
+        },
+        events: {
+          SERVER_STARTED: "Server Started",
+          SERVER_STOPPED: "Server Stopped",
+          SERVER_FAILED: "Server Failed",
+        },
+        validation: {
+          webhookUrlRequired: "Webhook URL is required",
+          webhookUrlInvalid: "Webhook URL must start with http:// or https://",
+        },
       },
       accessManagement: {
         title: "Access Management",

@@ -15,10 +15,13 @@ const useWebhookDataInteractions = () => {
   const { mutateAsync: createWebhook, isPending: isCreatingWebhook } = useCreateWebhook({
     mutation: {
       onSuccess: async () => {
-        toast.success(t("createSuccess"));
+        toast.success(t("createWebhookSuccess"));
         await queryClient.invalidateQueries({
           queryKey: getGetAllWebhooksQueryKey(),
         });
+      },
+      onError: () => {
+        toast.error(t("createWebhookError"));
       },
     },
   });
@@ -26,10 +29,13 @@ const useWebhookDataInteractions = () => {
   const { mutateAsync: updateWebhook } = useUpdateWebhook({
     mutation: {
       onSuccess: async () => {
-        toast.success(t("updateSuccess"));
+        toast.success(t("updateWebhookSuccess"));
         await queryClient.invalidateQueries({
           queryKey: getGetAllWebhooksQueryKey(),
         });
+      },
+      onError: () => {
+        toast.error(t("updateWebhookError"));
       },
     },
   });
@@ -37,10 +43,13 @@ const useWebhookDataInteractions = () => {
   const { mutateAsync: deleteWebhook } = useDeleteWebhook({
     mutation: {
       onSuccess: async () => {
-        toast.success(t("deleteSuccess"));
+        toast.success(t("deleteWebhookSuccess"));
         await queryClient.invalidateQueries({
           queryKey: getGetAllWebhooksQueryKey(),
         });
+      },
+      onError: () => {
+        toast.error(t("deleteWebhookError"));
       },
     },
   });

@@ -41,6 +41,12 @@ export type i18nLanguage = {
     updateGameServerSuccess: string;
     updateGameServerError: string;
     missingUuid: string;
+    createWebhookSuccess: string;
+    createWebhookError: string;
+    updateWebhookSuccess: string;
+    updateWebhookError: string;
+    deleteWebhookSuccess: string;
+    deleteWebhookError: string;
   };
 
   userModal: {
@@ -589,6 +595,20 @@ export type i18nLanguage = {
         };
         createSuccess: string;
         deleteSuccess: string;
+        types: {
+          DISCORD: string;
+          SLACK: string;
+          N8N: string;
+        };
+        events: {
+          SERVER_STARTED: string;
+          SERVER_STOPPED: string;
+          SERVER_FAILED: string;
+        };
+        validation: {
+          webhookUrlRequired: string;
+          webhookUrlInvalid: string;
+        };
       };
       privateDashboard: {
         add: string;

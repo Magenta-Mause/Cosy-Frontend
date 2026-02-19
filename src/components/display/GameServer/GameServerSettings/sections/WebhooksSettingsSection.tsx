@@ -16,6 +16,12 @@ import useWebhookDataInteractions from "@/hooks/useWebhookDataInteractions/useWe
 const WEBHOOK_TYPES = Object.values(WebhookCreationDtoWebhookType);
 const WEBHOOK_EVENTS = Object.values(WebhookCreationDtoSubscribedEventsItem);
 
+const isValidWebhookUrl = (url: string): boolean => {
+  const trimmedUrl = url.trim();
+  if (!trimmedUrl) return false;
+  return trimmedUrl.startsWith("http://") || trimmedUrl.startsWith("https://");
+};
+
 const WebhooksSettingsSection = () => {
   const { t } = useTranslationPrefix("components.GameServerSettings.webhooks");
   const { gameServer } = useSelectedGameServer();
@@ -24,6 +30,7 @@ const WebhooksSettingsSection = () => {
     WebhookCreationDtoWebhookType.DISCORD,
   );
   const [webhookUrl, setWebhookUrl] = useState("");
+  const [webhookUrlError, setWebhookUrlError] = useState<string | null>(null);
   const [enabled, setEnabled] = useState(true);
   const [subscribedEvents, setSubscribedEvents] = useState<WebhookEvent[]>([
     WebhookCreationDtoSubscribedEventsItem.SERVER_STARTED,
@@ -36,6 +43,24 @@ const WebhooksSettingsSection = () => {
 
   const { createWebhook, deleteWebhook, isCreatingWebhook } = useWebhookDataInteractions();
 
+  const validateWebhookUrl = (url: string): string | null => {
+    const trimmedUrl = url.trim();
+    if (!trimmedUrl) {
+      return t("validation.webhookUrlRequired");
+    }
+    if (!isValidWebhookUrl(url)) {
+      return t("validation.webhookUrlInvalid");
+    }
+    return null;
+  };
+
+  const handleWebhookUrlChange = (value: string) => {
+    setWebhookUrl(value);
+    if (webhookUrlError) {
+      setWebhookUrlError(null);
+    }
+  };
+
   const isCreateDisabled =
     !gameServerUuid ||
     isCreatingWebhook ||
@@ -44,6 +69,13 @@ const WebhooksSettingsSection = () => {
 
   const onCreateWebhook = async () => {
     if (isCreateDisabled) return;
+
+    const error = validateWebhookUrl(webhookUrl);
+    if (error) {
+      setWebhookUrlError(error);
+      return;
+    }
+
     await createWebhook({
       gameserverUuid: gameServerUuid,
       data: {
@@ -78,6 +110,14 @@ const WebhooksSettingsSection = () => {
     }
   };
 
+  const getWebhookTypeLabel = (type: WebhookType): string => {
+    return t(`types.${type}`);
+  };
+
+  const getEventLabel = (event: WebhookEvent): string => {
+    return t(`events.${event}`);
+  };
+
   return (
     <div className="pr-3 pb-10 gap-6 flex flex-col">
       <div>
@@ -96,7 +136,7 @@ const WebhooksSettingsSection = () => {
         >
           {WEBHOOK_TYPES.map((value) => (
             <option key={value} value={value}>
-              {value}
+              {getWebhookTypeLabel(value)}
             </option>
           ))}
         </select>
@@ -105,8 +145,9 @@ const WebhooksSettingsSection = () => {
           id="webhook-url"
           header={t("form.webhookUrl")}
           value={webhookUrl}
-          onChange={(event) => setWebhookUrl(event.target.value)}
+          onChange={(event) => handleWebhookUrlChange(event.target.value)}
           placeholder="https://example.com/webhook"
+          error={webhookUrlError ?? undefined}
         />
 
         <button
@@ -128,7 +169,7 @@ const WebhooksSettingsSection = () => {
               onClick={() => onToggleSubscribedEvent(event, !subscribedEvents.includes(event))}
             >
               <Checkbox checked={subscribedEvents.includes(event)} className="size-5" />
-              <span className="text-sm">{event}</span>
+              <span className="text-sm">{getEventLabel(event)}</span>
             </button>
           ))}
         </div>
@@ -157,7 +198,8 @@ const WebhooksSettingsSection = () => {
           >
             <div className="min-w-0">
               <p className="text-sm">
-                <span className="font-semibold">{t("labels.type")}:</span> {webhook.webhook_type}
+                <span className="font-semibold">{t("labels.type")}:</span>{" "}
+                {webhook.webhook_type ? getWebhookTypeLabel(webhook.webhook_type) : "-"}
               </p>
               <p className="text-sm break-all">
                 <span className="font-semibold">{t("labels.url")}:</span> {webhook.webhook_url}
@@ -168,7 +210,7 @@ const WebhooksSettingsSection = () => {
               </p>
               <p className="text-sm">
                 <span className="font-semibold">{t("labels.events")}:</span>{" "}
-                {(webhook.subscribed_events ?? []).join(", ")}
+                {(webhook.subscribed_events ?? []).map((event) => getEventLabel(event)).join(", ")}
               </p>
             </div>
             <div>
