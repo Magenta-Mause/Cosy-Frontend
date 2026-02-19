@@ -530,6 +530,9 @@ const translation: i18nLanguage = {
           error: "Please set a key value pair",
         },
       },
+      publicDashboard: {
+        label: "Make Public Dashboard Visable",
+      },
     },
     gameServerSettings: {
       rconSettings: {

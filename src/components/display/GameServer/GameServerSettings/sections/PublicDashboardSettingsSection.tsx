@@ -107,7 +107,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
     );
   };
 
-  const handleMetricTypeChange = (type: MetricsType, uuid?: string) => {
+  const handleMetricTypeChange = (type: MetricsType | string, uuid?: string) => {
     if (!uuid) return;
 
     setPublicDashboard(
@@ -161,7 +161,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
               setChecked(checked);
             }}
           />
-          <FieldLabel>Make Visable</FieldLabel>
+          <FieldLabel>{t("GameServerSettings.publicDashboard.label")}</FieldLabel>
         </Field>
       </FieldGroup>
       <GenericLayoutSelection<PublicDashboardLayoutUI>

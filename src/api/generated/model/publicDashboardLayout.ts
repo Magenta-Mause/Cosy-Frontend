@@ -7,14 +7,13 @@
  */
 import type { PublicDashboardLayoutSize } from './publicDashboardLayoutSize';
 import type { PublicDashboardLayoutPublicDashboardTypes } from './publicDashboardLayoutPublicDashboardTypes';
-import type { PublicDashboardLayoutMetricType } from './publicDashboardLayoutMetricType';
 import type { KeyValue } from './keyValue';
 
 export interface PublicDashboardLayout {
   uuid?: string;
   size?: PublicDashboardLayoutSize;
   public_dashboard_types?: PublicDashboardLayoutPublicDashboardTypes;
-  metric_type?: PublicDashboardLayoutMetricType;
+  metric_type?: string;
   title?: string;
   content?: KeyValue[];
   valid?: boolean;

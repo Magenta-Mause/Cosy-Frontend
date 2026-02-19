@@ -221,10 +221,12 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
             "relative border-2 border-primary-border rounded-md bg-background/80 w-full h-[16vh] justify-center",
             COL_SPAN_MAP[layout.size ?? LayoutSize.MEDIUM],
             cardErrors.has(layout._uiUuid) && "border-destructive bg-destructive/20",
+            `${isEnabled ? "" : "pointer-events-none bg-gray-300/50"}`,
           )}
         >
           <Button
             variant="destructive"
+            disabled={!isEnabled}
             className="flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 z-10"
             onClick={(e) => {
               e.stopPropagation();
@@ -241,6 +243,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
             <div className="flex flex-col gap-2">
               {children?.(layout)}
               <SizeDropDown
+                className={`${isEnabled ? "" : "pointer-events-none opacity-50 bg-gray-300"}`}
                 size={layout?.size ?? LayoutSize.MEDIUM}
                 uuid={layout._uiUuid}
                 handleWidthSelect={handleWidthSelect}
@@ -249,7 +252,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
           </div>
         </SortableCard>
       )),
-    [layouts, cardErrors, children, t, handleWidthSelect, handleOnDelete],
+    [layouts, cardErrors, children, t, handleWidthSelect, handleOnDelete, isEnabled],
   );
 
   useBlocker({
@@ -281,14 +284,15 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
                 {activeLayout ? (
                   <Card
                     className={cn(
-                      "relative border-2 border-primary rounded-md bg-background/90 shadow-2xl h-[16vh] justify-center cursor-dragging z-50",
+                      `relative border-2 border-primary rounded-md bg-background/90 shadow-2xl h-[16vh] justify-center cursor-dragging z-50`,
                       COL_SPAN_MAP[activeLayout.size ?? LayoutSize.MEDIUM],
                       cardErrors.has(activeLayout._uiUuid) &&
-                        "border-destructive bg-destructive/20",
+                      "border-destructive bg-destructive/20",
                     )}
                   >
                     <Button
                       variant="destructive"
+                      disabled={isEnabled}
                       className="pointer-events-none flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 opacity-50 z-10"
                     >
                       <X />
@@ -305,7 +309,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
                         <SizeDropDown
                           size={activeLayout?.size ?? LayoutSize.MEDIUM}
                           uuid={activeLayout._uiUuid}
-                          handleWidthSelect={() => {}} // Disabled during drag
+                          handleWidthSelect={() => { }} // Disabled during drag
                         />
                       </div>
                     </div>

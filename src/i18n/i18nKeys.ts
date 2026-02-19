@@ -581,6 +581,9 @@ export type i18nLanguage = {
           error: string;
         };
       };
+      publicDashboard: {
+        label: string;
+      };
     };
     gameServerSettings: {
       rconSettings: {

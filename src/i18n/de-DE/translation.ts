@@ -496,6 +496,9 @@ const translation: i18nLanguage = {
           error: "Fehlendes Schlüssel-Wert-Paar",
         },
       },
+      publicDashboard: {
+        label: "Öffentliches Dashboard sichtbar machen",
+      },
     },
     gameServerSettings: {
       rconSettings: {
