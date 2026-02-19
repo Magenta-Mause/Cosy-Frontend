@@ -14,6 +14,7 @@ import type { EnvironmentVariableConfiguration } from './environmentVariableConf
 import type { VolumeMountConfiguration } from './volumeMountConfiguration';
 import type { MetricLayout } from './metricLayout';
 import type { PrivateDashboardLayout } from './privateDashboardLayout';
+import type { PublicDashboardLayout } from './publicDashboardLayout';
 import type { GameServerAccessGroupDto } from './gameServerAccessGroupDto';
 
 export interface GameServerDto {
@@ -38,5 +39,7 @@ export interface GameServerDto {
   volume_mounts: VolumeMountConfiguration[];
   metric_layout: MetricLayout[];
   private_dashboard_layouts: PrivateDashboardLayout[];
+  public_dashboard_layouts: PublicDashboardLayout[];
   access_groups: GameServerAccessGroupDto[];
+  public_dashboard_enabled?: boolean;
 }

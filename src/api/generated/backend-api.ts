@@ -41,6 +41,7 @@ import type {
   MetricPointDto,
   PasswordUpdateDto,
   PrivateDashboardLayout,
+  PublicDashboardLayout,
   QueryGamesParams,
   RCONConfiguration,
   ReadFileFromVolumeParams,
@@ -1316,6 +1317,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getUpdateRconConfigurationMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const updatePublicDashboardLayout = (
+    uuid: string,
+    publicDashboardLayout: PublicDashboardLayout[],
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/layout/public-dashboard`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: publicDashboardLayout
+    },
+      options);
+    }
+  
+
+
+export const getUpdatePublicDashboardLayoutMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePublicDashboardLayout>>, TError,{uuid: string;data: PublicDashboardLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updatePublicDashboardLayout>>, TError,{uuid: string;data: PublicDashboardLayout[]}, TContext> => {
+
+const mutationKey = ['updatePublicDashboardLayout'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePublicDashboardLayout>>, {uuid: string;data: PublicDashboardLayout[]}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updatePublicDashboardLayout(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdatePublicDashboardLayoutMutationResult = NonNullable<Awaited<ReturnType<typeof updatePublicDashboardLayout>>>
+    export type UpdatePublicDashboardLayoutMutationBody = PublicDashboardLayout[]
+    export type UpdatePublicDashboardLayoutMutationError = unknown
+
+    export const useUpdatePublicDashboardLayout = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePublicDashboardLayout>>, TError,{uuid: string;data: PublicDashboardLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updatePublicDashboardLayout>>,
+        TError,
+        {uuid: string;data: PublicDashboardLayout[]},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdatePublicDashboardLayoutMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
