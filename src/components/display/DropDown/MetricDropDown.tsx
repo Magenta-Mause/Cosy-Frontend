@@ -75,7 +75,7 @@ const MetricDropDown = (props: {
           <ChevronDown className="-m-1" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-30 bg-primary-modal-background" align="end">
+      <DropdownMenuContent className="min-w-40 bg-primary-modal-background" align="center">
         <DropdownMenuLabel className="text-xs text-muted-foreground uppercase tracking-wide">
           {t("metrics.standardMetrics")}
         </DropdownMenuLabel>
