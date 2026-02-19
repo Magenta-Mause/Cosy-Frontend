@@ -4,7 +4,7 @@ import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import { useBlocker } from "@tanstack/react-router";
 import { Plus, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import type { GameServerDto, MetricLayout, PrivateDashboardLayout } from "@/api/generated/model";
@@ -56,6 +56,8 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
   const wrap = (layout: T): T => ({ ...layout, _uiUuid: generateUuid() });
 
   const wrapper = (layouts: T[]): T[] => layouts.map(wrap);
+
+  const isEnabled = publicIsEnabled ?? true;
 
   const handleConfirm = () => {
     const updatedServer: GameServerDto = {
@@ -127,18 +129,16 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
     enableBeforeUnload: isChanged,
   });
 
-  useEffect(() => { console.log(publicIsEnabled) }, [publicIsEnabled]);
-
   return (
     <>
-      <div className={`flex w-full pt-3 ${!publicIsEnabled ? "pointer-events-none blur-xs " : ""}`}>
+      <div className={"flex w-full pt-3"}>
         <Card className={"w-full h-[65vh]"}>
           <CardContent className={"grid grid-cols-6 gap-4 overflow-scroll p-6"}>
             {layouts.map((layout) => (
               <Card
                 key={layout._uiUuid}
                 className={cn(
-                  "relative border-2 border-primary-border rounded-md bg-background/80 w-full h-[16vh] justify-center",
+                  `relative border-2 border-primary-border rounded-md bg-background/80 w-full h-[16vh] justify-center ${isEnabled ? "" : "pointer-events-none opacity-50 bg-gray-300"}`,
                   COL_SPAN_MAP[layout.size ?? LayoutSize.MEDIUM],
                   cardErrors.has(layout._uiUuid) && "border-destructive bg-destructive/20",
                 )}
@@ -146,8 +146,9 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
                 <Button
                   variant={"destructive"}
                   className={
-                    cn("flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2", publicIsEnabled)
+                    "flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2"
                   }
+                  disabled={!isEnabled}
                   onClick={() => handleOnDelete(layout._uiUuid)}
                 >
                   <X />
@@ -160,6 +161,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
                   <div className="flex flex-col gap-2">
                     {children?.(layout)}
                     <SizeDropDown
+                      className={`${isEnabled ? "" : "pointer-events-none opacity-50 bg-gray-300"}`}
                       size={layout?.size ?? LayoutSize.MEDIUM}
                       uuid={layout._uiUuid}
                       handleWidthSelect={handleWidthSelect}
@@ -171,7 +173,8 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
             <Button
               onClick={handleOnAdd}
               variant="secondary"
-              className="outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none bg-background/35"
+              className={`outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none bg-background/35 
+              ${isEnabled ? "" : "pointer-events-none opacity-50 bg-gray-300"}`}
             >
               <div className="flex items-center">
                 <Plus className="-size-2" />

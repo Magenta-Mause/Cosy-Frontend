@@ -53,7 +53,12 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
         JSON.stringify(dashboard.content ?? []) !== JSON.stringify(original.content ?? [])
       );
     });
-  }, [gameServer.public_dashboard_layouts, publicDashboard, gameServer.public_dashboard_enabled, checked]);
+  }, [
+    gameServer.public_dashboard_layouts,
+    publicDashboard,
+    gameServer.public_dashboard_enabled,
+    checked,
+  ]);
 
   const isModalChanged = useMemo(() => {
     if (!freeText) return false;
@@ -176,6 +181,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
           <>
             <div className={"flex gap-2"}>
               <WidgetDropDown
+                className={`${checked ? "" : "pointer-events-none opacity-50 bg-gray-300"}`}
                 widgetType={dashboard.public_dashboard_types}
                 setWidgetType={(type) => {
                   handleTypeSelect(type, dashboard._uiUuid);
@@ -183,13 +189,17 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
               />
               {dashboard.public_dashboard_types === DashboardTypes.METRIC && (
                 <MetricDropDown
-                  className="flex-1"
+                  className={`flex-1 ${checked ? "" : "pointer-events-none opacity-50 bg-gray-300"}`}
                   metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
                   setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
                 />
               )}
               {dashboard.public_dashboard_types === DashboardTypes.FREETEXT && (
-                <Button variant={"secondary"} onClick={() => handleFreeTextEdit(dashboard)}>
+                <Button
+                  className={`${checked ? "" : "pointer-events-none opacity-50 bg-gray-300"}`}
+                  variant={"secondary"}
+                  onClick={() => handleFreeTextEdit(dashboard)}
+                >
                   <SquarePen className="size-6" />
                 </Button>
               )}

@@ -12,6 +12,7 @@ import { MetricLayoutSize } from "@/api/generated/model";
 import type { LayoutSize } from "@/types/layoutSize";
 
 interface SizeDropDownProps {
+  className?: string;
   size: LayoutSize;
   uuid?: string;
   handleWidthSelect: (size: LayoutSize, uuid?: string) => void;
@@ -19,12 +20,12 @@ interface SizeDropDownProps {
 
 const SizeDropDown = (props: SizeDropDownProps) => {
   const { t } = useTranslation();
-  const { size, uuid, handleWidthSelect } = props;
+  const { className, size, uuid, handleWidthSelect } = props;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" className="w-full">
+        <Button variant="secondary" className={`w-full ${className}`}>
           {t(`cardWidth.${size}`)}
           <ChevronDown className="-m-1" />
         </Button>

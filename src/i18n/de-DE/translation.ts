@@ -612,6 +612,18 @@ const translation: i18nLanguage = {
             description:
               "Den Server dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
           },
+          READ_SERVER_PRIVATE_DASHBOARD: {
+            name: "Privates Dashboard ansehen",
+            description: "Das private Dashboard anzeigen.",
+          },
+          CHANGE_PRIVATE_DASHBOARD_SETTINGS: {
+            name: "Private Dashboard-Einstellungen ändern",
+            description: "Layout und Widgets des privaten Dashboards konfigurieren.",
+          },
+          CHANGE_PUBLIC_DASHBOARD_SETTINGS: {
+            name: "Öffentliche Dashboard-Einstellungen ändern",
+            description: "Layout und Widgets des öffentlichen Dashboards konfigurieren.",
+          },
         },
       },
     },
@@ -741,6 +753,10 @@ const translation: i18nLanguage = {
     SMALL: "Klein",
     MEDIUM: "Mittel",
     LARGE: "Groß",
+  },
+  dashboard: {
+    true: "Wechsel zu Privates Dashboard",
+    false: "Öffentliches Dashboard",
   },
 };
 
