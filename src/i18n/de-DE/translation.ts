@@ -616,6 +616,18 @@ const translation: i18nLanguage = {
       },
     },
     userManagement: {
+      admin: {
+        changePasswordDialog: {
+          title: "Passwort Ändern",
+          description: "Gib ein neues Passwort für diesen Benutzer ein.",
+          newPasswordLabel: "Neues Passwort",
+          newPasswordDescription: "Das neue Passwort für diesen Benutzer",
+          newPasswordPlaceholder: "Neues Passwort eingeben",
+          newPasswordError: "Passwort muss mindestens 8 Zeichen lang sein",
+          cancelButton: "Abbrechen",
+          confirmButton: "Passwort ändern",
+        },
+      },
       backButton: "Zurück",
       userDetailButton: {
         viewUsers: "Marktplatz",

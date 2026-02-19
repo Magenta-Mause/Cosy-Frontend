@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
+import ChangePasswordByAdminModal from "./ChangePasswordByAdminModal";
 import DeleteUserConfirmationModal from "./DeleteUserConfirmationModal";
 
 type UserAction = {
@@ -24,12 +25,13 @@ type UserAction = {
 const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserEntityDtoRole }) => {
   const { t } = useTranslation();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [passwordChangeDialogOpen, setPasswordChangeDialogOpen] = useState(false);
 
   const userActions: UserAction[] = [
     {
       label: t("components.userManagement.userRow.actions.editPassword"),
       onClick: () => {
-        // TODO: implement edit password
+        setPasswordChangeDialogOpen(true);
       },
     },
     {
@@ -96,6 +98,11 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
         user={props.user}
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
+      />
+      <ChangePasswordByAdminModal
+        user={props.user}
+        open={passwordChangeDialogOpen}
+        onClose={() => setPasswordChangeDialogOpen(false)}
       />
     </>
   );

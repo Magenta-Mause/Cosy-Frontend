@@ -450,6 +450,18 @@ export type i18nLanguage = {
       };
     };
     userManagement: {
+      admin: {
+        changePasswordDialog: {
+          title: string;
+          description: string;
+          newPasswordLabel: string;
+          newPasswordDescription: string;
+          newPasswordPlaceholder: string;
+          newPasswordError: string;
+          cancelButton: string;
+          confirmButton: string;
+        };
+      };
       backButton: string;
       userDetailButton: {
         viewUsers: string;

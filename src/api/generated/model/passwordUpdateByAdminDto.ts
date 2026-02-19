@@ -6,10 +6,10 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface RCONConfiguration {
-  enabled?: boolean;
-  port?: number;
-  password?: string;
-  password_valid?: boolean;
-  port_valid?: boolean;
+export interface PasswordUpdateByAdminDto {
+  /**
+   * @minLength 8
+   * @maxLength 2147483647
+   */
+  new_password: string;
 }
