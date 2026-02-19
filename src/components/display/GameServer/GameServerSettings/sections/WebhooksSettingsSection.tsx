@@ -1,15 +1,8 @@
 import { Button } from "@components/ui/button";
 import { Checkbox } from "@components/ui/checkbox";
 import { Input } from "@components/ui/input";
-import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { toast } from "sonner";
-import {
-  getGetAllWebhooksQueryKey,
-  useCreateWebhook,
-  useDeleteWebhook,
-  useGetAllWebhooks,
-} from "@/api/generated/backend-api";
+import { useGetAllWebhooks } from "@/api/generated/backend-api";
 import {
   WebhookCreationDtoSubscribedEventsItem,
   WebhookCreationDtoWebhookType,
@@ -18,6 +11,7 @@ import {
 } from "@/api/generated/model";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import useWebhookDataInteractions from "@/hooks/useWebhookDataInteractions/useWebhookDataInteractions";
 
 const WEBHOOK_TYPES = Object.values(WebhookCreationDtoWebhookType);
 const WEBHOOK_EVENTS = Object.values(WebhookCreationDtoSubscribedEventsItem);
@@ -25,7 +19,6 @@ const WEBHOOK_EVENTS = Object.values(WebhookCreationDtoSubscribedEventsItem);
 const WebhooksSettingsSection = () => {
   const { t } = useTranslationPrefix("components.GameServerSettings.webhooks");
   const { gameServer } = useSelectedGameServer();
-  const queryClient = useQueryClient();
   const gameServerUuid = gameServer.uuid ?? "";
   const [webhookType, setWebhookType] = useState<WebhookType>(
     WebhookCreationDtoWebhookType.DISCORD,
@@ -41,27 +34,7 @@ const WebhooksSettingsSection = () => {
     query: { enabled: Boolean(gameServerUuid) },
   });
 
-  const { mutateAsync: createWebhook, isPending: isCreatingWebhook } = useCreateWebhook({
-    mutation: {
-      onSuccess: async () => {
-        toast.success(t("createSuccess"));
-        await queryClient.invalidateQueries({
-          queryKey: getGetAllWebhooksQueryKey(gameServerUuid),
-        });
-      },
-    },
-  });
-
-  const { mutateAsync: deleteWebhook } = useDeleteWebhook({
-    mutation: {
-      onSuccess: async () => {
-        toast.success(t("deleteSuccess"));
-        await queryClient.invalidateQueries({
-          queryKey: getGetAllWebhooksQueryKey(gameServerUuid),
-        });
-      },
-    },
-  });
+  const { createWebhook, deleteWebhook, isCreatingWebhook } = useWebhookDataInteractions();
 
   const isCreateDisabled =
     !gameServerUuid ||
