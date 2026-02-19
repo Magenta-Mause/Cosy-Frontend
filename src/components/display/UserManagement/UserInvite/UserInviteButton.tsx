@@ -33,6 +33,7 @@ const UserInviteButton = (props: { className?: string }) => {
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [usernameError, setUsernameError] = useState<string | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const validateUsername = (username: string): string | null => {
     if (!username) return null;
@@ -102,11 +103,12 @@ const UserInviteButton = (props: { className?: string }) => {
 
   return (
     <Dialog
+      open={isDialogOpen}
       onOpenChange={(open) => {
+        setIsDialogOpen(open);
         if (open) {
           resetView();
         }
-        return !open;
       }}
     >
       <DialogTrigger asChild>
@@ -132,7 +134,7 @@ const UserInviteButton = (props: { className?: string }) => {
               onUsernameChange={handleUsernameChange}
               onMemoryChange={setMemoryLimit}
               onCpuChange={setCpuLimit}
-              onCancel={() => setView("invite")}
+              onCancel={() => setIsDialogOpen(false)}
               onSubmit={handleCreateInvite}
               onUserRoleChange={setUserRole}
               isCreating={isCreating}
@@ -151,7 +153,7 @@ const UserInviteButton = (props: { className?: string }) => {
         <DialogFooter>
           {view === "invite" && (
             <>
-              <Button onClick={() => setView("invite")} variant="secondary">
+              <Button onClick={() => setIsDialogOpen(false)} variant="secondary">
                 {t("userModal.cancel")}
               </Button>
               <Button onClick={handleCreateInvite} disabled={isCreating}>

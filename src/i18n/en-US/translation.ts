@@ -146,6 +146,7 @@ const translation: i18nLanguage = {
     passwordChangeSuccess: "Password changed successfully",
     passwordChangeError: "Failed to change password",
     missingUuid: "User ID is missing",
+    cancel: "Cancel",
   },
   aria: {
     createNewGameServer: "Create a new Game Server Configuration",
