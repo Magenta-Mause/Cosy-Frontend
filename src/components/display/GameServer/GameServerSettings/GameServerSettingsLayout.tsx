@@ -139,6 +139,7 @@ const GameServerSettingsLayout = ({
       label: t("tabs.webhooks"),
       icon: <WebhookIcon style={iconStyles} className="mr-2" />,
       path: "/server/$serverId/settings/webhooks",
+      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_WEBHOOK_SETTINGS],
     },
     {
       label: t("tabs.accessManagement"),
