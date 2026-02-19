@@ -40,12 +40,14 @@ import type {
   MetricLayout,
   MetricPointDto,
   PasswordUpdateDto,
+  PrivateDashboardLayout,
   QueryGamesParams,
   RCONConfiguration,
   ReadFileFromVolumeParams,
   RenameInVolumeParams,
   SendCommandDto,
   TemplateEntity,
+  TransferOwnershipDto,
   UpdateCustomMetric200,
   UpdateCustomMetricBody,
   UploadFileToVolumeParams,
@@ -67,13 +69,12 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 export const updateCustomMetric = (
     uuid: string,
-    secret: string,
     updateCustomMetricBody: UpdateCustomMetricBody,
  options?: SecondParameter<typeof customInstance>,) => {
       
       
       return customInstance<UpdateCustomMetric200>(
-      {url: `/internal/game-server/custom-metric/${uuid}/${secret}`, method: 'PUT',
+      {url: `/internal/game-server/custom-metric/${uuid}`, method: 'PUT',
       headers: {'Content-Type': 'application/json', },
       data: updateCustomMetricBody
     },
@@ -83,8 +84,8 @@ export const updateCustomMetric = (
 
 
 export const getUpdateCustomMetricMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCustomMetric>>, TError,{uuid: string;secret: string;data: UpdateCustomMetricBody}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateCustomMetric>>, TError,{uuid: string;secret: string;data: UpdateCustomMetricBody}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCustomMetric>>, TError,{uuid: string;data: UpdateCustomMetricBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateCustomMetric>>, TError,{uuid: string;data: UpdateCustomMetricBody}, TContext> => {
 
 const mutationKey = ['updateCustomMetric'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -96,10 +97,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCustomMetric>>, {uuid: string;secret: string;data: UpdateCustomMetricBody}> = (props) => {
-          const {uuid,secret,data} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCustomMetric>>, {uuid: string;data: UpdateCustomMetricBody}> = (props) => {
+          const {uuid,data} = props ?? {};
 
-          return  updateCustomMetric(uuid,secret,data,requestOptions)
+          return  updateCustomMetric(uuid,data,requestOptions)
         }
 
         
@@ -112,11 +113,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateCustomMetricMutationError = unknown
 
     export const useUpdateCustomMetric = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCustomMetric>>, TError,{uuid: string;secret: string;data: UpdateCustomMetricBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCustomMetric>>, TError,{uuid: string;data: UpdateCustomMetricBody}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
         Awaited<ReturnType<typeof updateCustomMetric>>,
         TError,
-        {uuid: string;secret: string;data: UpdateCustomMetricBody},
+        {uuid: string;data: UpdateCustomMetricBody},
         TContext
       > => {
 
@@ -603,6 +604,66 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getCreateGameServerMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const transferOwnership = (
+    uuid: string,
+    transferOwnershipDto: TransferOwnershipDto,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameServerDto>(
+      {url: `/game-server/${uuid}/transfer-ownership`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: transferOwnershipDto, signal
+    },
+      options);
+    }
+  
+
+
+export const getTransferOwnershipMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: TransferOwnershipDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: TransferOwnershipDto}, TContext> => {
+
+const mutationKey = ['transferOwnership'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof transferOwnership>>, {uuid: string;data: TransferOwnershipDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  transferOwnership(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type TransferOwnershipMutationResult = NonNullable<Awaited<ReturnType<typeof transferOwnership>>>
+    export type TransferOwnershipMutationBody = TransferOwnershipDto
+    export type TransferOwnershipMutationError = unknown
+
+    export const useTransferOwnership = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: TransferOwnershipDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof transferOwnership>>,
+        TError,
+        {uuid: string;data: TransferOwnershipDto},
+        TContext
+      > => {
+
+      const mutationOptions = getTransferOwnershipMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -1320,6 +1381,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const updatePrivateDashboard = (
+    uuid: string,
+    privateDashboardLayout: PrivateDashboardLayout[],
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/layout/private-dashboard`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: privateDashboardLayout
+    },
+      options);
+    }
+  
+
+
+export const getUpdatePrivateDashboardMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePrivateDashboard>>, TError,{uuid: string;data: PrivateDashboardLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updatePrivateDashboard>>, TError,{uuid: string;data: PrivateDashboardLayout[]}, TContext> => {
+
+const mutationKey = ['updatePrivateDashboard'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePrivateDashboard>>, {uuid: string;data: PrivateDashboardLayout[]}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updatePrivateDashboard(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdatePrivateDashboardMutationResult = NonNullable<Awaited<ReturnType<typeof updatePrivateDashboard>>>
+    export type UpdatePrivateDashboardMutationBody = PrivateDashboardLayout[]
+    export type UpdatePrivateDashboardMutationError = unknown
+
+    export const useUpdatePrivateDashboard = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePrivateDashboard>>, TError,{uuid: string;data: PrivateDashboardLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updatePrivateDashboard>>,
+        TError,
+        {uuid: string;data: PrivateDashboardLayout[]},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdatePrivateDashboardMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const updateMetricLayout = (
     uuid: string,
     metricLayout: MetricLayout[],
@@ -1937,13 +2057,12 @@ export function useGetMetrics<TData = Awaited<ReturnType<typeof getMetrics>>, TE
 
 export const checkConnection = (
     uuid: string,
-    secret: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
       
       return customInstance<boolean>(
-      {url: `/internal/game-server/test-connection/${uuid}/${secret}`, method: 'GET', signal
+      {url: `/internal/game-server/test-connection/${uuid}`, method: 'GET', signal
     },
       options);
     }
@@ -1951,31 +2070,29 @@ export const checkConnection = (
 
 
 
-export const getCheckConnectionQueryKey = (uuid?: string,
-    secret?: string,) => {
+export const getCheckConnectionQueryKey = (uuid?: string,) => {
     return [
-    `/internal/game-server/test-connection/${uuid}/${secret}`
+    `/internal/game-server/test-connection/${uuid}`
     ] as const;
     }
 
     
-export const getCheckConnectionQueryOptions = <TData = Awaited<ReturnType<typeof checkConnection>>, TError = unknown>(uuid: string,
-    secret: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof checkConnection>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+export const getCheckConnectionQueryOptions = <TData = Awaited<ReturnType<typeof checkConnection>>, TError = unknown>(uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof checkConnection>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getCheckConnectionQueryKey(uuid,secret);
+  const queryKey =  queryOptions?.queryKey ?? getCheckConnectionQueryKey(uuid);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof checkConnection>>> = ({ signal }) => checkConnection(uuid,secret, requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof checkConnection>>> = ({ signal }) => checkConnection(uuid, requestOptions, signal);
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(uuid && secret), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof checkConnection>>, TError, TData> & { queryKey: QueryKey }
+   return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof checkConnection>>, TError, TData> & { queryKey: QueryKey }
 }
 
 export type CheckConnectionQueryResult = NonNullable<Awaited<ReturnType<typeof checkConnection>>>
@@ -1984,12 +2101,11 @@ export type CheckConnectionQueryError = unknown
 
 
 export function useCheckConnection<TData = Awaited<ReturnType<typeof checkConnection>>, TError = unknown>(
- uuid: string,
-    secret: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof checkConnection>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+ uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof checkConnection>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
   
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
-  const queryOptions = getCheckConnectionQueryOptions(uuid,secret,options)
+  const queryOptions = getCheckConnectionQueryOptions(uuid,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
