@@ -2,14 +2,41 @@ import ResourceUsageBadge from "@components/display/ResourceUsageBadge/ResourceU
 import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@components/ui/dropdown-menu";
 import { Ellipsis } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 
+type UserAction = {
+  label: string;
+  onClick: () => void;
+  className?: string;
+};
+
 const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserEntityDtoRole }) => {
   const { t } = useTranslation();
+
+  const userActions: UserAction[] = [
+    {
+      label: t("components.userManagement.userRow.actions.editPassword"),
+      onClick: () => {
+        // TODO: implement edit password
+      },
+    },
+    {
+      label: t("components.userManagement.userRow.actions.deleteUser"),
+      onClick: () => {
+        // TODO: implement delete user
+      },
+      className: "text-destructive focus:text-destructive",
+    },
+  ];
 
   return (
     <Card>
@@ -41,11 +68,24 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
           </div>
         )}
         <div>
-          <TooltipWrapper tooltip={t("components.userManagement.userRow.moreOptions")} asChild>
-            <Button className="h-10 w-10">
-              <Ellipsis className="size-4" />
-            </Button>
-          </TooltipWrapper>
+          <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+              <Button className="h-10 w-10">
+                <Ellipsis className="size-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {userActions.map((action) => (
+                <DropdownMenuItem
+                  key={action.label}
+                  onClick={action.onClick}
+                  className={action.className}
+                >
+                  {action.label}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </CardContent>
     </Card>
