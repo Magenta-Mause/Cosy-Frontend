@@ -9,6 +9,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { MetricLayoutSize } from "@/api/generated/model";
+import { cn } from "@/lib/utils";
 import type { LayoutSize } from "@/types/layoutSize";
 
 interface SizeDropDownProps {
@@ -25,7 +26,7 @@ const SizeDropDown = (props: SizeDropDownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" className={`w-full ${className}`}>
+        <Button variant="secondary" className={cn("w-full", className)}>
           {t(`cardWidth.${size}`)}
           <ChevronDown className="-m-1" />
         </Button>

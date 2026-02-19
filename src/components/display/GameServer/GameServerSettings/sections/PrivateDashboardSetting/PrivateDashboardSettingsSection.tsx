@@ -11,7 +11,7 @@ import {
   type PrivateDashboardLayout,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { DashboardTypes } from "@/types/dashboardTypes";
+import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize.ts";
 import { MetricsType } from "@/types/metricsTyp";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
@@ -66,7 +66,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
 
   const sanitizePrivateDashboardLayout = (
     layout: PrivateDashboardLayoutUI,
-    type: DashboardTypes,
+    type: DashboardElementTypes,
   ): PrivateDashboardLayoutUI => {
     const layoutObject: PrivateDashboardLayoutUI = {
       _uiUuid: layout._uiUuid,
@@ -76,11 +76,11 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
       valid: true,
     };
 
-    if (type === DashboardTypes.METRIC) {
+    if (type === DashboardElementTypes.METRIC) {
       layoutObject.metric_type = layout.metric_type ?? MetricsType.CPU_PERCENT;
     }
 
-    if (type === DashboardTypes.FREETEXT) {
+    if (type === DashboardElementTypes.FREETEXT) {
       layoutObject.content = layout.content ?? [{ key: "", value: "" }];
       layoutObject.title = layout.title ?? "";
     }
@@ -88,7 +88,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
     return layoutObject;
   };
 
-  const handleTypeSelect = (type: DashboardTypes, uuid?: string) => {
+  const handleTypeSelect = (type: DashboardElementTypes, uuid?: string) => {
     if (!uuid) return;
 
     setPrivateDashboard((prev) =>
@@ -135,7 +135,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
   };
 
   const newWidget = wrapPrivateDashboard({
-    private_dashboard_types: DashboardTypes.METRIC,
+    private_dashboard_types: DashboardElementTypes.METRIC,
     metric_type: MetricsType.CPU_PERCENT,
     size: MetricLayoutSize.MEDIUM,
   });
@@ -164,14 +164,14 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
                   handleTypeSelect(type, dashboard._uiUuid);
                 }}
               />
-              {dashboard.private_dashboard_types === DashboardTypes.METRIC && (
+              {dashboard.private_dashboard_types === DashboardElementTypes.METRIC && (
                 <MetricDropDown
                   className="flex-1"
                   metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
                   setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
                 />
               )}
-              {dashboard.private_dashboard_types === DashboardTypes.FREETEXT && (
+              {dashboard.private_dashboard_types === DashboardElementTypes.FREETEXT && (
                 <Button variant={"secondary"} onClick={() => handleFreeTextEdit(dashboard)}>
                   <SquarePen className="size-6" />
                 </Button>

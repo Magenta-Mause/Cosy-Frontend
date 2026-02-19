@@ -17,7 +17,7 @@ import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { DashboardTypes } from "@/types/dashboardTypes";
+import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize.ts";
 import type { MetricsType } from "@/types/metricsTyp";
 
@@ -56,11 +56,11 @@ function GameServerDetailPageDashboardPage() {
     if (!dashboardLayout) return null;
 
     if ("private_dashboard_types" in dashboardLayout) {
-      return dashboardLayout.private_dashboard_types as DashboardTypes;
+      return dashboardLayout.private_dashboard_types as DashboardElementTypes;
     }
 
     if ("public_dashboard_types" in dashboardLayout) {
-      return dashboardLayout.public_dashboard_types as DashboardTypes;
+      return dashboardLayout.public_dashboard_types as DashboardElementTypes;
     }
 
     return null;
@@ -84,7 +84,7 @@ function GameServerDetailPageDashboardPage() {
           const sizeClass = COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM];
 
           switch (dashboardType) {
-            case DashboardTypes.METRIC:
+            case DashboardElementTypes.METRIC:
               return (
                 <MetricGraph
                   key={dashboard.uuid}
@@ -96,7 +96,7 @@ function GameServerDetailPageDashboardPage() {
                 />
               );
 
-            case DashboardTypes.LOGS:
+            case DashboardElementTypes.LOGS:
               return (
                 <div key={dashboard.uuid} className={`h-95  ${sizeClass}`}>
                   <LogDisplay
@@ -110,7 +110,7 @@ function GameServerDetailPageDashboardPage() {
                 </div>
               );
 
-            case DashboardTypes.FREETEXT:
+            case DashboardElementTypes.FREETEXT:
               return (
                 <div key={dashboard.uuid} className={`h-95  ${sizeClass}`}>
                   <Card className={`w-full h-full overflow-y-auto`} key={dashboard.uuid}>

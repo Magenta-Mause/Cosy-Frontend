@@ -13,7 +13,7 @@ import {
   type PublicDashboardLayout,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { DashboardTypes } from "@/types/dashboardTypes";
+import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize";
 import { MetricsType } from "@/types/metricsTyp";
 import type { PublicDashboardLayoutUI } from "@/types/publicDashboard";
@@ -75,7 +75,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
 
   const sanitizePrivateDashboardLayout = (
     layout: PublicDashboardLayoutUI,
-    type: DashboardTypes,
+    type: DashboardElementTypes,
   ): PublicDashboardLayoutUI => {
     const layoutObject: PublicDashboardLayoutUI = {
       _uiUuid: layout._uiUuid,
@@ -85,11 +85,11 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
       valid: true,
     };
 
-    if (type === DashboardTypes.METRIC) {
+    if (type === DashboardElementTypes.METRIC) {
       layoutObject.metric_type = layout.metric_type ?? MetricsType.CPU_PERCENT;
     }
 
-    if (type === DashboardTypes.FREETEXT) {
+    if (type === DashboardElementTypes.FREETEXT) {
       layoutObject.content = layout.content ?? [{ key: "", value: "" }];
       layoutObject.title = layout.title ?? "";
     }
@@ -97,7 +97,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
     return layoutObject;
   };
 
-  const handleTypeSelect = (type: DashboardTypes, uuid?: string) => {
+  const handleTypeSelect = (type: DashboardElementTypes, uuid?: string) => {
     if (!uuid) return;
 
     setPublicDashboard((prev) =>
@@ -144,7 +144,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   };
 
   const newWidget = wrapPublicDashboard({
-    public_dashboard_types: DashboardTypes.METRIC,
+    public_dashboard_types: DashboardElementTypes.METRIC,
     metric_type: MetricsType.CPU_PERCENT,
     size: MetricLayoutSize.MEDIUM,
   });
@@ -181,22 +181,22 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
           <>
             <div className={"flex gap-2"}>
               <WidgetDropDown
-                className={`${checked ? "" : "pointer-events-none opacity-50 bg-gray-300"}`}
+                className={`${checked ? "" : "pointer-events-none"}`}
                 widgetType={dashboard.public_dashboard_types}
                 setWidgetType={(type) => {
                   handleTypeSelect(type, dashboard._uiUuid);
                 }}
               />
-              {dashboard.public_dashboard_types === DashboardTypes.METRIC && (
+              {dashboard.public_dashboard_types === DashboardElementTypes.METRIC && (
                 <MetricDropDown
-                  className={`flex-1 ${checked ? "" : "pointer-events-none opacity-50 bg-gray-300"}`}
+                  className={`flex-1 ${checked ? "" : "pointer-events-none"}`}
                   metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
                   setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
                 />
               )}
-              {dashboard.public_dashboard_types === DashboardTypes.FREETEXT && (
+              {dashboard.public_dashboard_types === DashboardElementTypes.FREETEXT && (
                 <Button
-                  className={`${checked ? "" : "pointer-events-none opacity-50 bg-gray-300"}`}
+                  className={`${checked ? "" : "pointer-events-none"}`}
                   variant={"secondary"}
                   onClick={() => handleFreeTextEdit(dashboard)}
                 >

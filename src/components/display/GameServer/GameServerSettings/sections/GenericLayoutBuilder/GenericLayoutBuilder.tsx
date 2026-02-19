@@ -29,7 +29,7 @@ import type { GameServerDto, MetricLayout, PrivateDashboardLayout } from "@/api/
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
-import { DashboardTypes } from "@/types/dashboardTypes";
+import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
 import UnsavedModal from "./UnsavedModal";
@@ -133,7 +133,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
       .filter((layout) => {
         const l = layout as PrivateDashboardLayoutUI;
         return (
-          l.private_dashboard_types === DashboardTypes.FREETEXT &&
+          l.private_dashboard_types === DashboardElementTypes.FREETEXT &&
           (l.content === undefined ||
             l.content?.length === 0 ||
             l.content?.some((c) => !c.key || !c.value))
@@ -221,7 +221,6 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
             "relative border-2 border-primary-border rounded-md bg-background/80 w-full h-[16vh] justify-center",
             COL_SPAN_MAP[layout.size ?? LayoutSize.MEDIUM],
             cardErrors.has(layout._uiUuid) && "border-destructive bg-destructive/20",
-            `${isEnabled ? "" : "pointer-events-none bg-gray-300/50"}`,
           )}
         >
           <Button
@@ -243,7 +242,6 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
             <div className="flex flex-col gap-2">
               {children?.(layout)}
               <SizeDropDown
-                className={`${isEnabled ? "" : "pointer-events-none opacity-50 bg-gray-300"}`}
                 size={layout?.size ?? LayoutSize.MEDIUM}
                 uuid={layout._uiUuid}
                 handleWidthSelect={handleWidthSelect}
@@ -268,9 +266,9 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
 
   return (
     <>
-      <div className="flex w-full pt-3">
+      <div className={`flex w-full pt-3 ${isEnabled ? "" : "blur-xs"}`}>
         <Card className="w-full h-[65vh]">
-          <CardContent className="grid grid-cols-6 gap-4 overflow-auto p-6">
+          <CardContent className={"grid grid-cols-6 gap-4 overflow-auto p-6"}>
             <DndContext
               sensors={sensors}
               collisionDetection={closestCorners}
@@ -307,6 +305,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
                       <div className="flex flex-col gap-2">
                         {children?.(activeLayout)}
                         <SizeDropDown
+                          className={`${isEnabled ? "" : "pointer-events-none"}`}
                           size={activeLayout?.size ?? LayoutSize.MEDIUM}
                           uuid={activeLayout._uiUuid}
                           handleWidthSelect={() => { }} // Disabled during drag
@@ -321,7 +320,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
               onClick={handleOnAdd}
               variant="secondary"
               className={`outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none bg-background/35 
-              ${isEnabled ? "" : "pointer-events-none opacity-50 bg-gray-300"}`}
+              ${isEnabled ? "" : "pointer-events-none"}`}
             >
               <div className="flex items-center">
                 <Plus className="-size-2" />
