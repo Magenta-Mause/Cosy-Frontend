@@ -12,6 +12,7 @@ import {
   useDeleteGameServerAccessGroup,
   useDeleteGameServerById,
   useRevokeInvite,
+  useTransferOwnership,
   useUpdateGameServer,
   useUpdateGameServerAccessGroups,
   useUpdateRconConfiguration,
@@ -20,6 +21,7 @@ import type {
   AccessGroupCreationDto,
   AccessGroupUpdateDto,
   RCONConfiguration,
+  TransferOwnershipDto,
   UserInviteCreationDto,
 } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
@@ -168,6 +170,30 @@ const useDataInteractions = () => {
     });
   };
 
+  const { mutateAsync: transferOwnershipMutateAsync } = useTransferOwnership({
+    mutation: {
+      onSuccess: (updatedGameServer) => {
+        dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
+      },
+      onError: (err) => {
+        toast.error("Failed to transfer ownership");
+        throw err;
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetAllGameServersQueryKey(),
+        });
+      },
+    },
+  });
+
+  const transferOwnership = async (uuid: string, newOwnerName: TransferOwnershipDto) => {
+    return await transferOwnershipMutateAsync({
+      uuid,
+      data: newOwnerName,
+    });
+  };
+
   const { mutateAsync: createGameServerAccessGroupMutateAsync } = useCreateGameServerAccessGroup({
     mutation: {
       onSuccess: (createdAccessGroup) => {
@@ -191,7 +217,7 @@ const useDataInteractions = () => {
     accessGroupCreationDto: AccessGroupCreationDto,
   ) => {
     return await createGameServerAccessGroupMutateAsync({
-      gameServerUuid: gameServerUuid,
+      uuid: gameServerUuid,
       data: accessGroupCreationDto,
     });
   };
@@ -201,7 +227,7 @@ const useDataInteractions = () => {
       onSuccess: (_, props) => {
         dispatch(
           gameServerSliceActions.removeGameServerAccessGroup({
-            gameServerUuid: props.gameServerUuid,
+            gameServerUuid: props.uuid,
             accessGroupUuid: props.accessGroupUuid,
           }),
         );
@@ -216,7 +242,7 @@ const useDataInteractions = () => {
 
   const deleteGameServerAccessGroup = async (gameServerUuid: string, accessGroupUuid: string) => {
     return await deleteGameServerAccessGroupMutateAsync({
-      gameServerUuid: gameServerUuid,
+      uuid: gameServerUuid,
       accessGroupUuid: accessGroupUuid,
     });
   };
@@ -226,7 +252,7 @@ const useDataInteractions = () => {
       onSuccess: (updatedAccessGroups, props) => {
         dispatch(
           gameServerSliceActions.updateGameServerAccessGroups({
-            gameServerUuid: props.gameServerUuid,
+            gameServerUuid: props.uuid,
             newAccessGroups: updatedAccessGroups,
           }),
         );
@@ -245,7 +271,7 @@ const useDataInteractions = () => {
     accessGroupUpdateDto: AccessGroupUpdateDto,
   ) => {
     return await updateGameServerAccessGroupsMutateAsync({
-      gameServerUuid: gameServerUuid,
+      uuid: gameServerUuid,
       accessGroupUuid: accessGroupUuid,
       data: accessGroupUpdateDto,
     });
@@ -258,6 +284,7 @@ const useDataInteractions = () => {
     createGameServer,
     updateGameServer,
     updateRconConfiguration,
+    transferOwnership,
     createGameServerAccessGroup,
     deleteGameServerAccessGroup,
     updateGameServerAccessGroups,

@@ -115,6 +115,12 @@ export type i18nLanguage = {
     confirm: string;
   };
 
+  deleteGameServerSuccessDialog: {
+    title: string;
+    description: string;
+    confirm: string;
+  };
+
   logOutDialog: {
     title: string;
     description: string;
@@ -407,6 +413,41 @@ export type i18nLanguage = {
         description: string;
         errorLabel: string;
       };
+      uncosyZone: {
+        title: string;
+        transferOwnership: {
+          title: string;
+          description: string;
+          button: string;
+          dialog: {
+            title: string;
+            description: string;
+            userNotFound: string;
+            inputPlaceholder: string;
+            confirm: string;
+            cancel: string;
+            inputLabel: string;
+            successTitle: string;
+            successMessage: string;
+            close: string;
+            checking: string;
+          };
+          confirmationDialog: {
+            title: string;
+            description: string;
+            newOwner: string;
+            confirm: string;
+            cancel: string;
+            transferring: string;
+            transferError: string;
+          };
+        };
+        delete: {
+          title: string;
+          description: string;
+          button: string;
+        };
+      };
     };
     userManagement: {
       backButton: string;
@@ -548,6 +589,25 @@ export type i18nLanguage = {
         createSuccess: string;
         deleteSuccess: string;
       };
+      privateDashboard: {
+        add: string;
+        types: {
+          METRIC: string;
+          LOGS: string;
+          FREETEXT: string;
+        };
+        freetext: {
+          title: string;
+          desc: string;
+          key: string;
+          value: string;
+          confirm: string;
+          cancel: string;
+          placeholder: string;
+          label: string;
+          error: string;
+        };
+      };
     };
     gameServerSettings: {
       rconSettings: {
@@ -665,6 +725,13 @@ export type i18nLanguage = {
 
   genericModal: {
     cancel: string;
+    unsavedModal: {
+      title: string;
+      leave: string;
+      stay: string;
+      saveAndLeave: string;
+      message: string;
+    };
   };
   metrics: {
     metricDescription: ContainsVariable<"type">;
