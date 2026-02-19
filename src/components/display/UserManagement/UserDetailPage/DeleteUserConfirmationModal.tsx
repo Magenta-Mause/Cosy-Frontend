@@ -33,17 +33,17 @@ const DeleteUserConfirmationModal = (props: {
     <Dialog open={props.open} onOpenChange={props.onClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("components.userManagement.userRow.deleteUserDialog.title")}</DialogTitle>
+          <DialogTitle>{t("components.userManagement.deleteUserDialog.title")}</DialogTitle>
         </DialogHeader>
         <DialogMain>
-          <p>{t("components.userManagement.userRow.deleteUserDialog.message")}</p>
+          <p className="text-base">{t("components.userManagement.deleteUserDialog.message")}</p>
         </DialogMain>
         <DialogFooter>
           <Button variant="secondary" onClick={props.onClose}>
-            {t("components.userManagement.userRow.deleteUserDialog.cancelButton")}
+            {t("components.userManagement.deleteUserDialog.cancelButton")}
           </Button>
-          <Button onClick={handleDeletion} className="text-destructive focus:text-destructive">
-            {t("components.userManagement.userRow.deleteUserDialog.confirmButton")}
+          <Button variant="destructive" onClick={handleDeletion}>
+            {t("components.userManagement.deleteUserDialog.confirmButton")}
           </Button>
         </DialogFooter>
       </DialogContent>

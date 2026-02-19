@@ -626,6 +626,10 @@ const translation: i18nLanguage = {
           admin: "Admin",
           quota_user: "Quota",
         },
+        actions: {
+          editPassword: "Passwort ändern",
+          deleteUser: "Benutzer löschen",
+        },
         resources: {
           cpus: "CPUs",
           memory: "Speicher",
@@ -648,6 +652,13 @@ const translation: i18nLanguage = {
         },
         noUsersFound: "Keine Benutzer gefunden",
         pendingInvites: "Ausstehende Einladungen",
+      },
+      deleteUserDialog: {
+        title: "Benutzer löschen",
+        message:
+          "Bist du sicher, dass du diesen Benutzer löschen möchtest? Dadurch werden alle Daten dieses Benutzers dauerhaft gelöscht und können nicht wiederhergestellt werden.",
+        cancelButton: "Abbrechen",
+        confirmButton: "Benutzer löschen",
       },
     },
   },

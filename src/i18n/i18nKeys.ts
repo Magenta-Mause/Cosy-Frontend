@@ -460,6 +460,10 @@ export type i18nLanguage = {
           admin: string;
           quota_user: string;
         };
+        actions: {
+          editPassword: string;
+          deleteUser: string;
+        };
         resources: {
           cpus: string;
           memory: string;
@@ -482,6 +486,12 @@ export type i18nLanguage = {
         };
         noUsersFound: string;
         pendingInvites: string;
+      };
+      deleteUserDialog: {
+        title: string;
+        message: string;
+        cancelButton: string;
+        confirmButton: string;
       };
     };
     fileBrowser: {

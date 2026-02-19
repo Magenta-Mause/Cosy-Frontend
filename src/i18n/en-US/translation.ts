@@ -461,6 +461,10 @@ const translation: i18nLanguage = {
           admin: "Admin",
           quota_user: "Quota",
         },
+        actions: {
+          editPassword: "Edit Password",
+          deleteUser: "Delete User",
+        },
         resources: {
           cpus: "CPUs",
           memory: "Memory",
@@ -483,6 +487,13 @@ const translation: i18nLanguage = {
         },
         noUsersFound: "No users found",
         pendingInvites: "Pending Invites",
+      },
+      deleteUserDialog: {
+        title: "Delete User",
+        message:
+          "Are you sure you want to delete this user? This will permanently delete all data associated with this user and cannot be undone.",
+        cancelButton: "Cancel",
+        confirmButton: "Delete User",
       },
     },
     GameServerSettings: {
