@@ -7,14 +7,13 @@
  */
 import type { PrivateDashboardLayoutSize } from './privateDashboardLayoutSize';
 import type { PrivateDashboardLayoutPrivateDashboardTypes } from './privateDashboardLayoutPrivateDashboardTypes';
-import type { PrivateDashboardLayoutMetricType } from './privateDashboardLayoutMetricType';
 import type { KeyValue } from './keyValue';
 
 export interface PrivateDashboardLayout {
   uuid?: string;
   size?: PrivateDashboardLayoutSize;
   private_dashboard_types?: PrivateDashboardLayoutPrivateDashboardTypes;
-  metric_type?: PrivateDashboardLayoutMetricType;
+  metric_type?: string;
   title?: string;
   content?: KeyValue[];
   valid?: boolean;

@@ -6,10 +6,9 @@
  * OpenAPI spec version: v1.0
  */
 import type { MetricLayoutSize } from './metricLayoutSize';
-import type { MetricLayoutMetricType } from './metricLayoutMetricType';
 
 export interface MetricLayout {
   uuid?: string;
   size?: MetricLayoutSize;
-  metric_type?: MetricLayoutMetricType;
+  metric_type?: string;
 }
