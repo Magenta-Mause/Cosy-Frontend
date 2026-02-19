@@ -112,6 +112,11 @@ const translation: i18nLanguage = {
     cancel: "Cancel",
     confirm: "Delete",
   },
+  deleteGameServerSuccessDialog: {
+    title: "Deleted",
+    description: "Game Server was deleted successfully.",
+    confirm: "OK",
+  },
   logOutDialog: {
     title: "Log Out?",
     description: "Are you sure you want to log out?",
@@ -405,6 +410,44 @@ const translation: i18nLanguage = {
         description: "Limit the CPU usage of the server",
         errorLabel: "Please enter a valid CPU limit.",
       },
+      uncosyZone: {
+        title: "Uncosy Zone",
+        transferOwnership: {
+          title: "Hand over Server",
+          description:
+            "If you want to stop hosting this server but don't want to delete it, you can hand it over to someone else. This will transfer ownership of the server to another user, allowing them to manage and host it instead.",
+          button: "Hand over",
+          dialog: {
+            title: "Select User",
+            description: "Enter the username of the new owner to hand over the server.",
+            userNotFound: "User not found",
+            inputPlaceholder: "Enter username...",
+            confirm: "Select",
+            cancel: "Cancel",
+            inputLabel: "Username",
+            successTitle: "Server Transfer successful",
+            successMessage: "The server ownership transfer was successful.",
+            close: "Close",
+            checking: "Checking user...",
+          },
+          confirmationDialog: {
+            title: "Confirm Hand Over",
+            description:
+              "Are you sure you want to hand over this server to a new owner? This action cannot be undone.",
+            newOwner: "New owner: ",
+            confirm: "Hand over",
+            cancel: "Cancel",
+            transferring: "Handing over server...",
+            transferError: "Failed to hand over server",
+          },
+        },
+        delete: {
+          title: "Delete Server",
+          description:
+            "If you want to permanently delete this server, you can do so here. This action cannot be undone and will remove all data associated with the server.",
+          button: "Delete",
+        },
+      },
     },
 
     userManagement: {
@@ -466,6 +509,25 @@ const translation: i18nLanguage = {
       accessManagement: {
         title: "Access Management",
         description: "Manage who should be able to access your server in which way",
+      },
+      privateDashboard: {
+        add: "Add Widget",
+        types: {
+          METRIC: "Metric",
+          LOGS: "Logs",
+          FREETEXT: "Free Text",
+        },
+        freetext: {
+          title: "Free Text",
+          desc: "Add custom key value text",
+          key: "Key",
+          value: "Value",
+          confirm: "Confirm",
+          cancel: "Cancel",
+          placeholder: "Title",
+          label: "Enter Title (optional)",
+          error: "Please set a key value pair",
+        },
       },
     },
     gameServerSettings: {
@@ -588,6 +650,13 @@ const translation: i18nLanguage = {
 
   genericModal: {
     cancel: "Cancel",
+    unsavedModal: {
+      title: "Unsaved Changes",
+      message: "Are you sure you want to leave without saving?",
+      leave: "Leave anyway",
+      stay: "Stay",
+      saveAndLeave: "Save and Leave",
+    },
   },
 
   logDisplay: {

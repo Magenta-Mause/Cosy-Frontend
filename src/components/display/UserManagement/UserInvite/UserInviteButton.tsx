@@ -151,10 +151,10 @@ const UserInviteButton = (props: { className?: string }) => {
         <DialogFooter>
           {view === "invite" && (
             <>
-              <Button size="sm" onClick={() => setView("invite")} variant="secondary">
+              <Button onClick={() => setView("invite")} variant="secondary">
                 {t("userModal.cancel")}
               </Button>
-              <Button size="sm" onClick={handleCreateInvite} disabled={isCreating}>
+              <Button onClick={handleCreateInvite} disabled={isCreating}>
                 {isCreating ? t("userModal.creating") : t("userModal.generateInvite")}
               </Button>
             </>
