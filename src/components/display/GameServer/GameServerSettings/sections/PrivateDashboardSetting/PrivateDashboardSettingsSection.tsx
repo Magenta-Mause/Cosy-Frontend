@@ -98,7 +98,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
     );
   };
 
-  const handleMetricTypeChange = (type: MetricsType, uuid?: string) => {
+  const handleMetricTypeChange = (type: MetricsType | string, uuid?: string) => {
     if (!uuid) return;
 
     setPrivateDashboard(

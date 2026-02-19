@@ -720,9 +720,14 @@ export type i18nLanguage = {
   };
   metrics: {
     metricDescription: ContainsVariable<"type">;
+    metricDescriptionCustom: ContainsVariable<"type">;
+    currentValue: ContainsVariable<"type">;
     configure: string;
     noMetricsPermission: string;
     noMetricsPermissionDesc: string;
+    standardMetrics: string;
+    customMetrics: string;
+    noCustomMetrics: string;
     types: {
       CPU_PERCENT: string;
       MEMORY_PERCENT: string;
