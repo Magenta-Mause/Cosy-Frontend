@@ -82,7 +82,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
     setMetricLayoutState([...metricLayoutState, newMetric]);
   };
 
-  const handleMetricTypeChange = (type: string, uuid?: string) => {
+  const handleMetricTypeChange = (type: MetricsType | string, uuid?: string) => {
     if (!uuid) return;
 
     setMetricLayoutState(
