@@ -10,7 +10,10 @@ import type { WebhookCreationDtoSubscribedEventsItem } from './webhookCreationDt
 
 export interface WebhookCreationDto {
   webhook_type: WebhookCreationDtoWebhookType;
-  /** @minLength 1 */
+  /**
+   * @minLength 1
+   * @pattern https?://.+
+   */
   webhook_url: string;
   enabled?: boolean;
   subscribed_events: WebhookCreationDtoSubscribedEventsItem[];

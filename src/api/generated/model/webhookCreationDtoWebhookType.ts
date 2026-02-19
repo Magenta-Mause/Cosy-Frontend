@@ -13,6 +13,5 @@ export type WebhookCreationDtoWebhookType = typeof WebhookCreationDtoWebhookType
 export const WebhookCreationDtoWebhookType = {
   DISCORD: 'DISCORD',
   SLACK: 'SLACK',
-  TELEGRAM: 'TELEGRAM',
   N8N: 'N8N',
 } as const;
