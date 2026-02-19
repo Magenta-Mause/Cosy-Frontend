@@ -74,3 +74,6 @@ export * from './webhookCreationDtoWebhookType';
 export * from './webhookDto';
 export * from './webhookDtoSubscribedEventsItem';
 export * from './webhookDtoWebhookType';
+export * from './webhookUpdateDto';
+export * from './webhookUpdateDtoSubscribedEventsItem';
+export * from './webhookUpdateDtoWebhookType';
