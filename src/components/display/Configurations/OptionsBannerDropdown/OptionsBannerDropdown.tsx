@@ -91,7 +91,7 @@ const OptionsBannerDropdown = () => {
         "flex flex-col gap-4 items-center justify-center",
         "fixed z-50 -top-2 left-[5%]",
         "cursor-pointer transition-all duration-300 ease-in-out",
-        "overflow-hidden border-0",
+        "overflow-visible border-0",
         hasOpenDialog && "pointer-events-none",
         isExpanded
           ? authorized
