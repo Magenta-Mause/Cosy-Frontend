@@ -1,6 +1,6 @@
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
-import CrossIcon from "@/assets/CrossIcon.svg";
+import CrossIcon from "@/assets/icons/CrossIcon.svg";
 
 import { cn } from "@/lib/utils"
 

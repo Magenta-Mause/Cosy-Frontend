@@ -152,6 +152,7 @@ export type i18nLanguage = {
     passwordChangeSuccess: string;
     passwordChangeError: string;
     missingUuid: string;
+    cancel: string;
   };
 
   aria: {
