@@ -41,7 +41,6 @@ const MetricDropDown = (props: {
 }) => {
   const { t } = useTranslation();
 
-  // Get metrics from Redux to extract custom metrics
   const metrics = useTypedSelector((state) =>
     props.gameServerUuid
       ? state.gameServerMetricsSliceReducer.data[props.gameServerUuid]?.metrics
