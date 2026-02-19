@@ -8,6 +8,7 @@ import { userInviteSliceReducer } from "@/stores/slices/userInviteSlice.ts";
 import { userSliceReducer } from "@/stores/slices/userSlice.ts";
 import type { RootState } from ".";
 import { gameServerMetricsSliceReducer } from "./slices/gameServerMetrics";
+import { webhookSliceReducer } from "./slices/webhookSlice";
 
 const appReducer = combineReducers({
   gameServerSliceReducer,
@@ -17,6 +18,7 @@ const appReducer = combineReducers({
   gameServerMetricsSliceReducer,
   userSliceReducer,
   templateSliceReducer,
+  webhookSliceReducer,
 });
 
 export const RESET_STORE = "RESET_STORE";

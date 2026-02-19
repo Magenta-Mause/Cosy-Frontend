@@ -20,7 +20,8 @@ const useWebhookDataInteractions = () => {
           queryKey: getGetAllWebhooksQueryKey(),
         });
       },
-      onError: () => {
+      onError: (error) => {
+        console.error("Create webhook error:", error);
         toast.error(t("createWebhookError"));
       },
     },
@@ -34,7 +35,8 @@ const useWebhookDataInteractions = () => {
           queryKey: getGetAllWebhooksQueryKey(),
         });
       },
-      onError: () => {
+      onError: (error) => {
+        console.error("Update webhook error:", error);
         toast.error(t("updateWebhookError"));
       },
     },
@@ -48,7 +50,8 @@ const useWebhookDataInteractions = () => {
           queryKey: getGetAllWebhooksQueryKey(),
         });
       },
-      onError: () => {
+      onError: (error) => {
+        console.error("Delete webhook error:", error);
         toast.error(t("deleteWebhookError"));
       },
     },

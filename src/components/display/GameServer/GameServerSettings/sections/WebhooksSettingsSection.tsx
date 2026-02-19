@@ -5,6 +5,7 @@ import type { WebhookDto } from "@/api/generated/model";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import useWebhookDataInteractions from "@/hooks/useWebhookDataInteractions/useWebhookDataInteractions";
+import useWebhookWebSocket from "@/hooks/useWebhookWebSocket/useWebhookWebSocket";
 import CreateWebhookModal from "./WebhooksSettingsSection/components/CreateWebhookModal";
 import EditWebhookModal from "./WebhooksSettingsSection/components/EditWebhookModal";
 
@@ -19,6 +20,10 @@ const WebhooksSettingsSection = () => {
   const { data: webhooks = [], isLoading } = useGetAllWebhooks(gameServerUuid, {
     query: { enabled: Boolean(gameServerUuid) },
   });
+
+  useWebhookWebSocket(gameServerUuid);
+
+  useWebhookWebSocket(gameServerUuid);
 
   const { deleteWebhook } = useWebhookDataInteractions();
 
