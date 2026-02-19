@@ -520,6 +520,10 @@ const translation: i18nLanguage = {
           webhookUrlRequired: "Webhook-URL ist erforderlich",
           webhookUrlInvalid: "Webhook-URL muss mit http:// oder https:// beginnen",
         },
+        cancel: "Abbrechen",
+        creating: "Wird erstellt...",
+        edit: "Bearbeiten",
+        updating: "Wird aktualisiert...",
       },
       accessManagement: {
         title: "Zugriffsverwaltung",

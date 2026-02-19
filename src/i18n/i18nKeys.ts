@@ -609,6 +609,10 @@ export type i18nLanguage = {
           webhookUrlRequired: string;
           webhookUrlInvalid: string;
         };
+        cancel: string;
+        creating: string;
+        edit: string;
+        updating: string;
       };
       privateDashboard: {
         add: string;
