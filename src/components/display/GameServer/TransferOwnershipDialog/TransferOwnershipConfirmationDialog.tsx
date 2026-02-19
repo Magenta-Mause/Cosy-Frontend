@@ -20,11 +20,12 @@ const TransferOwnershipConfirmationDialog = (props: {
   newOwnerName: string;
   onSuccess: () => void;
 }) => {
-  const { t } = useTranslationPrefix("components.editGameServer.uncosyZone.transferOwnership.confirmationDialog");
+  const { t } = useTranslationPrefix(
+    "components.editGameServer.uncosyZone.transferOwnership.confirmationDialog",
+  );
   const { transferOwnership } = useDataInteractions();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
 
   const handleConfirm = async () => {
     setLoading(true);
@@ -67,12 +68,7 @@ const TransferOwnershipConfirmationDialog = (props: {
               {t("cancel")}
             </Button>
           </DialogClose>
-          <Button
-            type="button"
-            variant={"destructive"}
-            onClick={handleConfirm}
-            disabled={loading}
-          >
+          <Button type="button" variant={"destructive"} onClick={handleConfirm} disabled={loading}>
             {loading ? t("transferring") : t("confirm")}
           </Button>
         </DialogFooter>
