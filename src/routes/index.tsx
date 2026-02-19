@@ -1,5 +1,4 @@
 import { DeleteGameServerSuccessDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerSuccessDialog";
-import UserDetailListRedirectButton from "@components/display/UserManagement/UserDetailPage/UserDetailListRedirectButton";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
@@ -75,10 +74,6 @@ function Index() {
         )}
 
         <DeleteGameServerSuccessDialog open={deleted === true} onClose={handleCloseDeleteSuccess} />
-
-        <div className="fixed right-10 top-1/4 -translate-y-1/2 pointer-events-auto">
-          <UserDetailListRedirectButton />
-        </div>
       </div>
     </div>
   );
