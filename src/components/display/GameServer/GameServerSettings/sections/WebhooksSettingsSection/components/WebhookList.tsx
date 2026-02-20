@@ -8,7 +8,7 @@ interface WebhookListProps {
   isLoading: boolean;
   deletingWebhookUuid: string | null;
   onEdit: (webhook: WebhookDto) => void;
-  onDelete: (webhookUuid: string) => void;
+  onDelete: (webhook: WebhookDto) => void;
   getWebhookTypeLabel: (type: string | undefined) => string;
   getEventLabel: (event: string) => string;
   t: (key: string) => string;

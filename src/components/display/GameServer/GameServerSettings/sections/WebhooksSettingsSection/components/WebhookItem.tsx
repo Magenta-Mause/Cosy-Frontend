@@ -9,7 +9,7 @@ interface WebhookItemProps {
   webhook: WebhookDto;
   deletingWebhookUuid: string | null;
   onEdit: (webhook: WebhookDto) => void;
-  onDelete: (webhookUuid: string) => void;
+  onDelete: (webhook: WebhookDto) => void;
   getWebhookTypeLabel: (type: string | undefined) => string;
   getEventLabel: (event: string) => string;
   t: (key: string) => string;
@@ -72,7 +72,7 @@ const WebhookItem = ({
               variant="destructive"
               size="icon"
               disabled={!webhook.uuid || deletingWebhookUuid === webhook.uuid}
-              onClick={() => webhook.uuid && onDelete(webhook.uuid)}
+              onClick={() => webhook.uuid && onDelete(webhook)}
             >
               <Trash2 className="h-4 w-4" />
             </Button>

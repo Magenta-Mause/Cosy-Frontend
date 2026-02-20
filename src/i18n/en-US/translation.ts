@@ -529,6 +529,10 @@ const translation: i18nLanguage = {
         loading: "Loading webhooks...",
         empty: "No webhooks configured yet.",
         delete: "Delete",
+        deleteDialog: {
+          title: "Delete webhook",
+          description: "Are you sure you want to delete this webhook?",
+        },
         labels: {
           type: "Type",
           url: "URL",

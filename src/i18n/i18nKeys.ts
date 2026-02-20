@@ -584,6 +584,10 @@ export type i18nLanguage = {
         loading: string;
         empty: string;
         delete: string;
+        deleteDialog: {
+          title: string;
+          description: string;
+        };
         labels: {
           type: string;
           url: string;

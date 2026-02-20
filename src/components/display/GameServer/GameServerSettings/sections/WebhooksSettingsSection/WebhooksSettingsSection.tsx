@@ -6,6 +6,7 @@ import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGame
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import useWebhookDataInteractions from "@/hooks/useWebhookDataInteractions/useWebhookDataInteractions.tsx";
 import useWebhookWebSocket from "@/hooks/useWebhookWebSocket/useWebhookWebSocket.ts";
+import WebhookDeleteDialog from "./components/WebhookDeleteDialog.tsx";
 import WebhookList from "./components/WebhookList.tsx";
 import WebhookModal from "./components/WebhookModal.tsx";
 
@@ -16,6 +17,7 @@ const WebhooksSettingsSection = () => {
   const [deletingWebhookUuid, setDeletingWebhookUuid] = useState<string | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [editingWebhook, setEditingWebhook] = useState<WebhookDto | null>(null);
+  const [webhookToDelete, setWebhookToDelete] = useState<WebhookDto | null>(null);
 
   const { data: webhooks = [], isLoading } = useGetAllWebhooks(gameServerUuid, {
     query: { enabled: Boolean(gameServerUuid) },
@@ -33,6 +35,21 @@ const WebhooksSettingsSection = () => {
     } finally {
       setDeletingWebhookUuid(null);
     }
+  };
+
+  const handleDeleteRequest = (webhook: WebhookDto) => {
+    setWebhookToDelete(webhook);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!webhookToDelete?.uuid) return;
+    await onDeleteWebhook(webhookToDelete.uuid);
+    setWebhookToDelete(null);
+  };
+
+  const handleDeleteDialogOpenChange = (open: boolean) => {
+    if (deletingWebhookUuid) return;
+    if (!open) setWebhookToDelete(null);
   };
 
   const getWebhookTypeLabel = (type: string | undefined): string => {
@@ -61,10 +78,19 @@ const WebhooksSettingsSection = () => {
         isLoading={isLoading}
         deletingWebhookUuid={deletingWebhookUuid}
         onEdit={setEditingWebhook}
-        onDelete={onDeleteWebhook}
+        onDelete={handleDeleteRequest}
         getWebhookTypeLabel={getWebhookTypeLabel}
         getEventLabel={getEventLabel}
         t={t}
+      />
+
+      <WebhookDeleteDialog
+        open={!!webhookToDelete}
+        onOpenChange={handleDeleteDialogOpenChange}
+        webhook={webhookToDelete}
+        isDeleting={!!webhookToDelete?.uuid && deletingWebhookUuid === webhookToDelete.uuid}
+        t={t}
+        onConfirm={handleDeleteConfirm}
       />
 
       <WebhookModal
