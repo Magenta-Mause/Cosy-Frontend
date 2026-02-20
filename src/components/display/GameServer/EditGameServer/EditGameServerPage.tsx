@@ -327,6 +327,7 @@ const EditGameServerPage = (props: {
           inputType="text"
           objectKey="key"
           objectValue="value"
+          processEscapeSequences={true}
         />
 
         <InputFieldEditGameServer

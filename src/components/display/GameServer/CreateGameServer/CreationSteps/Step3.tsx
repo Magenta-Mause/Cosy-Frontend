@@ -65,6 +65,7 @@ export default function Step3() {
         inputType={"text"}
         objectKey="key"
         objectValue="value"
+        processEscapeSequences={true}
       />
 
       <GenericGameServerCreationInputField
