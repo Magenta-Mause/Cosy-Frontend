@@ -146,6 +146,7 @@ const translation: i18nLanguage = {
     passwordChangeSuccess: "Password changed successfully",
     passwordChangeError: "Failed to change password",
     missingUuid: "User ID is missing",
+    cancel: "Cancel",
   },
   aria: {
     createNewGameServer: "Create a new Game Server Configuration",
@@ -731,9 +732,14 @@ const translation: i18nLanguage = {
 
   metrics: {
     metricDescription: "{{type}} usage over time",
+    metricDescriptionCustom: "{{type}} over time",
+    currentValue: "Current {{type}} value",
     configure: "Configure Metrics",
     noMetricsPermission: "No Metrics Access",
     noMetricsPermissionDesc: "You don't have permission to view server metrics",
+    standardMetrics: "Standard Metrics",
+    customMetrics: "Custom Metrics",
+    noCustomMetrics: "No custom metrics available",
     types: {
       CPU_PERCENT: "CPU",
       MEMORY_PERCENT: "Memory",

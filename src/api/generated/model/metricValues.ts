@@ -5,6 +5,7 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
+import type { MetricValuesCustomMetricHolder } from './metricValuesCustomMetricHolder';
 
 export interface MetricValues {
   cpu_percent?: number;
@@ -15,4 +16,5 @@ export interface MetricValues {
   network_output?: number;
   block_read?: number;
   block_write?: number;
+  custom_metric_holder?: MetricValuesCustomMetricHolder;
 }

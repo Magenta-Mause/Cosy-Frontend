@@ -148,6 +148,7 @@ const translation: i18nLanguage = {
     passwordChangeSuccess: "Passwort erfolgreich geändert",
     passwordChangeError: "Passwort konnte nicht geändert werden",
     missingUuid: "Benutzer-ID fehlt",
+    cancel: "Abbrechen",
   },
   aria: {
     createNewGameServer: "Erstelle eine neue Gameserver-Konfiguration",
@@ -732,9 +733,14 @@ const translation: i18nLanguage = {
   },
   metrics: {
     metricDescription: "{{type}} Metrik über Zeit",
+    metricDescriptionCustom: "{{type}} über Zeit",
+    currentValue: "Aktueller {{type}} Wert",
     configure: "Metriken konfigurieren",
     noMetricsPermission: "Kein Metrik-Zugriff",
     noMetricsPermissionDesc: "Du hast keine Berechtigung, die Server-Metriken anzuzeigen",
+    standardMetrics: "Standard-Metriken",
+    customMetrics: "Benutzerdefinierte Metriken",
+    noCustomMetrics: "Keine benutzerdefinierten Metriken verfügbar",
     types: {
       CPU_PERCENT: "CPU",
       MEMORY_PERCENT: "RAM",

@@ -7,6 +7,7 @@ interface TooltipWrapperProps {
   asChild?: boolean;
   side?: "top" | "right" | "bottom" | "left";
   align?: "start" | "center" | "end";
+  contentClassName?: string;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   triggerProps?: React.ComponentProps<typeof TooltipTrigger>;
@@ -18,6 +19,7 @@ const TooltipWrapper = ({
   asChild = true,
   side,
   align = "center",
+  contentClassName,
   open,
   onOpenChange,
   triggerProps = {},
@@ -32,7 +34,7 @@ const TooltipWrapper = ({
       <TooltipTrigger asChild={asChild} {...triggerProps}>
         {children}
       </TooltipTrigger>
-      <TooltipContent side={side} align={align}>
+      <TooltipContent side={side} align={align} className={contentClassName}>
         {typeof tooltip === "string" ? <p>{tooltip}</p> : tooltip}
       </TooltipContent>
     </Tooltip>

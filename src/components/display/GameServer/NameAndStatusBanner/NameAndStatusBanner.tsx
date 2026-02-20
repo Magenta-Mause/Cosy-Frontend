@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { GameServerDtoStatus } from "@/api/generated/model";
-import gameServerStatusBanner from "@/assets/PapyrusBanner.webp";
+import gameServerStatusBanner from "@/assets/MainPage/PapyrusBanner.webp";
 import { cn } from "@/lib/utils.ts";
 import GameServerStatusDot from "../GameServerStatusDot/GameServerStatusDot.tsx";
 

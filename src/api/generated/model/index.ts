@@ -37,7 +37,11 @@ export * from './metricLayoutMetricType';
 export * from './metricLayoutSize';
 export * from './metricPointDto';
 export * from './metricValues';
+<<<<<<< HEAD
 export * from './passwordUpdateByAdminDto';
+=======
+export * from './metricValuesCustomMetricHolder';
+>>>>>>> 435162ff4ed432218acfbed3d1b20ef183293db8
 export * from './passwordUpdateDto';
 export * from './portMapping';
 export * from './portMappingProtocol';
@@ -56,6 +60,8 @@ export * from './templateEntityEnvironmentVariables';
 export * from './templateEntityPortMappings';
 export * from './templateVariable';
 export * from './transferOwnershipDto';
+export * from './updateCustomMetric200';
+export * from './updateCustomMetricBody';
 export * from './uploadFileToVolumeParams';
 export * from './userCreationDto';
 export * from './userEntityDto';
