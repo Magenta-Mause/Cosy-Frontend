@@ -2,6 +2,8 @@ import { Button } from "@components/ui/button";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { Pencil, Trash2 } from "lucide-react";
 import type { WebhookDto } from "@/api/generated/model";
+import {Card} from "@components/ui/card.tsx";
+import {cn} from "@/lib/utils.ts";
 
 interface WebhookListProps {
   webhooks: WebhookDto[];
@@ -33,7 +35,7 @@ const WebhookList = ({
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <Card className={cn("relative p-3 gap-5 flex flex-col mt-5", "flex flex-col gap-3")}>
       <h3 className="text-lg">{t("configuredWebhooks")}</h3>
       {webhooks.map((webhook) => (
         <div
@@ -83,7 +85,7 @@ const WebhookList = ({
           </div>
         </div>
       ))}
-    </div>
+    </Card>
   );
 };
 
