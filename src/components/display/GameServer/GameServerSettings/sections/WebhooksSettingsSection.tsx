@@ -53,7 +53,7 @@ const WebhooksSettingsSection = () => {
       </div>
 
       <div className="flex flex-col gap-3">
-        <Button className="w-fit" onClick={() => setIsCreateModalOpen(true)}>
+        <Button variant="secondary" className="w-fit" onClick={() => setIsCreateModalOpen(true)}>
           {t("create")}
         </Button>
       </div>
