@@ -37,11 +37,8 @@ export * from './metricLayoutMetricType';
 export * from './metricLayoutSize';
 export * from './metricPointDto';
 export * from './metricValues';
-<<<<<<< HEAD
-export * from './passwordUpdateByAdminDto';
-=======
 export * from './metricValuesCustomMetricHolder';
->>>>>>> 435162ff4ed432218acfbed3d1b20ef183293db8
+export * from './passwordUpdateByAdminDto';
 export * from './passwordUpdateDto';
 export * from './portMapping';
 export * from './portMappingProtocol';
