@@ -82,11 +82,7 @@ function ListInput<T extends { uuid: string }>({
       const allValid = Object.values(newRowErrors).filter((err) => err).length === 0;
       setAttributeValid(attribute, allValid);
 
-      // If the initial values are valid, mark as touched
-      // This allows optional fields with valid default values to not block form submission
-      if (allValid) {
-        setAttributeTouched(attribute, true);
-      }
+      setAttributeTouched(attribute, true);
     }
   }, [values, checkValidity, attribute, setAttributeValid, setAttributeTouched]);
 

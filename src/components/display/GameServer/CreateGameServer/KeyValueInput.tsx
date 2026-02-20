@@ -6,7 +6,7 @@ import { Fragment, useCallback } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import type { GameServerCreationFormState } from "./CreateGameServerModal.tsx";
-import { type InputType, preProcessInputValue, processEscapeSequences } from "./util";
+import { type InputType, preProcessInputValue } from "./util";
 
 interface KeyValueItem {
   key: string;
