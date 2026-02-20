@@ -42,6 +42,12 @@ const translation: i18nLanguage = {
     updateGameServerSuccess: "Game-Server erfolgreich aktualisiert!",
     updateGameServerError: "Fehler beim Aktualisieren des Game-Servers",
     missingUuid: "Die Server UUID fehlt",
+    createWebhookSuccess: "Webhook erfolgreich erstellt!",
+    createWebhookError: "Fehler beim Erstellen des Webhooks",
+    updateWebhookSuccess: "Webhook erfolgreich aktualisiert!",
+    updateWebhookError: "Fehler beim Aktualisieren des Webhooks",
+    deleteWebhookSuccess: "Webhook erfolgreich gelöscht!",
+    deleteWebhookError: "Fehler beim Löschen des Webhooks",
   },
   userModal: {
     title: "Benutzer",
@@ -460,6 +466,7 @@ const translation: i18nLanguage = {
         metrics: "Metriken",
         accessManagement: "Zugriffsverwaltung",
         rcon: "RCON",
+        webhooks: "Webhooks",
       },
       sections: {
         general: "Allgemeine Einstellungen",
@@ -467,11 +474,62 @@ const translation: i18nLanguage = {
         publicDashboard: "Einstellungen für öffentliches Dashboard",
         metrics: "Metrik-Einstellungen",
         accessManagement: "Zugriffsverwaltungs-Einstellungen",
+        webhooks: "Webhook-Einstellungen",
       },
       metrics: {
         type: "Typen",
         width: "Breite",
         add: "Metrik hinzufügen",
+      },
+      webhooks: {
+        title: "Webhook-Einstellungen",
+        description:
+          "Verwalte Webhooks, welche ausgeführt werden, wenn bestimmte Ereignisse auf Ihrem Server auftreten.",
+        form: {
+          webhookType: "Webhook-Typ",
+          webhookUrl: "Webhook-URL",
+          enabled: "Aktiviert",
+          subscribedEvents: "Abonnierte Ereignisse",
+        },
+        create: "Webhook erstellen",
+        configuredWebhooks: "Konfigurierte Webhooks",
+        loading: "Webhooks werden geladen...",
+        empty: "Noch keine Webhooks konfiguriert.",
+        delete: "Löschen",
+        deleteDialog: {
+          title: "Webhook löschen",
+          description: "Möchtest du diesen Webhook wirklich löschen?",
+        },
+        labels: {
+          type: "Typ",
+          url: "URL",
+          enabled: "Aktiviert",
+          events: "Ereignisse",
+        },
+        state: {
+          enabled: "Aktiviert",
+          disabled: "Deaktiviert",
+        },
+        createSuccess: "Webhook wurde erfolgreich erstellt.",
+        deleteSuccess: "Webhook wurde erfolgreich gelöscht.",
+        types: {
+          DISCORD: "Discord",
+          SLACK: "Slack",
+          N8N: "n8n",
+        },
+        events: {
+          SERVER_STARTED: "Server gestartet",
+          SERVER_STOPPED: "Server gestoppt",
+          SERVER_FAILED: "Server fehlgeschlagen",
+        },
+        validation: {
+          webhookUrlRequired: "Webhook-URL ist erforderlich",
+          webhookUrlInvalid: "Webhook-URL muss mit http:// oder https:// beginnen",
+        },
+        cancel: "Abbrechen",
+        creating: "Wird erstellt...",
+        edit: "Bearbeiten",
+        updating: "Wird aktualisiert...",
       },
       accessManagement: {
         title: "Zugriffsverwaltung",
@@ -578,6 +636,11 @@ const translation: i18nLanguage = {
           CHANGE_METRICS_SETTINGS: {
             name: "Metrik-Einstellungen ändern",
             description: "Server-Überwachung und Metrik-Erfassungseinstellungen konfigurieren.",
+          },
+          CHANGE_WEBHOOK_SETTINGS: {
+            name: "Webhook-Einstellungen ändern",
+            description:
+              "Verwalte Webhooks, welche ausgeführt werden, wenn bestimmte Ereignisse auf Ihrem Server auftreten.",
           },
           CHANGE_PERMISSIONS_SETTINGS: {
             name: "Berechtigungseinstellungen ändern",

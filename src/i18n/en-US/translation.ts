@@ -46,6 +46,12 @@ const translation: i18nLanguage = {
     updateGameServerSuccess: "Game Server updated successfully!",
     updateGameServerError: "Failed to update Game Server",
     missingUuid: "UUID is missing",
+    createWebhookSuccess: "Webhook created successfully!",
+    createWebhookError: "Failed to create webhook",
+    updateWebhookSuccess: "Webhook updated successfully!",
+    updateWebhookError: "Failed to update webhook",
+    deleteWebhookSuccess: "Webhook deleted successfully!",
+    deleteWebhookError: "Failed to delete webhook",
   },
   userModal: {
     title: "Users",
@@ -494,6 +500,7 @@ const translation: i18nLanguage = {
         metrics: "Metrics",
         accessManagement: "Access Management",
         rcon: "RCON",
+        webhooks: "Webhooks",
       },
       sections: {
         general: "General Settings",
@@ -501,11 +508,61 @@ const translation: i18nLanguage = {
         publicDashboard: "Public Dashboard Settings",
         metrics: "Metrics Settings",
         accessManagement: "Access Management Settings",
+        webhooks: "Webhook Settings",
       },
       metrics: {
         type: "Type",
         width: "Width",
         add: "Add Metric",
+      },
+      webhooks: {
+        title: "Webhook Settings",
+        description: "Manage webhooks that will be called when certain events occur.",
+        form: {
+          webhookType: "Webhook Type",
+          webhookUrl: "Webhook URL",
+          enabled: "Enabled",
+          subscribedEvents: "Subscribed Events",
+        },
+        create: "Create Webhook",
+        configuredWebhooks: "Configured Webhooks",
+        loading: "Loading webhooks...",
+        empty: "No webhooks configured yet.",
+        delete: "Delete",
+        deleteDialog: {
+          title: "Delete webhook",
+          description: "Are you sure you want to delete this webhook?",
+        },
+        labels: {
+          type: "Type",
+          url: "URL",
+          enabled: "Enabled",
+          events: "Events",
+        },
+        state: {
+          enabled: "Enabled",
+          disabled: "Disabled",
+        },
+        createSuccess: "Webhook created successfully.",
+        deleteSuccess: "Webhook deleted successfully.",
+        types: {
+          DISCORD: "Discord",
+          SLACK: "Slack",
+          N8N: "n8n",
+        },
+        events: {
+          SERVER_STARTED: "Server Started",
+          SERVER_STOPPED: "Server Stopped",
+          SERVER_FAILED: "Server Failed",
+        },
+        validation: {
+          webhookUrlRequired: "Webhook URL is required",
+          webhookUrlInvalid: "Webhook URL must start with http:// or https://",
+        },
+        cancel: "Cancel",
+        creating: "Creating...",
+        edit: "Edit",
+        updating: "Updating...",
       },
       accessManagement: {
         title: "Access Management",
@@ -611,6 +668,10 @@ const translation: i18nLanguage = {
           CHANGE_METRICS_SETTINGS: {
             name: "Change Metrics Settings",
             description: "Configure server monitoring and metrics collection.",
+          },
+          CHANGE_WEBHOOK_SETTINGS: {
+            name: "Change Webhook Settings",
+            description: "Manage webhooks that will be called when certain events occur.",
           },
           CHANGE_PERMISSIONS_SETTINGS: {
             name: "Change Permissions Settings",

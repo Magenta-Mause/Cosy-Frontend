@@ -1,8 +1,10 @@
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useSubscription } from "react-stomp-hooks";
 import { v7 as generateUuid } from "uuid";
+import { getGetAllWebhooksQueryKey } from "@/api/generated/backend-api";
 import type {
   GameServerAccessGroupDtoPermissionsItem,
   GameServerDtoStatus,
@@ -39,6 +41,7 @@ const WebSocketCollection = () => {
   const { uuid: userUuid, authorized } = useContext(AuthContext);
   const { loadGameServer } = useDataLoading();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   useSubscription(
     gameServer ? gameServer.map((server) => `/topics/game-servers/status/${server.uuid}`) : [],
@@ -117,6 +120,20 @@ const WebSocketCollection = () => {
         permissions: GameServerAccessGroupDtoPermissionsItem[];
       };
       loadGameServer(messageBody.game_server_uuid, true, messageBody.permissions);
+    },
+  );
+
+  useSubscription(
+    gameServer ? gameServer.map((server) => `/topics/game-servers/webhooks/${server.uuid}`) : [],
+    (message) => {
+      const destination = message.headers?.destination;
+      if (!destination) return;
+      const match = destination.match(/\/topics\/game-servers\/webhooks\/([^/]+)/);
+      const gameServerUuid = match?.[1];
+      if (!gameServerUuid) return;
+      queryClient.invalidateQueries({
+        queryKey: getGetAllWebhooksQueryKey(gameServerUuid),
+      });
     },
   );
 
