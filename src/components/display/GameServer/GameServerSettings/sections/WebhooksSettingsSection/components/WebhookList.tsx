@@ -1,9 +1,9 @@
 import { Button } from "@components/ui/button";
+import { Card } from "@components/ui/card.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { Pencil, Trash2 } from "lucide-react";
 import type { WebhookDto } from "@/api/generated/model";
-import {Card} from "@components/ui/card.tsx";
-import {cn} from "@/lib/utils.ts";
+import { cn } from "@/lib/utils.ts";
 
 interface WebhookListProps {
   webhooks: WebhookDto[];

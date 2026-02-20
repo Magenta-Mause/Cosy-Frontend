@@ -483,7 +483,8 @@ const translation: i18nLanguage = {
       },
       webhooks: {
         title: "Webhook-Einstellungen",
-        description: "Verwalte Webhooks, welche ausgeführt werden, wenn bestimmte Ereignisse auf Ihrem Server auftreten.",
+        description:
+          "Verwalte Webhooks, welche ausgeführt werden, wenn bestimmte Ereignisse auf Ihrem Server auftreten.",
         form: {
           webhookType: "Webhook-Typ",
           webhookUrl: "Webhook-URL",
@@ -634,7 +635,8 @@ const translation: i18nLanguage = {
           },
           CHANGE_WEBHOOK_SETTINGS: {
             name: "Webhook-Einstellungen ändern",
-            description: "Verwalte Webhooks, welche ausgeführt werden, wenn bestimmte Ereignisse auf Ihrem Server auftreten.",
+            description:
+              "Verwalte Webhooks, welche ausgeführt werden, wenn bestimmte Ereignisse auf Ihrem Server auftreten.",
           },
           CHANGE_PERMISSIONS_SETTINGS: {
             name: "Berechtigungseinstellungen ändern",

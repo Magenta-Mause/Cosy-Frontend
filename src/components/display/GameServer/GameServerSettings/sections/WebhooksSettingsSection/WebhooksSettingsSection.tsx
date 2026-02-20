@@ -49,9 +49,7 @@ const WebhooksSettingsSection = () => {
       <div>
         <h2>{t("title")}</h2>
       </div>
-      <p className={"text-sm text-muted-foreground leading-none"}>
-        {t("description")}
-      </p>
+      <p className={"text-sm text-muted-foreground leading-none"}>{t("description")}</p>
       <div className="flex flex-col gap-3">
         <Button className="w-fit" onClick={() => setIsCreateModalOpen(true)}>
           {t("create")}
