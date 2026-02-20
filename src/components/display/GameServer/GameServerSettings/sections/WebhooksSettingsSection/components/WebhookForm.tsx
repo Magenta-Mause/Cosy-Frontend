@@ -16,7 +16,7 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
     onValuesChange({ webhook_type: e.target.value as WebhookType });
   };
 
-  const _handleWebhookUrlChange = (value: string) => {
+  const handleWebhookUrlChange = (value: string) => {
     onValuesChange({ webhook_url: value });
   };
 
@@ -58,6 +58,8 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
       <Input
         id="webhook-url"
         header={t("components.GameServerSettings.webhooks.form.webhookUrl")}
+        value={values.webhook_url}
+        onChange={(e) => handleWebhookUrlChange(e.target.value)}
         error={errors.webhook_url}
         disabled={isSubmitting}
       />
