@@ -460,6 +460,7 @@ export type i18nLanguage = {
           newPasswordError: string;
           cancelButton: string;
           confirmButton: string;
+          submitError: string;
         };
       };
       backButton: string;

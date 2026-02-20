@@ -21,11 +21,21 @@ const ChangePasswordByAdminModal = (props: {
 }) => {
   const { t } = useTranslationPrefix("components.userManagement.admin.changePasswordDialog");
   const [newPassword, setNewPassword] = useState("");
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
+  const handleClose = () => {
+    setNewPassword("");
+    setSubmitError(null);
+    props.onClose();
+  };
+
   const { mutate: changePasswordByAdmin } = useChangePasswordByAdmin({
     mutation: {
       onSuccess: () => {
-        props.onClose();
-        setNewPassword("");
+        handleClose();
+      },
+      onError: () => {
+        setSubmitError(t("submitError"));
       },
     },
   });
@@ -34,12 +44,13 @@ const ChangePasswordByAdminModal = (props: {
 
   const handleChangePassword = () => {
     if (!props.user.uuid) return;
+    setSubmitError(null);
     changePasswordByAdmin({ uuid: props.user.uuid, data: { new_password: newPassword } });
   };
 
   return (
-    <Dialog open={props.open} onOpenChange={props.onClose}>
-      <DialogContent>
+    <Dialog open={props.open} onOpenChange={handleClose}>
+      <DialogContent className="min-w-172">
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
           <DialogDescription>{t("description")}</DialogDescription>
@@ -51,15 +62,25 @@ const ChangePasswordByAdminModal = (props: {
             description={t("newPasswordDescription")}
             placeholder={t("newPasswordPlaceholder")}
             value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
+            onChange={(e) => {
+              setNewPassword(e.target.value);
+              setSubmitError(null);
+            }}
             error={hasPasswordError ? t("newPasswordError") : undefined}
           />
         </DialogMain>
         <DialogFooter>
-          <Button variant="secondary" onClick={props.onClose}>
+          {submitError && (
+            <p className="text-sm text-destructive">{submitError}</p>
+          )}
+          <Button variant="secondary" onClick={handleClose}>
             {t("cancelButton")}
           </Button>
-          <Button variant="destructive" disabled={hasPasswordError || newPassword.length === 0} onClick={handleChangePassword}>
+          <Button
+            variant="destructive"
+            disabled={hasPasswordError || newPassword.length === 0}
+            onClick={handleChangePassword}
+          >
             {t("confirmButton")}
           </Button>
         </DialogFooter>

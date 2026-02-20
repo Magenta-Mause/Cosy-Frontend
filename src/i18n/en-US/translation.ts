@@ -461,6 +461,7 @@ const translation: i18nLanguage = {
           newPasswordError: "Password must be at least 8 characters long",
           cancelButton: "Cancel",
           confirmButton: "Change Password",
+          submitError: "Failed to change password",
         },
       },
       backButton: "Back",
