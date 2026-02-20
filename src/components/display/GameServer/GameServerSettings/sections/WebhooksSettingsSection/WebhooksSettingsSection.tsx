@@ -1,13 +1,12 @@
-import { Button } from "@components/ui/button";
+import { Button } from "@components/ui/button.tsx";
 import { useState } from "react";
-import { useGetAllWebhooks } from "@/api/generated/backend-api";
+import { useGetAllWebhooks } from "@/api/generated/backend-api.ts";
 import type { WebhookDto } from "@/api/generated/model";
-import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import useWebhookDataInteractions from "@/hooks/useWebhookDataInteractions/useWebhookDataInteractions";
-import useWebhookWebSocket from "@/hooks/useWebhookWebSocket/useWebhookWebSocket";
-import CreateWebhookModal from "./WebhooksSettingsSection/components/CreateWebhookModal";
-import EditWebhookModal from "./WebhooksSettingsSection/components/EditWebhookModal";
+import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer.tsx";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import useWebhookDataInteractions from "@/hooks/useWebhookDataInteractions/useWebhookDataInteractions.tsx";
+import useWebhookWebSocket from "@/hooks/useWebhookWebSocket/useWebhookWebSocket.ts";
+import WebhookModal from "./components/WebhookModal.tsx";
 
 const WebhooksSettingsSection = () => {
   const { t } = useTranslationPrefix("components.GameServerSettings.webhooks");
@@ -109,13 +108,15 @@ const WebhooksSettingsSection = () => {
         ))}
       </div>
 
-      <CreateWebhookModal
+      <WebhookModal
+        mode="create"
         gameServerUuid={gameServerUuid}
         open={isCreateModalOpen}
         onOpenChange={setIsCreateModalOpen}
       />
 
-      <EditWebhookModal
+      <WebhookModal
+        mode="edit"
         gameServerUuid={gameServerUuid}
         webhook={editingWebhook}
         open={!!editingWebhook}
