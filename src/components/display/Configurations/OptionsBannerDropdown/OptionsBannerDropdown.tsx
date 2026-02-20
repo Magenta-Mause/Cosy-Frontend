@@ -9,7 +9,7 @@ import banner from "@/assets/header/Banner.webp";
 import { cn } from "@/lib/utils.ts";
 
 const OptionsBannerDropdown = () => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [hasOpenDialog, setHasOpenDialog] = useState(false);
   const [userTooltipOpen, setUserTooltipOpen] = useState(false);
   const [logOutTooltipOpen, setLogOutTooltipOpen] = useState(false);
