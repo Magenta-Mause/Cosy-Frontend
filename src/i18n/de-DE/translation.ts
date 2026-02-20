@@ -672,6 +672,7 @@ const translation: i18nLanguage = {
           "Bist du sicher, dass du diesen Benutzer löschen möchtest? Dadurch werden alle Daten dieses Benutzers dauerhaft gelöscht und können nicht wiederhergestellt werden.",
         cancelButton: "Abbrechen",
         confirmButton: "Benutzer löschen",
+        submitError: "Fehler beim Löschen des Benutzers",
       },
     },
   },

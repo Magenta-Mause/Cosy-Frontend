@@ -1,5 +1,6 @@
 import ResourceUsageBadge from "@components/display/ResourceUsageBadge/ResourceUsageBadge";
 import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import {
@@ -9,9 +10,9 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import { Ellipsis } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
+import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import ChangePasswordByAdminModal from "./ChangePasswordByAdminModal";
 import DeleteUserConfirmationModal from "./DeleteUserConfirmationModal";
@@ -26,6 +27,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
   const { t } = useTranslation();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [passwordChangeDialogOpen, setPasswordChangeDialogOpen] = useState(false);
+  const { role, uuid } = useContext(AuthContext);
 
   const userActions: UserAction[] = [
     {
@@ -40,6 +42,13 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
       className: "text-destructive focus:text-destructive",
     },
   ];
+
+  const canOpenMoreOptions =
+    role === UserEntityDtoRole.OWNER ||
+    (role === UserEntityDtoRole.ADMIN &&
+      props.userRole !== UserEntityDtoRole.OWNER &&
+      props.userRole !== UserEntityDtoRole.ADMIN) ||
+    uuid === props.user.uuid;
 
   return (
     <>
@@ -73,7 +82,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
           )}
           <div>
             <DropdownMenu modal={false}>
-              <DropdownMenuTrigger asChild>
+              <DropdownMenuTrigger asChild disabled={!canOpenMoreOptions}>
                 <Button className="h-10 w-10">
                   <Ellipsis className="size-4" />
                 </Button>

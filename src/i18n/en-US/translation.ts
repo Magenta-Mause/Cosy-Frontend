@@ -507,6 +507,7 @@ const translation: i18nLanguage = {
           "Are you sure you want to delete this user? This will permanently delete all data associated with this user and cannot be undone.",
         cancelButton: "Cancel",
         confirmButton: "Delete User",
+        submitError: "Failed to delete user",
       },
     },
     GameServerSettings: {

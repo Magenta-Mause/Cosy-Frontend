@@ -505,6 +505,7 @@ export type i18nLanguage = {
         message: string;
         cancelButton: string;
         confirmButton: string;
+        submitError: string;
       };
     };
     fileBrowser: {

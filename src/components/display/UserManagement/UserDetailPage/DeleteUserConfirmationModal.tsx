@@ -1,9 +1,17 @@
 import { Button } from "@components/ui/button";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogMain, DialogTitle } from "@components/ui/dialog";
-import { useTranslation } from "react-i18next";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogMain,
+  DialogTitle,
+} from "@components/ui/dialog";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useDeleteUserEntity } from "@/api/generated/backend-api";
 import type { UserEntityDto } from "@/api/generated/model";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { userSliceActions } from "@/stores/slices/userSlice";
 
 const DeleteUserConfirmationModal = (props: {
@@ -11,15 +19,19 @@ const DeleteUserConfirmationModal = (props: {
   open: boolean;
   onClose: () => void;
 }) => {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const { t } = useTranslationPrefix("components.userManagement.deleteUserDialog");
 
   const { mutate: deleteUser } = useDeleteUserEntity({
     mutation: {
       onSuccess: () => {
         if (!props.user.uuid) return;
         dispatch(userSliceActions.removeUser(props.user.uuid));
-        props.onClose();
+        handleClose();
+      },
+      onError: () => {
+        setSubmitError(t("submitError"));
       },
     },
   });
@@ -29,21 +41,27 @@ const DeleteUserConfirmationModal = (props: {
     deleteUser({ uuid: props.user.uuid });
   };
 
+  const handleClose = () => {
+    setSubmitError(null);
+    props.onClose();
+  };
+
   return (
-    <Dialog open={props.open} onOpenChange={props.onClose}>
+    <Dialog open={props.open} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("components.userManagement.deleteUserDialog.title")}</DialogTitle>
+          <DialogTitle>{t("title")}</DialogTitle>
         </DialogHeader>
         <DialogMain>
-          <p className="text-base">{t("components.userManagement.deleteUserDialog.message")}</p>
+          <p className="text-base">{t("message")}</p>
         </DialogMain>
         <DialogFooter>
-          <Button variant="secondary" onClick={props.onClose}>
-            {t("components.userManagement.deleteUserDialog.cancelButton")}
+          {submitError && <p className="text-sm text-destructive">{submitError}</p>}
+          <Button variant="secondary" onClick={handleClose}>
+            {t("cancelButton")}
           </Button>
           <Button variant="destructive" onClick={handleDeletion}>
-            {t("components.userManagement.deleteUserDialog.confirmButton")}
+            {t("confirmButton")}
           </Button>
         </DialogFooter>
       </DialogContent>
