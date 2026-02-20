@@ -33,12 +33,7 @@ export default function TextInput({
         endDecorator={
           variable.regex ? (
             <TooltipWrapper
-              tooltip={
-                <div className="space-y-1">
-                  <div className="font-semibold">{t("pattern")}:</div>
-                  <code className="text-xs block break-all">{variable.regex}</code>
-                </div>
-              }
+              tooltip={`${t("pattern")}: ${variable.regex}`}
               side="top"
               asChild={false}
             >
