@@ -1,10 +1,12 @@
 import ListInput from "@components/display/GameServer/CreateGameServer/ListInput.tsx";
 import { Input } from "@components/ui/input.tsx";
+import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import { Info } from "lucide-react";
 import { Fragment, useCallback } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import type { GameServerCreationFormState } from "./CreateGameServerModal.tsx";
-import { type InputType, preProcessInputValue } from "./util";
+import { type InputType, preProcessInputValue, processEscapeSequences } from "./util";
 
 interface KeyValueItem {
   key: string;
@@ -25,6 +27,7 @@ interface Props {
   inputType: InputType;
   objectKey: string; // This is the property name for the key in the object
   objectValue: string; // This is the property name for the value in the object
+  processEscapeSequences?: boolean;
 }
 
 function KeyValueInput({
@@ -40,6 +43,7 @@ function KeyValueInput({
   inputType,
   objectKey,
   objectValue,
+  processEscapeSequences: shouldProcessEscapeSequences = false,
 }: Props) {
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
@@ -69,14 +73,21 @@ function KeyValueInput({
     (items: KeyValueItem[]) => {
       const mappedItems: { [objectKey]: string | number; [objectValue]: string | number }[] = [];
       items.forEach((item) => {
+        let processedValue = preProcessInputValue(item.value, inputType);
+
+        // Apply escape sequence processing if enabled and value is a string
+        if (shouldProcessEscapeSequences && typeof processedValue === 'string') {
+          processedValue = processEscapeSequences(processedValue);
+        }
+
         mappedItems.push({
           [objectKey]: preProcessInputValue(item.key, inputType),
-          [objectValue]: preProcessInputValue(item.value, inputType),
+          [objectValue]: processedValue,
         });
       });
       return mappedItems as unknown as GameServerCreationFormState[keyof GameServerCreationFormState];
     },
-    [inputType, objectKey, objectValue],
+    [inputType, objectKey, objectValue, shouldProcessEscapeSequences],
   );
 
   const parseInitialValue = useCallback(
@@ -115,16 +126,27 @@ function KeyValueInput({
             onChange={(e) => changeCallback({ ...keyValuePair, key: e.target.value })}
             type={inputType}
           />
-          <Input
-            className={rowError ? "border-red-500" : ""}
-            id={`key-value-input-value-${keyValuePair.uuid}`}
-            placeholder={placeHolderValueInput}
-            value={(keyValuePair.value as string | undefined) || ""}
-            onChange={(e) => {
-              changeCallback({ ...keyValuePair, value: e.target.value });
-            }}
-            type={inputType}
-          />
+          <div className="relative flex items-center gap-1">
+            <Input
+              className={rowError ? "border-red-500" : ""}
+              id={`key-value-input-value-${keyValuePair.uuid}`}
+              placeholder={placeHolderValueInput}
+              value={(keyValuePair.value as string | undefined) || ""}
+              onChange={(e) => {
+                changeCallback({ ...keyValuePair, value: e.target.value });
+              }}
+              type={inputType}
+            />
+            {shouldProcessEscapeSequences && (
+              <TooltipWrapper
+                tooltip="Supports escape sequences: \n (newline), \t (tab), \r (carriage return), \\ (backslash)"
+                side="top"
+                asChild={false}
+              >
+                <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+              </TooltipWrapper>
+            )}
+          </div>
         </Fragment>
       )}
     />
