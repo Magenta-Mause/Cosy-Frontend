@@ -1,4 +1,5 @@
 import GameServerCreationNextPageButton from "@components/display/GameServer/CreateGameServer/GameServerCreationButton.tsx";
+import HouseBuildingProcess from "@components/display/GameServer/CreateGameServer/HouseBuildingProcess.tsx";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -9,13 +10,23 @@ import {
 } from "@components/ui/alert-dialog.tsx";
 import { Button } from "@components/ui/button.tsx";
 import {
+  Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogMain,
+  DialogOverlay,
+  DialogPortal,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import { createContext, type Dispatch, type SetStateAction, useCallback, useState } from "react";
+import {
+  createContext,
+  type Dispatch,
+  type SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand } from "shell-quote";
 import type { GameDto, GameServerCreationDto, TemplateEntity } from "@/api/generated/model";
@@ -86,14 +97,25 @@ const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" 
 
 interface Props {
   setOpen: Dispatch<SetStateAction<boolean>>;
+  isOpen: boolean;
 }
 
-const CreateGameServerModal = ({ setOpen }: Props) => {
+const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
   const { createGameServer } = useDataInteractions();
-  const [creationState, setCreationState] = useState<CreationState>({
-    gameServerState: {},
+  const [creationState, setCreationState] = useState<CreationState>(() => ({
+    gameServerState: { design: Math.random() < 0.5 ? "HOUSE" : "CASTLE" },
     utilState: {},
-  });
+  }));
+  useEffect(() => {
+    if (!isOpen) return;
+    setCreationState((prev) => ({
+      ...prev,
+      gameServerState: {
+        ...prev.gameServerState,
+        design: Math.random() < 0.5 ? "HOUSE" : "CASTLE",
+      },
+    }));
+  }, [isOpen]);
   const [isPageValid, setPageValid] = useState<{ [key: number]: boolean }>({});
   const [currentPage, setCurrentPage] = useState(0);
   const [showReapplyDialog, setShowReapplyDialog] = useState(false);
@@ -120,7 +142,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
         },
       }));
     }
-  }, [creationState]);
+  }, [creationState.utilState, creationState.gameServerState]);
 
   const handleNextPage = useCallback(() => {
     if (isLastPage) {
@@ -152,9 +174,13 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
                 docker_memory_limit: formState.docker_max_memory || undefined,
               }
             : undefined,
+        design: formState.design,
       };
       createGameServer(gameServerCreationObject);
-      setCreationState({ gameServerState: {}, utilState: {} });
+      setCreationState({
+        gameServerState: { design: Math.random() < 0.5 ? "HOUSE" : "CASTLE" },
+        utilState: {},
+      });
       setPageValid({});
       setCurrentPage(0);
       setOpen(false);
@@ -186,7 +212,15 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
     }
 
     setCurrentPage((currentPage) => currentPage + 1);
-  }, [createGameServer, creationState, isLastPage, setOpen, currentPage, applyTemplateToState]);
+  }, [
+    createGameServer,
+    setOpen,
+    currentPage,
+    applyTemplateToState,
+    creationState.gameServerState,
+    creationState.utilState,
+    isLastPage,
+  ]);
 
   const triggerNextPage = useCallback(() => {
     if (isPageValid[currentPage]) {
@@ -237,7 +271,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
   }, [pendingPageChange]);
 
   return (
-    <DialogContent className={"min-w-[40vw]"}>
+    <Dialog open={isOpen} onOpenChange={setOpen}>
       <GameServerCreationContext.Provider
         value={{
           setGameServerState,
@@ -250,36 +284,48 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
           currentPage,
         }}
       >
-        <DialogHeader>
-          <DialogTitle>
-            {t(`components.CreateGameServer.steps.step${currentPage + 1}.title`)}
-          </DialogTitle>
-        </DialogHeader>
+        <DialogPortal>
+          <DialogOverlay />
 
-        <DialogMain className="overflow-auto p-6">
-          <div>{PAGES[currentPage]}</div>
-        </DialogMain>
-        <DialogFooter className="shrink-0 pt-4">
-          <div className="flex-none w-40 flex items-start justify-center">
-            {creationState.utilState.gameEntity?.logo_url && (
-              <img
-                src={creationState.utilState.gameEntity.logo_url}
-                alt="Selected game logo"
-                className="max-h-36 w-auto object-contain rounded-md"
+          {/* Full-screen layout container living in the same portal */}
+          <div className="fixed inset-0 z-50 items-center justify-center gap-5 flex pr-[12vw]">
+            {/* Left side (outside the main dialog box) */}
+            <aside>
+              <HouseBuildingProcess
+                houseType={creationState.gameServerState.design ?? "HOUSE"}
+                currentStep={currentPage}
               />
-            )}
-          </div>
-          {currentPage > 0 && (
-            <Button
-              variant="secondary"
-              onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
-              disabled={currentPage === 0}
+            </aside>
+
+            {/* The actual dialog */}
+            <DialogContent
+              className="static translate-x-0 translate-y-0 flex min-w-[30vw] max-w-[50vw]"
+              asChild
             >
-              {t("components.CreateGameServer.backButton")}
-            </Button>
-          )}
-          <GameServerCreationNextPageButton />
-        </DialogFooter>
+              <DialogHeader>
+                <DialogTitle className={"mr-15"}>
+                  {t(`components.CreateGameServer.steps.step${currentPage + 1}.title`)}
+                </DialogTitle>
+              </DialogHeader>
+
+              <DialogMain className="overflow-auto p-6">
+                <div>{PAGES[currentPage]}</div>
+              </DialogMain>
+              <DialogFooter className="shrink-0 pt-4">
+                {currentPage > 0 && (
+                  <Button
+                    variant="secondary"
+                    onClick={() => setCurrentPage((currentPage) => currentPage - 1)}
+                    disabled={currentPage === 0}
+                  >
+                    {t("components.CreateGameServer.backButton")}
+                  </Button>
+                )}
+                <GameServerCreationNextPageButton />
+              </DialogFooter>
+            </DialogContent>
+          </div>
+        </DialogPortal>
       </GameServerCreationContext.Provider>
 
       <AlertDialog open={showReapplyDialog} onOpenChange={setShowReapplyDialog}>
@@ -302,7 +348,7 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </DialogContent>
+    </Dialog>
   );
 };
 

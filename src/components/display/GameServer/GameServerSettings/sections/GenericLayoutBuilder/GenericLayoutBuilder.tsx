@@ -1,5 +1,6 @@
 import SizeDropDown from "@components/display/DropDown/SizeDropDown";
 import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
+import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import {
@@ -316,30 +317,19 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
           </CardContent>
         </Card>
       </div>
-      <div className="fixed right-[10%] mt-3 w-fit ml-auto flex gap-4">
-        <div className="flex items-center gap-2">
-          {cardErrors.size > 0 && (
-            <p className="text-base text-destructive">{unfulfilledChanges}</p>
-          )}
-          <Button
-            className="h-12.5"
-            variant="secondary"
-            disabled={!isChanged}
-            onClick={() => {
-              setLayouts(
-                wrapper(gameServer[layoutSection] ? (gameServer[layoutSection] as T[]) : []),
-              );
-              setCardErrors(new Set());
-              setUnfulfilledChanges?.(null);
-            }}
-          >
-            {t("editGameServer.revert")}
-          </Button>
-          <Button type="button" onClick={handleConfirm} className="h-12.5" disabled={!isChanged}>
-            {t("editGameServer.confirm")}
-          </Button>
-        </div>
-      </div>
+      <SettingsActionButtons
+        onRevert={() => {
+          setLayouts(
+            wrapper(gameServer[layoutSection] ? (gameServer[layoutSection] as T[]) : []),
+          );
+          setCardErrors(new Set());
+          setUnfulfilledChanges?.(null);
+        }}
+        onConfirm={handleConfirm}
+        revertDisabled={!isChanged}
+        confirmDisabled={!isChanged}
+        errorMessage={cardErrors.size > 0 ? unfulfilledChanges : null}
+      />
       <UnsavedModal
         open={showUnsavedModal}
         setOpen={setShowUnsavedModal}

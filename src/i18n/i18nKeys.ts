@@ -537,6 +537,10 @@ export type i18nLanguage = {
         refresh: string;
       };
     };
+    settingsActionButtons: {
+      revert: string;
+      confirm: string;
+    };
     GameServerSettings: {
       tabs: {
         general: string;
@@ -545,6 +549,7 @@ export type i18nLanguage = {
         metrics: string;
         accessManagement: string;
         rcon: string;
+        design: string;
       };
       sections: {
         general: string;
@@ -602,6 +607,14 @@ export type i18nLanguage = {
           description: string;
           errorLabel: string;
         };
+        revert: string;
+        confirm: string;
+      };
+      designSettings: {
+        title: string;
+        description: string;
+        house: string;
+        castle: string;
         revert: string;
         confirm: string;
       };

@@ -210,7 +210,7 @@ const translation: i18nLanguage = {
       },
       steps: {
         step1: {
-          title: "Schritt 1: Server Namen und Spiel auswählen",
+          title: "Namen und Spiel auswählen",
           serverNameSelection: {
             title: "Servername",
             description: "Benenne deinen Server",
@@ -227,7 +227,7 @@ const translation: i18nLanguage = {
           },
         },
         step2: {
-          title: "Schritt 2: Template auswählen",
+          title: " Template auswählen",
           description: "Wähle ein Template für deinen Server aus.",
           templateSelection: {
             title: "Template",
@@ -238,7 +238,7 @@ const translation: i18nLanguage = {
           },
         },
         step3: {
-          title: "Schritt 3: Konfiguriere deinen Server",
+          title: "Konfiguriere deinen Server",
           description: "Hier kannst du deinen Server konfigurieren.",
           dockerImageSelection: {
             title: "Docker-Image",
@@ -341,6 +341,11 @@ const translation: i18nLanguage = {
         uploadNoPermission: "Du hast keine Berechtigung, Dateien hochzuladen",
       },
     },
+    settingsActionButtons: {
+      revert: "Zurücksetzen",
+      confirm: "Bestätigen",
+    },
+
     editGameServer: {
       title: "Allgemeine Server Einstellungen",
 
@@ -460,6 +465,7 @@ const translation: i18nLanguage = {
         metrics: "Metriken",
         accessManagement: "Zugriffsverwaltung",
         rcon: "RCON",
+        design: "Design",
       },
       sections: {
         general: "Allgemeine Einstellungen",
@@ -498,6 +504,14 @@ const translation: i18nLanguage = {
       },
     },
     gameServerSettings: {
+      designSettings: {
+        title: "Server-Design",
+        description: "Wähle das Aussehen deines Servers auf der Startseite",
+        house: "Haus",
+        castle: "Burg",
+        revert: "Zurücksetzen",
+        confirm: "Bestätigen",
+      },
       rconSettings: {
         title: "RCON Konfiguration",
         description: {

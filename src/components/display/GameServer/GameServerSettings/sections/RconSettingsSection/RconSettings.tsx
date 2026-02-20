@@ -1,5 +1,5 @@
 import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import { Button } from "@components/ui/button.tsx";
+import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
 import { Checkbox } from "@components/ui/checkbox.tsx";
 import { useEffect, useMemo, useState } from "react";
 import * as z from "zod";
@@ -134,28 +134,16 @@ const RconSettings = (props: {
         />
       </div>
 
-      <div className="sticky bottom-4 w-fit ml-auto flex gap-4">
-        <Button
-          className="h-12.5"
-          variant="secondary"
-          disabled={loading || !isChanged}
-          onClick={() => {
-            setRconEnabled(rconState?.enabled ?? false);
-            setRconPort(rconState?.port?.toString() ?? "");
-            setRconPassword(rconState?.password);
-          }}
-        >
-          {t("revert")}
-        </Button>
-        <Button
-          type="button"
-          onClick={handleConfirm}
-          className="h-12.5"
-          disabled={isConfirmButtonDisabled}
-        >
-          {t("confirm")}
-        </Button>
-      </div>
+      <SettingsActionButtons
+        onRevert={() => {
+          setRconEnabled(rconState?.enabled ?? false);
+          setRconPort(rconState?.port?.toString() ?? "");
+          setRconPassword(rconState?.password);
+        }}
+        onConfirm={handleConfirm}
+        revertDisabled={loading || !isChanged}
+        confirmDisabled={isConfirmButtonDisabled}
+      />
     </div>
   );
 };

@@ -34,9 +34,12 @@ const GameServerHouse = (props: {
   const router = useRouter();
 
   const isHouse = useMemo(() => {
+    if (props.gameServer.design !== undefined) {
+      return props.gameServer.design === 'HOUSE';
+    }
     const hash = hashUUID(props.gameServer.uuid);
     return hash % 2 === 0;
-  }, [props.gameServer.uuid]);
+  }, [props.gameServer.uuid, props.gameServer.design]);
 
   const serverHouseImage = useMemo(() => {
     return {

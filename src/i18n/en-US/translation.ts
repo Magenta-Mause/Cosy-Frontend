@@ -209,7 +209,7 @@ const translation: i18nLanguage = {
       },
       steps: {
         step1: {
-          title: "Step 1: Choose Server name and Game",
+          title: "Choose name and Game",
           serverNameSelection: {
             title: "Server Name",
             description: "Name your server",
@@ -226,7 +226,7 @@ const translation: i18nLanguage = {
           },
         },
         step2: {
-          title: "Step 2: Choose Template",
+          title: "Choose Template",
           description: "Choose a template for your server.",
           templateSelection: {
             title: "Template",
@@ -237,7 +237,7 @@ const translation: i18nLanguage = {
           },
         },
         step3: {
-          title: "Step 3: Configure your Server",
+          title: "Configure your Server",
           description: "Here you can configure your server.",
           dockerImageSelection: {
             title: "Docker image",
@@ -338,6 +338,11 @@ const translation: i18nLanguage = {
         uploadInSyntheticDir: "Cannot upload files in virtual directories",
         uploadNoPermission: "You don't have permission to upload files",
       },
+    },
+
+    settingsActionButtons: {
+      revert: "Revert",
+      confirm: "Confirm",
     },
 
     editGameServer: {
@@ -494,6 +499,7 @@ const translation: i18nLanguage = {
         metrics: "Metrics",
         accessManagement: "Access Management",
         rcon: "RCON",
+        design: "Design",
       },
       sections: {
         general: "General Settings",
@@ -532,6 +538,14 @@ const translation: i18nLanguage = {
       },
     },
     gameServerSettings: {
+      designSettings: {
+        title: "Server Design",
+        description: "Choose the appearance of your server on the home page",
+        house: "House",
+        castle: "Castle",
+        revert: "Revert",
+        confirm: "Confirm",
+      },
       rconSettings: {
         title: "RCON Configuration",
         description: {
