@@ -1,4 +1,3 @@
-import { Button } from "@components/ui/button";
 import { Checkbox } from "@components/ui/checkbox";
 import { Input } from "@components/ui/input";
 import {
@@ -9,15 +8,7 @@ import {
   type WebhookType,
 } from "./webhook.types";
 
-const WebhookForm = ({
-  values,
-  errors,
-  isSubmitting,
-  onValuesChange,
-  onSubmit,
-  onCancel,
-  submitLabel,
-}: WebhookFormProps) => {
+const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFormProps) => {
   const handleWebhookTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onValuesChange({ webhook_type: e.target.value as WebhookType });
   };
@@ -77,7 +68,7 @@ const WebhookForm = ({
         onClick={handleEnabledToggle}
         disabled={isSubmitting}
       >
-        <Checkbox checked={values.enabled} className="size-5" />
+        <Checkbox checked={values.enabled} className="size-5" tabIndex={-1} />
         <span className="text-sm">Enabled</span>
       </button>
 
@@ -91,22 +82,17 @@ const WebhookForm = ({
             onClick={() => handleEventToggle(event, !values.subscribed_events.includes(event))}
             disabled={isSubmitting}
           >
-            <Checkbox checked={values.subscribed_events.includes(event)} className="size-5" />
+            <Checkbox
+              checked={values.subscribed_events.includes(event)}
+              className="size-5"
+              tabIndex={-1}
+            />
             <span className="text-sm">{event}</span>
           </button>
         ))}
         {errors.subscribed_events && (
           <p className="text-sm text-destructive">{errors.subscribed_events}</p>
         )}
-      </div>
-
-      <div className="flex justify-end gap-2">
-        <Button variant="secondary" onClick={onCancel} disabled={isSubmitting}>
-          Cancel
-        </Button>
-        <Button onClick={onSubmit} disabled={isSubmitting}>
-          {submitLabel}
-        </Button>
       </div>
     </div>
   );

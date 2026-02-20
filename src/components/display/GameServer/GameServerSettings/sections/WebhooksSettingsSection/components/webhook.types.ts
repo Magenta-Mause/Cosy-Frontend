@@ -47,4 +47,5 @@ export type WebhookFormProps = {
   onSubmit: () => void;
   onCancel: () => void;
   submitLabel: string;
+  canSubmit: boolean;
 };

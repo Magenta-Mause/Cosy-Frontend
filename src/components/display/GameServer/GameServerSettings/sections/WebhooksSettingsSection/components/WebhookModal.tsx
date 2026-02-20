@@ -1,7 +1,9 @@
+import { Button } from "@components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogMain,
   DialogTitle,
@@ -102,9 +104,11 @@ const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: Web
     ? isSubmitting
       ? t("updating")
       : t("edit")
-    : isCreating
+    : isSubmitting
       ? t("creating")
       : t("create");
+
+  const canSubmit = values.webhook_url.trim().length > 0;
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -122,8 +126,17 @@ const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: Web
             onSubmit={onFormSubmit}
             onCancel={() => handleClose(false)}
             submitLabel={submitLabel}
+            canSubmit={canSubmit}
           />
         </DialogMain>
+        <DialogFooter>
+          <Button variant="secondary" onClick={() => handleClose(false)} disabled={isLoading}>
+            Cancel
+          </Button>
+          <Button onClick={onFormSubmit} disabled={!canSubmit || isLoading}>
+            {submitLabel}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
