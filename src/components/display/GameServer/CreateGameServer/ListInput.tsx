@@ -65,6 +65,30 @@ function ListInput<T extends { uuid: string }>({
   const lastSyncedValueRef = useRef<string | null>(null);
   // Track if we're currently updating from user input (to prevent sync loop)
   const isUserInputRef = useRef<boolean>(false);
+  // Track if we've initialized validation
+  const initializedRef = useRef<boolean>(false);
+
+  // Initialize validation state on mount
+  useEffect(() => {
+    if (!initializedRef.current) {
+      initializedRef.current = true;
+
+      // Validate the initial values
+      const newRowErrors: { [uuid: string]: boolean } = {};
+      values.forEach((item) => {
+        newRowErrors[item.uuid] = !checkValidity(item);
+      });
+
+      const allValid = Object.values(newRowErrors).filter((err) => err).length === 0;
+      setAttributeValid(attribute, allValid);
+
+      // If the initial values are valid, mark as touched
+      // This allows optional fields with valid default values to not block form submission
+      if (allValid) {
+        setAttributeTouched(attribute, true);
+      }
+    }
+  }, [values, checkValidity, attribute, setAttributeValid, setAttributeTouched]);
 
   // Sync local state when context changes (e.g., template applied)
   useEffect(() => {
