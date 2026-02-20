@@ -8,17 +8,20 @@ import {
 } from "@/api/generated/backend-api.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
-const useWebhookDataInteractions = () => {
+const useWebhookDataInteractions = (gameServerUuid?: string) => {
   const queryClient = useQueryClient();
   const { t } = useTranslationPrefix("toasts");
+  const queryKey = gameServerUuid ? getGetAllWebhooksQueryKey(gameServerUuid) : undefined;
 
   const { mutateAsync: createWebhook, isPending: isCreatingWebhook } = useCreateWebhook({
     mutation: {
       onSuccess: async () => {
         toast.success(t("createWebhookSuccess"));
-        await queryClient.invalidateQueries({
-          queryKey: getGetAllWebhooksQueryKey(),
-        });
+        if (queryKey) {
+          await queryClient.invalidateQueries({
+            queryKey,
+          });
+        }
       },
       onError: (error) => {
         console.error("Create webhook error:", error);
@@ -31,9 +34,11 @@ const useWebhookDataInteractions = () => {
     mutation: {
       onSuccess: async () => {
         toast.success(t("updateWebhookSuccess"));
-        await queryClient.invalidateQueries({
-          queryKey: getGetAllWebhooksQueryKey(),
-        });
+        if (queryKey) {
+          await queryClient.invalidateQueries({
+            queryKey,
+          });
+        }
       },
       onError: (error) => {
         console.error("Update webhook error:", error);
@@ -46,9 +51,11 @@ const useWebhookDataInteractions = () => {
     mutation: {
       onSuccess: async () => {
         toast.success(t("deleteWebhookSuccess"));
-        await queryClient.invalidateQueries({
-          queryKey: getGetAllWebhooksQueryKey(),
-        });
+        if (queryKey) {
+          await queryClient.invalidateQueries({
+            queryKey,
+          });
+        }
       },
       onError: (error) => {
         console.error("Delete webhook error:", error);

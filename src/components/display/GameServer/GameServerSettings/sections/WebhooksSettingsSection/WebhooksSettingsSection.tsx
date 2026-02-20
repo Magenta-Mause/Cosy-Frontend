@@ -5,7 +5,6 @@ import type { WebhookDto } from "@/api/generated/model";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import useWebhookDataInteractions from "@/hooks/useWebhookDataInteractions/useWebhookDataInteractions.tsx";
-import useWebhookWebSocket from "@/hooks/useWebhookWebSocket/useWebhookWebSocket.ts";
 import WebhookDeleteDialog from "./components/WebhookDeleteDialog.tsx";
 import WebhookList from "./components/WebhookList.tsx";
 import WebhookModal from "./components/WebhookModal.tsx";
@@ -23,9 +22,7 @@ const WebhooksSettingsSection = () => {
     query: { enabled: Boolean(gameServerUuid) },
   });
 
-  useWebhookWebSocket(gameServerUuid);
-
-  const { deleteWebhook } = useWebhookDataInteractions();
+  const { deleteWebhook } = useWebhookDataInteractions(gameServerUuid);
 
   const onDeleteWebhook = async (webhookUuid: string) => {
     if (!gameServerUuid) return;
