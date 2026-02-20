@@ -1,5 +1,7 @@
 import { FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
+import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import { Info } from "lucide-react";
 import type { VariableInputProps } from "./types";
 
 export default function TextInput({
@@ -28,12 +30,23 @@ export default function TextInput({
           }
         }}
         error={showError ? (errorMessage ? t(errorMessage) : t("validationError")) : undefined}
+        endDecorator={
+          variable.regex ? (
+            <TooltipWrapper
+              tooltip={
+                <div className="space-y-1">
+                  <div className="font-semibold">{t("pattern")}:</div>
+                  <code className="text-xs block break-all">{variable.regex}</code>
+                </div>
+              }
+              side="top"
+              asChild={false}
+            >
+              <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+            </TooltipWrapper>
+          ) : undefined
+        }
       />
-      {variable.regex && (
-        <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
-          {t("pattern")}: <code className="text-xs">{variable.regex}</code>
-        </FieldLabel>
-      )}
       {variable.example && (
         <FieldLabel htmlFor={placeholder} className="text-muted-foreground text-sm">
           {t("example")}: {variable.example}
