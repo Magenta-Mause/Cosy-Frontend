@@ -121,18 +121,18 @@ const CreateWebhookModal = ({ gameServerUuid, open, onOpenChange }: CreateWebhoo
         </DialogHeader>
         <DialogMain>
           <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium" htmlFor="webhook-type">
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-bold" htmlFor="webhook-type">
                 {t("form.webhookType")}
               </label>
               <select
                 id="webhook-type"
-                className="border border-input rounded-md bg-primary-banner px-3 py-2"
+                className="text-sm border border-input rounded-md bg-primary-banner px-3 py-2"
                 value={webhookType}
                 onChange={(event) => setWebhookType(event.target.value as WebhookType)}
               >
                 {WEBHOOK_TYPES.map((value) => (
-                  <option key={value} value={value}>
+                  <option className="text-sm" key={value} value={value}>
                     {t(`types.${value}`)}
                   </option>
                 ))}
