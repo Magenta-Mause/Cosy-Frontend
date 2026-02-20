@@ -665,6 +665,10 @@ const translation: i18nLanguage = {
             name: "Change Metrics Settings",
             description: "Configure server monitoring and metrics collection.",
           },
+          CHANGE_WEBHOOK_SETTINGS: {
+            name: "Change Webhook Settings",
+            description: "Manage webhooks that will be called when certain events occur.",
+          },
           CHANGE_PERMISSIONS_SETTINGS: {
             name: "Change Permissions Settings",
             description: "Manage access groups and user permissions.",

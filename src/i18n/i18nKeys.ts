@@ -712,6 +712,10 @@ export type i18nLanguage = {
             name: string;
             description: string;
           };
+          CHANGE_WEBHOOK_SETTINGS: {
+            name: string;
+            description: string;
+          };
           CHANGE_PERMISSIONS_SETTINGS: {
             name: string;
             description: string;

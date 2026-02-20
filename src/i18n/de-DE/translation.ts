@@ -632,6 +632,10 @@ const translation: i18nLanguage = {
             name: "Metrik-Einstellungen ändern",
             description: "Server-Überwachung und Metrik-Erfassungseinstellungen konfigurieren.",
           },
+          CHANGE_WEBHOOK_SETTINGS: {
+            name: "Webhook-Einstellungen ändern",
+            description: "Verwalte Webhooks, welche ausgeführt werden, wenn bestimmte Ereignisse auf Ihrem Server auftreten.",
+          },
           CHANGE_PERMISSIONS_SETTINGS: {
             name: "Berechtigungseinstellungen ändern",
             description: "Zugriffsgruppen und Benutzerberechtigungen für diesen Server verwalten.",
