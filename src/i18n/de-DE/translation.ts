@@ -483,6 +483,7 @@ const translation: i18nLanguage = {
       },
       webhooks: {
         title: "Webhook-Einstellungen",
+        description: "Verwalte Webhooks, welche ausgeführt werden, wenn bestimmte Ereignisse auf Ihrem Server auftreten.",
         form: {
           webhookType: "Webhook-Typ",
           webhookUrl: "Webhook-URL",

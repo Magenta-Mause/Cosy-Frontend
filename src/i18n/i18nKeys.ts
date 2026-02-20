@@ -572,6 +572,7 @@ export type i18nLanguage = {
       };
       webhooks: {
         title: string;
+        description: string;
         form: {
           webhookType: string;
           webhookUrl: string;

@@ -517,6 +517,7 @@ const translation: i18nLanguage = {
       },
       webhooks: {
         title: "Webhook Settings",
+        description: "Manage webhooks that will be called when certain events occur.",
         form: {
           webhookType: "Webhook Type",
           webhookUrl: "Webhook URL",
