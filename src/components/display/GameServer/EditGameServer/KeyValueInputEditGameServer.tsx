@@ -105,37 +105,19 @@ function EditKeyValueInput<T extends Record<string, string>>({
       value={rows}
       setParentValue={(rows) => {
         setValue(
-          rows?.map((row) => {
-            let processedValue = preProcessInputValue(row.value, inputType);
-
-            // Apply escape sequence processing if enabled and value is a string
-            if (shouldProcessEscapeSequences && typeof processedValue === 'string') {
-              processedValue = processEscapeSequences(processedValue);
-            }
-
-            return {
-              ...({} as T),
-              [objectKey]: preProcessInputValue(row.key, inputType),
-              [objectValue]: processedValue,
-            };
-          }) ?? [],
+          rows?.map((row) => ({
+            ...({} as T),
+            [objectKey]: preProcessInputValue(row.key, inputType),
+            [objectValue]: preProcessInputValue(row.value, inputType),
+          })) ?? [],
         );
       }}
       onChange={(rows) => {
-        const mapped = rows.map((row) => {
-          let processedValue = preProcessInputValue(row.value, inputType);
-
-          // Apply escape sequence processing if enabled and value is a string
-          if (shouldProcessEscapeSequences && typeof processedValue === 'string') {
-            processedValue = processEscapeSequences(processedValue);
-          }
-
-          return {
-            ...({} as T),
-            [objectKey]: preProcessInputValue(row.key, inputType),
-            [objectValue]: processedValue,
-          };
-        });
+        const mapped = rows.map((row) => ({
+          ...({} as T),
+          [objectKey]: preProcessInputValue(row.key, inputType),
+          [objectValue]: preProcessInputValue(row.value, inputType),
+        }));
         onChange?.(mapped);
       }}
       checkValidity={checkValidity}

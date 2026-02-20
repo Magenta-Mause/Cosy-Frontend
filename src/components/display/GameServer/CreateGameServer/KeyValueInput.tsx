@@ -73,21 +73,14 @@ function KeyValueInput({
     (items: KeyValueItem[]) => {
       const mappedItems: { [objectKey]: string | number; [objectValue]: string | number }[] = [];
       items.forEach((item) => {
-        let processedValue = preProcessInputValue(item.value, inputType);
-
-        // Apply escape sequence processing if enabled and value is a string
-        if (shouldProcessEscapeSequences && typeof processedValue === 'string') {
-          processedValue = processEscapeSequences(processedValue);
-        }
-
         mappedItems.push({
           [objectKey]: preProcessInputValue(item.key, inputType),
-          [objectValue]: processedValue,
+          [objectValue]: preProcessInputValue(item.value, inputType),
         });
       });
       return mappedItems as unknown as GameServerCreationFormState[keyof GameServerCreationFormState];
     },
-    [inputType, objectKey, objectValue, shouldProcessEscapeSequences],
+    [inputType, objectKey, objectValue],
   );
 
   const parseInitialValue = useCallback(
@@ -131,7 +124,7 @@ function KeyValueInput({
               className={rowError ? "border-red-500" : ""}
               id={`key-value-input-value-${keyValuePair.uuid}`}
               placeholder={placeHolderValueInput}
-              value={(keyValuePair.value as string | undefined) || ""}
+              value={(keyValuePair.value?.replace("\n", "\\n") as string | undefined) || ""}
               onChange={(e) => {
                 changeCallback({ ...keyValuePair, value: e.target.value });
               }}

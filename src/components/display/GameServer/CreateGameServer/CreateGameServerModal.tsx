@@ -23,6 +23,7 @@ import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions
 import Step1 from "./CreationSteps/Step1.tsx";
 import Step2 from "./CreationSteps/Step2.tsx";
 import Step3 from "./CreationSteps/Step3.tsx";
+import { processEscapeSequences } from "./util";
 import { applyTemplate } from "./utils/templateSubstitution.ts";
 
 export const GENERIC_GAME_PLACEHOLDER_VALUE = -1;
@@ -137,7 +138,10 @@ const CreateGameServerModal = ({ setOpen }: Props) => {
           ? (parseCommand(formState.execution_command as unknown as string) as string[])
           : undefined,
         port_mappings: formState.port_mappings,
-        environment_variables: formState.environment_variables,
+        environment_variables: formState.environment_variables?.map((env) => ({
+          ...env,
+          value: processEscapeSequences(env.value),
+        })),
         volume_mounts: formState.volume_mounts,
         docker_hardware_limits:
           formState.docker_max_cpu || formState.docker_max_memory

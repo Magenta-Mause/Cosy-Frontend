@@ -20,6 +20,7 @@ import {
   getMemoryLimitError,
   memoryLimitValidator,
 } from "@/lib/validators/memoryLimitValidator.ts";
+import { processEscapeSequences } from "../CreateGameServer/util";
 import EditVolumeMountConfigurationInput from "./EditVolumeMountConfigurationInput";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
@@ -197,9 +198,12 @@ const EditGameServerPage = (props: {
       port_mappings: gameServerState.port_mappings?.filter(
         (p) => p.instance_port || p.container_port,
       ),
-      environment_variables: gameServerState.environment_variables?.filter(
-        (env) => env.key?.trim() || env.value?.trim(),
-      ),
+      environment_variables: gameServerState.environment_variables
+        ?.filter((env) => env.key?.trim() || env.value?.trim())
+        .map((env) => ({
+          ...env,
+          value: processEscapeSequences(env.value),
+        })),
       volume_mounts: gameServerState.volume_mounts
         ?.filter((vol) => vol.container_path?.trim())
         .map((v) => ({
