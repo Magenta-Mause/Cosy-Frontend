@@ -31,14 +31,14 @@ const NameAndStatusBanner = (props: {
         className={cn(
           "absolute inset-0 select-none overflow-hidden",
           "flex items-center justify-center gap-2",
-          "px-[18%] py-[25%]",
+          "px-[2.2vw] py-[3.5vw]",
           "text-amber-950",
           "text-[1.2vw] leading-[1.2vw]",
           props.classNameTextChildren,
         )}
       >
-        <GameServerStatusDot status={status} showTooltip={true} className="w-4 h-4 shrink-0" />
-        <span className="min-w-0 font-bold truncate whitespace-nowrap text-center">
+        <GameServerStatusDot status={status} showTooltip={true} />
+        <span className="font-bold truncate text-center">
           {props.children}
         </span>
       </div>

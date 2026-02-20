@@ -19,15 +19,16 @@ const MarketplaceSign = () => {
 
   return (
     <div
-      className="fixed z-50 top-[10%] -right-5 flex items-end justify-center w-[270px]"
+      className="fixed z-50 top-[10%] -right-4 flex items-end justify-center w-65"
       style={{
         backgroundImage: `url(${marketPlaceSignAsset})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "contain",
         backgroundPosition: "center",
+        imageRendering: "pixelated",
       }}
     >
-      <div className="pt-15 pb-4 px-3">
+      <div className="pt-15 pb-4 pl-3">
         <Button size="sm" onClick={() => router.navigate({ to: "/users" })}>
           {t("components.userManagement.userDetailButton.viewUsers")} <ArrowBigRight />
         </Button>
