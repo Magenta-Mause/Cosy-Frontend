@@ -37,7 +37,7 @@ export default function TextInput({
               side="top"
               asChild={false}
             >
-              <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+              <Info className="w-4 h-4 text-muted-foreground cursor-pointer" />
             </TooltipWrapper>
           ) : undefined
         }
