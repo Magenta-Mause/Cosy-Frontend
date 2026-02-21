@@ -151,6 +151,22 @@ const useDataLoading = () => {
     }
   };
 
+  const loadPublicGameServer = async () => {
+    dispatch(gameServerSliceActions.setState("loading"));
+    try {
+      const gameServers = await getAllGameServers();
+      dispatch(gameServerSliceActions.setState("idle"));
+      dispatch(gameServerSliceActions.setGameServers(gameServers));
+      await Promise.allSettled(
+        gameServers.map((gameServer) => loadAdditionalGameServerData(gameServer.uuid)),
+      );
+      return true;
+    } catch {
+      dispatch(gameServerSliceActions.setState("failed"));
+      return false;
+    }
+  }
+
   const loadUsers = async () => {
     dispatch(userSliceActions.setState("loading"));
     try {
@@ -289,6 +305,7 @@ const useDataLoading = () => {
     loadGameServerPermissions,
     loadAdditionalGameServerData,
     loadGameServer,
+    loadPublicGameServer
   };
 };
 

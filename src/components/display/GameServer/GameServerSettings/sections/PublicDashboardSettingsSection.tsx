@@ -169,7 +169,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
         layoutSection="public_dashboard_layouts"
         isChanged={isChanged}
         layouts={publicDashboard}
-        saveHandler={updatePublicDashboardLayout}
+        saveHandler={(uuid, layout) => updatePublicDashboardLayout(uuid, checked, layout)}
         setLayouts={setPublicDashboard}
         wrapper={wrapPublicDashboards}
         defaultAddNew={newWidget}
