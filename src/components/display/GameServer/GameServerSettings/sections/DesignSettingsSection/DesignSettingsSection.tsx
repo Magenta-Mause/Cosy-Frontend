@@ -15,10 +15,10 @@ const DesignSettingsSection = () => {
   const { gameServer } = useSelectedGameServer();
 
   const [selectedDesign, setSelectedDesign] = useState<GameServerDesign>(
-    gameServer.design ?? 'HOUSE',
+    gameServer.design ?? "HOUSE",
   );
   const [loading, setLoading] = useState(false);
-  const hasChanges = selectedDesign !== (gameServer.design ?? 'HOUSE');
+  const hasChanges = selectedDesign !== (gameServer.design ?? "HOUSE");
 
   const handleSave = async () => {
     if (!gameServer.uuid) {
@@ -34,8 +34,16 @@ const DesignSettingsSection = () => {
   };
 
   const designs: { value: GameServerDesign; image: string; label: string }[] = [
-    { value: 'HOUSE', image: house, label: t("components.gameServerSettings.designSettings.house") },
-    { value: 'CASTLE', image: castle, label: t("components.gameServerSettings.designSettings.castle") },
+    {
+      value: "HOUSE",
+      image: house,
+      label: t("components.gameServerSettings.designSettings.house"),
+    },
+    {
+      value: "CASTLE",
+      image: castle,
+      label: t("components.gameServerSettings.designSettings.castle"),
+    },
   ];
 
   return (
@@ -72,7 +80,7 @@ const DesignSettingsSection = () => {
         ))}
       </div>
       <SettingsActionButtons
-        onRevert={() => setSelectedDesign(gameServer.design ?? 'HOUSE')}
+        onRevert={() => setSelectedDesign(gameServer.design ?? "HOUSE")}
         onConfirm={handleSave}
         revertDisabled={loading || !hasChanges}
         confirmDisabled={loading || !hasChanges}

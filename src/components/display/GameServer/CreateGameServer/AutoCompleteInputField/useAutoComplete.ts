@@ -205,7 +205,17 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("pointerdown", onPointerDown);
     };
-  }, [open, autoCompleteItems, itemCount, selectedIndex, selectItem, alwaysIncludeFallback, fallbackValue, fallbackLabel, t]);
+  }, [
+    open,
+    autoCompleteItems,
+    itemCount,
+    selectedIndex,
+    selectItem,
+    alwaysIncludeFallback,
+    fallbackValue,
+    fallbackLabel,
+    t,
+  ]);
 
   const handleInputChange = useCallback(
     (currentValue: string) => {

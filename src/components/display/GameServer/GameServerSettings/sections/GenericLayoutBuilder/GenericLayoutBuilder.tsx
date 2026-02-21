@@ -1,6 +1,6 @@
 import SizeDropDown from "@components/display/DropDown/SizeDropDown";
-import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
 import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
+import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import {
@@ -319,9 +319,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
       </div>
       <SettingsActionButtons
         onRevert={() => {
-          setLayouts(
-            wrapper(gameServer[layoutSection] ? (gameServer[layoutSection] as T[]) : []),
-          );
+          setLayouts(wrapper(gameServer[layoutSection] ? (gameServer[layoutSection] as T[]) : []));
           setCardErrors(new Set());
           setUnfulfilledChanges?.(null);
         }}

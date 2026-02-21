@@ -171,7 +171,11 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
 
   const visibleItems = items.slice(0, maxItems);
   return (
-    <div role="listbox" className="flex flex-col gap-0.5 overflow-y-auto max-h-64" onWheel={(e) => e.stopPropagation()}>
+    <div
+      role="listbox"
+      className="flex flex-col gap-0.5 overflow-y-auto max-h-64"
+      onWheel={(e) => e.stopPropagation()}
+    >
       {alwaysIncludeFallback && (
         <FallbackItemRow
           label={fallbackLabel}

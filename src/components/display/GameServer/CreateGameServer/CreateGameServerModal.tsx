@@ -13,13 +13,13 @@ import {
 } from "@components/ui/dialog.tsx";
 import type { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
+import Step1 from "./CreationSteps/Step1.tsx";
+import Step2 from "./CreationSteps/Step2.tsx";
+import Step3 from "./CreationSteps/Step3.tsx";
 import { GameServerCreationContext } from "./context.ts";
 import ReapplyDialog from "./ReapplyDialog.tsx";
 import SuccessDialog from "./SuccessDialog.tsx";
 import useGameServerCreation from "./useGameServerCreation.ts";
-import Step1 from "./CreationSteps/Step1.tsx";
-import Step2 from "./CreationSteps/Step2.tsx";
-import Step3 from "./CreationSteps/Step3.tsx";
 
 const PAGES = [<Step1 key="step1" />, <Step2 key="step2" />, <Step3 key="step3" />];
 
@@ -125,5 +125,5 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
 };
 
 export default CreateGameServerModal;
-export { GENERIC_GAME_PLACEHOLDER_VALUE, GameServerCreationContext } from "./context.ts";
 export type { AutoCompleteSelections, GameServerCreationFormState } from "./context.ts";
+export { GameServerCreationContext, GENERIC_GAME_PLACEHOLDER_VALUE } from "./context.ts";

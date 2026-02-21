@@ -21,8 +21,8 @@ export function preProcessInputValue(value: string, inputType: InputType): strin
  */
 export function processEscapeSequences(value: string): string {
   return value
-    .replace(/\\\\/g, '\\')    // backslash (must be FIRST to handle escaping correctly)
-    .replace(/\\n/g, '\n')     // newline
-    .replace(/\\t/g, '\t')     // tab
-    .replace(/\\r/g, '\r');    // carriage return
+    .replace(/\\\\/g, "\\") // backslash (must be FIRST to handle escaping correctly)
+    .replace(/\\n/g, "\n") // newline
+    .replace(/\\t/g, "\t") // tab
+    .replace(/\\r/g, "\r"); // carriage return
 }

@@ -1,3 +1,4 @@
+import { Button } from "@components/ui/button.tsx";
 import { FieldLabel } from "@components/ui/field";
 import { Input } from "@components/ui/input";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
@@ -37,9 +38,9 @@ export default function TextInput({
               side="top"
               asChild={false}
             >
-              <div role="button" tabIndex={0}>
+              <Button variant={"ghost"} tabIndex={0} className={"p-0! m-0!"}>
                 <Info className="w-4 h-4 text-muted-foreground" />
-              </div>
+              </Button>
             </TooltipWrapper>
           ) : undefined
         }

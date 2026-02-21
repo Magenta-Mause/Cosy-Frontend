@@ -23,7 +23,7 @@ interface SuccessDialogProps {
 const SuccessDialog = ({ open, onClose, successInfo }: SuccessDialogProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const openDashboard = () => navigate({ to: "/server/" + successInfo?.server.uuid });
+  const openDashboard = () => navigate({ to: `/server/${successInfo?.server.uuid}` });
 
   return (
     <Dialog open={open} onOpenChange={onClose}>

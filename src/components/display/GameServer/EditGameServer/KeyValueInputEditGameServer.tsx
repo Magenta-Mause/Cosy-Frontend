@@ -4,11 +4,7 @@ import { Info } from "lucide-react";
 import { Fragment, useCallback, useMemo, useRef } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
-import {
-  type InputType,
-  preProcessInputValue,
-  processEscapeSequences,
-} from "../CreateGameServer/util";
+import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
 import ListInputEdit from "./ListInputEditGameServer";
 
 interface KeyValueItem {

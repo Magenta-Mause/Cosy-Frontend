@@ -34,7 +34,10 @@ const GenericGameServerCreationInputField = (props: {
 
     // Optional fields are always considered "touched" even when empty
     // Required fields are only touched when they have a value
-    setAttributeTouched(props.attribute, value !== undefined || (props.optional && isEmpty));
+    setAttributeTouched(
+      props.attribute,
+      (value !== undefined || (props.optional && isEmpty)) ?? false,
+    );
 
     // If optional and empty, it's valid
     if (props.optional && isEmpty) {

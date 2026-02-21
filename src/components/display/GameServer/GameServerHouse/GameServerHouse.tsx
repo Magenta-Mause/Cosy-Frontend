@@ -35,7 +35,7 @@ const GameServerHouse = (props: {
 
   const isHouse = useMemo(() => {
     if (props.gameServer.design !== undefined) {
-      return props.gameServer.design === 'HOUSE';
+      return props.gameServer.design === "HOUSE";
     }
     const hash = hashUUID(props.gameServer.uuid);
     return hash % 2 === 0;
