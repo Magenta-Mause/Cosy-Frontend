@@ -195,6 +195,7 @@ const translation: i18nLanguage = {
     CreateGameServer: {
       backButton: "Zurück",
       nextStepButton: "Weiter",
+      serverNamePlaceholder: "Mein Server",
       useTemplate: "Template verwenden",
       useNoTemplate: "Ohne Template fortfahren",
       createServerButton: "Server erstellen",
@@ -204,6 +205,12 @@ const translation: i18nLanguage = {
           "Du hast die Template-Variablen geändert. Möchtest du das Template mit den neuen Werten erneut anwenden? Dies überschreibt alle manuellen Änderungen, die du in Schritt 3 vorgenommen hast.",
         cancel: "Aktuelle Werte behalten",
         confirm: "Template erneut anwenden",
+      },
+      successDialog: {
+        title: "Server erstellt!",
+        description: "\"{{name}}\" ist bereit zur Verwendung.",
+        completedStepLabel: "Server bereit!",
+        doneButton: "Fertig",
       },
       listInput: {
         addButton: "Hinzufügen",
@@ -230,6 +237,7 @@ const translation: i18nLanguage = {
         step2: {
           title: " Template auswählen",
           description: "Wähle ein Template für deinen Server aus.",
+          noTemplatesAvailable: "Für dieses Spiel sind keine Templates verfügbar. Du kannst fortfahren.",
           templateSelection: {
             title: "Template",
             description: "Wähle ein Template für deinen Server aus",

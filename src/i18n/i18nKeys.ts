@@ -252,6 +252,7 @@ export type i18nLanguage = {
     CreateGameServer: {
       backButton: string;
       nextStepButton: string;
+      serverNamePlaceholder: string;
       useTemplate: string;
       useNoTemplate: string;
       createServerButton: string;
@@ -260,6 +261,12 @@ export type i18nLanguage = {
         description: string;
         cancel: string;
         confirm: string;
+      };
+      successDialog: {
+        title: string;
+        description: ContainsVariable<"name">;
+        completedStepLabel: string;
+        doneButton: string;
       };
       listInput: {
         addButton: string;
@@ -285,6 +292,7 @@ export type i18nLanguage = {
         step2: {
           title: string;
           description: string;
+          noTemplatesAvailable: string;
           templateSelection: {
             title: string;
             description: string;

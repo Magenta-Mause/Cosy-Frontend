@@ -44,6 +44,14 @@ export default function Step2() {
     setCurrentPageValid(isValid);
   }, [selectedTemplate, templateVariables, setCurrentPageValid]);
 
+  if (templatesForGame.length === 0) {
+    return (
+      <GenericGameServerCreationPage>
+        <p className="text-sm text-muted-foreground">{t("noTemplatesAvailable")}</p>
+      </GenericGameServerCreationPage>
+    );
+  }
+
   return (
     <GenericGameServerCreationPage>
       <div className={"flex flex-col gap-4"}>

@@ -49,6 +49,9 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     disableDebounce,
     disableCache,
     onItemSelect,
+    alwaysIncludeFallback,
+    fallbackValue,
+    fallbackLabel: noAutoCompleteItemsLabel,
   });
 
   return (

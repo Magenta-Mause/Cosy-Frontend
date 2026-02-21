@@ -194,6 +194,7 @@ const translation: i18nLanguage = {
     CreateGameServer: {
       backButton: "Back",
       nextStepButton: "Next Step",
+      serverNamePlaceholder: "My Server",
       useTemplate: "Apply Template",
       useNoTemplate: "Continue without Template",
       createServerButton: "Create Server",
@@ -203,6 +204,12 @@ const translation: i18nLanguage = {
           "You have changed template variables. Do you want to reapply the template with the new values? This will overwrite any manual changes you made in Step 3.",
         cancel: "Keep Current Values",
         confirm: "Reapply Template",
+      },
+      successDialog: {
+        title: "Server Created!",
+        description: "\"{{name}}\" is ready to be used.",
+        completedStepLabel: "Server Ready!",
+        doneButton: "Done",
       },
       listInput: {
         addButton: "Add",
@@ -228,6 +235,7 @@ const translation: i18nLanguage = {
         step2: {
           title: "Choose Template",
           description: "Choose a template for your server.",
+          noTemplatesAvailable: "No templates are available for this game. You can proceed.",
           templateSelection: {
             title: "Template",
             description: "Select a template for your server",
