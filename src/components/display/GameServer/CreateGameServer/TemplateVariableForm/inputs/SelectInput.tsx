@@ -6,6 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select";
+import { cn } from "@/lib/utils.ts";
 import type { VariableInputProps } from "./types";
 
 export default function SelectInput({
@@ -24,10 +25,10 @@ export default function SelectInput({
         {variable.name}
       </FieldLabel>
       <Select value={String(value ?? "")} onValueChange={(val) => onValueChange(variable, val)}>
-        <SelectTrigger id={placeholder} className={showError ? "border-red-500" : ""}>
+        <SelectTrigger id={placeholder} className={cn(showError ? "border-red-500" : "")}>
           <SelectValue placeholder={t("selectPlaceholder")} />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className={"z-600"}>
           {variable.options?.map((option) => (
             <SelectItem key={option} value={option}>
               {option}

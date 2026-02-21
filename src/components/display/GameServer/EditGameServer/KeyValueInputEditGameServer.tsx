@@ -1,4 +1,6 @@
 import { Input } from "@components/ui/input.tsx";
+import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import { Info } from "lucide-react";
 import { Fragment, useCallback, useMemo, useRef } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
@@ -29,6 +31,7 @@ interface Props<T> {
   inputType: InputType;
   objectKey: keyof T;
   objectValue: keyof T;
+  processEscapeSequences?: boolean;
 }
 
 function EditKeyValueInput<T extends Record<string, string>>({
@@ -46,6 +49,7 @@ function EditKeyValueInput<T extends Record<string, string>>({
   inputType,
   objectKey,
   objectValue,
+  processEscapeSequences: shouldProcessEscapeSequences = false,
 }: Props<T>) {
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
@@ -130,13 +134,24 @@ function EditKeyValueInput<T extends Record<string, string>>({
               onChange={(e) => changeCallback({ ...row, key: e.target.value })}
               type={inputType}
             />
-            <Input
-              className={rowError ? "border-red-500" : ""}
-              placeholder={placeHolderValueInput}
-              value={row.value}
-              onChange={(e) => changeCallback({ ...row, value: e.target.value })}
-              type={inputType}
-            />
+            <div className="relative flex items-center gap-1">
+              <Input
+                className={rowError ? "border-red-500" : ""}
+                placeholder={placeHolderValueInput}
+                value={row.value}
+                onChange={(e) => changeCallback({ ...row, value: e.target.value })}
+                type={inputType}
+              />
+              {shouldProcessEscapeSequences && (
+                <TooltipWrapper
+                  tooltip="Supports escape sequences: \n (newline), \t (tab), \r (carriage return), \\ (backslash)"
+                  side="top"
+                  asChild={false}
+                >
+                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                </TooltipWrapper>
+              )}
+            </div>
           </div>
         </Fragment>
       )}

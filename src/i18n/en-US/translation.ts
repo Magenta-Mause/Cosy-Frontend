@@ -194,6 +194,7 @@ const translation: i18nLanguage = {
     CreateGameServer: {
       backButton: "Back",
       nextStepButton: "Next Step",
+      serverNamePlaceholder: "My Server",
       useTemplate: "Apply Template",
       useNoTemplate: "Continue without Template",
       createServerButton: "Create Server",
@@ -204,12 +205,19 @@ const translation: i18nLanguage = {
         cancel: "Keep Current Values",
         confirm: "Reapply Template",
       },
+      successDialog: {
+        title: "Server Created!",
+        description: '"{{name}}" is ready to be started.',
+        completedStepLabel: "Server Ready!",
+        doneButton: "Done",
+        openDashboard: "Go to dashboard",
+      },
       listInput: {
         addButton: "Add",
       },
       steps: {
         step1: {
-          title: "Step 1: Choose Server name and Game",
+          title: "Choose name and Game",
           serverNameSelection: {
             title: "Server Name",
             description: "Name your server",
@@ -226,8 +234,12 @@ const translation: i18nLanguage = {
           },
         },
         step2: {
-          title: "Step 2: Choose Template",
+          title: "Choose Template",
           description: "Choose a template for your server.",
+          noTemplatesAvailable: "No templates are available for this game. You can proceed.",
+          searchPlaceholder: "Search templates...",
+          requestTemplateText: "You can request a template for this game by",
+          requestTemplateLinkLabel: "submitting this form",
           templateSelection: {
             title: "Template",
             description: "Select a template for your server",
@@ -237,7 +249,7 @@ const translation: i18nLanguage = {
           },
         },
         step3: {
-          title: "Step 3: Configure your Server",
+          title: "Configure your Server",
           description: "Here you can configure your server.",
           dockerImageSelection: {
             title: "Docker image",
@@ -280,6 +292,7 @@ const translation: i18nLanguage = {
             errorLabel: "Please enter a valid CPU limit.",
           },
         },
+        title: "Create Server",
       },
       autoCompleteInputField: {
         loadingLabel: "Loading...",
@@ -338,6 +351,11 @@ const translation: i18nLanguage = {
         uploadInSyntheticDir: "Cannot upload files in virtual directories",
         uploadNoPermission: "You don't have permission to upload files",
       },
+    },
+
+    settingsActionButtons: {
+      revert: "Revert",
+      confirm: "Confirm",
     },
 
     editGameServer: {
@@ -494,6 +512,7 @@ const translation: i18nLanguage = {
         metrics: "Metrics",
         accessManagement: "Access Management",
         rcon: "RCON",
+        design: "Design",
       },
       sections: {
         general: "General Settings",
@@ -532,6 +551,14 @@ const translation: i18nLanguage = {
       },
     },
     gameServerSettings: {
+      designSettings: {
+        title: "Server Design",
+        description: "Choose the appearance of your server on the home page",
+        house: "House",
+        castle: "Castle",
+        revert: "Revert",
+        confirm: "Confirm",
+      },
       rconSettings: {
         title: "RCON Configuration",
         description: {

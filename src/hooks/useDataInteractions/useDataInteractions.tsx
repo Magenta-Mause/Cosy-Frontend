@@ -15,11 +15,13 @@ import {
   useTransferOwnership,
   useUpdateGameServer,
   useUpdateGameServerAccessGroups,
+  useUpdateGameServerDesign,
   useUpdateRconConfiguration,
 } from "@/api/generated/backend-api.ts";
 import type {
   AccessGroupCreationDto,
   AccessGroupUpdateDto,
+  GameServerDesign,
   RCONConfiguration,
   TransferOwnershipDto,
   UserInviteCreationDto,
@@ -170,6 +172,26 @@ const useDataInteractions = () => {
     });
   };
 
+  const { mutateAsync: updateGameServerDesignMutateAsync } = useUpdateGameServerDesign({
+    mutation: {
+      onSuccess: (updatedGameServer) => {
+        dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
+        toast.success(t("updateGameServerSuccess"));
+      },
+      onError: (err) => {
+        toast.error(t("updateGameServerError"));
+        throw err;
+      },
+    },
+  });
+
+  const updateGameServerDesign = async (uuid: string, design: GameServerDesign) => {
+    return await updateGameServerDesignMutateAsync({
+      uuid,
+      data: { design },
+    });
+  };
+
   const { mutateAsync: transferOwnershipMutateAsync } = useTransferOwnership({
     mutation: {
       onSuccess: (updatedGameServer) => {
@@ -284,6 +306,7 @@ const useDataInteractions = () => {
     createGameServer,
     updateGameServer,
     updateRconConfiguration,
+    updateGameServerDesign,
     transferOwnership,
     createGameServerAccessGroup,
     deleteGameServerAccessGroup,

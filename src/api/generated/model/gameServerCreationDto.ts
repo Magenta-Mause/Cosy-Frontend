@@ -6,12 +6,14 @@
  * OpenAPI spec version: v1.0
  */
 import type { DockerHardwareLimits } from './dockerHardwareLimits';
+import type { GameServerDesign } from './gameServerDesign';
 import type { PortMapping } from './portMapping';
 import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
 import type { VolumeMountConfigurationCreationDto } from './volumeMountConfigurationCreationDto';
 
 export interface GameServerCreationDto {
   external_game_id?: number;
+  design?: GameServerDesign;
   /** @minLength 1 */
   server_name: string;
   /** @minLength 1 */

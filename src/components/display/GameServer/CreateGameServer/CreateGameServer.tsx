@@ -1,4 +1,3 @@
-import { Dialog } from "@components/ui/dialog.tsx";
 import type { Dispatch, SetStateAction } from "react";
 import CreateGameServerModal from "./CreateGameServerModal.tsx";
 
@@ -7,13 +6,6 @@ type Props = {
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function CreateGameServer({
-  isModalOpen: openModal,
-  setIsModalOpen: setOpenModal,
-}: Props) {
-  return (
-    <Dialog open={openModal} onOpenChange={setOpenModal}>
-      <CreateGameServerModal setOpen={setOpenModal} />
-    </Dialog>
-  );
+export default function CreateGameServer({ isModalOpen, setIsModalOpen: setOpenModal }: Props) {
+  return <CreateGameServerModal setOpen={setOpenModal} isOpen={isModalOpen} />;
 }
