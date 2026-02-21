@@ -124,7 +124,7 @@ function KeyValueInput({
               className={rowError ? "border-red-500" : ""}
               id={`key-value-input-value-${keyValuePair.uuid}`}
               placeholder={placeHolderValueInput}
-              value={(keyValuePair.value?.replace("\n", "\\n") as string | undefined) || ""}
+              value={(keyValuePair.value?.replaceAll("\n", "\\n") as string | undefined) || ""}
               onChange={(e) => {
                 changeCallback({ ...keyValuePair, value: e.target.value });
               }}
