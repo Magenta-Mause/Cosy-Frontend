@@ -530,6 +530,9 @@ const translation: i18nLanguage = {
           error: "Please set a key value pair",
         },
       },
+      publicDashboard: {
+        label: "Make Public Dashboard Visable",
+      },
     },
     gameServerSettings: {
       rconSettings: {
@@ -644,6 +647,18 @@ const translation: i18nLanguage = {
             name: "Delete Server",
             description: "Permanently delete the server. This action cannot be undone.",
           },
+          READ_SERVER_PRIVATE_DASHBOARD: {
+            name: "Read Private Dashboard",
+            description: "View the private dashboard.",
+          },
+          CHANGE_PRIVATE_DASHBOARD_SETTINGS: {
+            name: "Change Private Dashboard Settings",
+            description: "Configure the private dashboard layout and widgets.",
+          },
+          CHANGE_PUBLIC_DASHBOARD_SETTINGS: {
+            name: "Change Public Dashboard Settings",
+            description: "Configure the public dashboard layout and widgets.",
+          },
         },
       },
     },
@@ -746,6 +761,10 @@ const translation: i18nLanguage = {
     SMALL: "Small",
     MEDIUM: "Medium",
     LARGE: "Large",
+  },
+  dashboard: {
+    true: "Zur öffentlichen Ansicht wechseln",
+    false: "Zur privaten Ansicht wechseln",
   },
 };
 

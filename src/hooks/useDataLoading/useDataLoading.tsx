@@ -11,7 +11,7 @@ import {
   getMetrics,
   getUserPermissions,
 } from "@/api/generated/backend-api.ts";
-import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
+import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
 import { containsPermission } from "@/lib/permissionCalculations.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
@@ -20,6 +20,7 @@ import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { templateSliceActions } from "@/stores/slices/templateSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import { userSliceActions } from "@/stores/slices/userSlice.ts";
+import { DashboardElementTypes } from "@/types/dashboardTypes";
 
 const useDataLoading = () => {
   const dispatch = useDispatch();
@@ -135,6 +136,25 @@ const useDataLoading = () => {
     ]);
   };
 
+  const loadPublicEvaluableGameServerData = async (gameServer: GameServerDto) => {
+    if (
+      gameServer.public_dashboard_layouts.some(
+        (layout) => layout.public_dashboard_types === DashboardElementTypes.LOGS,
+      )
+    ) {
+      const permissions = await loadGameServerPermissions(gameServer.uuid, [GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS]) || undefined;
+      await loadGameServerLogs(gameServer.uuid, permissions);
+    }
+    if (
+      gameServer.public_dashboard_layouts.some(
+        (layout) => layout.public_dashboard_types === DashboardElementTypes.METRIC,
+      )
+    ) {
+      const permissions = await loadGameServerPermissions(gameServer.uuid, [GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS]) || undefined;
+      await loadGameServerMetrics(gameServer.uuid, undefined, undefined, permissions);
+    }
+  };
+
   const loadGameServers = async () => {
     dispatch(gameServerSliceActions.setState("loading"));
     try {
@@ -143,6 +163,26 @@ const useDataLoading = () => {
       dispatch(gameServerSliceActions.setGameServers(gameServers));
       await Promise.allSettled(
         gameServers.map((gameServer) => loadAdditionalGameServerData(gameServer.uuid)),
+      );
+      return true;
+    } catch {
+      dispatch(gameServerSliceActions.setState("failed"));
+      return false;
+    }
+  };
+
+  const loadPublicGameServer = async () => {
+    dispatch(gameServerSliceActions.setState("loading"));
+    try {
+      const gameServers = await getAllGameServers();
+      dispatch(gameServerSliceActions.setState("idle"));
+      dispatch(gameServerSliceActions.setGameServers(gameServers));
+      const allowedGameServers = gameServers.filter(
+        (gameServer) => gameServer.public_dashboard_enabled,
+      );
+
+      await Promise.allSettled(
+        allowedGameServers.map((gs) => loadPublicEvaluableGameServerData(gs)),
       );
       return true;
     } catch {
@@ -181,6 +221,11 @@ const useDataLoading = () => {
     gameServerUuid: string,
     permissions?: GameServerAccessGroupDtoPermissionsItem[],
   ) => {
+    console.log("logs",
+      !containsPermission(
+        permissions ?? [],
+        GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS,
+      ))
     if (
       !containsPermission(
         permissions ?? [],
@@ -190,7 +235,7 @@ const useDataLoading = () => {
       dispatch(gameServerLogSliceActions.removeLogsFromServer(gameServerUuid));
       return;
     }
-
+    console.log("Loading logs for server", gameServerUuid);
     dispatch(gameServerLogSliceActions.setState({ gameServerUuid, state: "loading" }));
     try {
       const logs = await getLogs(gameServerUuid);
@@ -213,6 +258,11 @@ const useDataLoading = () => {
       end?: Date,
       permissions?: GameServerAccessGroupDtoPermissionsItem[],
     ) => {
+      console.log("metrics",
+        !containsPermission(
+          permissions ?? [],
+          GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS,
+        ))
       if (
         permissions !== undefined &&
         !containsPermission(
@@ -229,6 +279,7 @@ const useDataLoading = () => {
           start: start ? start.toISOString() : undefined,
           end: end ? end.toISOString() : undefined,
         });
+        console.log("fetched metrics", metrics);
         const metricsWithUuid = metrics.map((metric) => ({ ...metric, uuid: generateUuid() }));
         dispatch(
           gameServerMetricsSliceActions.setGameServerMetrics({
@@ -289,6 +340,7 @@ const useDataLoading = () => {
     loadGameServerPermissions,
     loadAdditionalGameServerData,
     loadGameServer,
+    loadPublicGameServer,
   };
 };
 

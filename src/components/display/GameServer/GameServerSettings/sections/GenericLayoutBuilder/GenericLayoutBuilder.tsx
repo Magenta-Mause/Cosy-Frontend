@@ -25,15 +25,11 @@ import { Plus, X } from "lucide-react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
-import {
-  type GameServerDto,
-  type MetricLayout,
-  type PrivateDashboardLayout,
-  PrivateDashboardLayoutPrivateDashboardTypes,
-} from "@/api/generated/model";
+import type { GameServerDto, MetricLayout, PrivateDashboardLayout } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
+import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
 import UnsavedModal from "./UnsavedModal";
@@ -64,7 +60,7 @@ function SortableCard({
       className={cn(
         className,
         "cursor-grab active:cursor-grabbing touch-manipulation shadow-lg",
-        isDragging && "!scale-100 shadow-2xl z-10",
+        isDragging && "scale-100! shadow-2xl z-10",
       )}
       {...attributes}
       {...listeners}
@@ -77,10 +73,11 @@ function SortableCard({
 interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: LayoutSize }> {
   gameServer: GameServerDto;
   defaultAddNew: T;
-  layoutSection: "private_dashboard_layouts" | "metric_layout";
+  layoutSection: "private_dashboard_layouts" | "metric_layout" | "public_dashboard_layouts";
   isChanged: boolean;
   layouts: T[];
   unfulfilledChanges?: string | null;
+  publicIsEnabled?: boolean;
   setUnfulfilledChanges?: (message: string | null) => void;
   saveHandler?: (uuid: string, layouts: PrivateDashboardLayout[] | MetricLayout[]) => void;
   setLayouts: React.Dispatch<React.SetStateAction<T[]>>;
@@ -97,8 +94,9 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
     layouts,
     unfulfilledChanges,
     layoutSection,
-    setLayouts,
     defaultAddNew,
+    publicIsEnabled,
+    setLayouts,
     setUnfulfilledChanges,
     children,
     saveHandler,
@@ -122,9 +120,12 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
   const wrap = useCallback((layout: T): T => ({ ...layout, _uiUuid: generateUuid() }), []);
   const wrapper = useCallback((layouts: T[]): T[] => layouts.map(wrap), [wrap]);
 
+  const isEnabled = publicIsEnabled ?? true;
+
   const handleConfirm = useCallback(() => {
     const updatedServer: GameServerDto = {
       ...gameServer,
+      public_dashboard_enabled: publicIsEnabled,
       [layoutSection]: layouts.map(({ _uiUuid, ...layout }) => layout),
     };
 
@@ -132,7 +133,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
       .filter((layout) => {
         const l = layout as PrivateDashboardLayoutUI;
         return (
-          l.private_dashboard_types === PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT &&
+          l.private_dashboard_types === DashboardElementTypes.FREETEXT &&
           (l.content === undefined ||
             l.content?.length === 0 ||
             l.content?.some((c) => !c.key || !c.value))
@@ -151,7 +152,16 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
 
     dispatch(gameServerSliceActions.updateGameServer(updatedServer));
     saveHandler?.(gameServer.uuid, updatedServer[layoutSection]);
-  }, [gameServer, layoutSection, layouts, dispatch, saveHandler, setUnfulfilledChanges, t]);
+  }, [
+    gameServer,
+    layoutSection,
+    layouts,
+    dispatch,
+    saveHandler,
+    setUnfulfilledChanges,
+    t,
+    publicIsEnabled,
+  ]);
 
   const handleWidthSelect = useCallback(
     (size: LayoutSize, uuid?: string) => {
@@ -215,6 +225,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
         >
           <Button
             variant="destructive"
+            disabled={!isEnabled}
             className="flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 z-10"
             onClick={(e) => {
               e.stopPropagation();
@@ -239,7 +250,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
           </div>
         </SortableCard>
       )),
-    [layouts, cardErrors, children, t, handleWidthSelect, handleOnDelete],
+    [layouts, cardErrors, children, t, handleWidthSelect, handleOnDelete, isEnabled],
   );
 
   useBlocker({
@@ -255,9 +266,9 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
 
   return (
     <>
-      <div className="flex w-full pt-3">
+      <div className={`flex w-full pt-3 ${isEnabled ? "" : "blur-xs"}`}>
         <Card className="w-full h-[65vh]">
-          <CardContent className="grid grid-cols-6 gap-4 overflow-auto p-6">
+          <CardContent className={"grid grid-cols-6 gap-4 overflow-auto p-6"}>
             <DndContext
               sensors={sensors}
               collisionDetection={closestCorners}
@@ -271,14 +282,15 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
                 {activeLayout ? (
                   <Card
                     className={cn(
-                      "relative border-2 border-primary rounded-md bg-background/90 shadow-2xl h-[16vh] justify-center cursor-dragging z-50",
+                      `relative border-2 border-primary rounded-md bg-background/90 shadow-2xl h-[16vh] justify-center cursor-dragging z-50`,
                       COL_SPAN_MAP[activeLayout.size ?? LayoutSize.MEDIUM],
                       cardErrors.has(activeLayout._uiUuid) &&
-                        "border-destructive bg-destructive/20",
+                      "border-destructive bg-destructive/20",
                     )}
                   >
                     <Button
                       variant="destructive"
+                      disabled={isEnabled}
                       className="pointer-events-none flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 opacity-50 z-10"
                     >
                       <X />
@@ -293,9 +305,10 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
                       <div className="flex flex-col gap-2">
                         {children?.(activeLayout)}
                         <SizeDropDown
+                          className={`${isEnabled ? "" : "pointer-events-none"}`}
                           size={activeLayout?.size ?? LayoutSize.MEDIUM}
                           uuid={activeLayout._uiUuid}
-                          handleWidthSelect={() => {}} // Disabled during drag
+                          handleWidthSelect={() => { }} // Disabled during drag
                         />
                       </div>
                     </div>
@@ -306,7 +319,8 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
             <Button
               onClick={handleOnAdd}
               variant="secondary"
-              className="outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none bg-background/35"
+              className={`outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none bg-background/35 
+              ${isEnabled ? "" : "pointer-events-none"}`}
             >
               <div className="flex items-center">
                 <Plus className="-size-2" />

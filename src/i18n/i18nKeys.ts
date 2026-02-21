@@ -581,6 +581,9 @@ export type i18nLanguage = {
           error: string;
         };
       };
+      publicDashboard: {
+        label: string;
+      };
     };
     gameServerSettings: {
       rconSettings: {
@@ -691,6 +694,18 @@ export type i18nLanguage = {
             name: string;
             description: string;
           };
+          READ_SERVER_PRIVATE_DASHBOARD: {
+            name: string;
+            description: string;
+          };
+          CHANGE_PRIVATE_DASHBOARD_SETTINGS: {
+            name: string;
+            description: string;
+          };
+          CHANGE_PUBLIC_DASHBOARD_SETTINGS: {
+            name: string;
+            description: string;
+          };
         };
       };
     };
@@ -747,6 +762,10 @@ export type i18nLanguage = {
     SMALL: string;
     MEDIUM: string;
     LARGE: string;
+  };
+  dashboard: {
+    true: string;
+    false: string;
   };
 };
 

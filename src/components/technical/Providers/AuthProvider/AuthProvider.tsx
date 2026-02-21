@@ -61,7 +61,7 @@ const AuthContext = createContext<AuthContextType>({
 const TOKEN_REFRESH_BUFFER = 5 * 60 * 1000;
 
 const AuthProvider = (props: { children: ReactNode }) => {
-  const { loadAllData } = useDataLoading();
+  const { loadAllData, loadPublicGameServer } = useDataLoading();
   const dispatch = useDispatch();
   const [username, setUsername] = useState<string | null>(null);
   const [uuid, setUuid] = useState<string | null>(null);
@@ -190,8 +190,10 @@ const AuthProvider = (props: { children: ReactNode }) => {
     if (authorized) {
       const isAdmin = role === "ADMIN" || role === "OWNER";
       loadAllData(isAdmin);
+    } else {
+      loadPublicGameServer();
     }
-  }, [authorized, role, loadAllData]);
+  }, [authorized, role, loadAllData, loadPublicGameServer]);
 
   return (
     <AuthContext.Provider
