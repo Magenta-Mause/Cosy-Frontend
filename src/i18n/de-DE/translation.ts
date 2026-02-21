@@ -208,9 +208,10 @@ const translation: i18nLanguage = {
       },
       successDialog: {
         title: "Server erstellt!",
-        description: "\"{{name}}\" ist bereit zur Verwendung.",
+        description: '"{{name}}" ist bereit gestartet werden.',
         completedStepLabel: "Server bereit!",
         doneButton: "Fertig",
+        openDashboard: "Dashboard öffnen",
       },
       listInput: {
         addButton: "Hinzufügen",
@@ -237,7 +238,11 @@ const translation: i18nLanguage = {
         step2: {
           title: " Template auswählen",
           description: "Wähle ein Template für deinen Server aus.",
-          noTemplatesAvailable: "Für dieses Spiel sind keine Templates verfügbar. Du kannst fortfahren.",
+          noTemplatesAvailable:
+            "Für dieses Spiel sind keine Templates verfügbar. Du kannst fortfahren.",
+          searchPlaceholder: "Templates suchen...",
+          requestTemplateText: "Du kannst ein Template für dieses Spiel anfragen, indem du",
+          requestTemplateLinkLabel: "dieses Formular ausfüllst",
           templateSelection: {
             title: "Template",
             description: "Wähle ein Template für deinen Server aus",

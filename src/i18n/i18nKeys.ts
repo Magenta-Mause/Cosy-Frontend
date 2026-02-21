@@ -267,6 +267,7 @@ export type i18nLanguage = {
         description: ContainsVariable<"name">;
         completedStepLabel: string;
         doneButton: string;
+        openDashboard: string;
       };
       listInput: {
         addButton: string;
@@ -293,6 +294,9 @@ export type i18nLanguage = {
           title: string;
           description: string;
           noTemplatesAvailable: string;
+          searchPlaceholder: string;
+          requestTemplateText: string;
+          requestTemplateLinkLabel: string;
           templateSelection: {
             title: string;
             description: string;

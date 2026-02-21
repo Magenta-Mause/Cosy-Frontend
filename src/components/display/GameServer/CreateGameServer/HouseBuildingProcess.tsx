@@ -31,6 +31,7 @@ const HouseBuildingProcess = (props: {
   currentStep: number;
   serverName?: string;
   stepLabel?: string;
+  allStepsFinished?: boolean;
 }) => {
   const { t } = useTranslation();
   const type = props.houseType === "CASTLE" ? "CASTLE" : "HOUSE";
@@ -64,14 +65,19 @@ const HouseBuildingProcess = (props: {
         </NameAndStatusBanner>
       </div>
 
-      <Stepper step={props.currentStep} label={props.stepLabel} />
+      <Stepper
+        step={props.currentStep}
+        label={props.stepLabel}
+        allStepsFinished={props.allStepsFinished}
+      />
     </div>
   );
 };
 
-const Stepper = (props: { step: number; label?: string }) => {
+const Stepper = (props: { step: number; label?: string; allStepsFinished?: boolean }) => {
   const { t } = useTranslation();
-  const stepTitle = props.label ?? t(`components.CreateGameServer.steps.step${props.step + 1}.title`);
+  const stepTitle =
+    props.label ?? t(`components.CreateGameServer.steps.step${props.step + 1}.title`);
   return (
     <div className="flex flex-col items-center gap-3">
       {/* Step indicators */}
@@ -82,9 +88,9 @@ const Stepper = (props: { step: number; label?: string }) => {
             <div
               className={cn(
                 "flex items-center justify-center w-10 h-10 rounded-full text-[23px] font-semibold transition-colors border-button-primary-default border-2",
-                i < props.step
+                i < props.step && !props.allStepsFinished
                   ? "bg-button-primary-default/60 text-card"
-                  : i === props.step
+                  : i === props.step || props.allStepsFinished
                     ? "bg-button-primary-default text-card"
                     : "bg-card text-muted-foreground",
               )}

@@ -1,14 +1,12 @@
-import { useCallback, useEffect, useState } from "react";
 import type { Dispatch, SetStateAction } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { parse as parseCommand } from "shell-quote";
-import type { GameServerCreationDto } from "@/api/generated/model";
+import type { GameServerCreationDto, GameServerDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import {
-  GENERIC_GAME_PLACEHOLDER_VALUE,
   type CreationState,
   type GameServerCreationContext,
-  type GameServerCreationFormState,
-  type UtilState,
+  GENERIC_GAME_PLACEHOLDER_VALUE,
 } from "./context.ts";
 import { processEscapeSequences } from "./util";
 import { applyTemplate } from "./utils/templateSubstitution.ts";
@@ -28,7 +26,7 @@ interface UseGameServerCreationReturn {
   showReapplyDialog: boolean;
   showSuccessDialog: boolean;
   setShowSuccessDialog: Dispatch<SetStateAction<boolean>>;
-  successInfo: { design: GameServerCreationFormState["design"]; serverName: string } | null;
+  successInfo: { server: GameServerDto } | null;
   isLastPage: boolean;
   setGameServerState: GameServerCreationContext["setGameServerState"];
   setUtilState: GameServerCreationContext["setUtilState"];
@@ -53,8 +51,7 @@ const useGameServerCreation = ({
   const [pendingPageChange, setPendingPageChange] = useState<number | null>(null);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [successInfo, setSuccessInfo] = useState<{
-    design: GameServerCreationFormState["design"];
-    serverName: string;
+    server: GameServerDto;
   } | null>(null);
 
   const isLastPage = currentPage === TOTAL_PAGES - 1;
@@ -94,8 +91,6 @@ const useGameServerCreation = ({
   const handleNextPage = useCallback(async () => {
     if (isLastPage) {
       const formState = creationState.gameServerState;
-      const capturedDesign = formState.design ?? "HOUSE";
-      const capturedName = formState.server_name ?? "";
 
       const gameServerCreationObject: GameServerCreationDto = {
         server_name: formState.server_name ?? "",
@@ -127,7 +122,7 @@ const useGameServerCreation = ({
       };
 
       try {
-        await createGameServer(gameServerCreationObject);
+        const createdGameServer = await createGameServer(gameServerCreationObject);
         setCreationState({
           gameServerState: { design: Math.random() < 0.5 ? "HOUSE" : "CASTLE" },
           utilState: {},
@@ -135,7 +130,7 @@ const useGameServerCreation = ({
         setPageValid({});
         setCurrentPage(0);
         setOpen(false);
-        setSuccessInfo({ design: capturedDesign, serverName: capturedName });
+        setSuccessInfo({ server: createdGameServer });
         setShowSuccessDialog(true);
       } catch {
         // error already toasted by the hook; keep modal open

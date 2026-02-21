@@ -8,40 +8,49 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
+import { useNavigate } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import type { GameServerCreationFormState } from "./context.ts";
+import type { GameServerDto } from "@/api/generated/model";
 
 interface SuccessDialogProps {
   open: boolean;
   onClose: () => void;
-  successInfo: { design: GameServerCreationFormState["design"]; serverName: string } | null;
+  successInfo: {
+    server: GameServerDto;
+  } | null;
 }
 
 const SuccessDialog = ({ open, onClose, successInfo }: SuccessDialogProps) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const openDashboard = () => navigate({ to: "/server/" + successInfo?.server.uuid });
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="flex flex-col items-center gap-6 p-8">
+      <DialogContent className="flex flex-col gap-6 p-8">
         <DialogHeader className="items-center">
           <DialogTitle>{t("components.CreateGameServer.successDialog.title")}</DialogTitle>
           <DialogDescription>
             {t("components.CreateGameServer.successDialog.description", {
-              name: successInfo?.serverName,
+              name: successInfo?.server.server_name,
             })}
           </DialogDescription>
         </DialogHeader>
         {successInfo && (
           <HouseBuildingProcess
-            houseType={successInfo.design}
+            houseType={successInfo.server.design}
             currentStep={2}
-            serverName={successInfo.serverName}
+            serverName={successInfo.server.server_name}
             stepLabel={t("components.CreateGameServer.successDialog.completedStepLabel")}
+            allStepsFinished
           />
         )}
         <DialogFooter>
-          <Button variant="primary" onClick={onClose}>
+          <Button variant="secondary" onClick={onClose}>
             {t("components.CreateGameServer.successDialog.doneButton")}
+          </Button>
+          <Button variant={"primary"} onClick={openDashboard}>
+            {t("components.CreateGameServer.successDialog.openDashboard")}
           </Button>
         </DialogFooter>
       </DialogContent>
