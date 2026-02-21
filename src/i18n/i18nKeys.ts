@@ -265,6 +265,7 @@ export type i18nLanguage = {
         addButton: string;
       };
       steps: {
+        title: string;
         step1: {
           title: string;
           serverNameSelection: {

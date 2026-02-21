@@ -209,6 +209,7 @@ const translation: i18nLanguage = {
         addButton: "Hinzufügen",
       },
       steps: {
+        title: "Server erstellen",
         step1: {
           title: "Namen und Spiel auswählen",
           serverNameSelection: {

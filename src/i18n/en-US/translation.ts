@@ -280,6 +280,7 @@ const translation: i18nLanguage = {
             errorLabel: "Please enter a valid CPU limit.",
           },
         },
+        title: "Create Server",
       },
       autoCompleteInputField: {
         loadingLabel: "Loading...",

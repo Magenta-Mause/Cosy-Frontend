@@ -288,7 +288,7 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
           <DialogOverlay />
 
           {/* Full-screen layout container living in the same portal */}
-          <div className="fixed inset-0 z-50 items-center justify-center gap-5 flex pr-[12vw]">
+          <div className="fixed inset-0 z-50 items-center justify-center gap-5 flex pr-[7vw]">
             {/* Left side (outside the main dialog box) */}
             <aside>
               <HouseBuildingProcess
@@ -303,8 +303,8 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
               asChild
             >
               <DialogHeader>
-                <DialogTitle className={"mr-15"}>
-                  {t(`components.CreateGameServer.steps.step${currentPage + 1}.title`)}
+                <DialogTitle className={"mr-5"}>
+                  {t("components.CreateGameServer.steps.title")}
                 </DialogTitle>
               </DialogHeader>
 

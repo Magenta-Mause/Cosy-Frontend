@@ -15,8 +15,8 @@ const TOTAL_STEPS = 3;
 // Per-image horizontal offset in pixels to compensate for off-center subjects.
 // Positive = shift right, negative = shift left.
 const IMAGE_X_OFFSETS: Record<"HOUSE" | "CASTLE", [number, number, number]> = {
-  HOUSE: [17, 17, 17],
-  CASTLE: [41, 38, 38],
+  HOUSE: [70, 70, 70],
+  CASTLE: [35, 38, 38],
 };
 
 // Width of the image in pixels per design type.
@@ -29,17 +29,16 @@ const HouseBuildingProcess = (props: {
   houseType: GameServerDto["design"];
   currentStep: number;
 }) => {
-  const { t } = useTranslation();
   const type = props.houseType === "CASTLE" ? "CASTLE" : "HOUSE";
   const currentImage = type === "HOUSE" ? houses[props.currentStep] : castles[props.currentStep];
   const xOffset = IMAGE_X_OFFSETS[type][props.currentStep];
   const imageWidth = IMAGE_WIDTHS[type];
 
-  const stepTitle = t(`components.CreateGameServer.steps.step${props.currentStep + 1}.title`);
-
   return (
     <div
-      className={"bg-card p-5 rounded-lg border-solid border-2 flex flex-col gap-4 overflow-hidden"}
+      className={
+        "bg-background p-5 rounded-lg border-solid border-2 flex flex-col gap-6 overflow-hidden min-w-100"
+      }
     >
       <img
         src={currentImage}
@@ -51,38 +50,47 @@ const HouseBuildingProcess = (props: {
         }}
       />
 
-      <div className="flex flex-col items-center gap-3">
-        {/* Step indicators */}
-        <div className="flex items-center gap-0">
-          {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
-            <div key={i} className="flex items-center">
+      <Stepper step={props.currentStep} />
+    </div>
+  );
+};
+
+const Stepper = (props: { step: number }) => {
+  const { t } = useTranslation();
+  const stepTitle = t(`components.CreateGameServer.steps.step${props.step + 1}.title`);
+  return (
+    <div className="flex flex-col items-center gap-3">
+      {/* Step indicators */}
+      <div className="flex items-center gap-0">
+        {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: array indices is a valid key here
+          <div key={i} className="flex items-center">
+            <div
+              className={cn(
+                "flex items-center justify-center w-10 h-10 rounded-full text-[23px] font-semibold transition-colors border-button-primary-default border-2",
+                i < props.step
+                  ? "bg-button-primary-default/60 text-card"
+                  : i === props.step
+                    ? "bg-button-primary-default text-card"
+                    : "bg-card text-muted-foreground",
+              )}
+            >
+              {i + 1}
+            </div>
+            {i < TOTAL_STEPS - 1 && (
               <div
                 className={cn(
-                  "flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold transition-colors",
-                  i < props.currentStep
-                    ? "bg-primary/50 text-primary-foreground"
-                    : i === props.currentStep
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground",
+                  "w-16 h-0.5 transition-colors",
+                  i < props.step ? "bg-button-primary-default" : "bg-muted",
                 )}
-              >
-                {i + 1}
-              </div>
-              {i < TOTAL_STEPS - 1 && (
-                <div
-                  className={cn(
-                    "w-16 h-0.5 transition-colors",
-                    i < props.currentStep ? "bg-primary/50" : "bg-muted",
-                  )}
-                />
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Current step title */}
-        <p className="text-sm font-medium text-center">{stepTitle}</p>
+              />
+            )}
+          </div>
+        ))}
       </div>
+
+      {/* Current step title */}
+      <p className="text-xl font-bold text-center">{stepTitle}</p>
     </div>
   );
 };

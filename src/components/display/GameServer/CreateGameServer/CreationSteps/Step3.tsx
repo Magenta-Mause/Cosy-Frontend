@@ -50,7 +50,6 @@ export default function Step3() {
         placeHolderValueInput="4433"
         keyValidator={z.number().min(1).max(65535)}
         valueValidator={z.number().min(1).max(65535)}
-        required
       />
 
       <KeyValueInput
