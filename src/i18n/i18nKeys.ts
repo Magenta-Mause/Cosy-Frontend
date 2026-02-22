@@ -618,6 +618,8 @@ export type i18nLanguage = {
         creating: string;
         edit: string;
         updating: string;
+        copyUrl: string;
+        copied: string;
       };
       privateDashboard: {
         add: string;

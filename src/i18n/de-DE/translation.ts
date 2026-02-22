@@ -530,6 +530,8 @@ const translation: i18nLanguage = {
         creating: "Wird erstellt...",
         edit: "Bearbeiten",
         updating: "Wird aktualisiert...",
+        copyUrl: "URL kopieren",
+        copied: "URL in Zwischenablage kopiert",
       },
       accessManagement: {
         title: "Zugriffsverwaltung",
