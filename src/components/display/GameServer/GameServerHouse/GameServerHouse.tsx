@@ -96,7 +96,7 @@ const GameServerHouse = (props: {
       onClick: () => {
         handleClick();
         router.navigate({
-          to: `/server/${props.gameServer.uuid}`,
+          to: `/server/${props.gameServer.uuid}/console`,
         });
       },
     },
