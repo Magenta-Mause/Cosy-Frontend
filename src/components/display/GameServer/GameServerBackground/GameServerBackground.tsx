@@ -86,7 +86,7 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
   const bgLoops = calculateBgLoops(houseCount);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full min-h-screen bg-[#1F4D15]">
       <div className="relative w-full">
         <img
           src={images.bg.top}

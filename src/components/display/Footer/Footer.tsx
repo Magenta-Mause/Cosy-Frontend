@@ -20,7 +20,6 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
 
   return (
     <div className="relative w-full">
-      {/* Background Image */}
       <img
         src={bgImageFooter}
         alt="BG Bottom"
@@ -28,19 +27,22 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
         style={{ imageRendering: "pixelated" }}
       />
 
-      {/* Content Overlay */}
-      <div className="absolute inset-0 flex items-center justify-between px-8 py-2">
+      <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-8 py-8 text-[#87FF97]">
         {/* Left side - Title and Description */}
-        <div className="flex-1 text-left text-[#87FF97]">
-          <h2 className="text-3xl font-bold mb-4">{t("footer.title")}</h2>
-          <p className="text-lg max-w-md">{t("footer.description")}</p>
+        <div className="flex-1 text-left">
+          <h3 className="font-bold mb-4" style={{ color: "#87FF97" }}>
+            {t("footer.title")}
+          </h3>
+          <p className="text-sm max-w-md">{t("footer.description")}</p>
         </div>
 
         {/* Right side - Imprint */}
         <div className="flex-1 text-right">
           <div className="flex items-start justify-end gap-2">
             <div>
-              <h3 className="text-2xl font-semibold mb-4">{t("footer.imprint")}</h3>
+              <h3 className="text-2xl font-semibold mb-4" style={{ color: "#87FF97" }}>
+                {t("footer.imprint")}
+              </h3>
               {isLoading ? (
                 <p>{t("common.loading")}</p>
               ) : footerData ? (
