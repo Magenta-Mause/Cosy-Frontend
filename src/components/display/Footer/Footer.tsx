@@ -1,6 +1,4 @@
-import { Button } from "@components/ui/button.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGetFooter } from "@/api/generated/backend-api.ts";
@@ -45,38 +43,37 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
         {/* Right side - Imprint */}
         <div className="flex-1 text-right">
           <div className="flex items-start justify-end" style={{ gap: "1vw" }}>
-            {isOwner && (
-              <TooltipWrapper tooltip={t("footer.edit")}>
-                <Button variant="ghost" size="sm" onClick={() => setEditModalOpen(true)}>
-                  <Pencil className="h-4 w-4" />
-                </Button>
-              </TooltipWrapper>
-            )}
-            <div style={{ fontSize: "1vw", color: "#87FF97" }}>
-              {isLoading ? (
-                <p>{t("common.loading")}</p>
-              ) : footerData ? (
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "auto auto",
-                    gap: "0.5vw 2vw",
-                    justifyContent: "end",
-                  }}
-                >
-                  <p className="font-bold" style={{ textAlign: "right" }}>
-                    {t("footer.contact")}
-                  </p>
-                  <p style={{ textAlign: "left" }}>{footerData.full_name}</p>
-                  <p style={{ textAlign: "right" }}>{footerData.email}</p>
-                  <p style={{ textAlign: "left" }}>{footerData.street}</p>
-                  <p style={{ textAlign: "right" }}>{footerData.phone}</p>
-                  <p style={{ textAlign: "left" }}>{footerData.city}</p>
-                </div>
-              ) : (
-                <p>{t("footer.noData")}</p>
-              )}
-            </div>
+            <TooltipWrapper tooltip={isOwner ? t("footer.edit") : undefined}>
+              <div
+                style={{ fontSize: "1vw", color: "#87FF97" }}
+                className={isOwner ? "cursor-pointer hover:opacity-80 transition-opacity" : ""}
+                onClick={isOwner ? () => setEditModalOpen(true) : undefined}
+              >
+                {isLoading ? (
+                  <p>{t("common.loading")}</p>
+                ) : footerData ? (
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "auto auto",
+                      gap: "0.5vw 2vw",
+                      justifyContent: "end",
+                    }}
+                  >
+                    <p className="font-bold" style={{ textAlign: "right" }}>
+                      {t("footer.contact")}
+                    </p>
+                    <p style={{ textAlign: "right" }}>{footerData.full_name}</p>
+                    <p style={{ textAlign: "right" }}>{footerData.email}</p>
+                    <p style={{ textAlign: "right" }}>{footerData.street}</p>
+                    <p style={{ textAlign: "right" }}>{footerData.phone}</p>
+                    <p style={{ textAlign: "right" }}>{footerData.city}</p>
+                  </div>
+                ) : (
+                  <p>{t("footer.noData")}</p>
+                )}
+              </div>
+            </TooltipWrapper>
           </div>
         </div>
       </div>
