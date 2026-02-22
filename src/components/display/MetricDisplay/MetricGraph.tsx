@@ -203,7 +203,7 @@ const MetricGraph = (props: MetricGraphProps) => {
         {showStringValue ? (
           <div className="flex items-center justify-center h-62.5 w-full">
             <div className="text-center">
-              <div className="text-5xl font-bold text-primary mb-2 break-words max-w-full px-4">
+              <div className="text-5xl font-bold text-primary mb-2 wrap-break-word max-w-full px-4">
                 {getLatestStringValue()}
               </div>
             </div>
