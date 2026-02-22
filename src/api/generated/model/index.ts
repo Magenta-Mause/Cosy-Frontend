@@ -19,7 +19,6 @@ export * from './gameDto';
 export * from './gameServerAccessGroupDto';
 export * from './gameServerAccessGroupDtoPermissionsItem';
 export * from './gameServerCreationDto';
-export * from './gameServerDesign';
 export * from './gameServerDto';
 export * from './gameServerDtoStatus';
 export * from './gameServerFileSystemDto';

@@ -151,9 +151,7 @@ export default function TemplateVariableForm({
       </CardHeader>
       <CardContent>
         {!template ? (
-          <div className="text-[25px] text-muted-foreground text-center py-4">
-            {t("noTemplateSelected")}
-          </div>
+          <div className="text-muted-foreground text-center py-8">{t("noTemplateSelected")}</div>
         ) : !hasVariables ? (
           <div className="text-muted-foreground text-center py-8">{t("noVariables")}</div>
         ) : (

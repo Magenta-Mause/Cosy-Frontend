@@ -20,7 +20,6 @@ import {
   getMemoryLimitError,
   memoryLimitValidator,
 } from "@/lib/validators/memoryLimitValidator.ts";
-import { processEscapeSequences } from "../CreateGameServer/util";
 import EditVolumeMountConfigurationInput from "./EditVolumeMountConfigurationInput";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
@@ -198,12 +197,9 @@ const EditGameServerPage = (props: {
       port_mappings: gameServerState.port_mappings?.filter(
         (p) => p.instance_port || p.container_port,
       ),
-      environment_variables: gameServerState.environment_variables
-        ?.filter((env) => env.key?.trim() || env.value?.trim())
-        .map((env) => ({
-          ...env,
-          value: processEscapeSequences(env.value),
-        })),
+      environment_variables: gameServerState.environment_variables?.filter(
+        (env) => env.key?.trim() || env.value?.trim(),
+      ),
       volume_mounts: gameServerState.volume_mounts
         ?.filter((vol) => vol.container_path?.trim())
         .map((v) => ({
@@ -249,23 +245,6 @@ const EditGameServerPage = (props: {
           onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
           optional={true}
         />
-
-        {props.gameServer.created_on && (
-          <InputFieldEditGameServer
-            validator={z.string()}
-            placeholder=""
-            label={t("createdOn.title")}
-            description={t("createdOn.description")}
-            errorLabel=""
-            value={new Date(props.gameServer.created_on).toLocaleString(
-              t_root("timerange.localTime"),
-              { dateStyle: "medium", timeStyle: "short" },
-            )}
-            disabled={true}
-            onChange={() => {}}
-            optional={true}
-          />
-        )}
 
         <div className="grid grid-cols-2 gap-4">
           <InputFieldEditGameServer
@@ -348,7 +327,6 @@ const EditGameServerPage = (props: {
           inputType="text"
           objectKey="key"
           objectValue="value"
-          processEscapeSequences={true}
         />
 
         <InputFieldEditGameServer

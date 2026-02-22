@@ -122,7 +122,7 @@ const MemoryLimitInputFieldCreation = ({
   );
 
   return (
-    <div>
+    <div className="py-2">
       <MemoryLimitInput
         id={attribute}
         header={label}

@@ -14,15 +14,3 @@ export function preProcessInputValue(value: string, inputType: InputType): strin
   }
   return value;
 }
-
-/**
- * Processes common escape sequences in a string value.
- * Converts literal escape sequences like \n, \t, \r, \\ into their actual characters.
- */
-export function processEscapeSequences(value: string): string {
-  return value
-    .replace(/\\\\/g, "\\") // backslash (must be FIRST to handle escaping correctly)
-    .replace(/\\n/g, "\n") // newline
-    .replace(/\\t/g, "\t") // tab
-    .replace(/\\r/g, "\r"); // carriage return
-}

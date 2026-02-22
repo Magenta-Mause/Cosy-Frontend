@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,
@@ -9,7 +8,7 @@ import { GameServerCreationPageContext } from "../GenericGameServerCreationPage"
 import type { AutoCompleteItem, AutoCompleteSelections, GameServerCreationValue } from "./types";
 
 const DEBOUNCE_DELAY = 300;
-const MAX_ITEMS_DISPLAYED = 20;
+const MAX_ITEMS_DISPLAYED = 5;
 
 interface UseAutoCompleteOptions<TSelectedItem, TAutoCompleteData extends GameServerCreationValue> {
   attribute?: keyof GameServerCreationFormState;
@@ -25,9 +24,6 @@ interface UseAutoCompleteOptions<TSelectedItem, TAutoCompleteData extends GameSe
     item: AutoCompleteItem<TSelectedItem, TAutoCompleteData>,
     updatedSelections: AutoCompleteSelections,
   ) => void;
-  alwaysIncludeFallback?: boolean;
-  fallbackValue?: TAutoCompleteData;
-  fallbackLabel?: string;
 }
 
 export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameServerCreationValue>({
@@ -39,14 +35,10 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
   disableDebounce,
   disableCache,
   onItemSelect,
-  alwaysIncludeFallback,
-  fallbackValue,
-  fallbackLabel,
 }: UseAutoCompleteOptions<TSelectedItem, TAutoCompleteData>) {
   const { setGameServerState, creationState, setUtilState, triggerNextPage } =
     useContext(GameServerCreationContext);
   const { setAttributeValid, setAttributeTouched } = useContext(GameServerCreationPageContext);
-  const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
 
   const effectiveKey = attribute ?? selectionKey ?? "";
 
@@ -135,10 +127,7 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
     ],
   );
 
-  const regularItemCount = autoCompleteItems
-    ? Math.min(autoCompleteItems.length, MAX_ITEMS_DISPLAYED)
-    : 0;
-  const itemCount = regularItemCount + (alwaysIncludeFallback ? 1 : 0);
+  const itemCount = autoCompleteItems ? Math.min(autoCompleteItems.length, MAX_ITEMS_DISPLAYED) : 0;
 
   // Reset selected index when popover opens or items change
   useEffect(() => {
@@ -168,20 +157,12 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
         return;
       }
 
-      if (e.key === "Enter" && itemCount > 0) {
+      if (e.key === "Enter" && autoCompleteItems && autoCompleteItems.length > 0) {
         e.preventDefault();
         e.stopPropagation();
-        if (alwaysIncludeFallback && selectedIndex === 0) {
-          selectItem({
-            value: fallbackValue,
-            label: fallbackLabel ?? t("noResultsLabel"),
-          } as AutoCompleteItem<TSelectedItem, TAutoCompleteData>);
-        } else {
-          const adjustedIndex = alwaysIncludeFallback ? selectedIndex - 1 : selectedIndex;
-          const items = autoCompleteItems?.slice(0, MAX_ITEMS_DISPLAYED) ?? [];
-          if (adjustedIndex >= 0 && adjustedIndex < items.length) {
-            selectItem(items[adjustedIndex]);
-          }
+        const items = autoCompleteItems.slice(0, MAX_ITEMS_DISPLAYED);
+        if (selectedIndex < items.length) {
+          selectItem(items[selectedIndex]);
         }
       }
     };
@@ -205,17 +186,7 @@ export function useAutoComplete<TSelectedItem, TAutoCompleteData extends GameSer
       document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("pointerdown", onPointerDown);
     };
-  }, [
-    open,
-    autoCompleteItems,
-    itemCount,
-    selectedIndex,
-    selectItem,
-    alwaysIncludeFallback,
-    fallbackValue,
-    fallbackLabel,
-    t,
-  ]);
+  }, [open, autoCompleteItems, itemCount, selectedIndex, selectItem]);
 
   const handleInputChange = useCallback(
     (currentValue: string) => {

@@ -1,8 +1,5 @@
 import { Input } from "@components/ui/input.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { Info } from "lucide-react";
 import { Fragment, useCallback, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
@@ -32,7 +29,6 @@ interface Props<T> {
   inputType: InputType;
   objectKey: keyof T;
   objectValue: keyof T;
-  processEscapeSequences?: boolean;
 }
 
 function EditKeyValueInput<T extends Record<string, string>>({
@@ -50,9 +46,7 @@ function EditKeyValueInput<T extends Record<string, string>>({
   inputType,
   objectKey,
   objectValue,
-  processEscapeSequences: shouldProcessEscapeSequences = false,
 }: Props<T>) {
-  const { t } = useTranslation();
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
       if (!key && !value && !required) {
@@ -136,24 +130,13 @@ function EditKeyValueInput<T extends Record<string, string>>({
               onChange={(e) => changeCallback({ ...row, key: e.target.value })}
               type={inputType}
             />
-            <div className="relative flex items-center gap-1">
-              <Input
-                className={rowError ? "border-red-500" : ""}
-                placeholder={placeHolderValueInput}
-                value={row.value}
-                onChange={(e) => changeCallback({ ...row, value: e.target.value })}
-                type={inputType}
-              />
-              {shouldProcessEscapeSequences && (
-                <TooltipWrapper
-                  tooltip={t("components.CreateGameServer.keyValueInput.escapeSequencesTooltip")}
-                  side="top"
-                  asChild={false}
-                >
-                  <Info className="w-4 h-4 text-muted-foreground cursor-help" />
-                </TooltipWrapper>
-              )}
-            </div>
+            <Input
+              className={rowError ? "border-red-500" : ""}
+              placeholder={placeHolderValueInput}
+              value={row.value}
+              onChange={(e) => changeCallback({ ...row, value: e.target.value })}
+              type={inputType}
+            />
           </div>
         </Fragment>
       )}

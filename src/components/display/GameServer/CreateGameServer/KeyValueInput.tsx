@@ -1,9 +1,6 @@
 import ListInput from "@components/display/GameServer/CreateGameServer/ListInput.tsx";
 import { Input } from "@components/ui/input.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { Info } from "lucide-react";
 import { Fragment, useCallback } from "react";
-import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import type { GameServerCreationFormState } from "./CreateGameServerModal.tsx";
@@ -26,9 +23,8 @@ interface Props {
   errorLabel: string;
   required?: boolean;
   inputType: InputType;
-  objectKey: string;
-  objectValue: string;
-  processEscapeSequences?: boolean;
+  objectKey: string; // This is the property name for the key in the object
+  objectValue: string; // This is the property name for the value in the object
 }
 
 function KeyValueInput({
@@ -44,9 +40,7 @@ function KeyValueInput({
   inputType,
   objectKey,
   objectValue,
-  processEscapeSequences: shouldProcessEscapeSequences = false,
 }: Props) {
-  const { t } = useTranslation();
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
       if (!key && !value && !required) {
@@ -121,27 +115,16 @@ function KeyValueInput({
             onChange={(e) => changeCallback({ ...keyValuePair, key: e.target.value })}
             type={inputType}
           />
-          <div className="relative flex items-center gap-1">
-            <Input
-              className={rowError ? "border-red-500" : ""}
-              id={`key-value-input-value-${keyValuePair.uuid}`}
-              placeholder={placeHolderValueInput}
-              value={(keyValuePair.value?.replaceAll("\n", "\\n") as string | undefined) || ""}
-              onChange={(e) => {
-                changeCallback({ ...keyValuePair, value: e.target.value });
-              }}
-              type={inputType}
-            />
-            {shouldProcessEscapeSequences && (
-              <TooltipWrapper
-                tooltip={t("components.CreateGameServer.keyValueInput.escapeSequencesTooltip")}
-                side="top"
-                asChild={false}
-              >
-                <Info className="w-4 h-4 text-muted-foreground cursor-help" />
-              </TooltipWrapper>
-            )}
-          </div>
+          <Input
+            className={rowError ? "border-red-500" : ""}
+            id={`key-value-input-value-${keyValuePair.uuid}`}
+            placeholder={placeHolderValueInput}
+            value={(keyValuePair.value as string | undefined) || ""}
+            onChange={(e) => {
+              changeCallback({ ...keyValuePair, value: e.target.value });
+            }}
+            type={inputType}
+          />
         </Fragment>
       )}
     />

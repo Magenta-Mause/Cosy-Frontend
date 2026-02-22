@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
@@ -21,7 +20,6 @@ const useServerInteractions = () => {
         });
       }
     } catch (e) {
-      if (axios.isAxiosError(e) && e.code === "ECONNABORTED") return;
       dispatch(
         gameServerSliceActions.setGameServerState({
           gameServerUuid: gameServerId,

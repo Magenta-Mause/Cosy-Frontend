@@ -261,28 +261,10 @@ export type i18nLanguage = {
         cancel: string;
         confirm: string;
       };
-      keyValueInput: {
-        escapeSequencesTooltip: string;
-      };
-      confirmCreateDialog: {
-        title: string;
-        description: string;
-        cancel: string;
-        confirm: string;
-        creating: string;
-      };
-      successDialog: {
-        title: string;
-        description: ContainsVariable<"name">;
-        completedStepLabel: string;
-        doneButton: string;
-        openDashboard: string;
-      };
       listInput: {
         addButton: string;
       };
       steps: {
-        title: string;
         step1: {
           title: string;
           serverNameSelection: {
@@ -302,10 +284,6 @@ export type i18nLanguage = {
         step2: {
           title: string;
           description: string;
-          noTemplatesAvailable: string;
-          searchPlaceholder: string;
-          requestTemplateText: string;
-          requestTemplateLinkLabel: string;
           templateSelection: {
             title: string;
             description: string;
@@ -429,11 +407,6 @@ export type i18nLanguage = {
         title: string;
         description: string;
         errorLabel: string;
-      };
-
-      createdOn: {
-        title: string;
-        description: string;
       };
 
       cpuLimitSelection: {
@@ -564,10 +537,6 @@ export type i18nLanguage = {
         refresh: string;
       };
     };
-    settingsActionButtons: {
-      revert: string;
-      confirm: string;
-    };
     GameServerSettings: {
       tabs: {
         general: string;
@@ -576,7 +545,6 @@ export type i18nLanguage = {
         metrics: string;
         accessManagement: string;
         rcon: string;
-        design: string;
       };
       sections: {
         general: string;
@@ -637,14 +605,6 @@ export type i18nLanguage = {
           description: string;
           errorLabel: string;
         };
-        revert: string;
-        confirm: string;
-      };
-      designSettings: {
-        title: string;
-        description: string;
-        house: string;
-        castle: string;
         revert: string;
         confirm: string;
       };

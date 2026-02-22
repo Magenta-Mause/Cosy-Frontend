@@ -1,9 +1,10 @@
 import { Button } from "@components/ui/button.tsx";
 import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { CircleAlertIcon, CircleX, Plus } from "lucide-react";
+import { CircleAlertIcon, CircleX } from "lucide-react";
 import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { v7 as generateUuid } from "uuid";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,
@@ -58,31 +59,12 @@ function ListInput<T extends { uuid: string }>({
   };
 
   const [values, setValuesInternal] = useState<T[]>(getInitialValues);
+  const { t } = useTranslationPrefix("components.CreateGameServer");
 
   // Track the last synced context value to avoid infinite loops
   const lastSyncedValueRef = useRef<string | null>(null);
   // Track if we're currently updating from user input (to prevent sync loop)
   const isUserInputRef = useRef<boolean>(false);
-  // Track if we've initialized validation
-  const initializedRef = useRef<boolean>(false);
-
-  // Initialize validation state on mount
-  useEffect(() => {
-    if (!initializedRef.current) {
-      initializedRef.current = true;
-
-      // Validate the initial values
-      const newRowErrors: { [uuid: string]: boolean } = {};
-      values.forEach((item) => {
-        newRowErrors[item.uuid] = !checkValidity(item);
-      });
-
-      const allValid = Object.values(newRowErrors).filter((err) => err).length === 0;
-      setAttributeValid(attribute, allValid);
-
-      setAttributeTouched(attribute, true);
-    }
-  }, [values, checkValidity, attribute, setAttributeValid, setAttributeTouched]);
 
   // Sync local state when context changes (e.g., template applied)
   useEffect(() => {
@@ -199,11 +181,6 @@ function ListInput<T extends { uuid: string }>({
                   <CircleX className="w-full h-full" />
                 </Button>
               )}
-              {index === (values ?? []).length - 1 && (
-                <Button className="h-9 w-9 p-0" onClick={addNewValue}>
-                  <Plus className="size-6" />
-                </Button>
-              )}
               {rowError && (
                 <TooltipWrapper tooltip={errorLabel} asChild>
                   <CircleAlertIcon className="text-red-500 w-5 h-5" />
@@ -213,6 +190,9 @@ function ListInput<T extends { uuid: string }>({
           );
         })}
       </div>
+      <Button className="ml-2" onClick={addNewValue}>
+        {t("listInput.addButton")}
+      </Button>
       <FieldDescription>{fieldDescription}</FieldDescription>
     </Field>
   );

@@ -1,11 +1,12 @@
 import MetricDropDown from "@components/display/DropDown/MetricDropDown";
-import GenericLayoutSelection from "@components/display/GameServer/GameServerSettings/sections/GenericLayoutBuilder/GenericLayoutBuilder.tsx";
-import { useMemo, useState } from "react";
-import { v7 as generateUuid } from "uuid";
-import { updateMetricLayout } from "@/api/generated/backend-api";
-import { type GameServerDto, type MetricLayout, MetricLayoutSize } from "@/api/generated/model";
+import {useMemo, useState} from "react";
+import {v7 as generateUuid} from "uuid";
+import {updateMetricLayout} from "@/api/generated/backend-api";
+import {type GameServerDto, type MetricLayout, MetricLayoutSize} from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { type MetricLayoutUI, MetricsType } from "@/types/metricsTyp";
+import {type MetricLayoutUI, MetricsType} from "@/types/metricsTyp";
+import GenericLayoutSelection
+  from "@components/display/GameServer/GameServerSettings/sections/GenericLayoutBuilder/GenericLayoutBuilder.tsx";
 
 interface MetricSetting {
   gameServer: GameServerDto;

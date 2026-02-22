@@ -1,6 +1,6 @@
 import { DeleteGameServerSuccessDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerSuccessDialog";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
@@ -29,16 +29,6 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
-  const sortedGameServers = useMemo(
-    () =>
-      [...gameServers].sort((a, b) => {
-        if (!a.created_on && !b.created_on) return 0;
-        if (!a.created_on) return -1;
-        if (!b.created_on) return 1;
-        return a.created_on < b.created_on ? -1 : a.created_on > b.created_on ? 1 : 0;
-      }),
-    [gameServers],
-  );
   const { inviteToken, deleted } = Route.useSearch();
   const navigate = Route.useNavigate();
 
@@ -67,10 +57,10 @@ function Index() {
   return (
     <div className="relative w-full min-h-screen">
       <div className="relative w-full">
-        <GameServerBackground houseCount={sortedGameServers.length + 1} />
+        <GameServerBackground houseCount={gameServers.length + 1} />
 
         <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
-          <GameServerDisplay gameServerConfigurations={sortedGameServers} />
+          <GameServerDisplay gameServerConfigurations={gameServers} />
         </div>
       </div>
 
