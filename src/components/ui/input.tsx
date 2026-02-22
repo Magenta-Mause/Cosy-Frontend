@@ -79,7 +79,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input({
           />
 
           {endDecorator && (
-            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-base text-muted-foreground">
+            <div className="absolute inset-y-0 right-3 flex items-center text-base text-muted-foreground">
               {endDecorator}
             </div>
           )}
