@@ -14,8 +14,8 @@ import {
   WebhookCreationDtoWebhookType,
   type WebhookDto,
 } from "@/api/generated/model";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import useWebhookDataInteractions from "@/hooks/useWebhookDataInteractions/useWebhookDataInteractions";
 import { useWebhookForm } from "./useWebhookForm";
 import WebhookForm from "./WebhookForm";
 import { type WebhookFormValues, webhookDtoToFormValues } from "./webhook.types";
@@ -37,7 +37,7 @@ const DEFAULT_CREATE_VALUES: WebhookFormValues = {
 
 const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: WebhookModalProps) => {
   const { t } = useTranslationPrefix("components.GameServerSettings.webhooks");
-  const { createWebhook, updateWebhook, isCreatingWebhook } = useWebhookDataInteractions();
+  const { createWebhook, updateWebhook, isCreatingWebhook } = useDataInteractions(gameServerUuid);
 
   const isEdit = mode === "edit";
   const isCreating = mode === "create";

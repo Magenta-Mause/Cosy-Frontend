@@ -1,10 +1,9 @@
 import { Button } from "@components/ui/button.tsx";
 import { useState } from "react";
-import { useGetAllWebhooks } from "@/api/generated/backend-api.ts";
 import type { WebhookDto } from "@/api/generated/model";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import useWebhookDataInteractions from "@/hooks/useWebhookDataInteractions/useWebhookDataInteractions.tsx";
 import WebhookDeleteDialog from "./components/WebhookDeleteDialog.tsx";
 import WebhookList from "./components/WebhookList.tsx";
 import WebhookModal from "./components/WebhookModal.tsx";
@@ -18,11 +17,10 @@ const WebhooksSettingsSection = () => {
   const [editingWebhook, setEditingWebhook] = useState<WebhookDto | null>(null);
   const [webhookToDelete, setWebhookToDelete] = useState<WebhookDto | null>(null);
 
-  const { data: webhooks = [], isLoading } = useGetAllWebhooks(gameServerUuid, {
-    query: { enabled: Boolean(gameServerUuid) },
-  });
+  const webhooks = gameServer.webhooks ?? [];
+  const isLoading = false;
 
-  const { deleteWebhook } = useWebhookDataInteractions(gameServerUuid);
+  const { deleteWebhook } = useDataInteractions(gameServerUuid);
 
   const onDeleteWebhook = async (webhookUuid: string) => {
     if (!gameServerUuid) return;

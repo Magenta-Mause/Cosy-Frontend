@@ -1,13 +1,11 @@
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useSubscription } from "react-stomp-hooks";
 import { v7 as generateUuid } from "uuid";
-import { getGetAllWebhooksQueryKey } from "@/api/generated/backend-api";
 import type {
   GameServerAccessGroupDtoPermissionsItem,
-  GameServerDtoStatus,
+  GameServerDto,
   GameServerLogMessageEntity,
   MetricPointDto,
 } from "@/api/generated/model";
@@ -16,11 +14,6 @@ import { useTypedSelector } from "@/stores/rootReducer.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
-
-interface GameServerStatusUpdateDto {
-  server_uuid: string;
-  new_status: GameServerDtoStatus;
-}
 
 interface DockerPullProgressDtoResponse {
   status: string;
@@ -41,19 +34,15 @@ const WebSocketCollection = () => {
   const { uuid: userUuid, authorized } = useContext(AuthContext);
   const { loadGameServer } = useDataLoading();
   const dispatch = useDispatch();
-  const queryClient = useQueryClient();
 
   useSubscription(
-    gameServer ? gameServer.map((server) => `/topics/game-servers/status/${server.uuid}`) : [],
+    gameServer ? gameServer.map((server) => `/topics/game-servers/updates/${server.uuid}`) : [],
     (message) => {
-      const messageBody = JSON.parse(message.body) as GameServerStatusUpdateDto;
-      if (messageBody.server_uuid && messageBody.new_status) {
-        dispatch(
-          gameServerSliceActions.updateGameServerStatus({
-            uuid: messageBody.server_uuid,
-            status: messageBody.new_status,
-          }),
-        );
+      const messageBody = JSON.parse(message.body);
+
+      if (messageBody.server_name !== undefined) {
+        // Full GameServerDto
+        dispatch(gameServerSliceActions.updateGameServer(messageBody as GameServerDto));
       }
     },
   );
@@ -126,14 +115,10 @@ const WebSocketCollection = () => {
   useSubscription(
     gameServer ? gameServer.map((server) => `/topics/game-servers/webhooks/${server.uuid}`) : [],
     (message) => {
-      const destination = message.headers?.destination;
-      if (!destination) return;
-      const match = destination.match(/\/topics\/game-servers\/webhooks\/([^/]+)/);
-      const gameServerUuid = match?.[1];
-      if (!gameServerUuid) return;
-      queryClient.invalidateQueries({
-        queryKey: getGetAllWebhooksQueryKey(gameServerUuid),
-      });
+      const messageBody = JSON.parse(message.body) as GameServerDto;
+      if (messageBody.uuid) {
+        dispatch(gameServerSliceActions.updateGameServer(messageBody));
+      }
     },
   );
 

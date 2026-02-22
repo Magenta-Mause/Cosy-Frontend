@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import type { NameType, Payload, ValueType } from "recharts/types/component/DefaultTooltipContent";
-import type { MetricLayoutMetricType, MetricValues } from "@/api/generated/model";
+import type { MetricValues } from "@/api/generated/model";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import {
   extractCustomMetricKey,
@@ -20,7 +20,7 @@ import {
 
 interface MetricGraphProps {
   className?: string;
-  type: MetricsType | MetricLayoutMetricType | string;
+  type: MetricsType | string;
   timeUnit: string;
   metrics: GameServerMetricsWithUuid[];
   canReadMetrics?: boolean;

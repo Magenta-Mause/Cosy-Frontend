@@ -1,26 +1,23 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import {
-  getGetAllWebhooksQueryKey,
   useCreateWebhook,
   useDeleteWebhook,
   useUpdateWebhook,
 } from "@/api/generated/backend-api.ts";
+import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
 const useWebhookDataInteractions = (gameServerUuid?: string) => {
-  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
   const { t } = useTranslationPrefix("toasts");
-  const queryKey = gameServerUuid ? getGetAllWebhooksQueryKey(gameServerUuid) : undefined;
 
   const { mutateAsync: createWebhook, isPending: isCreatingWebhook } = useCreateWebhook({
     mutation: {
-      onSuccess: async () => {
+      onSuccess: async (webhook) => {
         toast.success(t("createWebhookSuccess"));
-        if (queryKey) {
-          await queryClient.invalidateQueries({
-            queryKey,
-          });
+        if (gameServerUuid && webhook) {
+          dispatch(gameServerSliceActions.addWebhook({ gameServerUuid, webhook }));
         }
       },
       onError: (error) => {
@@ -32,12 +29,10 @@ const useWebhookDataInteractions = (gameServerUuid?: string) => {
 
   const { mutateAsync: updateWebhook } = useUpdateWebhook({
     mutation: {
-      onSuccess: async () => {
+      onSuccess: async (webhook) => {
         toast.success(t("updateWebhookSuccess"));
-        if (queryKey) {
-          await queryClient.invalidateQueries({
-            queryKey,
-          });
+        if (gameServerUuid && webhook) {
+          dispatch(gameServerSliceActions.updateWebhook({ gameServerUuid, webhook }));
         }
       },
       onError: (error) => {
@@ -49,12 +44,15 @@ const useWebhookDataInteractions = (gameServerUuid?: string) => {
 
   const { mutateAsync: deleteWebhook } = useDeleteWebhook({
     mutation: {
-      onSuccess: async () => {
+      onSuccess: async (_, variables) => {
         toast.success(t("deleteWebhookSuccess"));
-        if (queryKey) {
-          await queryClient.invalidateQueries({
-            queryKey,
-          });
+        if (gameServerUuid && variables.webhookUuid) {
+          dispatch(
+            gameServerSliceActions.removeWebhook({
+              gameServerUuid,
+              webhookUuid: variables.webhookUuid,
+            }),
+          );
         }
       },
       onError: (error) => {
