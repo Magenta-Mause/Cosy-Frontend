@@ -44,35 +44,64 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
         <div className="flex-1 text-right">
           <div className="flex items-start justify-end" style={{ gap: "1vw" }}>
             <TooltipWrapper tooltip={isOwner ? t("footer.edit") : undefined}>
-              <div
-                style={{ fontSize: "1vw", color: "#87FF97" }}
-                className={isOwner ? "cursor-pointer hover:opacity-80 transition-opacity" : ""}
-                onClick={isOwner ? () => setEditModalOpen(true) : undefined}
-              >
-                {isLoading ? (
-                  <p>{t("common.loading")}</p>
-                ) : footerData ? (
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "auto auto",
-                      gap: "0.5vw 2vw",
-                      justifyContent: "end",
-                    }}
-                  >
-                    <p className="font-bold" style={{ textAlign: "right" }}>
-                      {t("footer.contact")}
-                    </p>
-                    <p style={{ textAlign: "right" }}>{footerData.full_name}</p>
-                    <p style={{ textAlign: "right" }}>{footerData.email}</p>
-                    <p style={{ textAlign: "right" }}>{footerData.street}</p>
-                    <p style={{ textAlign: "right" }}>{footerData.phone}</p>
-                    <p style={{ textAlign: "right" }}>{footerData.city}</p>
-                  </div>
-                ) : (
-                  <p>{t("footer.noData")}</p>
-                )}
-              </div>
+              {isOwner ? (
+                <button
+                  type="button"
+                  style={{ fontSize: "1vw", color: "#87FF97", background: "none", border: "none", padding: 0 }}
+                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={() => setEditModalOpen(true)}
+                >
+                  {isLoading ? (
+                    <p>{t("common.loading")}</p>
+                  ) : footerData ? (
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "auto auto",
+                        gap: "0.5vw 2vw",
+                        justifyContent: "end",
+                      }}
+                    >
+                      <p className="font-bold" style={{ textAlign: "right" }}>
+                        {t("footer.contact")}
+                      </p>
+                      <p style={{ textAlign: "right" }}>{footerData.full_name}</p>
+                      <p style={{ textAlign: "right" }}>{footerData.email}</p>
+                      <p style={{ textAlign: "right" }}>{footerData.street}</p>
+                      <p style={{ textAlign: "right" }}>{footerData.phone}</p>
+                      <p style={{ textAlign: "right" }}>{footerData.city}</p>
+                    </div>
+                  ) : (
+                    <p>{t("footer.noData")}</p>
+                  )}
+                </button>
+              ) : (
+                <div style={{ fontSize: "1vw", color: "#87FF97" }}>
+                  {isLoading ? (
+                    <p>{t("common.loading")}</p>
+                  ) : footerData ? (
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "auto auto",
+                        gap: "0.5vw 2vw",
+                        justifyContent: "end",
+                      }}
+                    >
+                      <p className="font-bold" style={{ textAlign: "right" }}>
+                        {t("footer.contact")}
+                      </p>
+                      <p style={{ textAlign: "right" }}>{footerData.full_name}</p>
+                      <p style={{ textAlign: "right" }}>{footerData.email}</p>
+                      <p style={{ textAlign: "right" }}>{footerData.street}</p>
+                      <p style={{ textAlign: "right" }}>{footerData.phone}</p>
+                      <p style={{ textAlign: "right" }}>{footerData.city}</p>
+                    </div>
+                  ) : (
+                    <p>{t("footer.noData")}</p>
+                  )}
+                </div>
+              )}
             </TooltipWrapper>
           </div>
         </div>
