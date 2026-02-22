@@ -131,7 +131,7 @@ const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: Web
         </DialogMain>
         <DialogFooter>
           <Button variant="secondary" onClick={() => handleClose(false)} disabled={isLoading}>
-            Cancel
+            {t("cancel")}
           </Button>
           <Button onClick={onFormSubmit} disabled={!canSubmit || isLoading}>
             {submitLabel}
