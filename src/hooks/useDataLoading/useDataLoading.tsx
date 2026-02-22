@@ -142,16 +142,14 @@ const useDataLoading = () => {
         (layout) => layout.public_dashboard_types === DashboardElementTypes.LOGS,
       )
     ) {
-      const permissions = await loadGameServerPermissions(gameServer.uuid, [GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS]) || undefined;
-      await loadGameServerLogs(gameServer.uuid, permissions);
+      await loadGameServerLogs(gameServer.uuid, [GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS])
     }
     if (
       gameServer.public_dashboard_layouts.some(
         (layout) => layout.public_dashboard_types === DashboardElementTypes.METRIC,
       )
     ) {
-      const permissions = await loadGameServerPermissions(gameServer.uuid, [GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS]) || undefined;
-      await loadGameServerMetrics(gameServer.uuid, undefined, undefined, permissions);
+      await loadGameServerMetrics(gameServer.uuid, undefined, undefined, [GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS])
     }
   };
 
@@ -176,10 +174,10 @@ const useDataLoading = () => {
     try {
       const gameServers = await getAllGameServers();
       dispatch(gameServerSliceActions.setState("idle"));
-      dispatch(gameServerSliceActions.setGameServers(gameServers));
       const allowedGameServers = gameServers.filter(
         (gameServer) => gameServer.public_dashboard_enabled,
       );
+      dispatch(gameServerSliceActions.setGameServers(allowedGameServers));
 
       await Promise.allSettled(
         allowedGameServers.map((gs) => loadPublicEvaluableGameServerData(gs)),
@@ -221,11 +219,6 @@ const useDataLoading = () => {
     gameServerUuid: string,
     permissions?: GameServerAccessGroupDtoPermissionsItem[],
   ) => {
-    console.log("logs",
-      !containsPermission(
-        permissions ?? [],
-        GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS,
-      ))
     if (
       !containsPermission(
         permissions ?? [],
@@ -235,7 +228,6 @@ const useDataLoading = () => {
       dispatch(gameServerLogSliceActions.removeLogsFromServer(gameServerUuid));
       return;
     }
-    console.log("Loading logs for server", gameServerUuid);
     dispatch(gameServerLogSliceActions.setState({ gameServerUuid, state: "loading" }));
     try {
       const logs = await getLogs(gameServerUuid);
@@ -258,11 +250,6 @@ const useDataLoading = () => {
       end?: Date,
       permissions?: GameServerAccessGroupDtoPermissionsItem[],
     ) => {
-      console.log("metrics",
-        !containsPermission(
-          permissions ?? [],
-          GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS,
-        ))
       if (
         permissions !== undefined &&
         !containsPermission(
@@ -279,7 +266,6 @@ const useDataLoading = () => {
           start: start ? start.toISOString() : undefined,
           end: end ? end.toISOString() : undefined,
         });
-        console.log("fetched metrics", metrics);
         const metricsWithUuid = metrics.map((metric) => ({ ...metric, uuid: generateUuid() }));
         dispatch(
           gameServerMetricsSliceActions.setGameServerMetrics({

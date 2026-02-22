@@ -9,10 +9,10 @@ export const containsPermission = (
     return true;
   }
   if (permissions.includes(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS)) {
-    permissions.includes(GameServerAccessGroupDtoPermissionsItem.SEE_SERVER);
+    return true;
   }
   if (permissions.includes(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS)) {
-    permissions.includes(GameServerAccessGroupDtoPermissionsItem.SEE_SERVER);
+    return true;
   }
   return (
     permissions.includes(GameServerAccessGroupDtoPermissionsItem.SEE_SERVER) &&
