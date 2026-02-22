@@ -7,7 +7,6 @@ import house1 from "@/assets/gameServerCreation/houses/house1.webp";
 import house2 from "@/assets/gameServerCreation/houses/house2.webp";
 import house3 from "@/assets/gameServerCreation/houses/house3.webp";
 import { cn } from "@/lib/utils";
-import NameAndStatusBanner from "../NameAndStatusBanner/NameAndStatusBanner";
 
 const castles = [castle1, castle2, castle3];
 const houses = [house1, house2, house3];
@@ -33,12 +32,10 @@ const HouseBuildingProcess = (props: {
   stepLabel?: string;
   allStepsFinished?: boolean;
 }) => {
-  const { t } = useTranslation();
   const type = props.houseType === "CASTLE" ? "CASTLE" : "HOUSE";
   const currentImage = type === "HOUSE" ? houses[props.currentStep] : castles[props.currentStep];
   const xOffset = IMAGE_X_OFFSETS[type][props.currentStep];
   const imageWidth = IMAGE_WIDTHS[type];
-  const displayName = props.serverName || t("components.CreateGameServer.serverNamePlaceholder");
 
   return (
     <div
@@ -56,13 +53,6 @@ const HouseBuildingProcess = (props: {
             transform: xOffset !== 0 ? `translateX(${xOffset}px)` : undefined,
           }}
         />
-        <NameAndStatusBanner
-          className="bottom-[50%] left-1/2 -translate-x-1/2"
-          classNameTextChildren="py-[8%] text-[2vw] leading-none pt-[12%]"
-          hideStatus
-        >
-          {displayName}
-        </NameAndStatusBanner>
       </div>
 
       <Stepper

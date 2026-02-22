@@ -209,7 +209,7 @@ const translation: i18nLanguage = {
         title: "Server Created!",
         description: '"{{name}}" is ready to be started.',
         completedStepLabel: "Server Ready!",
-        doneButton: "Done",
+        doneButton: "Close",
         openDashboard: "Go to dashboard",
       },
       listInput: {
