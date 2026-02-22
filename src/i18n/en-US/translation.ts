@@ -18,7 +18,7 @@ const translation: i18nLanguage = {
     startServer: "Start",
     stopServer: "Stop",
     refresh: "Refresh",
-    createNewGameserver: "Create new Gameserver",
+    createNewGameServer: "Create new Gameserver",
     viewLogs: "View Logs",
     loading: "Loading...",
     failed: "Failed to start",

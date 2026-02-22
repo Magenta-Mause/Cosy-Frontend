@@ -12,7 +12,7 @@ export type i18nLanguage = {
     startServer: string;
     stopServer: string;
     refresh: string;
-    createNewGameserver: string;
+    createNewGameServer: string;
     viewLogs: string;
     loading: string;
     failed: string;
