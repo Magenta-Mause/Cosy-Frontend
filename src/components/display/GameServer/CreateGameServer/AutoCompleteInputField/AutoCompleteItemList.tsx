@@ -1,5 +1,5 @@
 import { Label } from "@components/ui/label";
-import type { ReactNode } from "react";
+import { type ReactNode, useEffect, useRef } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import type { AutoCompleteItem, GameServerCreationValue } from "./types";
 
@@ -25,6 +25,7 @@ function AutoCompleteItemRow<TSelectedItem, TAutoCompleteData extends GameServer
     <div
       role="option"
       aria-selected={isSelected}
+      data-index={index}
       tabIndex={-1}
       className={
         "flex flex-auto items-center px-2 py-1.5 cursor-pointer rounded-sm " +
@@ -66,6 +67,7 @@ function FallbackItemRow({
     <div
       role="option"
       aria-selected={isSelected}
+      data-index={index}
       tabIndex={-1}
       className={
         "flex flex-auto items-center px-2 py-1.5 cursor-pointer rounded-sm " +
@@ -120,6 +122,13 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
 }: AutoCompleteItemListProps<TSelectedItem, TAutoCompleteData>) {
   const { t } = useTranslationPrefix("components.CreateGameServer.autoCompleteInputField");
 
+  const listboxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const selected = listboxRef.current?.querySelector(`[data-index="${selectedIndex}"]`);
+    selected?.scrollIntoView({ block: "nearest" });
+  }, [selectedIndex]);
+
   const handleFallbackSelect = () =>
     onSelectItem({
       value: fallbackValue,
@@ -172,6 +181,7 @@ function AutoCompleteItemList<TSelectedItem, TAutoCompleteData extends GameServe
   const visibleItems = items.slice(0, maxItems);
   return (
     <div
+      ref={listboxRef}
       role="listbox"
       className="flex flex-col gap-0.5 overflow-y-auto max-h-64"
       onWheel={(e) => e.stopPropagation()}
