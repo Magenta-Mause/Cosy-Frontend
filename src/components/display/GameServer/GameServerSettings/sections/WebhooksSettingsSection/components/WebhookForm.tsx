@@ -75,7 +75,6 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
       </button>
 
       <div className="flex flex-col gap-2">
-        {" "}
         <p className="text-sm font-bold">
           {t("components.GameServerSettings.webhooks.form.subscribedEvents")}
         </p>
