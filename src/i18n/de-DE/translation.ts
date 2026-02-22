@@ -3,6 +3,7 @@ import type { i18nLanguage } from "@/i18n/i18nKeys";
 const translation: i18nLanguage = {
   common: {
     yourLimit: "Dein Limit",
+    loading: "Lädt...",
   },
   overviewPage: {
     createNewServer: "Neuer Game Server",
@@ -42,6 +43,8 @@ const translation: i18nLanguage = {
     updateGameServerSuccess: "Game-Server erfolgreich aktualisiert!",
     updateGameServerError: "Fehler beim Aktualisieren des Game-Servers",
     missingUuid: "Die Server UUID fehlt",
+    updateFooterSuccess: "Fußzeile erfolgreich aktualisiert!",
+    updateFooterError: "Fehler beim Aktualisieren der Fußzeile",
   },
   userModal: {
     title: "Benutzer",
@@ -747,6 +750,29 @@ const translation: i18nLanguage = {
     SMALL: "Klein",
     MEDIUM: "Mittel",
     LARGE: "Groß",
+  },
+  footer: {
+    title: "COSY Von Medalheads",
+    description:
+      "COSY steht für Cost Optimised Server Yard. Es ist ein vereinfachter, kosteneffizienter Self-Hosting-Service für den Betrieb von Gameservern.",
+    imprint: "Impressum",
+    edit: "Fußzeile bearbeiten",
+    noData: "Keine Fußzeilendaten verfügbar",
+    editModal: {
+      title: "Fußzeile bearbeiten",
+      fullName: "Vollständiger Name",
+      fullNamePlaceholder: "Vollständigen Namen eingeben",
+      email: "E-Mail",
+      emailPlaceholder: "E-Mail-Adresse eingeben",
+      phone: "Telefon",
+      phonePlaceholder: "Telefonnummer eingeben",
+      street: "Straße",
+      streetPlaceholder: "Straßenadresse eingeben",
+      city: "Stadt",
+      cityPlaceholder: "Stadt eingeben",
+      cancel: "Abbrechen",
+      save: "Speichern",
+    },
   },
 };
 

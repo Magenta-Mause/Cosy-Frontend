@@ -3,6 +3,7 @@ import type { i18nLanguage } from "@/i18n/i18nKeys";
 const translation: i18nLanguage = {
   common: {
     yourLimit: "Your limit",
+    loading: "Loading...",
   },
   userRoles: {
     QUOTA_USER: "User",
@@ -46,6 +47,8 @@ const translation: i18nLanguage = {
     updateGameServerSuccess: "Game Server updated successfully!",
     updateGameServerError: "Failed to update Game Server",
     missingUuid: "UUID is missing",
+    updateFooterSuccess: "Footer updated successfully!",
+    updateFooterError: "Failed to update footer",
   },
   userModal: {
     title: "Users",
@@ -746,6 +749,29 @@ const translation: i18nLanguage = {
     SMALL: "Small",
     MEDIUM: "Medium",
     LARGE: "Large",
+  },
+  footer: {
+    title: "COSY By Medalheads",
+    description:
+      "COSY stands for Cost Optimised Server Yard. It is a simplified, cost-efficient self-hosting service for running game servers.",
+    imprint: "Imprint",
+    edit: "Edit Footer",
+    noData: "No footer data available",
+    editModal: {
+      title: "Edit Footer",
+      fullName: "Full Name",
+      fullNamePlaceholder: "Enter full name",
+      email: "Email",
+      emailPlaceholder: "Enter email address",
+      phone: "Phone",
+      phonePlaceholder: "Enter phone number",
+      street: "Street",
+      streetPlaceholder: "Enter street address",
+      city: "City",
+      cityPlaceholder: "Enter city",
+      cancel: "Cancel",
+      save: "Save",
+    },
   },
 };
 

@@ -1,6 +1,5 @@
 import bgImageLoop from "@/assets/MainPage/backgrounds/bg_day_loop.png";
 import bgImageTop from "@/assets/MainPage/backgrounds/bg_day_top.png";
-import footer from "@/assets/MainPage/footer/footer_day.png";
 import logo from "@/assets/MainPage/logo.gif";
 import path_1 from "@/assets/MainPage/platze_1.png";
 import path_2 from "@/assets/MainPage/platze_2.png";
@@ -18,7 +17,6 @@ const images = {
   bg: {
     top: bgImageTop,
     loop: bgImageLoop,
-    bottom: footer,
   },
   path: {
     1: path_1,
@@ -103,13 +101,6 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
             style={{ imageRendering: "pixelated" }}
           />
         ))}
-
-        <img
-          src={images.bg.bottom}
-          alt="BG Bottom"
-          className="w-full h-auto block"
-          style={{ imageRendering: "pixelated" }}
-        />
       </div>
 
       <div className="absolute top-0 left-0 w-full">

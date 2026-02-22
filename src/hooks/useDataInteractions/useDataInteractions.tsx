@@ -5,6 +5,7 @@ import {
   type CreateGameServerMutationBody,
   getGetAllGameServersQueryKey,
   getGetAllUserInvitesQueryKey,
+  getGetFooterQueryKey,
   type UpdateGameServerMutationBody,
   useCreateGameServer,
   useCreateGameServerAccessGroup,
@@ -13,6 +14,7 @@ import {
   useDeleteGameServerById,
   useRevokeInvite,
   useTransferOwnership,
+  useUpdateFooter,
   useUpdateGameServer,
   useUpdateGameServerAccessGroups,
   useUpdateRconConfiguration,
@@ -20,11 +22,13 @@ import {
 import type {
   AccessGroupCreationDto,
   AccessGroupUpdateDto,
+  FooterUpdateDto,
   RCONConfiguration,
   TransferOwnershipDto,
   UserInviteCreationDto,
 } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
+import { footerSliceActions } from "@/stores/slices/footerSlice.ts";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
@@ -277,6 +281,28 @@ const useDataInteractions = () => {
     });
   };
 
+  const { mutateAsync: updateFooterMutateAsync } = useUpdateFooter({
+    mutation: {
+      onSuccess: (updatedFooter) => {
+        dispatch(footerSliceActions.updateFooter(updatedFooter));
+        toast.success(t("updateFooterSuccess"));
+      },
+      onError: (err) => {
+        toast.error(t("updateFooterError"));
+        throw err;
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetFooterQueryKey(),
+        });
+      },
+    },
+  });
+
+  const updateFooter = async (data: FooterUpdateDto) => {
+    return await updateFooterMutateAsync({ data });
+  };
+
   return {
     deleteGameServer,
     createInvite,
@@ -288,6 +314,7 @@ const useDataInteractions = () => {
     createGameServerAccessGroup,
     deleteGameServerAccessGroup,
     updateGameServerAccessGroups,
+    updateFooter,
   };
 };
 
