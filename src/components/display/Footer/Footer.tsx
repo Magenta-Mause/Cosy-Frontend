@@ -28,7 +28,7 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
       />
 
       <div
-        className="absolute top-[13vw] left-0 right-0 flex items-center justify-between px-[2vw]"
+        className="absolute top-[14vw] left-0 right-0 flex items-center justify-between px-[2vw] z-20"
         style={{ gap: "2vw" }}
       >
         {/* Left side - Title and Description */}
@@ -39,12 +39,19 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
           >
             {t("footer.title")}
           </h3>
-          <p style={{ maxWidth: "30vw" }}>{t("footer.description")}</p>
+          <p style={{ maxWidth: "30vw", lineHeight: "1" }}>{t("footer.description")}</p>
         </div>
 
         {/* Right side - Imprint */}
         <div className="flex-1 text-right">
           <div className="flex items-start justify-end" style={{ gap: "1vw" }}>
+            {isOwner && (
+              <TooltipWrapper tooltip={t("footer.edit")}>
+                <Button variant="ghost" size="sm" onClick={() => setEditModalOpen(true)}>
+                  <Pencil className="h-4 w-4" />
+                </Button>
+              </TooltipWrapper>
+            )}
             <div style={{ fontSize: "1vw", color: "#87FF97" }}>
               {isLoading ? (
                 <p>{t("common.loading")}</p>
@@ -70,18 +77,6 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
                 <p>{t("footer.noData")}</p>
               )}
             </div>
-            {isOwner && (
-              <TooltipWrapper tooltip={t("footer.edit")}>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setEditModalOpen(true)}
-                  className="mt-1"
-                >
-                  <Pencil className="h-4 w-4" />
-                </Button>
-              </TooltipWrapper>
-            )}
           </div>
         </div>
       </div>

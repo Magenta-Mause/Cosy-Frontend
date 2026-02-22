@@ -1,6 +1,7 @@
 export type i18nLanguage = {
   common: {
     yourLimit: string;
+    loading: string;
   };
   overviewPage: {
     createNewServer: string;
@@ -41,6 +42,8 @@ export type i18nLanguage = {
     updateGameServerSuccess: string;
     updateGameServerError: string;
     missingUuid: string;
+    updateFooterSuccess: string;
+    updateFooterError: string;
   };
 
   userModal: {
@@ -747,6 +750,28 @@ export type i18nLanguage = {
     SMALL: string;
     MEDIUM: string;
     LARGE: string;
+  };
+  footer: {
+    title: string;
+    description: string;
+    contact: string;
+    edit: string;
+    noData: string;
+    editModal: {
+      title: string;
+      fullName: string;
+      fullNamePlaceholder: string;
+      email: string;
+      emailPlaceholder: string;
+      phone: string;
+      phonePlaceholder: string;
+      street: string;
+      streetPlaceholder: string;
+      city: string;
+      cityPlaceholder: string;
+      cancel: string;
+      save: string;
+    };
   };
 };
 
