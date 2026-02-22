@@ -4,6 +4,7 @@ import { Separator } from "@components/ui/separator.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import {
   ChartAreaIcon,
+  HouseIcon,
   LayoutDashboardIcon,
   SettingsIcon,
   SquareTerminalIcon,
@@ -114,14 +115,10 @@ const GameServerSettingsLayout = ({
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_CONFIGS],
     },
     {
-      label: t("tabs.privateDashboard"),
-      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
-      path: "/server/$serverId/settings/private-dashboard",
-    },
-    {
-      label: t("tabs.publicDashboard"),
-      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
-      path: "/server/$serverId/settings/public-dashboard",
+      label: t("tabs.design"),
+      icon: <HouseIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/design",
+      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_CONFIGS],
     },
     {
       label: t("tabs.metrics"),
@@ -134,6 +131,16 @@ const GameServerSettingsLayout = ({
       icon: <SquareTerminalIcon style={iconStyles} className="mr-2" />,
       path: "/server/$serverId/settings/rcon",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_RCON_SETTINGS],
+    },
+    {
+      label: t("tabs.privateDashboard"),
+      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/private-dashboard",
+    },
+    {
+      label: t("tabs.publicDashboard"),
+      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/public-dashboard",
     },
     {
       label: t("tabs.webhooks"),

@@ -211,12 +211,32 @@ const translation: i18nLanguage = {
         cancel: "Aktuelle Werte behalten",
         confirm: "Template erneut anwenden",
       },
+      confirmCreateDialog: {
+        title: "Server erstellen?",
+        description:
+          "Bitte bestätige, dass alle Einstellungen korrekt sind. Der Server wird sofort erstellt.",
+        cancel: "Zurück",
+        confirm: "Server erstellen",
+        creating: "Wird erstellt...",
+      },
+      successDialog: {
+        title: "Server erstellt!",
+        description: '"{{name}}" ist bereit gestartet werden.',
+        completedStepLabel: "Server bereit!",
+        doneButton: "Fertig",
+        openDashboard: "Dashboard öffnen",
+      },
       listInput: {
         addButton: "Hinzufügen",
       },
+      keyValueInput: {
+        escapeSequencesTooltip:
+          "Unterstützt Escape-Sequenzen: \\n (Zeilenumbruch), \\t (Tabulator), \\r (Wagenrücklauf), \\\\ (Backslash)",
+      },
       steps: {
+        title: "Server erstellen",
         step1: {
-          title: "Schritt 1: Server Namen und Spiel auswählen",
+          title: "Namen und Spiel auswählen",
           serverNameSelection: {
             title: "Servername",
             description: "Benenne deinen Server",
@@ -233,8 +253,13 @@ const translation: i18nLanguage = {
           },
         },
         step2: {
-          title: "Schritt 2: Template auswählen",
+          title: " Template auswählen",
           description: "Wähle ein Template für deinen Server aus.",
+          noTemplatesAvailable:
+            "Für dieses Spiel sind keine Templates verfügbar. Du kannst fortfahren.",
+          searchPlaceholder: "Templates suchen...",
+          requestTemplateText: "Du kannst ein Template für dieses Spiel anfragen, indem du",
+          requestTemplateLinkLabel: "dieses Formular ausfüllst",
           templateSelection: {
             title: "Template",
             description: "Wähle ein Template für deinen Server aus",
@@ -244,7 +269,7 @@ const translation: i18nLanguage = {
           },
         },
         step3: {
-          title: "Schritt 3: Konfiguriere deinen Server",
+          title: "Konfiguriere deinen Server",
           description: "Hier kannst du deinen Server konfigurieren.",
           dockerImageSelection: {
             title: "Docker-Image",
@@ -347,6 +372,11 @@ const translation: i18nLanguage = {
         uploadNoPermission: "Du hast keine Berechtigung, Dateien hochzuladen",
       },
     },
+    settingsActionButtons: {
+      revert: "Zurücksetzen",
+      confirm: "Bestätigen",
+    },
+
     editGameServer: {
       title: "Allgemeine Server Einstellungen",
 
@@ -418,6 +448,10 @@ const translation: i18nLanguage = {
         description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
         errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
       },
+      createdOn: {
+        title: "Erstellt am",
+        description: "Datum und Uhrzeit, zu der dieser Server erstellt wurde",
+      },
       uncosyZone: {
         title: "Uncosy Zone",
         transferOwnership: {
@@ -467,6 +501,7 @@ const translation: i18nLanguage = {
         accessManagement: "Zugriffsverwaltung",
         rcon: "RCON",
         webhooks: "Webhooks",
+        design: "Design",
       },
       sections: {
         general: "Allgemeine Einstellungen",
@@ -559,6 +594,14 @@ const translation: i18nLanguage = {
       },
     },
     gameServerSettings: {
+      designSettings: {
+        title: "Server-Design",
+        description: "Wähle das Aussehen deines Servers auf der Startseite",
+        house: "Haus",
+        castle: "Burg",
+        revert: "Zurücksetzen",
+        confirm: "Bestätigen",
+      },
       rconSettings: {
         title: "RCON Konfiguration",
         description: {
