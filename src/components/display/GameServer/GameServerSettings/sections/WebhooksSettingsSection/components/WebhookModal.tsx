@@ -37,7 +37,7 @@ const DEFAULT_CREATE_VALUES: WebhookFormValues = {
 
 const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: WebhookModalProps) => {
   const { t } = useTranslationPrefix("components.GameServerSettings.webhooks");
-  const { createWebhook, updateWebhook, isCreatingWebhook } = useDataInteractions(gameServerUuid);
+  const { createWebhook, updateWebhook, isCreatingWebhook } = useDataInteractions();
 
   const isEdit = mode === "edit";
   const isCreating = mode === "create";

@@ -20,7 +20,7 @@ const WebhooksSettingsSection = () => {
   const webhooks = gameServer.webhooks ?? [];
   const isLoading = false;
 
-  const { deleteWebhook } = useDataInteractions(gameServerUuid);
+  const { deleteWebhook } = useDataInteractions();
 
   const onDeleteWebhook = async (webhookUuid: string) => {
     if (!gameServerUuid) return;

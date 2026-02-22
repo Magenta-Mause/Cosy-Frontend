@@ -4,12 +4,12 @@ import useGameServerDataInteractions from "@/hooks/useGameServerDataInteractions
 import useUserDataInteractions from "@/hooks/useUserDataInteractions/useUserDataInteractions";
 import useWebhookDataInteractions from "@/hooks/useWebhookDataInteractions/useWebhookDataInteractions";
 
-const useDataInteractions = (gameServerUuid?: string) => {
+const useDataInteractions = () => {
   const gameServerDataInteractions = useGameServerDataInteractions();
   const userDataInteractions = useUserDataInteractions();
   const accessGroupDataInteractions = useAccessGroupDataInteractions();
   const gameServerConfigDataInteractions = useGameServerConfigDataInteractions();
-  const webhookDataInteractions = useWebhookDataInteractions(gameServerUuid);
+  const webhookDataInteractions = useWebhookDataInteractions();
 
   return {
     ...gameServerDataInteractions,
