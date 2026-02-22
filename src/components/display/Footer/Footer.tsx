@@ -47,7 +47,13 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
               {isOwner ? (
                 <button
                   type="button"
-                  style={{ fontSize: "1vw", color: "#87FF97", background: "none", border: "none", padding: 0 }}
+                  style={{
+                    fontSize: "1vw",
+                    color: "#87FF97",
+                    background: "none",
+                    border: "none",
+                    padding: 0,
+                  }}
                   className="cursor-pointer hover:opacity-80 transition-opacity"
                   onClick={() => setEditModalOpen(true)}
                 >

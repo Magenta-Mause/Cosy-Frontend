@@ -1,6 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
+import { useUpdateDesign } from "@/api/generated/backend-api";
 import {
   type CreateGameServerMutationBody,
   getGetAllGameServersQueryKey,
@@ -23,6 +24,8 @@ import type {
   AccessGroupCreationDto,
   AccessGroupUpdateDto,
   FooterUpdateDto,
+  GameServerDesignUpdateDtoDesign,
+  GameServerDto,
   RCONConfiguration,
   TransferOwnershipDto,
   UserInviteCreationDto,
@@ -174,6 +177,26 @@ const useDataInteractions = () => {
     });
   };
 
+  const { mutateAsync: updateGameServerDesignMutateAsync } = useUpdateDesign({
+    mutation: {
+      onSuccess: (updatedGameServer: GameServerDto) => {
+        dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
+        toast.success(t("updateGameServerSuccess"));
+      },
+      onError: (err: unknown) => {
+        toast.error(t("updateGameServerError"));
+        throw err;
+      },
+    },
+  });
+
+  const updateGameServerDesign = async (uuid: string, design: GameServerDesignUpdateDtoDesign) => {
+    return await updateGameServerDesignMutateAsync({
+      uuid,
+      data: { design },
+    });
+  };
+
   const { mutateAsync: transferOwnershipMutateAsync } = useTransferOwnership({
     mutation: {
       onSuccess: (updatedGameServer) => {
@@ -310,6 +333,7 @@ const useDataInteractions = () => {
     createGameServer,
     updateGameServer,
     updateRconConfiguration,
+    updateGameServerDesign,
     transferOwnership,
     createGameServerAccessGroup,
     deleteGameServerAccessGroup,
