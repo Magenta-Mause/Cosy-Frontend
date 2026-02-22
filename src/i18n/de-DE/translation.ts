@@ -525,6 +525,7 @@ const translation: i18nLanguage = {
         validation: {
           webhookUrlRequired: "Webhook-URL ist erforderlich",
           webhookUrlInvalid: "Webhook-URL muss mit http:// oder https:// beginnen",
+          subscribedEventsRequired: "Mindestens ein Ereignis muss ausgewählt werden",
         },
         cancel: "Abbrechen",
         creating: "Wird erstellt...",

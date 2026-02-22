@@ -613,6 +613,7 @@ export type i18nLanguage = {
         validation: {
           webhookUrlRequired: string;
           webhookUrlInvalid: string;
+          subscribedEventsRequired: string;
         };
         cancel: string;
         creating: string;
