@@ -755,7 +755,7 @@ const translation: i18nLanguage = {
     title: "COSY Von Medalheads",
     description:
       "COSY steht für Cost Optimised Server Yard. Es ist ein vereinfachter, kosteneffizienter Self-Hosting-Service für den Betrieb von Gameservern.",
-    imprint: "Impressum",
+    contact: "Kontakt:",
     edit: "Fußzeile bearbeiten",
     noData: "Keine Fußzeilendaten verfügbar",
     editModal: {

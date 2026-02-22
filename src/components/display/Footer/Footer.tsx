@@ -27,31 +27,44 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
         style={{ imageRendering: "pixelated" }}
       />
 
-      <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-8 py-8 text-[#87FF97]">
+      <div
+        className="absolute top-[13vw] left-0 right-0 flex items-center justify-between px-[2vw]"
+        style={{ gap: "2vw" }}
+      >
         {/* Left side - Title and Description */}
-        <div className="flex-1 text-left">
-          <h3 className="font-bold mb-4" style={{ color: "#87FF97" }}>
+        <div className="flex-1 text-left" style={{ fontSize: "1vw", color: "#87FF97" }}>
+          <h3
+            className="font-bold"
+            style={{ color: "#87FF97", fontSize: "1vw", marginBottom: "1vw" }}
+          >
             {t("footer.title")}
           </h3>
-          <p className="text-sm max-w-md">{t("footer.description")}</p>
+          <p style={{ maxWidth: "30vw" }}>{t("footer.description")}</p>
         </div>
 
         {/* Right side - Imprint */}
         <div className="flex-1 text-right">
-          <div className="flex items-start justify-end gap-2">
-            <div>
-              <h3 className="text-2xl font-semibold mb-4" style={{ color: "#87FF97" }}>
-                {t("footer.imprint")}
-              </h3>
+          <div className="flex items-start justify-end" style={{ gap: "1vw" }}>
+            <div style={{ fontSize: "1vw", color: "#87FF97" }}>
               {isLoading ? (
                 <p>{t("common.loading")}</p>
               ) : footerData ? (
-                <div className="space-y-2">
-                  <p>{footerData.full_name}</p>
-                  <p>{footerData.email}</p>
-                  <p>{footerData.phone}</p>
-                  <p>{footerData.street}</p>
-                  <p>{footerData.city}</p>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "auto auto",
+                    gap: "0.5vw 2vw",
+                    justifyContent: "end",
+                  }}
+                >
+                  <p className="font-bold" style={{ textAlign: "right" }}>
+                    {t("footer.contact")}
+                  </p>
+                  <p style={{ textAlign: "left" }}>{footerData.full_name}</p>
+                  <p style={{ textAlign: "right" }}>{footerData.email}</p>
+                  <p style={{ textAlign: "left" }}>{footerData.street}</p>
+                  <p style={{ textAlign: "right" }}>{footerData.phone}</p>
+                  <p style={{ textAlign: "left" }}>{footerData.city}</p>
                 </div>
               ) : (
                 <p>{t("footer.noData")}</p>
@@ -60,7 +73,7 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
             {isOwner && (
               <TooltipWrapper tooltip={t("footer.edit")}>
                 <Button
-                  variant="secondary"
+                  variant="ghost"
                   size="sm"
                   onClick={() => setEditModalOpen(true)}
                   className="mt-1"
