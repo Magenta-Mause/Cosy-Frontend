@@ -17,6 +17,7 @@ import Step1 from "./CreationSteps/Step1.tsx";
 import Step2 from "./CreationSteps/Step2.tsx";
 import Step3 from "./CreationSteps/Step3.tsx";
 import { GameServerCreationContext } from "./context.ts";
+import ConfirmCreateDialog from "./ConfirmCreateDialog.tsx";
 import ReapplyDialog from "./ReapplyDialog.tsx";
 import SuccessDialog from "./SuccessDialog.tsx";
 import useGameServerCreation from "./useGameServerCreation.ts";
@@ -36,6 +37,8 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
     currentPage,
     setCurrentPage,
     showReapplyDialog,
+    showConfirmDialog,
+    isCreating,
     showSuccessDialog,
     setShowSuccessDialog,
     successInfo,
@@ -46,6 +49,8 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
     triggerNextPage,
     handleConfirmReapply,
     handleCancelReapply,
+    handleConfirmCreate,
+    handleCancelConfirm,
   } = useGameServerCreation({ setOpen, isOpen });
 
   return (
@@ -112,6 +117,12 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
           open={showReapplyDialog}
           onConfirm={handleConfirmReapply}
           onCancel={handleCancelReapply}
+        />
+        <ConfirmCreateDialog
+          open={showConfirmDialog}
+          isCreating={isCreating}
+          onConfirm={handleConfirmCreate}
+          onCancel={handleCancelConfirm}
         />
       </Dialog>
 

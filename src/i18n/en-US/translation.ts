@@ -205,6 +205,14 @@ const translation: i18nLanguage = {
         cancel: "Keep Current Values",
         confirm: "Reapply Template",
       },
+      confirmCreateDialog: {
+        title: "Create Server?",
+        description:
+          "Please confirm that all configuration is correct. The server will be created immediately.",
+        cancel: "Go Back",
+        confirm: "Create Server",
+        creating: "Creating...",
+      },
       successDialog: {
         title: "Server Created!",
         description: '"{{name}}" is ready to be started.',

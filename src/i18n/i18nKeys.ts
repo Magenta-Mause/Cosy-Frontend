@@ -262,6 +262,13 @@ export type i18nLanguage = {
         cancel: string;
         confirm: string;
       };
+      confirmCreateDialog: {
+        title: string;
+        description: string;
+        cancel: string;
+        confirm: string;
+        creating: string;
+      };
       successDialog: {
         title: string;
         description: ContainsVariable<"name">;

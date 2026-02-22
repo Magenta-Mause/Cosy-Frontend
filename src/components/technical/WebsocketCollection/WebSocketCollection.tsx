@@ -62,6 +62,7 @@ const WebSocketCollection = () => {
     (message) => {
       const messageBody = JSON.parse(message.body) as GameServerDockerProgressUpdateDto;
       if (messageBody.server_uuid && messageBody.progress) {
+        console.log(messageBody);
         dispatch(
           gameServerSliceActions.updatePullProgress({
             uuid: messageBody.server_uuid,

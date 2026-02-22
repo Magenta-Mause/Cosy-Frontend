@@ -24,6 +24,8 @@ interface UseGameServerCreationReturn {
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   showReapplyDialog: boolean;
+  showConfirmDialog: boolean;
+  isCreating: boolean;
   showSuccessDialog: boolean;
   setShowSuccessDialog: Dispatch<SetStateAction<boolean>>;
   successInfo: { server: GameServerDto } | null;
@@ -34,6 +36,8 @@ interface UseGameServerCreationReturn {
   triggerNextPage: GameServerCreationContext["triggerNextPage"];
   handleConfirmReapply: () => void;
   handleCancelReapply: () => void;
+  handleConfirmCreate: () => Promise<void>;
+  handleCancelConfirm: () => void;
 }
 
 const useGameServerCreation = ({
@@ -49,6 +53,8 @@ const useGameServerCreation = ({
   const [currentPage, setCurrentPage] = useState(0);
   const [showReapplyDialog, setShowReapplyDialog] = useState(false);
   const [pendingPageChange, setPendingPageChange] = useState<number | null>(null);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   const [showSuccessDialog, setShowSuccessDialog] = useState(false);
   const [successInfo, setSuccessInfo] = useState<{
     server: GameServerDto;
@@ -88,53 +94,65 @@ const useGameServerCreation = ({
     }
   }, [creationState.utilState, creationState.gameServerState]);
 
+  const handleConfirmCreate = useCallback(async () => {
+    const formState = creationState.gameServerState;
+
+    const gameServerCreationObject: GameServerCreationDto = {
+      server_name: formState.server_name ?? "",
+      docker_image_name: formState.docker_image_name ?? "",
+      docker_image_tag: formState.docker_image_tag ?? "",
+      external_game_id:
+        formState.external_game_id !== GENERIC_GAME_PLACEHOLDER_VALUE
+          ? formState.external_game_id
+          : undefined,
+      execution_command: formState.execution_command
+        ? (parseCommand(formState.execution_command as unknown as string) as string[])
+        : undefined,
+      port_mappings: formState.port_mappings,
+      environment_variables: formState.environment_variables?.map((env) => ({
+        ...env,
+        value: processEscapeSequences(env.value),
+      })),
+      volume_mounts: formState.volume_mounts,
+      docker_hardware_limits:
+        formState.docker_max_cpu || formState.docker_max_memory
+          ? {
+              docker_max_cpu_cores: formState.docker_max_cpu
+                ? parseFloat(formState.docker_max_cpu)
+                : undefined,
+              docker_memory_limit: formState.docker_max_memory || undefined,
+            }
+          : undefined,
+      design: formState.design,
+    };
+
+    setIsCreating(true);
+    try {
+      const createdGameServer = await createGameServer(gameServerCreationObject);
+      setShowConfirmDialog(false);
+      setIsCreating(false);
+      setCreationState({
+        gameServerState: { design: Math.random() < 0.5 ? "HOUSE" : "CASTLE" },
+        utilState: {},
+      });
+      setPageValid({});
+      setCurrentPage(0);
+      setOpen(false);
+      setSuccessInfo({ server: createdGameServer });
+      setShowSuccessDialog(true);
+    } catch {
+      // error already toasted by the hook; keep dialog open for retry
+      setIsCreating(false);
+    }
+  }, [createGameServer, setOpen, creationState.gameServerState]);
+
+  const handleCancelConfirm = useCallback(() => {
+    setShowConfirmDialog(false);
+  }, []);
+
   const handleNextPage = useCallback(async () => {
     if (isLastPage) {
-      const formState = creationState.gameServerState;
-
-      const gameServerCreationObject: GameServerCreationDto = {
-        server_name: formState.server_name ?? "",
-        docker_image_name: formState.docker_image_name ?? "",
-        docker_image_tag: formState.docker_image_tag ?? "",
-        external_game_id:
-          formState.external_game_id !== GENERIC_GAME_PLACEHOLDER_VALUE
-            ? formState.external_game_id
-            : undefined,
-        execution_command: formState.execution_command
-          ? (parseCommand(formState.execution_command as unknown as string) as string[])
-          : undefined,
-        port_mappings: formState.port_mappings,
-        environment_variables: formState.environment_variables?.map((env) => ({
-          ...env,
-          value: processEscapeSequences(env.value),
-        })),
-        volume_mounts: formState.volume_mounts,
-        docker_hardware_limits:
-          formState.docker_max_cpu || formState.docker_max_memory
-            ? {
-                docker_max_cpu_cores: formState.docker_max_cpu
-                  ? parseFloat(formState.docker_max_cpu)
-                  : undefined,
-                docker_memory_limit: formState.docker_max_memory || undefined,
-              }
-            : undefined,
-        design: formState.design,
-      };
-
-      try {
-        const createdGameServer = await createGameServer(gameServerCreationObject);
-        setCreationState({
-          gameServerState: { design: Math.random() < 0.5 ? "HOUSE" : "CASTLE" },
-          utilState: {},
-        });
-        setPageValid({});
-        setCurrentPage(0);
-        setOpen(false);
-        setSuccessInfo({ server: createdGameServer });
-        setShowSuccessDialog(true);
-      } catch {
-        // error already toasted by the hook; keep modal open
-      }
+      setShowConfirmDialog(true);
       return;
     }
 
@@ -160,15 +178,7 @@ const useGameServerCreation = ({
     }
 
     setCurrentPage((currentPage) => currentPage + 1);
-  }, [
-    createGameServer,
-    setOpen,
-    currentPage,
-    applyTemplateToState,
-    creationState.gameServerState,
-    creationState.utilState,
-    isLastPage,
-  ]);
+  }, [currentPage, applyTemplateToState, creationState.utilState, isLastPage]);
 
   const triggerNextPage = useCallback(() => {
     if (isPageValid[currentPage]) {
@@ -224,6 +234,8 @@ const useGameServerCreation = ({
     currentPage,
     setCurrentPage,
     showReapplyDialog,
+    showConfirmDialog,
+    isCreating,
     showSuccessDialog,
     setShowSuccessDialog,
     successInfo,
@@ -234,6 +246,8 @@ const useGameServerCreation = ({
     triggerNextPage,
     handleConfirmReapply,
     handleCancelReapply,
+    handleConfirmCreate,
+    handleCancelConfirm,
   };
 };
 
