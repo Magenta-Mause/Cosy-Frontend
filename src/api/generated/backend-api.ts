@@ -27,6 +27,7 @@ import type {
   GameDto,
   GameServerAccessGroupDto,
   GameServerCreationDto,
+  GameServerDesign,
   GameServerDto,
   GameServerFileSystemDto,
   GameServerLogMessageEntity,
@@ -1319,66 +1320,66 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
-export const updatePublicDashboardLayout = (
+export const updateGameServerDesign = (
     uuid: string,
-    isPublic: boolean,
-    publicDashboardLayout: PublicDashboardLayout[],
+    gameServerDesignUpdateDto: { design: GameServerDesign },
  options?: SecondParameter<typeof customInstance>,) => {
-      
-      
-      return customInstance<void>(
-      {url: `/game-server/${uuid}/layout/public-dashboard/${isPublic}`, method: 'PATCH',
+
+
+      return customInstance<GameServerDto>(
+      {url: `/game-server/${uuid}/design`, method: 'PATCH',
       headers: {'Content-Type': 'application/json', },
-      data: publicDashboardLayout
+      data: gameServerDesignUpdateDto
     },
       options);
     }
-  
 
 
-export const getUpdatePublicDashboardLayoutMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePublicDashboardLayout>>, TError,{uuid: string;isPublic: boolean;data: PublicDashboardLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof updatePublicDashboardLayout>>, TError,{uuid: string;isPublic: boolean;data: PublicDashboardLayout[]}, TContext> => {
 
-const mutationKey = ['updatePublicDashboardLayout'];
+export const getUpdateGameServerDesignMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGameServerDesign>>, TError,{uuid: string;data: { design: GameServerDesign }}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateGameServerDesign>>, TError,{uuid: string;data: { design: GameServerDesign }}, TContext> => {
+
+const mutationKey = ['updateGameServerDesign'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
       : {...options, mutation: {...options.mutation, mutationKey}}
       : {mutation: { mutationKey, }, request: undefined};
 
-      
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePublicDashboardLayout>>, {uuid: string;isPublic: boolean;data: PublicDashboardLayout[]}> = (props) => {
-          const {uuid,isPublic,data} = props ?? {};
 
-          return  updatePublicDashboardLayout(uuid,isPublic,data,requestOptions)
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateGameServerDesign>>, {uuid: string;data: { design: GameServerDesign }}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updateGameServerDesign(uuid,data,requestOptions)
         }
 
-        
+
+
 
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type UpdatePublicDashboardLayoutMutationResult = NonNullable<Awaited<ReturnType<typeof updatePublicDashboardLayout>>>
-    export type UpdatePublicDashboardLayoutMutationBody = PublicDashboardLayout[]
-    export type UpdatePublicDashboardLayoutMutationError = unknown
+    export type UpdateGameServerDesignMutationResult = NonNullable<Awaited<ReturnType<typeof updateGameServerDesign>>>
+    export type UpdateGameServerDesignMutationBody = { design: GameServerDesign }
+    export type UpdateGameServerDesignMutationError = unknown
 
-    export const useUpdatePublicDashboardLayout = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePublicDashboardLayout>>, TError,{uuid: string;isPublic: boolean;data: PublicDashboardLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+    export const useUpdateGameServerDesign = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGameServerDesign>>, TError,{uuid: string;data: { design: GameServerDesign }}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
-        Awaited<ReturnType<typeof updatePublicDashboardLayout>>,
+        Awaited<ReturnType<typeof updateGameServerDesign>>,
         TError,
-        {uuid: string;isPublic: boolean;data: PublicDashboardLayout[]},
+        {uuid: string;data: { design: GameServerDesign }},
         TContext
       > => {
 
-      const mutationOptions = getUpdatePublicDashboardLayoutMutationOptions(options);
+      const mutationOptions = getUpdateGameServerDesignMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
-    
+
 export const updatePrivateDashboard = (
     uuid: string,
     privateDashboardLayout: PrivateDashboardLayout[],

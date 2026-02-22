@@ -96,7 +96,6 @@ const useDataLoading = () => {
       return false;
     }
 
-    dispatch(gameServerSliceActions.setState("loading"));
     try {
       const gameServer = await getGameServerById(gameServerUuid);
       dispatch(gameServerSliceActions.updateGameServer(gameServer));
