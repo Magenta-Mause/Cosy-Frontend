@@ -1,5 +1,7 @@
+import Footer from "@components/display/Footer/Footer.tsx";
 import bgImageLoop from "@/assets/MainPage/backgrounds/bg_day_loop.png";
 import bgImageTop from "@/assets/MainPage/backgrounds/bg_day_top.png";
+import bgImageFooter from "@/assets/MainPage/backgrounds/bg_footer_day.webp";
 import logo from "@/assets/MainPage/logo.gif";
 import path_1 from "@/assets/MainPage/platze_1.png";
 import path_2 from "@/assets/MainPage/platze_2.png";
@@ -17,6 +19,7 @@ const images = {
   bg: {
     top: bgImageTop,
     loop: bgImageLoop,
+    footer: bgImageFooter,
   },
   path: {
     1: path_1,
@@ -91,7 +94,6 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
           className="w-full h-auto block"
           style={{ imageRendering: "pixelated" }}
         />
-
         {bgLoops.map((loop) => (
           <img
             key={loop.id}
@@ -101,6 +103,7 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
             style={{ imageRendering: "pixelated" }}
           />
         ))}
+        <Footer bgImageFooter={images.bg.footer} />
       </div>
 
       <div className="absolute top-0 left-0 w-full">

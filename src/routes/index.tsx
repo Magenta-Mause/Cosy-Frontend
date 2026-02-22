@@ -1,7 +1,6 @@
 import { DeleteGameServerSuccessDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerSuccessDialog";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
-import Footer from "@/components/display/Footer/Footer.tsx";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
@@ -64,8 +63,6 @@ function Index() {
           <GameServerDisplay gameServerConfigurations={gameServers} />
         </div>
       </div>
-
-      <Footer />
 
       <div className="absolute top-0 left-0 w-full z-50 flex flex-col items-center pt-20 pointer-events-none">
         <div className="flex flex-row justify-center items-start w-full max-w-75 pointer-events-auto">
