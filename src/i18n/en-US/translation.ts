@@ -194,7 +194,6 @@ const translation: i18nLanguage = {
     CreateGameServer: {
       backButton: "Back",
       nextStepButton: "Next Step",
-      serverNamePlaceholder: "My Server",
       useTemplate: "Apply Template",
       useNoTemplate: "Continue without Template",
       createServerButton: "Create Server",
@@ -222,6 +221,10 @@ const translation: i18nLanguage = {
       },
       listInput: {
         addButton: "Add",
+      },
+      keyValueInput: {
+        escapeSequencesTooltip:
+          "Supports escape sequences: \\n (newline), \\t (tab), \\r (carriage return), \\\\ (backslash)",
       },
       steps: {
         step1: {
@@ -436,6 +439,10 @@ const translation: i18nLanguage = {
         title: "CPU Cores",
         description: "Limit the CPU usage of the server",
         errorLabel: "Please enter a valid CPU limit.",
+      },
+      createdOn: {
+        title: "Created on",
+        description: "The date and time this server was created",
       },
       uncosyZone: {
         title: "Uncosy Zone",

@@ -195,7 +195,6 @@ const translation: i18nLanguage = {
     CreateGameServer: {
       backButton: "Zurück",
       nextStepButton: "Weiter",
-      serverNamePlaceholder: "Mein Server",
       useTemplate: "Template verwenden",
       useNoTemplate: "Ohne Template fortfahren",
       createServerButton: "Server erstellen",
@@ -223,6 +222,10 @@ const translation: i18nLanguage = {
       },
       listInput: {
         addButton: "Hinzufügen",
+      },
+      keyValueInput: {
+        escapeSequencesTooltip:
+          "Unterstützt Escape-Sequenzen: \\n (Zeilenumbruch), \\t (Tabulator), \\r (Wagenrücklauf), \\\\ (Backslash)",
       },
       steps: {
         title: "Server erstellen",
@@ -438,6 +441,10 @@ const translation: i18nLanguage = {
         title: "CPU Kern Limit",
         description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
         errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
+      },
+      createdOn: {
+        title: "Erstellt am",
+        description: "Datum und Uhrzeit, zu der dieser Server erstellt wurde",
       },
       uncosyZone: {
         title: "Uncosy Zone",

@@ -2,6 +2,7 @@ import { Input } from "@components/ui/input.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { Info } from "lucide-react";
 import { Fragment, useCallback, useMemo, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
@@ -51,6 +52,7 @@ function EditKeyValueInput<T extends Record<string, string>>({
   objectValue,
   processEscapeSequences: shouldProcessEscapeSequences = false,
 }: Props<T>) {
+  const { t } = useTranslation();
   const validateKeyValuePair = useCallback(
     (key?: string, value?: string) => {
       if (!key && !value && !required) {
@@ -144,7 +146,7 @@ function EditKeyValueInput<T extends Record<string, string>>({
               />
               {shouldProcessEscapeSequences && (
                 <TooltipWrapper
-                  tooltip="Supports escape sequences: \n (newline), \t (tab), \r (carriage return), \\ (backslash)"
+                  tooltip={t("components.CreateGameServer.keyValueInput.escapeSequencesTooltip")}
                   side="top"
                   asChild={false}
                 >

@@ -250,6 +250,23 @@ const EditGameServerPage = (props: {
           optional={true}
         />
 
+        {props.gameServer.created_on && (
+          <InputFieldEditGameServer
+            validator={z.string()}
+            placeholder=""
+            label={t("createdOn.title")}
+            description={t("createdOn.description")}
+            errorLabel=""
+            value={new Date(props.gameServer.created_on).toLocaleString(
+              t_root("timerange.localTime"),
+              { dateStyle: "medium", timeStyle: "short" },
+            )}
+            disabled={true}
+            onChange={() => {}}
+            optional={true}
+          />
+        )}
+
         <div className="grid grid-cols-2 gap-4">
           <InputFieldEditGameServer
             validator={z.string().min(1)}

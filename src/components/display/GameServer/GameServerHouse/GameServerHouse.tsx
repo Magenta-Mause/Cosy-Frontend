@@ -13,6 +13,7 @@ import castle from "@/assets/MainPage/castle.png";
 import house from "@/assets/MainPage/house.png";
 import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
+import { GameServerDesign } from "@/types/gameServerDesign.ts";
 
 const hashUUID = (uuid: string): number => {
   let hash = 0;
@@ -35,7 +36,7 @@ const GameServerHouse = (props: {
 
   const isHouse = useMemo(() => {
     if (props.gameServer.design !== undefined) {
-      return props.gameServer.design === "HOUSE";
+      return props.gameServer.design === GameServerDesign.HOUSE;
     }
     const hash = hashUUID(props.gameServer.uuid);
     return hash % 2 === 0;

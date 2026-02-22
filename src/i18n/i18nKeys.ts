@@ -252,7 +252,6 @@ export type i18nLanguage = {
     CreateGameServer: {
       backButton: string;
       nextStepButton: string;
-      serverNamePlaceholder: string;
       useTemplate: string;
       useNoTemplate: string;
       createServerButton: string;
@@ -261,6 +260,9 @@ export type i18nLanguage = {
         description: string;
         cancel: string;
         confirm: string;
+      };
+      keyValueInput: {
+        escapeSequencesTooltip: string;
       };
       confirmCreateDialog: {
         title: string;
@@ -427,6 +429,11 @@ export type i18nLanguage = {
         title: string;
         description: string;
         errorLabel: string;
+      };
+
+      createdOn: {
+        title: string;
+        description: string;
       };
 
       cpuLimitSelection: {

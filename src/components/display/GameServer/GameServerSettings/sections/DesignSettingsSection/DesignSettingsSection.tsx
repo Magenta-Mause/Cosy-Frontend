@@ -2,23 +2,24 @@ import SettingsActionButtons from "@components/display/GameServer/GameServerSett
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import type { GameServerDesign } from "@/api/generated/model";
+import type { GameServerDesign as GameServerDesignType } from "@/api/generated/model";
 import castle from "@/assets/MainPage/castle.png";
 import house from "@/assets/MainPage/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer.tsx";
 import { cn } from "@/lib/utils.ts";
+import { GameServerDesign } from "@/types/gameServerDesign.ts";
 
 const DesignSettingsSection = () => {
   const { t } = useTranslation();
   const { updateGameServerDesign } = useDataInteractions();
   const { gameServer } = useSelectedGameServer();
 
-  const [selectedDesign, setSelectedDesign] = useState<GameServerDesign>(
-    gameServer.design ?? "HOUSE",
+  const [selectedDesign, setSelectedDesign] = useState<GameServerDesignType>(
+    gameServer.design ?? GameServerDesign.HOUSE,
   );
   const [loading, setLoading] = useState(false);
-  const hasChanges = selectedDesign !== (gameServer.design ?? "HOUSE");
+  const hasChanges = selectedDesign !== (gameServer.design ?? GameServerDesign.HOUSE);
 
   const handleSave = async () => {
     if (!gameServer.uuid) {
@@ -35,12 +36,12 @@ const DesignSettingsSection = () => {
 
   const designs: { value: GameServerDesign; image: string; label: string }[] = [
     {
-      value: "HOUSE",
+      value: GameServerDesign.HOUSE,
       image: house,
       label: t("components.gameServerSettings.designSettings.house"),
     },
     {
-      value: "CASTLE",
+      value: GameServerDesign.CASTLE,
       image: castle,
       label: t("components.gameServerSettings.designSettings.castle"),
     },
