@@ -142,6 +142,7 @@ const GameServerDetailPageLayout = (props: {
             imageRendering: "pixelated",
             backgroundPosition: "center center",
             backgroundSize: "100% auto",
+            backgroundRepeat: "no-repeat",
             height: "100vh",
           } as React.CSSProperties
         }
