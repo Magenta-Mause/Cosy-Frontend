@@ -161,8 +161,8 @@ const GameServerSettingsLayout = ({
 
   return (
     <SettingsProvider.Provider value={{ settings: serverSettings, setSettings }}>
-      <div className="flex gap-4 h-full overflow-clip">
-        <div className="flex flex-col justify-center items-end w-[20%] min-w-0 align-top h-fit">
+      <div className="flex gap-2 h-full overflow-visible">
+        <div className="flex flex-col justify-center items-end w-[20%] min-w-0 align-top h-fit pl-4 pt-4">
           {TABS.map(({ label, icon, path, permissions }) => {
             const isLinkReachable = permissions
               ? permissions.some((perm) => hasPermission(perm))
@@ -208,8 +208,10 @@ const GameServerSettingsLayout = ({
             );
           })}
         </div>
-        <Separator className="m-4" orientation="vertical" />
-        <div className="w-full max-w-full overflow-y-auto">{children}</div>
+        <div className={"p-4 h-auto overflow-y-hidden"}>
+          <Separator className=" w-0.5! h-full!" orientation="vertical" />
+        </div>
+        <div className="w-full max-w-full overflow-y-auto pt-8 pr-5">{children}</div>
       </div>
     </SettingsProvider.Provider>
   );

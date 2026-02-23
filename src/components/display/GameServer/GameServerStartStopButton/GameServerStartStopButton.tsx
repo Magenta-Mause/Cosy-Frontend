@@ -10,7 +10,10 @@ import {
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
 import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
 
-const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
+const GameServerStartStopButton = (props: {
+  gameServer: GameServerDto;
+  buttonVariant?: "primary" | "secondary";
+}) => {
   const { t } = useTranslation();
   const { stopServer, startServer } = useServerInteractions();
   const { hasPermission } = useGameServerPermissions(props.gameServer.uuid);
@@ -90,7 +93,11 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
       side="bottom"
       align="center"
     >
-      <Button {...buttonProps} className="transition-all duration-300" />
+      <Button
+        {...buttonProps}
+        className="transition-all duration-300"
+        variant={props.buttonVariant ?? "primary"}
+      />
     </TooltipWrapper>
   );
 };

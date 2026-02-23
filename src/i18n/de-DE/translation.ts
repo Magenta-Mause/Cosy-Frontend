@@ -339,6 +339,7 @@ const translation: i18nLanguage = {
         renameAction: "Umbenennen",
         deleteAction: "Löschen",
         downloadAction: "Download",
+        exportAction: "Exportieren",
         downloadFile: "{{fileName}} downloaden",
         createFolderAction: "Ordner erstellen",
         createFolderDescription: "Erstellt einen Ordner in: {{dirName}}",

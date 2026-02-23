@@ -176,6 +176,14 @@ export function useFileBrowserCache(opts: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mountTrie, currentPath]);
 
+  // Sync local state when the URL changes externally (browser back / forward).
+  // The exported setCurrentPath pushes a history entry AND updates state directly,
+  // so this effect only fires meaningfully on browser-driven navigation.
+  useEffect(() => {
+    const normalized = normalizePath(opts.initialPath);
+    setCurrentPath(normalized);
+  }, [opts.initialPath]);
+
   return {
     currentPath,
     setCurrentPath: (p: string) => {
@@ -185,7 +193,6 @@ export function useFileBrowserCache(opts: {
         params: {
           serverId: opts.serverUuid,
         },
-        replace: true,
       });
       setCurrentPath(path);
     },

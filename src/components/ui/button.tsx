@@ -37,6 +37,7 @@ const buttonVariants = cva(
           "active:shadow-[inset_0_0.25rem_0.5rem_0_var(--color-button-primary-inner-shadow)]",
           "active:shadow-none",
 
+          "border border-button-secondary-border",
           "disabled:bg-button-primary-disabled",
           "disabled:text-button-secondary-disabled",
 

@@ -18,6 +18,8 @@ const LogDisplay = (
     canReadLogs?: boolean;
     hideTimestamps?: boolean;
     showExtendedTimestamps?: boolean;
+    disableRoundness?: boolean;
+    disableBorder?: boolean;
   } & Omit<React.ComponentProps<"div">, "children">,
 ) => {
   const { t } = useTranslation();
@@ -72,7 +74,9 @@ const LogDisplay = (
     <div
       {...divProps}
       className={cn(
-        "flex flex-col border rounded-md bg-gray-950 text-gray-100 font-mono h-full",
+        "flex flex-col bg-gray-950 text-gray-100 font-mono h-full",
+        !props.disableRoundness && "rounded-md",
+        !props.disableBorder && "border border-gray-800",
         divProps.className,
       )}
     >

@@ -1,4 +1,4 @@
-import { Download, File, Folder, Pencil, Trash2 } from "lucide-react";
+import { Download, File, Folder, FolderDown, Pencil, Trash2 } from "lucide-react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { formatBytes, formatUnixPerms, isDirectory } from "@/lib/fileSystemUtils";
@@ -16,6 +16,11 @@ type Props = {
   onDownload?: (obj: FileSystemObjectDto) => Promise<unknown>;
 };
 
+const actionButtonClass = cn(
+  "inline-flex items-center rounded-md p-2 sm:w-22",
+  "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 justify-center",
+);
+
 export const FileBrowserRow = ({
   obj,
   loading,
@@ -30,28 +35,30 @@ export const FileBrowserRow = ({
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserList");
 
   return (
-    <div className={cn("w-full flex items-center gap-2 rounded-md px-2 py-2", "hover:bg-black/5")}>
-      <button
-        type="button"
-        onClick={() => onEntryClick?.(obj)}
+    <button
+      type={"button"}
+      onClick={() => onEntryClick?.(obj)}
+      className={cn("w-full flex items-center gap-6 rounded-md hover:bg-black/5 px-2 py-2")}
+    >
+      <div
         className={cn(
-          "flex min-w-0 flex-1 items-center gap-2 text-left rounded-md",
+          "flex min-w-0 flex-1 items-center gap-2 text-left rounded-md pl-1",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
         )}
       >
         {dir ? <Folder className="h-4 w-4 shrink-0" /> : <File className="h-4 w-4 shrink-0" />}
 
-        <span className="truncate text-sm">{obj.name}</span>
+        <span className="truncate text-sm ml-2">{obj.name}</span>
 
         <div
           className={cn(
-            "ml-auto shrink-0 text-xs font-mono text-muted-foreground",
-            "hidden md:inline-flex items-center gap-2",
+            "ml-auto shrink-0 text-s text-muted-foreground",
+            "hidden md:inline-flex items-center gap-6",
           )}
         >
           <span
             className={cn(
-              "ml-auto shrink-0 text-xs text-muted-foreground tabular-nums",
+              "ml-auto shrink-0 text-muted-foreground tabular-nums",
               "hidden md:inline-flex w-24 justify-end",
             )}
             title={obj.type === "FILE" ? `${obj.size ?? "unknown"} bytes` : "Directory"}
@@ -61,8 +68,8 @@ export const FileBrowserRow = ({
 
           <span
             className={cn(
-              "ml-auto shrink-0 text-xs font-mono text-muted-foreground",
-              "hidden md:inline-flex items-center gap-2",
+              "ml-auto shrink-0 text-muted-foreground",
+              "hidden md:inline-flex items-center gap-6",
             )}
             title={`mode: ${perms.octal} (${perms.rwx})`}
           >
@@ -70,14 +77,17 @@ export const FileBrowserRow = ({
             <span>{perms.octal}</span>
           </span>
         </div>
-      </button>
+      </div>
 
       {canWrite ? (
         <div className="flex items-center gap-1 shrink-0">
           {onRename ? (
             <button
               type="button"
-              onClick={() => onRename(obj)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onRename(obj);
+              }}
               className={cn(
                 "inline-flex items-center rounded-md p-2",
                 "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
@@ -95,7 +105,10 @@ export const FileBrowserRow = ({
           {onDelete ? (
             <button
               type="button"
-              onClick={() => onDelete(obj)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(obj);
+              }}
               className={cn(
                 "inline-flex items-center rounded-md p-2",
                 "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
@@ -110,15 +123,14 @@ export const FileBrowserRow = ({
             </button>
           ) : null}
 
-          {onDownload ? (
+          {onDownload && !dir ? (
             <button
               type="button"
-              onClick={() => onDownload(obj)}
-              className={cn(
-                "inline-flex items-center rounded-md p-2",
-                "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-                dir ? "opacity-0" : "",
-              )}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDownload(obj);
+              }}
+              className={actionButtonClass}
               disabled={loading}
               data-loading={loading}
               aria-label={`${t("downloadAction")} ${obj.name}`}
@@ -128,8 +140,23 @@ export const FileBrowserRow = ({
               <span className="hidden sm:inline">{t("downloadAction")}</span>
             </button>
           ) : null}
+
+          {onDownload && dir ? (
+            <button
+              type="button"
+              onClick={() => onDownload(obj)}
+              className={actionButtonClass}
+              disabled={loading}
+              data-loading={loading}
+              aria-label={`${t("exportAction")} ${obj.name}`}
+              title={t("exportAction")}
+            >
+              <FolderDown className="h-4 w-4 mr-1" />
+              <span className="hidden sm:inline">{t("exportAction")}</span>
+            </button>
+          ) : null}
         </div>
       ) : null}
-    </div>
+    </button>
   );
 };

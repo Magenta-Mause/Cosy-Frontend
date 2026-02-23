@@ -7,7 +7,10 @@ import GameServerStatusDot from "../GameServerStatusDot/GameServerStatusDot.tsx"
 
 const COMPLETED_STATUSES = new Set(["Pull complete", "Already exists", "Download complete"]);
 
-const GameServerStatusIndicator = (props: { gameServer: GameServerDto }) => {
+const GameServerStatusIndicator = (props: {
+  gameServer: GameServerDto;
+  useScreenRelativeSizes?: boolean;
+}) => {
   const { t } = useTranslation();
   const status = props.gameServer.status ?? GameServerDtoStatus.STOPPED;
   const pullProgressMap = useTypedSelector((state) => state.gameServerSliceReducer.pullProgress);
@@ -38,7 +41,7 @@ const GameServerStatusIndicator = (props: { gameServer: GameServerDto }) => {
 
     if (layers.length > 0) {
       tooltipContent = (
-        <div className="min-w-[200px] space-y-1 text-xs">
+        <div className="min-w-50 space-y-1 text-xs">
           {layers.map((layer) => {
             const layerPercent = COMPLETED_STATUSES.has(layer.status)
               ? 100

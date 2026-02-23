@@ -27,7 +27,7 @@ function RouteComponent() {
   const canChangeFiles = hasPermission(GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_FILES);
 
   return (
-    <div className="container mx-auto flex flex-col gap-4 grow h-full">
+    <div className="mx-auto flex flex-col gap-4 grow h-full">
       <FileBrowserDialog
         serverUuid={serverId}
         volumes={gameServer.volume_mounts}

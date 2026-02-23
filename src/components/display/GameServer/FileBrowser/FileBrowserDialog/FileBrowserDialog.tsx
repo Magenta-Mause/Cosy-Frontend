@@ -184,7 +184,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       <div className="min-w-0 h-full flex flex-col overflow-hidden">
         <div className="px-2 py-2 border-b border-b-border flex items-start gap-2">
           <div className="min-w-0 flex-1">
-            <div className="text-sm font-medium truncate">{selectedFileName || "Preview"}</div>
+            <div className="text-sm truncate">{selectedFileName || "Preview"}</div>
             {selectedFilePath ? (
               <div className="text-xs text-muted-foreground truncate" title={selectedFilePath}>
                 {selectedFilePath}
@@ -288,11 +288,16 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       },
 
       onDownload: async (obj) => {
-        downloadSingleFile({
-          serverUuid: props.serverUuid,
-          parentPath: currentPath,
-          name: obj.name,
-        });
+        if (obj.type === "DIRECTORY") {
+          const fullPath = joinRemotePath(currentPath, obj.name);
+          await zipAndDownload({ serverUuid: props.serverUuid, startPath: fullPath });
+        } else {
+          downloadSingleFile({
+            serverUuid: props.serverUuid,
+            parentPath: currentPath,
+            name: obj.name,
+          });
+        }
       },
     }),
     [
@@ -321,7 +326,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
   return (
     <div
-      className={cn("border-border border-3 rounded-lg flex flex-col gap-2 h-full p-4 relative")}
+      className={cn("flex flex-col gap-2 h-full p-4 relative")}
       style={{
         width: props.width !== undefined ? `${props.width}px` : undefined,
         height: props.height !== undefined ? `${props.height}px` : undefined,
