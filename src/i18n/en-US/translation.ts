@@ -440,6 +440,15 @@ const translation: i18nLanguage = {
         title: "Volume Mounts",
         errorLabel: "Path must not be empty",
         description: "Volume mounts for your server",
+        pathChange: {
+          title: "Volume mount path changed",
+          description:
+            "The container path for this volume mount has changed. Would you like to keep the existing files and move them to the new path, or delete the old files?",
+          keepButton: "Keep files",
+          deleteButton: "Delete old files",
+          keepIndicator: "Files will be kept",
+          deleteIndicator: "Old files will be deleted",
+        },
       },
 
       memoryLimitSelection: {

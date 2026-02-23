@@ -432,6 +432,14 @@ export type i18nLanguage = {
         title: string;
         errorLabel: string;
         description: string;
+        pathChange: {
+          title: string;
+          description: string;
+          keepButton: string;
+          deleteButton: string;
+          keepIndicator: string;
+          deleteIndicator: string;
+        };
       };
 
       memoryLimitSelection: {

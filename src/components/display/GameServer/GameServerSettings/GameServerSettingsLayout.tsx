@@ -200,7 +200,7 @@ const GameServerSettingsLayout = ({
                       <Button
                         className={cn(
                           "w-full min-w-0 flex justify-start border-0 shadow-none bg-button-primary-default",
-                          isActive && "bg-button-primary-active hover:bg-button-primary-default",
+                          isActive && "bg-button-primary-active hover:bg-button-primary-active/80",
                           !isLinkReachable && "cursor-not-allowed opacity-50",
                         )}
                         disabled={!isLinkReachable}

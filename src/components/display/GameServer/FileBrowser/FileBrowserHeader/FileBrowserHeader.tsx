@@ -56,7 +56,7 @@ export const FileBrowserHeader = ({
         </span>
       ))}
 
-      <span className="ml-auto flex items-center gap-2">
+      <span className="ml-auto flex items-center gap-2 text-foreground">
         {canWrite && canMkdir ? (
           <TooltipWrapper tooltip={t("newFolder")}>
             <button

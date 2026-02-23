@@ -2,6 +2,7 @@ import CpuLimitInputFieldEdit from "@components/display/GameServer/EditGameServe
 import MemoryLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/MemoryLimitInputFieldEdit.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
+import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand, quote } from "shell-quote";
@@ -9,6 +10,7 @@ import * as z from "zod";
 import {
   type EnvironmentVariableConfiguration,
   type GameServerDto,
+  GameServerDtoStatus,
   type GameServerUpdateDto,
   PortMappingProtocol,
 } from "@/api/generated/model";
@@ -212,6 +214,7 @@ const EditGameServerPage = (props: {
         ?.filter((vol) => vol.container_path?.trim())
         .map((v) => ({
           container_path: v.container_path,
+          ...(v.uuid ? { uuid: v.uuid } : {}),
         })),
     };
     setLoading(true);
@@ -366,10 +369,11 @@ const EditGameServerPage = (props: {
           onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
 
-        <EditVolumeMountConfigurationInput<{ container_path: string }>
+        <EditVolumeMountConfigurationInput<{ container_path: string; uuid?: string }>
           fieldLabel={t("volumeMountSelection.title")}
           fieldDescription={t("volumeMountSelection.description")}
           value={gameServerState.volume_mounts}
+          originalVolumeMounts={props.gameServer.volume_mounts}
           setValue={(vals) =>
             setGameServerState((s) => ({
               ...s,
@@ -453,14 +457,26 @@ const EditGameServerPage = (props: {
         >
           {t("revert")}
         </Button>
-        <Button
-          type="button"
-          onClick={handleConfirm}
-          className="h-12.5"
-          disabled={isConfirmButtonDisabled}
+        <TooltipWrapper
+          tooltip={
+            props.gameServer.status !== GameServerDtoStatus.STOPPED &&
+            props.gameServer.status !== GameServerDtoStatus.FAILED &&
+            "Game Server needs to be stopped to update General Settings"
+          }
         >
-          {t("confirm")}
-        </Button>
+          <Button
+            type="button"
+            onClick={handleConfirm}
+            className="h-12.5"
+            disabled={
+              isConfirmButtonDisabled ||
+              (props.gameServer.status !== GameServerDtoStatus.STOPPED &&
+                props.gameServer.status !== GameServerDtoStatus.FAILED)
+            }
+          >
+            {t("confirm")}
+          </Button>
+        </TooltipWrapper>
       </div>
     </div>
   );

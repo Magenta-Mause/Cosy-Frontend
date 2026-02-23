@@ -442,6 +442,15 @@ const translation: i18nLanguage = {
         title: "Volume-Mounts",
         errorLabel: "Pfad darf nicht leer sein",
         description: "Volume-Mounts für deinen Server",
+        pathChange: {
+          title: "Volume-Mount-Pfad geändert",
+          description:
+            "Der Containerpfad für dieses Volume-Mount wurde geändert. Möchtest du die alten Dateien behalten und in den neuen Pfad bewegen oder die alten Dateien löschen?",
+          keepButton: "Dateien behalten",
+          deleteButton: "Alte Dateien löschen",
+          keepIndicator: "Dateien werden beibehalten",
+          deleteIndicator: "Alte Dateien werden gelöscht",
+        },
       },
 
       memoryLimitSelection: {
