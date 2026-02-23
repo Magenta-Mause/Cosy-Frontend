@@ -815,6 +815,7 @@ const translation: i18nLanguage = {
     enterCommand: "Enter command...",
     cantSendCommands: "Server must be running to send commands",
     noLogsPermission: "You don't have permission to view server logs",
+    displayTimestamp: "Display timestamp",
   },
   serverPage: {
     notFound: "404 - Server Not Found",

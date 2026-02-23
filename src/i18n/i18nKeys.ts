@@ -197,6 +197,7 @@ export type i18nLanguage = {
     cantSendCommands: string;
     noLogsPermission: string;
     timestampFormatDetailed: string;
+    displayTimestamp: string;
   };
 
   serverPage: {

@@ -34,6 +34,7 @@ const LogDisplay = (
 
   const [displayLogs, setDisplayLogs] = useState<GameServerLogWithUuid[]>([]);
   const [sticky, setSticky] = useState(true);
+  const [displayTimestamp, setDisplayTimestamp] = useState(true);
   const [commandInput, setCommandInput] = useState("");
   const isInitialLoad = useRef(true);
 
@@ -82,15 +83,28 @@ const LogDisplay = (
     >
       <div className="flex items-center justify-between px-3 py-1 border-b border-gray-800 text-xs uppercase tracking-wide text-gray-400">
         <span>{t("logDisplay.serverLog")}</span>
-        <label className="flex items-center gap-2 cursor-pointer select-none">
-          <input
-            type="checkbox"
-            checked={sticky}
-            onChange={(e) => setSticky(e.target.checked)}
-            className="accent-emerald-500"
-          />
-          <span className="text-[11px]">{t("logDisplay.stickToBottom")}</span>
-        </label>
+        <div className={"flex gap-5"}>
+          {!props.hideTimestamps && (
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={displayTimestamp}
+                onChange={(e) => setDisplayTimestamp(e.target.checked)}
+                className="accent-emerald-500"
+              />
+              <span className="text-[11px]">{t("logDisplay.displayTimestamp")}</span>
+            </label>
+          )}
+          <label className="flex items-center gap-2 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={sticky}
+              onChange={(e) => setSticky(e.target.checked)}
+              className="accent-emerald-500"
+            />
+            <span className="text-[11px]">{t("logDisplay.stickToBottom")}</span>
+          </label>
+        </div>
       </div>
 
       <div className="flex-1 min-h-0 relative">
@@ -115,7 +129,7 @@ const LogDisplay = (
               <LogMessage
                 message={message}
                 showExtendedTimestamps={props.showExtendedTimestamps}
-                hideTimestamp={props.hideTimestamps}
+                hideTimestamp={props.hideTimestamps || !displayTimestamp}
               />
             </div>
           )}
