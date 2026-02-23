@@ -7,21 +7,21 @@ const LoginBanner = (props: { setOpen: (open: boolean) => void }) => {
 
   return (
     <div
-      className={"fixed bottom-20"}
+      className="fixed bottom-20 content-center"
       tabIndex={-1}
       style={{
         backgroundImage: `url(${papyrusScroll})`,
-        backgroundSize: "100% 100%",
+        backgroundSize: "100%",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        width: "35vw",
-        height: "8vw",
         imageRendering: "pixelated",
+        height: "7rem",
+        width: "35rem",
       }}
     >
-      <div className="flex flex-start w-[65%] mt-[2.7vw] ml-[6vw] items-center justify-between">
-        <p className="text-[2.5vw]">{t("signIn.question")}</p>
-        <Button className="h-[4vw]" onClick={() => props.setOpen(true)}>
+      <div className="flex items-center justify-between px-22 pt-5">
+        <p className="text-xl">{t("signIn.question")}</p>
+        <Button className="h-15" onClick={() => props.setOpen(true)}>
           {t("signIn.signIn")}
         </Button>
       </div>
