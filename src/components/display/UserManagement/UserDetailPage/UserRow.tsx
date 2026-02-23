@@ -21,6 +21,8 @@ type UserAction = {
   label: string;
   onClick: () => void;
   className?: string;
+  disabled?: boolean;
+
 };
 
 const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserEntityDtoRole }) => {
@@ -38,6 +40,8 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
       label: t("actions.deleteUser"),
       onClick: () => setDeleteDialogOpen(true),
       className: "text-destructive focus:text-destructive",
+      disabled: props.userRole === UserEntityDtoRole.OWNER,
+
     },
   ];
 
@@ -96,6 +100,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
                     key={action.label}
                     onClick={action.onClick}
                     className={action.className}
+                    disabled={action.disabled}
                   >
                     {action.label}
                   </DropdownMenuItem>
