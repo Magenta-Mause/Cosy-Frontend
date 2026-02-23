@@ -5,7 +5,6 @@ import WebhookItem from "./WebhookItem";
 
 interface WebhookListProps {
   webhooks: WebhookDto[];
-  isLoading: boolean;
   deletingWebhookUuid: string | null;
   onEdit: (webhook: WebhookDto) => void;
   onDelete: (webhook: WebhookDto) => void;
@@ -16,7 +15,6 @@ interface WebhookListProps {
 
 const WebhookList = ({
   webhooks,
-  isLoading,
   deletingWebhookUuid,
   onEdit,
   onDelete,
@@ -24,10 +22,6 @@ const WebhookList = ({
   getEventLabel,
   t,
 }: WebhookListProps) => {
-  if (isLoading) {
-    return <p className="text-sm text-muted-foreground">{t("loading")}</p>;
-  }
-
   if (webhooks.length === 0) {
     return <p className="text-sm text-muted-foreground">{t("empty")}</p>;
   }

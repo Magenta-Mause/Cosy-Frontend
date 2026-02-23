@@ -18,7 +18,6 @@ const WebhooksSettingsSection = () => {
   const [webhookToDelete, setWebhookToDelete] = useState<WebhookDto | null>(null);
 
   const webhooks = gameServer.webhooks ?? [];
-  const isLoading = false;
 
   const { deleteWebhook } = useDataInteractions();
 
@@ -70,7 +69,6 @@ const WebhooksSettingsSection = () => {
 
       <WebhookList
         webhooks={webhooks}
-        isLoading={isLoading}
         deletingWebhookUuid={deletingWebhookUuid}
         onEdit={setEditingWebhook}
         onDelete={handleDeleteRequest}
