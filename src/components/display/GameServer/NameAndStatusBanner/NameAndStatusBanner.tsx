@@ -38,12 +38,8 @@ const NameAndStatusBanner = (props: {
           props.classNameTextChildren,
         )}
       >
-        {!props.hideStatus && (
-          <GameServerStatusDot status={status} showTooltip={true} />
-        )}
-        <span className="font-bold truncate text-center">
-          {props.children}
-        </span>
+        {!props.hideStatus && <GameServerStatusDot status={status} showTooltip={true} />}
+        <span className="font-bold truncate text-center">{props.children}</span>
       </div>
     </div>
   );

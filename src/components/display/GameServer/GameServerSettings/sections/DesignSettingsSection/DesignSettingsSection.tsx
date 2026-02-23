@@ -2,7 +2,6 @@ import SettingsActionButtons from "@components/display/GameServer/GameServerSett
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import type { GameServerDesign as GameServerDesignType } from "@/api/generated/model";
 import castle from "@/assets/MainPage/castle.png";
 import house from "@/assets/MainPage/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
@@ -15,7 +14,7 @@ const DesignSettingsSection = () => {
   const { updateGameServerDesign } = useDataInteractions();
   const { gameServer } = useSelectedGameServer();
 
-  const [selectedDesign, setSelectedDesign] = useState<GameServerDesignType>(
+  const [selectedDesign, setSelectedDesign] = useState<GameServerDesign>(
     gameServer.design ?? GameServerDesign.HOUSE,
   );
   const [loading, setLoading] = useState(false);
