@@ -342,9 +342,12 @@ const translation: i18nLanguage = {
         noFiles: "Keine Dateien",
         directoryType: "Ordner",
         fileType: "Datei",
+        fileSizeTooltip: "{{size}} Bytes",
+        fileModeTooltip: "Modus: {{octal}} ({{rwx}})",
         renameAction: "Umbenennen",
         deleteAction: "Löschen",
         downloadAction: "Download",
+        exportAction: "Exportieren",
         downloadFile: "{{fileName}} downloaden",
         createFolderAction: "Ordner erstellen",
         createFolderDescription: "Erstellt einen Ordner in: {{dirName}}",
@@ -360,10 +363,14 @@ const translation: i18nLanguage = {
         deleteDialogFile: "Diese Aktion kann nicht rückgängig gemacht werden",
         cancel: "Abbrechen",
         deleteInProgress: "Löschen...",
+        cantDeleteWhileDownloading: "Während Download deaktiviert",
+        loading: "Lädt...",
       },
       fileBrowserDialog: {
+        closePreview: "Vorschau schließen",
         uploadFailure: "Datei konnte nicht hochgeladen werden",
         downloadZipFailure: "Zip-Archiv konnte nicht heruntergeladen werden",
+        fileUploadError: "Datei konnte nicht hochgeladen werden",
         preparing: "Vorbereiten...",
         downloadingFile: "Downloadfortschritt: {{done}}/{{total}}",
         downloadAllAction: "Ordner Herunterladen",
@@ -373,6 +380,7 @@ const translation: i18nLanguage = {
         noFilesPermissionDesc: "Du hast keine Berechtigung, die Server-Dateien anzuzeigen",
         uploadInSyntheticDir: "Dateien können nicht in virtuelle Verzeichnisse hochgeladen werden",
         uploadNoPermission: "Du hast keine Berechtigung, Dateien hochzuladen",
+        errorWhileZipDownload: "Fehler beim Herunterladen des Zip-Archivs",
       },
     },
     settingsActionButtons: {
@@ -438,6 +446,15 @@ const translation: i18nLanguage = {
         title: "Volume-Mounts",
         errorLabel: "Pfad darf nicht leer sein",
         description: "Volume-Mounts für deinen Server",
+        pathChange: {
+          title: "Volume-Mount-Pfad geändert",
+          description:
+            "Der Containerpfad für dieses Volume-Mount wurde geändert. Möchtest du die alten Dateien behalten und in den neuen Pfad bewegen oder die alten Dateien löschen?",
+          keepButton: "Dateien behalten",
+          deleteButton: "Alte Dateien löschen",
+          keepIndicator: "Dateien werden beibehalten",
+          deleteIndicator: "Alte Dateien werden gelöscht",
+        },
       },
 
       memoryLimitSelection: {
@@ -807,6 +824,7 @@ const translation: i18nLanguage = {
     enterCommand: "Befehl eingeben...",
     cantSendCommands: "Server muss laufen, um Befehle zu senden",
     noLogsPermission: "Du hast keine Berechtigung, die Server-Logs anzuzeigen",
+    displayTimestamp: "Timestamp anzeigen",
   },
   serverPage: {
     notFound: "404 - Server nicht gefunden",

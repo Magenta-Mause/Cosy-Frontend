@@ -140,7 +140,7 @@ function EditKeyValueInput<T extends Record<string, string>>({
               <Input
                 className={rowError ? "border-red-500" : ""}
                 placeholder={placeHolderValueInput}
-                value={row.value}
+                value={(row.value?.replaceAll("\n", "\\n") as string | undefined) || ""}
                 onChange={(e) => changeCallback({ ...row, value: e.target.value })}
                 type={inputType}
               />

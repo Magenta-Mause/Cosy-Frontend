@@ -155,7 +155,9 @@ export default function TemplateVariableForm({
             {t("noTemplateSelected")}
           </div>
         ) : !hasVariables ? (
-          <div className="text-muted-foreground text-center py-8">{t("noVariables")}</div>
+          <div className="text-[25px] text-muted-foreground text-center py-8">
+            {t("noVariables")}
+          </div>
         ) : (
           <div className="space-y-6">
             {template.variables?.map((variable) => renderVariableInput(variable))}

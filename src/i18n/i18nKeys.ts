@@ -197,6 +197,7 @@ export type i18nLanguage = {
     cantSendCommands: string;
     noLogsPermission: string;
     timestampFormatDetailed: string;
+    displayTimestamp: string;
   };
 
   serverPage: {
@@ -432,6 +433,14 @@ export type i18nLanguage = {
         title: string;
         errorLabel: string;
         description: string;
+        pathChange: {
+          title: string;
+          description: string;
+          keepButton: string;
+          deleteButton: string;
+          keepIndicator: string;
+          deleteIndicator: string;
+        };
       };
 
       memoryLimitSelection: {
@@ -561,9 +570,12 @@ export type i18nLanguage = {
         noFiles: string;
         directoryType: string;
         fileType: string;
+        fileSizeTooltip: ContainsVariable<"size">;
+        fileModeTooltip: ContainsVariable<"octal"> & ContainsVariable<"rwx">;
         renameAction: string;
         deleteAction: string;
         downloadAction: string;
+        exportAction: string;
         downloadFile: ContainsVariable<"fileName">;
         createFolderAction: string;
         createFolderDescription: ContainsVariable<"dirName">;
@@ -578,10 +590,14 @@ export type i18nLanguage = {
         deleteDialogFile: string;
         cancel: string;
         deleteInProgress: string;
+        cantDeleteWhileDownloading: string;
+        loading: string;
       };
       fileBrowserDialog: {
+        closePreview: string;
         uploadFailure: string;
         downloadZipFailure: string;
+        fileUploadError: string;
         preparing: string;
         downloadingFile: ContainsVariable<"done"> & ContainsVariable<"total">;
         downloadAllAction: string;
@@ -591,6 +607,7 @@ export type i18nLanguage = {
         noFilesPermissionDesc: string;
         uploadInSyntheticDir: string;
         uploadNoPermission: string;
+        errorWhileZipDownload: string;
       };
       fileBrowserHeader: {
         newFolder: string;

@@ -6,8 +6,9 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface VolumeMountConfigurationCreationDto {
-  uuid?: string;
-  /** @minLength 1 */
-  container_path: string;
-}
+export type DownloadDirectoryAsZipParams = {
+/**
+ * @minLength 1
+ */
+path: string;
+};

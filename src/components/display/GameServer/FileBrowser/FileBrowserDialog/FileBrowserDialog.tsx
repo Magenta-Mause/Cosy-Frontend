@@ -3,6 +3,7 @@ import { Input } from "@components/ui/input";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { Download, Search, Upload, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "sonner";
 import {
   uploadFileToVolume,
   useCreateDirectoryInVolume,
@@ -42,8 +43,8 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     objects,
     loading,
     error,
-    setError,
     ensurePathFetched,
+    prefetchPath,
   } = useFileBrowserCache({
     serverUuid: props.serverUuid,
     initialPath: props.path ?? "/",
@@ -65,8 +66,10 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const canChangeFiles = props.canChangeFiles ?? true;
 
   const [search, setSearch] = useState("");
+  const [navigating, setNavigating] = useState(false);
 
   const [downloadingAll, setDownloadingAll] = useState(false);
+  const [downloading, setDownloading] = useState<string[]>([]);
   const [downloadProgress, setDownloadProgress] = useState<{ done: number; total: number } | null>(
     null,
   );
@@ -120,9 +123,8 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
     try {
       await uploadSelectedFile(file);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to upload file");
+    } catch (_err) {
+      toast.error(t("fileUploadError"));
     } finally {
       e.target.value = "";
     }
@@ -132,7 +134,14 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     async (obj: FileSystemObjectDto) => {
       if (obj.type === "DIRECTORY") {
         const nextPath = joinDir(currentPath, obj.name);
+        setNavigating(true);
+        try {
+          await prefetchPath(nextPath, fetchDepth);
+        } catch {
+          // prefetch failed — navigate anyway, ensurePathFetched will retry
+        }
         setCurrentPath(nextPath);
+        setNavigating(false);
         return;
       }
 
@@ -141,7 +150,15 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       setSelectedFileName(obj.name);
       setSelectedObj(obj);
     },
-    [currentPath, setCurrentPath, setSelectedFilePath, setSelectedFileName, setSelectedObj],
+    [
+      currentPath,
+      setCurrentPath,
+      prefetchPath,
+      fetchDepth,
+      setSelectedFilePath,
+      setSelectedFileName,
+      setSelectedObj,
+    ],
   );
 
   const onCrumbClick = useCallback(
@@ -152,6 +169,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const onDownloadAll = async () => {
     setDownloadingAll(true);
     setDownloadProgress(null);
+    setDownloading((downloading) => [...downloading, currentPath]);
 
     try {
       await zipAndDownload({
@@ -161,10 +179,11 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       });
     } catch (e) {
       console.error(e);
-      setError(t("downloadZipFailure"));
+      toast.error(t("downloadZipFailure"));
     } finally {
       setDownloadingAll(false);
       setDownloadProgress(null);
+      setDownloading([]);
     }
   };
 
@@ -184,22 +203,19 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       <div className="min-w-0 h-full flex flex-col overflow-hidden">
         <div className="px-2 py-2 border-b border-b-border flex items-start gap-2">
           <div className="min-w-0 flex-1">
-            <div className="text-sm font-medium truncate">{selectedFileName || "Preview"}</div>
+            <div className="text-sm truncate">{selectedFileName || "Preview"}</div>
             {selectedFilePath ? (
-              <div className="text-xs text-muted-foreground truncate" title={selectedFilePath}>
-                {selectedFilePath}
-              </div>
+              <TooltipWrapper tooltip={selectedFilePath}>
+                <div className="text-xs text-muted-foreground truncate">{selectedFilePath}</div>
+              </TooltipWrapper>
             ) : null}
           </div>
 
-          <Button
-            size="icon"
-            onClick={closePreview}
-            aria-label="Close preview"
-            title="Close preview"
-          >
-            <X className="h-4 w-4" />
-          </Button>
+          <TooltipWrapper tooltip={t("closePreview")}>
+            <Button size="icon" onClick={closePreview} aria-label={t("closePreview")}>
+              <X className="h-4 w-4" />
+            </Button>
+          </TooltipWrapper>
         </div>
 
         <FilePreview
@@ -217,6 +233,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     fileQuery.data,
     fileQuery.isLoading,
     fileQuery.error,
+    t,
   ]);
 
   const ctxValue: FileBrowserContextValue = useMemo(
@@ -233,6 +250,8 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       onClosePreview: closePreview,
       isSynthetic,
       readOnly: !canChangeFiles,
+      navigating,
+      downloadingFiles: downloading,
 
       onEntryClick: (obj) => {
         onEntryClick(obj);
@@ -288,11 +307,36 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       },
 
       onDownload: async (obj) => {
-        downloadSingleFile({
-          serverUuid: props.serverUuid,
-          parentPath: currentPath,
-          name: obj.name,
-        });
+        const fullPath = joinRemotePath(currentPath, obj.name);
+        setDownloading((downloading) => [...downloading, fullPath]);
+
+        if (obj.type === "DIRECTORY") {
+          setDownloadProgress(null);
+          try {
+            await zipAndDownload({
+              serverUuid: props.serverUuid,
+              startPath: fullPath,
+              onProgress: (done, total) => setDownloadProgress({ done, total }),
+            });
+          } catch (_err) {
+            toast.error(t("errorWhileZipDownload"));
+          } finally {
+            setDownloading((downloading) => downloading.filter((path) => path !== fullPath));
+            setDownloadProgress(null);
+          }
+        } else {
+          try {
+            await downloadSingleFile({
+              serverUuid: props.serverUuid,
+              parentPath: currentPath,
+              name: obj.name,
+            });
+          } catch (_err) {
+            toast.error(t("errorWhileDownload"));
+          } finally {
+            setDownloading((downloading) => downloading.filter((path) => path !== fullPath));
+          }
+        }
       },
     }),
     [
@@ -316,12 +360,15 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       onEntryClick,
       isSynthetic,
       canChangeFiles,
+      navigating,
+      t,
+      downloading,
     ],
   );
 
   return (
     <div
-      className={cn("border-border border-3 rounded-lg flex flex-col gap-2 h-full p-4 relative")}
+      className={cn("flex flex-col gap-2 h-full p-4 relative")}
       style={{
         width: props.width !== undefined ? `${props.width}px` : undefined,
         height: props.height !== undefined ? `${props.height}px` : undefined,

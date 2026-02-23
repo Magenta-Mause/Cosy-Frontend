@@ -340,9 +340,12 @@ const translation: i18nLanguage = {
         noFiles: "No files",
         directoryType: "Directory",
         fileType: "File",
+        fileSizeTooltip: "{{size}} bytes",
+        fileModeTooltip: "Mode: {{octal}} ({{rwx}})",
         renameAction: "Rename",
         deleteAction: "Delete",
         downloadAction: "Download",
+        exportAction: "Export",
         downloadFile: "Download {{fileName}}",
         createFolderAction: "Create folder",
         createFolderDescription: "Creates a folder inside: {{dirName}}",
@@ -357,10 +360,14 @@ const translation: i18nLanguage = {
         deleteDialogFile: "This cannot be undone.",
         cancel: "Cancel",
         deleteInProgress: "Deleting...",
+        loading: "Loading...",
+        cantDeleteWhileDownloading: "Cant delete file while downloading",
       },
       fileBrowserDialog: {
+        closePreview: "Close preview",
         uploadFailure: "Failed to upload file",
         downloadZipFailure: "Failed to download zip",
+        fileUploadError: "Failed to upload file",
         preparing: "Preparing...",
         downloadingFile: "Downloading {{done}}/{{total}}",
         downloadAllAction: "Download Directory",
@@ -370,6 +377,7 @@ const translation: i18nLanguage = {
         noFilesPermissionDesc: "You don't have permission to view server files",
         uploadInSyntheticDir: "Cannot upload files in virtual directories",
         uploadNoPermission: "You don't have permission to upload files",
+        errorWhileZipDownload: "Error while downloading Zip archive",
       },
     },
 
@@ -436,6 +444,15 @@ const translation: i18nLanguage = {
         title: "Volume Mounts",
         errorLabel: "Path must not be empty",
         description: "Volume mounts for your server",
+        pathChange: {
+          title: "Volume mount path changed",
+          description:
+            "The container path for this volume mount has changed. Would you like to keep the existing files and move them to the new path, or delete the old files?",
+          keepButton: "Keep files",
+          deleteButton: "Delete old files",
+          keepIndicator: "Files will be kept",
+          deleteIndicator: "Old files will be deleted",
+        },
       },
 
       memoryLimitSelection: {
@@ -802,6 +819,7 @@ const translation: i18nLanguage = {
     enterCommand: "Enter command...",
     cantSendCommands: "Server must be running to send commands",
     noLogsPermission: "You don't have permission to view server logs",
+    displayTimestamp: "Display timestamp",
   },
   serverPage: {
     notFound: "404 - Server Not Found",

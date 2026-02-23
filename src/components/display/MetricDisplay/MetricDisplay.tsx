@@ -57,8 +57,8 @@ const MetricDisplay = (
   };
 
   return (
-    <>
-      <div className="flex mb-2 w-full items-center justify-end gap-2">
+    <div className={"flex flex-col w-full items-center p-4 h-full"}>
+      <div className="flex mb-2 w-full items-center justify-end gap-2 p-4">
         <TimeRangeDropDown
           onChange={({
             startTime: selectedStartTime,
@@ -82,7 +82,7 @@ const MetricDisplay = (
           </div>
         </div>
       )}
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 gap-2 w-full h-auto mb-auto">
         {gameServer.metric_layout?.map((metric) => (
           <MetricGraph
             key={metric.metric_type}
@@ -93,7 +93,7 @@ const MetricDisplay = (
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
