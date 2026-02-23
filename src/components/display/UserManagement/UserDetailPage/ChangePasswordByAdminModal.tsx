@@ -70,9 +70,7 @@ const ChangePasswordByAdminModal = (props: {
           />
         </DialogMain>
         <DialogFooter>
-          {submitError && (
-            <p className="text-sm text-destructive">{submitError}</p>
-          )}
+          {submitError && <p className="text-sm text-destructive">{submitError}</p>}
           <Button variant="secondary" onClick={handleClose}>
             {t("cancelButton")}
           </Button>

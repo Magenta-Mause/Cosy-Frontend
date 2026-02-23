@@ -26,7 +26,7 @@ export default function GameServerStatusDot(props: {
         "h-[1vw] w-[1vw] border-[0.16vw]",
         "border-button-primary-default",
         GAME_SERVER_STATUS_TO_COLOR[props.status],
-        props.className
+        props.className,
       )}
     />
   );

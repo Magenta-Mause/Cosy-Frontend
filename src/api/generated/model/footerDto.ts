@@ -6,10 +6,11 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface RCONConfiguration {
-  enabled?: boolean;
-  port?: number;
-  password?: string;
-  password_valid?: boolean;
-  port_valid?: boolean;
+export interface FooterDto {
+  id?: number;
+  full_name?: string;
+  email?: string;
+  phone?: string;
+  street?: string;
+  city?: string;
 }

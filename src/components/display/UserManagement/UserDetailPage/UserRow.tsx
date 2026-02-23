@@ -22,7 +22,6 @@ type UserAction = {
   onClick: () => void;
   className?: string;
   hidden?: boolean;
-
 };
 
 const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserEntityDtoRole }) => {
@@ -41,7 +40,6 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
       onClick: () => setDeleteDialogOpen(true),
       className: "text-destructive focus:text-destructive",
       hidden: props.userRole === UserEntityDtoRole.OWNER,
-
     },
   ];
 
@@ -63,28 +61,28 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
 
           {(props.userRole === UserEntityDtoRole.QUOTA_USER ||
             props.userRole === UserEntityDtoRole.ADMIN) && (
-              <div className="flex gap-3 flex-1 justify-end">
-                <ResourceUsageBadge
-                  currentValue="calculate_me"
-                  limit={
-                    props.user.docker_hardware_limits?.docker_max_cpu_cores != null
-                      ? props.user.docker_hardware_limits.docker_max_cpu_cores
-                      : t("resources.unlimited")
-                  }
-                  resourceType={t("resources.cpus")}
-                />
+            <div className="flex gap-3 flex-1 justify-end">
+              <ResourceUsageBadge
+                currentValue="calculate_me"
+                limit={
+                  props.user.docker_hardware_limits?.docker_max_cpu_cores != null
+                    ? props.user.docker_hardware_limits.docker_max_cpu_cores
+                    : t("resources.unlimited")
+                }
+                resourceType={t("resources.cpus")}
+              />
 
-                <ResourceUsageBadge
-                  currentValue="calculate_me"
-                  limit={
-                    props.user.docker_hardware_limits?.docker_memory_limit != null
-                      ? formatMemoryLimit(props.user.docker_hardware_limits.docker_memory_limit)
-                      : t("resources.unlimited")
-                  }
-                  resourceType={t("resources.memory")}
-                />
-              </div>
-            )}
+              <ResourceUsageBadge
+                currentValue="calculate_me"
+                limit={
+                  props.user.docker_hardware_limits?.docker_memory_limit != null
+                    ? formatMemoryLimit(props.user.docker_hardware_limits.docker_memory_limit)
+                    : t("resources.unlimited")
+                }
+                resourceType={t("resources.memory")}
+              />
+            </div>
+          )}
 
           <div>
             <DropdownMenu modal={false}>

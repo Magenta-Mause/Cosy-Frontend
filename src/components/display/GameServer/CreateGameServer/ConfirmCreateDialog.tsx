@@ -16,7 +16,12 @@ interface ConfirmCreateDialogProps {
   onCancel: () => void;
 }
 
-const ConfirmCreateDialog = ({ open, isCreating, onConfirm, onCancel }: ConfirmCreateDialogProps) => {
+const ConfirmCreateDialog = ({
+  open,
+  isCreating,
+  onConfirm,
+  onCancel,
+}: ConfirmCreateDialogProps) => {
   const { t } = useTranslation();
 
   return (

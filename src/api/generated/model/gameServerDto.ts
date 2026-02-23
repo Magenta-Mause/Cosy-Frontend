@@ -7,7 +7,7 @@
  */
 import type { UserEntityDto } from './userEntityDto';
 import type { GameServerDtoStatus } from './gameServerDtoStatus';
-import type { GameServerDesign } from './gameServerDesign';
+import type { GameServerDtoDesign } from './gameServerDtoDesign';
 import type { RCONConfiguration } from './rCONConfiguration';
 import type { DockerHardwareLimits } from './dockerHardwareLimits';
 import type { PortMapping } from './portMapping';
@@ -16,6 +16,7 @@ import type { VolumeMountConfiguration } from './volumeMountConfiguration';
 import type { MetricLayout } from './metricLayout';
 import type { PrivateDashboardLayout } from './privateDashboardLayout';
 import type { GameServerAccessGroupDto } from './gameServerAccessGroupDto';
+import type { WebhookDto } from './webhookDto';
 
 export interface GameServerDto {
   /** @minLength 1 */
@@ -24,7 +25,7 @@ export interface GameServerDto {
   server_name: string;
   owner: UserEntityDto;
   status: GameServerDtoStatus;
-  design?: GameServerDesign;
+  design?: GameServerDtoDesign;
   created_on?: string;
   timestamp_last_started: string;
   rcon_configuration?: RCONConfiguration;
@@ -42,4 +43,5 @@ export interface GameServerDto {
   metric_layout: MetricLayout[];
   private_dashboard_layouts: PrivateDashboardLayout[];
   access_groups: GameServerAccessGroupDto[];
+  webhooks?: WebhookDto[];
 }
