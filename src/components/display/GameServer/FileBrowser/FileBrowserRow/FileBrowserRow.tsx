@@ -39,7 +39,11 @@ export const FileBrowserRow = ({
     <button
       type={"button"}
       onClick={() => onEntryClick?.(obj)}
-      className={cn("w-full flex items-center gap-6 rounded-md hover:bg-black/5 px-2 py-2")}
+      disabled={!onEntryClick}
+      className={cn(
+        "w-full flex items-center gap-6 rounded-md px-2 py-2",
+        onEntryClick && "hover:bg-black/5",
+      )}
     >
       <div
         className={cn(

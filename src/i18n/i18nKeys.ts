@@ -555,9 +555,12 @@ export type i18nLanguage = {
         noFiles: string;
         directoryType: string;
         fileType: string;
+        fileSizeTooltip: ContainsVariable<"size">;
+        fileModeTooltip: ContainsVariable<"octal"> & ContainsVariable<"rwx">;
         renameAction: string;
         deleteAction: string;
         downloadAction: string;
+        exportAction: string;
         downloadFile: ContainsVariable<"fileName">;
         createFolderAction: string;
         createFolderDescription: ContainsVariable<"dirName">;
@@ -574,6 +577,7 @@ export type i18nLanguage = {
         deleteInProgress: string;
       };
       fileBrowserDialog: {
+        closePreview: string;
         uploadFailure: string;
         downloadZipFailure: string;
         preparing: string;

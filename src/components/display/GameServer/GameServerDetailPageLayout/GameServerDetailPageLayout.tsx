@@ -102,9 +102,7 @@ const TABS: Tab[] = [
 
 function getActiveTab(pathname: string): Tab {
   // Tabs with an explicit regex pattern take priority
-  const patternMatch = TABS.find(
-    (tab) => tab.activePathPattern && tab.activePathPattern.test(pathname),
-  );
+  const patternMatch = TABS.find((tab) => tab.activePathPattern?.test(pathname));
   if (patternMatch) return patternMatch;
 
   // For the rest, build an exact-match regex from the TanStack Router path

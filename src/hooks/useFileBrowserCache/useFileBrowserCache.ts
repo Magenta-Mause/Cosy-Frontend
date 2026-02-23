@@ -161,6 +161,40 @@ export function useFileBrowserCache(opts: {
     [mountTrie, opts.serverUuid],
   );
 
+  const prefetchPath = useCallback(
+    async (path: string, depth: number) => {
+      const norm = normalizePath(path);
+
+      const existing = cacheRef.current.get(norm);
+      if (existing && existing.fetchDepth >= depth) return;
+
+      const node = getNodeForPath(mountTrie, norm);
+      if (node && !node.isMountRoot) {
+        const synthetic = buildSyntheticListing(mountTrie, norm);
+        setCache((prev) => {
+          const next = new Map(prev);
+          next.set(norm, { fetchDepth: 0, objects: synthetic });
+          return next;
+        });
+        return;
+      }
+
+      const apiPath = norm === "/" ? "" : norm;
+      const dto = await getFileSystemForVolume(opts.serverUuid, {
+        path: apiPath,
+        fetch_depth: depth,
+      });
+
+      const nextObjects = dto.objects ?? [];
+      setCache((prev) => {
+        const next = new Map(prev);
+        next.set(norm, { fetchDepth: depth, objects: nextObjects });
+        return next;
+      });
+    },
+    [mountTrie, opts.serverUuid],
+  );
+
   useEffect(() => {
     const norm = normalizePath(currentPath);
     const node = getNodeForPath(mountTrie, norm);
@@ -203,5 +237,6 @@ export function useFileBrowserCache(opts: {
     error,
     setError,
     ensurePathFetched,
+    prefetchPath,
   };
 }

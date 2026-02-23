@@ -44,6 +44,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     error,
     setError,
     ensurePathFetched,
+    prefetchPath,
   } = useFileBrowserCache({
     serverUuid: props.serverUuid,
     initialPath: props.path ?? "/",
@@ -65,6 +66,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const canChangeFiles = props.canChangeFiles ?? true;
 
   const [search, setSearch] = useState("");
+  const [navigating, setNavigating] = useState(false);
 
   const [downloadingAll, setDownloadingAll] = useState(false);
   const [downloadProgress, setDownloadProgress] = useState<{ done: number; total: number } | null>(
@@ -132,7 +134,14 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     async (obj: FileSystemObjectDto) => {
       if (obj.type === "DIRECTORY") {
         const nextPath = joinDir(currentPath, obj.name);
+        setNavigating(true);
+        try {
+          await prefetchPath(nextPath, fetchDepth);
+        } catch {
+          // prefetch failed — navigate anyway, ensurePathFetched will retry
+        }
         setCurrentPath(nextPath);
+        setNavigating(false);
         return;
       }
 
@@ -141,7 +150,15 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       setSelectedFileName(obj.name);
       setSelectedObj(obj);
     },
-    [currentPath, setCurrentPath, setSelectedFilePath, setSelectedFileName, setSelectedObj],
+    [
+      currentPath,
+      setCurrentPath,
+      prefetchPath,
+      fetchDepth,
+      setSelectedFilePath,
+      setSelectedFileName,
+      setSelectedObj,
+    ],
   );
 
   const onCrumbClick = useCallback(
@@ -187,19 +204,13 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
             <div className="text-sm truncate">{selectedFileName || "Preview"}</div>
             {selectedFilePath ? (
               <TooltipWrapper tooltip={selectedFilePath}>
-                <div className="text-xs text-muted-foreground truncate">
-                  {selectedFilePath}
-                </div>
+                <div className="text-xs text-muted-foreground truncate">{selectedFilePath}</div>
               </TooltipWrapper>
             ) : null}
           </div>
 
           <TooltipWrapper tooltip={t("closePreview")}>
-            <Button
-              size="icon"
-              onClick={closePreview}
-              aria-label={t("closePreview")}
-            >
+            <Button size="icon" onClick={closePreview} aria-label={t("closePreview")}>
               <X className="h-4 w-4" />
             </Button>
           </TooltipWrapper>
@@ -237,6 +248,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       onClosePreview: closePreview,
       isSynthetic,
       readOnly: !canChangeFiles,
+      navigating,
 
       onEntryClick: (obj) => {
         onEntryClick(obj);
@@ -325,6 +337,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       onEntryClick,
       isSynthetic,
       canChangeFiles,
+      navigating,
     ],
   );
 
