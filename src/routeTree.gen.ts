@@ -17,6 +17,7 @@ import { Route as ServerServerIdSettingsRouteImport } from './routes/server/$ser
 import { Route as ServerServerIdMetricsRouteImport } from './routes/server/$serverId/metrics'
 import { Route as ServerServerIdFilesRouteImport } from './routes/server/$serverId/files'
 import { Route as ServerServerIdConsoleRouteImport } from './routes/server/$serverId/console'
+import { Route as ServerServerIdSettingsWebhooksRouteImport } from './routes/server/$serverId/settings/webhooks'
 import { Route as ServerServerIdSettingsRconRouteImport } from './routes/server/$serverId/settings/rcon'
 import { Route as ServerServerIdSettingsPublicDashboardRouteImport } from './routes/server/$serverId/settings/public-dashboard'
 import { Route as ServerServerIdSettingsPrivateDashboardRouteImport } from './routes/server/$serverId/settings/private-dashboard'
@@ -66,6 +67,12 @@ const ServerServerIdConsoleRoute = ServerServerIdConsoleRouteImport.update({
   path: '/console',
   getParentRoute: () => ServerServerIdRoute,
 } as any)
+const ServerServerIdSettingsWebhooksRoute =
+  ServerServerIdSettingsWebhooksRouteImport.update({
+    id: '/webhooks',
+    path: '/webhooks',
+    getParentRoute: () => ServerServerIdSettingsRoute,
+  } as any)
 const ServerServerIdSettingsRconRoute =
   ServerServerIdSettingsRconRouteImport.update({
     id: '/rcon',
@@ -132,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/server/$serverId/settings/private-dashboard': typeof ServerServerIdSettingsPrivateDashboardRoute
   '/server/$serverId/settings/public-dashboard': typeof ServerServerIdSettingsPublicDashboardRoute
   '/server/$serverId/settings/rcon': typeof ServerServerIdSettingsRconRoute
+  '/server/$serverId/settings/webhooks': typeof ServerServerIdSettingsWebhooksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -149,6 +157,7 @@ export interface FileRoutesByTo {
   '/server/$serverId/settings/private-dashboard': typeof ServerServerIdSettingsPrivateDashboardRoute
   '/server/$serverId/settings/public-dashboard': typeof ServerServerIdSettingsPublicDashboardRoute
   '/server/$serverId/settings/rcon': typeof ServerServerIdSettingsRconRoute
+  '/server/$serverId/settings/webhooks': typeof ServerServerIdSettingsWebhooksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -168,6 +177,7 @@ export interface FileRoutesById {
   '/server/$serverId/settings/private-dashboard': typeof ServerServerIdSettingsPrivateDashboardRoute
   '/server/$serverId/settings/public-dashboard': typeof ServerServerIdSettingsPublicDashboardRoute
   '/server/$serverId/settings/rcon': typeof ServerServerIdSettingsRconRoute
+  '/server/$serverId/settings/webhooks': typeof ServerServerIdSettingsWebhooksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/server/$serverId/settings/private-dashboard'
     | '/server/$serverId/settings/public-dashboard'
     | '/server/$serverId/settings/rcon'
+    | '/server/$serverId/settings/webhooks'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/server/$serverId/settings/private-dashboard'
     | '/server/$serverId/settings/public-dashboard'
     | '/server/$serverId/settings/rcon'
+    | '/server/$serverId/settings/webhooks'
   id:
     | '__root__'
     | '/'
@@ -223,6 +235,7 @@ export interface FileRouteTypes {
     | '/server/$serverId/settings/private-dashboard'
     | '/server/$serverId/settings/public-dashboard'
     | '/server/$serverId/settings/rcon'
+    | '/server/$serverId/settings/webhooks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -288,6 +301,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/server/$serverId/console'
       preLoaderRoute: typeof ServerServerIdConsoleRouteImport
       parentRoute: typeof ServerServerIdRoute
+    }
+    '/server/$serverId/settings/webhooks': {
+      id: '/server/$serverId/settings/webhooks'
+      path: '/webhooks'
+      fullPath: '/server/$serverId/settings/webhooks'
+      preLoaderRoute: typeof ServerServerIdSettingsWebhooksRouteImport
+      parentRoute: typeof ServerServerIdSettingsRoute
     }
     '/server/$serverId/settings/rcon': {
       id: '/server/$serverId/settings/rcon'
@@ -367,6 +387,7 @@ interface ServerServerIdSettingsRouteChildren {
   ServerServerIdSettingsPrivateDashboardRoute: typeof ServerServerIdSettingsPrivateDashboardRoute
   ServerServerIdSettingsPublicDashboardRoute: typeof ServerServerIdSettingsPublicDashboardRoute
   ServerServerIdSettingsRconRoute: typeof ServerServerIdSettingsRconRoute
+  ServerServerIdSettingsWebhooksRoute: typeof ServerServerIdSettingsWebhooksRoute
 }
 
 const ServerServerIdSettingsRouteChildren: ServerServerIdSettingsRouteChildren =
@@ -381,6 +402,7 @@ const ServerServerIdSettingsRouteChildren: ServerServerIdSettingsRouteChildren =
     ServerServerIdSettingsPublicDashboardRoute:
       ServerServerIdSettingsPublicDashboardRoute,
     ServerServerIdSettingsRconRoute: ServerServerIdSettingsRconRoute,
+    ServerServerIdSettingsWebhooksRoute: ServerServerIdSettingsWebhooksRoute,
   }
 
 const ServerServerIdSettingsRouteWithChildren =
