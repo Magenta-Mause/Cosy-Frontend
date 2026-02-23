@@ -1,10 +1,12 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
+import { useUpdateDesign } from "@/api/generated/backend-api";
 import {
   type CreateGameServerMutationBody,
   getGetAllGameServersQueryKey,
   getGetAllUserInvitesQueryKey,
+  getGetFooterQueryKey,
   type UpdateGameServerMutationBody,
   useCreateGameServer,
   useCreateGameServerAccessGroup,
@@ -13,20 +15,23 @@ import {
   useDeleteGameServerById,
   useRevokeInvite,
   useTransferOwnership,
+  useUpdateFooter,
   useUpdateGameServer,
   useUpdateGameServerAccessGroups,
-  useUpdateGameServerDesign,
   useUpdateRconConfiguration,
 } from "@/api/generated/backend-api.ts";
 import type {
   AccessGroupCreationDto,
   AccessGroupUpdateDto,
-  GameServerDesign,
+  FooterUpdateDto,
+  GameServerDesignUpdateDtoDesign,
+  GameServerDto,
   RCONConfiguration,
   TransferOwnershipDto,
   UserInviteCreationDto,
 } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
+import { footerSliceActions } from "@/stores/slices/footerSlice.ts";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
@@ -172,20 +177,20 @@ const useDataInteractions = () => {
     });
   };
 
-  const { mutateAsync: updateGameServerDesignMutateAsync } = useUpdateGameServerDesign({
+  const { mutateAsync: updateGameServerDesignMutateAsync } = useUpdateDesign({
     mutation: {
-      onSuccess: (updatedGameServer) => {
+      onSuccess: (updatedGameServer: GameServerDto) => {
         dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
         toast.success(t("updateGameServerSuccess"));
       },
-      onError: (err) => {
+      onError: (err: unknown) => {
         toast.error(t("updateGameServerError"));
         throw err;
       },
     },
   });
 
-  const updateGameServerDesign = async (uuid: string, design: GameServerDesign) => {
+  const updateGameServerDesign = async (uuid: string, design: GameServerDesignUpdateDtoDesign) => {
     return await updateGameServerDesignMutateAsync({
       uuid,
       data: { design },
@@ -299,6 +304,28 @@ const useDataInteractions = () => {
     });
   };
 
+  const { mutateAsync: updateFooterMutateAsync } = useUpdateFooter({
+    mutation: {
+      onSuccess: (updatedFooter) => {
+        dispatch(footerSliceActions.updateFooter(updatedFooter));
+        toast.success(t("updateFooterSuccess"));
+      },
+      onError: (err) => {
+        toast.error(t("updateFooterError"));
+        throw err;
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({
+          queryKey: getGetFooterQueryKey(),
+        });
+      },
+    },
+  });
+
+  const updateFooter = async (data: FooterUpdateDto) => {
+    return await updateFooterMutateAsync({ data });
+  };
+
   return {
     deleteGameServer,
     createInvite,
@@ -311,6 +338,7 @@ const useDataInteractions = () => {
     createGameServerAccessGroup,
     deleteGameServerAccessGroup,
     updateGameServerAccessGroups,
+    updateFooter,
   };
 };
 

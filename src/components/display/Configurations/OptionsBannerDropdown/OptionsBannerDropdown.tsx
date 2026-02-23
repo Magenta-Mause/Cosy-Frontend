@@ -89,31 +89,29 @@ const OptionsBannerDropdown = () => {
       }}
       className={cn(
         "flex flex-col gap-4 items-center justify-center",
-        "fixed z-50 -top-2 left-[5%]",
+        "fixed z-50 left-[5%] w-20 h-65",
         "cursor-pointer transition-all duration-300 ease-in-out",
         "overflow-visible border-0",
         hasOpenDialog && "pointer-events-none",
         isExpanded
           ? authorized
-            ? "h-auto"
-            : "h-auto -translate-y-[50%]"
-          : "h-auto -translate-y-[75%] hover:translate-y-[calc(-75%+0.5rem)]",
+            ? ""
+            : "-translate-y-[50%]"
+          : "-translate-y-[75%] hover:translate-y-[calc(-75%+0.5rem)]",
       )}
       style={{
         backgroundImage: banner ? `url(${banner})` : undefined,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "bottom",
-        backgroundSize: "cover",
-        paddingInline: "2%",
-        paddingTop: "2%",
-        paddingBottom: "3%",
-        width: "4rem",
-        minHeight: "15rem",
+        backgroundSize: "contain",
+        paddingTop: "1rem",
+        paddingBottom: "4rem",
+        imageRendering: "pixelated",
       }}
     >
       <div
         className={cn(
-          "flex flex-col gap-4 items-center transition-opacity duration-300",
+          "flex flex-col gap-5 items-center transition-opacity duration-300",
           isExpanded ? "opacity-100" : "opacity-0 pointer-events-none",
         )}
       >

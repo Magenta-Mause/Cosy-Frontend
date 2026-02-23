@@ -1,9 +1,9 @@
+import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { type GameServerDto, GameServerDtoStatus } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import GameServerStatusDot from "../GameServerStatusDot/GameServerStatusDot.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 
 const COMPLETED_STATUSES = new Set(["Pull complete", "Already exists", "Download complete"]);
 
