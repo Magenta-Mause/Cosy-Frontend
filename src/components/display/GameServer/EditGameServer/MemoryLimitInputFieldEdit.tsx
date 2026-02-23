@@ -13,6 +13,7 @@ interface MemoryLimitInputFieldEditProps {
   optional: boolean;
   value: string | undefined;
   onChange: (value: string | null) => void;
+  onValidationChange?: (hasError: boolean) => void;
 }
 
 const MemoryLimitInputFieldEdit = ({
@@ -23,6 +24,7 @@ const MemoryLimitInputFieldEdit = ({
   optional,
   value,
   onChange,
+  onValidationChange,
 }: MemoryLimitInputFieldEditProps) => {
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -61,14 +63,16 @@ const MemoryLimitInputFieldEdit = ({
         const result = validate(null);
         setIsValid(result.isValid);
         setErrorMessage(result.errorMessage);
+        onValidationChange?.(!result.isValid);
       } else {
         onChange(inputValue);
         const result = validate(inputValue);
         setIsValid(result.isValid);
         setErrorMessage(result.errorMessage);
+        onValidationChange?.(!result.isValid);
       }
     },
-    [onChange, validate],
+    [onChange, validate, onValidationChange],
   );
 
   useEffect(() => {
@@ -76,8 +80,9 @@ const MemoryLimitInputFieldEdit = ({
       const result = validate(value);
       setIsValid(result.isValid);
       setErrorMessage(result.errorMessage);
+      onValidationChange?.(!result.isValid);
     }
-  }, [value, validate]);
+  }, [value, validate, onValidationChange]);
 
   useEffect(() => {
     if (optional) {

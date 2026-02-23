@@ -82,6 +82,11 @@ const UserInviteButton = (props: { className?: string }) => {
       return;
     }
 
+    // Don't submit if there are validation errors
+    if (cpuError || memoryError) {
+      return;
+    }
+
     setIsCreating(true);
 
     try {
@@ -101,6 +106,8 @@ const UserInviteButton = (props: { className?: string }) => {
       setIsCreating(false);
     }
   };
+
+  const isFormValid = !usernameError && !cpuError && !memoryError;
 
   const handleCopyLink = () => {
     if (generatedKey) {
@@ -176,7 +183,7 @@ const UserInviteButton = (props: { className?: string }) => {
               <Button onClick={() => setIsDialogOpen(false)} variant="secondary">
                 {t("userModal.cancel")}
               </Button>
-              <Button onClick={handleCreateInvite} disabled={isCreating}>
+              <Button onClick={handleCreateInvite} disabled={isCreating || !isFormValid}>
                 {isCreating ? t("userModal.creating") : t("userModal.generateInvite")}
               </Button>
             </>

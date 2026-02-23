@@ -42,6 +42,8 @@ const EditGameServerPage = (props: {
     quote(gameServerState.execution_command ?? []),
   );
   const [_memoryErrorMessage, setMemoryErrorMessage] = useState<string | undefined>(undefined);
+  const [cpuError, setCpuError] = useState<string | undefined>(undefined);
+  const [memoryError, setMemoryError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const updatedState = mapGameServerDtoToUpdate(props.gameServer);
@@ -132,9 +134,11 @@ const EditGameServerPage = (props: {
       envVarsValid &&
       volumeMountsValid &&
       cpuLimitValid &&
-      memoryLimitValid
+      memoryLimitValid &&
+      !cpuError &&
+      !memoryError
     );
-  }, [gameServerState, cpuLimit, memoryLimit]);
+  }, [gameServerState, cpuLimit, memoryLimit, cpuError, memoryError]);
 
   const isChanged = useMemo(() => {
     const parsedCommand = executionCommandRaw.trim()
@@ -408,6 +412,7 @@ const EditGameServerPage = (props: {
             }))
           }
           optional={cpuLimit === null}
+          onValidationChange={(hasError) => setCpuError(hasError ? "error" : undefined)}
         />
 
         <MemoryLimitInputFieldEdit
@@ -421,7 +426,7 @@ const EditGameServerPage = (props: {
           errorLabel={t("memoryLimitSelection.errorLabel")}
           value={gameServerState.docker_hardware_limits?.docker_memory_limit}
           onChange={(v) => {
-            setMemoryErrorMessage(getMemoryLimitError(v));
+            setMemoryErrorMessage(getMemoryLimitError(v) ?? undefined);
 
             setGameServerState((s) => ({
               ...s,
@@ -432,6 +437,7 @@ const EditGameServerPage = (props: {
             }));
           }}
           optional={memoryLimit === null}
+          onValidationChange={(hasError) => setMemoryError(hasError ? "error" : undefined)}
         />
       </div>
 

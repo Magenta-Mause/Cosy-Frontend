@@ -10,6 +10,7 @@ interface CpuLimitInputFieldEditProps {
   optional: boolean;
   value: number | undefined;
   onChange: (value: string | null) => void;
+  onValidationChange?: (hasError: boolean) => void;
 }
 
 const CpuLimitInputFieldEdit = ({
@@ -20,6 +21,7 @@ const CpuLimitInputFieldEdit = ({
   optional,
   value,
   onChange,
+  onValidationChange,
 }: CpuLimitInputFieldEditProps) => {
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState(true);
@@ -58,14 +60,16 @@ const CpuLimitInputFieldEdit = ({
         const result = validate(null);
         setIsValid(result.isValid);
         setErrorMessage(result.errorMessage);
+        onValidationChange?.(!result.isValid);
       } else {
         onChange(inputValue);
         const result = validate(inputValue);
         setIsValid(result.isValid);
         setErrorMessage(result.errorMessage);
+        onValidationChange?.(!result.isValid);
       }
     },
-    [onChange, validate],
+    [onChange, validate, onValidationChange],
   );
 
   useEffect(() => {
@@ -73,8 +77,9 @@ const CpuLimitInputFieldEdit = ({
       const result = validate(value);
       setIsValid(result.isValid);
       setErrorMessage(result.errorMessage);
+      onValidationChange?.(!result.isValid);
     }
-  }, [value, validate]);
+  }, [value, validate, onValidationChange]);
 
   useEffect(() => {
     if (optional) {
