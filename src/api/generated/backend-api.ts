@@ -40,6 +40,7 @@ import type {
   LoginDto,
   MetricLayout,
   MetricPointDto,
+  PasswordUpdateByAdminDto,
   PasswordUpdateDto,
   PrivateDashboardLayout,
   QueryGamesParams,
@@ -1319,6 +1320,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getChangePasswordMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const changePasswordByAdmin = (
+    uuid: string,
+    passwordUpdateByAdminDto: PasswordUpdateByAdminDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/change-password-by-admin`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: passwordUpdateByAdminDto
+    },
+      options);
+    }
+  
+
+
+export const getChangePasswordByAdminMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePasswordByAdmin>>, TError,{uuid: string;data: PasswordUpdateByAdminDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof changePasswordByAdmin>>, TError,{uuid: string;data: PasswordUpdateByAdminDto}, TContext> => {
+
+const mutationKey = ['changePasswordByAdmin'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof changePasswordByAdmin>>, {uuid: string;data: PasswordUpdateByAdminDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  changePasswordByAdmin(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ChangePasswordByAdminMutationResult = NonNullable<Awaited<ReturnType<typeof changePasswordByAdmin>>>
+    export type ChangePasswordByAdminMutationBody = PasswordUpdateByAdminDto
+    export type ChangePasswordByAdminMutationError = unknown
+
+    export const useChangePasswordByAdmin = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePasswordByAdmin>>, TError,{uuid: string;data: PasswordUpdateByAdminDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof changePasswordByAdmin>>,
+        TError,
+        {uuid: string;data: PasswordUpdateByAdminDto},
+        TContext
+      > => {
+
+      const mutationOptions = getChangePasswordByAdminMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

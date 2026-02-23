@@ -22,10 +22,10 @@ const UserMenuButton = forwardRef<HTMLButtonElement, UserMenuButtonProps>(
             onClick?.(event);
             setIsUserOpen((prev) => !prev);
           }}
-          className={cn("h-auto p-[.5vw] aspect-square", props.className)}
+          className={cn("h-auto aspect-square", props.className)}
           aria-label={t("optionsBanner.userMenu")}
         >
-          <User className="!h-[1.5vw] p-0 !w-auto aspect-square" />
+          <User className="size-6" />
         </Button>
         <UserModal open={isUserOpen} onOpenChange={setIsUserOpen} />
       </>

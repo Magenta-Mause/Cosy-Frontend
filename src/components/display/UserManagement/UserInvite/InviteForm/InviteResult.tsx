@@ -38,7 +38,7 @@ export const InviteResult = ({ generatedKey, onCopyLink }: InviteResultProps) =>
         {t("userModal.shareInstructions")}
       </p>
       <div className="flex flex-col gap-2 mt-2">
-        <Button size="sm" className="w-full" onClick={onCopyLink}>
+        <Button className="w-full" onClick={onCopyLink}>
           <Copy className="w-4 h-4 mr-2" />
           {t("userModal.copyLink")}
         </Button>
