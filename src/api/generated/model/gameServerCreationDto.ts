@@ -9,7 +9,7 @@ import type { GameServerCreationDtoDesign } from './gameServerCreationDtoDesign'
 import type { DockerHardwareLimits } from './dockerHardwareLimits';
 import type { PortMapping } from './portMapping';
 import type { EnvironmentVariableConfiguration } from './environmentVariableConfiguration';
-import type { VolumeMountConfigurationCreationDto } from './volumeMountConfigurationCreationDto';
+import type { VolumeMountConfigurationDto } from './volumeMountConfigurationDto';
 
 export interface GameServerCreationDto {
   external_game_id?: number;
@@ -24,5 +24,5 @@ export interface GameServerCreationDto {
   port_mappings?: PortMapping[];
   execution_command?: string[];
   environment_variables?: EnvironmentVariableConfiguration[];
-  volume_mounts?: VolumeMountConfigurationCreationDto[];
+  volume_mounts?: VolumeMountConfigurationDto[];
 }

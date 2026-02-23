@@ -74,6 +74,7 @@ export * from './userInviteDto';
 export * from './userInviteDtoRole';
 export * from './volumeMountConfiguration';
 export * from './volumeMountConfigurationCreationDto';
+export * from './volumeMountConfigurationDto';
 export * from './webhookCreationDto';
 export * from './webhookCreationDtoSubscribedEventsItem';
 export * from './webhookCreationDtoWebhookType';
