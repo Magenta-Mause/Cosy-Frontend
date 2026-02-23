@@ -10,8 +10,8 @@ export const cpuLimitValidator = z.coerce.number().positive({
  * Extracts the specific error message for CPU limit values that are invalid.
  * Returns the error message if the value is not a positive number, otherwise returns undefined.
  */
-export const getCpuLimitError = (value: string | number | null | undefined): string | undefined => {
-  if (value === null || value === undefined || value === "") return undefined;
+export const getCpuLimitError = (value: string | number | null | undefined): string | null => {
+  if (value === null || value === undefined || value === "") return null;
 
   const num = typeof value === "string" ? parseFloat(value) : value;
 
@@ -19,5 +19,5 @@ export const getCpuLimitError = (value: string | number | null | undefined): str
     return CPU_LIMIT_POSITIVE_ERROR;
   }
 
-  return undefined;
+  return null;
 };
