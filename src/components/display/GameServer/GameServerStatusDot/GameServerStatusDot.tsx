@@ -25,7 +25,7 @@ export default function GameServerStatusDot(props: {
       className={cn(
         "rounded-full box-border",
         props.useScreenRelativeSizes ? "h-[1vw] w-[1vw] border-[0.12vw]" : "h-5 w-5 border",
-        "border-button-primary-default",
+        "border-button-primary-default shrink-0",
         GAME_SERVER_STATUS_TO_COLOR[props.status],
         props.className,
       )}

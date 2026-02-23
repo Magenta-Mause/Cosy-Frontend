@@ -336,6 +336,8 @@ const translation: i18nLanguage = {
         noFiles: "Keine Dateien",
         directoryType: "Ordner",
         fileType: "Datei",
+        fileSizeTooltip: "{{size}} Bytes",
+        fileModeTooltip: "Modus: {{octal}} ({{rwx}})",
         renameAction: "Umbenennen",
         deleteAction: "Löschen",
         downloadAction: "Download",
@@ -357,6 +359,7 @@ const translation: i18nLanguage = {
         deleteInProgress: "Löschen...",
       },
       fileBrowserDialog: {
+        closePreview: "Vorschau schließen",
         uploadFailure: "Datei konnte nicht hochgeladen werden",
         downloadZipFailure: "Zip-Archiv konnte nicht heruntergeladen werden",
         preparing: "Vorbereiten...",

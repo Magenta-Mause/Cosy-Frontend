@@ -186,20 +186,23 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
           <div className="min-w-0 flex-1">
             <div className="text-sm truncate">{selectedFileName || "Preview"}</div>
             {selectedFilePath ? (
-              <div className="text-xs text-muted-foreground truncate" title={selectedFilePath}>
-                {selectedFilePath}
-              </div>
+              <TooltipWrapper tooltip={selectedFilePath}>
+                <div className="text-xs text-muted-foreground truncate">
+                  {selectedFilePath}
+                </div>
+              </TooltipWrapper>
             ) : null}
           </div>
 
-          <Button
-            size="icon"
-            onClick={closePreview}
-            aria-label="Close preview"
-            title="Close preview"
-          >
-            <X className="h-4 w-4" />
-          </Button>
+          <TooltipWrapper tooltip={t("closePreview")}>
+            <Button
+              size="icon"
+              onClick={closePreview}
+              aria-label={t("closePreview")}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </TooltipWrapper>
         </div>
 
         <FilePreview
@@ -217,6 +220,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     fileQuery.data,
     fileQuery.isLoading,
     fileQuery.error,
+    t,
   ]);
 
   const ctxValue: FileBrowserContextValue = useMemo(

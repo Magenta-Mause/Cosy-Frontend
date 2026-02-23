@@ -1,3 +1,4 @@
+import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { Download, File, Folder, FolderDown, Pencil, Trash2 } from "lucide-react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
@@ -56,104 +57,116 @@ export const FileBrowserRow = ({
             "hidden md:inline-flex items-center gap-6",
           )}
         >
-          <span
-            className={cn(
-              "ml-auto shrink-0 text-muted-foreground tabular-nums",
-              "hidden md:inline-flex w-24 justify-end",
-            )}
-            title={obj.type === "FILE" ? `${obj.size ?? "unknown"} bytes` : "Directory"}
+          <TooltipWrapper
+            tooltip={
+              obj.type === "FILE"
+                ? t("fileSizeTooltip", { size: obj.size ?? "?" })
+                : t("directoryType")
+            }
           >
-            {obj.type === "FILE" ? formatBytes(obj.size) : "—"}
-          </span>
+            <span
+              className={cn(
+                "ml-auto shrink-0 text-muted-foreground tabular-nums",
+                "hidden md:inline-flex w-24 justify-end",
+              )}
+            >
+              {obj.type === "FILE" ? formatBytes(obj.size) : "—"}
+            </span>
+          </TooltipWrapper>
 
-          <span
-            className={cn(
-              "ml-auto shrink-0 text-muted-foreground",
-              "hidden md:inline-flex items-center gap-6",
-            )}
-            title={`mode: ${perms.octal} (${perms.rwx})`}
-          >
-            <span>{perms.rwx}</span>
-            <span>{perms.octal}</span>
-          </span>
+          <TooltipWrapper tooltip={t("fileModeTooltip", { octal: perms.octal, rwx: perms.rwx })}>
+            <span
+              className={cn(
+                "ml-auto shrink-0 text-muted-foreground",
+                "hidden md:inline-flex items-center gap-6",
+              )}
+            >
+              <span>{perms.rwx}</span>
+              <span>{perms.octal}</span>
+            </span>
+          </TooltipWrapper>
         </div>
       </div>
 
       {canWrite ? (
         <div className="flex items-center gap-1 shrink-0">
           {onRename ? (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onRename(obj);
-              }}
-              className={cn(
-                "inline-flex items-center rounded-md p-2",
-                "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-              )}
-              disabled={loading}
-              data-loading={loading}
-              aria-label={`${t("renameAction")} ${obj.name}`}
-              title={t("renameAction")}
-            >
-              <Pencil className="h-4 w-4 mr-1" />
-              <span className="hidden sm:inline">{t("renameAction")}</span>
-            </button>
+            <TooltipWrapper tooltip={t("renameAction")}>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRename(obj);
+                }}
+                className={cn(
+                  "inline-flex items-center rounded-md p-2",
+                  "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+                )}
+                disabled={loading}
+                data-loading={loading}
+                aria-label={`${t("renameAction")} ${obj.name}`}
+              >
+                <Pencil className="h-4 w-4 mr-1" />
+                <span className="hidden sm:inline">{t("renameAction")}</span>
+              </button>
+            </TooltipWrapper>
           ) : null}
 
           {onDelete ? (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(obj);
-              }}
-              className={cn(
-                "inline-flex items-center rounded-md p-2",
-                "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-              )}
-              disabled={loading}
-              data-loading={loading}
-              aria-label={`${t("deleteAction")} ${obj.name}`}
-              title={t("deleteAction")}
-            >
-              <Trash2 className="h-4 w-4 mr-1" />
-              <span className="hidden sm:inline">{t("deleteAction")}</span>
-            </button>
+            <TooltipWrapper tooltip={t("deleteAction")}>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(obj);
+                }}
+                className={cn(
+                  "inline-flex items-center rounded-md p-2",
+                  "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+                )}
+                disabled={loading}
+                data-loading={loading}
+                aria-label={`${t("deleteAction")} ${obj.name}`}
+              >
+                <Trash2 className="h-4 w-4 mr-1" />
+                <span className="hidden sm:inline">{t("deleteAction")}</span>
+              </button>
+            </TooltipWrapper>
           ) : null}
 
           {onDownload && !dir ? (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDownload(obj);
-              }}
-              className={actionButtonClass}
-              disabled={loading}
-              data-loading={loading}
-              aria-label={`${t("downloadAction")} ${obj.name}`}
-              title={t("downloadAction")}
-            >
-              <Download className="h-4 w-4 mr-1" />
-              <span className="hidden sm:inline">{t("downloadAction")}</span>
-            </button>
+            <TooltipWrapper tooltip={t("downloadAction")}>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDownload(obj);
+                }}
+                className={actionButtonClass}
+                disabled={loading}
+                data-loading={loading}
+                aria-label={`${t("downloadAction")} ${obj.name}`}
+              >
+                <Download className="h-4 w-4 mr-1" />
+                <span className="hidden sm:inline">{t("downloadAction")}</span>
+              </button>
+            </TooltipWrapper>
           ) : null}
 
           {onDownload && dir ? (
-            <button
-              type="button"
-              onClick={() => onDownload(obj)}
-              className={actionButtonClass}
-              disabled={loading}
-              data-loading={loading}
-              aria-label={`${t("exportAction")} ${obj.name}`}
-              title={t("exportAction")}
-            >
-              <FolderDown className="h-4 w-4 mr-1" />
-              <span className="hidden sm:inline">{t("exportAction")}</span>
-            </button>
+            <TooltipWrapper tooltip={t("exportAction")}>
+              <button
+                type="button"
+                onClick={() => onDownload(obj)}
+                className={actionButtonClass}
+                disabled={loading}
+                data-loading={loading}
+                aria-label={`${t("exportAction")} ${obj.name}`}
+              >
+                <FolderDown className="h-4 w-4 mr-1" />
+                <span className="hidden sm:inline">{t("exportAction")}</span>
+              </button>
+            </TooltipWrapper>
           ) : null}
         </div>
       ) : null}

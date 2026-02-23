@@ -189,7 +189,9 @@ const SideBar = (props: { gameServer: GameServerDto }) => {
           key={label}
           to={path}
           activeOptions={{ exact: !activePathPattern }}
-          className={"group"}
+          className={
+            "group block rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+          }
           preload={"viewport"}
           disabled={!isLinkReachable}
         >
