@@ -1,3 +1,4 @@
+import { useFileBrowser } from "@components/display/GameServer/FileBrowser/FileBrowserContext.tsx";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +9,7 @@ import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { Download, Ellipsis, File, Folder, FolderDown, Pencil, Trash2 } from "lucide-react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { formatBytes, formatUnixPerms, isDirectory } from "@/lib/fileSystemUtils";
+import { formatBytes, formatUnixPerms, isDirectory, joinRemotePath } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -40,6 +41,9 @@ export const FileBrowserRow = ({
   const dir = isDirectory(obj);
   const perms = formatUnixPerms(obj.permissions);
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserList");
+  const { downloadingFiles, currentPath } = useFileBrowser();
+  const filePath = joinRemotePath(currentPath, obj.name);
+  const isBeingDownloaded = downloadingFiles.includes(filePath);
 
   return (
     <button
@@ -98,7 +102,7 @@ export const FileBrowserRow = ({
         </div>
       </div>
 
-      {canWrite ? (
+      {canWrite && (
         <>
           {/* Inline buttons – visible when container >= 500px */}
           <div className="hidden @[500px]:flex items-center gap-1 shrink-0">
@@ -125,7 +129,9 @@ export const FileBrowserRow = ({
             ) : null}
 
             {onDelete ? (
-              <TooltipWrapper tooltip={t("deleteAction")}>
+              <TooltipWrapper
+                tooltip={!isBeingDownloaded ? t("deleteAction") : t("cantDeleteWhileDownloading")}
+              >
                 <button
                   type="button"
                   onClick={(e) => {
@@ -136,7 +142,7 @@ export const FileBrowserRow = ({
                     "inline-flex items-center rounded-md p-2",
                     "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
                   )}
-                  disabled={loading}
+                  disabled={loading || downloadingFiles.includes(filePath)}
                   data-loading={loading}
                   aria-label={`${t("deleteAction")} ${obj.name}`}
                 >
@@ -145,93 +151,96 @@ export const FileBrowserRow = ({
                 </button>
               </TooltipWrapper>
             ) : null}
-
-            {onDownload && !dir ? (
-              <TooltipWrapper tooltip={t("downloadAction")}>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDownload(obj);
-                  }}
-                  className={actionButtonClass}
-                  disabled={loading}
-                  data-loading={loading}
-                  aria-label={`${t("downloadAction")} ${obj.name}`}
-                >
-                  <Download className="h-4 w-4 mr-1" />
-                  <span className="hidden sm:inline">{t("downloadAction")}</span>
-                </button>
-              </TooltipWrapper>
-            ) : null}
-
-            {onDownload && dir ? (
-              <TooltipWrapper tooltip={t("exportAction")}>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDownload(obj);
-                  }}
-                  className={actionButtonClass}
-                  disabled={loading}
-                  data-loading={loading}
-                  aria-label={`${t("exportAction")} ${obj.name}`}
-                >
-                  <FolderDown className="h-4 w-4 mr-1" />
-                  <span className="hidden sm:inline">{t("exportAction")}</span>
-                </button>
-              </TooltipWrapper>
-            ) : null}
-          </div>
-
-          {/* Dropdown menu – visible when container < 500px */}
-          <div className="@[500px]:hidden shrink-0">
-            <DropdownMenu modal={false}>
-              <DropdownMenuTrigger asChild>
-                <button
-                  type="button"
-                  onClick={(e) => e.stopPropagation()}
-                  className={cn(
-                    "inline-flex items-center justify-center rounded-md p-2",
-                    "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
-                  )}
-                  disabled={loading}
-                  aria-label={t("renameAction")}
-                >
-                  <Ellipsis className="h-4 w-4" />
-                </button>
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent align="end">
-                {onRename ? (
-                  <DropdownMenuItem onClick={() => onRename(obj)}>
-                    {t("renameAction")}
-                  </DropdownMenuItem>
-                ) : null}
-                {onDownload && !dir ? (
-                  <DropdownMenuItem onClick={() => onDownload(obj)}>
-                    {t("downloadAction")}
-                  </DropdownMenuItem>
-                ) : null}
-                {onDownload && dir ? (
-                  <DropdownMenuItem onClick={() => onDownload(obj)}>
-                    {t("exportAction")}
-                  </DropdownMenuItem>
-                ) : null}
-                {onDelete ? (
-                  <DropdownMenuItem
-                    onClick={() => onDelete(obj)}
-                    className="text-destructive focus:text-destructive"
-                  >
-                    {t("deleteAction")}
-                  </DropdownMenuItem>
-                ) : null}
-              </DropdownMenuContent>
-            </DropdownMenu>
           </div>
         </>
-      ) : null}
+      )}
+
+      {onDownload && !dir && (
+        <TooltipWrapper tooltip={t("downloadAction")}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDownload(obj);
+            }}
+            className={actionButtonClass}
+            disabled={loading || downloadingFiles.includes(filePath)}
+            data-loading={loading}
+            aria-label={`${t("downloadAction")} ${obj.name}`}
+          >
+            <Download className="h-4 w-4 mr-1" />
+            <span className="hidden sm:inline">
+              {!isBeingDownloaded ? t("downloadAction") : t("loading")}
+            </span>
+          </button>
+        </TooltipWrapper>
+      )}
+
+      {onDownload && dir && (
+        <TooltipWrapper tooltip={t("exportAction")}>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDownload(obj);
+            }}
+            className={actionButtonClass}
+            disabled={loading || downloadingFiles.includes(filePath)}
+            data-loading={loading}
+            aria-label={`${t("exportAction")} ${obj.name}`}
+          >
+            <FolderDown className="h-4 w-4 mr-1" />
+            {!isBeingDownloaded ? t("exportAction") : t("loading")}
+          </button>
+        </TooltipWrapper>
+      )}
+
+      {canWrite && (
+        <div className="@[500px]:hidden shrink-0">
+          <DropdownMenu modal={false}>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                onClick={(e) => e.stopPropagation()}
+                className={cn(
+                  "inline-flex items-center justify-center rounded-md p-2",
+                  "hover:bg-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
+                )}
+                disabled={loading}
+                aria-label={t("renameAction")}
+              >
+                <Ellipsis className="h-4 w-4" />
+              </button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end">
+              {onRename ? (
+                <DropdownMenuItem onClick={() => onRename(obj)}>
+                  {t("renameAction")}
+                </DropdownMenuItem>
+              ) : null}
+              {onDownload && !dir ? (
+                <DropdownMenuItem onClick={() => onDownload(obj)}>
+                  {t("downloadAction")}
+                </DropdownMenuItem>
+              ) : null}
+              {onDownload && dir ? (
+                <DropdownMenuItem onClick={() => onDownload(obj)}>
+                  {t("exportAction")}
+                </DropdownMenuItem>
+              ) : null}
+              {onDelete ? (
+                <DropdownMenuItem
+                  onClick={() => onDelete(obj)}
+                  className="text-destructive focus:text-destructive"
+                >
+                  {t("deleteAction")}
+                </DropdownMenuItem>
+              ) : null}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )}
     </button>
   );
 };

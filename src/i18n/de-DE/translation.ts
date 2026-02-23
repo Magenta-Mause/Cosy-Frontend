@@ -363,6 +363,8 @@ const translation: i18nLanguage = {
         deleteDialogFile: "Diese Aktion kann nicht rückgängig gemacht werden",
         cancel: "Abbrechen",
         deleteInProgress: "Löschen...",
+        cantDeleteWhileDownloading: "Während Download deaktiviert",
+        loading: "Lädt...",
       },
       fileBrowserDialog: {
         closePreview: "Vorschau schließen",

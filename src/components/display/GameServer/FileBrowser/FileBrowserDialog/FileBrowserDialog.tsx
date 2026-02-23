@@ -69,6 +69,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const [navigating, setNavigating] = useState(false);
 
   const [downloadingAll, setDownloadingAll] = useState(false);
+  const [downloading, setDownloading] = useState<string[]>([]);
   const [downloadProgress, setDownloadProgress] = useState<{ done: number; total: number } | null>(
     null,
   );
@@ -168,6 +169,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
   const onDownloadAll = async () => {
     setDownloadingAll(true);
     setDownloadProgress(null);
+    setDownloading((downloading) => [...downloading, currentPath]);
 
     try {
       await zipAndDownload({
@@ -181,6 +183,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     } finally {
       setDownloadingAll(false);
       setDownloadProgress(null);
+      setDownloading([]);
     }
   };
 
@@ -248,6 +251,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       isSynthetic,
       readOnly: !canChangeFiles,
       navigating,
+      downloadingFiles: downloading,
 
       onEntryClick: (obj) => {
         onEntryClick(obj);
@@ -303,15 +307,35 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       },
 
       onDownload: async (obj) => {
+        const fullPath = joinRemotePath(currentPath, obj.name);
+        setDownloading((downloading) => [...downloading, fullPath]);
+
         if (obj.type === "DIRECTORY") {
-          const fullPath = joinRemotePath(currentPath, obj.name);
-          await zipAndDownload({ serverUuid: props.serverUuid, startPath: fullPath });
+          setDownloadProgress(null);
+          try {
+            await zipAndDownload({
+              serverUuid: props.serverUuid,
+              startPath: fullPath,
+              onProgress: (done, total) => setDownloadProgress({ done, total }),
+            });
+          } catch (_err) {
+            toast.error(t("errorWhileZipDownload"));
+          } finally {
+            setDownloading((downloading) => downloading.filter((path) => path !== fullPath));
+            setDownloadProgress(null);
+          }
         } else {
-          downloadSingleFile({
-            serverUuid: props.serverUuid,
-            parentPath: currentPath,
-            name: obj.name,
-          });
+          try {
+            await downloadSingleFile({
+              serverUuid: props.serverUuid,
+              parentPath: currentPath,
+              name: obj.name,
+            });
+          } catch (_err) {
+            toast.error(t("errorWhileDownload"));
+          } finally {
+            setDownloading((downloading) => downloading.filter((path) => path !== fullPath));
+          }
         }
       },
     }),
@@ -337,6 +361,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       isSynthetic,
       canChangeFiles,
       navigating,
+      t,
     ],
   );
 

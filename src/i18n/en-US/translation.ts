@@ -360,6 +360,8 @@ const translation: i18nLanguage = {
         deleteDialogFile: "This cannot be undone.",
         cancel: "Cancel",
         deleteInProgress: "Deleting...",
+        loading: "Loading...",
+        cantDeleteWhileDownloading: "Cant delete file while downloading",
       },
       fileBrowserDialog: {
         closePreview: "Close preview",
@@ -375,6 +377,7 @@ const translation: i18nLanguage = {
         noFilesPermissionDesc: "You don't have permission to view server files",
         uploadInSyntheticDir: "Cannot upload files in virtual directories",
         uploadNoPermission: "You don't have permission to upload files",
+        errorWhileZipDownload: "Error while downloading Zip archive",
       },
     },
 

@@ -590,6 +590,8 @@ export type i18nLanguage = {
         deleteDialogFile: string;
         cancel: string;
         deleteInProgress: string;
+        cantDeleteWhileDownloading: string;
+        loading: string;
       };
       fileBrowserDialog: {
         closePreview: string;
