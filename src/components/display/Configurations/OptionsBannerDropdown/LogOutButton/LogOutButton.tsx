@@ -20,14 +20,14 @@ const LogOutButton = forwardRef<HTMLButtonElement, LogOutButtonProps>(
         <Button
           {...props}
           ref={ref}
-          className={cn("h-auto p-[.5vw] aspect-square", props.className)}
+          className={cn("h-auto aspect-square", props.className)}
           aria-label={t("optionsBanner.logout")}
           onClick={(event) => {
             onClick?.(event);
             setOpen(true);
           }}
         >
-          <LogOut className="!h-[1.5vw] p-0 !w-auto aspect-square" />
+          <LogOut className="size-6" />
         </Button>
         <LogOutAlertDialog open={open} onOpenChange={setOpen} onConfirm={handleLogout} />
       </>

@@ -16,6 +16,7 @@ import type { VolumeMountConfiguration } from './volumeMountConfiguration';
 import type { MetricLayout } from './metricLayout';
 import type { PrivateDashboardLayout } from './privateDashboardLayout';
 import type { GameServerAccessGroupDto } from './gameServerAccessGroupDto';
+import type { WebhookDto } from './webhookDto';
 
 export interface GameServerDto {
   /** @minLength 1 */
@@ -42,4 +43,5 @@ export interface GameServerDto {
   metric_layout: MetricLayout[];
   private_dashboard_layouts: PrivateDashboardLayout[];
   access_groups: GameServerAccessGroupDto[];
+  webhooks?: WebhookDto[];
 }

@@ -481,6 +481,19 @@ export type i18nLanguage = {
       };
     };
     userManagement: {
+      admin: {
+        changePasswordDialog: {
+          title: string;
+          description: string;
+          newPasswordLabel: string;
+          newPasswordDescription: string;
+          newPasswordPlaceholder: string;
+          newPasswordError: string;
+          cancelButton: string;
+          confirmButton: string;
+          submitError: string;
+        };
+      };
       backButton: string;
       userDetailButton: {
         viewUsers: string;
@@ -490,6 +503,10 @@ export type i18nLanguage = {
           owner: string;
           admin: string;
           quota_user: string;
+        };
+        actions: {
+          editPassword: string;
+          deleteUser: string;
         };
         resources: {
           cpus: string;
@@ -513,6 +530,13 @@ export type i18nLanguage = {
         };
         noUsersFound: string;
         pendingInvites: string;
+      };
+      deleteUserDialog: {
+        title: string;
+        message: string;
+        cancelButton: string;
+        confirmButton: string;
+        submitError: string;
       };
     };
     fileBrowser: {

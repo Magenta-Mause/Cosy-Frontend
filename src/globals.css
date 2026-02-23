@@ -4,9 +4,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --text-xs: 16px;
-  --text-sm: 22px;
-  --text-base: 26px;
+  --text-xs: 18px;
+  --text-sm: 24px;
+  --text-base: 28px;
   --text-lg: 32px;
   --text-xl: 42px;
   --text-2xl: 52px;

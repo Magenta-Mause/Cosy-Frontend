@@ -488,6 +488,19 @@ const translation: i18nLanguage = {
     },
 
     userManagement: {
+      admin: {
+        changePasswordDialog: {
+          title: "Change User Password",
+          description: "Set a new password for this user.",
+          newPasswordLabel: "New Password",
+          newPasswordDescription: "Enter a new password for the user.",
+          newPasswordPlaceholder: "Enter new password",
+          newPasswordError: "Password must be at least 8 characters long",
+          cancelButton: "Cancel",
+          confirmButton: "Change Password",
+          submitError: "Failed to change password",
+        },
+      },
       backButton: "Back",
       userDetailButton: {
         viewUsers: "Marketplace",
@@ -497,6 +510,10 @@ const translation: i18nLanguage = {
           owner: "Owner",
           admin: "Admin",
           quota_user: "Quota",
+        },
+        actions: {
+          editPassword: "Edit Password",
+          deleteUser: "Delete User",
         },
         resources: {
           cpus: "CPUs",
@@ -520,6 +537,14 @@ const translation: i18nLanguage = {
         },
         noUsersFound: "No users found",
         pendingInvites: "Pending Invites",
+      },
+      deleteUserDialog: {
+        title: "Delete User",
+        message:
+          "Are you sure you want to delete this user? This will permanently delete all data associated with this user and cannot be undone.",
+        cancelButton: "Cancel",
+        confirmButton: "Delete User",
+        submitError: "Failed to delete user",
       },
     },
     GameServerSettings: {

@@ -26,26 +26,24 @@ const LanguageSelector = (props: {
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          className={cn("h-auto p-[.5vw] aspect-square", props.className)}
+          className={cn("h-auto aspect-square", props.className)}
           tabIndex={props.tabIndex}
           aria-label={t("optionsBanner.languageSelector")}
           onClick={(e) => {
             e.stopPropagation();
           }}
         >
-          <GlobeIcon className="h-[1.5vw]! p-0 w-auto! aspect-square" />
+          <GlobeIcon className="size-6" />
         </Button>
       </PopoverTrigger>
       <PopoverContent
         side="right"
-        className={
-          "z-101 flex flex-col gap-[.5vw] p-[0.3vw] w-[9vw] h-auto justify-evenly border-2"
-        }
+        className={"z-101 flex flex-col gap-2 p-1.5 w-40 h-auto justify-evenly border-2"}
       >
         {LANGUAGES.map((language) => (
           <Button
             key={language.value}
-            className={"text-[1.1vw] h-[2vw] py-[0.4vw]"}
+            className={"text-xs"}
             onClick={(e) => {
               e.stopPropagation();
               i18n.changeLanguage(language.value);
