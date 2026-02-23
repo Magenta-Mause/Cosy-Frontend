@@ -2,9 +2,9 @@ import LogMessage from "@components/display/LogDisplay/LogMessage";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Forward } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Virtuoso } from "react-virtuoso";
+import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { useSendCommand } from "@/api/generated/backend-api";
 import { cn } from "@/lib/utils.ts";
 import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice.ts";
@@ -32,6 +32,7 @@ const LogDisplay = (
     ...divProps
   } = props;
 
+  const logDisplayRef = useRef<VirtuosoHandle>(null);
   const [displayLogs, setDisplayLogs] = useState<GameServerLogWithUuid[]>([]);
   const [sticky, setSticky] = useState(true);
   const [displayTimestamp, setDisplayTimestamp] = useState(true);
@@ -71,6 +72,19 @@ const LogDisplay = (
     );
   };
 
+  const handleAutoScrollToggle = (newVal: boolean) => {
+    setSticky(newVal);
+  };
+
+  const scrollTo = useCallback((index: number) => {
+    logDisplayRef.current?.scrollToIndex({ index, align: "end", behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
+    if (!sticky) return;
+    scrollTo(displayLogs.length - 1);
+  }, [displayLogs, scrollTo, sticky]);
+
   return (
     <div
       {...divProps}
@@ -99,7 +113,7 @@ const LogDisplay = (
             <input
               type="checkbox"
               checked={sticky}
-              onChange={(e) => setSticky(e.target.checked)}
+              onChange={(e) => handleAutoScrollToggle(e.target.checked)}
               className="accent-emerald-500"
             />
             <span className="text-[11px]">{t("logDisplay.stickToBottom")}</span>
@@ -109,6 +123,7 @@ const LogDisplay = (
 
       <div className="flex-1 min-h-0 relative">
         <Virtuoso
+          ref={logDisplayRef}
           key={displayLogs.length === 0 ? "empty" : "loaded"}
           data={displayLogs}
           followOutput={sticky ? "auto" : false}
