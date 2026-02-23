@@ -1,7 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import type { MetricLayoutMetricType } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -35,7 +34,7 @@ const DROPDOWN_OPTIONS: MetricsType[] = [
 const MetricDropDown = (props: {
   className?: string;
   disabled?: boolean;
-  metricType?: MetricLayoutMetricType | MetricsType | string;
+  metricType?: MetricsType | string;
   setMetricType: (unit: string) => void;
   gameServerUuid?: string;
 }) => {

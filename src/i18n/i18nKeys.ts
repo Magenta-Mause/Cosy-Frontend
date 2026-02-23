@@ -13,7 +13,7 @@ export type i18nLanguage = {
     startServer: string;
     stopServer: string;
     refresh: string;
-    createNewGameserver: string;
+    createNewGameServer: string;
     viewLogs: string;
     loading: string;
     failed: string;
@@ -42,6 +42,12 @@ export type i18nLanguage = {
     updateGameServerSuccess: string;
     updateGameServerError: string;
     missingUuid: string;
+    createWebhookSuccess: string;
+    createWebhookError: string;
+    updateWebhookSuccess: string;
+    updateWebhookError: string;
+    deleteWebhookSuccess: string;
+    deleteWebhookError: string;
     updateFooterSuccess: string;
     updateFooterError: string;
   };
@@ -603,6 +609,7 @@ export type i18nLanguage = {
         metrics: string;
         accessManagement: string;
         rcon: string;
+        webhooks: string;
         design: string;
       };
       sections: {
@@ -611,6 +618,7 @@ export type i18nLanguage = {
         publicDashboard: string;
         metrics: string;
         accessManagement: string;
+        webhooks: string;
       };
       accessManagement: {
         title: string;
@@ -620,6 +628,58 @@ export type i18nLanguage = {
         type: string;
         width: string;
         add: string;
+      };
+      webhooks: {
+        title: string;
+        description: string;
+        form: {
+          webhookType: string;
+          webhookUrl: string;
+          enabled: string;
+          subscribedEvents: string;
+        };
+        create: string;
+        configuredWebhooks: string;
+        loading: string;
+        empty: string;
+        delete: string;
+        deleteDialog: {
+          title: string;
+          description: string;
+        };
+        labels: {
+          type: string;
+          url: string;
+          enabled: string;
+          events: string;
+        };
+        state: {
+          enabled: string;
+          disabled: string;
+        };
+        createSuccess: string;
+        deleteSuccess: string;
+        types: {
+          DISCORD: string;
+          SLACK: string;
+          N8N: string;
+        };
+        events: {
+          SERVER_STARTED: string;
+          SERVER_STOPPED: string;
+          SERVER_FAILED: string;
+        };
+        validation: {
+          webhookUrlRequired: string;
+          webhookUrlInvalid: string;
+          subscribedEventsRequired: string;
+        };
+        cancel: string;
+        creating: string;
+        edit: string;
+        updating: string;
+        copyUrl: string;
+        copied: string;
       };
       privateDashboard: {
         add: string;
@@ -723,6 +783,10 @@ export type i18nLanguage = {
             description: string;
           };
           CHANGE_METRICS_SETTINGS: {
+            name: string;
+            description: string;
+          };
+          CHANGE_WEBHOOK_SETTINGS: {
             name: string;
             description: string;
           };
