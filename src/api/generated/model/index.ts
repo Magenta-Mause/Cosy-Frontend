@@ -12,6 +12,7 @@ export * from './accessGroupUpdateDtoPermissionsItem';
 export * from './createDirectoryInVolumeParams';
 export * from './deleteInVolumeParams';
 export * from './dockerHardwareLimits';
+export * from './downloadDirectoryAsZipParams';
 export * from './environmentVariableConfiguration';
 export * from './fileSystemObjectDto';
 export * from './fileSystemObjectDtoType';

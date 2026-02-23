@@ -24,6 +24,7 @@ import type {
   AccessGroupUpdateDto,
   CreateDirectoryInVolumeParams,
   DeleteInVolumeParams,
+  DownloadDirectoryAsZipParams,
   FooterDto,
   FooterUpdateDto,
   GameDto,
@@ -2920,6 +2921,81 @@ export function useReadFileFromVolume<TData = Awaited<ReturnType<typeof readFile
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getReadFileFromVolumeQueryOptions(uuid,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Download a directory as a zip archive
+ */
+export const downloadDirectoryAsZip = (
+    uuid: string,
+    params: DownloadDirectoryAsZipParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<Blob>(
+      {url: `/game-server/${uuid}/file-system/download-as-zip`, method: 'GET',
+        params,
+        responseType: 'blob', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getDownloadDirectoryAsZipQueryKey = (uuid?: string,
+    params?: DownloadDirectoryAsZipParams,) => {
+    return [
+    `/game-server/${uuid}/file-system/download-as-zip`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getDownloadDirectoryAsZipQueryOptions = <TData = Awaited<ReturnType<typeof downloadDirectoryAsZip>>, TError = unknown>(uuid: string,
+    params: DownloadDirectoryAsZipParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof downloadDirectoryAsZip>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getDownloadDirectoryAsZipQueryKey(uuid,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof downloadDirectoryAsZip>>> = ({ signal }) => downloadDirectoryAsZip(uuid,params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof downloadDirectoryAsZip>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type DownloadDirectoryAsZipQueryResult = NonNullable<Awaited<ReturnType<typeof downloadDirectoryAsZip>>>
+export type DownloadDirectoryAsZipQueryError = unknown
+
+
+/**
+ * @summary Download a directory as a zip archive
+ */
+
+export function useDownloadDirectoryAsZip<TData = Awaited<ReturnType<typeof downloadDirectoryAsZip>>, TError = unknown>(
+ uuid: string,
+    params: DownloadDirectoryAsZipParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof downloadDirectoryAsZip>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getDownloadDirectoryAsZipQueryOptions(uuid,params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
