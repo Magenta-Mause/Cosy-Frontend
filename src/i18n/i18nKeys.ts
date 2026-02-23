@@ -595,6 +595,7 @@ export type i18nLanguage = {
         closePreview: string;
         uploadFailure: string;
         downloadZipFailure: string;
+        fileUploadError: string;
         preparing: string;
         downloadingFile: ContainsVariable<"done"> & ContainsVariable<"total">;
         downloadAllAction: string;

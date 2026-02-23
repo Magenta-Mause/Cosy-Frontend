@@ -365,6 +365,7 @@ const translation: i18nLanguage = {
         closePreview: "Close preview",
         uploadFailure: "Failed to upload file",
         downloadZipFailure: "Failed to download zip",
+        fileUploadError: "Failed to upload file",
         preparing: "Preparing...",
         downloadingFile: "Downloading {{done}}/{{total}}",
         downloadAllAction: "Download Directory",

@@ -3,6 +3,7 @@ import { Input } from "@components/ui/input";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { Download, Search, Upload, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { toast } from "sonner";
 import {
   uploadFileToVolume,
   useCreateDirectoryInVolume,
@@ -42,7 +43,6 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     objects,
     loading,
     error,
-    setError,
     ensurePathFetched,
     prefetchPath,
   } = useFileBrowserCache({
@@ -122,9 +122,8 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
     try {
       await uploadSelectedFile(file);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to upload file");
+    } catch (_err) {
+      toast.error(t("fileUploadError"));
     } finally {
       e.target.value = "";
     }
@@ -178,7 +177,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       });
     } catch (e) {
       console.error(e);
-      setError(t("downloadZipFailure"));
+      toast.error(t("downloadZipFailure"));
     } finally {
       setDownloadingAll(false);
       setDownloadProgress(null);

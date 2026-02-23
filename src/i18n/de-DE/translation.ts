@@ -368,6 +368,7 @@ const translation: i18nLanguage = {
         closePreview: "Vorschau schließen",
         uploadFailure: "Datei konnte nicht hochgeladen werden",
         downloadZipFailure: "Zip-Archiv konnte nicht heruntergeladen werden",
+        fileUploadError: "Datei konnte nicht hochgeladen werden",
         preparing: "Vorbereiten...",
         downloadingFile: "Downloadfortschritt: {{done}}/{{total}}",
         downloadAllAction: "Ordner Herunterladen",
