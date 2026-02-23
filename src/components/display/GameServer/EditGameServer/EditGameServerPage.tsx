@@ -1,5 +1,5 @@
 import CpuLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/CpuLimitInputFieldEdit.tsx";
-import MemoryLimitInputField from "@components/display/MemoryLimit/MemoryLimitInputField.tsx";
+import MemoryLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/MemoryLimitInputFieldEdit.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
 import { useContext, useEffect, useMemo, useState } from "react";
@@ -41,7 +41,9 @@ const EditGameServerPage = (props: {
   const [executionCommandRaw, setExecutionCommandRaw] = useState(
     quote(gameServerState.execution_command ?? []),
   );
-  const [memoryErrorMessage, setMemoryErrorMessage] = useState<string | undefined>(undefined);
+  const [_memoryErrorMessage, setMemoryErrorMessage] = useState<string | undefined>(undefined);
+  const [cpuError, setCpuError] = useState<string | undefined>(undefined);
+  const [memoryError, setMemoryError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const updatedState = mapGameServerDtoToUpdate(props.gameServer);
@@ -132,9 +134,11 @@ const EditGameServerPage = (props: {
       envVarsValid &&
       volumeMountsValid &&
       cpuLimitValid &&
-      memoryLimitValid
+      memoryLimitValid &&
+      !cpuError &&
+      !memoryError
     );
-  }, [gameServerState, cpuLimit, memoryLimit]);
+  }, [gameServerState, cpuLimit, memoryLimit, cpuError, memoryError]);
 
   const isChanged = useMemo(() => {
     const parsedCommand = executionCommandRaw.trim()
@@ -408,11 +412,10 @@ const EditGameServerPage = (props: {
             }))
           }
           optional={cpuLimit === null}
+          onValidationChange={(hasError) => setCpuError(hasError ? "error" : undefined)}
         />
 
-        <MemoryLimitInputField
-          id="memory_limit"
-          validator={memoryLimitValidator}
+        <MemoryLimitInputFieldEdit
           placeholder="512"
           label={`${t("memoryLimitSelection.title")} ${memoryLimit === null ? " (Optional)" : ""}`}
           description={
@@ -423,7 +426,7 @@ const EditGameServerPage = (props: {
           errorLabel={t("memoryLimitSelection.errorLabel")}
           value={gameServerState.docker_hardware_limits?.docker_memory_limit}
           onChange={(v) => {
-            setMemoryErrorMessage(getMemoryLimitError(v));
+            setMemoryErrorMessage(getMemoryLimitError(v) ?? undefined);
 
             setGameServerState((s) => ({
               ...s,
@@ -434,7 +437,7 @@ const EditGameServerPage = (props: {
             }));
           }}
           optional={memoryLimit === null}
-          customErrorMessage={memoryErrorMessage}
+          onValidationChange={(hasError) => setMemoryError(hasError ? "error" : undefined)}
         />
       </div>
 
