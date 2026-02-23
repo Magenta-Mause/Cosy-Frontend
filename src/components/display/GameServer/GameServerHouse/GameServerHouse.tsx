@@ -56,40 +56,40 @@ const GameServerHouse = (props: {
   const actions: RightClickAction[] = [
     ...(props.gameServer.status === "STOPPED" || props.gameServer.status === "FAILED"
       ? [
+        {
+          label: t("rightClickMenu.startServer"),
+          onClick: async () => {
+            try {
+              toast.info("Starting server...");
+              startServer(props.gameServer.uuid, true);
+            } catch (e) {
+              toast.error(t("toasts.serverStartError", { error: e }), { duration: 5000 });
+            }
+          },
+        },
+      ]
+      : props.gameServer.status === "RUNNING"
+        ? [
           {
-            label: t("rightClickMenu.startServer"),
+            label: t("rightClickMenu.stopServer"),
             onClick: async () => {
               try {
-                toast.info("Starting server...");
-                startServer(props.gameServer.uuid, true);
+                await stopServer(props.gameServer.uuid, true);
               } catch (e) {
-                toast.error(t("toasts.serverStartError", { error: e }), { duration: 5000 });
+                toast.error(t("toasts.serverStopError", { error: e }));
               }
             },
           },
         ]
-      : props.gameServer.status === "RUNNING"
-        ? [
+        : props.gameServer.status === "AWAITING_UPDATE" ||
+          props.gameServer.status === "PULLING_IMAGE" ||
+          props.gameServer.status === "STOPPING"
+          ? [
             {
-              label: t("rightClickMenu.stopServer"),
-              onClick: async () => {
-                try {
-                  await stopServer(props.gameServer.uuid, true);
-                } catch (e) {
-                  toast.error(t("toasts.serverStopError", { error: e }));
-                }
-              },
+              label: t("rightClickMenu.loading"),
+              disabled: true,
             },
           ]
-        : props.gameServer.status === "AWAITING_UPDATE" ||
-            props.gameServer.status === "PULLING_IMAGE" ||
-            props.gameServer.status === "STOPPING"
-          ? [
-              {
-                label: t("rightClickMenu.loading"),
-                disabled: true,
-              },
-            ]
           : []),
     {
       label: t("rightClickMenu.viewLogs"),

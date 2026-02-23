@@ -14,8 +14,17 @@ import tree2_3 from "@/assets/deko/tree2_3.png";
 import tree2_4 from "@/assets/deko/tree2_4.png";
 import dekoCalculateCoordinate from "./dekoCalculateCoordinate";
 
-const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
+type DekoAssetGroup = {
+  variations: DekoAsset[];
+  width: string;
+};
 
+type DekoAsset = {
+  src: string;
+  width: string;
+};
+
+const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
   const getStyle = (index: number): React.CSSProperties => {
     const { x, y } = dekoCalculateCoordinate(index);
 
@@ -27,50 +36,60 @@ const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
     };
   };
 
-  const dekoAssets = [
-    bush1,
-    bush2,
-    bush3,
-    bush4,
-    tree1_1,
-    tree1_2,
-    tree1_3,
-    tree1_4,
-    tree2_1,
-    tree2_2,
-    tree2_3,
-    tree2_4,
-    stone,
+  const dekoAssetGroups: DekoAssetGroup[] = [
+    {
+      variations: [bush1, bush2, bush3, bush4].map(src => ({ src, width: "7vw" })),
+      width: "7vw",
+    },
+    {
+      variations: [tree1_1, tree1_2, tree1_3, tree1_4].map(src => ({ src, width: "8vw" })),
+      width: "8vw",
+    },
+    {
+      variations: [tree2_1, tree2_2, tree2_3, tree2_4].map(src => ({ src, width: "10vw" })),
+      width: "10vw",
+    },
+    {
+      variations: [{ src: stone, width: "20vw" }],
+      width: "20vw",
+    },
   ];
 
-  const getDekoAsset = (uuid: string) => {
-    const hash = uuid.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    return dekoAssets[hash % dekoAssets.length];
+  const getDekoAsset = (seed: string): DekoAsset => {
+    const hash = [...seed].reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const group = dekoAssetGroups[hash % dekoAssetGroups.length];
+    const variation = group.variations[(hash >> 4) % group.variations.length];
+    return variation;
   };
 
   return (
-    <div className="w-full h-full">
-      {props.gameServers.flatMap((gameServer, index) => [
+    props.gameServers.flatMap((gameServer, index) => {
+      const asset0 = getDekoAsset(`${gameServer.uuid}-0`);
+      const asset1 = getDekoAsset(`${gameServer.uuid}-1`);
+
+      return [
         <img
           key={`${gameServer.uuid}-0`}
-          src={getDekoAsset(`${gameServer.uuid}-0`)} style={{
+          src={asset0.src}
+          style={{
             ...getStyle(index * 2),
             imageRendering: "pixelated",
-            width: "10vw",
+            width: asset0.width,
           }}
           alt="deko"
         />,
         <img
           key={`${gameServer.uuid}-1`}
-          src={getDekoAsset(`${gameServer.uuid}-1`)} style={{
+          src={asset1.src}
+          style={{
             ...getStyle(index * 2 + 1),
             imageRendering: "pixelated",
-            width: "10vw",
+            width: asset1.width,
           }}
           alt="deko"
         />,
-      ])}
-    </div>
+      ];
+    })
   );
 };
 export default DekoAssetsAligner;
