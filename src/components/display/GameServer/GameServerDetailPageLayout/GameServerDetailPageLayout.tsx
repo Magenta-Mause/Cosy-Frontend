@@ -1,3 +1,4 @@
+import "./gameServerDetailPageLayout.css";
 import BackToHomeLink from "@components/display/GameServer/GameServerDetailPageLayout/BackToHomeLink.tsx";
 import FancyNavigationButton from "@components/display/GameServer/GameServerDetailPageLayout/FancyNavigationButton.tsx";
 import GameServerDetailPageHeader from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageHeader/GameServerDetailPageHeader.tsx";
@@ -133,14 +134,17 @@ const GameServerDetailPageLayout = (props: {
   return (
     <GameServerDetailContext.Provider value={{ gameServer: props.gameServer }}>
       <div
-        className="flex w-full min-h-screen relative bg-cover"
-        style={{
-          backgroundImage: `url(${activeTab.background})`,
-          imageRendering: "pixelated",
-          backgroundPosition: "center center",
-          backgroundSize: "100% auto",
-          height: "100vh",
-        }}
+        className="game-server-bg flex w-full min-h-screen relative bg-cover self-center"
+        style={
+          {
+            backgroundImage: `url(${activeTab.background})`,
+            "--foreground-image": `url(${activeTab.foreground})`,
+            imageRendering: "pixelated",
+            backgroundPosition: "center center",
+            backgroundSize: "100% auto",
+            height: "100vh",
+          } as React.CSSProperties
+        }
       >
         <div
           id={"gameServerDetailPage:exitButton"}
@@ -165,7 +169,7 @@ const GameServerDetailPageLayout = (props: {
           <div id={"lowerCenterPlaceholder"} className={"h-[12%] overflow-y-auto"}></div>
         </div>
 
-        <div className="flex flex-col justify-center items-end w-[10%] shrink-0 relative z-10 aspect-[0.1]">
+        <div className="flex flex-col justify-center items-end w-[10%] shrink-0 relative z-30 aspect-[0.1]">
           <SideBar gameServer={props.gameServer} />
         </div>
       </div>

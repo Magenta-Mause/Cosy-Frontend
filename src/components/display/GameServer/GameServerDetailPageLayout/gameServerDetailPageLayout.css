@@ -1,0 +1,10 @@
+.game-server-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--foreground-image);
+  background-size: 100% auto;
+  background-position: center center;
+  pointer-events: none;
+  z-index: 20;
+}

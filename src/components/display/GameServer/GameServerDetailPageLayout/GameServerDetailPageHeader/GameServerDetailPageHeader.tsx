@@ -14,7 +14,7 @@ const GameServerDetailPageHeader = (props: {
     <div className={cn("text-foreground", props.className)} style={props.style}>
       <div
         className={
-          "flex align-bottom items-end gap-[2vw] border-b-4 border-foreground py-[0.5vw] justify-between w-full"
+          "flex align-bottom items-end gap-[2vw] border-b-4 border-foreground py-[5px] justify-between w-full"
         }
       >
         <div className={"text-2xl truncate text-ellipsis max-w-[45vw] leading-none"}>
