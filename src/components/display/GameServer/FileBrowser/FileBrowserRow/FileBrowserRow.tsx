@@ -102,10 +102,10 @@ export const FileBrowserRow = ({
         </div>
       </div>
 
-      {canWrite && (
-        <>
-          {/* Inline buttons – visible when container >= 500px */}
-          <div className="hidden @[500px]:flex items-center gap-1 shrink-0">
+      <div className="hidden @[500px]:flex items-center gap-1 shrink-0">
+        {canWrite && (
+          <>
+            {/* Inline buttons – visible when container >= 500px */}
             {onRename ? (
               <TooltipWrapper tooltip={t("renameAction")}>
                 <button
@@ -151,49 +151,49 @@ export const FileBrowserRow = ({
                 </button>
               </TooltipWrapper>
             ) : null}
-          </div>
-        </>
-      )}
+          </>
+        )}
 
-      {onDownload && !dir && (
-        <TooltipWrapper tooltip={t("downloadAction")}>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDownload(obj);
-            }}
-            className={actionButtonClass}
-            disabled={loading || downloadingFiles.includes(filePath)}
-            data-loading={loading}
-            aria-label={`${t("downloadAction")} ${obj.name}`}
-          >
-            <Download className="h-4 w-4 mr-1" />
-            <span className="hidden sm:inline">
-              {!isBeingDownloaded ? t("downloadAction") : t("loading")}
-            </span>
-          </button>
-        </TooltipWrapper>
-      )}
+        {onDownload && !dir && (
+          <TooltipWrapper tooltip={t("downloadAction")}>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDownload(obj);
+              }}
+              className={actionButtonClass}
+              disabled={loading || downloadingFiles.includes(filePath)}
+              data-loading={loading}
+              aria-label={`${t("downloadAction")} ${obj.name}`}
+            >
+              <Download className="h-4 w-4 mr-1" />
+              <span className="hidden sm:inline">
+                {!isBeingDownloaded ? t("downloadAction") : t("loading")}
+              </span>
+            </button>
+          </TooltipWrapper>
+        )}
 
-      {onDownload && dir && (
-        <TooltipWrapper tooltip={t("exportAction")}>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDownload(obj);
-            }}
-            className={actionButtonClass}
-            disabled={loading || downloadingFiles.includes(filePath)}
-            data-loading={loading}
-            aria-label={`${t("exportAction")} ${obj.name}`}
-          >
-            <FolderDown className="h-4 w-4 mr-1" />
-            {!isBeingDownloaded ? t("exportAction") : t("loading")}
-          </button>
-        </TooltipWrapper>
-      )}
+        {onDownload && dir && (
+          <TooltipWrapper tooltip={t("exportAction")}>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDownload(obj);
+              }}
+              className={actionButtonClass}
+              disabled={loading || downloadingFiles.includes(filePath)}
+              data-loading={loading}
+              aria-label={`${t("exportAction")} ${obj.name}`}
+            >
+              <FolderDown className="h-4 w-4 mr-1" />
+              {!isBeingDownloaded ? t("exportAction") : t("loading")}
+            </button>
+          </TooltipWrapper>
+        )}
+      </div>
 
       {canWrite && (
         <div className="@[500px]:hidden shrink-0">
