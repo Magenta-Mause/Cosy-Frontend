@@ -3,6 +3,7 @@ import type { i18nLanguage } from "@/i18n/i18nKeys";
 const translation: i18nLanguage = {
   common: {
     yourLimit: "Dein Limit",
+    loading: "Lädt...",
   },
   overviewPage: {
     createNewServer: "Neuer Game Server",
@@ -48,6 +49,8 @@ const translation: i18nLanguage = {
     updateWebhookError: "Fehler beim Aktualisieren des Webhooks",
     deleteWebhookSuccess: "Webhook erfolgreich gelöscht!",
     deleteWebhookError: "Fehler beim Löschen des Webhooks",
+    updateFooterSuccess: "Fußzeile erfolgreich aktualisiert!",
+    updateFooterError: "Fehler beim Aktualisieren der Fußzeile",
   },
   userModal: {
     title: "Benutzer",
@@ -726,6 +729,19 @@ const translation: i18nLanguage = {
       },
     },
     userManagement: {
+      admin: {
+        changePasswordDialog: {
+          title: "Passwort Ändern",
+          description: "Gib ein neues Passwort für diesen Benutzer ein.",
+          newPasswordLabel: "Neues Passwort",
+          newPasswordDescription: "Das neue Passwort für diesen Benutzer",
+          newPasswordPlaceholder: "Neues Passwort eingeben",
+          newPasswordError: "Passwort muss mindestens 8 Zeichen lang sein",
+          cancelButton: "Abbrechen",
+          confirmButton: "Passwort ändern",
+          submitError: "Fehler beim Ändern des Passworts",
+        },
+      },
       backButton: "Zurück",
       userDetailButton: {
         viewUsers: "Marktplatz",
@@ -735,6 +751,10 @@ const translation: i18nLanguage = {
           owner: "Besitzer",
           admin: "Admin",
           quota_user: "Quota",
+        },
+        actions: {
+          editPassword: "Passwort ändern",
+          deleteUser: "Benutzer löschen",
         },
         resources: {
           cpus: "CPUs",
@@ -758,6 +778,14 @@ const translation: i18nLanguage = {
         },
         noUsersFound: "Keine Benutzer gefunden",
         pendingInvites: "Ausstehende Einladungen",
+      },
+      deleteUserDialog: {
+        title: "Benutzer löschen",
+        message:
+          "Bist du sicher, dass du diesen Benutzer löschen möchtest? Dadurch werden alle Daten dieses Benutzers dauerhaft gelöscht und können nicht wiederhergestellt werden.",
+        cancelButton: "Abbrechen",
+        confirmButton: "Benutzer löschen",
+        submitError: "Fehler beim Löschen des Benutzers",
       },
     },
   },
@@ -856,6 +884,29 @@ const translation: i18nLanguage = {
     SMALL: "Klein",
     MEDIUM: "Mittel",
     LARGE: "Groß",
+  },
+  footer: {
+    title: "COSY Von Medalheads",
+    description:
+      "COSY steht für Cost Optimised Server Yard. Es ist ein vereinfachter, kosteneffizienter Self-Hosting-Service für den Betrieb von Gameservern.",
+    contact: "Kontakt:",
+    edit: "Fußzeile bearbeiten",
+    noData: "Keine Fußzeilendaten verfügbar",
+    editModal: {
+      title: "Fußzeile bearbeiten",
+      fullName: "Vollständiger Name",
+      fullNamePlaceholder: "Vollständigen Namen eingeben",
+      email: "E-Mail",
+      emailPlaceholder: "E-Mail-Adresse eingeben",
+      phone: "Telefon",
+      phonePlaceholder: "Telefonnummer eingeben",
+      street: "Straße",
+      streetPlaceholder: "Straßenadresse eingeben",
+      city: "Stadt",
+      cityPlaceholder: "Stadt eingeben",
+      cancel: "Abbrechen",
+      save: "Speichern",
+    },
   },
 };
 

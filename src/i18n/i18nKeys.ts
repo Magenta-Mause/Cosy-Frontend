@@ -1,6 +1,7 @@
 export type i18nLanguage = {
   common: {
     yourLimit: string;
+    loading: string;
   };
   overviewPage: {
     createNewServer: string;
@@ -47,6 +48,8 @@ export type i18nLanguage = {
     updateWebhookError: string;
     deleteWebhookSuccess: string;
     deleteWebhookError: string;
+    updateFooterSuccess: string;
+    updateFooterError: string;
   };
 
   userModal: {
@@ -484,6 +487,19 @@ export type i18nLanguage = {
       };
     };
     userManagement: {
+      admin: {
+        changePasswordDialog: {
+          title: string;
+          description: string;
+          newPasswordLabel: string;
+          newPasswordDescription: string;
+          newPasswordPlaceholder: string;
+          newPasswordError: string;
+          cancelButton: string;
+          confirmButton: string;
+          submitError: string;
+        };
+      };
       backButton: string;
       userDetailButton: {
         viewUsers: string;
@@ -493,6 +509,10 @@ export type i18nLanguage = {
           owner: string;
           admin: string;
           quota_user: string;
+        };
+        actions: {
+          editPassword: string;
+          deleteUser: string;
         };
         resources: {
           cpus: string;
@@ -516,6 +536,13 @@ export type i18nLanguage = {
         };
         noUsersFound: string;
         pendingInvites: string;
+      };
+      deleteUserDialog: {
+        title: string;
+        message: string;
+        cancelButton: string;
+        confirmButton: string;
+        submitError: string;
       };
     };
     fileBrowser: {
@@ -851,6 +878,28 @@ export type i18nLanguage = {
     SMALL: string;
     MEDIUM: string;
     LARGE: string;
+  };
+  footer: {
+    title: string;
+    description: string;
+    contact: string;
+    edit: string;
+    noData: string;
+    editModal: {
+      title: string;
+      fullName: string;
+      fullNamePlaceholder: string;
+      email: string;
+      emailPlaceholder: string;
+      phone: string;
+      phonePlaceholder: string;
+      street: string;
+      streetPlaceholder: string;
+      city: string;
+      cityPlaceholder: string;
+      cancel: string;
+      save: string;
+    };
   };
 };
 

@@ -1,4 +1,5 @@
 import useAccessGroupDataInteractions from "@/hooks/useAccessGroupDataInteractions/useAccessGroupDataInteractions";
+import useFooterDataInteractions from "@/hooks/useFooterDataInteractions/useFooterDataInteractions";
 import useGameServerConfigDataInteractions from "@/hooks/useGameServerConfigDataInteractions/useGameServerConfigDataInteractions";
 import useGameServerDataInteractions from "@/hooks/useGameServerDataInteractions/useGameServerDataInteractions";
 import useUserDataInteractions from "@/hooks/useUserDataInteractions/useUserDataInteractions";
@@ -10,6 +11,7 @@ const useDataInteractions = () => {
   const accessGroupDataInteractions = useAccessGroupDataInteractions();
   const gameServerConfigDataInteractions = useGameServerConfigDataInteractions();
   const webhookDataInteractions = useWebhookDataInteractions();
+  const footerDataInteractions = useFooterDataInteractions();
 
   return {
     ...gameServerDataInteractions,
@@ -17,6 +19,7 @@ const useDataInteractions = () => {
     ...accessGroupDataInteractions,
     ...gameServerConfigDataInteractions,
     ...webhookDataInteractions,
+    ...footerDataInteractions,
   };
 };
 

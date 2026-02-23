@@ -24,6 +24,8 @@ import type {
   AccessGroupUpdateDto,
   CreateDirectoryInVolumeParams,
   DeleteInVolumeParams,
+  FooterDto,
+  FooterUpdateDto,
   GameDto,
   GameServerAccessGroupDto,
   GameServerCreationDto,
@@ -40,6 +42,7 @@ import type {
   LoginDto,
   MetricLayout,
   MetricPointDto,
+  PasswordUpdateByAdminDto,
   PasswordUpdateDto,
   PrivateDashboardLayout,
   QueryGamesParams,
@@ -421,6 +424,127 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getDeleteWebhookMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const getFooter = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<FooterDto>(
+      {url: `/footer`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetFooterQueryKey = () => {
+    return [
+    `/footer`
+    ] as const;
+    }
+
+    
+export const getGetFooterQueryOptions = <TData = Awaited<ReturnType<typeof getFooter>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFooter>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetFooterQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFooter>>> = ({ signal }) => getFooter(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFooter>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetFooterQueryResult = NonNullable<Awaited<ReturnType<typeof getFooter>>>
+export type GetFooterQueryError = unknown
+
+
+
+export function useGetFooter<TData = Awaited<ReturnType<typeof getFooter>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFooter>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetFooterQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const updateFooter = (
+    footerUpdateDto: FooterUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<FooterDto>(
+      {url: `/footer`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: footerUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdateFooterMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateFooter>>, TError,{data: FooterUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateFooter>>, TError,{data: FooterUpdateDto}, TContext> => {
+
+const mutationKey = ['updateFooter'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateFooter>>, {data: FooterUpdateDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  updateFooter(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateFooterMutationResult = NonNullable<Awaited<ReturnType<typeof updateFooter>>>
+    export type UpdateFooterMutationBody = FooterUpdateDto
+    export type UpdateFooterMutationError = unknown
+
+    export const useUpdateFooter = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateFooter>>, TError,{data: FooterUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateFooter>>,
+        TError,
+        {data: FooterUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateFooterMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -1562,6 +1686,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getChangePasswordMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const changePasswordByAdmin = (
+    uuid: string,
+    passwordUpdateByAdminDto: PasswordUpdateByAdminDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/change-password-by-admin`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: passwordUpdateByAdminDto
+    },
+      options);
+    }
+  
+
+
+export const getChangePasswordByAdminMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePasswordByAdmin>>, TError,{uuid: string;data: PasswordUpdateByAdminDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof changePasswordByAdmin>>, TError,{uuid: string;data: PasswordUpdateByAdminDto}, TContext> => {
+
+const mutationKey = ['changePasswordByAdmin'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof changePasswordByAdmin>>, {uuid: string;data: PasswordUpdateByAdminDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  changePasswordByAdmin(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ChangePasswordByAdminMutationResult = NonNullable<Awaited<ReturnType<typeof changePasswordByAdmin>>>
+    export type ChangePasswordByAdminMutationBody = PasswordUpdateByAdminDto
+    export type ChangePasswordByAdminMutationError = unknown
+
+    export const useChangePasswordByAdmin = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePasswordByAdmin>>, TError,{uuid: string;data: PasswordUpdateByAdminDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof changePasswordByAdmin>>,
+        TError,
+        {uuid: string;data: PasswordUpdateByAdminDto},
+        TContext
+      > => {
+
+      const mutationOptions = getChangePasswordByAdminMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

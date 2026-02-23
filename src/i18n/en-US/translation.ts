@@ -3,6 +3,7 @@ import type { i18nLanguage } from "@/i18n/i18nKeys";
 const translation: i18nLanguage = {
   common: {
     yourLimit: "Your limit",
+    loading: "Loading...",
   },
   userRoles: {
     QUOTA_USER: "User",
@@ -46,6 +47,8 @@ const translation: i18nLanguage = {
     updateGameServerSuccess: "Game Server updated successfully!",
     updateGameServerError: "Failed to update Game Server",
     missingUuid: "UUID is missing",
+    updateFooterSuccess: "Footer updated successfully!",
+    updateFooterError: "Failed to update footer",
     createWebhookSuccess: "Webhook created successfully!",
     createWebhookError: "Failed to create webhook",
     updateWebhookSuccess: "Webhook updated successfully!",
@@ -491,6 +494,19 @@ const translation: i18nLanguage = {
     },
 
     userManagement: {
+      admin: {
+        changePasswordDialog: {
+          title: "Change User Password",
+          description: "Set a new password for this user.",
+          newPasswordLabel: "New Password",
+          newPasswordDescription: "Enter a new password for the user.",
+          newPasswordPlaceholder: "Enter new password",
+          newPasswordError: "Password must be at least 8 characters long",
+          cancelButton: "Cancel",
+          confirmButton: "Change Password",
+          submitError: "Failed to change password",
+        },
+      },
       backButton: "Back",
       userDetailButton: {
         viewUsers: "Marketplace",
@@ -500,6 +516,10 @@ const translation: i18nLanguage = {
           owner: "Owner",
           admin: "Admin",
           quota_user: "Quota",
+        },
+        actions: {
+          editPassword: "Edit Password",
+          deleteUser: "Delete User",
         },
         resources: {
           cpus: "CPUs",
@@ -523,6 +543,14 @@ const translation: i18nLanguage = {
         },
         noUsersFound: "No users found",
         pendingInvites: "Pending Invites",
+      },
+      deleteUserDialog: {
+        title: "Delete User",
+        message:
+          "Are you sure you want to delete this user? This will permanently delete all data associated with this user and cannot be undone.",
+        cancelButton: "Cancel",
+        confirmButton: "Delete User",
+        submitError: "Failed to delete user",
       },
     },
     GameServerSettings: {
@@ -852,6 +880,29 @@ const translation: i18nLanguage = {
     SMALL: "Small",
     MEDIUM: "Medium",
     LARGE: "Large",
+  },
+  footer: {
+    title: "COSY By Medalheads",
+    description:
+      "COSY stands for Cost Optimised Server Yard. It is a simplified, cost-efficient self-hosting service for running game servers.",
+    contact: "Contact:",
+    edit: "Edit Footer",
+    noData: "No footer data available",
+    editModal: {
+      title: "Edit Footer",
+      fullName: "Full Name",
+      fullNamePlaceholder: "Enter full name",
+      email: "Email",
+      emailPlaceholder: "Enter email address",
+      phone: "Phone",
+      phonePlaceholder: "Enter phone number",
+      street: "Street",
+      streetPlaceholder: "Enter street address",
+      city: "City",
+      cityPlaceholder: "Enter city",
+      cancel: "Cancel",
+      save: "Save",
+    },
   },
 };
 
