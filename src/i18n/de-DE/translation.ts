@@ -380,6 +380,7 @@ const translation: i18nLanguage = {
         noFilesPermissionDesc: "Du hast keine Berechtigung, die Server-Dateien anzuzeigen",
         uploadInSyntheticDir: "Dateien können nicht in virtuelle Verzeichnisse hochgeladen werden",
         uploadNoPermission: "Du hast keine Berechtigung, Dateien hochzuladen",
+        errorWhileZipDownload: "Fehler beim Herunterladen des Zip-Archivs",
       },
     },
     settingsActionButtons: {

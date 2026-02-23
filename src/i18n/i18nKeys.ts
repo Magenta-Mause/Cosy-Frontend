@@ -607,6 +607,7 @@ export type i18nLanguage = {
         noFilesPermissionDesc: string;
         uploadInSyntheticDir: string;
         uploadNoPermission: string;
+        errorWhileZipDownload: string;
       };
       fileBrowserHeader: {
         newFolder: string;

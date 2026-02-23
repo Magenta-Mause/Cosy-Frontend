@@ -362,6 +362,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       canChangeFiles,
       navigating,
       t,
+      downloading,
     ],
   );
 
