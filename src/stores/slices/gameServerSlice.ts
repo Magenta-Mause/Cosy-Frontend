@@ -21,7 +21,9 @@ const gameServerSlice = createSlice({
     state: "idle",
     initialized: false,
     pullProgress: {},
-  } as SliceState<GameServerDto> & { pullProgress: Record<string, DockerPullProgressDto> } & {
+  } as SliceState<GameServerDto> & {
+    pullProgress: Record<string, Record<string, DockerPullProgressDto>>;
+  } & {
     initialized: boolean;
   },
   reducers: {
@@ -41,10 +43,10 @@ const gameServerSlice = createSlice({
       state,
       action: PayloadAction<{ uuid: string; progress: DockerPullProgressDto }>,
     ) => {
-      state.pullProgress = {
-        ...state.pullProgress,
-        [action.payload.uuid]: action.payload.progress,
-      };
+      const { uuid, progress } = action.payload;
+      const layerId = progress.id ?? "__unknown__";
+      if (!state.pullProgress[uuid]) state.pullProgress[uuid] = {};
+      state.pullProgress[uuid][layerId] = progress;
     },
     awaitPendingUpdate: (state, action: PayloadAction<string>) => {
       state.data = state.data.map((server) =>

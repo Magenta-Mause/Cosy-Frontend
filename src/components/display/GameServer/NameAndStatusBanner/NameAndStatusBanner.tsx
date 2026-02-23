@@ -9,6 +9,7 @@ const NameAndStatusBanner = (props: {
   status?: GameServerDtoStatus;
   className?: string;
   classNameTextChildren?: string;
+  hideStatus?: boolean;
 }) => {
   const status = props.status ?? GameServerDtoStatus.STOPPED;
 
@@ -37,7 +38,9 @@ const NameAndStatusBanner = (props: {
           props.classNameTextChildren,
         )}
       >
-        <GameServerStatusDot status={status} showTooltip={true} />
+        {!props.hideStatus && (
+          <GameServerStatusDot status={status} showTooltip={true} />
+        )}
         <span className="font-bold truncate text-center">
           {props.children}
         </span>
