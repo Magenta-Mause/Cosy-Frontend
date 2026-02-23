@@ -26,6 +26,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import type { GameServerDto, MetricLayout, PrivateDashboardLayout } from "@/api/generated/model";
+import type { PublicDashboard } from "@/api/generated/model/publicDashboard";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
@@ -79,11 +80,52 @@ interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: Layout
   unfulfilledChanges?: string | null;
   publicIsEnabled?: boolean;
   setUnfulfilledChanges?: (message: string | null) => void;
-  saveHandler?: (uuid: string, layouts: PrivateDashboardLayout[] | MetricLayout[]) => void;
+  saveHandler?: (
+    uuid: string,
+    layouts: PrivateDashboardLayout[] | MetricLayout[] | PublicDashboard,
+  ) => void;
   setLayouts: React.Dispatch<React.SetStateAction<T[]>>;
   wrapper: (layouts: T[]) => T[];
   children?: (layout: T) => React.ReactNode;
 }
+
+const mapGameServerLayout = (
+  gameServer: GameServerDto,
+  layoutSection: "public_dashboard_layouts" | "private_dashboard_layouts" | "metric_layout",
+) => {
+  if (layoutSection === "public_dashboard_layouts") {
+    return (
+      gameServer.public_dashboard ?? { publicDashboardEnabled: false, publicDashboardLayouts: [] }
+    );
+  }
+
+  return gameServer[layoutSection];
+};
+
+const udpateGameServer = <T extends { _uiUuid: string; size?: LayoutSize }>(
+  gameServer: GameServerDto,
+  layouts: T[],
+  isPublicEnabeled: boolean,
+  layoutSection: "public_dashboard_layouts" | "private_dashboard_layouts" | "metric_layout",
+) => {
+  if (layoutSection === "public_dashboard_layouts") {
+    const updatedServer: GameServerDto = {
+      ...gameServer,
+      public_dashboard: {
+        public_dashboard_enabled: isPublicEnabeled,
+        public_dashboard_layouts: layouts.map(({ _uiUuid, ...layout }) => layout),
+      },
+    };
+    return updatedServer;
+  }
+
+  const updatedServer: GameServerDto = {
+    ...gameServer,
+    [layoutSection]: layouts.map(({ _uiUuid, ...layout }) => layout),
+  };
+
+  return updatedServer;
+};
 
 export default function GenericLayoutSelection<T extends { _uiUuid: string; size?: LayoutSize }>(
   props: GenericLayoutSelectionProps<T>,
@@ -123,11 +165,12 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
   const isEnabled = publicIsEnabled ?? true;
 
   const handleConfirm = useCallback(() => {
-    const updatedServer: GameServerDto = {
-      ...gameServer,
-      public_dashboard_enabled: publicIsEnabled,
-      [layoutSection]: layouts.map(({ _uiUuid, ...layout }) => layout),
-    };
+    const updatedServer = udpateGameServer(
+      gameServer,
+      layouts,
+      publicIsEnabled ?? false,
+      layoutSection,
+    );
 
     const errorUuids = layouts
       .filter((layout) => {
@@ -151,7 +194,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
     setUnfulfilledChanges?.(null);
 
     dispatch(gameServerSliceActions.updateGameServer(updatedServer));
-    saveHandler?.(gameServer.uuid, updatedServer[layoutSection]);
+    saveHandler?.(gameServer.uuid, mapGameServerLayout(updatedServer, layoutSection));
   }, [
     gameServer,
     layoutSection,
@@ -341,7 +384,9 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
             disabled={!isChanged}
             onClick={() => {
               setLayouts(
-                wrapper(gameServer[layoutSection] ? (gameServer[layoutSection] as T[]) : []),
+                mapGameServerLayout(gameServer, layoutSection)
+                  ? wrapper(mapGameServerLayout(gameServer, layoutSection) as T[])
+                  : [],
               );
               setCardErrors(new Set());
               setUnfulfilledChanges?.(null);
@@ -359,7 +404,11 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
         setOpen={setShowUnsavedModal}
         onLeave={() => {
           setShowUnsavedModal(false);
-          setLayouts(gameServer[layoutSection] ? wrapper(gameServer[layoutSection] as T[]) : []);
+          setLayouts(
+            mapGameServerLayout(gameServer, layoutSection)
+              ? wrapper(mapGameServerLayout(gameServer, layoutSection) as T[])
+              : [],
+          );
           resolverRef.current?.(false);
         }}
         onSaveAndLeave={() => {

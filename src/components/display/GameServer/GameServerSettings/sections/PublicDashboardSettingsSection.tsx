@@ -30,21 +30,27 @@ const wrapPublicDashboards = (dashboard: PublicDashboardLayout[]): PublicDashboa
 
 export default function PublicDashboardSettingsSection(props: { gameServer: GameServerDto }) {
   const { gameServer } = props;
+  const publicDashboard = gameServer.public_dashboard ?? {
+    publicDashboardEnabled: false,
+    publicDashboardLayouts: [],
+  };
   const { t } = useTranslationPrefix("components");
-  const [publicDashboard, setPublicDashboard] = useState<PublicDashboardLayoutUI[]>(() =>
-    wrapPublicDashboards(gameServer.public_dashboard_layouts),
+  const [publicDashboardLayout, setPublicDashboardLayout] = useState<PublicDashboardLayoutUI[]>(
+    () => wrapPublicDashboards(publicDashboard.public_dashboard_layouts || []),
   );
   const [freeText, setFreeText] = useState<PublicDashboardLayoutUI | null>(null);
   const [unfulfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
-  const [checked, setChecked] = useState(gameServer.public_dashboard_enabled ?? false);
+  const [checked, setChecked] = useState(publicDashboard.public_dashboard_enabled);
 
   const isChanged = useMemo(() => {
-    if (publicDashboard.length !== gameServer.public_dashboard_layouts.length) return true;
+    const originalLayouts = publicDashboard.public_dashboard_layouts ?? [];
 
-    return publicDashboard.some((dashboard, i) => {
-      const original = gameServer.public_dashboard_layouts[i];
+    if (publicDashboardLayout.length !== originalLayouts.length) return true;
+
+    return publicDashboardLayout.some((dashboard, i) => {
+      const original = originalLayouts[i];
       return (
-        gameServer.public_dashboard_enabled !== checked ||
+        publicDashboard.public_dashboard_enabled !== checked ||
         dashboard.size !== original.size ||
         dashboard.metric_type !== original.metric_type ||
         dashboard.content !== original.content ||
@@ -54,16 +60,16 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
       );
     });
   }, [
-    gameServer.public_dashboard_layouts,
-    publicDashboard,
-    gameServer.public_dashboard_enabled,
+    publicDashboardLayout,
+    publicDashboard.public_dashboard_enabled,
+    publicDashboard.public_dashboard_layouts,
     checked,
   ]);
 
   const isModalChanged = useMemo(() => {
     if (!freeText) return false;
 
-    const original = publicDashboard.find((d) => d._uiUuid === freeText._uiUuid);
+    const original = publicDashboardLayout.find((d) => d._uiUuid === freeText._uiUuid);
 
     if (!original) return false;
 
@@ -71,7 +77,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
       freeText.title !== original.title ||
       JSON.stringify(freeText.content ?? []) !== JSON.stringify(original.content ?? [])
     );
-  }, [freeText, publicDashboard]);
+  }, [freeText, publicDashboardLayout]);
 
   const sanitizePrivateDashboardLayout = (
     layout: PublicDashboardLayoutUI,
@@ -100,7 +106,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   const handleTypeSelect = (type: DashboardElementTypes, uuid?: string) => {
     if (!uuid) return;
 
-    setPublicDashboard((prev) =>
+    setPublicDashboardLayout((prev) =>
       prev.map((dashboard) =>
         dashboard._uiUuid === uuid ? sanitizePrivateDashboardLayout(dashboard, type) : dashboard,
       ),
@@ -110,8 +116,8 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   const handleMetricTypeChange = (type: MetricsType | string, uuid?: string) => {
     if (!uuid) return;
 
-    setPublicDashboard(
-      publicDashboard.map((dashboard) =>
+    setPublicDashboardLayout(
+      publicDashboardLayout.map((dashboard) =>
         dashboard._uiUuid === uuid ? { ...dashboard, metric_type: type } : dashboard,
       ),
     );
@@ -120,7 +126,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   const handleModalConfirm = () => {
     if (!freeText) return;
 
-    setPublicDashboard((prev) =>
+    setPublicDashboardLayout((prev) =>
       prev.map((dashboard) =>
         dashboard._uiUuid === freeText._uiUuid
           ? { ...dashboard, content: freeText.content, title: freeText.title }
@@ -168,9 +174,9 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
         gameServer={gameServer}
         layoutSection="public_dashboard_layouts"
         isChanged={isChanged}
-        layouts={publicDashboard}
-        saveHandler={(uuid, layout) => updatePublicDashboardLayout(uuid, checked, layout)}
-        setLayouts={setPublicDashboard}
+        layouts={publicDashboardLayout}
+        saveHandler={updatePublicDashboardLayout}
+        setLayouts={setPublicDashboardLayout}
         wrapper={wrapPublicDashboards}
         defaultAddNew={newWidget}
         unfulfilledChanges={unfulfilledChanges}
