@@ -7,12 +7,12 @@ import {
   type GameServerDto,
   GameServerDtoStatus,
 } from "@/api/generated/model";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
-import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
 
 const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
   const { t } = useTranslation();
-  const { stopServer, startServer } = useServerInteractions();
+  const { stopServer, startServer } = useDataInteractions();
   const { hasPermission } = useGameServerPermissions(props.gameServer.uuid);
 
   const canStartStopServer = hasPermission(
