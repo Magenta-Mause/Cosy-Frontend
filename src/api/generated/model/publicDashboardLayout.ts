@@ -7,7 +7,7 @@
  */
 import type { PublicDashboardLayoutSize } from './publicDashboardLayoutSize';
 import type { PublicDashboardLayoutPublicDashboardTypes } from './publicDashboardLayoutPublicDashboardTypes';
-import type { KeyValue } from './keyValue';
+import type { KeyValueEntry } from './keyValueEntry';
 
 export interface PublicDashboardLayout {
   uuid?: string;
@@ -15,6 +15,6 @@ export interface PublicDashboardLayout {
   public_dashboard_types?: PublicDashboardLayoutPublicDashboardTypes;
   metric_type?: string;
   title?: string;
-  content?: KeyValue[];
+  content?: KeyValueEntry[];
   valid?: boolean;
 }

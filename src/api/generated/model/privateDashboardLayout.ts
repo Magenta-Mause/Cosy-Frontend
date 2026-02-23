@@ -7,7 +7,7 @@
  */
 import type { PrivateDashboardLayoutSize } from './privateDashboardLayoutSize';
 import type { PrivateDashboardLayoutPrivateDashboardTypes } from './privateDashboardLayoutPrivateDashboardTypes';
-import type { KeyValue } from './keyValue';
+import type { KeyValueEntry } from './keyValueEntry';
 
 export interface PrivateDashboardLayout {
   uuid?: string;
@@ -15,6 +15,6 @@ export interface PrivateDashboardLayout {
   private_dashboard_types?: PrivateDashboardLayoutPrivateDashboardTypes;
   metric_type?: string;
   title?: string;
-  content?: KeyValue[];
+  content?: KeyValueEntry[];
   valid?: boolean;
 }
