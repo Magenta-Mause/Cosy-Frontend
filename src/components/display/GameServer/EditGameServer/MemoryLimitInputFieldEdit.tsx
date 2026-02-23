@@ -1,18 +1,21 @@
-import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput.tsx";
+import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
 import { useCallback, useEffect, useState } from "react";
-import { CPU_LIMIT_POSITIVE_ERROR, cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
+import {
+  MEMORY_LIMIT_MIN_ERROR,
+  memoryLimitValidator,
+} from "@/lib/validators/memoryLimitValidator.ts";
 
-interface CpuLimitInputFieldEditProps {
+interface MemoryLimitInputFieldEditProps {
   label: string;
   description: string;
   errorLabel: string;
   placeholder: string;
   optional: boolean;
-  value: number | undefined;
+  value: string | undefined;
   onChange: (value: string | null) => void;
 }
 
-const CpuLimitInputFieldEdit = ({
+const MemoryLimitInputFieldEdit = ({
   label,
   description,
   errorLabel,
@@ -20,7 +23,7 @@ const CpuLimitInputFieldEdit = ({
   optional,
   value,
   onChange,
-}: CpuLimitInputFieldEditProps) => {
+}: MemoryLimitInputFieldEditProps) => {
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string>(errorLabel);
@@ -34,11 +37,11 @@ const CpuLimitInputFieldEdit = ({
         return { isValid: true, errorMessage: errorLabel };
       }
 
-      const validationResult = cpuLimitValidator.safeParse(value);
+      const validationResult = memoryLimitValidator.safeParse(value);
       let error = errorLabel;
 
-      if (!validationResult.success) {
-        error = CPU_LIMIT_POSITIVE_ERROR;
+      if (!validationResult.success && typeof value === "string") {
+        error = MEMORY_LIMIT_MIN_ERROR;
       }
 
       return {
@@ -85,8 +88,8 @@ const CpuLimitInputFieldEdit = ({
 
   return (
     <div className="py-2">
-      <CpuLimitInput
-        id="cpu_limit"
+      <MemoryLimitInput
+        id="memory_limit"
         header={label}
         error={isError ? errorMessage : undefined}
         placeholder={placeholder}
@@ -98,4 +101,4 @@ const CpuLimitInputFieldEdit = ({
   );
 };
 
-export default CpuLimitInputFieldEdit;
+export default MemoryLimitInputFieldEdit;

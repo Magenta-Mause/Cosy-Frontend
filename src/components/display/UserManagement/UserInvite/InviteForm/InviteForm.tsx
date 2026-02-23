@@ -1,3 +1,4 @@
+import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput.tsx";
 import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
 import { Input } from "@components/ui/input.tsx";
 import {
@@ -24,6 +25,8 @@ interface InviteFormProps {
   onSubmit: () => void;
   isCreating: boolean;
   usernameError?: string | null;
+  cpuError?: string | null;
+  memoryError?: string | null;
 }
 
 export const InviteForm = ({
@@ -37,6 +40,8 @@ export const InviteForm = ({
   onSubmit,
   onUserRoleChange,
   usernameError,
+  cpuError,
+  memoryError,
 }: InviteFormProps) => {
   const { t } = useTranslation();
 
@@ -82,16 +87,15 @@ export const InviteForm = ({
         </div>
         <div className="flex justify-between gap-5">
           <div className="w-[45%]">
-            <Input
+            <CpuLimitInput
               header={t("userModal.cpuLimit")}
               description={t("userModal.cpuDescription")}
               id="cpu-limit"
-              type="number"
               placeholder={t("userModal.placeholder")}
-              endDecorator="CPUs"
-              value={cpu ?? ""}
-              onChange={(e) => onCpuChange(e.target.value === "" ? null : Number(e.target.value))}
+              value={cpu}
+              onChange={(val) => onCpuChange(val === "" ? null : Number(val))}
               className="no-spinner"
+              error={cpuError || undefined}
             />
           </div>
           <div className="w-[50%]">
@@ -103,6 +107,7 @@ export const InviteForm = ({
               value={memory}
               onChange={(val) => onMemoryChange(val === "" ? null : val)}
               className="no-spinner"
+              error={memoryError || undefined}
             />
           </div>
         </div>

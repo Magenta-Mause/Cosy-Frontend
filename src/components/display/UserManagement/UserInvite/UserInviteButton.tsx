@@ -14,6 +14,8 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
+import { getCpuLimitError } from "@/lib/validators/cpuLimitValidator.ts";
+import { getMemoryLimitError } from "@/lib/validators/memoryLimitValidator.ts";
 import { InviteForm } from "./InviteForm/InviteForm.tsx";
 import { InviteResult } from "./InviteForm/InviteResult.tsx";
 
@@ -33,6 +35,8 @@ const UserInviteButton = (props: { className?: string }) => {
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [usernameError, setUsernameError] = useState<string | null>(null);
+  const [cpuError, setCpuError] = useState<string | null>(null);
+  const [memoryError, setMemoryError] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const validateUsername = (username: string): string | null => {
@@ -57,6 +61,18 @@ const UserInviteButton = (props: { className?: string }) => {
     setInviteUsername(value);
     const error = validateUsername(value);
     setUsernameError(error);
+  };
+
+  const handleCpuChange = (value: number | null) => {
+    setCpuLimit(value);
+    const error = getCpuLimitError(value);
+    setCpuError(error);
+  };
+
+  const handleMemoryChange = (value: string | null) => {
+    setMemoryLimit(value);
+    const error = getMemoryLimitError(value);
+    setMemoryError(error);
   };
 
   const handleCreateInvite = async () => {
@@ -99,6 +115,8 @@ const UserInviteButton = (props: { className?: string }) => {
     setInviteUsername("");
     setGeneratedKey(null);
     setUsernameError(null);
+    setCpuError(null);
+    setMemoryError(null);
   }, []);
 
   return (
@@ -132,13 +150,15 @@ const UserInviteButton = (props: { className?: string }) => {
               memory={memoryLimit}
               cpu={cpuLimit}
               onUsernameChange={handleUsernameChange}
-              onMemoryChange={setMemoryLimit}
-              onCpuChange={setCpuLimit}
+              onMemoryChange={handleMemoryChange}
+              onCpuChange={handleCpuChange}
               onCancel={() => setIsDialogOpen(false)}
               onSubmit={handleCreateInvite}
               onUserRoleChange={setUserRole}
               isCreating={isCreating}
               usernameError={usernameError}
+              cpuError={cpuError}
+              memoryError={memoryError}
             />
           )}
 
