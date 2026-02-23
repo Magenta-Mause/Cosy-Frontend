@@ -63,9 +63,9 @@ function EditVolumeMountConfigurationInput<T extends Record<string, string>>({
 }: Props<T>) {
   const { t } = useTranslation();
 
-  const [pathChangeDecisions, setPathChangeDecisions] = useState<
-    Map<string, PathChangeDecision>
-  >(new Map());
+  const [pathChangeDecisions, setPathChangeDecisions] = useState<Map<string, PathChangeDecision>>(
+    new Map(),
+  );
   const [dialogOpen, setDialogOpen] = useState(false);
   const [pendingRowUuid, setPendingRowUuid] = useState<string | null>(null);
 
@@ -203,85 +203,97 @@ function EditVolumeMountConfigurationInput<T extends Record<string, string>>({
   );
 
   return (
-    <>
-      <ListInputEdit<VolumeMountRow>
-        value={rows}
-        setParentValue={(rows) => {
-          setValue(propagateValues(rows ?? []));
-        }}
-        onChange={(rows) => {
-          onChange?.(propagateValues(rows));
-        }}
-        checkValidity={checkValidity}
-        errorLabel={errorLabel}
-        fieldLabel={fieldLabel}
-        fieldDescription={fieldDescription}
-        renderRow={(changeCallback, rowError) => (row) => (
-          <Fragment key={row.uuid}>
-            <div className="flex gap-2 items-center">
-              <Input
-                className={rowError ? "border-red-500" : ""}
-                placeholder={placeholder}
-                value={row.container_path}
-                onChange={(e) => changeCallback({ ...row, container_path: e.target.value })}
-                onBlur={() => handleBlur(row)}
-                type={inputType}
-              />
-              {row.originalUuid && pathChangeDecisions.has(row.originalUuid) && (
-                <TooltipWrapper
-                  tooltip={
-                    pathChangeDecisions.get(row.originalUuid) === "keep"
-                      ? t("components.editGameServer.volumeMountSelection.pathChange.keepIndicator")
-                      : t(
-                          "components.editGameServer.volumeMountSelection.pathChange.deleteIndicator",
-                        )
-                  }
-                  asChild
+    <ListInputEdit<VolumeMountRow>
+      value={rows}
+      setParentValue={(rows) => {
+        setValue(propagateValues(rows ?? []));
+      }}
+      onChange={(rows) => {
+        onChange?.(propagateValues(rows));
+      }}
+      checkValidity={checkValidity}
+      errorLabel={errorLabel}
+      fieldLabel={fieldLabel}
+      fieldDescription={fieldDescription}
+      renderRow={(changeCallback, rowError) => (row) => (
+        <Fragment key={row.uuid}>
+          <div className="flex gap-2 items-center">
+            <Input
+              className={rowError ? "border-red-500" : ""}
+              placeholder={placeholder}
+              value={row.container_path}
+              onChange={(e) => changeCallback({ ...row, container_path: e.target.value })}
+              onBlur={() => handleBlur(row)}
+              type={inputType}
+            />
+            {row.originalUuid && pathChangeDecisions.has(row.originalUuid) && (
+              <TooltipWrapper
+                tooltip={
+                  pathChangeDecisions.get(row.originalUuid) === "keep"
+                    ? t("components.editGameServer.volumeMountSelection.pathChange.keepIndicator")
+                    : t("components.editGameServer.volumeMountSelection.pathChange.deleteIndicator")
+                }
+                asChild
+              >
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="h-9 w-9 p-0"
+                  onClick={() => {
+                    setPendingRowUuid(row.originalUuid ?? null);
+                    setDialogOpen(true);
+                  }}
                 >
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    className="h-9 w-9 p-0"
-                    onClick={() => {
-                      setPendingRowUuid(row.originalUuid ?? null);
-                      setDialogOpen(true);
-                    }}
-                  >
-                    {pathChangeDecisions.get(row.originalUuid) === "keep" ? (
-                      <FolderCheck className="size-5 text-green-500" />
-                    ) : (
-                      <FolderX className="size-5 text-destructive" />
-                    )}
-                  </Button>
-                </TooltipWrapper>
-              )}
-            </div>
-          </Fragment>
-        )}
-      />
-
-      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              {t("components.editGameServer.volumeMountSelection.pathChange.title")}
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              {t("components.editGameServer.volumeMountSelection.pathChange.description")}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => handleDecision("delete")}>
-              {t("components.editGameServer.volumeMountSelection.pathChange.deleteButton")}
-            </AlertDialogCancel>
-            <AlertDialogAction onClick={() => handleDecision("keep")}>
-              {t("components.editGameServer.volumeMountSelection.pathChange.keepButton")}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
+                  {pathChangeDecisions.get(row.originalUuid) === "keep" ? (
+                    <FolderCheck className="size-5 text-green-500" />
+                  ) : (
+                    <FolderX className="size-5 text-destructive" />
+                  )}
+                </Button>
+              </TooltipWrapper>
+            )}
+          </div>
+          <VolumeMountChangeDialog
+            dialogOpen={dialogOpen}
+            setDialogOpen={setDialogOpen}
+            handleDecision={handleDecision}
+          />
+        </Fragment>
+      )}
+    />
   );
 }
+
+const VolumeMountChangeDialog = (props: {
+  dialogOpen: boolean;
+  setDialogOpen: React.Dispatch<boolean>;
+  handleDecision: (decision: PathChangeDecision) => void;
+}) => {
+  const { dialogOpen, setDialogOpen, handleDecision } = props;
+  const { t } = useTranslation();
+
+  return (
+    <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>
+            {t("components.editGameServer.volumeMountSelection.pathChange.title")}
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            {t("components.editGameServer.volumeMountSelection.pathChange.description")}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => handleDecision("delete")}>
+            {t("components.editGameServer.volumeMountSelection.pathChange.deleteButton")}
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={() => handleDecision("keep")}>
+            {t("components.editGameServer.volumeMountSelection.pathChange.keepButton")}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+};
 
 export default EditVolumeMountConfigurationInput;
