@@ -21,7 +21,7 @@ type UserAction = {
   label: string;
   onClick: () => void;
   className?: string;
-  disabled?: boolean;
+  hidden?: boolean;
 
 };
 
@@ -40,7 +40,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
       label: t("actions.deleteUser"),
       onClick: () => setDeleteDialogOpen(true),
       className: "text-destructive focus:text-destructive",
-      disabled: props.userRole === UserEntityDtoRole.OWNER,
+      hidden: props.userRole === UserEntityDtoRole.OWNER,
 
     },
   ];
@@ -95,16 +95,17 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               </DropdownMenuTrigger>
 
               <DropdownMenuContent align="end">
-                {userActions.map((action) => (
-                  <DropdownMenuItem
-                    key={action.label}
-                    onClick={action.onClick}
-                    className={action.className}
-                    disabled={action.disabled}
-                  >
-                    {action.label}
-                  </DropdownMenuItem>
-                ))}
+                {userActions
+                  .filter((action) => !action.hidden)
+                  .map((action) => (
+                    <DropdownMenuItem
+                      key={action.label}
+                      onClick={action.onClick}
+                      className={action.className}
+                    >
+                      {action.label}
+                    </DropdownMenuItem>
+                  ))}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
