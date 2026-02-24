@@ -6,15 +6,15 @@
  * OpenAPI spec version: v1.0
  */
 import type { PublicDashboardLayoutSize } from './publicDashboardLayoutSize';
-import type { PublicDashboardLayoutPublicDashboardTypes } from './publicDashboardLayoutPublicDashboardTypes';
-import type { KeyValue } from './keyValue';
+import type { PublicDashboardLayoutPublicDashboardType } from './publicDashboardLayoutPublicDashboardType';
+import type { KeyValueEntry } from './keyValueEntry';
 
 export interface PublicDashboardLayout {
   uuid?: string;
   size?: PublicDashboardLayoutSize;
-  public_dashboard_types?: PublicDashboardLayoutPublicDashboardTypes;
+  public_dashboard_type?: PublicDashboardLayoutPublicDashboardType;
   metric_type?: string;
   title?: string;
-  content?: KeyValue[];
+  content?: KeyValueEntry[];
   valid?: boolean;
 }
