@@ -16,7 +16,7 @@ import type { GameServerAccessGroupDto } from "@/api/generated/model";
 import { toggleVariants } from "@/components/ui/toggle";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
-import { accessGroupToggleItemClassName } from "./AccessGroupList";
+import { accessGroupToggleItemClassName } from "./accessGroupToggleStyles";
 
 const CreateAccessGroupDialog = (props: {
   onCreate: (groupName: string) => Promise<void>;

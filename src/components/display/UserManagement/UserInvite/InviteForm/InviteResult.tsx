@@ -18,9 +18,6 @@ export const InviteResult = ({ generatedKey, onCopyLink }: InviteResultProps) =>
         <TooltipWrapper tooltip={t("userModal.copyTooltip")} asChild>
           <Button
             onClick={onCopyLink}
-            onKeyDown={(e) => {
-              (e.key === "Enter" || e.key === "Space") && onCopyLink();
-            }}
             variant="secondary"
             className="outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none bg-background/35 px-5 leading-none gap-5"
           >
