@@ -112,7 +112,7 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
         />
       </div>
 
-      <div className="absolute top-0 left-0 w-full">
+      <div className="absolute top-0 left-0 pr-20 w-full">
         {pathSegments.map((segment) => (
           <img
             key={segment.id}
