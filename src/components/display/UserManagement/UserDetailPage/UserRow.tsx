@@ -13,11 +13,9 @@ import { Ellipsis } from "lucide-react";
 import { useContext, useState } from "react";
 import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
 import ChangePasswordByAdminModal from "./ChangePasswordByAdminModal";
 import DeleteUserConfirmationModal from "./DeleteUserConfirmationModal";
-import UpdateDockerLimitsModal from "./UpdateDockerLimitsModal";
 
 type UserAction = {
   label: string;
@@ -30,23 +28,12 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
   const { t } = useTranslationPrefix("components.userManagement.userRow");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [passwordChangeDialogOpen, setPasswordChangeDialogOpen] = useState(false);
-  const [dockerLimitsDialogOpen, setDockerLimitsDialogOpen] = useState(false);
   const { role, uuid } = useContext(AuthContext);
-  const { cpuUsage, memoryUsage } = useUserResourceUsage(props.user.uuid);
-
-  const canUpdateDockerLimits =
-    role === UserEntityDtoRole.OWNER ||
-    (role === UserEntityDtoRole.ADMIN && props.userRole === UserEntityDtoRole.QUOTA_USER);
 
   const userActions: UserAction[] = [
     {
       label: t("actions.editPassword"),
       onClick: () => setPasswordChangeDialogOpen(true),
-    },
-    {
-      label: t("actions.editDockerLimits"),
-      onClick: () => setDockerLimitsDialogOpen(true),
-      hidden: !canUpdateDockerLimits,
     },
     {
       label: t("actions.deleteUser"),
@@ -72,27 +59,30 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
             <UserRoleBadge role={props.userRole} />
           </div>
 
-          <div className="flex gap-3 flex-1 justify-end">
-            <ResourceUsageBadge
-              currentValue={cpuUsage}
-              limit={
-                props.user.docker_hardware_limits?.docker_max_cpu_cores != null
-                  ? props.user.docker_hardware_limits.docker_max_cpu_cores
-                  : t("resources.unlimited")
-              }
-              resourceType={t("resources.cpus")}
-            />
+          {(props.userRole === UserEntityDtoRole.QUOTA_USER ||
+            props.userRole === UserEntityDtoRole.ADMIN) && (
+            <div className="flex gap-3 flex-1 justify-end">
+              <ResourceUsageBadge
+                currentValue="calculate_me"
+                limit={
+                  props.user.docker_hardware_limits?.docker_max_cpu_cores != null
+                    ? props.user.docker_hardware_limits.docker_max_cpu_cores
+                    : t("resources.unlimited")
+                }
+                resourceType={t("resources.cpus")}
+              />
 
-            <ResourceUsageBadge
-              currentValue={memoryUsage}
-              limit={
-                props.user.docker_hardware_limits?.docker_memory_limit != null
-                  ? formatMemoryLimit(props.user.docker_hardware_limits.docker_memory_limit)
-                  : t("resources.unlimited")
-              }
-              resourceType={t("resources.memory")}
-            />
-          </div>
+              <ResourceUsageBadge
+                currentValue="calculate_me"
+                limit={
+                  props.user.docker_hardware_limits?.docker_memory_limit != null
+                    ? formatMemoryLimit(props.user.docker_hardware_limits.docker_memory_limit)
+                    : t("resources.unlimited")
+                }
+                resourceType={t("resources.memory")}
+              />
+            </div>
+          )}
 
           <div>
             <DropdownMenu modal={false}>
@@ -130,12 +120,6 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
         user={props.user}
         open={passwordChangeDialogOpen}
         onClose={() => setPasswordChangeDialogOpen(false)}
-      />
-
-      <UpdateDockerLimitsModal
-        user={props.user}
-        open={dockerLimitsDialogOpen}
-        onClose={() => setDockerLimitsDialogOpen(false)}
       />
     </>
   );
