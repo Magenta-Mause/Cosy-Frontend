@@ -39,14 +39,14 @@ const UserManagementSection = ({
           localUsers.map((user) => (
             <div
               key={user.uuid}
-              className="flex items-center justify-between bg-secondary p-2 rounded-md"
+              className="flex items-center justify-between bg-button-primary-default/20 px-2 pr-4 py-.5 rounded-md leading-none"
             >
               <span className="text-sm">{user.username}</span>
               <button
                 type="button"
                 onClick={() => user.uuid && handleRemoveUser(user.uuid)}
                 disabled={loading}
-                className="text-destructive hover:text-destructive/80 disabled:opacity-50"
+                className="text-button-primary-active hover:text-button-primary-active/60 disabled:opacity-50"
               >
                 <XIcon className="size-4" />
               </button>
