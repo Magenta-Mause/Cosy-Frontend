@@ -19,7 +19,7 @@ const LoginBanner = (props: { setOpen: (open: boolean) => void }) => {
         width: "35rem",
       }}
     >
-      <div className="flex items-center justify-between px-22 pt-5">
+      <div className="flex items-center justify-center gap-7 pt-5">
         <p className="text-xl">{t("signIn.question")}</p>
         <Button className="h-15" onClick={() => props.setOpen(true)}>
           {t("signIn.signIn")}
