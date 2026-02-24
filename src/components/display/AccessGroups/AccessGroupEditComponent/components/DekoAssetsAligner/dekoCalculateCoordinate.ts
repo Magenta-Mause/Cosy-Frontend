@@ -26,7 +26,7 @@ const REPEATING_POSITIONS = [
   { x: 0.62, y: 0.64 },
 ];
 
-const VERTICAL_OFFSET = 0.41;
+const VERTICAL_OFFSET = 0.385;
 
 function calculateCoordinate(index: number) {
   if (index < UNIQUE_POSITIONS.length) {
