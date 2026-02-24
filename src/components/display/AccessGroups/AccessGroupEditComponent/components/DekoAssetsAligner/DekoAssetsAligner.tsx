@@ -14,6 +14,7 @@ import tree2_1 from "@/assets/deko/tree2_1.png";
 import tree2_2 from "@/assets/deko/tree2_2.png";
 import tree2_3 from "@/assets/deko/tree2_3.png";
 import tree2_4 from "@/assets/deko/tree2_4.png";
+import { cn } from "@/lib/utils";
 import dekoCalculateCoordinate from "./dekoCalculateCoordinate";
 
 type DekoAssetGroup = {
@@ -65,6 +66,7 @@ const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
   ];
 
   const EXTRA_DEKO_COUNT = 2;
+  const DEKO_BASE_CLASS = "pointer-events-none select-none";
 
   const extraSeeds = useMemo(() => {
     if (!authorized) return [];
@@ -88,14 +90,14 @@ const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
           key={`${gameServer.uuid}-0`}
           src={asset0.src}
           style={{ ...getStyle(index * 2), imageRendering: "pixelated", width: asset0.width }}
-          className={asset0.translate ?? ""}
+          className={cn(DEKO_BASE_CLASS, asset0.translate)}
           alt="deko"
         />,
         <img
           key={`${gameServer.uuid}-1`}
           src={asset1.src}
           style={{ ...getStyle(index * 2 + 1), imageRendering: "pixelated", width: asset1.width }}
-          className={asset1.translate ?? ""}
+          className={cn(DEKO_BASE_CLASS, asset1.translate)}
           alt="deko"
         />,
       ];
@@ -113,7 +115,7 @@ const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
             imageRendering: "pixelated",
             width: asset.width,
           }}
-          className={asset.translate ?? ""}
+          className={cn(DEKO_BASE_CLASS, asset.translate)}
           alt="deko"
         />
       );
