@@ -20,12 +20,12 @@ import type * as React from "react";
 import { type CSSProperties, createContext } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
-import filesBackgroundImage from "@/assets/gameServerDetailPage/files-bg.png";
-import settingsBackgroundImage from "@/assets/gameServerDetailPage/garage-bg.png";
-import settingsForegroundImage from "@/assets/gameServerDetailPage/garage-fg.png";
-import logsMetricsBackgroundImage from "@/assets/gameServerDetailPage/logs-metrics-bg.png";
-import dashboardBackgroundImage from "@/assets/gameServerDetailPage/room-bg.png";
-import dashboardForegroundImage from "@/assets/gameServerDetailPage/room-fg.png";
+import filesBackgroundImage from "@/assets/gameServerDetailPage/files-bg.webp";
+import settingsBackgroundImage from "@/assets/gameServerDetailPage/settings-bg.webp";
+import settingsForegroundImage from "@/assets/gameServerDetailPage/settings-fg.webp";
+import logsMetricsBackgroundImage from "@/assets/gameServerDetailPage/logs-metrics-bg.webp";
+import dashboardBackgroundImage from "@/assets/gameServerDetailPage/dashboard-bg.webp";
+import dashboardForegroundImage from "@/assets/gameServerDetailPage/dashboard-fg.webp";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import { cn } from "@/lib/utils.ts";
 
