@@ -73,6 +73,8 @@ export * from './userInviteCreationDto';
 export * from './userInviteCreationDtoRole';
 export * from './userInviteDto';
 export * from './userInviteDtoRole';
+export * from './userRoleUpdateDto';
+export * from './userRoleUpdateDtoRole';
 export * from './volumeMountConfiguration';
 export * from './volumeMountConfigurationCreationDto';
 export * from './volumeMountConfigurationDto';

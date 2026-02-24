@@ -520,6 +520,18 @@ export type i18nLanguage = {
           confirmButton: string;
           submitError: string;
         };
+        changeRoleDialog: {
+          title: string;
+          description: string;
+          rolePlaceholder: string;
+          roles: {
+            admin: string;
+            quota_user: string;
+          };
+          cancelButton: string;
+          confirmButton: string;
+          submitError: string;
+        };
       };
       backButton: string;
       userDetailButton: {
@@ -534,6 +546,7 @@ export type i18nLanguage = {
         actions: {
           editPassword: string;
           editDockerLimits: string;
+          editRole: string;
           deleteUser: string;
         };
         resources: {

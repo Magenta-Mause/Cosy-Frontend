@@ -16,6 +16,7 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
 import ChangePasswordByAdminModal from "./ChangePasswordByAdminModal";
+import ChangeRoleModal from "./ChangeRoleModal";
 import DeleteUserConfirmationModal from "./DeleteUserConfirmationModal";
 import UpdateDockerLimitsModal from "./UpdateDockerLimitsModal";
 
@@ -31,12 +32,16 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [passwordChangeDialogOpen, setPasswordChangeDialogOpen] = useState(false);
   const [dockerLimitsDialogOpen, setDockerLimitsDialogOpen] = useState(false);
+  const [changeRoleDialogOpen, setChangeRoleDialogOpen] = useState(false);
   const { role, uuid } = useContext(AuthContext);
   const { cpuUsage, memoryUsage } = useUserResourceUsage(props.user.uuid);
 
   const canUpdateDockerLimits =
     role === UserEntityDtoRole.OWNER ||
     (role === UserEntityDtoRole.ADMIN && props.userRole === UserEntityDtoRole.QUOTA_USER);
+
+  const canChangeRole =
+    role === UserEntityDtoRole.OWNER && props.userRole !== UserEntityDtoRole.OWNER;
 
   const userActions: UserAction[] = [
     {
@@ -47,6 +52,11 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
       label: t("actions.editDockerLimits"),
       onClick: () => setDockerLimitsDialogOpen(true),
       hidden: !canUpdateDockerLimits,
+    },
+    {
+      label: t("actions.editRole"),
+      onClick: () => setChangeRoleDialogOpen(true),
+      hidden: !canChangeRole,
     },
     {
       label: t("actions.deleteUser"),
@@ -136,6 +146,12 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
         user={props.user}
         open={dockerLimitsDialogOpen}
         onClose={() => setDockerLimitsDialogOpen(false)}
+      />
+
+      <ChangeRoleModal
+        user={props.user}
+        open={changeRoleDialogOpen}
+        onClose={() => setChangeRoleDialogOpen(false)}
       />
     </>
   );

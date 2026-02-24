@@ -771,6 +771,18 @@ const translation: i18nLanguage = {
           confirmButton: "Speichern",
           submitError: "Fehler beim Aktualisieren der Ressourcenlimits",
         },
+        changeRoleDialog: {
+          title: "Rolle ändern",
+          description: "Wähle eine neue Rolle für diesen Benutzer.",
+          rolePlaceholder: "Rolle auswählen",
+          roles: {
+            admin: "Admin",
+            quota_user: "Quota-Benutzer",
+          },
+          cancelButton: "Abbrechen",
+          confirmButton: "Speichern",
+          submitError: "Fehler beim Ändern der Rolle",
+        },
       },
       backButton: "Zurück",
       userDetailButton: {
@@ -785,6 +797,7 @@ const translation: i18nLanguage = {
         actions: {
           editPassword: "Passwort ändern",
           editDockerLimits: "Ressourcenlimits bearbeiten",
+          editRole: "Rolle ändern",
           deleteUser: "Benutzer löschen",
         },
         resources: {
