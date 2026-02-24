@@ -74,15 +74,15 @@ const MetricDisplay = (
           {liveEnabled ? t("metrics.liveMetricsOn") : t("metrics.liveMetricsOff")}
         </Button>
       </div>
-      {loading && (
-        <div className="absolute z-10 flex justify-center items-center w-[80%] h-[80%] backdrop-blur-sm">
-          <div className="flex flex-col gap-2">
-            <img src={spinner} alt="spinner" />
-            <div className="flex justify-center text-xl">{t("signIn.loading")}</div>
+      <div className="grid grid-cols-6 gap-2 w-full h-auto mb-auto relative">
+        {loading && (
+          <div className="absolute z-10 flex justify-center items-center w-full h-full backdrop-blur-sm">
+            <div className="flex flex-col gap-2">
+              <img src={spinner} alt="spinner" />
+              <div className="flex justify-center text-xl">{t("signIn.loading")}</div>
+            </div>
           </div>
-        </div>
-      )}
-      <div className="grid grid-cols-6 gap-2 w-full h-auto mb-auto">
+        )}
         {gameServer.metric_layout?.map((metric) => (
           <MetricGraph
             key={metric.metric_type}
