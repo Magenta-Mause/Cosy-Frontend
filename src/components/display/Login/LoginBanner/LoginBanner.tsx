@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/button";
 import { useTranslation } from "react-i18next";
-import papyrusScroll from "@/assets/MainPage/PapyrusBanner.webp"
+import papyrusScroll from "@/assets/MainPage/LoginPapyrusScroll.png"
 
 const LoginBanner = (props: { setOpen: (open: boolean) => void }) => {
   const { t } = useTranslation();
@@ -16,10 +16,10 @@ const LoginBanner = (props: { setOpen: (open: boolean) => void }) => {
         backgroundPosition: "center",
         imageRendering: "pixelated",
         height: "7rem",
-        width: "35rem",
+        width: "36rem",
       }}
     >
-      <div className="flex items-center justify-center gap-7 pt-5">
+      <div className="flex items-center justify-center gap-9 pt-4">
         <p className="text-xl">{t("signIn.question")}</p>
         <Button className="h-15" onClick={() => props.setOpen(true)}>
           {t("signIn.signIn")}
