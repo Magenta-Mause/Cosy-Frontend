@@ -523,6 +523,19 @@ const translation: i18nLanguage = {
           confirmButton: "Change Password",
           submitError: "Failed to change password",
         },
+        updateDockerLimitsDialog: {
+          title: "Edit Resource Limits",
+          description:
+            "Set the CPU and memory limits for this user. Leave a field empty for unlimited.",
+          cpuLabel: "CPU Limit",
+          cpuDescription: "Maximum CPU cores the user can allocate.",
+          memoryLabel: "Memory Limit",
+          memoryDescription: "Maximum memory the user can allocate.",
+          placeholder: "Unlimited",
+          cancelButton: "Cancel",
+          confirmButton: "Save",
+          submitError: "Failed to update resource limits",
+        },
       },
       backButton: "Back",
       userDetailButton: {
@@ -536,6 +549,7 @@ const translation: i18nLanguage = {
         },
         actions: {
           editPassword: "Edit Password",
+          editDockerLimits: "Edit Resource Limits",
           deleteUser: "Delete User",
         },
         resources: {

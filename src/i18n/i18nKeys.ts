@@ -508,6 +508,18 @@ export type i18nLanguage = {
           confirmButton: string;
           submitError: string;
         };
+        updateDockerLimitsDialog: {
+          title: string;
+          description: string;
+          cpuLabel: string;
+          cpuDescription: string;
+          memoryLabel: string;
+          memoryDescription: string;
+          placeholder: string;
+          cancelButton: string;
+          confirmButton: string;
+          submitError: string;
+        };
       };
       backButton: string;
       userDetailButton: {
@@ -521,6 +533,7 @@ export type i18nLanguage = {
         };
         actions: {
           editPassword: string;
+          editDockerLimits: string;
           deleteUser: string;
         };
         resources: {

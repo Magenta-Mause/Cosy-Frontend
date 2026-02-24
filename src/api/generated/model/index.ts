@@ -66,6 +66,7 @@ export * from './updateCustomMetric200';
 export * from './updateCustomMetricBody';
 export * from './uploadFileToVolumeParams';
 export * from './userCreationDto';
+export * from './userDockerLimitsUpdateDto';
 export * from './userEntityDto';
 export * from './userEntityDtoRole';
 export * from './userInviteCreationDto';

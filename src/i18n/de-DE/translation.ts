@@ -758,6 +758,19 @@ const translation: i18nLanguage = {
           confirmButton: "Passwort ändern",
           submitError: "Fehler beim Ändern des Passworts",
         },
+        updateDockerLimitsDialog: {
+          title: "Ressourcenlimits bearbeiten",
+          description:
+            "Lege CPU- und Arbeitsspeicherlimits für diesen Benutzer fest. Lasse ein Feld leer für unbeschränkt.",
+          cpuLabel: "CPU-Limit",
+          cpuDescription: "Maximale CPU-Kerne, die der Benutzer verwenden darf.",
+          memoryLabel: "Arbeitsspeicherlimit",
+          memoryDescription: "Maximaler Arbeitsspeicher, den der Benutzer verwenden darf.",
+          placeholder: "Unbeschränkt",
+          cancelButton: "Abbrechen",
+          confirmButton: "Speichern",
+          submitError: "Fehler beim Aktualisieren der Ressourcenlimits",
+        },
       },
       backButton: "Zurück",
       userDetailButton: {
@@ -771,6 +784,7 @@ const translation: i18nLanguage = {
         },
         actions: {
           editPassword: "Passwort ändern",
+          editDockerLimits: "Ressourcenlimits bearbeiten",
           deleteUser: "Benutzer löschen",
         },
         resources: {

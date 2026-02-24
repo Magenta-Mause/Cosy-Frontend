@@ -17,6 +17,7 @@ import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResour
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
 import ChangePasswordByAdminModal from "./ChangePasswordByAdminModal";
 import DeleteUserConfirmationModal from "./DeleteUserConfirmationModal";
+import UpdateDockerLimitsModal from "./UpdateDockerLimitsModal";
 
 type UserAction = {
   label: string;
@@ -29,13 +30,23 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
   const { t } = useTranslationPrefix("components.userManagement.userRow");
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [passwordChangeDialogOpen, setPasswordChangeDialogOpen] = useState(false);
+  const [dockerLimitsDialogOpen, setDockerLimitsDialogOpen] = useState(false);
   const { role, uuid } = useContext(AuthContext);
   const { cpuUsage, memoryUsage } = useUserResourceUsage(props.user.uuid);
+
+  const canUpdateDockerLimits =
+    role === UserEntityDtoRole.OWNER ||
+    (role === UserEntityDtoRole.ADMIN && props.userRole === UserEntityDtoRole.QUOTA_USER);
 
   const userActions: UserAction[] = [
     {
       label: t("actions.editPassword"),
       onClick: () => setPasswordChangeDialogOpen(true),
+    },
+    {
+      label: t("actions.editDockerLimits"),
+      onClick: () => setDockerLimitsDialogOpen(true),
+      hidden: !canUpdateDockerLimits,
     },
     {
       label: t("actions.deleteUser"),
@@ -122,6 +133,12 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
         user={props.user}
         open={passwordChangeDialogOpen}
         onClose={() => setPasswordChangeDialogOpen(false)}
+      />
+
+      <UpdateDockerLimitsModal
+        user={props.user}
+        open={dockerLimitsDialogOpen}
+        onClose={() => setDockerLimitsDialogOpen(false)}
       />
     </>
   );
