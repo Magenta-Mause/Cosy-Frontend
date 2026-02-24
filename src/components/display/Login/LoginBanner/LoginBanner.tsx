@@ -7,7 +7,7 @@ const LoginBanner = (props: { setOpen: (open: boolean) => void }) => {
 
   return (
     <div
-      className="fixed bottom-20 content-center"
+      className="fixed bottom-25 content-center"
       tabIndex={-1}
       style={{
         backgroundImage: `url(${papyrusScroll})`,
