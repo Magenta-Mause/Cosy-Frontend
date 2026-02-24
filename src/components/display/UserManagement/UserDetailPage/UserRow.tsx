@@ -72,30 +72,27 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
             <UserRoleBadge role={props.userRole} />
           </div>
 
-          {(props.userRole === UserEntityDtoRole.QUOTA_USER ||
-            props.userRole === UserEntityDtoRole.ADMIN) && (
-            <div className="flex gap-3 flex-1 justify-end">
-              <ResourceUsageBadge
-                currentValue={cpuUsage}
-                limit={
-                  props.user.docker_hardware_limits?.docker_max_cpu_cores != null
-                    ? props.user.docker_hardware_limits.docker_max_cpu_cores
-                    : t("resources.unlimited")
-                }
-                resourceType={t("resources.cpus")}
-              />
+          <div className="flex gap-3 flex-1 justify-end">
+            <ResourceUsageBadge
+              currentValue={cpuUsage}
+              limit={
+                props.user.docker_hardware_limits?.docker_max_cpu_cores != null
+                  ? props.user.docker_hardware_limits.docker_max_cpu_cores
+                  : t("resources.unlimited")
+              }
+              resourceType={t("resources.cpus")}
+            />
 
-              <ResourceUsageBadge
-                currentValue={memoryUsage}
-                limit={
-                  props.user.docker_hardware_limits?.docker_memory_limit != null
-                    ? formatMemoryLimit(props.user.docker_hardware_limits.docker_memory_limit)
-                    : t("resources.unlimited")
-                }
-                resourceType={t("resources.memory")}
-              />
-            </div>
-          )}
+            <ResourceUsageBadge
+              currentValue={memoryUsage}
+              limit={
+                props.user.docker_hardware_limits?.docker_memory_limit != null
+                  ? formatMemoryLimit(props.user.docker_hardware_limits.docker_memory_limit)
+                  : t("resources.unlimited")
+              }
+              resourceType={t("resources.memory")}
+            />
+          </div>
 
           <div>
             <DropdownMenu modal={false}>

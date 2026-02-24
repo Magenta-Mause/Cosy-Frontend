@@ -15,10 +15,7 @@ import { useDispatch } from "react-redux";
 import { useUpdateDockerLimits } from "@/api/generated/backend-api";
 import type { UserEntityDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import {
-  CPU_LIMIT_POSITIVE_ERROR,
-  cpuLimitValidator,
-} from "@/lib/validators/cpuLimitValidator";
+import { CPU_LIMIT_POSITIVE_ERROR, cpuLimitValidator } from "@/lib/validators/cpuLimitValidator";
 import {
   MEMORY_LIMIT_MIN_ERROR,
   memoryLimitValidator,
