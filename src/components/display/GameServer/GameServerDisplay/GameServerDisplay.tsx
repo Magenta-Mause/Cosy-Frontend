@@ -1,4 +1,4 @@
-import DekoAssetsAligner from "@components/display/AccessGroups/AccessGroupEditComponent/components/DekoAssetsAligner/DekoAssetsAligner";
+import DekoAssetsAligner from "@components/display/DekoAssetsAligner/DekoAssetsAligner";
 import GameServerHouseAligner from "@components/display/GameServer/GameServerHouseAligner/GameServerHouseAligner.tsx";
 import type { GameServerDto } from "@/api/generated/model";
 
