@@ -46,7 +46,7 @@ const FancyNavigationButton = (
           !disabled && `group-focus:${compiledMargin}-1 group-focus:opacity-100`,
           !disabled && `group-hover:${compiledMargin}-1 group-hover:opacity-100`,
           !disabled &&
-            "group-hover:[max-width:var(--label-max-width)] group-focus:[max-width:var(--label-max-width)]",
+            "group-hover:max-w-(--label-max-width) group-focus:max-w-(--label-max-width)",
           // Base classes always apply
           "top-[50%] max-w-0 opacity-0 duration-400 transition-all",
           `align-middle justify-center m-auto relative ${compiledMargin}-0 overflow-clip`,

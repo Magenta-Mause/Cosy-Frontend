@@ -34,13 +34,9 @@ const validateMemoryLimit = (
   let errorMessage = defaultErrorLabel;
 
   if (!validationResult.success && typeof value === "string") {
-    const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
-    if (match) {
-      const [, numStr, unit] = match;
-      const num = parseFloat(numStr);
-      if (unit === "MiB" && num < 6) {
-        errorMessage = MEMORY_LIMIT_MIN_ERROR;
-      }
+    const specificError = MEMORY_LIMIT_MIN_ERROR;
+    if (specificError) {
+      errorMessage = specificError;
     }
   }
 
@@ -122,7 +118,7 @@ const MemoryLimitInputFieldCreation = ({
   );
 
   return (
-    <div className="py-2">
+    <div>
       <MemoryLimitInput
         id={attribute}
         header={label}

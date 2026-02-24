@@ -29,7 +29,7 @@ const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode })
     ...(authorized
       ? [
           {
-            label: t("rightClickMenu.createNewGameserver"),
+            label: t("rightClickMenu.createNewGameServer"),
             onClick: () => {
               setIsOpenGameServerCreationModalOpen(true);
             },

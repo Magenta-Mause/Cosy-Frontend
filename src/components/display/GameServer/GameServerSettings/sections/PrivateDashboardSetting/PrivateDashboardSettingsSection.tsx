@@ -169,6 +169,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
                   className="flex-1"
                   metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
                   setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
+                  gameServerUuid={props.gameServer.uuid}
                 />
               )}
               {dashboard.private_dashboard_types === DashboardElementTypes.FREETEXT && (

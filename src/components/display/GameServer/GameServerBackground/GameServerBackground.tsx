@@ -1,6 +1,7 @@
+import Footer from "@components/display/Footer/Footer.tsx";
 import bgImageLoop from "@/assets/MainPage/backgrounds/bg_day_loop.png";
 import bgImageTop from "@/assets/MainPage/backgrounds/bg_day_top.png";
-import footer from "@/assets/MainPage/footer/footer_day.png";
+import bgImageFooter from "@/assets/MainPage/backgrounds/bg_footer_day.webp";
 import logo from "@/assets/MainPage/logo.gif";
 import path_1 from "@/assets/MainPage/platze_1.png";
 import path_2 from "@/assets/MainPage/platze_2.png";
@@ -18,7 +19,7 @@ const images = {
   bg: {
     top: bgImageTop,
     loop: bgImageLoop,
-    bottom: footer,
+    footer: bgImageFooter,
   },
   path: {
     1: path_1,
@@ -85,7 +86,7 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
   const bgLoops = calculateBgLoops(houseCount);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full min-h-screen bg-[#1F4D15]">
       <div className="relative w-full">
         <img
           src={images.bg.top}
@@ -93,7 +94,6 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
           className="w-full h-auto block"
           style={{ imageRendering: "pixelated" }}
         />
-
         {bgLoops.map((loop) => (
           <img
             key={loop.id}
@@ -103,13 +103,7 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
             style={{ imageRendering: "pixelated" }}
           />
         ))}
-
-        <img
-          src={images.bg.bottom}
-          alt="BG Bottom"
-          className="w-full h-auto block"
-          style={{ imageRendering: "pixelated" }}
-        />
+        <Footer bgImageFooter={images.bg.footer} />
       </div>
 
       <div className="absolute top-0 left-0 w-full">

@@ -3,6 +3,7 @@ import type { i18nLanguage } from "@/i18n/i18nKeys";
 const translation: i18nLanguage = {
   common: {
     yourLimit: "Your limit",
+    loading: "Loading...",
   },
   userRoles: {
     QUOTA_USER: "User",
@@ -18,7 +19,7 @@ const translation: i18nLanguage = {
     startServer: "Start",
     stopServer: "Stop",
     refresh: "Refresh",
-    createNewGameserver: "Create new Gameserver",
+    createNewGameServer: "Create new Gameserver",
     viewLogs: "View Logs",
     loading: "Loading...",
     failed: "Failed to start",
@@ -46,6 +47,14 @@ const translation: i18nLanguage = {
     updateGameServerSuccess: "Game Server updated successfully!",
     updateGameServerError: "Failed to update Game Server",
     missingUuid: "UUID is missing",
+    updateFooterSuccess: "Footer updated successfully!",
+    updateFooterError: "Failed to update footer",
+    createWebhookSuccess: "Webhook created successfully!",
+    createWebhookError: "Failed to create webhook",
+    updateWebhookSuccess: "Webhook updated successfully!",
+    updateWebhookError: "Failed to update webhook",
+    deleteWebhookSuccess: "Webhook deleted successfully!",
+    deleteWebhookError: "Failed to delete webhook",
   },
   userModal: {
     title: "Users",
@@ -204,12 +213,31 @@ const translation: i18nLanguage = {
         cancel: "Keep Current Values",
         confirm: "Reapply Template",
       },
+      confirmCreateDialog: {
+        title: "Create Server?",
+        description:
+          "Please confirm that all configuration is correct. The server will be created immediately.",
+        cancel: "Go Back",
+        confirm: "Create Server",
+        creating: "Creating...",
+      },
+      successDialog: {
+        title: "Server Created!",
+        description: '"{{name}}" is ready to be started.',
+        completedStepLabel: "Server Ready!",
+        doneButton: "Close",
+        openDashboard: "Go to dashboard",
+      },
       listInput: {
         addButton: "Add",
       },
+      keyValueInput: {
+        escapeSequencesTooltip:
+          "Supports escape sequences: \\n (newline), \\t (tab), \\r (carriage return), \\\\ (backslash)",
+      },
       steps: {
         step1: {
-          title: "Step 1: Choose Server name and Game",
+          title: "Choose name and Game",
           serverNameSelection: {
             title: "Server Name",
             description: "Name your server",
@@ -226,8 +254,12 @@ const translation: i18nLanguage = {
           },
         },
         step2: {
-          title: "Step 2: Choose Template",
+          title: "Choose Template",
           description: "Choose a template for your server.",
+          noTemplatesAvailable: "No templates are available for this game. You can proceed.",
+          searchPlaceholder: "Search templates...",
+          requestTemplateText: "You can request a template for this game by",
+          requestTemplateLinkLabel: "submitting this form",
           templateSelection: {
             title: "Template",
             description: "Select a template for your server",
@@ -237,7 +269,7 @@ const translation: i18nLanguage = {
           },
         },
         step3: {
-          title: "Step 3: Configure your Server",
+          title: "Configure your Server",
           description: "Here you can configure your server.",
           dockerImageSelection: {
             title: "Docker image",
@@ -280,6 +312,7 @@ const translation: i18nLanguage = {
             errorLabel: "Please enter a valid CPU limit.",
           },
         },
+        title: "Create Server",
       },
       autoCompleteInputField: {
         loadingLabel: "Loading...",
@@ -307,9 +340,12 @@ const translation: i18nLanguage = {
         noFiles: "No files",
         directoryType: "Directory",
         fileType: "File",
+        fileSizeTooltip: "{{size}} bytes",
+        fileModeTooltip: "Mode: {{octal}} ({{rwx}})",
         renameAction: "Rename",
         deleteAction: "Delete",
         downloadAction: "Download",
+        exportAction: "Export",
         downloadFile: "Download {{fileName}}",
         createFolderAction: "Create folder",
         createFolderDescription: "Creates a folder inside: {{dirName}}",
@@ -324,10 +360,14 @@ const translation: i18nLanguage = {
         deleteDialogFile: "This cannot be undone.",
         cancel: "Cancel",
         deleteInProgress: "Deleting...",
+        loading: "Loading...",
+        cantDeleteWhileDownloading: "Cant delete file while downloading",
       },
       fileBrowserDialog: {
+        closePreview: "Close preview",
         uploadFailure: "Failed to upload file",
         downloadZipFailure: "Failed to download zip",
+        fileUploadError: "Failed to upload file",
         preparing: "Preparing...",
         downloadingFile: "Downloading {{done}}/{{total}}",
         downloadAllAction: "Download Directory",
@@ -337,7 +377,13 @@ const translation: i18nLanguage = {
         noFilesPermissionDesc: "You don't have permission to view server files",
         uploadInSyntheticDir: "Cannot upload files in virtual directories",
         uploadNoPermission: "You don't have permission to upload files",
+        errorWhileZipDownload: "Error while downloading Zip archive",
       },
+    },
+
+    settingsActionButtons: {
+      revert: "Revert",
+      confirm: "Confirm",
     },
 
     editGameServer: {
@@ -398,6 +444,15 @@ const translation: i18nLanguage = {
         title: "Volume Mounts",
         errorLabel: "Path must not be empty",
         description: "Volume mounts for your server",
+        pathChange: {
+          title: "Volume mount path changed",
+          description:
+            "The container path for this volume mount has changed. Would you like to keep the existing files and move them to the new path, or delete the old files?",
+          keepButton: "Keep files",
+          deleteButton: "Delete old files",
+          keepIndicator: "Files will be kept",
+          deleteIndicator: "Old files will be deleted",
+        },
       },
 
       memoryLimitSelection: {
@@ -410,6 +465,10 @@ const translation: i18nLanguage = {
         title: "CPU Cores",
         description: "Limit the CPU usage of the server",
         errorLabel: "Please enter a valid CPU limit.",
+      },
+      createdOn: {
+        title: "Created on",
+        description: "The date and time this server was created",
       },
       uncosyZone: {
         title: "Uncosy Zone",
@@ -452,6 +511,19 @@ const translation: i18nLanguage = {
     },
 
     userManagement: {
+      admin: {
+        changePasswordDialog: {
+          title: "Change User Password",
+          description: "Set a new password for this user.",
+          newPasswordLabel: "New Password",
+          newPasswordDescription: "Enter a new password for the user.",
+          newPasswordPlaceholder: "Enter new password",
+          newPasswordError: "Password must be at least 8 characters long",
+          cancelButton: "Cancel",
+          confirmButton: "Change Password",
+          submitError: "Failed to change password",
+        },
+      },
       backButton: "Back",
       userDetailButton: {
         viewUsers: "Marketplace",
@@ -461,6 +533,10 @@ const translation: i18nLanguage = {
           owner: "Owner",
           admin: "Admin",
           quota_user: "Quota",
+        },
+        actions: {
+          editPassword: "Edit Password",
+          deleteUser: "Delete User",
         },
         resources: {
           cpus: "CPUs",
@@ -485,6 +561,14 @@ const translation: i18nLanguage = {
         noUsersFound: "No users found",
         pendingInvites: "Pending Invites",
       },
+      deleteUserDialog: {
+        title: "Delete User",
+        message:
+          "Are you sure you want to delete this user? This will permanently delete all data associated with this user and cannot be undone.",
+        cancelButton: "Cancel",
+        confirmButton: "Delete User",
+        submitError: "Failed to delete user",
+      },
     },
     GameServerSettings: {
       tabs: {
@@ -494,6 +578,8 @@ const translation: i18nLanguage = {
         metrics: "Metrics",
         accessManagement: "Access Management",
         rcon: "RCON",
+        webhooks: "Webhooks",
+        design: "Design",
       },
       sections: {
         general: "General Settings",
@@ -501,11 +587,64 @@ const translation: i18nLanguage = {
         publicDashboard: "Public Dashboard Settings",
         metrics: "Metrics Settings",
         accessManagement: "Access Management Settings",
+        webhooks: "Webhook Settings",
       },
       metrics: {
         type: "Type",
         width: "Width",
         add: "Add Metric",
+      },
+      webhooks: {
+        title: "Webhook Settings",
+        description: "Manage webhooks that will be called when certain events occur.",
+        form: {
+          webhookType: "Webhook Type",
+          webhookUrl: "Webhook URL",
+          enabled: "Enabled",
+          subscribedEvents: "Subscribed Events",
+        },
+        create: "Create Webhook",
+        configuredWebhooks: "Configured Webhooks",
+        loading: "Loading webhooks...",
+        empty: "No webhooks configured yet.",
+        delete: "Delete",
+        deleteDialog: {
+          title: "Delete webhook",
+          description: "Are you sure you want to delete this webhook?",
+        },
+        labels: {
+          type: "Type",
+          url: "URL",
+          enabled: "Enabled",
+          events: "Events",
+        },
+        state: {
+          enabled: "Enabled",
+          disabled: "Disabled",
+        },
+        createSuccess: "Webhook created successfully.",
+        deleteSuccess: "Webhook deleted successfully.",
+        types: {
+          DISCORD: "Discord",
+          SLACK: "Slack",
+          N8N: "n8n",
+        },
+        events: {
+          SERVER_STARTED: "Server Started",
+          SERVER_STOPPED: "Server Stopped",
+          SERVER_FAILED: "Server Failed",
+        },
+        validation: {
+          webhookUrlRequired: "Webhook URL is required",
+          webhookUrlInvalid: "Webhook URL must start with http:// or https://",
+          subscribedEventsRequired: "At least one event must be selected",
+        },
+        cancel: "Cancel",
+        creating: "Creating...",
+        edit: "Edit",
+        updating: "Updating...",
+        copyUrl: "Copy URL",
+        copied: "Copied to clipboard",
       },
       accessManagement: {
         title: "Access Management",
@@ -535,6 +674,14 @@ const translation: i18nLanguage = {
       },
     },
     gameServerSettings: {
+      designSettings: {
+        title: "Server Design",
+        description: "Choose the appearance of your server on the home page",
+        house: "House",
+        castle: "Castle",
+        revert: "Revert",
+        confirm: "Confirm",
+      },
       rconSettings: {
         title: "RCON Configuration",
         description: {
@@ -615,6 +762,10 @@ const translation: i18nLanguage = {
             name: "Change Metrics Settings",
             description: "Configure server monitoring and metrics collection.",
           },
+          CHANGE_WEBHOOK_SETTINGS: {
+            name: "Change Webhook Settings",
+            description: "Manage webhooks that will be called when certain events occur.",
+          },
           CHANGE_PERMISSIONS_SETTINGS: {
             name: "Change Permissions Settings",
             description: "Manage access groups and user permissions.",
@@ -683,6 +834,7 @@ const translation: i18nLanguage = {
     enterCommand: "Enter command...",
     cantSendCommands: "Server must be running to send commands",
     noLogsPermission: "You don't have permission to view server logs",
+    displayTimestamp: "Display timestamp",
   },
   serverPage: {
     notFound: "404 - Server Not Found",
@@ -761,6 +913,29 @@ const translation: i18nLanguage = {
     SMALL: "Small",
     MEDIUM: "Medium",
     LARGE: "Large",
+  },
+  footer: {
+    title: "COSY By Medalheads",
+    description:
+      "COSY stands for Cost Optimised Server Yard. It is a simplified, cost-efficient self-hosting service for running game servers.",
+    contact: "Contact:",
+    edit: "Edit Footer",
+    noData: "No footer data available",
+    editModal: {
+      title: "Edit Footer",
+      fullName: "Full Name",
+      fullNamePlaceholder: "Enter full name",
+      email: "Email",
+      emailPlaceholder: "Enter email address",
+      phone: "Phone",
+      phonePlaceholder: "Enter phone number",
+      street: "Street",
+      streetPlaceholder: "Enter street address",
+      city: "City",
+      cityPlaceholder: "Enter city",
+      cancel: "Cancel",
+      save: "Save",
+    },
   },
   dashboard: {
     true: "Zur öffentlichen Ansicht wechseln",

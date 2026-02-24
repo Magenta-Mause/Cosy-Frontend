@@ -11,8 +11,9 @@ import { toast } from "sonner";
 import type { GameServerDto } from "@/api/generated/model";
 import castle from "@/assets/MainPage/castle.png";
 import house from "@/assets/MainPage/house.png";
-import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
+import { GameServerDesign } from "@/types/gameServerDesign.ts";
 
 const hashUUID = (uuid: string): number => {
   let hash = 0;
@@ -30,13 +31,16 @@ const GameServerHouse = (props: {
   style?: CSSProperties;
 }) => {
   const { t } = useTranslation();
-  const { startServer, stopServer } = useServerInteractions();
+  const { startServer, stopServer } = useDataInteractions();
   const router = useRouter();
 
   const isHouse = useMemo(() => {
+    if (props.gameServer.design !== undefined) {
+      return props.gameServer.design === GameServerDesign.HOUSE;
+    }
     const hash = hashUUID(props.gameServer.uuid);
     return hash % 2 === 0;
-  }, [props.gameServer.uuid]);
+  }, [props.gameServer.uuid, props.gameServer.design]);
 
   const serverHouseImage = useMemo(() => {
     return {
@@ -92,7 +96,7 @@ const GameServerHouse = (props: {
       onClick: () => {
         handleClick();
         router.navigate({
-          to: `/server/${props.gameServer.uuid}`,
+          to: `/server/${props.gameServer.uuid}/console`,
         });
       },
     },

@@ -16,13 +16,16 @@ export default function GameServerStatusDot(props: {
   status: GameServerDtoStatus;
   className?: string;
   showTooltip?: boolean;
+  useScreenRelativeSizes?: boolean;
 }) {
   const { t } = useTranslation();
 
   const dot = (
     <span
       className={cn(
-        "inline-block w-5 h-5 border-button-primary-default border-2 rounded-4xl",
+        "rounded-full box-border",
+        props.useScreenRelativeSizes ? "h-[1vw] w-[1vw] border-[0.12vw]" : "h-5 w-5 border",
+        "border-button-primary-default shrink-0",
         GAME_SERVER_STATUS_TO_COLOR[props.status],
         props.className,
       )}
