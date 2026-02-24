@@ -140,7 +140,7 @@ const GameServerDetailPageLayout = (props: {
   return (
     <GameServerDetailContext.Provider value={{ gameServer: props.gameServer }}>
       {/* Mobile layout */}
-      <div className="md:hidden flex flex-col h-screen bg-background">
+      <div className="lg:hidden flex flex-col h-screen bg-background">
         {/* Header: back button + server name + status + start/stop */}
         <div className="flex items-center gap-2 p-3 border-b-4 border-foreground">
           <Link to="/" className="shrink-0">
@@ -163,7 +163,7 @@ const GameServerDetailPageLayout = (props: {
       </div>
 
       {/* Desktop layout */}
-      <div className="hidden md:block w-screen h-screen bg-black relative overflow-hidden">
+      <div className="hidden lg:block w-screen h-screen bg-black relative overflow-hidden">
         {/* Layer 1: cover-sized background + content */}
         <div
           className="game-server-bg absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex"
