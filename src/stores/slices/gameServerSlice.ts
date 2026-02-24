@@ -3,6 +3,7 @@ import {
   type GameServerAccessGroupDto,
   type GameServerDto,
   GameServerDtoStatus,
+  type WebhookDto,
 } from "@/api/generated/model";
 import type { SliceState } from "@/stores";
 
@@ -118,6 +119,35 @@ const gameServerSlice = createSlice({
       const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
       if (index !== -1) {
         state.data[index].access_groups = action.payload.newAccessGroups;
+      }
+    },
+    addWebhook(state, action: PayloadAction<{ gameServerUuid: string; webhook: WebhookDto }>) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1) {
+        if (!state.data[index].webhooks) state.data[index].webhooks = [];
+        state.data[index].webhooks?.push(action.payload.webhook);
+      }
+    },
+    updateWebhook(state, action: PayloadAction<{ gameServerUuid: string; webhook: WebhookDto }>) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1 && state.data[index].webhooks) {
+        const webhookIndex = state.data[index].webhooks?.findIndex(
+          (w) => w.uuid === action.payload.webhook.uuid,
+        );
+        if (webhookIndex !== -1 && webhookIndex !== undefined) {
+          const webhooks = state.data[index].webhooks;
+          if (webhooks) {
+            webhooks[webhookIndex] = action.payload.webhook;
+          }
+        }
+      }
+    },
+    removeWebhook(state, action: PayloadAction<{ gameServerUuid: string; webhookUuid: string }>) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1 && state.data[index].webhooks) {
+        state.data[index].webhooks = state.data[index].webhooks?.filter(
+          (webhook) => webhook.uuid !== action.payload.webhookUuid,
+        );
       }
     },
   },

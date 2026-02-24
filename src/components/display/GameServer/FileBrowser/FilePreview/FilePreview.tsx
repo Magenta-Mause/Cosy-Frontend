@@ -108,7 +108,7 @@ export function FilePreview(props: FilePreviewProps) {
       <div className="p-2 flex-1 flex flex-col overflow-auto h-full">
         <pre
           className={cn(
-            "text-sm whitespace-pre-wrap wrap-break-words",
+            "text-xs whitespace-pre-wrap wrap-break-words",
             "rounded-md border border-border bg-background p-3",
             "flex-1 min-h-0 overflow-auto",
           )}

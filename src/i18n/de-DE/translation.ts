@@ -14,7 +14,7 @@ const translation: i18nLanguage = {
     startServer: "Starten",
     stopServer: "Stoppen",
     refresh: "Aktualisieren",
-    createNewGameserver: "Neuen Gameserver erstellen",
+    createNewGameServer: "Neuen Gameserver erstellen",
     viewLogs: "Logs anzeigen",
     loading: "Lädt...",
     failed: "Starten fehlgeschlagen",
@@ -43,6 +43,12 @@ const translation: i18nLanguage = {
     updateGameServerSuccess: "Game-Server erfolgreich aktualisiert!",
     updateGameServerError: "Fehler beim Aktualisieren des Game-Servers",
     missingUuid: "Die Server UUID fehlt",
+    createWebhookSuccess: "Webhook erfolgreich erstellt!",
+    createWebhookError: "Fehler beim Erstellen des Webhooks",
+    updateWebhookSuccess: "Webhook erfolgreich aktualisiert!",
+    updateWebhookError: "Fehler beim Aktualisieren des Webhooks",
+    deleteWebhookSuccess: "Webhook erfolgreich gelöscht!",
+    deleteWebhookError: "Fehler beim Löschen des Webhooks",
     updateFooterSuccess: "Fußzeile erfolgreich aktualisiert!",
     updateFooterError: "Fehler beim Aktualisieren der Fußzeile",
   },
@@ -336,9 +342,12 @@ const translation: i18nLanguage = {
         noFiles: "Keine Dateien",
         directoryType: "Ordner",
         fileType: "Datei",
+        fileSizeTooltip: "{{size}} Bytes",
+        fileModeTooltip: "Modus: {{octal}} ({{rwx}})",
         renameAction: "Umbenennen",
         deleteAction: "Löschen",
         downloadAction: "Download",
+        exportAction: "Exportieren",
         downloadFile: "{{fileName}} downloaden",
         createFolderAction: "Ordner erstellen",
         createFolderDescription: "Erstellt einen Ordner in: {{dirName}}",
@@ -354,10 +363,14 @@ const translation: i18nLanguage = {
         deleteDialogFile: "Diese Aktion kann nicht rückgängig gemacht werden",
         cancel: "Abbrechen",
         deleteInProgress: "Löschen...",
+        cantDeleteWhileDownloading: "Während Download deaktiviert",
+        loading: "Lädt...",
       },
       fileBrowserDialog: {
+        closePreview: "Vorschau schließen",
         uploadFailure: "Datei konnte nicht hochgeladen werden",
         downloadZipFailure: "Zip-Archiv konnte nicht heruntergeladen werden",
+        fileUploadError: "Datei konnte nicht hochgeladen werden",
         preparing: "Vorbereiten...",
         downloadingFile: "Downloadfortschritt: {{done}}/{{total}}",
         downloadAllAction: "Ordner Herunterladen",
@@ -367,6 +380,7 @@ const translation: i18nLanguage = {
         noFilesPermissionDesc: "Du hast keine Berechtigung, die Server-Dateien anzuzeigen",
         uploadInSyntheticDir: "Dateien können nicht in virtuelle Verzeichnisse hochgeladen werden",
         uploadNoPermission: "Du hast keine Berechtigung, Dateien hochzuladen",
+        errorWhileZipDownload: "Fehler beim Herunterladen des Zip-Archivs",
       },
     },
     settingsActionButtons: {
@@ -432,6 +446,15 @@ const translation: i18nLanguage = {
         title: "Volume-Mounts",
         errorLabel: "Pfad darf nicht leer sein",
         description: "Volume-Mounts für deinen Server",
+        pathChange: {
+          title: "Volume-Mount-Pfad geändert",
+          description:
+            "Der Containerpfad für dieses Volume-Mount wurde geändert. Möchtest du die alten Dateien behalten und in den neuen Pfad bewegen oder die alten Dateien löschen?",
+          keepButton: "Dateien behalten",
+          deleteButton: "Alte Dateien löschen",
+          keepIndicator: "Dateien werden beibehalten",
+          deleteIndicator: "Alte Dateien werden gelöscht",
+        },
       },
 
       memoryLimitSelection: {
@@ -497,6 +520,7 @@ const translation: i18nLanguage = {
         metrics: "Metriken",
         accessManagement: "Zugriffsverwaltung",
         rcon: "RCON",
+        webhooks: "Webhooks",
         design: "Design",
       },
       sections: {
@@ -505,11 +529,65 @@ const translation: i18nLanguage = {
         publicDashboard: "Einstellungen für öffentliches Dashboard",
         metrics: "Metrik-Einstellungen",
         accessManagement: "Zugriffsverwaltungs-Einstellungen",
+        webhooks: "Webhook-Einstellungen",
       },
       metrics: {
         type: "Typen",
         width: "Breite",
         add: "Metrik hinzufügen",
+      },
+      webhooks: {
+        title: "Webhook-Einstellungen",
+        description:
+          "Verwalte Webhooks, welche ausgeführt werden, wenn bestimmte Ereignisse auf Ihrem Server auftreten.",
+        form: {
+          webhookType: "Webhook-Typ",
+          webhookUrl: "Webhook-URL",
+          enabled: "Aktiviert",
+          subscribedEvents: "Abonnierte Ereignisse",
+        },
+        create: "Webhook erstellen",
+        configuredWebhooks: "Konfigurierte Webhooks",
+        loading: "Webhooks werden geladen...",
+        empty: "Noch keine Webhooks konfiguriert.",
+        delete: "Löschen",
+        deleteDialog: {
+          title: "Webhook löschen",
+          description: "Möchtest du diesen Webhook wirklich löschen?",
+        },
+        labels: {
+          type: "Typ",
+          url: "URL",
+          enabled: "Aktiviert",
+          events: "Ereignisse",
+        },
+        state: {
+          enabled: "Aktiviert",
+          disabled: "Deaktiviert",
+        },
+        createSuccess: "Webhook wurde erfolgreich erstellt.",
+        deleteSuccess: "Webhook wurde erfolgreich gelöscht.",
+        types: {
+          DISCORD: "Discord",
+          SLACK: "Slack",
+          N8N: "n8n",
+        },
+        events: {
+          SERVER_STARTED: "Server gestartet",
+          SERVER_STOPPED: "Server gestoppt",
+          SERVER_FAILED: "Server fehlgeschlagen",
+        },
+        validation: {
+          webhookUrlRequired: "Webhook-URL ist erforderlich",
+          webhookUrlInvalid: "Webhook-URL muss mit http:// oder https:// beginnen",
+          subscribedEventsRequired: "Mindestens ein Ereignis muss ausgewählt werden",
+        },
+        cancel: "Abbrechen",
+        creating: "Wird erstellt...",
+        edit: "Bearbeiten",
+        updating: "Wird aktualisiert...",
+        copyUrl: "URL kopieren",
+        copied: "URL in Zwischenablage kopiert",
       },
       accessManagement: {
         title: "Zugriffsverwaltung",
@@ -624,6 +702,11 @@ const translation: i18nLanguage = {
           CHANGE_METRICS_SETTINGS: {
             name: "Metrik-Einstellungen ändern",
             description: "Server-Überwachung und Metrik-Erfassungseinstellungen konfigurieren.",
+          },
+          CHANGE_WEBHOOK_SETTINGS: {
+            name: "Webhook-Einstellungen ändern",
+            description:
+              "Verwalte Webhooks, welche ausgeführt werden, wenn bestimmte Ereignisse auf Ihrem Server auftreten.",
           },
           CHANGE_PERMISSIONS_SETTINGS: {
             name: "Berechtigungseinstellungen ändern",
@@ -741,6 +824,7 @@ const translation: i18nLanguage = {
     enterCommand: "Befehl eingeben...",
     cantSendCommands: "Server muss laufen, um Befehle zu senden",
     noLogsPermission: "Du hast keine Berechtigung, die Server-Logs anzuzeigen",
+    displayTimestamp: "Timestamp anzeigen",
   },
   serverPage: {
     notFound: "404 - Server nicht gefunden",

@@ -13,7 +13,7 @@ export type i18nLanguage = {
     startServer: string;
     stopServer: string;
     refresh: string;
-    createNewGameserver: string;
+    createNewGameServer: string;
     viewLogs: string;
     loading: string;
     failed: string;
@@ -42,6 +42,12 @@ export type i18nLanguage = {
     updateGameServerSuccess: string;
     updateGameServerError: string;
     missingUuid: string;
+    createWebhookSuccess: string;
+    createWebhookError: string;
+    updateWebhookSuccess: string;
+    updateWebhookError: string;
+    deleteWebhookSuccess: string;
+    deleteWebhookError: string;
     updateFooterSuccess: string;
     updateFooterError: string;
   };
@@ -191,6 +197,7 @@ export type i18nLanguage = {
     cantSendCommands: string;
     noLogsPermission: string;
     timestampFormatDetailed: string;
+    displayTimestamp: string;
   };
 
   serverPage: {
@@ -426,6 +433,14 @@ export type i18nLanguage = {
         title: string;
         errorLabel: string;
         description: string;
+        pathChange: {
+          title: string;
+          description: string;
+          keepButton: string;
+          deleteButton: string;
+          keepIndicator: string;
+          deleteIndicator: string;
+        };
       };
 
       memoryLimitSelection: {
@@ -555,9 +570,12 @@ export type i18nLanguage = {
         noFiles: string;
         directoryType: string;
         fileType: string;
+        fileSizeTooltip: ContainsVariable<"size">;
+        fileModeTooltip: ContainsVariable<"octal"> & ContainsVariable<"rwx">;
         renameAction: string;
         deleteAction: string;
         downloadAction: string;
+        exportAction: string;
         downloadFile: ContainsVariable<"fileName">;
         createFolderAction: string;
         createFolderDescription: ContainsVariable<"dirName">;
@@ -572,10 +590,14 @@ export type i18nLanguage = {
         deleteDialogFile: string;
         cancel: string;
         deleteInProgress: string;
+        cantDeleteWhileDownloading: string;
+        loading: string;
       };
       fileBrowserDialog: {
+        closePreview: string;
         uploadFailure: string;
         downloadZipFailure: string;
+        fileUploadError: string;
         preparing: string;
         downloadingFile: ContainsVariable<"done"> & ContainsVariable<"total">;
         downloadAllAction: string;
@@ -585,6 +607,7 @@ export type i18nLanguage = {
         noFilesPermissionDesc: string;
         uploadInSyntheticDir: string;
         uploadNoPermission: string;
+        errorWhileZipDownload: string;
       };
       fileBrowserHeader: {
         newFolder: string;
@@ -603,6 +626,7 @@ export type i18nLanguage = {
         metrics: string;
         accessManagement: string;
         rcon: string;
+        webhooks: string;
         design: string;
       };
       sections: {
@@ -611,6 +635,7 @@ export type i18nLanguage = {
         publicDashboard: string;
         metrics: string;
         accessManagement: string;
+        webhooks: string;
       };
       accessManagement: {
         title: string;
@@ -620,6 +645,58 @@ export type i18nLanguage = {
         type: string;
         width: string;
         add: string;
+      };
+      webhooks: {
+        title: string;
+        description: string;
+        form: {
+          webhookType: string;
+          webhookUrl: string;
+          enabled: string;
+          subscribedEvents: string;
+        };
+        create: string;
+        configuredWebhooks: string;
+        loading: string;
+        empty: string;
+        delete: string;
+        deleteDialog: {
+          title: string;
+          description: string;
+        };
+        labels: {
+          type: string;
+          url: string;
+          enabled: string;
+          events: string;
+        };
+        state: {
+          enabled: string;
+          disabled: string;
+        };
+        createSuccess: string;
+        deleteSuccess: string;
+        types: {
+          DISCORD: string;
+          SLACK: string;
+          N8N: string;
+        };
+        events: {
+          SERVER_STARTED: string;
+          SERVER_STOPPED: string;
+          SERVER_FAILED: string;
+        };
+        validation: {
+          webhookUrlRequired: string;
+          webhookUrlInvalid: string;
+          subscribedEventsRequired: string;
+        };
+        cancel: string;
+        creating: string;
+        edit: string;
+        updating: string;
+        copyUrl: string;
+        copied: string;
       };
       privateDashboard: {
         add: string;
@@ -723,6 +800,10 @@ export type i18nLanguage = {
             description: string;
           };
           CHANGE_METRICS_SETTINGS: {
+            name: string;
+            description: string;
+          };
+          CHANGE_WEBHOOK_SETTINGS: {
             name: string;
             description: string;
           };

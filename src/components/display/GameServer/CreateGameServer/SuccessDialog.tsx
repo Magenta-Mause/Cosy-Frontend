@@ -6,6 +6,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
 import { useNavigate } from "@tanstack/react-router";
@@ -36,15 +37,18 @@ const SuccessDialog = ({ open, onClose, successInfo }: SuccessDialogProps) => {
             })}
           </DialogDescription>
         </DialogHeader>
-        {successInfo && (
-          <HouseBuildingProcess
-            houseType={successInfo.server.design}
-            currentStep={2}
-            serverName={successInfo.server.server_name}
-            stepLabel={t("components.CreateGameServer.successDialog.completedStepLabel")}
-            allStepsFinished
-          />
-        )}
+        <DialogMain className={"overflow-x-clip"}>
+          {successInfo && (
+            <HouseBuildingProcess
+              houseType={successInfo.server.design}
+              currentStep={2}
+              serverName={successInfo.server.server_name}
+              stepLabel={t("components.CreateGameServer.successDialog.completedStepLabel")}
+              allStepsFinished
+              asChild
+            />
+          )}
+        </DialogMain>
         <DialogFooter>
           <Button variant="secondary" onClick={onClose}>
             {t("components.CreateGameServer.successDialog.doneButton")}

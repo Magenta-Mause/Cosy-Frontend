@@ -170,14 +170,15 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
                   className="flex-1"
                   metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
                   setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
-                />
-              )}
+                  gameServerUuid={props.gameServer.uuid}
+                  />
+                )}
               {dashboard.private_dashboard_types ===
                 PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT && (
-                <Button variant={"secondary"} onClick={() => handleFreeTextEdit(dashboard)}>
-                  <SquarePen className="size-6" />
-                </Button>
-              )}
+                  <Button variant={"secondary"} onClick={() => handleFreeTextEdit(dashboard)}>
+                    <SquarePen className="size-6" />
+                  </Button>
+                )}
             </div>
           </>
         )}

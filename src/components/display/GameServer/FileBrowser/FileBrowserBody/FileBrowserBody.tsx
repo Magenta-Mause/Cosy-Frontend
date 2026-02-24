@@ -1,4 +1,5 @@
 import type { FileSystemObjectDto } from "@/api/generated/model";
+import { cn } from "@/lib/utils";
 import { useFileBrowser } from "../FileBrowserContext";
 import { FileBrowserRow } from "../FileBrowserRow/FileBrowserRow";
 
@@ -27,21 +28,28 @@ export const FileBrowserBody = ({
   onDelete,
   onDownload,
 }: Props) => {
-  const { currentPath } = useFileBrowser();
+  const { currentPath, navigating } = useFileBrowser();
 
   if (error) return <div className="p-3 text-sm text-destructive">{error}</div>;
   if (objects.length === 0 && !loading && currentPath === "/")
     return <div className="p-3 text-sm text-muted-foreground">{emptyText}</div>;
 
+  const effectiveEntryClick = navigating ? undefined : onEntryClick;
+  const effectiveLoading = loading || navigating;
+
   return (
-    <div className="flex-1 overflow-auto">
+    <div
+      className={cn("flex-1 overflow-auto", navigating && "opacity-50 transition-opacity")}
+      data-loading={navigating || undefined}
+    >
       <ul className="p-2">
         {currentPath !== "/" && (
           <li>
             <FileBrowserRow
               obj={{ name: "..", type: "DIRECTORY" }}
+              loading={navigating}
               canWrite={false}
-              onEntryClick={onEntryClick}
+              onEntryClick={effectiveEntryClick}
             />
           </li>
         )}
@@ -49,12 +57,12 @@ export const FileBrowserBody = ({
           <li key={`${obj.type ?? "UNKNOWN"}:${obj.name}`}>
             <FileBrowserRow
               obj={obj}
-              loading={loading}
+              loading={effectiveLoading}
               canWrite={canWrite}
-              onEntryClick={onEntryClick}
-              onRename={onRename}
-              onDelete={onDelete}
-              onDownload={onDownload}
+              onEntryClick={effectiveEntryClick}
+              onRename={navigating ? undefined : onRename}
+              onDelete={navigating ? undefined : onDelete}
+              onDownload={navigating ? undefined : onDownload}
             />
           </li>
         ))}
