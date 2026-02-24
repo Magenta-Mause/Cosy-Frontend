@@ -50,7 +50,7 @@ export const useUserResourceUsage = (userUuid: string | null | undefined): UserR
   });
 
   return {
-    cpuUsage: (totalCpuUsage / 1000).toFixed(2),
+    cpuUsage: (totalCpuUsage / 100).toFixed(2),
     memoryUsage: convertBytesToReadable(totalMemoryUsage),
   };
 };
