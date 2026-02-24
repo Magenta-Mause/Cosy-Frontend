@@ -91,14 +91,14 @@ const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
           src={asset0.src}
           style={{ ...getStyle(index * 2), imageRendering: "pixelated", width: asset0.width }}
           className={cn(DEKO_BASE_CLASS, asset0.translate)}
-          alt="deko"
+          aria-hidden
         />,
         <img
           key={`${gameServer.uuid}-1`}
           src={asset1.src}
           style={{ ...getStyle(index * 2 + 1), imageRendering: "pixelated", width: asset1.width }}
           className={cn(DEKO_BASE_CLASS, asset1.translate)}
-          alt="deko"
+          aria-hidden
         />,
       ];
     }),
@@ -116,7 +116,7 @@ const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
             width: asset.width,
           }}
           className={cn(DEKO_BASE_CLASS, asset.translate)}
-          alt="deko"
+          aria-hidden
         />
       );
     }),
