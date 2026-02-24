@@ -3,9 +3,9 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
 import { useNavigate } from "@tanstack/react-router";
@@ -46,7 +46,7 @@ export function LogOutAlertDialog({ onConfirm, open, onOpenChange }: LogOutAlert
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
-          <DialogDescription>{t("description")}</DialogDescription>
+          <DialogMain>{t("description")}</DialogMain>
         </DialogHeader>
 
         <DialogFooter>
