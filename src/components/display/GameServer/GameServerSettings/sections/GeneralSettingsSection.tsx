@@ -20,7 +20,7 @@ const GeneralSettingsSection = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3 pr-5 relative">
+    <div className="flex flex-col gap-3 relative">
       <EditGameServerPage
         serverName={gameServer.server_name ?? ""}
         gameServer={gameServer}

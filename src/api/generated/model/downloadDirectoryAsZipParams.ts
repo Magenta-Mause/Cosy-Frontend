@@ -6,4 +6,9 @@
  * OpenAPI spec version: v1.0
  */
 
-export type GameServerDesign = 'HOUSE' | 'CASTLE';
+export type DownloadDirectoryAsZipParams = {
+/**
+ * @minLength 1
+ */
+path: string;
+};

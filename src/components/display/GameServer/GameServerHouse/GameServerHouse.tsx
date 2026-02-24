@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import type { GameServerDto } from "@/api/generated/model";
 import castle from "@/assets/MainPage/castle.png";
 import house from "@/assets/MainPage/house.png";
-import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
 import { GameServerDesign } from "@/types/gameServerDesign.ts";
 
@@ -31,7 +31,7 @@ const GameServerHouse = (props: {
   style?: CSSProperties;
 }) => {
   const { t } = useTranslation();
-  const { startServer, stopServer } = useServerInteractions();
+  const { startServer, stopServer } = useDataInteractions();
   const router = useRouter();
 
   const isHouse = useMemo(() => {
@@ -97,7 +97,7 @@ const GameServerHouse = (props: {
       onClick: () => {
         handleClick();
         router.navigate({
-          to: `/server/${props.gameServer.uuid}`,
+          to: `/server/${props.gameServer.uuid}/console`,
         });
       },
     },

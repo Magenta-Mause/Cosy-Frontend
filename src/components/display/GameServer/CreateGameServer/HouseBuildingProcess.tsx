@@ -31,18 +31,14 @@ const HouseBuildingProcess = (props: {
   serverName?: string;
   stepLabel?: string;
   allStepsFinished?: boolean;
+  asChild?: boolean;
 }) => {
   const type = props.houseType === "CASTLE" ? "CASTLE" : "HOUSE";
   const currentImage = type === "HOUSE" ? houses[props.currentStep] : castles[props.currentStep];
   const xOffset = IMAGE_X_OFFSETS[type][props.currentStep];
   const imageWidth = IMAGE_WIDTHS[type];
-
-  return (
-    <div
-      className={
-        "bg-background p-5 rounded-lg border-solid border-2 flex flex-col gap-6 overflow-hidden min-w-100"
-      }
-    >
+  const children = (
+    <>
       <div className="relative">
         <img
           src={currentImage}
@@ -60,6 +56,17 @@ const HouseBuildingProcess = (props: {
         label={props.stepLabel}
         allStepsFinished={props.allStepsFinished}
       />
+    </>
+  );
+  if (props.asChild) return children;
+
+  return (
+    <div
+      className={
+        "bg-background p-5 rounded-lg border-solid border-2 flex flex-col gap-6 overflow-hidden min-w-100"
+      }
+    >
+      {children}
     </div>
   );
 };

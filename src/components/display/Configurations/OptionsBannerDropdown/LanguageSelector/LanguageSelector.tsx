@@ -38,9 +38,7 @@ const LanguageSelector = (props: {
       </PopoverTrigger>
       <PopoverContent
         side="right"
-        className={
-          "z-101 flex flex-col gap-2 p-1.5 w-40 h-auto justify-evenly border-2"
-        }
+        className={"z-101 flex flex-col gap-2 p-1.5 w-40 h-auto justify-evenly border-2"}
       >
         {LANGUAGES.map((language) => (
           <Button

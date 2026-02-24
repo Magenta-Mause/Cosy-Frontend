@@ -161,6 +161,40 @@ export function useFileBrowserCache(opts: {
     [mountTrie, opts.serverUuid],
   );
 
+  const prefetchPath = useCallback(
+    async (path: string, depth: number) => {
+      const norm = normalizePath(path);
+
+      const existing = cacheRef.current.get(norm);
+      if (existing && existing.fetchDepth >= depth) return;
+
+      const node = getNodeForPath(mountTrie, norm);
+      if (node && !node.isMountRoot) {
+        const synthetic = buildSyntheticListing(mountTrie, norm);
+        setCache((prev) => {
+          const next = new Map(prev);
+          next.set(norm, { fetchDepth: 0, objects: synthetic });
+          return next;
+        });
+        return;
+      }
+
+      const apiPath = norm === "/" ? "" : norm;
+      const dto = await getFileSystemForVolume(opts.serverUuid, {
+        path: apiPath,
+        fetch_depth: depth,
+      });
+
+      const nextObjects = dto.objects ?? [];
+      setCache((prev) => {
+        const next = new Map(prev);
+        next.set(norm, { fetchDepth: depth, objects: nextObjects });
+        return next;
+      });
+    },
+    [mountTrie, opts.serverUuid],
+  );
+
   useEffect(() => {
     const norm = normalizePath(currentPath);
     const node = getNodeForPath(mountTrie, norm);
@@ -176,6 +210,14 @@ export function useFileBrowserCache(opts: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mountTrie, currentPath]);
 
+  // Sync local state when the URL changes externally (browser back / forward).
+  // The exported setCurrentPath pushes a history entry AND updates state directly,
+  // so this effect only fires meaningfully on browser-driven navigation.
+  useEffect(() => {
+    const normalized = normalizePath(opts.initialPath);
+    setCurrentPath(normalized);
+  }, [opts.initialPath]);
+
   return {
     currentPath,
     setCurrentPath: (p: string) => {
@@ -185,7 +227,6 @@ export function useFileBrowserCache(opts: {
         params: {
           serverId: opts.serverUuid,
         },
-        replace: true,
       });
       setCurrentPath(path);
     },
@@ -196,5 +237,6 @@ export function useFileBrowserCache(opts: {
     error,
     setError,
     ensurePathFetched,
+    prefetchPath,
   };
 }

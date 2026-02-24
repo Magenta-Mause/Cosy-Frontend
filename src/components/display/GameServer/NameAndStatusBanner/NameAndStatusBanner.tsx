@@ -39,11 +39,9 @@ const NameAndStatusBanner = (props: {
         )}
       >
         {!props.hideStatus && (
-          <GameServerStatusDot status={status} showTooltip={true} />
+          <GameServerStatusDot status={status} showTooltip={true} useScreenRelativeSizes />
         )}
-        <span className="font-bold truncate text-center">
-          {props.children}
-        </span>
+        <span className="font-bold truncate text-center">{props.children}</span>
       </div>
     </div>
   );
