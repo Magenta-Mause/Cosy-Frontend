@@ -45,7 +45,8 @@ const GameServerHouse = (props: {
   const serverHouseImage = useMemo(() => {
     return {
       image: isHouse ? house : castle,
-      size: isHouse ? "18vw" : "22vw",
+      size: isHouse ? "15vw" : "20vw",
+      centerX: isHouse ? "translate-y-[3.5vw] translate-x-[1.5vw]" : "",
     };
   }, [isHouse]);
 
@@ -107,6 +108,7 @@ const GameServerHouse = (props: {
       <Link
         className={cn(
           "block h-auto overflow-visible aspect-square select-none relative",
+          serverHouseImage.centerX,
           props.className,
         )}
         to={`/server/${props.gameServer.uuid}`}
@@ -124,8 +126,8 @@ const GameServerHouse = (props: {
         <NameAndStatusBanner
           className={
             isHouse
-              ? "absolute translate-x-[5.5%] translate-y-[-15%] whitespace-nowrap z-10"
-              : "absolute translate-x-[13%] translate-y-[78%] whitespace-nowrap z-10"
+              ? "absolute -translate-x-[1.1vw] -translate-y-[0.8vw] whitespace-nowrap z-10"
+              : "absolute translate-x-[0.5vw] translate-y-[2.5vw] whitespace-nowrap z-10"
           }
           classNameTextChildren={"-translate-y-[1.1vw]"}
           status={props.gameServer.status}
@@ -136,7 +138,7 @@ const GameServerHouse = (props: {
           alt={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
           })}
-          className="w-full h-full object-contain overflow-visible"
+          className="w-full h-full object-contain overflow-visible flex items-center justify-center"
           aria-label={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
           })}

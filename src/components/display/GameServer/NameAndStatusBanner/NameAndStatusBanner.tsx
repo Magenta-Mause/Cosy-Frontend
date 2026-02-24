@@ -19,10 +19,10 @@ const NameAndStatusBanner = (props: {
       tabIndex={-1}
       style={{
         backgroundImage: `url(${gameServerStatusBanner})`,
-        backgroundSize: "100% 100%",
+        backgroundSize: "100%",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        width: "14vw",
+        width: "15vw",
         height: "4vw",
         imageRendering: "pixelated",
       }}
