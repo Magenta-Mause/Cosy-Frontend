@@ -46,8 +46,9 @@ export function LogOutAlertDialog({ onConfirm, open, onOpenChange }: LogOutAlert
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
-          <DialogMain>{t("description")}</DialogMain>
         </DialogHeader>
+
+        <DialogMain>{t("description")}</DialogMain>
 
         <DialogFooter>
           <DialogClose asChild>

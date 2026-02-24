@@ -1,6 +1,6 @@
 import { Button } from "@components/ui/button";
 import { useTranslation } from "react-i18next";
-import papyrusScroll from "@/assets/MainPage/LoginPapyrusScroll.png"
+import papyrusScroll from "@/assets/MainPage/LoginPapyrusScroll.png";
 
 const LoginBanner = (props: { setOpen: (open: boolean) => void }) => {
   const { t } = useTranslation();
