@@ -543,6 +543,7 @@ export type i18nLanguage = {
           admin: string;
           quota_user: string;
         };
+        yourProfile: string;
         actions: {
           editPassword: string;
           editDockerLimits: string;

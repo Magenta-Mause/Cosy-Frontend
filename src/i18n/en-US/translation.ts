@@ -559,6 +559,7 @@ const translation: i18nLanguage = {
           admin: "Admin",
           quota_user: "Quota",
         },
+        yourProfile: "Your Profile",
         actions: {
           editPassword: "Edit Password",
           editDockerLimits: "Edit Resource Limits",
