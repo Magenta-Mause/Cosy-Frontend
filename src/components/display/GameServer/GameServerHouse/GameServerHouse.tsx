@@ -139,9 +139,6 @@ const GameServerHouse = (props: {
             serverName: props.gameServer.server_name,
           })}
           className="w-full h-full object-contain overflow-visible flex items-center justify-center"
-          aria-label={t("aria.gameServerConfiguration", {
-            serverName: props.gameServer.server_name,
-          })}
           style={{
             imageRendering: "pixelated",
           }}
