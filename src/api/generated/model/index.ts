@@ -55,6 +55,7 @@ export * from './privateDashboardLayoutPrivateDashboardTypes';
 export * from './privateDashboardLayoutSize';
 export * from './publicDashboard';
 export * from './publicDashboardLayout';
+export * from './publicDashboardLayoutLayoutType';
 export * from './publicDashboardLayoutMetricType';
 export * from './publicDashboardLayoutPublicDashboardType';
 export * from './publicDashboardLayoutPublicDashboardTypes';

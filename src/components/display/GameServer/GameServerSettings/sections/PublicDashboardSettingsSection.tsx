@@ -32,31 +32,32 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   const { gameServer } = props;
   const { t } = useTranslationPrefix("components");
   const [publicDashboard, setPublicDashboard] = useState<PublicDashboardLayoutUI[]>(() =>
-    wrapPublicDashboards(gameServer.public_dashboard_layouts),
+    wrapPublicDashboards(gameServer.public_dashboard.layouts ?? []),
   );
   const [freeText, setFreeText] = useState<PublicDashboardLayoutUI | null>(null);
   const [unfulfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
-  const [checked, setChecked] = useState(gameServer.public_dashboard_enabled ?? false);
+  const [checked, setChecked] = useState(gameServer.public_dashboard.enabled ?? false);
 
   const isChanged = useMemo(() => {
-    if (publicDashboard.length !== gameServer.public_dashboard_layouts.length) return true;
+    if (publicDashboard.length !== gameServer.public_dashboard?.layouts?.length) return true;
 
     return publicDashboard.some((dashboard, i) => {
-      const original = gameServer.public_dashboard_layouts[i];
+      const original = gameServer.public_dashboard?.layouts?.at(i);
+      if (!original) return false;
       return (
-        gameServer.public_dashboard_enabled !== checked ||
+        gameServer.public_dashboard.enabled !== checked ||
         dashboard.size !== original.size ||
         dashboard.metric_type !== original.metric_type ||
         dashboard.content !== original.content ||
         dashboard.title !== original.title ||
-        dashboard.public_dashboard_types !== original.public_dashboard_types ||
+        dashboard.layout_type !== original.layout_type ||
         JSON.stringify(dashboard.content ?? []) !== JSON.stringify(original.content ?? [])
       );
     });
   }, [
-    gameServer.public_dashboard_layouts,
+    gameServer.public_dashboard.layouts,
     publicDashboard,
-    gameServer.public_dashboard_enabled,
+    gameServer.public_dashboard.enabled,
     checked,
   ]);
 
@@ -79,7 +80,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   ): PublicDashboardLayoutUI => {
     const layoutObject: PublicDashboardLayoutUI = {
       _uiUuid: layout._uiUuid,
-      public_dashboard_types: type,
+      layout_type: type,
       size: layout.size ?? LayoutSize.MEDIUM,
       uuid: layout.uuid,
       valid: true,
@@ -144,7 +145,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   };
 
   const newWidget = wrapPublicDashboard({
-    public_dashboard_types: DashboardElementTypes.METRIC,
+    layout_type: DashboardElementTypes.METRIC,
     metric_type: MetricsType.CPU_PERCENT,
     size: MetricLayoutSize.MEDIUM,
   });
@@ -166,35 +167,37 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
       </FieldGroup>
       <GenericLayoutSelection<PublicDashboardLayoutUI>
         gameServer={gameServer}
-        layoutSection="public_dashboard_layouts"
+        layoutSection="public_dashboard"
         isChanged={isChanged}
         layouts={publicDashboard}
-        saveHandler={(uuid, layout) => updatePublicDashboardLayout(uuid, checked, layout)}
+        saveHandler={(uuid, layout) =>
+          updatePublicDashboardLayout(uuid, { enabled: checked, layouts: layout })
+        }
         setLayouts={setPublicDashboard}
         wrapper={wrapPublicDashboards}
         defaultAddNew={newWidget}
         unfulfilledChanges={unfulfilledChanges}
         setUnfulfilledChanges={setUnfulfilledChanges}
-        publicIsEnabled={checked}
+        isDisabled={checked}
       >
         {(dashboard) => (
           <>
             <div className={"flex gap-2"}>
               <WidgetDropDown
                 className={`${checked ? "" : "pointer-events-none"}`}
-                widgetType={dashboard.public_dashboard_types}
+                widgetType={dashboard.layout_type}
                 setWidgetType={(type) => {
                   handleTypeSelect(type, dashboard._uiUuid);
                 }}
               />
-              {dashboard.public_dashboard_types === DashboardElementTypes.METRIC && (
+              {dashboard.layout_type === DashboardElementTypes.METRIC && (
                 <MetricDropDown
                   className={`flex-1 ${checked ? "" : "pointer-events-none"}`}
                   metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
                   setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
                 />
               )}
-              {dashboard.public_dashboard_types === DashboardElementTypes.FREETEXT && (
+              {dashboard.layout_type === DashboardElementTypes.FREETEXT && (
                 <Button
                   className={`${checked ? "" : "pointer-events-none"}`}
                   variant={"secondary"}

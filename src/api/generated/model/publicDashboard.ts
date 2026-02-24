@@ -9,6 +9,6 @@ import type { PublicDashboardLayout } from './publicDashboardLayout';
 
 export interface PublicDashboard {
   uuid?: string;
-  public_dashboard_enabled?: boolean;
-  public_dashboard_layouts?: PublicDashboardLayout[];
+  enabled?: boolean;
+  layouts?: PublicDashboardLayout[];
 }

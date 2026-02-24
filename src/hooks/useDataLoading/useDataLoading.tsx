@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 import { v7 as generateUuid } from "uuid";
 import {
   getAllGameServers,
@@ -9,6 +10,7 @@ import {
   getGameServerById,
   getLogs,
   getMetrics,
+  getPublicEvaluableMetrics,
   getUserPermissions,
 } from "@/api/generated/backend-api.ts";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
@@ -96,8 +98,9 @@ const useDataLoading = () => {
       return false;
     }
 
+    let gameServer: GameServerDto;
     try {
-      const gameServer = await getGameServerById(gameServerUuid);
+      gameServer = await getGameServerById(gameServerUuid);
       dispatch(gameServerSliceActions.updateGameServer(gameServer));
     } catch (e) {
       if (deleteIfNotFound) {
@@ -112,7 +115,7 @@ const useDataLoading = () => {
     }
 
     try {
-      await loadAdditionalGameServerData(gameServerUuid, permissions);
+      await loadAdditionalGameServerData(gameServerUuid, gameServer, permissions);
 
       dispatch(gameServerSliceActions.setState("idle"));
       return true;
@@ -124,31 +127,74 @@ const useDataLoading = () => {
 
   const loadAdditionalGameServerData = async (
     gameServerUuid: string,
+    gameServer: GameServerDto,
     permissions?: GameServerAccessGroupDtoPermissionsItem[],
   ) => {
     const fetchedPermissions =
       (await loadGameServerPermissions(gameServerUuid, permissions)) || undefined;
 
+    if (!fetchedPermissions) {
+      return;
+    }
+
     await Promise.allSettled([
-      loadGameServerLogs(gameServerUuid, fetchedPermissions),
-      loadGameServerMetrics(gameServerUuid, undefined, undefined, fetchedPermissions),
+      containsPermission(
+        fetchedPermissions,
+        GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS,
+      )
+        ? loadGameServerLogs(gameServerUuid, fetchedPermissions)
+        : checkForLoadingPublicLogs(gameServer),
+      containsPermission(
+        fetchedPermissions,
+        GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS,
+      )
+        ? loadGameServerMetrics(gameServerUuid, undefined, undefined, fetchedPermissions)
+        : checkForLoadingPublicMetrics(gameServer),
     ]);
   };
 
-  const loadPublicEvaluableGameServerData = async (gameServer: GameServerDto) => {
+  const checkForLoadingPublicMetrics = async (gameServer: GameServerDto) => {
     if (
-      gameServer.public_dashboard_layouts.some(
-        (layout) => layout.public_dashboard_types === DashboardElementTypes.LOGS,
+      !gameServer.public_dashboard?.layouts?.some(
+        (layout) => layout.layout_type === DashboardElementTypes.METRIC,
       )
     ) {
-      await loadGameServerLogs(gameServer.uuid, [GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS])
+      return;
+    }
+
+    await loadPublicGameServerMetrics(gameServer.uuid, undefined, undefined);
+  };
+
+  const checkForLoadingPublicLogs = async (gameServer: GameServerDto) => {
+    if (
+      !gameServer.public_dashboard?.layouts?.some(
+        (layout) => layout.layout_type === DashboardElementTypes.LOGS,
+      )
+    ) {
+      return;
+    }
+
+    await loadGameServerLogs(gameServer.uuid, [
+      GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS,
+    ]);
+  };
+
+  const loadPublicServerDetails = async (gameServer: GameServerDto) => {
+    if (
+      gameServer.public_dashboard?.layouts?.some(
+        (layout) => layout.layout_type === DashboardElementTypes.LOGS,
+      )
+    ) {
+      await loadGameServerLogs(gameServer.uuid, [
+        GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS,
+      ]);
     }
     if (
-      gameServer.public_dashboard_layouts.some(
-        (layout) => layout.public_dashboard_types === DashboardElementTypes.METRIC,
+      gameServer.public_dashboard?.layouts?.some(
+        (layout) => layout.layout_type === DashboardElementTypes.METRIC,
       )
     ) {
-      await loadGameServerMetrics(gameServer.uuid, undefined, undefined, [GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS])
+      await loadPublicGameServerMetrics(gameServer.uuid, undefined, undefined);
     }
   };
 
@@ -159,7 +205,9 @@ const useDataLoading = () => {
       dispatch(gameServerSliceActions.setState("idle"));
       dispatch(gameServerSliceActions.setGameServers(gameServers));
       await Promise.allSettled(
-        gameServers.map((gameServer) => loadAdditionalGameServerData(gameServer.uuid)),
+        gameServers.map((gameServer) =>
+          loadAdditionalGameServerData(gameServer.uuid, gameServer, undefined),
+        ),
       );
       return true;
     } catch {
@@ -173,13 +221,10 @@ const useDataLoading = () => {
     try {
       const gameServers = await getAllGameServers();
       dispatch(gameServerSliceActions.setState("idle"));
-      const allowedGameServers = gameServers.filter(
-        (gameServer) => gameServer.public_dashboard_enabled,
-      );
-      dispatch(gameServerSliceActions.setGameServers(allowedGameServers));
+      dispatch(gameServerSliceActions.setGameServers(gameServers));
 
       await Promise.allSettled(
-        allowedGameServers.map((gs) => loadPublicEvaluableGameServerData(gs)),
+        gameServers.map((gameServer) => loadPublicServerDetails(gameServer)),
       );
       return true;
     } catch {
@@ -242,6 +287,26 @@ const useDataLoading = () => {
     }
   };
 
+  const loadPublicGameServerMetrics = async (gameServerUuid: string, start?: Date, end?: Date) => {
+    dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "loading" }));
+    try {
+      const metrics = await getPublicEvaluableMetrics(gameServerUuid, {
+        start: start ? start.toISOString() : undefined,
+        end: end ? end.toISOString() : undefined,
+      });
+      const metricsWithUuid = metrics.map((metric) => ({ ...metric, uuid: generateUuid() }));
+      dispatch(
+        gameServerMetricsSliceActions.setGameServerMetrics({
+          gameServerUuid,
+          metrics: metricsWithUuid,
+        }),
+      );
+    } catch {
+      toast.error(`Failed to load public metrics for server: ${gameServerUuid}`);
+      dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "failed" }));
+    }
+  };
+
   const loadGameServerMetrics = useCallback(
     async (
       gameServerUuid: string,
@@ -274,6 +339,7 @@ const useDataLoading = () => {
         );
         dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "idle" }));
       } catch {
+        toast.error(`Failed to load metrics for server: ${gameServerUuid}`);
         dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "failed" }));
       }
     },

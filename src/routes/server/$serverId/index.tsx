@@ -42,14 +42,14 @@ function GameServerDetailPageDashboardPage() {
     if (!gameServer) return [];
     return canSeePrivateDashboard && isViewingPrivate
       ? gameServer.private_dashboard_layouts
-      : gameServer.public_dashboard_layouts;
+      : gameServer.public_dashboard.layouts;
   }, [gameServer, isViewingPrivate, canSeePrivateDashboard]);
   const { canSeeMetric, canSeeLogs } = useMemo(() => {
     let metric = false;
     let logs = false;
 
     dashboardLayout?.forEach((dashboard) => {
-      if ("public_dashboard_types" in dashboard && gameServer?.public_dashboard_enabled) {
+      if ("public_dashboard_types" in dashboard && gameServer?.public_dashboard.enabled) {
         if (dashboard.public_dashboard_types === DashboardElementTypes.METRIC) {
           metric = true;
         }
@@ -60,7 +60,7 @@ function GameServerDetailPageDashboardPage() {
     });
 
     return { canSeeMetric: metric, canSeeLogs: logs };
-  }, [dashboardLayout, gameServer?.public_dashboard_enabled]);
+  }, [dashboardLayout, gameServer?.public_dashboard.enabled]);
 
   const toggleView = () => setIsViewingPrivate((prev) => !prev);
 
@@ -75,7 +75,7 @@ function GameServerDetailPageDashboardPage() {
       return dashboardLayout.private_dashboard_types as DashboardElementTypes;
     }
 
-    if ("public_dashboard_types" in dashboardLayout && gameServer.public_dashboard_enabled) {
+    if ("public_dashboard_types" in dashboardLayout && gameServer.public_dashboard.enabled) {
       return dashboardLayout.public_dashboard_types as DashboardElementTypes;
     }
 
@@ -83,8 +83,10 @@ function GameServerDetailPageDashboardPage() {
   };
 
   const isServerRunning = gameServer.status === GameServerDtoStatus.RUNNING;
-  const canReadMetrics = hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS) || canSeeMetric;
-  const canReadLogs = hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS) || canSeeLogs;
+  const canReadMetrics =
+    hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS) || canSeeMetric;
+  const canReadLogs =
+    hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS) || canSeeLogs;
   const canSendCommands = hasPermission(GameServerAccessGroupDtoPermissionsItem.SEND_COMMANDS);
 
   return (
