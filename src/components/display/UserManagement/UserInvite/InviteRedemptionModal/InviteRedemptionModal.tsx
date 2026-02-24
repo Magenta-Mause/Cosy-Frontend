@@ -10,11 +10,11 @@ import {
   DialogTitle,
 } from "@components/ui/dialog.tsx";
 import { Input } from "@components/ui/input.tsx";
-import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useGetUserInvite, useUseInvite } from "@/api/generated/backend-api.ts";
+import spinner from "@/assets/gifs/spinner.gif";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
 
@@ -29,6 +29,9 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isOpen, setIsOpen] = useState(true);
+  const [usernameError, setUsernameError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [formError, setFormError] = useState("");
 
   // Fetch invite details to validate and see if username is pre-filled
   const {
@@ -58,14 +61,17 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setUsernameError("");
+    setConfirmPasswordError("");
+    setFormError("");
 
-    if (password !== confirmPassword) {
-      toast.error(t("toasts.passwordsDoNotMatch"));
+    if (!username) {
+      setUsernameError(t("toasts.usernameRequired"));
       return;
     }
 
-    if (!username) {
-      toast.error(t("toasts.usernameRequired"));
+    if (password !== confirmPassword) {
+      setConfirmPasswordError(t("toasts.passwordsDoNotMatch"));
       return;
     }
 
@@ -77,7 +83,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
       {
         onSuccess: () => {
           toast.success(t("toasts.accountCreatedSuccess"));
-          handleClose(); // Close modal and clear URL param immediately
+          handleClose();
         },
         onError: (e) => {
           const typedError = e as InvalidRequestError;
@@ -88,7 +94,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
           } else if (typedError.status === 409) {
             error = typedError.response?.data.data as string;
           }
-          toast.error(t("toasts.accountCreateError", { error: error ? error : "Unknown error" }));
+          setFormError(t("toasts.accountCreateError", { error: error ? error : "Unknown error" }));
         },
       },
     );
@@ -104,20 +110,18 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
           <DialogTitle>{t("inviteRedemption.title")}</DialogTitle>
           <DialogDescription>{t("inviteRedemption.description")}</DialogDescription>
         </DialogHeader>
-        {isLoadingInvite ? (
-          <DialogMain className="flex justify-center">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          </DialogMain>
-        ) : isInviteError ? (
-          <div className="py-4 text-center space-y-4">
-            <p className="text-destructive font-medium">{t("inviteRedemption.invalidLink")}</p>
-            <Button variant="secondary" onClick={handleClose}>
-              {t("inviteRedemption.close")}
-            </Button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <DialogMain>
+        <DialogMain className="flex justify-center">
+          {isLoadingInvite ? (
+            <img src={spinner} alt="spinner" />
+          ) : isInviteError ? (
+            <div className="py-4 text-center space-y-4">
+              <p className="text-sm text-destructive">{t("inviteRedemption.invalidLink")}</p>
+              <Button variant="secondary" onClick={handleClose}>
+                {t("inviteRedemption.close")}
+              </Button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit}>
               {inviteData?.invite_by_username && (
                 <p className="text-base text-muted-foreground text-center">
                   {t("inviteRedemption.invitedBy", { username: inviteData.invite_by_username })}
@@ -156,8 +160,9 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder={t("inviteRedemption.usernamePlaceholder")}
-                  disabled={!!inviteData?.username || isRegistering} // Disable if pre-set by invite
+                  disabled={!!inviteData?.username || isRegistering}
                   required={!inviteData?.username}
+                  error={usernameError}
                 />
 
                 <Input
@@ -180,32 +185,35 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                   placeholder={t("inviteRedemption.confirmPasswordPlaceholder")}
                   required
                   disabled={isRegistering}
+                  error={confirmPasswordError}
                 />
               </div>
-            </DialogMain>
 
-            <DialogFooter className="mt-6 flex gap-5">
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={handleClose}
-                disabled={isRegistering}
-              >
-                {t("inviteRedemption.cancel")}
-              </Button>
-              <Button type="submit" disabled={isRegistering}>
-                {isRegistering ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {t("inviteRedemption.creating")}
-                  </>
-                ) : (
-                  t("inviteRedemption.createAccount")
-                )}
-              </Button>
-            </DialogFooter>
-          </form>
-        )}
+              {formError && <div className="text-destructive text-sm mt-2">{formError}</div>}
+
+              <DialogFooter className="mt-6 flex gap-5">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleClose}
+                  disabled={isRegistering}
+                >
+                  {t("inviteRedemption.cancel")}
+                </Button>
+                <Button type="submit" disabled={isRegistering}>
+                  {isRegistering ? (
+                    <>
+                      <img src={spinner} alt="spinner" className="mr-2 h-4 w-4" />
+                      {t("inviteRedemption.creating")}
+                    </>
+                  ) : (
+                    t("inviteRedemption.createAccount")
+                  )}
+                </Button>
+              </DialogFooter>
+            </form>
+          )}
+        </DialogMain>
       </DialogContent>
     </Dialog>
   );
