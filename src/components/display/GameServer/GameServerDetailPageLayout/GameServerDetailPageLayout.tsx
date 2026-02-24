@@ -20,7 +20,6 @@ import type * as React from "react";
 import { type CSSProperties, createContext } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
-import { cn } from "@/lib/utils.ts";
 import filesBackgroundImage from "@/assets/gameServerDetailPage/files-bg.png";
 import settingsBackgroundImage from "@/assets/gameServerDetailPage/garage-bg.png";
 import settingsForegroundImage from "@/assets/gameServerDetailPage/garage-fg.png";
@@ -28,6 +27,7 @@ import logsMetricsBackgroundImage from "@/assets/gameServerDetailPage/logs-metri
 import dashboardBackgroundImage from "@/assets/gameServerDetailPage/room-bg.png";
 import dashboardForegroundImage from "@/assets/gameServerDetailPage/room-fg.png";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
+import { cn } from "@/lib/utils.ts";
 
 const iconStyles: CSSProperties = {
   scale: 1.8,
@@ -156,9 +156,7 @@ const GameServerDetailPageLayout = (props: {
         </div>
 
         {/* Content area - scrollable */}
-        <div className="flex-1 overflow-y-auto p-2">
-          {props.children}
-        </div>
+        <div className="flex-1 overflow-y-auto p-2">{props.children}</div>
 
         {/* Bottom tab bar */}
         <MobileTabBar gameServer={props.gameServer} />
@@ -227,9 +225,7 @@ const MobileTabBar = (props: { gameServer: GameServerDto }) => {
   return (
     <div className="flex border-t-4 border-foreground bg-background shrink-0">
       {TABS.map((tab) => {
-        const isReachable = tab.permissions
-          ? tab.permissions.some((p) => hasPermission(p))
-          : true;
+        const isReachable = tab.permissions ? tab.permissions.some((p) => hasPermission(p)) : true;
         const isActive = tab === activeTab;
 
         return (
@@ -246,9 +242,7 @@ const MobileTabBar = (props: { gameServer: GameServerDto }) => {
                 !isReachable && "opacity-50",
               )}
             >
-              <div className="[&_svg]:!scale-100">
-                {tab.icon}
-              </div>
+              <div className="[&_svg]:!scale-100">{tab.icon}</div>
             </div>
           </Link>
         );
