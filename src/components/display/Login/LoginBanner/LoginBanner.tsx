@@ -1,17 +1,31 @@
 import { Button } from "@components/ui/button";
-import { Card } from "@components/ui/card";
 import { useTranslation } from "react-i18next";
+import papyrusScroll from "@/assets/MainPage/LoginPapyrusScroll.png"
 
 const LoginBanner = (props: { setOpen: (open: boolean) => void }) => {
   const { t } = useTranslation();
 
   return (
-    <Card className="flex fixed bottom-10 flex-row items-center gap-8 text-xl p-2 rounded-md px-6">
-      <p>{t("signIn.question")}</p>
-      <Button className="h-[80%]" onClick={() => props.setOpen(true)}>
-        {t("signIn.signIn")}
-      </Button>
-    </Card>
+    <div
+      className="fixed bottom-25 content-center"
+      tabIndex={-1}
+      style={{
+        backgroundImage: `url(${papyrusScroll})`,
+        backgroundSize: "100%",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        imageRendering: "pixelated",
+        height: "7rem",
+        width: "36rem",
+      }}
+    >
+      <div className="flex items-center justify-center gap-9 pt-4">
+        <p className="text-xl">{t("signIn.question")}</p>
+        <Button className="h-15" onClick={() => props.setOpen(true)}>
+          {t("signIn.signIn")}
+        </Button>
+      </div>
+    </div>
   );
 };
 
