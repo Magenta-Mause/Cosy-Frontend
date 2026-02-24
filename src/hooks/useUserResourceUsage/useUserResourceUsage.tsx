@@ -43,6 +43,8 @@ export const useUserResourceUsage = (userUuid: string | null | undefined): UserR
       const metricValues = latestMetric.metric_values;
 
       if (metricValues) {
+        // cpu_percent is reported as a percentage value (0-100); accumulate the raw percentage here
+        // and convert to an approximate core count by dividing by 100 when formatting cpuUsage below.
         totalCpuUsage += metricValues.cpu_percent ?? 0;
         totalMemoryUsage += metricValues.memory_usage ?? 0;
       }
