@@ -22,7 +22,9 @@ export default function GameServerStatusDot(props: {
   const dot = (
     <span
       className={cn(
-        "inline-block w-5 h-5 border-button-primary-default border-2 rounded-4xl",
+        "rounded-full box-border",
+        "h-[1vw] w-[1vw] border-[0.16vw]",
+        "border-button-primary-default",
         GAME_SERVER_STATUS_TO_COLOR[props.status],
         props.className,
       )}
