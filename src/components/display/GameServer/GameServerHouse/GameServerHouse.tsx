@@ -46,7 +46,7 @@ const GameServerHouse = (props: {
     return {
       image: isHouse ? house : castle,
       size: isHouse ? "15vw" : "20vw",
-      centerX: isHouse ? "translate-y-[3.5vw] translate-x-[1.5vw]" : "",
+      translate: isHouse ? "translate-y-[3.5vw] translate-x-[1.5vw]" : "",
     };
   }, [isHouse]);
 
@@ -108,7 +108,7 @@ const GameServerHouse = (props: {
       <Link
         className={cn(
           "block h-auto overflow-visible aspect-square select-none relative",
-          serverHouseImage.centerX,
+          serverHouseImage.translate,
           props.className,
         )}
         to={`/server/${props.gameServer.uuid}`}

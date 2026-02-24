@@ -16,12 +16,12 @@ import dekoCalculateCoordinate from "./dekoCalculateCoordinate";
 
 type DekoAssetGroup = {
   variations: DekoAsset[];
-  width: string;
 };
 
 type DekoAsset = {
   src: string;
   width: string;
+  translate?: string;
 };
 
 const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
@@ -38,20 +38,18 @@ const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
 
   const dekoAssetGroups: DekoAssetGroup[] = [
     {
-      variations: [bush1, bush2, bush3, bush4].map(src => ({ src, width: "7vw" })),
-      width: "7vw",
+      variations: [bush1, bush2, bush3, bush4].map((src) => ({ src, width: "5vw" })),
     },
     {
-      variations: [tree1_1, tree1_2, tree1_3, tree1_4].map(src => ({ src, width: "8vw" })),
-      width: "8vw",
+      variations: [tree1_1, tree1_2, tree1_3, tree1_4].map((src) => ({ src, width: "6vw", translate: "-translate-y-[4vw]", })),
     },
     {
-      variations: [tree2_1, tree2_2, tree2_3, tree2_4].map(src => ({ src, width: "10vw" })),
-      width: "10vw",
+      variations: [tree2_1, tree2_2, tree2_3, tree2_4].map((src) => ({
+        src, width: "8vw", translate: "-translate-y-[1vw]",
+      })),
     },
     {
-      variations: [{ src: stone, width: "20vw" }],
-      width: "20vw",
+      variations: [{ src: stone, width: "16vw", translate: "-translate-y-[4vw] -translate-x-[5vw]" }]
     },
   ];
 
@@ -62,34 +60,34 @@ const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
     return variation;
   };
 
-  return (
-    props.gameServers.flatMap((gameServer, index) => {
-      const asset0 = getDekoAsset(`${gameServer.uuid}-0`);
-      const asset1 = getDekoAsset(`${gameServer.uuid}-1`);
+  return props.gameServers.flatMap((gameServer, index) => {
+    const asset0 = getDekoAsset(`${gameServer.uuid}-0`);
+    const asset1 = getDekoAsset(`${gameServer.uuid}-1`);
 
-      return [
-        <img
-          key={`${gameServer.uuid}-0`}
-          src={asset0.src}
-          style={{
-            ...getStyle(index * 2),
-            imageRendering: "pixelated",
-            width: asset0.width,
-          }}
-          alt="deko"
-        />,
-        <img
-          key={`${gameServer.uuid}-1`}
-          src={asset1.src}
-          style={{
-            ...getStyle(index * 2 + 1),
-            imageRendering: "pixelated",
-            width: asset1.width,
-          }}
-          alt="deko"
-        />,
-      ];
-    })
-  );
+    return [
+      <img
+        key={`${gameServer.uuid}-0`}
+        src={asset0.src}
+        style={{
+          ...getStyle(index * 2),
+          imageRendering: "pixelated",
+          width: asset0.width,
+        }}
+        alt="deko"
+        className={asset0.translate ? asset0.translate : ""}
+      />,
+      <img
+        key={`${gameServer.uuid}-1`}
+        src={asset1.src}
+        style={{
+          ...getStyle(index * 2 + 1),
+          imageRendering: "pixelated",
+          width: asset1.width,
+        }}
+        alt="deko"
+        className={asset1.translate ? asset1.translate : ""}
+      />,
+    ];
+  });
 };
 export default DekoAssetsAligner;
