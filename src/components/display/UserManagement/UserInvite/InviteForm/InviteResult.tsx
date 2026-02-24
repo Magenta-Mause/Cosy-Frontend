@@ -1,6 +1,5 @@
 import { Button } from "@components/ui/button.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { Link } from "lucide-react";
+import { CheckCircle2, Copy } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface InviteResultProps {
@@ -11,26 +10,22 @@ interface InviteResultProps {
 
 export const InviteResult = ({ generatedKey, onCopyLink }: InviteResultProps) => {
   const { t } = useTranslation();
+  const inviteLink = generatedKey ? `${window.location.origin}/?inviteToken=${generatedKey}` : "";
 
   return (
-    <div className="flex flex-col gap-4 py-4">
-      <div className="flex flex-col gap-2">
-        <TooltipWrapper tooltip={t("userModal.copyTooltip")} asChild>
-          <Button
-            onClick={onCopyLink}
-            variant="secondary"
-            className="outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none bg-background/35 px-5 leading-none gap-5"
-          >
-            <Link className="size-10 shrink-0" />
-            <div className="flex items-center wrap-anywhere text-wrap w-[60%]">
-              {generatedKey ? `${window.location.origin}/?inviteToken=${generatedKey}` : ""}
-            </div>
-          </Button>
-        </TooltipWrapper>
-      </div>
+    <div className="flex flex-col items-center gap-5 py-4">
+      <CheckCircle2 className="size-12 text-accent" />
       <p className="text-sm text-center text-muted-foreground">
         {t("userModal.shareInstructions")}
       </p>
+      <div className="w-full rounded-lg border-2 border-border bg-background/50 px-4 py-3 text-sm break-all text-center text-muted-foreground select-all cursor-text">
+        {inviteLink}
+      </div>
+
+      <Button onClick={onCopyLink} className="w-full">
+        <Copy className="size-5 mr-2" />
+        {t("userModal.copyLink")}
+      </Button>
     </div>
   );
 };
