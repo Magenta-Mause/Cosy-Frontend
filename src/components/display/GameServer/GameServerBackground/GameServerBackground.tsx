@@ -58,7 +58,7 @@ function calculatePathSegments(houseCount: number) {
 }
 
 function calculateBgLoops(houseCount: number) {
-  const loopsPerPosition = [2, 0, 3, 1, 1, 1];
+  const loopsPerPosition = [2, 0, 2, 1, 1, 1];
   let loopCount = 0;
 
   for (let i = 1; i <= houseCount; i++) {

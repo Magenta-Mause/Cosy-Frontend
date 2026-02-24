@@ -38,15 +38,14 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
         >
           <Link
             className={cn(
-              "block h-auto translate-x-[-3vw] translate-y-[5.8vw] aspect-[2.18] text-xs relative select-none",
+              "block h-auto -translate-x-[4vw] translate-y-[7vw] aspect-[2.18] text-xs relative select-none",
               props.className,
             )}
             aria-label={t("aria.createNewGameServer")}
             to={"/"}
             style={{
               ...props.style,
-              width: "11.5vw",
-              height: "11.5vw",
+              height: "11vw",
             }}
             onClick={() => setIsOpenGameServerCreationModalOpen((open) => !open)}
           >
