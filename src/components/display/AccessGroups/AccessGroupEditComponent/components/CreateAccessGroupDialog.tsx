@@ -12,19 +12,26 @@ import {
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import * as z from "zod";
+import type { GameServerAccessGroupDto } from "@/api/generated/model";
 import { toggleVariants } from "@/components/ui/toggle";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 import { accessGroupToggleItemClassName } from "./AccessGroupList";
 
-const CreateAccessGroupDialog = (props: { onCreate: (groupName: string) => Promise<void> }) => {
+const CreateAccessGroupDialog = (props: {
+  onCreate: (groupName: string) => Promise<void>;
+  accessGroups: GameServerAccessGroupDto[];
+}) => {
   const { t } = useTranslationPrefix("components.gameServerSettings.accessManagement");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [groupName, setGroupName] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const doesGroupNameAlreadyExist = props.accessGroups.some((acc) => acc.group_name === groupName);
+
   const handleCreate = async () => {
     if (!groupName.trim()) return;
+    if (doesGroupNameAlreadyExist) return;
 
     setLoading(true);
     try {
@@ -67,8 +74,11 @@ const CreateAccessGroupDialog = (props: { onCreate: (groupName: string) => Promi
             value={groupName}
             onChange={(v) => setGroupName(v as string)}
             validator={z.string().min(1)}
+            isError={doesGroupNameAlreadyExist}
             placeholder={t("groupNamePlaceholder")}
-            errorLabel={t("groupNameRequired")}
+            errorLabel={
+              doesGroupNameAlreadyExist ? t("groupNameAlreadyExists") : t("groupNameRequired")
+            }
             disabled={loading}
             onEnterPress={groupName.trim() ? handleCreate : undefined}
           />
@@ -79,7 +89,10 @@ const CreateAccessGroupDialog = (props: { onCreate: (groupName: string) => Promi
                 {t("cancel")}
               </Button>
             </DialogClose>
-            <Button onClick={handleCreate} disabled={loading || !groupName.trim()}>
+            <Button
+              onClick={handleCreate}
+              disabled={loading || !groupName.trim() || doesGroupNameAlreadyExist}
+            >
               {t("create")}
             </Button>
           </DialogFooter>

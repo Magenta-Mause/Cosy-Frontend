@@ -759,6 +759,7 @@ export type i18nLanguage = {
         groupNameLabel: string;
         groupNamePlaceholder: string;
         groupNameRequired: string;
+        groupNameAlreadyExists: string;
         members: string;
         noUsersAssigned: string;
         addUserLabel: string;

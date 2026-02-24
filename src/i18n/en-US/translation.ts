@@ -709,6 +709,7 @@ const translation: i18nLanguage = {
         createNewGroup: "Create new access group",
         groupSettings: "Access Group Settings",
         groupNameLabel: "Group Name",
+        groupNameAlreadyExists: "Group with this name already exists",
         groupNamePlaceholder: "Enter group name",
         groupNameRequired: "Group name is required",
         members: "Members",

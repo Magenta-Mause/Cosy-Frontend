@@ -40,7 +40,10 @@ const AccessGroupList = (props: {
             {accessGroup.group_name}
           </ToggleGroupItem>
         ))}
-        <CreateAccessGroupDialog onCreate={props.onCreateAccessGroup} />
+        <CreateAccessGroupDialog
+          onCreate={props.onCreateAccessGroup}
+          accessGroups={props.accessGroups}
+        />
       </ToggleGroup>
     </div>
   );
