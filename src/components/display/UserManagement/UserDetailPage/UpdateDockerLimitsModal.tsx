@@ -10,11 +10,19 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useUpdateDockerLimits } from "@/api/generated/backend-api";
 import type { UserEntityDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import {
+  CPU_LIMIT_POSITIVE_ERROR,
+  cpuLimitValidator,
+} from "@/lib/validators/cpuLimitValidator";
+import {
+  MEMORY_LIMIT_MIN_ERROR,
+  memoryLimitValidator,
+} from "@/lib/validators/memoryLimitValidator";
 import { userSliceActions } from "@/stores/slices/userSlice";
 
 const UpdateDockerLimitsModal = (props: {
@@ -32,12 +40,46 @@ const UpdateDockerLimitsModal = (props: {
     props.user.docker_hardware_limits?.docker_memory_limit ?? "",
   );
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [cpuError, setCpuError] = useState<string | undefined>(undefined);
+  const [memoryError, setMemoryError] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    if (props.open) {
+      setCpu(props.user.docker_hardware_limits?.docker_max_cpu_cores?.toString() ?? "");
+      setMemory(props.user.docker_hardware_limits?.docker_memory_limit ?? "");
+      setSubmitError(null);
+      setCpuError(undefined);
+      setMemoryError(undefined);
+    }
+  }, [props.open, props.user]);
 
   const handleClose = () => {
     setCpu(props.user.docker_hardware_limits?.docker_max_cpu_cores?.toString() ?? "");
     setMemory(props.user.docker_hardware_limits?.docker_memory_limit ?? "");
     setSubmitError(null);
+    setCpuError(undefined);
+    setMemoryError(undefined);
     props.onClose();
+  };
+
+  const handleCpuChange = (val: string) => {
+    setCpu(val);
+    if (val === "") {
+      setCpuError(undefined);
+      return;
+    }
+    const result = cpuLimitValidator.safeParse(val);
+    setCpuError(result.success ? undefined : CPU_LIMIT_POSITIVE_ERROR);
+  };
+
+  const handleMemoryChange = (val: string) => {
+    setMemory(val);
+    if (val === "") {
+      setMemoryError(undefined);
+      return;
+    }
+    const result = memoryLimitValidator.safeParse(val);
+    setMemoryError(result.success ? undefined : MEMORY_LIMIT_MIN_ERROR);
   };
 
   const { mutate: updateDockerLimits, isPending } = useUpdateDockerLimits({
@@ -54,12 +96,19 @@ const UpdateDockerLimitsModal = (props: {
 
   const handleSubmit = () => {
     if (!props.user.uuid) return;
+
+    const cpuValue = cpu !== "" ? parseFloat(cpu) : undefined;
+    if (cpu !== "" && (Number.isNaN(cpuValue) || cpuValue === undefined)) {
+      setCpuError(CPU_LIMIT_POSITIVE_ERROR);
+      return;
+    }
+
     setSubmitError(null);
     updateDockerLimits({
       uuid: props.user.uuid,
       data: {
         docker_hardware_limits: {
-          docker_max_cpu_cores: cpu !== "" ? parseFloat(cpu) : undefined,
+          docker_max_cpu_cores: cpuValue,
           docker_memory_limit: memory !== "" ? memory : undefined,
         },
       },
@@ -82,7 +131,8 @@ const UpdateDockerLimitsModal = (props: {
                 id="docker-cpu-limit"
                 placeholder={t("placeholder")}
                 value={cpu}
-                onChange={(val) => setCpu(val)}
+                onChange={handleCpuChange}
+                error={cpuError}
                 className="no-spinner"
               />
             </div>
@@ -93,7 +143,8 @@ const UpdateDockerLimitsModal = (props: {
                 description={t("memoryDescription")}
                 placeholder={t("placeholder")}
                 value={memory}
-                onChange={(val) => setMemory(val)}
+                onChange={handleMemoryChange}
+                error={memoryError}
                 className="no-spinner"
               />
             </div>
