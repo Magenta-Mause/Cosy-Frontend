@@ -39,7 +39,7 @@ const UserManagementSection = ({
           localUsers.map((user) => (
             <div
               key={user.uuid}
-              className="flex items-center justify-between bg-secondary/50 p-2 rounded-md"
+              className="flex items-center justify-between bg-secondary p-2 rounded-md"
             >
               <span className="text-sm">{user.username}</span>
               <button

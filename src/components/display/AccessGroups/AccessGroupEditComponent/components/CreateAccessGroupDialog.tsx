@@ -12,8 +12,10 @@ import {
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import * as z from "zod";
+import { toggleVariants } from "@/components/ui/toggle";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import AccessGroupButton from "./AccessGroupButton";
+import { cn } from "@/lib/utils";
+import { accessGroupToggleItemClassName } from "./AccessGroupList";
 
 const CreateAccessGroupDialog = (props: { onCreate: (groupName: string) => Promise<void> }) => {
   const { t } = useTranslationPrefix("components.gameServerSettings.accessManagement");
@@ -41,10 +43,18 @@ const CreateAccessGroupDialog = (props: { onCreate: (groupName: string) => Promi
 
   return (
     <>
-      <AccessGroupButton onClick={() => setDialogOpen(true)}>
+      <button
+        type="button"
+        className={cn(
+          toggleVariants({ variant: "outline" }),
+          "w-auto min-w-0 shrink-0 px-3 rounded-md",
+          accessGroupToggleItemClassName,
+        )}
+        onClick={() => setDialogOpen(true)}
+      >
         <PlusIcon />
         <span>{t("createNewGroup")}</span>
-      </AccessGroupButton>
+      </button>
       <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>
         <DialogContent>
           <DialogHeader>
