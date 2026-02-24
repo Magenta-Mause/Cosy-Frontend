@@ -20,12 +20,12 @@ import type * as React from "react";
 import { type CSSProperties, createContext } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
-import filesBackgroundImage from "@/assets/gameServerDetailPage/files-bg.webp";
-import settingsBackgroundImage from "@/assets/gameServerDetailPage/settings-bg.webp";
-import settingsForegroundImage from "@/assets/gameServerDetailPage/settings-fg.webp";
-import logsMetricsBackgroundImage from "@/assets/gameServerDetailPage/logs-metrics-bg.webp";
 import dashboardBackgroundImage from "@/assets/gameServerDetailPage/dashboard-bg.webp";
 import dashboardForegroundImage from "@/assets/gameServerDetailPage/dashboard-fg.webp";
+import filesBackgroundImage from "@/assets/gameServerDetailPage/files-bg.webp";
+import logsMetricsBackgroundImage from "@/assets/gameServerDetailPage/logs-metrics-bg.webp";
+import settingsBackgroundImage from "@/assets/gameServerDetailPage/settings-bg.webp";
+import settingsForegroundImage from "@/assets/gameServerDetailPage/settings-fg.webp";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import { cn } from "@/lib/utils.ts";
 
@@ -43,6 +43,7 @@ interface Tab {
   foreground?: string;
   foregroundColor: string;
   buttonVariant?: "primary" | "secondary";
+  sideBarButtonVariant?: "primary" | "secondary";
 }
 
 const TABS: Tab[] = [
@@ -54,6 +55,7 @@ const TABS: Tab[] = [
     foreground: dashboardForegroundImage,
     foregroundColor: "var(--button-secondary-default)",
     buttonVariant: "secondary",
+    sideBarButtonVariant: "secondary",
   },
   {
     label: "console",
@@ -66,6 +68,7 @@ const TABS: Tab[] = [
     background: logsMetricsBackgroundImage,
     foregroundColor: "var(--button-secondary-default)",
     buttonVariant: "secondary",
+    sideBarButtonVariant: "secondary",
   },
   {
     label: "metrics",
@@ -75,6 +78,7 @@ const TABS: Tab[] = [
     background: logsMetricsBackgroundImage,
     foregroundColor: "var(--button-secondary-default)",
     buttonVariant: "secondary",
+    sideBarButtonVariant: "secondary",
   },
   {
     label: "file_explorer",
@@ -88,6 +92,7 @@ const TABS: Tab[] = [
     background: filesBackgroundImage,
     foregroundColor: "var(--button-primary-default)",
     buttonVariant: "primary",
+    sideBarButtonVariant: "secondary",
   },
   {
     label: "settings",
@@ -104,6 +109,7 @@ const TABS: Tab[] = [
     foreground: settingsForegroundImage,
     foregroundColor: "var(--button-secondary-default)",
     buttonVariant: "secondary",
+    sideBarButtonVariant: "secondary",
   },
 ];
 
@@ -205,11 +211,11 @@ const GameServerDetailPageLayout = (props: {
             id={"gameServerDetailPage:exitButton"}
             className={"flex h-25 items-end w-[10%] shrink-0 pointer-events-auto"}
           >
-            <BackToHomeLink />
+            <BackToHomeLink variant={activeTab.sideBarButtonVariant} />
           </div>
           <div className="grow" />
           <div className="flex flex-col justify-center items-end w-[10%] shrink-0 h-full pointer-events-auto">
-            <SideBar gameServer={props.gameServer} />
+            <SideBar gameServer={props.gameServer} buttonVariant={activeTab.sideBarButtonVariant} />
           </div>
         </div>
       </div>
@@ -251,7 +257,7 @@ const MobileTabBar = (props: { gameServer: GameServerDto }) => {
   );
 };
 
-const SideBar = (props: { gameServer: GameServerDto }) => {
+const SideBar = (props: { gameServer: GameServerDto; buttonVariant?: "primary" | "secondary" }) => {
   const { hasPermission } = useGameServerPermissions(props.gameServer.uuid);
   const { t } = useTranslation();
   const location = useLocation();
@@ -287,6 +293,7 @@ const SideBar = (props: { gameServer: GameServerDto }) => {
                 isActive={activePathPattern ? activePathPattern.test(location.pathname) : isActive}
                 label={t(`serverPage.navbar.${label}`)}
                 disabled={!isLinkReachable}
+                variant={props.buttonVariant}
               >
                 {icon}
               </FancyNavigationButton>
