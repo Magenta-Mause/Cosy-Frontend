@@ -12,15 +12,16 @@ import {
   SettingsIcon,
   SquareTerminalIcon,
 } from "lucide-react";
+import type * as React from "react";
 import { type CSSProperties, createContext } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
-import dashboardBackgroundImage from "@/assets/gameServerDetailPage/dashboard-bg.webp";
-import dashboardForegroundImage from "@/assets/gameServerDetailPage/dashboard-fg.webp";
-import filesBackgroundImage from "@/assets/gameServerDetailPage/files-bg.webp";
-import logsMetricsBackgroundImage from "@/assets/gameServerDetailPage/logs-metrics-bg.webp";
-import settingsBackgroundImage from "@/assets/gameServerDetailPage/settings-bg.webp";
-import settingsForegroundImage from "@/assets/gameServerDetailPage/settings-fg.webp";
+import filesBackgroundImage from "@/assets/gameServerDetailPage/files-bg.png";
+import settingsBackgroundImage from "@/assets/gameServerDetailPage/garage-bg.png";
+import settingsForegroundImage from "@/assets/gameServerDetailPage/garage-fg.png";
+import logsMetricsBackgroundImage from "@/assets/gameServerDetailPage/logs-metrics-bg.png";
+import dashboardBackgroundImage from "@/assets/gameServerDetailPage/room-bg.png";
+import dashboardForegroundImage from "@/assets/gameServerDetailPage/room-fg.png";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 
 const iconStyles: CSSProperties = {
@@ -133,45 +134,54 @@ const GameServerDetailPageLayout = (props: {
 
   return (
     <GameServerDetailContext.Provider value={{ gameServer: props.gameServer }}>
-      <div
-        className="game-server-bg flex w-full min-h-screen relative bg-cover self-center"
-        style={
-          {
-            backgroundImage: `url(${activeTab.background})`,
-            "--foreground-image": `url(${activeTab.foreground})`,
-            imageRendering: "pixelated",
-            backgroundPosition: "center center",
-            backgroundSize: "100% auto",
-            backgroundRepeat: "no-repeat",
-            height: "100vh",
-          } as React.CSSProperties
-        }
-      >
+      <div className="w-screen h-screen bg-black relative overflow-hidden">
+        {/* Layer 1: cover-sized background + content */}
         <div
-          id={"gameServerDetailPage:exitButton"}
-          className={"flex h-25 items-end w-[10%] shrink-0 relative z-10 aspect-[0.1]"}
+          className="game-server-bg absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex"
+          style={
+            {
+              width: "max(100vw, 100vh * 640 / 368)",
+              height: "max(100vh, 100vw * 368 / 640)",
+              backgroundImage: `url(${activeTab.background})`,
+              "--foreground-image": `url(${activeTab.foreground})`,
+              imageRendering: "pixelated",
+              backgroundSize: "100% 100%",
+              backgroundRepeat: "no-repeat",
+            } as React.CSSProperties
+          }
         >
-          <BackToHomeLink />
-        </div>
-        <div className="grow flex flex-col min-w-0 relative z-10 justify-center h-auto">
-          <GameServerDetailPageHeader
-            gameServer={props.gameServer}
-            className={"h-[12%] overflow-y-hidden flex justify-end pb-[1.7vw]"}
-            style={
-              {
-                "--foreground": activeTab.foregroundColor,
-              } as CSSProperties
-            }
-            buttonVariant={activeTab.buttonVariant}
-          />
-          <div className={"overflow-y-auto h-auto w-full aspect-514/241 bg-background"}>
-            {props.children}
+          <div className="w-[10%] shrink-0" />
+          <div className="grow flex flex-col min-w-0 relative z-10 justify-center h-auto">
+            <GameServerDetailPageHeader
+              gameServer={props.gameServer}
+              className={"h-[12%] overflow-y-hidden flex justify-end pb-[1.7vw]"}
+              style={
+                {
+                  "--foreground": activeTab.foregroundColor,
+                } as CSSProperties
+              }
+              buttonVariant={activeTab.buttonVariant}
+            />
+            <div className={"overflow-y-auto h-auto w-full aspect-514/241 bg-background"}>
+              {props.children}
+            </div>
+            <div id={"lowerCenterPlaceholder"} className={"h-[12%] overflow-y-auto"}></div>
           </div>
-          <div id={"lowerCenterPlaceholder"} className={"h-[12%] overflow-y-auto"}></div>
+          <div className="w-[10%] shrink-0" />
         </div>
 
-        <div className="flex flex-col justify-center items-end w-[10%] shrink-0 relative z-30 aspect-[0.1]">
-          <SideBar gameServer={props.gameServer} />
+        {/* Layer 2: navigation at viewport edges */}
+        <div className="absolute inset-0 z-30 flex pointer-events-none">
+          <div
+            id={"gameServerDetailPage:exitButton"}
+            className={"flex h-25 items-end w-[10%] shrink-0 pointer-events-auto"}
+          >
+            <BackToHomeLink />
+          </div>
+          <div className="grow" />
+          <div className="flex flex-col justify-center items-end w-[10%] shrink-0 h-full pointer-events-auto">
+            <SideBar gameServer={props.gameServer} />
+          </div>
         </div>
       </div>
     </GameServerDetailContext.Provider>
