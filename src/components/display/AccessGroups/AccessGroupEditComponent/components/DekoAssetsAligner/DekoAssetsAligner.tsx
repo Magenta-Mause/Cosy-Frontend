@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
+import { useContext, useMemo } from "react";
 import type { GameServerDto } from "@/api/generated/model";
 import bush1 from "@/assets/deko/bush1.png";
 import bush2 from "@/assets/deko/bush2.png";
@@ -26,6 +27,7 @@ type DekoAsset = {
 };
 
 const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
+  const { authorized } = useContext(AuthContext);
   const getStyle = (index: number): React.CSSProperties => {
     const { x, y } = dekoCalculateCoordinate(index);
 
@@ -65,8 +67,9 @@ const DekoAssetsAligner = (props: { gameServers: GameServerDto[] }) => {
   const EXTRA_DEKO_COUNT = 2;
 
   const extraSeeds = useMemo(() => {
+    if (!authorized) return [];
     return Array.from({ length: EXTRA_DEKO_COUNT }, () => Math.random().toString(36).slice(2));
-  }, []);
+  }, [authorized]);
 
   const getDekoAsset = (seed: string): DekoAsset => {
     const hash = [...seed].reduce((acc, char) => acc + char.charCodeAt(0), 0);
