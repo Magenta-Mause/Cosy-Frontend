@@ -2,9 +2,9 @@ import { Button } from "@components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogMain,
   DialogTitle,
 } from "@components/ui/dialog";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
@@ -14,9 +14,10 @@ interface UpdateModalProps {
   setOpen: (open: boolean) => void;
   onLeave: () => void;
   onSaveAndLeave: () => void;
+  warningMessage?: string;
 }
 
-const UnsavedModal = ({ open, setOpen, onLeave, onSaveAndLeave }: UpdateModalProps) => {
+const UnsavedModal = ({ open, setOpen, onLeave, onSaveAndLeave, warningMessage }: UpdateModalProps) => {
   const { t } = useTranslationPrefix("genericModal.unsavedModal");
 
   if (!open) return null;
@@ -26,10 +27,13 @@ const UnsavedModal = ({ open, setOpen, onLeave, onSaveAndLeave }: UpdateModalPro
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>
+            {t("message")}
+            {warningMessage && (
+              <p className="text-sm text-destructive mt-2">{warningMessage}</p>
+            )}
+          </DialogDescription>
         </DialogHeader>
-        <DialogMain>
-          <p>{t("message")}</p>
-        </DialogMain>
         <DialogFooter>
           <Button variant="destructive" onClick={onLeave}>
             {t("leave")}

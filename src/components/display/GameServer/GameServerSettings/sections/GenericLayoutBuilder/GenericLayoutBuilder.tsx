@@ -3,6 +3,7 @@ import SettingsActionButtons from "@components/display/GameServer/GameServerSett
 import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
+import UnsavedModal from "@components/ui/UnsavedModal";
 import {
   closestCorners,
   DndContext,
@@ -21,11 +22,15 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import UnsavedModal from "@components/ui/UnsavedModal";
 import { Plus, X } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
-import type { GameServerDto, MetricLayout, PrivateDashboardLayout, PublicDashboardLayout } from "@/api/generated/model";
+import type {
+  GameServerDto,
+  MetricLayout,
+  PrivateDashboardLayout,
+  PublicDashboardLayout,
+} from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import useUnsavedChangesBlocker from "@/hooks/useUnsavedChangesBlocker/useUnsavedChangesBlocker";
 import { cn } from "@/lib/utils";
@@ -78,7 +83,15 @@ interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: Layout
   unfulfilledChanges?: string | null;
   isDisabled?: boolean;
   setUnfulfilledChanges?: (message: string | null) => void;
-  saveHandler?: (uuid: string, layouts: PrivateDashboardLayout[] | MetricLayout[] | PublicDashboardLayout[]) => Promise<void>;
+  saveHandler?: (
+    uuid: string,
+    layouts: PrivateDashboardLayout[] | MetricLayout[] | PublicDashboardLayout[],
+  ) => Promise<void>;
+  forceSaveHandler?: (
+    uuid: string,
+    layouts: PrivateDashboardLayout[] | MetricLayout[] | PublicDashboardLayout[],
+  ) => Promise<void>;
+  blockerWarningMessage?: string;
   setLayouts: React.Dispatch<React.SetStateAction<T[]>>;
   wrapper: (layouts: T[]) => T[];
   children?: (layout: T) => React.ReactNode;
@@ -99,6 +112,8 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
     setUnfulfilledChanges,
     children,
     saveHandler,
+    forceSaveHandler,
+    blockerWarningMessage,
   } = props;
   const { t } = useTranslationPrefix("components");
   const [cardErrors, setCardErrors] = useState<Set<string>>(new Set());
@@ -142,7 +157,37 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
     setIsSaving(true);
     await saveHandler?.(gameServer.uuid, layouts);
     setIsSaving(false);
-  }, [gameServer, layouts, saveHandler, setUnfulfilledChanges, t]);
+  }, [layouts, saveHandler, setUnfulfilledChanges, t, gameServer.uuid]);
+
+  const handleForceConfirm = useCallback(async () => {
+    const handler = forceSaveHandler ?? saveHandler;
+    if (!handler) return;
+
+    const errorUuids = layouts
+      .filter((layout) => {
+        const l = layout as PrivateDashboardLayoutUI;
+        return (
+          l.layout_type === DashboardElementTypes.FREETEXT &&
+          (l.content === undefined ||
+            l.content?.length === 0 ||
+            l.content?.some((c) => !c.key || !c.value))
+        );
+      })
+      .map((layout) => layout._uiUuid);
+
+    if (errorUuids.length > 0) {
+      setCardErrors(new Set(errorUuids));
+      setUnfulfilledChanges?.(t("GameServerSettings.privateDashboard.freetext.error"));
+      return;
+    }
+
+    setCardErrors(new Set());
+    setUnfulfilledChanges?.(null);
+
+    setIsSaving(true);
+    await handler(gameServer.uuid, layouts);
+    setIsSaving(false);
+  }, [layouts, forceSaveHandler, saveHandler, setUnfulfilledChanges, t, gameServer.uuid]);
 
   const handleWidthSelect = useCallback(
     (size: LayoutSize, uuid?: string) => {
@@ -248,18 +293,19 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
     setUnfulfilledChanges?.(null);
   }, [getOriginalLayouts, wrapper, setLayouts, setUnfulfilledChanges]);
 
-  const { showUnsavedModal, setShowUnsavedModal, handleLeave, handleSaveAndLeave } =
+  const { showUnsavedModal, setShowUnsavedModal, handleLeave, handleSaveAndLeave, warningMessage } =
     useUnsavedChangesBlocker({
       isChanged,
-      onSave: handleConfirm,
+      onSave: handleForceConfirm,
       onRevert: handleRevert,
+      warningMessage: blockerWarningMessage,
     });
 
   return (
     <>
       <div className={`flex w-full pt-3 ${isDisabled ? "blur-xs" : ""}`}>
-        <Card className="w-full h-[65vh]">
-          <CardContent className={"grid grid-cols-6 gap-4 overflow-auto p-6"}>
+        <Card className="w-full">
+          <CardContent className={"grid grid-cols-6 gap-4 p-6"}>
             <DndContext
               sensors={sensors}
               collisionDetection={closestCorners}
@@ -333,6 +379,7 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
         setOpen={setShowUnsavedModal}
         onLeave={handleLeave}
         onSaveAndLeave={handleSaveAndLeave}
+        warningMessage={warningMessage}
       />
     </>
   );

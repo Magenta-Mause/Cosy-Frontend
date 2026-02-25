@@ -5,12 +5,14 @@ interface UseUnsavedChangesBlockerOptions {
   isChanged: boolean;
   onSave: () => void | Promise<void>;
   onRevert: () => void;
+  warningMessage?: string;
 }
 
 export default function useUnsavedChangesBlocker({
   isChanged,
   onSave,
   onRevert,
+  warningMessage,
 }: UseUnsavedChangesBlockerOptions) {
   const [showUnsavedModal, setShowUnsavedModal] = useState(false);
   const resolverRef = useRef<((block: boolean) => void) | null>(null);
@@ -43,5 +45,6 @@ export default function useUnsavedChangesBlocker({
     setShowUnsavedModal,
     handleLeave,
     handleSaveAndLeave,
+    warningMessage,
   };
 }

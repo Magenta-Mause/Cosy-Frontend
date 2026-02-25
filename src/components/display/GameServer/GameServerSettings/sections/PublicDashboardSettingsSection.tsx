@@ -198,6 +198,18 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
           }
           await updateGameServerPublicDashboard(uuid, { layouts: layout, enabled: checked });
         }}
+        forceSaveHandler={async (uuid, layout) => {
+          await updateGameServerPublicDashboard(uuid, { layouts: layout, enabled: checked });
+        }}
+        blockerWarningMessage={
+          publicDashboard.some(
+            (l) =>
+              l.layout_type === DashboardElementTypes.METRIC ||
+              l.layout_type === DashboardElementTypes.LOGS,
+          )
+            ? t("GameServerSettings.publicDashboard.sensitiveWarning.description")
+            : undefined
+        }
         setLayouts={setPublicDashboard}
         wrapper={wrapPublicDashboards}
         defaultAddNew={newWidget}
