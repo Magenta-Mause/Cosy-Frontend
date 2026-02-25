@@ -303,9 +303,9 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
 
   return (
     <>
-      <div className={`flex w-full pt-3 ${isDisabled ? "blur-xs" : ""}`}>
-        <Card className="w-full">
-          <CardContent className={"grid grid-cols-6 gap-4 p-6"}>
+      <div className={`flex flex-1 min-h-0 w-full pt-3 ${isDisabled ? "blur-xs" : ""}`}>
+        <Card className="w-full flex flex-col min-h-0">
+          <CardContent className={"grid grid-cols-6 gap-4 overflow-auto p-6 flex-1 min-h-0"}>
             <DndContext
               sensors={sensors}
               collisionDetection={closestCorners}

@@ -166,7 +166,7 @@ const GameServerSettingsLayout = ({
         <div className={"p-4 h-auto overflow-y-hidden"}>
           <Separator className=" w-0.5! h-full!" orientation="vertical" />
         </div>
-        <div className="w-full max-w-full overflow-y-auto pt-8 pr-5">{children}</div>
+        <div className="w-full max-w-full overflow-hidden pt-8 pr-5 flex flex-col min-h-0">{children}</div>
       </div>
     </SettingsProvider.Provider>
   );

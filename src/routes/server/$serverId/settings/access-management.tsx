@@ -22,5 +22,9 @@ function RouteComponent() {
     return <NoAccess element={t("components.GameServerSettings.tabs.accessManagement")} />;
   }
 
-  return <AccessManagementSettingsSection />;
+  return (
+    <div className="overflow-y-auto flex-1 min-h-0">
+      <AccessManagementSettingsSection />
+    </div>
+  );
 }

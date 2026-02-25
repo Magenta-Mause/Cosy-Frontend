@@ -1,8 +1,7 @@
 import CpuLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/CpuLimitInputFieldEdit.tsx";
 import MemoryLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/MemoryLimitInputFieldEdit.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { Button } from "@components/ui/button.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
 import UnsavedModal from "@components/ui/UnsavedModal";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -280,6 +279,7 @@ const EditGameServerPage = (props: {
     <div>
       <div>
         <h2>{t("title")}</h2>
+        <p className="text-sm text-muted-foreground leading-none">{t("description")}</p>
         {isServerActive && (
           <span className={"text-button-destructive-default text-sm"}>
             {t("serverNeedsToBeStopped")}
@@ -499,26 +499,13 @@ const EditGameServerPage = (props: {
         </div>
       </fieldset>
 
-      <div className="pt-5 sticky bottom-4 w-fit ml-auto flex gap-4">
-        <Button
-          className="h-12.5"
-          variant="secondary"
-          disabled={loading || !isChanged}
-          onClick={handleRevert}
-        >
-          {t("revert")}
-        </Button>
-        <TooltipWrapper tooltip={isServerActive && t("serverNeedsToBeStopped")}>
-          <Button
-            type="button"
-            onClick={handleConfirm}
-            className="h-12.5"
-            disabled={isConfirmButtonDisabled || isServerActive}
-          >
-            {t("confirm")}
-          </Button>
-        </TooltipWrapper>
-      </div>
+      <SettingsActionButtons
+        onRevert={handleRevert}
+        onConfirm={handleConfirm}
+        revertDisabled={loading || !isChanged}
+        confirmDisabled={isConfirmButtonDisabled || isServerActive}
+        confirmTooltip={isServerActive && t("serverNeedsToBeStopped")}
+      />
       <UnsavedModal
         open={showUnsavedModal}
         setOpen={setShowUnsavedModal}

@@ -51,8 +51,13 @@ export default function MetricsSettingsSection(props: MetricSetting) {
   });
 
   return (
-    <>
-      <h2>{t("GameServerSettings.sections.metrics")}</h2>
+    <div className="flex flex-col flex-1 min-h-0">
+      <div>
+        <h2>{t("GameServerSettings.sections.metrics")}</h2>
+        <p className="text-sm text-muted-foreground leading-none">
+          {t("GameServerSettings.sections.metricsDescription")}
+        </p>
+      </div>
       <GenericLayoutBuilder<MetricLayoutUI>
         gameServer={gameServer}
         layoutSection="metric_layout"
@@ -74,6 +79,6 @@ export default function MetricsSettingsSection(props: MetricSetting) {
           />
         )}
       </GenericLayoutBuilder>
-    </>
+    </div>
   );
 }

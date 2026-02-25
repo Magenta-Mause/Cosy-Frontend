@@ -62,10 +62,8 @@ const DesignSettingsSection = () => {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-lg font-semibold">
-          {t("components.gameServerSettings.designSettings.title")}
-        </h2>
-        <p className="text-sm text-muted-foreground">
+        <h2>{t("components.gameServerSettings.designSettings.title")}</h2>
+        <p className="text-sm text-muted-foreground leading-none">
           {t("components.gameServerSettings.designSettings.description")}
         </p>
       </div>

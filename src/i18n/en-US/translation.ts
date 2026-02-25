@@ -388,6 +388,7 @@ const translation: i18nLanguage = {
 
     editGameServer: {
       title: "General Server Settings",
+      description: "Configure the core settings of your game server",
 
       revert: "Revert",
       confirm: "Save changes",
@@ -585,8 +586,13 @@ const translation: i18nLanguage = {
       sections: {
         general: "General Settings",
         privateDashboard: "Private Dashboard Settings",
+        privateDashboardDescription:
+          "Customize the layout of your private dashboard with widgets like metrics, logs, and free text",
         publicDashboard: "Public Dashboard Settings",
+        publicDashboardDescription:
+          "Configure the public dashboard that is visible to anyone with the link",
         metrics: "Metrics Settings",
+        metricsDescription: "Choose which metrics to display and how they are arranged",
         accessManagement: "Access Management Settings",
         webhooks: "Webhook Settings",
       },

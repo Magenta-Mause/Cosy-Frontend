@@ -162,8 +162,13 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   });
 
   return (
-    <>
-      <h2>{t("GameServerSettings.sections.publicDashboard")}</h2>
+    <div className="flex flex-col flex-1 min-h-0">
+      <div>
+        <h2>{t("GameServerSettings.sections.publicDashboard")}</h2>
+        <p className="text-sm text-muted-foreground leading-none">
+          {t("GameServerSettings.sections.publicDashboardDescription")}
+        </p>
+      </div>
       <FieldGroup className="my-1">
         <button
           type={"button"}
@@ -287,6 +292,6 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </>
+    </div>
   );
 }

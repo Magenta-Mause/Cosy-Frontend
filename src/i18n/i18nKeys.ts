@@ -377,6 +377,7 @@ export type i18nLanguage = {
 
     editGameServer: {
       title: string;
+      description: string;
 
       revert: string;
       confirm: string;
@@ -633,8 +634,11 @@ export type i18nLanguage = {
       sections: {
         general: string;
         privateDashboard: string;
+        privateDashboardDescription: string;
         publicDashboard: string;
+        publicDashboardDescription: string;
         metrics: string;
+        metricsDescription: string;
         accessManagement: string;
         webhooks: string;
       };

@@ -142,8 +142,13 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
   });
 
   return (
-    <>
-      <h2>{t("GameServerSettings.sections.privateDashboard")}</h2>
+    <div className="flex flex-col flex-1 min-h-0">
+      <div>
+        <h2>{t("GameServerSettings.sections.privateDashboard")}</h2>
+        <p className="text-sm text-muted-foreground leading-none">
+          {t("GameServerSettings.sections.privateDashboardDescription")}
+        </p>
+      </div>
       <GenericLayoutBuilder<PrivateDashboardLayoutUI>
         gameServer={gameServer}
         layoutSection="private_dashboard_layouts"
@@ -189,6 +194,6 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
         isModalChanged={isModalChanged}
         errorText={unfulfilledChanges}
       />
-    </>
+    </div>
   );
 }
