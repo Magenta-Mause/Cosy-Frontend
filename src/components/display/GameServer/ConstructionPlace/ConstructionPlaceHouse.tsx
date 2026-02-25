@@ -33,7 +33,7 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
         <TooltipWrapper
           tooltip={t("rightClickMenu.createNewGameServer")}
           side="bottom"
-          contentClassName="text-4xl translate-x-[6vw]"
+          contentClassName="text-base -translate-x-[1.4vw]"
           asChild
         >
           <Link
