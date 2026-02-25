@@ -21,17 +21,17 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useBlocker } from "@tanstack/react-router";
+import UnsavedModal from "@components/ui/UnsavedModal";
 import { Plus, X } from "lucide-react";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
 import type { GameServerDto, MetricLayout, PrivateDashboardLayout } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import useUnsavedChangesBlocker from "@/hooks/useUnsavedChangesBlocker/useUnsavedChangesBlocker";
 import { cn } from "@/lib/utils";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
-import UnsavedModal from "./UnsavedModal";
 
 function SortableCard({
   id,
@@ -101,9 +101,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
     saveHandler,
   } = props;
   const { t } = useTranslationPrefix("components");
-  const [showUnsavedModal, setShowUnsavedModal] = useState(false);
   const [cardErrors, setCardErrors] = useState<Set<string>>(new Set());
-  const resolverRef = useRef<((block: boolean) => void) | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -236,16 +234,26 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
     [layouts, cardErrors, children, t, handleWidthSelect, handleOnDelete, isDisabled],
   );
 
-  useBlocker({
-    shouldBlockFn: useCallback(() => {
-      if (!isChanged) return false;
-      return new Promise<boolean>((resolve) => {
-        resolverRef.current = (block) => resolve(block);
-        setShowUnsavedModal(true);
-      });
-    }, [isChanged]),
-    enableBeforeUnload: isChanged,
-  });
+  const getOriginalLayouts = useCallback((): T[] => {
+    const section = gameServer[layoutSection];
+    if (!section) return [];
+    if (Array.isArray(section)) return section as T[];
+    if (typeof section === "object" && "layouts" in section) return (section.layouts ?? []) as T[];
+    return [];
+  }, [gameServer, layoutSection]);
+
+  const handleRevert = useCallback(() => {
+    setLayouts(wrapper(getOriginalLayouts()));
+    setCardErrors(new Set());
+    setUnfulfilledChanges?.(null);
+  }, [getOriginalLayouts, wrapper, setLayouts, setUnfulfilledChanges]);
+
+  const { showUnsavedModal, setShowUnsavedModal, handleLeave, handleSaveAndLeave } =
+    useUnsavedChangesBlocker({
+      isChanged,
+      onSave: handleConfirm,
+      onRevert: handleRevert,
+    });
 
   return (
     <>
@@ -314,11 +322,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
         </Card>
       </div>
       <SettingsActionButtons
-        onRevert={() => {
-          setLayouts(wrapper(gameServer[layoutSection] ? (gameServer[layoutSection] as T[]) : []));
-          setCardErrors(new Set());
-          setUnfulfilledChanges?.(null);
-        }}
+        onRevert={handleRevert}
         onConfirm={handleConfirm}
         revertDisabled={!isChanged || isSaving}
         confirmDisabled={!isChanged || isSaving}
@@ -327,16 +331,8 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
       <UnsavedModal
         open={showUnsavedModal}
         setOpen={setShowUnsavedModal}
-        onLeave={() => {
-          setShowUnsavedModal(false);
-          setLayouts(gameServer[layoutSection] ? wrapper(gameServer[layoutSection] as T[]) : []);
-          resolverRef.current?.(false);
-        }}
-        onSaveAndLeave={() => {
-          setShowUnsavedModal(false);
-          resolverRef.current?.(false);
-          handleConfirm();
-        }}
+        onLeave={handleLeave}
+        onSaveAndLeave={handleSaveAndLeave}
       />
     </>
   );

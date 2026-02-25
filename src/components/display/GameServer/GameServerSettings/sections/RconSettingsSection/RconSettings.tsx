@@ -1,10 +1,12 @@
 import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
 import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
 import { Checkbox } from "@components/ui/checkbox.tsx";
-import { useEffect, useMemo, useState } from "react";
+import UnsavedModal from "@components/ui/UnsavedModal";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import * as z from "zod";
 import type { GameServerDto, RCONConfiguration } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import useUnsavedChangesBlocker from "@/hooks/useUnsavedChangesBlocker/useUnsavedChangesBlocker";
 
 const RconSettings = (props: {
   gameServer: GameServerDto;
@@ -39,7 +41,7 @@ const RconSettings = (props: {
   }, [rconPassword, rconPort, rconEnabled]);
 
   const isChanged = useMemo(() => {
-    const rconEnabledChanged = rconEnabled !== rconState?.enabled;
+    const rconEnabledChanged = rconEnabled !== (rconState?.enabled ?? false);
     const rconPasswordChanged = rconPassword !== rconState?.password;
     const rconPortChanged = !(
       (rconPort === "" && (rconState?.port === undefined || rconState?.port === null)) ||
@@ -68,6 +70,19 @@ const RconSettings = (props: {
       setLoading(false);
     }
   };
+
+  const handleRevert = useCallback(() => {
+    setRconEnabled(rconState?.enabled ?? false);
+    setRconPort(rconState?.port?.toString() ?? "");
+    setRconPassword(rconState?.password);
+  }, [rconState]);
+
+  const { showUnsavedModal, setShowUnsavedModal, handleLeave, handleSaveAndLeave } =
+    useUnsavedChangesBlocker({
+      isChanged,
+      onSave: handleConfirm,
+      onRevert: handleRevert,
+    });
 
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
@@ -135,14 +150,16 @@ const RconSettings = (props: {
       </div>
 
       <SettingsActionButtons
-        onRevert={() => {
-          setRconEnabled(rconState?.enabled ?? false);
-          setRconPort(rconState?.port?.toString() ?? "");
-          setRconPassword(rconState?.password);
-        }}
+        onRevert={handleRevert}
         onConfirm={handleConfirm}
         revertDisabled={loading || !isChanged}
         confirmDisabled={isConfirmButtonDisabled}
+      />
+      <UnsavedModal
+        open={showUnsavedModal}
+        setOpen={setShowUnsavedModal}
+        onLeave={handleLeave}
+        onSaveAndLeave={handleSaveAndLeave}
       />
     </div>
   );

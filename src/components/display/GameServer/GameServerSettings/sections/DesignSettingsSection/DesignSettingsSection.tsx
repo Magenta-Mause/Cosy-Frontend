@@ -1,11 +1,13 @@
 import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
-import { useState } from "react";
+import UnsavedModal from "@components/ui/UnsavedModal";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import castle from "@/assets/MainPage/castle.png";
 import house from "@/assets/MainPage/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer.tsx";
+import useUnsavedChangesBlocker from "@/hooks/useUnsavedChangesBlocker/useUnsavedChangesBlocker";
 import { cn } from "@/lib/utils.ts";
 import { GameServerDesign } from "@/types/gameServerDesign.ts";
 
@@ -32,6 +34,17 @@ const DesignSettingsSection = () => {
       setLoading(false);
     }
   };
+
+  const handleRevert = useCallback(() => {
+    setSelectedDesign(gameServer.design ?? GameServerDesign.HOUSE);
+  }, [gameServer.design]);
+
+  const { showUnsavedModal, setShowUnsavedModal, handleLeave, handleSaveAndLeave } =
+    useUnsavedChangesBlocker({
+      isChanged: hasChanges,
+      onSave: handleSave,
+      onRevert: handleRevert,
+    });
 
   const designs: { value: GameServerDesign; image: string; label: string }[] = [
     {
@@ -80,10 +93,16 @@ const DesignSettingsSection = () => {
         ))}
       </div>
       <SettingsActionButtons
-        onRevert={() => setSelectedDesign(gameServer.design ?? "HOUSE")}
+        onRevert={handleRevert}
         onConfirm={handleSave}
         revertDisabled={loading || !hasChanges}
         confirmDisabled={loading || !hasChanges}
+      />
+      <UnsavedModal
+        open={showUnsavedModal}
+        setOpen={setShowUnsavedModal}
+        onLeave={handleLeave}
+        onSaveAndLeave={handleSaveAndLeave}
       />
     </div>
   );

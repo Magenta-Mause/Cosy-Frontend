@@ -3,7 +3,8 @@ import MemoryLimitInputFieldEdit from "@components/display/GameServer/EditGameSe
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { useContext, useEffect, useMemo, useState } from "react";
+import UnsavedModal from "@components/ui/UnsavedModal";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand, quote } from "shell-quote";
 import * as z from "zod";
@@ -15,6 +16,7 @@ import {
   PortMappingProtocol,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import useUnsavedChangesBlocker from "@/hooks/useUnsavedChangesBlocker/useUnsavedChangesBlocker";
 import { mapGameServerDtoToUpdate } from "@/lib/gameServerMapper.ts";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import { cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
@@ -224,6 +226,18 @@ const EditGameServerPage = (props: {
       setLoading(false);
     }
   };
+
+  const handleRevert = useCallback(() => {
+    setGameServerState(mapGameServerDtoToUpdate(props.gameServer));
+    setExecutionCommandRaw(quote(props.gameServer.execution_command ?? []));
+  }, [props.gameServer]);
+
+  const { showUnsavedModal, setShowUnsavedModal, handleLeave, handleSaveAndLeave } =
+    useUnsavedChangesBlocker({
+      isChanged,
+      onSave: handleConfirm,
+      onRevert: handleRevert,
+    });
 
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
@@ -450,10 +464,7 @@ const EditGameServerPage = (props: {
           className="h-12.5"
           variant="secondary"
           disabled={loading || !isChanged}
-          onClick={() => {
-            setGameServerState(mapGameServerDtoToUpdate(props.gameServer));
-            setExecutionCommandRaw(quote(props.gameServer.execution_command ?? []));
-          }}
+          onClick={handleRevert}
         >
           {t("revert")}
         </Button>
@@ -478,6 +489,12 @@ const EditGameServerPage = (props: {
           </Button>
         </TooltipWrapper>
       </div>
+      <UnsavedModal
+        open={showUnsavedModal}
+        setOpen={setShowUnsavedModal}
+        onLeave={handleLeave}
+        onSaveAndLeave={handleSaveAndLeave}
+      />
     </div>
   );
 };
