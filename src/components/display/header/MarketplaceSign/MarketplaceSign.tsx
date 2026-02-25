@@ -1,9 +1,10 @@
 import { Button } from "@components/ui/button.tsx";
+import Icon from "@components/ui/Icon.tsx";
 import { useRouter, useRouterState } from "@tanstack/react-router";
-import { ArrowBigRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole } from "@/api/generated/model";
 import marketPlaceSignAsset from "@/assets/header/marketPlaceSign.png";
+import arrowBigRightIcon from "@/assets/icons/arrowBigRight.svg?raw";
 import { useRequireRoles } from "@/utils/routeGuards";
 
 const MarketplaceSign = () => {
@@ -30,7 +31,8 @@ const MarketplaceSign = () => {
     >
       <div className="pt-15 pb-4 pl-3">
         <Button size="sm" onClick={() => router.navigate({ to: "/users" })}>
-          {t("components.userManagement.userDetailButton.viewUsers")} <ArrowBigRight />
+          {t("components.userManagement.userDetailButton.viewUsers")}
+          <Icon src={arrowBigRightIcon} className="size-7" />
         </Button>
       </div>
     </div>
