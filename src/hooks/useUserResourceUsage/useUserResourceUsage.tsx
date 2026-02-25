@@ -8,7 +8,7 @@ interface UserResourceUsage {
 }
 
 const convertBytesToReadable = (bytes: number): string => {
-  if (bytes === 0) return "0 Bytes";
+  if (!Number.isFinite(bytes) || bytes === 0) return "0 Bytes";
   const sizes = ["Bytes", "KiB", "MiB", "GiB", "TiB"];
   const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), sizes.length - 1);
   return `${(bytes / 1024 ** i).toFixed(2)} ${sizes[i]}`;
@@ -44,6 +44,8 @@ export const useUserResourceUsage = (userUuid: string | null | undefined): UserR
         const metricValues = latestMetric.metric_values;
 
         if (metricValues) {
+          // cpu_percent is reported as a percentage value (0-100); accumulate the raw percentage here
+          // and convert to an approximate core count by dividing by 100 when formatting cpuUsage below.
           totalCpuUsage += metricValues.cpu_percent ?? 0;
           totalMemoryUsage += metricValues.memory_usage ?? 0;
         }

@@ -15,6 +15,10 @@ const userSlice = createSlice({
     addUser: (state, action: PayloadAction<UserEntityDto>) => {
       state.data.push(action.payload);
     },
+    updateUser: (state, action: PayloadAction<UserEntityDto>) => {
+      const index = state.data.findIndex((user) => user.uuid === action.payload.uuid);
+      if (index !== -1) state.data[index] = action.payload;
+    },
     removeUser: (state, action: PayloadAction<string>) => {
       state.data = state.data.filter((user) => user.uuid !== action.payload);
     },

@@ -788,6 +788,31 @@ const translation: i18nLanguage = {
           confirmButton: "Passwort ändern",
           submitError: "Fehler beim Ändern des Passworts",
         },
+        updateDockerLimitsDialog: {
+          title: "Ressourcenlimits bearbeiten",
+          description:
+            "Lege CPU- und Arbeitsspeicherlimits für diesen Benutzer fest. Lasse ein Feld leer für unbeschränkt.",
+          cpuLabel: "CPU-Limit",
+          cpuDescription: "Maximale CPU-Kerne, die der Benutzer verwenden darf.",
+          memoryLabel: "Arbeitsspeicherlimit",
+          memoryDescription: "Maximaler Arbeitsspeicher, den der Benutzer verwenden darf.",
+          placeholder: "Unbeschränkt",
+          cancelButton: "Abbrechen",
+          confirmButton: "Speichern",
+          submitError: "Fehler beim Aktualisieren der Ressourcenlimits",
+        },
+        changeRoleDialog: {
+          title: "Rolle ändern",
+          description: "Wähle eine neue Rolle für diesen Benutzer.",
+          rolePlaceholder: "Rolle auswählen",
+          roles: {
+            admin: "Admin",
+            quota_user: "Quota-Benutzer",
+          },
+          cancelButton: "Abbrechen",
+          confirmButton: "Speichern",
+          submitError: "Fehler beim Ändern der Rolle",
+        },
       },
       backButton: "Zurück",
       userDetailButton: {
@@ -799,8 +824,11 @@ const translation: i18nLanguage = {
           admin: "Admin",
           quota_user: "Quota",
         },
+        yourProfile: "Dein Profil",
         actions: {
           editPassword: "Passwort ändern",
+          editDockerLimits: "Ressourcenlimits bearbeiten",
+          editRole: "Rolle ändern",
           deleteUser: "Benutzer löschen",
         },
         resources: {
