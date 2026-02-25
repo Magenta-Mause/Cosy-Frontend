@@ -9,14 +9,14 @@ import {
   MetricLayoutSize,
   type PrivateDashboardLayout,
 } from "@/api/generated/model";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize.ts";
 import { MetricsType } from "@/types/metricsTyp";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
-import GenericLayoutSelection from "../GenericLayoutBuilder/GenericLayoutBuilder";
+import GenericLayoutBuilder from "../GenericLayoutBuilder/GenericLayoutBuilder";
 import FreeTextModal from "./FreeTextModal";
-import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 
 const wrapPrivateDashboard = (dashboard: PrivateDashboardLayout): PrivateDashboardLayoutUI => ({
   ...dashboard,
@@ -144,7 +144,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
   return (
     <>
       <h2>{t("GameServerSettings.sections.privateDashboard")}</h2>
-      <GenericLayoutSelection<PrivateDashboardLayoutUI>
+      <GenericLayoutBuilder<PrivateDashboardLayoutUI>
         gameServer={gameServer}
         layoutSection="private_dashboard_layouts"
         isChanged={isChanged}
@@ -181,7 +181,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
             </div>
           </>
         )}
-      </GenericLayoutSelection>
+      </GenericLayoutBuilder>
       <FreeTextModal
         freeText={freeText}
         setFreeText={setFreeText}

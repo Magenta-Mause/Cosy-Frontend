@@ -84,7 +84,7 @@ interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: Layout
   children?: (layout: T) => React.ReactNode;
 }
 
-export default function GenericLayoutSelection<T extends { _uiUuid: string; size?: LayoutSize }>(
+export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?: LayoutSize }>(
   props: GenericLayoutSelectionProps<T>,
 ) {
   const {

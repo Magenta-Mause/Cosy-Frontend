@@ -25,7 +25,7 @@ import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize";
 import { MetricsType } from "@/types/metricsTyp";
 import type { PublicDashboardLayoutUI } from "@/types/publicDashboard";
-import GenericLayoutSelection from "./GenericLayoutBuilder/GenericLayoutBuilder";
+import GenericLayoutBuilder from "./GenericLayoutBuilder/GenericLayoutBuilder";
 import FreeTextModal from "./PrivateDashboardSetting/FreeTextModal";
 
 const wrapPublicDashboard = (dashboard: PublicDashboardLayout): PublicDashboardLayoutUI => ({
@@ -174,7 +174,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
           <span className={"text-sm"}>{t("GameServerSettings.publicDashboard.label")}</span>
         </button>
       </FieldGroup>
-      <GenericLayoutSelection<PublicDashboardLayoutUI>
+      <GenericLayoutBuilder<PublicDashboardLayoutUI>
         gameServer={gameServer}
         layoutSection="public_dashboard"
         isChanged={isChanged}
@@ -234,7 +234,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
             </div>
           </>
         )}
-      </GenericLayoutSelection>
+      </GenericLayoutBuilder>
       <FreeTextModal
         freeText={freeText}
         setFreeText={setFreeText}
