@@ -24,6 +24,7 @@ import dashboardBackgroundImage from "@/assets/gameServerDetailPage/dashboard-bg
 import dashboardForegroundImage from "@/assets/gameServerDetailPage/dashboard-fg.webp";
 import filesBackgroundImage from "@/assets/gameServerDetailPage/files-bg.webp";
 import logsMetricsBackgroundImage from "@/assets/gameServerDetailPage/logs-metrics-bg.webp";
+import logsMetricsForegroundImage from "@/assets/gameServerDetailPage/logs-metrics-fg.webp";
 import settingsBackgroundImage from "@/assets/gameServerDetailPage/settings-bg.webp";
 import settingsForegroundImage from "@/assets/gameServerDetailPage/settings-fg.webp";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
@@ -66,6 +67,7 @@ const TABS: Tab[] = [
       GameServerAccessGroupDtoPermissionsItem.SEND_COMMANDS,
     ],
     background: logsMetricsBackgroundImage,
+    foreground: logsMetricsForegroundImage,
     foregroundColor: "var(--button-secondary-default)",
     buttonVariant: "secondary",
     sideBarButtonVariant: "secondary",
@@ -76,6 +78,7 @@ const TABS: Tab[] = [
     path: "/server/$serverId/metrics",
     permissions: [GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS],
     background: logsMetricsBackgroundImage,
+    foreground: logsMetricsForegroundImage,
     foregroundColor: "var(--button-secondary-default)",
     buttonVariant: "secondary",
     sideBarButtonVariant: "secondary",
