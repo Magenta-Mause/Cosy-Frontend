@@ -42,6 +42,7 @@ const ActionButtons = ({
       onConfirm={handleConfirm}
       revertDisabled={loading || !isChanged}
       confirmDisabled={isConfirmButtonDisabled}
+      className="mr-2"
     >
       {/* Delete Group Button */}
       <div className="pt-4 border-t">
