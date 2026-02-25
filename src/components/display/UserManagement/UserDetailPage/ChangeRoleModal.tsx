@@ -27,14 +27,14 @@ const ChangeRoleModal = (props: { user: UserEntityDto; open: boolean; onClose: (
   const { changeRole } = useDataInteractions();
 
   const [role, setRole] = useState<UserRoleUpdateDtoRole>(
-    (props.user.role as UserRoleUpdateDtoRole) ?? UserRoleUpdateDtoRole.QUOTA_USER,
+    props.user.role || UserRoleUpdateDtoRole.QUOTA_USER,
   );
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     if (props.open) {
-      setRole((props.user.role as UserRoleUpdateDtoRole) ?? UserRoleUpdateDtoRole.QUOTA_USER);
+      setRole(props.user.role || UserRoleUpdateDtoRole.QUOTA_USER);
       setSubmitError(null);
     }
   }, [props.open, props.user]);
