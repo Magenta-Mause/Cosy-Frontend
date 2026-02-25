@@ -48,7 +48,7 @@ export function LogOutAlertDialog({ onConfirm, open, onOpenChange }: LogOutAlert
           <DialogTitle>{t("title")}</DialogTitle>
         </DialogHeader>
 
-        <DialogMain>{t("description")}</DialogMain>
+        <DialogMain className="text-sm">{t("description")}</DialogMain>
 
         <DialogFooter>
           <DialogClose asChild>

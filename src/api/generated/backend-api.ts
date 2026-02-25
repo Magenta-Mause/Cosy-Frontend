@@ -57,9 +57,11 @@ import type {
   UpdateCustomMetricBody,
   UploadFileToVolumeParams,
   UserCreationDto,
+  UserDockerLimitsUpdateDto,
   UserEntityDto,
   UserInviteCreationDto,
   UserInviteDto,
+  UserRoleUpdateDto,
   WebhookCreationDto,
   WebhookDto,
   WebhookUpdateDto
@@ -1628,6 +1630,124 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getLoginMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const updateDockerLimits = (
+    uuid: string,
+    userDockerLimitsUpdateDto: UserDockerLimitsUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/docker-limits`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: userDockerLimitsUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdateDockerLimitsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateDockerLimits>>, TError,{uuid: string;data: UserDockerLimitsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateDockerLimits>>, TError,{uuid: string;data: UserDockerLimitsUpdateDto}, TContext> => {
+
+const mutationKey = ['updateDockerLimits'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateDockerLimits>>, {uuid: string;data: UserDockerLimitsUpdateDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updateDockerLimits(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateDockerLimitsMutationResult = NonNullable<Awaited<ReturnType<typeof updateDockerLimits>>>
+    export type UpdateDockerLimitsMutationBody = UserDockerLimitsUpdateDto
+    export type UpdateDockerLimitsMutationError = unknown
+
+    export const useUpdateDockerLimits = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateDockerLimits>>, TError,{uuid: string;data: UserDockerLimitsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateDockerLimits>>,
+        TError,
+        {uuid: string;data: UserDockerLimitsUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateDockerLimitsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const changeRole = (
+    uuid: string,
+    userRoleUpdateDto: UserRoleUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/change-role`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: userRoleUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getChangeRoleMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changeRole>>, TError,{uuid: string;data: UserRoleUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof changeRole>>, TError,{uuid: string;data: UserRoleUpdateDto}, TContext> => {
+
+const mutationKey = ['changeRole'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof changeRole>>, {uuid: string;data: UserRoleUpdateDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  changeRole(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ChangeRoleMutationResult = NonNullable<Awaited<ReturnType<typeof changeRole>>>
+    export type ChangeRoleMutationBody = UserRoleUpdateDto
+    export type ChangeRoleMutationError = unknown
+
+    export const useChangeRole = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changeRole>>, TError,{uuid: string;data: UserRoleUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof changeRole>>,
+        TError,
+        {uuid: string;data: UserRoleUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getChangeRoleMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
