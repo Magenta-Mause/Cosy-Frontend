@@ -2,9 +2,9 @@ import { Button } from "@components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogMain,
   DialogTitle,
 } from "@components/ui/dialog";
 import type { WebhookDto } from "@/api/generated/model";
@@ -31,7 +31,7 @@ const WebhookDeleteDialog = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("deleteDialog.title")}</DialogTitle>
-          <DialogDescription>{t("deleteDialog.description")}</DialogDescription>
+          <DialogMain className="text-sm">{t("deleteDialog.description")}</DialogMain>
         </DialogHeader>
 
         <DialogFooter>
