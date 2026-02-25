@@ -40,6 +40,7 @@ const buttonVariants = cva(
           "border border-button-secondary-border",
           "disabled:bg-button-primary-disabled",
           "disabled:text-button-secondary-disabled",
+          "disabled:border-button-secondary-disabled-border",
 
           "focus-visible:ring-2 focus-visible:ring-button-primary-hover",
         ].join(" "),
