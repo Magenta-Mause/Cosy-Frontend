@@ -25,7 +25,7 @@ import UnsavedModal from "@components/ui/UnsavedModal";
 import { Plus, X } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
-import type { GameServerDto, MetricLayout, PrivateDashboardLayout } from "@/api/generated/model";
+import type { GameServerDto, MetricLayout, PrivateDashboardLayout, PublicDashboardLayout } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import useUnsavedChangesBlocker from "@/hooks/useUnsavedChangesBlocker/useUnsavedChangesBlocker";
 import { cn } from "@/lib/utils";
@@ -78,7 +78,7 @@ interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: Layout
   unfulfilledChanges?: string | null;
   isDisabled?: boolean;
   setUnfulfilledChanges?: (message: string | null) => void;
-  saveHandler?: (uuid: string, layouts: PrivateDashboardLayout[] | MetricLayout[]) => Promise<void>;
+  saveHandler?: (uuid: string, layouts: PrivateDashboardLayout[] | MetricLayout[] | PublicDashboardLayout[]) => Promise<void>;
   setLayouts: React.Dispatch<React.SetStateAction<T[]>>;
   wrapper: (layouts: T[]) => T[];
   children?: (layout: T) => React.ReactNode;

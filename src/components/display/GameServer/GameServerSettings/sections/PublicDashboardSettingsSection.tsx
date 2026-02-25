@@ -180,20 +180,19 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
         isChanged={isChanged}
         layouts={publicDashboard}
         saveHandler={async (uuid, layout) => {
-          const hasSensitive = layout.some(
+          const publicLayouts = layout as PublicDashboardLayout[];
+          const hasSensitive = publicLayouts.some(
             (l) =>
               l.layout_type === DashboardElementTypes.METRIC ||
               l.layout_type === DashboardElementTypes.LOGS,
           );
           if (hasSensitive) {
-            setPendingSave(
-              () => async () => {
-                await updateGameServerPublicDashboard(uuid, {
-                  layouts: layout,
-                  enabled: checked,
-                });
-              },
-            );
+            setPendingSave(() => async () => {
+              await updateGameServerPublicDashboard(uuid, {
+                layouts: layout,
+                enabled: checked,
+              });
+            });
             setShowSensitiveWarning(true);
             return;
           }

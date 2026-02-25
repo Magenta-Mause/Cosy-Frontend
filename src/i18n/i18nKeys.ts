@@ -719,6 +719,12 @@ export type i18nLanguage = {
       };
       publicDashboard: {
         label: string;
+        sensitiveWarning: {
+          title: string;
+          description: string;
+          cancel: string;
+          confirm: string;
+        };
       };
     };
     gameServerSettings: {
