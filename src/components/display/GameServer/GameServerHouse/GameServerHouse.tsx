@@ -45,7 +45,8 @@ const GameServerHouse = (props: {
   const serverHouseImage = useMemo(() => {
     return {
       image: isHouse ? house : castle,
-      size: isHouse ? "18vw" : "22vw",
+      size: isHouse ? "15vw" : "20vw",
+      translate: isHouse ? "translate-y-[3.5vw] translate-x-[1.5vw]" : "",
     };
   }, [isHouse]);
 
@@ -56,40 +57,40 @@ const GameServerHouse = (props: {
   const actions: RightClickAction[] = [
     ...(props.gameServer.status === "STOPPED" || props.gameServer.status === "FAILED"
       ? [
+        {
+          label: t("rightClickMenu.startServer"),
+          onClick: async () => {
+            try {
+              toast.info("Starting server...");
+              startServer(props.gameServer.uuid, true);
+            } catch (e) {
+              toast.error(t("toasts.serverStartError", { error: e }), { duration: 5000 });
+            }
+          },
+        },
+      ]
+      : props.gameServer.status === "RUNNING"
+        ? [
           {
-            label: t("rightClickMenu.startServer"),
+            label: t("rightClickMenu.stopServer"),
             onClick: async () => {
               try {
-                toast.info("Starting server...");
-                startServer(props.gameServer.uuid, true);
+                await stopServer(props.gameServer.uuid, true);
               } catch (e) {
-                toast.error(t("toasts.serverStartError", { error: e }), { duration: 5000 });
+                toast.error(t("toasts.serverStopError", { error: e }));
               }
             },
           },
         ]
-      : props.gameServer.status === "RUNNING"
-        ? [
+        : props.gameServer.status === "AWAITING_UPDATE" ||
+          props.gameServer.status === "PULLING_IMAGE" ||
+          props.gameServer.status === "STOPPING"
+          ? [
             {
-              label: t("rightClickMenu.stopServer"),
-              onClick: async () => {
-                try {
-                  await stopServer(props.gameServer.uuid, true);
-                } catch (e) {
-                  toast.error(t("toasts.serverStopError", { error: e }));
-                }
-              },
+              label: t("rightClickMenu.loading"),
+              disabled: true,
             },
           ]
-        : props.gameServer.status === "AWAITING_UPDATE" ||
-            props.gameServer.status === "PULLING_IMAGE" ||
-            props.gameServer.status === "STOPPING"
-          ? [
-              {
-                label: t("rightClickMenu.loading"),
-                disabled: true,
-              },
-            ]
           : []),
     {
       label: t("rightClickMenu.viewLogs"),
@@ -107,6 +108,7 @@ const GameServerHouse = (props: {
       <Link
         className={cn(
           "block h-auto overflow-visible aspect-square select-none relative",
+          serverHouseImage.translate,
           props.className,
         )}
         to={`/server/${props.gameServer.uuid}`}
@@ -124,8 +126,8 @@ const GameServerHouse = (props: {
         <NameAndStatusBanner
           className={
             isHouse
-              ? "absolute translate-x-[5.5%] translate-y-[-15%] whitespace-nowrap z-10"
-              : "absolute translate-x-[13%] translate-y-[78%] whitespace-nowrap z-10"
+              ? "absolute -translate-y-[1.1vw] whitespace-nowrap z-10"
+              : "absolute translate-x-[1.55vw] translate-y-[2.6vw] whitespace-nowrap z-10"
           }
           classNameTextChildren={"-translate-y-[1.1vw]"}
           status={props.gameServer.status}
@@ -136,10 +138,7 @@ const GameServerHouse = (props: {
           alt={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
           })}
-          className="w-full h-full object-contain overflow-visible"
-          aria-label={t("aria.gameServerConfiguration", {
-            serverName: props.gameServer.server_name,
-          })}
+          className="w-full h-full object-contain overflow-visible flex items-center justify-center"
           style={{
             imageRendering: "pixelated",
           }}
