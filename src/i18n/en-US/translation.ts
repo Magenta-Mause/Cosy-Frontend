@@ -671,6 +671,13 @@ const translation: i18nLanguage = {
       },
       publicDashboard: {
         label: "Make Public Dashboard Visable",
+        sensitiveWarning: {
+          title: "Sensitive Data Warning",
+          description:
+            "Your public dashboard contains metrics or logs widgets. This data will be visible to anyone on the internet. Metrics and logs can contain sensitive information. Please make sure you are comfortable sharing this data publicly.",
+          cancel: "Cancel",
+          confirm: "Save Anyway",
+        },
       },
     },
     gameServerSettings: {

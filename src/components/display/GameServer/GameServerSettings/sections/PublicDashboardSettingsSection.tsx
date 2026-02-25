@@ -1,5 +1,13 @@
 import MetricDropDown from "@components/display/DropDown/MetricDropDown";
 import WidgetDropDown from "@components/display/DropDown/WidgetDropDown";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@components/ui/alert-dialog";
 import { Button } from "@components/ui/button";
 import { Checkbox } from "@components/ui/checkbox";
 import { FieldGroup } from "@components/ui/field";
@@ -38,6 +46,8 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   const [freeText, setFreeText] = useState<PublicDashboardLayoutUI | null>(null);
   const [unfulfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
   const [checked, setChecked] = useState(gameServer.public_dashboard.enabled ?? false);
+  const [showSensitiveWarning, setShowSensitiveWarning] = useState(false);
+  const [pendingSave, setPendingSave] = useState<(() => Promise<void>) | null>(null);
 
   const isChanged = useMemo(() => {
     if (publicDashboard.length !== gameServer.public_dashboard?.layouts?.length) return true;
@@ -169,9 +179,26 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
         layoutSection="public_dashboard"
         isChanged={isChanged}
         layouts={publicDashboard}
-        saveHandler={async (uuid, layout) =>
-          await updateGameServerPublicDashboard(uuid, { layouts: layout, enabled: checked })
-        }
+        saveHandler={async (uuid, layout) => {
+          const hasSensitive = layout.some(
+            (l) =>
+              l.layout_type === DashboardElementTypes.METRIC ||
+              l.layout_type === DashboardElementTypes.LOGS,
+          );
+          if (hasSensitive) {
+            setPendingSave(
+              () => async () => {
+                await updateGameServerPublicDashboard(uuid, {
+                  layouts: layout,
+                  enabled: checked,
+                });
+              },
+            );
+            setShowSensitiveWarning(true);
+            return;
+          }
+          await updateGameServerPublicDashboard(uuid, { layouts: layout, enabled: checked });
+        }}
         setLayouts={setPublicDashboard}
         wrapper={wrapPublicDashboards}
         defaultAddNew={newWidget}
@@ -216,6 +243,39 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
         isModalChanged={isModalChanged}
         errorText={unfulfilledChanges}
       />
+      <AlertDialog open={showSensitiveWarning}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {t("GameServerSettings.publicDashboard.sensitiveWarning.title")}
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("GameServerSettings.publicDashboard.sensitiveWarning.description")}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setShowSensitiveWarning(false);
+                setPendingSave(null);
+              }}
+            >
+              {t("GameServerSettings.publicDashboard.sensitiveWarning.cancel")}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={async () => {
+                setShowSensitiveWarning(false);
+                await pendingSave?.();
+                setPendingSave(null);
+              }}
+            >
+              {t("GameServerSettings.publicDashboard.sensitiveWarning.confirm")}
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }
