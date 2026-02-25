@@ -1,9 +1,12 @@
 import { Button } from "@components/ui/button.tsx";
 import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
+import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { CircleAlertIcon, Plus, Trash2 } from "lucide-react";
 import { type ReactNode, useCallback, useEffect, useState } from "react";
 import { v7 as generateUuid } from "uuid";
+import attentionIcon from "@/assets/icons/attention.svg?raw";
+import plusIcon from "@/assets/icons/plus.svg?raw";
+import thrashIcon from "@/assets/icons/thrash.svg?raw";
 
 interface Props<T extends { uuid: string }> {
   value?: T[];
@@ -87,17 +90,17 @@ function ListInputEditGameServer<T extends { uuid: string }>({
                 onClick={() => removeValue(item.uuid)}
                 className="h-9 w-9 p-0 flex items-center justify-center"
               >
-                <Trash2 className="size-6" />
+                <Icon src={thrashIcon} className="size-5" />
               </Button>
               {index === (value ?? []).length - 1 && (
                 <Button className="h-9 w-9 p-0" onClick={addNewValue}>
-                  <Plus className="size-6" />
+                  <Icon src={plusIcon} className="size-5" />
                 </Button>
               )}
 
               {rowError && (
                 <TooltipWrapper tooltip={errorLabel} asChild>
-                  <CircleAlertIcon className="text-red-500 w-5 h-5" />
+                  <Icon src={attentionIcon} className="size-5 text-red-500" />
                 </TooltipWrapper>
               )}
             </div>
@@ -105,7 +108,7 @@ function ListInputEditGameServer<T extends { uuid: string }>({
         })}
         {value?.length === 0 && (
           <Button className="h-9 w-9 p-0" onClick={addNewValue}>
-            <Plus className="size-6" />
+            <Icon src={plusIcon} className="size-5" />
           </Button>
         )}
       </div>
