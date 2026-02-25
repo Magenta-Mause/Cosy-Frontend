@@ -337,10 +337,6 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
           resolverRef.current?.(false);
           handleConfirm();
         }}
-        onStay={() => {
-          setShowUnsavedModal(false);
-          resolverRef.current?.(true);
-        }}
       />
     </>
   );

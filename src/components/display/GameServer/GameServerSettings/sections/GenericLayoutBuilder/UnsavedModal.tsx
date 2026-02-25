@@ -12,12 +12,11 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 interface UpdateModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  onStay: () => void;
   onLeave: () => void;
   onSaveAndLeave: () => void;
 }
 
-const UnsavedModal = ({ open, setOpen, onLeave, onStay, onSaveAndLeave }: UpdateModalProps) => {
+const UnsavedModal = ({ open, setOpen, onLeave, onSaveAndLeave }: UpdateModalProps) => {
   const { t } = useTranslationPrefix("genericModal.unsavedModal");
 
   if (!open) return null;
@@ -34,9 +33,6 @@ const UnsavedModal = ({ open, setOpen, onLeave, onStay, onSaveAndLeave }: Update
         <DialogFooter>
           <Button variant="destructive" onClick={onLeave}>
             {t("leave")}
-          </Button>
-          <Button variant="secondary" onClick={onStay}>
-            {t("stay")}
           </Button>
           <Button onClick={onSaveAndLeave}>{t("saveAndLeave")}</Button>
         </DialogFooter>
