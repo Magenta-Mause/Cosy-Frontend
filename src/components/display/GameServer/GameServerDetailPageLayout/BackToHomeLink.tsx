@@ -1,13 +1,10 @@
+import Icon from "@components/ui/Icon.tsx";
 import Link from "@components/ui/Link.tsx";
-import { DoorClosedIcon, DoorOpenIcon } from "lucide-react";
-import type { CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
+import doorClosedIcon from "@/assets/icons/doorClosed.svg?raw";
+import doorOpenIcon from "@/assets/icons/doorOpen.svg?raw";
 import { cn } from "@/lib/utils.ts";
 import FancyNavigationButton from "./FancyNavigationButton.tsx";
-
-const iconStyles: CSSProperties = {
-  scale: 1.8,
-};
 
 const BackToHomeLink = (props: { className?: string; variant?: "primary" | "secondary" }) => {
   const { t } = useTranslation();
@@ -22,10 +19,15 @@ const BackToHomeLink = (props: { className?: string; variant?: "primary" | "seco
         direction={"right"}
         className={"group"}
       >
-        <DoorClosedIcon className={"group-hover:hidden group-focus:hidden"} style={iconStyles} />
-        <DoorOpenIcon
-          className={"hidden group-hover:inline-block group-focus:inline-block"}
-          style={iconStyles}
+        <Icon
+          src={doorClosedIcon}
+          variant={props.variant}
+          className="scale-[1.4] group-hover:hidden group-focus:hidden"
+        />
+        <Icon
+          src={doorOpenIcon}
+          variant={props.variant}
+          className="scale-[1.4] hidden group-hover:inline-block group-focus:inline-block"
         />
       </FancyNavigationButton>
     </Link>

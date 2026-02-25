@@ -4,7 +4,7 @@ type Variant = "primary" | "secondary" | "foreground";
 
 const variantClass: Record<Variant, string> = {
   primary: "text-icon-primary",
-  secondary: "text-secondary",
+  secondary: "text-icon-foreground",
   foreground: "text-icon-foreground",
 };
 
