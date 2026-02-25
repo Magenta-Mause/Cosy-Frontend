@@ -2,16 +2,16 @@ import MetricDropDown from "@components/display/DropDown/MetricDropDown";
 import WidgetDropDown from "@components/display/DropDown/WidgetDropDown";
 import { Button } from "@components/ui/button";
 import { Checkbox } from "@components/ui/checkbox";
-import { Field, FieldGroup, FieldLabel } from "@components/ui/field";
+import { FieldGroup } from "@components/ui/field";
 import { SquarePen } from "lucide-react";
 import { useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
-import { updatePublicDashboardLayout } from "@/api/generated/backend-api";
 import {
   type GameServerDto,
   MetricLayoutSize,
   type PublicDashboardLayout,
 } from "@/api/generated/model";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize";
@@ -34,6 +34,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   const [publicDashboard, setPublicDashboard] = useState<PublicDashboardLayoutUI[]>(() =>
     wrapPublicDashboards(gameServer.public_dashboard.layouts ?? []),
   );
+  const { updateGameServerPublicDashboard } = useDataInteractions();
   const [freeText, setFreeText] = useState<PublicDashboardLayoutUI | null>(null);
   const [unfulfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
   const [checked, setChecked] = useState(gameServer.public_dashboard.enabled ?? false);
@@ -154,31 +155,29 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
     <>
       <h2>{t("GameServerSettings.sections.publicDashboard")}</h2>
       <FieldGroup className="my-1">
-        <Field orientation={"horizontal"}>
-          <Checkbox
-            checked={checked}
-            onCheckedChange={(checked) => {
-              if (checked === "indeterminate") return;
-              setChecked(checked);
-            }}
-          />
-          <FieldLabel>{t("GameServerSettings.publicDashboard.label")}</FieldLabel>
-        </Field>
+        <button
+          type={"button"}
+          onClick={() => setChecked((prev) => !prev)}
+          className="flex items-center gap-2"
+        >
+          <Checkbox checked={checked} />
+          <span className={"text-sm"}>{t("GameServerSettings.publicDashboard.label")}</span>
+        </button>
       </FieldGroup>
       <GenericLayoutSelection<PublicDashboardLayoutUI>
         gameServer={gameServer}
         layoutSection="public_dashboard"
         isChanged={isChanged}
         layouts={publicDashboard}
-        saveHandler={(uuid, layout) =>
-          updatePublicDashboardLayout(uuid, { enabled: checked, layouts: layout })
+        saveHandler={async (uuid, layout) =>
+          await updateGameServerPublicDashboard(uuid, { layouts: layout, enabled: checked })
         }
         setLayouts={setPublicDashboard}
         wrapper={wrapPublicDashboards}
         defaultAddNew={newWidget}
         unfulfilledChanges={unfulfilledChanges}
         setUnfulfilledChanges={setUnfulfilledChanges}
-        isDisabled={checked}
+        isDisabled={!checked}
       >
         {(dashboard) => (
           <>

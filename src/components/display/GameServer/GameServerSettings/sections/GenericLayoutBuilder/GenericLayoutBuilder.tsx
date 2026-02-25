@@ -78,7 +78,7 @@ interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: Layout
   unfulfilledChanges?: string | null;
   isDisabled?: boolean;
   setUnfulfilledChanges?: (message: string | null) => void;
-  saveHandler?: (uuid: string, layouts: PrivateDashboardLayout[] | MetricLayout[]) => void;
+  saveHandler?: (uuid: string, layouts: PrivateDashboardLayout[] | MetricLayout[]) => Promise<void>;
   setLayouts: React.Dispatch<React.SetStateAction<T[]>>;
   wrapper: (layouts: T[]) => T[];
   children?: (layout: T) => React.ReactNode;
@@ -105,6 +105,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
   const [cardErrors, setCardErrors] = useState<Set<string>>(new Set());
   const resolverRef = useRef<((block: boolean) => void) | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -118,12 +119,12 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
   const wrap = useCallback((layout: T): T => ({ ...layout, _uiUuid: generateUuid() }), []);
   const wrapper = useCallback((layouts: T[]): T[] => layouts.map(wrap), [wrap]);
 
-  const handleConfirm = useCallback(() => {
+  const handleConfirm = useCallback(async () => {
     const errorUuids = layouts
       .filter((layout) => {
         const l = layout as PrivateDashboardLayoutUI;
         return (
-          l.private_dashboard_types === DashboardElementTypes.FREETEXT &&
+          l.layout_type === DashboardElementTypes.FREETEXT &&
           (l.content === undefined ||
             l.content?.length === 0 ||
             l.content?.some((c) => !c.key || !c.value))
@@ -140,7 +141,9 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
     setCardErrors(new Set());
     setUnfulfilledChanges?.(null);
 
-    saveHandler?.(gameServer.uuid, layouts);
+    setIsSaving(true);
+    await saveHandler?.(gameServer.uuid, layouts);
+    setIsSaving(false);
   }, [gameServer, layouts, saveHandler, setUnfulfilledChanges, t]);
 
   const handleWidthSelect = useCallback(
@@ -205,7 +208,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
         >
           <Button
             variant="destructive"
-            disabled={!isDisabled}
+            disabled={isDisabled}
             className="flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 z-10"
             onClick={(e) => {
               e.stopPropagation();
@@ -246,7 +249,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
 
   return (
     <>
-      <div className={`flex w-full pt-3 ${!isDisabled ? "" : "blur-xs"}`}>
+      <div className={`flex w-full pt-3 ${isDisabled ? "blur-xs" : ""}`}>
         <Card className="w-full h-[65vh]">
           <CardContent className={"grid grid-cols-6 gap-4 overflow-auto p-6"}>
             <DndContext
@@ -317,8 +320,8 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
           setUnfulfilledChanges?.(null);
         }}
         onConfirm={handleConfirm}
-        revertDisabled={!isChanged}
-        confirmDisabled={!isChanged}
+        revertDisabled={!isChanged || isSaving}
+        confirmDisabled={!isChanged || isSaving}
         errorMessage={cardErrors.size > 0 ? unfulfilledChanges : null}
       />
       <UnsavedModal

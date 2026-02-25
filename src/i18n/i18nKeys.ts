@@ -934,8 +934,8 @@ export type i18nLanguage = {
     };
   };
   dashboard: {
-    true: string;
-    false: string;
+    showPublicDashboard: string;
+    hidePublicDashboard: string;
   };
 };
 

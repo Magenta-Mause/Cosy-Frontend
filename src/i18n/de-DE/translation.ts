@@ -942,8 +942,8 @@ const translation: i18nLanguage = {
     },
   },
   dashboard: {
-    true: "Wechsel zu Privates Dashboard",
-    false: "Öffentliches Dashboard",
+    showPublicDashboard: "Öffentliches Dashboard anzeigen",
+    hidePublicDashboard: "Privates Dashboard anzeigen",
   },
 };
 

@@ -4,7 +4,7 @@ import FancyNavigationButton from "@components/display/GameServer/GameServerDeta
 import GameServerDetailPageHeader from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageHeader/GameServerDetailPageHeader.tsx";
 import Link from "@components/ui/Link.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { useLocation } from "@tanstack/react-router";
+import { useLocation, useSearch } from "@tanstack/react-router";
 import {
   ChartAreaIcon,
   FolderIcon,
@@ -129,7 +129,19 @@ const GameServerDetailPageLayout = (props: {
 }) => {
   const location = useLocation();
 
+  const search = useSearch({ strict: false }) as { view?: string };
+  const { hasPermission } = useGameServerPermissions(props.gameServer.uuid);
   const activeTab = getActiveTab(location.pathname);
+  const isOnDashboard = activeTab.label === "overview";
+  const canSeePrivateDashboard = hasPermission(
+    GameServerAccessGroupDtoPermissionsItem.READ_SERVER_PRIVATE_DASHBOARD,
+  );
+  const dashboardView =
+    isOnDashboard && canSeePrivateDashboard
+      ? search.view === "public"
+        ? "public"
+        : "private"
+      : undefined;
 
   return (
     <GameServerDetailContext.Provider value={{ gameServer: props.gameServer }}>
@@ -163,6 +175,8 @@ const GameServerDetailPageLayout = (props: {
               } as CSSProperties
             }
             buttonVariant={activeTab.buttonVariant}
+            hideStartButton={!hasPermission(GameServerAccessGroupDtoPermissionsItem.SEE_SERVER)}
+            dashboardView={dashboardView}
           />
           <div className={"overflow-y-auto h-auto w-full aspect-514/241 bg-background"}>
             {props.children}
@@ -171,7 +185,9 @@ const GameServerDetailPageLayout = (props: {
         </div>
 
         <div className="flex flex-col justify-center items-end w-[10%] shrink-0 relative z-30 aspect-[0.1]">
-          <SideBar gameServer={props.gameServer} />
+          {hasPermission(GameServerAccessGroupDtoPermissionsItem.SEE_SERVER) && (
+            <SideBar gameServer={props.gameServer} />
+          )}
         </div>
       </div>
     </GameServerDetailContext.Provider>
@@ -179,9 +195,10 @@ const GameServerDetailPageLayout = (props: {
 };
 
 const SideBar = (props: { gameServer: GameServerDto }) => {
-  const { hasPermission } = useGameServerPermissions(props.gameServer.uuid);
+  const { hasPermission, permissions } = useGameServerPermissions(props.gameServer.uuid);
   const { t } = useTranslation();
   const location = useLocation();
+  console.log(permissions);
 
   return TABS.map(({ label, icon, path, activePathPattern, permissions }) => {
     const isLinkReachable = permissions ? permissions.some((perm) => hasPermission(perm)) : true;

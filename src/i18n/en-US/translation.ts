@@ -938,8 +938,8 @@ const translation: i18nLanguage = {
     },
   },
   dashboard: {
-    true: "Zur öffentlichen Ansicht wechseln",
-    false: "Zur privaten Ansicht wechseln",
+    showPublicDashboard: "Show Public Dashboard",
+    hidePublicDashboard: "Show Private Dashboard",
   },
 };
 

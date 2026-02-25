@@ -24,6 +24,7 @@ interface MetricGraphProps {
   timeUnit: string;
   metrics: GameServerMetricsWithUuid[];
   canReadMetrics?: boolean;
+  overridePermissionCheck?: boolean;
 }
 
 const chartConfig = {
@@ -254,7 +255,7 @@ const MetricGraph = (props: MetricGraphProps) => {
         )}
       </CardContent>
 
-      {!canReadMetrics && (
+      {!canReadMetrics && !props.overridePermissionCheck && (
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
           <div className="text-center">
             <div className="text-lg font-semibold mb-1">{t("metrics.noMetricsPermission")}</div>

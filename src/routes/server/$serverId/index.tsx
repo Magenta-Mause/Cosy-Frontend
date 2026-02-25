@@ -1,34 +1,37 @@
 import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
 import MetricGraph from "@components/display/MetricDisplay/MetricGraph";
 import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
-import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
   GameServerAccessGroupDtoPermissionsItem,
   GameServerDtoStatus,
   MetricLayoutSize,
-  type PrivateDashboardLayout,
-  type PublicDashboardLayout,
 } from "@/api/generated/model";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize.ts";
 import type { MetricsType } from "@/types/metricsTyp";
 
+interface DashboardSearch {
+  view?: "private" | "public";
+}
+
 export const Route = createFileRoute("/server/$serverId/")({
+  validateSearch: (search: Record<string, unknown>): DashboardSearch => ({
+    view:
+      search.view === "public" || search.view === "private" ? search.view : undefined,
+  }),
   component: GameServerDetailPageDashboardPage,
 });
 
-type DashboardLayout = PublicDashboardLayout | PrivateDashboardLayout;
-
 function GameServerDetailPageDashboardPage() {
   const { serverId } = Route.useParams();
+  const { view } = Route.useSearch();
   const { logs } = useGameServerLogs(serverId ?? "");
   const { metrics } = useGameServerMetrics(serverId ?? "");
   const { gameServer } = useGameServer(serverId ?? "");
@@ -36,14 +39,19 @@ function GameServerDetailPageDashboardPage() {
   const canSeePrivateDashboard = hasPermission(
     GameServerAccessGroupDtoPermissionsItem.READ_SERVER_PRIVATE_DASHBOARD,
   );
-  const [isViewingPrivate, setIsViewingPrivate] = useState(true);
-  const { t } = useTranslationPrefix("dashboard");
+
+  const currentlyVisibleDashboard = useMemo(
+    () => (canSeePrivateDashboard && view !== "public" ? "private" : "public"),
+    [canSeePrivateDashboard, view],
+  );
+
   const dashboardLayout = useMemo(() => {
     if (!gameServer) return [];
-    return canSeePrivateDashboard && isViewingPrivate
+    return currentlyVisibleDashboard === "private"
       ? gameServer.private_dashboard_layouts
       : gameServer.public_dashboard.layouts;
-  }, [gameServer, isViewingPrivate, canSeePrivateDashboard]);
+  }, [gameServer, currentlyVisibleDashboard]);
+
   const { canSeeMetric, canSeeLogs } = useMemo(() => {
     let metric = false;
     let logs = false;
@@ -62,25 +70,9 @@ function GameServerDetailPageDashboardPage() {
     return { canSeeMetric: metric, canSeeLogs: logs };
   }, [dashboardLayout, gameServer?.public_dashboard.enabled]);
 
-  const toggleView = () => setIsViewingPrivate((prev) => !prev);
-
   if (!gameServer) {
     return null;
   }
-
-  const getType = (dashboardLayout: DashboardLayout) => {
-    if (!dashboardLayout) return null;
-
-    if ("private_dashboard_types" in dashboardLayout) {
-      return dashboardLayout.private_dashboard_types as DashboardElementTypes;
-    }
-
-    if ("public_dashboard_types" in dashboardLayout && gameServer.public_dashboard.enabled) {
-      return dashboardLayout.public_dashboard_types as DashboardElementTypes;
-    }
-
-    return null;
-  };
 
   const isServerRunning = gameServer.status === GameServerDtoStatus.RUNNING;
   const canReadMetrics =
@@ -90,15 +82,10 @@ function GameServerDetailPageDashboardPage() {
   const canSendCommands = hasPermission(GameServerAccessGroupDtoPermissionsItem.SEND_COMMANDS);
 
   return (
-    <>
-      {canSeePrivateDashboard && (
-        <div className="flex flex-row-reverse mb-3">
-          <Button onClick={toggleView}>{t(`${isViewingPrivate}`)}</Button>
-        </div>
-      )}
-      <div className="grid grid-cols-6 gap-2">
+    <div className="p-4">
+      <div className="grid grid-cols-6 gap-4">
         {dashboardLayout?.map((dashboard) => {
-          const dashboardType = getType(dashboard);
+          const dashboardType = dashboard.layout_type;
           const sizeClass = COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM];
 
           switch (dashboardType) {
@@ -111,6 +98,7 @@ function GameServerDetailPageDashboardPage() {
                   metrics={metrics}
                   className={sizeClass}
                   canReadMetrics={canReadMetrics}
+                  overridePermissionCheck={currentlyVisibleDashboard === "public"}
                 />
               );
 
@@ -124,6 +112,7 @@ function GameServerDetailPageDashboardPage() {
                     isServerRunning={isServerRunning}
                     canReadLogs={canReadLogs}
                     hideTimestamps={dashboard.size === LayoutSize.SMALL ? true : undefined}
+                    overridePermissionCheck={currentlyVisibleDashboard === "public"}
                   />
                 </div>
               );
@@ -154,6 +143,6 @@ function GameServerDetailPageDashboardPage() {
           }
         })}
       </div>
-    </>
+    </div>
   );
 }
