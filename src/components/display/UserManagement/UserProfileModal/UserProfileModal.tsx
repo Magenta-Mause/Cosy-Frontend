@@ -10,10 +10,12 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
+import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input.tsx";
+import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import pencilWrite from "@/assets/icons/pencilWrite.svg";
+import pencilWrite from "@/assets/icons/pencilWrite.svg?raw";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage.tsx";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
@@ -63,18 +65,16 @@ export function UserProfileModal({ open, onOpenChange }: UserProfileModalProps) 
                   />
                 </div>
 
-                <Button
-                  onClick={handleChangePasswordClick}
-                  size="icon"
-                  className="h-9 w-9"
-                  aria-label={t("changePasswordButton")}
-                >
-                  <img
-                    src={pencilWrite}
-                    alt="Pencil Write Button"
-                    className="h-[2.5vw] p-0 w-auto aspect-square"
-                  />
-                </Button>
+                <TooltipWrapper tooltip={t("changePasswordButton")} asChild>
+                  <Button
+                    onClick={handleChangePasswordClick}
+                    size="icon"
+                    className="h-9 w-9"
+                    aria-label={t("changePasswordButton")}
+                  >
+                    <Icon src={pencilWrite} className="size-5" />
+                  </Button>
+                </TooltipWrapper>
               </div>
 
               <div>
