@@ -174,10 +174,7 @@ export type i18nLanguage = {
     desc: string;
     username: string;
     password: string;
-    resetPassword: string;
     question: string;
-    continueMeansAccept: string;
-    legal: string;
     incorrectCredentials: string;
     loading: string;
     logout: string;

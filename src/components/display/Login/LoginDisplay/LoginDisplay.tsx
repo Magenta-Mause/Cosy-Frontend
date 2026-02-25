@@ -1,5 +1,13 @@
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogMain,
+  DialogTitle,
+} from "@components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { login } from "@/api/generated/backend-api";
@@ -41,7 +49,14 @@ const LoginDisplay = () => {
           <DialogContent className="w-100">
             <DialogTitle>{t("signIn.signIn")}</DialogTitle>
             <DialogDescription>{t("signIn.desc")}</DialogDescription>
-            <LoginForm loginCallback={handleLogin} error={error} isLoading={isLoggingIn} />
+            <DialogMain>
+              <LoginForm loginCallback={handleLogin} error={error} />
+            </DialogMain>
+            <DialogFooter>
+              <Button type="submit" form="login-form" disabled={isLoggingIn} className="w-full">
+                {isLoggingIn ? t("signIn.loading") : t("signIn.signIn")}
+              </Button>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>
