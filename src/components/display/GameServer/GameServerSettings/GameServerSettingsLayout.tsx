@@ -2,7 +2,15 @@ import { Button } from "@components/ui/button";
 import Link from "@components/ui/Link";
 import { Separator } from "@components/ui/separator.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { ChartAreaIcon } from "lucide-react";
+import {
+  ChartAreaIcon,
+  HouseIcon,
+  LayoutDashboardIcon,
+  SettingsIcon,
+  SquareTerminalIcon,
+  User,
+  WebhookIcon,
+} from "lucide-react";
 import {
   type CSSProperties,
   createContext,
@@ -13,10 +21,6 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
-import consoleIcon from "@/assets/icons/console.svg";
-import dashboardIcon from "@/assets/icons/dashboard.svg";
-import settingsIcon from "@/assets/icons/settings.svg";
-import userIcon from "@/assets/icons/user.svg";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils.ts";
@@ -106,40 +110,15 @@ const GameServerSettingsLayout = ({
   const TABS = [
     {
       label: t("tabs.general"),
-      icon: (
-        <img
-          //TODO: hier auch background color und spacing anpassen
-          src={settingsIcon}
-          alt="Settings Icon"
-          className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
-        />
-      ),
+      icon: <SettingsIcon style={iconStyles} className="mr-2" />,
       path: "/server/$serverId/settings/general",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_CONFIGS],
     },
     {
-      label: t("tabs.privateDashboard"),
-      icon: (
-        <img
-          //TODO: hier auch background color und spacing anpassen
-          src={dashboardIcon}
-          alt="Dashboard Icon"
-          className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
-        />
-      ),
-      path: "/server/$serverId/settings/private-dashboard",
-    },
-    {
-      label: t("tabs.publicDashboard"),
-      icon: (
-        <img
-          //TODO: hier auch background color und spacing anpassen
-          src={dashboardIcon}
-          alt="Dashboard Icon"
-          className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
-        />
-      ),
-      path: "/server/$serverId/settings/public-dashboard",
+      label: t("tabs.design"),
+      icon: <HouseIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/design",
+      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_CONFIGS],
     },
     {
       label: t("tabs.metrics"),
@@ -149,27 +128,29 @@ const GameServerSettingsLayout = ({
     },
     {
       label: t("tabs.rcon"),
-      icon: (
-        <img
-          //TODO: hier auch background color und spacing anpassen
-          src={consoleIcon}
-          alt="Console Icon"
-          className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
-        />
-      ),
+      icon: <SquareTerminalIcon style={iconStyles} className="mr-2" />,
       path: "/server/$serverId/settings/rcon",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_RCON_SETTINGS],
     },
     {
+      label: t("tabs.privateDashboard"),
+      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/private-dashboard",
+    },
+    {
+      label: t("tabs.publicDashboard"),
+      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/public-dashboard",
+    },
+    {
+      label: t("tabs.webhooks"),
+      icon: <WebhookIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/webhooks",
+      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_WEBHOOK_SETTINGS],
+    },
+    {
       label: t("tabs.accessManagement"),
-      icon: (
-        <img
-          //TODO: hier auch background color und spacing anpassen
-          src={userIcon}
-          alt="User Icon"
-          className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
-        />
-      ),
+      icon: <User style={iconStyles} className="mr-2" />,
       path: "/server/$serverId/settings/access-management",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_PERMISSIONS_SETTINGS],
     },
@@ -187,8 +168,8 @@ const GameServerSettingsLayout = ({
 
   return (
     <SettingsProvider.Provider value={{ settings: serverSettings, setSettings }}>
-      <div className="flex gap-4 h-full overflow-clip">
-        <div className="flex flex-col justify-center items-end w-[20%] min-w-0 align-top h-fit">
+      <div className="flex gap-2 h-full overflow-visible">
+        <div className="flex flex-col justify-center items-end w-[20%] min-w-0 align-top h-fit pl-4 pt-4">
           {TABS.map(({ label, icon, path, permissions }) => {
             const isLinkReachable = permissions
               ? permissions.some((perm) => hasPermission(perm))
@@ -218,8 +199,8 @@ const GameServerSettingsLayout = ({
                     >
                       <Button
                         className={cn(
-                          "w-full min-w-0 flex justify-start border-0 shadow-none bg-button-primary-default transition-all duration-300",
-                          isActive && "bg-button-primary-active hover:bg-button-primary-default",
+                          "w-full min-w-0 flex justify-start border-0 shadow-none bg-button-primary-default",
+                          isActive && "bg-button-primary-active hover:bg-button-primary-active/80",
                           !isLinkReachable && "cursor-not-allowed opacity-50",
                         )}
                         disabled={!isLinkReachable}
@@ -234,8 +215,10 @@ const GameServerSettingsLayout = ({
             );
           })}
         </div>
-        <Separator className="m-4" orientation="vertical" />
-        <div className="w-full max-w-full overflow-y-auto">{children}</div>
+        <div className={"p-4 h-auto overflow-y-hidden"}>
+          <Separator className=" w-0.5! h-full!" orientation="vertical" />
+        </div>
+        <div className="w-full max-w-full overflow-y-auto pt-8 pr-5">{children}</div>
       </div>
     </SettingsProvider.Provider>
   );

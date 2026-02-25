@@ -1,7 +1,8 @@
 import CpuLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/CpuLimitInputFieldEdit.tsx";
-import MemoryLimitInputField from "@components/display/MemoryLimit/MemoryLimitInputField.tsx";
+import MemoryLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/MemoryLimitInputFieldEdit.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
+import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand, quote } from "shell-quote";
@@ -9,6 +10,7 @@ import * as z from "zod";
 import {
   type EnvironmentVariableConfiguration,
   type GameServerDto,
+  GameServerDtoStatus,
   type GameServerUpdateDto,
   PortMappingProtocol,
 } from "@/api/generated/model";
@@ -20,6 +22,7 @@ import {
   getMemoryLimitError,
   memoryLimitValidator,
 } from "@/lib/validators/memoryLimitValidator.ts";
+import { processEscapeSequences } from "../CreateGameServer/util";
 import EditVolumeMountConfigurationInput from "./EditVolumeMountConfigurationInput";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
@@ -40,7 +43,9 @@ const EditGameServerPage = (props: {
   const [executionCommandRaw, setExecutionCommandRaw] = useState(
     quote(gameServerState.execution_command ?? []),
   );
-  const [memoryErrorMessage, setMemoryErrorMessage] = useState<string | undefined>(undefined);
+  const [_memoryErrorMessage, setMemoryErrorMessage] = useState<string | undefined>(undefined);
+  const [cpuError, setCpuError] = useState<string | undefined>(undefined);
+  const [memoryError, setMemoryError] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const updatedState = mapGameServerDtoToUpdate(props.gameServer);
@@ -131,9 +136,11 @@ const EditGameServerPage = (props: {
       envVarsValid &&
       volumeMountsValid &&
       cpuLimitValid &&
-      memoryLimitValid
+      memoryLimitValid &&
+      !cpuError &&
+      !memoryError
     );
-  }, [gameServerState, cpuLimit, memoryLimit]);
+  }, [gameServerState, cpuLimit, memoryLimit, cpuError, memoryError]);
 
   const isChanged = useMemo(() => {
     const parsedCommand = executionCommandRaw.trim()
@@ -197,13 +204,17 @@ const EditGameServerPage = (props: {
       port_mappings: gameServerState.port_mappings?.filter(
         (p) => p.instance_port || p.container_port,
       ),
-      environment_variables: gameServerState.environment_variables?.filter(
-        (env) => env.key?.trim() || env.value?.trim(),
-      ),
+      environment_variables: gameServerState.environment_variables
+        ?.filter((env) => env.key?.trim() || env.value?.trim())
+        .map((env) => ({
+          ...env,
+          value: processEscapeSequences(env.value),
+        })),
       volume_mounts: gameServerState.volume_mounts
         ?.filter((vol) => vol.container_path?.trim())
         .map((v) => ({
           container_path: v.container_path,
+          ...(v.uuid ? { uuid: v.uuid } : {}),
         })),
     };
     setLoading(true);
@@ -217,7 +228,7 @@ const EditGameServerPage = (props: {
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   return (
-    <div className="relative pr-3 pb-10">
+    <div>
       <div>
         <h2>{t("title")}</h2>
       </div>
@@ -245,6 +256,23 @@ const EditGameServerPage = (props: {
           onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
           optional={true}
         />
+
+        {props.gameServer.created_on && (
+          <InputFieldEditGameServer
+            validator={z.string()}
+            placeholder=""
+            label={t("createdOn.title")}
+            description={t("createdOn.description")}
+            errorLabel=""
+            value={new Date(props.gameServer.created_on).toLocaleString(
+              t_root("timerange.localTime"),
+              { dateStyle: "medium", timeStyle: "short" },
+            )}
+            disabled={true}
+            onChange={() => {}}
+            optional={true}
+          />
+        )}
 
         <div className="grid grid-cols-2 gap-4">
           <InputFieldEditGameServer
@@ -327,6 +355,7 @@ const EditGameServerPage = (props: {
           inputType="text"
           objectKey="key"
           objectValue="value"
+          processEscapeSequences={true}
         />
 
         <InputFieldEditGameServer
@@ -340,10 +369,11 @@ const EditGameServerPage = (props: {
           onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
 
-        <EditVolumeMountConfigurationInput<{ container_path: string }>
+        <EditVolumeMountConfigurationInput<{ container_path: string; uuid?: string }>
           fieldLabel={t("volumeMountSelection.title")}
           fieldDescription={t("volumeMountSelection.description")}
           value={gameServerState.volume_mounts}
+          originalVolumeMounts={props.gameServer.volume_mounts}
           setValue={(vals) =>
             setGameServerState((s) => ({
               ...s,
@@ -386,11 +416,10 @@ const EditGameServerPage = (props: {
             }))
           }
           optional={cpuLimit === null}
+          onValidationChange={(hasError) => setCpuError(hasError ? "error" : undefined)}
         />
 
-        <MemoryLimitInputField
-          id="memory_limit"
-          validator={memoryLimitValidator}
+        <MemoryLimitInputFieldEdit
           placeholder="512"
           label={`${t("memoryLimitSelection.title")} ${memoryLimit === null ? " (Optional)" : ""}`}
           description={
@@ -401,7 +430,7 @@ const EditGameServerPage = (props: {
           errorLabel={t("memoryLimitSelection.errorLabel")}
           value={gameServerState.docker_hardware_limits?.docker_memory_limit}
           onChange={(v) => {
-            setMemoryErrorMessage(getMemoryLimitError(v));
+            setMemoryErrorMessage(getMemoryLimitError(v) ?? undefined);
 
             setGameServerState((s) => ({
               ...s,
@@ -412,11 +441,11 @@ const EditGameServerPage = (props: {
             }));
           }}
           optional={memoryLimit === null}
-          customErrorMessage={memoryErrorMessage}
+          onValidationChange={(hasError) => setMemoryError(hasError ? "error" : undefined)}
         />
       </div>
 
-      <div className="sticky bottom-4 w-fit ml-auto flex gap-4">
+      <div className="pt-5 sticky bottom-4 w-fit ml-auto flex gap-4">
         <Button
           className="h-12.5"
           variant="secondary"
@@ -428,14 +457,26 @@ const EditGameServerPage = (props: {
         >
           {t("revert")}
         </Button>
-        <Button
-          type="button"
-          onClick={handleConfirm}
-          className="h-12.5"
-          disabled={isConfirmButtonDisabled}
+        <TooltipWrapper
+          tooltip={
+            props.gameServer.status !== GameServerDtoStatus.STOPPED &&
+            props.gameServer.status !== GameServerDtoStatus.FAILED &&
+            "Game Server needs to be stopped to update General Settings"
+          }
         >
-          {t("confirm")}
-        </Button>
+          <Button
+            type="button"
+            onClick={handleConfirm}
+            className="h-12.5"
+            disabled={
+              isConfirmButtonDisabled ||
+              (props.gameServer.status !== GameServerDtoStatus.STOPPED &&
+                props.gameServer.status !== GameServerDtoStatus.FAILED)
+            }
+          >
+            {t("confirm")}
+          </Button>
+        </TooltipWrapper>
       </div>
     </div>
   );

@@ -95,7 +95,6 @@ const useDataLoading = () => {
       return false;
     }
 
-    dispatch(gameServerSliceActions.setState("loading"));
     try {
       const gameServer = await getGameServerById(gameServerUuid);
       dispatch(gameServerSliceActions.updateGameServer(gameServer));
@@ -214,6 +213,7 @@ const useDataLoading = () => {
       permissions?: GameServerAccessGroupDtoPermissionsItem[],
     ) => {
       if (
+        permissions !== undefined &&
         !containsPermission(
           permissions ?? [],
           GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS,

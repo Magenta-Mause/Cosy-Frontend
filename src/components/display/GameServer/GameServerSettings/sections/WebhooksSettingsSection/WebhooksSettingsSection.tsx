@@ -1,0 +1,109 @@
+import { Button } from "@components/ui/button.tsx";
+import { useState } from "react";
+import type { WebhookDto } from "@/api/generated/model";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
+import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer.tsx";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import WebhookDeleteDialog from "./components/WebhookDeleteDialog.tsx";
+import WebhookList from "./components/WebhookList.tsx";
+import WebhookModal from "./components/WebhookModal.tsx";
+
+const WebhooksSettingsSection = () => {
+  const { t } = useTranslationPrefix("components.GameServerSettings.webhooks");
+  const { gameServer } = useSelectedGameServer();
+  const gameServerUuid = gameServer.uuid ?? "";
+  const [deletingWebhookUuid, setDeletingWebhookUuid] = useState<string | null>(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [editingWebhook, setEditingWebhook] = useState<WebhookDto | null>(null);
+  const [webhookToDelete, setWebhookToDelete] = useState<WebhookDto | null>(null);
+
+  const webhooks = gameServer.webhooks ?? [];
+
+  const { deleteWebhook } = useDataInteractions();
+
+  const onDeleteWebhook = async (webhookUuid: string) => {
+    if (!gameServerUuid) return;
+    setDeletingWebhookUuid(webhookUuid);
+    try {
+      await deleteWebhook({ gameserverUuid: gameServerUuid, webhookUuid });
+    } finally {
+      setDeletingWebhookUuid(null);
+    }
+  };
+
+  const handleDeleteRequest = (webhook: WebhookDto) => {
+    setWebhookToDelete(webhook);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!webhookToDelete?.uuid) return;
+    await onDeleteWebhook(webhookToDelete.uuid);
+    setWebhookToDelete(null);
+  };
+
+  const handleDeleteDialogOpenChange = (open: boolean) => {
+    if (deletingWebhookUuid) return;
+    if (!open) setWebhookToDelete(null);
+  };
+
+  const getWebhookTypeLabel = (type: string | undefined): string => {
+    if (!type) return "-";
+    return t(`types.${type}`);
+  };
+
+  const getEventLabel = (event: string): string => {
+    return t(`events.${event}`);
+  };
+
+  return (
+    <div className="pr-3 pb-10 gap-6 flex flex-col">
+      <div>
+        <h2>{t("title")}</h2>
+      </div>
+      <p className={"text-sm text-muted-foreground leading-none"}>{t("description")}</p>
+      <div className="flex flex-col gap-3">
+        <Button className="w-fit" onClick={() => setIsCreateModalOpen(true)}>
+          {t("create")}
+        </Button>
+      </div>
+
+      <WebhookList
+        webhooks={webhooks}
+        deletingWebhookUuid={deletingWebhookUuid}
+        onEdit={setEditingWebhook}
+        onDelete={handleDeleteRequest}
+        getWebhookTypeLabel={getWebhookTypeLabel}
+        getEventLabel={getEventLabel}
+        t={t}
+      />
+
+      <WebhookDeleteDialog
+        open={!!webhookToDelete}
+        onOpenChange={handleDeleteDialogOpenChange}
+        webhook={webhookToDelete}
+        isDeleting={!!webhookToDelete?.uuid && deletingWebhookUuid === webhookToDelete.uuid}
+        t={t}
+        onConfirm={handleDeleteConfirm}
+      />
+
+      <WebhookModal
+        mode="create"
+        gameServerUuid={gameServerUuid}
+        open={isCreateModalOpen}
+        onOpenChange={setIsCreateModalOpen}
+      />
+
+      <WebhookModal
+        mode="edit"
+        gameServerUuid={gameServerUuid}
+        webhook={editingWebhook}
+        open={!!editingWebhook}
+        onOpenChange={(open: boolean) => {
+          if (!open) setEditingWebhook(null);
+        }}
+      />
+    </div>
+  );
+};
+
+export default WebhooksSettingsSection;

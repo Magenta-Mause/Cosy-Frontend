@@ -3,6 +3,7 @@ import type { i18nLanguage } from "@/i18n/i18nKeys";
 const translation: i18nLanguage = {
   common: {
     yourLimit: "Dein Limit",
+    loading: "Lädt...",
   },
   overviewPage: {
     createNewServer: "Neuer Game Server",
@@ -13,7 +14,7 @@ const translation: i18nLanguage = {
     startServer: "Starten",
     stopServer: "Stoppen",
     refresh: "Aktualisieren",
-    createNewGameserver: "Neuen Gameserver erstellen",
+    createNewGameServer: "Neuen Gameserver erstellen",
     viewLogs: "Logs anzeigen",
     loading: "Lädt...",
     failed: "Starten fehlgeschlagen",
@@ -42,6 +43,14 @@ const translation: i18nLanguage = {
     updateGameServerSuccess: "Game-Server erfolgreich aktualisiert!",
     updateGameServerError: "Fehler beim Aktualisieren des Game-Servers",
     missingUuid: "Die Server UUID fehlt",
+    createWebhookSuccess: "Webhook erfolgreich erstellt!",
+    createWebhookError: "Fehler beim Erstellen des Webhooks",
+    updateWebhookSuccess: "Webhook erfolgreich aktualisiert!",
+    updateWebhookError: "Fehler beim Aktualisieren des Webhooks",
+    deleteWebhookSuccess: "Webhook erfolgreich gelöscht!",
+    deleteWebhookError: "Fehler beim Löschen des Webhooks",
+    updateFooterSuccess: "Fußzeile erfolgreich aktualisiert!",
+    updateFooterError: "Fehler beim Aktualisieren der Fußzeile",
   },
   userModal: {
     title: "Benutzer",
@@ -114,6 +123,11 @@ const translation: i18nLanguage = {
     cancel: "Abbrechen",
     confirm: "Löschen",
   },
+  deleteGameServerSuccessDialog: {
+    title: "Gelöscht",
+    description: "Gameserver wurde erfolgreich gelöscht.",
+    confirm: "OK",
+  },
   logOutDialog: {
     title: "Abmelden?",
     description: "Bist du sicher, dass du dich abmelden möchtest?",
@@ -143,6 +157,7 @@ const translation: i18nLanguage = {
     passwordChangeSuccess: "Passwort erfolgreich geändert",
     passwordChangeError: "Passwort konnte nicht geändert werden",
     missingUuid: "Benutzer-ID fehlt",
+    cancel: "Abbrechen",
   },
   aria: {
     createNewGameServer: "Erstelle eine neue Gameserver-Konfiguration",
@@ -199,12 +214,32 @@ const translation: i18nLanguage = {
         cancel: "Aktuelle Werte behalten",
         confirm: "Template erneut anwenden",
       },
+      confirmCreateDialog: {
+        title: "Server erstellen?",
+        description:
+          "Bitte bestätige, dass alle Einstellungen korrekt sind. Der Server wird sofort erstellt.",
+        cancel: "Zurück",
+        confirm: "Server erstellen",
+        creating: "Wird erstellt...",
+      },
+      successDialog: {
+        title: "Server erstellt!",
+        description: '"{{name}}" ist bereit gestartet werden.',
+        completedStepLabel: "Server bereit!",
+        doneButton: "Fertig",
+        openDashboard: "Dashboard öffnen",
+      },
       listInput: {
         addButton: "Hinzufügen",
       },
+      keyValueInput: {
+        escapeSequencesTooltip:
+          "Unterstützt Escape-Sequenzen: \\n (Zeilenumbruch), \\t (Tabulator), \\r (Wagenrücklauf), \\\\ (Backslash)",
+      },
       steps: {
+        title: "Server erstellen",
         step1: {
-          title: "Schritt 1: Server Namen und Spiel auswählen",
+          title: "Namen und Spiel auswählen",
           serverNameSelection: {
             title: "Servername",
             description: "Benenne deinen Server",
@@ -221,8 +256,13 @@ const translation: i18nLanguage = {
           },
         },
         step2: {
-          title: "Schritt 2: Template auswählen",
+          title: " Template auswählen",
           description: "Wähle ein Template für deinen Server aus.",
+          noTemplatesAvailable:
+            "Für dieses Spiel sind keine Templates verfügbar. Du kannst fortfahren.",
+          searchPlaceholder: "Templates suchen...",
+          requestTemplateText: "Du kannst ein Template für dieses Spiel anfragen, indem du",
+          requestTemplateLinkLabel: "dieses Formular ausfüllst",
           templateSelection: {
             title: "Template",
             description: "Wähle ein Template für deinen Server aus",
@@ -232,7 +272,7 @@ const translation: i18nLanguage = {
           },
         },
         step3: {
-          title: "Schritt 3: Konfiguriere deinen Server",
+          title: "Konfiguriere deinen Server",
           description: "Hier kannst du deinen Server konfigurieren.",
           dockerImageSelection: {
             title: "Docker-Image",
@@ -302,9 +342,12 @@ const translation: i18nLanguage = {
         noFiles: "Keine Dateien",
         directoryType: "Ordner",
         fileType: "Datei",
+        fileSizeTooltip: "{{size}} Bytes",
+        fileModeTooltip: "Modus: {{octal}} ({{rwx}})",
         renameAction: "Umbenennen",
         deleteAction: "Löschen",
         downloadAction: "Download",
+        exportAction: "Exportieren",
         downloadFile: "{{fileName}} downloaden",
         createFolderAction: "Ordner erstellen",
         createFolderDescription: "Erstellt einen Ordner in: {{dirName}}",
@@ -320,10 +363,14 @@ const translation: i18nLanguage = {
         deleteDialogFile: "Diese Aktion kann nicht rückgängig gemacht werden",
         cancel: "Abbrechen",
         deleteInProgress: "Löschen...",
+        cantDeleteWhileDownloading: "Während Download deaktiviert",
+        loading: "Lädt...",
       },
       fileBrowserDialog: {
+        closePreview: "Vorschau schließen",
         uploadFailure: "Datei konnte nicht hochgeladen werden",
         downloadZipFailure: "Zip-Archiv konnte nicht heruntergeladen werden",
+        fileUploadError: "Datei konnte nicht hochgeladen werden",
         preparing: "Vorbereiten...",
         downloadingFile: "Downloadfortschritt: {{done}}/{{total}}",
         downloadAllAction: "Ordner Herunterladen",
@@ -333,8 +380,14 @@ const translation: i18nLanguage = {
         noFilesPermissionDesc: "Du hast keine Berechtigung, die Server-Dateien anzuzeigen",
         uploadInSyntheticDir: "Dateien können nicht in virtuelle Verzeichnisse hochgeladen werden",
         uploadNoPermission: "Du hast keine Berechtigung, Dateien hochzuladen",
+        errorWhileZipDownload: "Fehler beim Herunterladen des Zip-Archivs",
       },
     },
+    settingsActionButtons: {
+      revert: "Zurücksetzen",
+      confirm: "Bestätigen",
+    },
+
     editGameServer: {
       title: "Allgemeine Server Einstellungen",
 
@@ -393,6 +446,15 @@ const translation: i18nLanguage = {
         title: "Volume-Mounts",
         errorLabel: "Pfad darf nicht leer sein",
         description: "Volume-Mounts für deinen Server",
+        pathChange: {
+          title: "Volume-Mount-Pfad geändert",
+          description:
+            "Der Containerpfad für dieses Volume-Mount wurde geändert. Möchtest du die alten Dateien behalten und in den neuen Pfad bewegen oder die alten Dateien löschen?",
+          keepButton: "Dateien behalten",
+          deleteButton: "Alte Dateien löschen",
+          keepIndicator: "Dateien werden beibehalten",
+          deleteIndicator: "Alte Dateien werden gelöscht",
+        },
       },
 
       memoryLimitSelection: {
@@ -406,6 +468,49 @@ const translation: i18nLanguage = {
         description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
         errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
       },
+      createdOn: {
+        title: "Erstellt am",
+        description: "Datum und Uhrzeit, zu der dieser Server erstellt wurde",
+      },
+      uncosyZone: {
+        title: "Uncosy Zone",
+        transferOwnership: {
+          title: "Server übergeben",
+          description:
+            "Wenn du deinen Server an einen anderen Benutzer übergeben möchtest, kannst du das hier tun. Dadurch erhält der andere Benutzer die volle Kontrolle über den Server und seine Konfiguration.",
+          button: "Server übergeben",
+          dialog: {
+            title: "Nutzer Auswählen",
+            description:
+              "Gib den Namen des Benutzers ein, an den der Server übergeben werden soll.",
+            userNotFound: "Benutzer nicht gefunden",
+            inputPlaceholder: "Benutzernamen eingeben...",
+            confirm: "Auswählen",
+            cancel: "Abbrechen",
+            inputLabel: "Benutzername",
+            successTitle: "Serverübergabe erfolgreich",
+            successMessage: "Die Serverübergabe war erfolgreich!",
+            close: "Schließen",
+            checking: "Überprüfe Benutzer...",
+          },
+          confirmationDialog: {
+            title: "Bist du sicher?",
+            description:
+              "Bist du sicher, dass du deinen Server an einen anderen Benutzer übergeben möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+            newOwner: "Neuer Besitzer: ",
+            cancel: "Abbrechen",
+            confirm: "Server übergeben",
+            transferring: "Server wird übergeben...",
+            transferError: "Fehler bei der Serverübergabe",
+          },
+        },
+        delete: {
+          title: "Server löschen",
+          description:
+            "Wenn du deinen Server löschen möchtest, kannst du das hier tun. Dadurch wird deine Gameserver-Konfiguration dauerhaft gelöscht und die zugehörigen Daten von dem Server entfernt.",
+          button: "Server löschen",
+        },
+      },
     },
     GameServerSettings: {
       tabs: {
@@ -415,6 +520,8 @@ const translation: i18nLanguage = {
         metrics: "Metriken",
         accessManagement: "Zugriffsverwaltung",
         rcon: "RCON",
+        webhooks: "Webhooks",
+        design: "Design",
       },
       sections: {
         general: "Allgemeine Einstellungen",
@@ -422,18 +529,99 @@ const translation: i18nLanguage = {
         publicDashboard: "Einstellungen für öffentliches Dashboard",
         metrics: "Metrik-Einstellungen",
         accessManagement: "Zugriffsverwaltungs-Einstellungen",
+        webhooks: "Webhook-Einstellungen",
       },
       metrics: {
         type: "Typen",
         width: "Breite",
         add: "Metrik hinzufügen",
       },
+      webhooks: {
+        title: "Webhook-Einstellungen",
+        description:
+          "Verwalte Webhooks, welche ausgeführt werden, wenn bestimmte Ereignisse auf Ihrem Server auftreten.",
+        form: {
+          webhookType: "Webhook-Typ",
+          webhookUrl: "Webhook-URL",
+          enabled: "Aktiviert",
+          subscribedEvents: "Abonnierte Ereignisse",
+        },
+        create: "Webhook erstellen",
+        configuredWebhooks: "Konfigurierte Webhooks",
+        loading: "Webhooks werden geladen...",
+        empty: "Noch keine Webhooks konfiguriert.",
+        delete: "Löschen",
+        deleteDialog: {
+          title: "Webhook löschen",
+          description: "Möchtest du diesen Webhook wirklich löschen?",
+        },
+        labels: {
+          type: "Typ",
+          url: "URL",
+          enabled: "Aktiviert",
+          events: "Ereignisse",
+        },
+        state: {
+          enabled: "Aktiviert",
+          disabled: "Deaktiviert",
+        },
+        createSuccess: "Webhook wurde erfolgreich erstellt.",
+        deleteSuccess: "Webhook wurde erfolgreich gelöscht.",
+        types: {
+          DISCORD: "Discord",
+          SLACK: "Slack",
+          N8N: "n8n",
+        },
+        events: {
+          SERVER_STARTED: "Server gestartet",
+          SERVER_STOPPED: "Server gestoppt",
+          SERVER_FAILED: "Server fehlgeschlagen",
+        },
+        validation: {
+          webhookUrlRequired: "Webhook-URL ist erforderlich",
+          webhookUrlInvalid: "Webhook-URL muss mit http:// oder https:// beginnen",
+          subscribedEventsRequired: "Mindestens ein Ereignis muss ausgewählt werden",
+        },
+        cancel: "Abbrechen",
+        creating: "Wird erstellt...",
+        edit: "Bearbeiten",
+        updating: "Wird aktualisiert...",
+        copyUrl: "URL kopieren",
+        copied: "URL in Zwischenablage kopiert",
+      },
       accessManagement: {
         title: "Zugriffsverwaltung",
         description: "Bestimme, wer welchen Zugriff auf deinen Server haben soll",
       },
+      privateDashboard: {
+        add: "Widget hinzufügen",
+        types: {
+          METRIC: "Metrik",
+          LOGS: "Logs",
+          FREETEXT: "Freitext",
+        },
+        freetext: {
+          title: "Freitext",
+          desc: "Benutzerdefinierte Schlüssel-Wert Paare",
+          key: "Schlüssel",
+          value: "Wert",
+          confirm: "Bestätigen",
+          cancel: "Abbrechen",
+          placeholder: "Titel",
+          label: "Titel eingeben (optional)",
+          error: "Fehlendes Schlüssel-Wert-Paar",
+        },
+      },
     },
     gameServerSettings: {
+      designSettings: {
+        title: "Server-Design",
+        description: "Wähle das Aussehen deines Servers auf der Startseite",
+        house: "Haus",
+        castle: "Burg",
+        revert: "Zurücksetzen",
+        confirm: "Bestätigen",
+      },
       rconSettings: {
         title: "RCON Konfiguration",
         description: {
@@ -466,6 +654,7 @@ const translation: i18nLanguage = {
         createGroupDescription: "Gib einen Namen für die neue Zugriffsgruppe ein.",
         groupSettings: "Gruppeneinstellungen",
         groupNameLabel: "Gruppenname",
+        groupNameAlreadyExists: "Eine Gruppe mit diesem Namen existiert bereits",
         groupNamePlaceholder: "Gruppennamen eingeben",
         groupNameRequired: "Gruppenname ist erforderlich",
         members: "Mitglieder",
@@ -515,6 +704,11 @@ const translation: i18nLanguage = {
             name: "Metrik-Einstellungen ändern",
             description: "Server-Überwachung und Metrik-Erfassungseinstellungen konfigurieren.",
           },
+          CHANGE_WEBHOOK_SETTINGS: {
+            name: "Webhook-Einstellungen ändern",
+            description:
+              "Verwalte Webhooks, welche ausgeführt werden, wenn bestimmte Ereignisse auf Ihrem Server auftreten.",
+          },
           CHANGE_PERMISSIONS_SETTINGS: {
             name: "Berechtigungseinstellungen ändern",
             description: "Zugriffsgruppen und Benutzerberechtigungen für diesen Server verwalten.",
@@ -553,6 +747,44 @@ const translation: i18nLanguage = {
       },
     },
     userManagement: {
+      admin: {
+        changePasswordDialog: {
+          title: "Passwort Ändern",
+          description: "Gib ein neues Passwort für diesen Benutzer ein.",
+          newPasswordLabel: "Neues Passwort",
+          newPasswordDescription: "Das neue Passwort für diesen Benutzer",
+          newPasswordPlaceholder: "Neues Passwort eingeben",
+          newPasswordError: "Passwort muss mindestens 8 Zeichen lang sein",
+          cancelButton: "Abbrechen",
+          confirmButton: "Passwort ändern",
+          submitError: "Fehler beim Ändern des Passworts",
+        },
+        updateDockerLimitsDialog: {
+          title: "Ressourcenlimits bearbeiten",
+          description:
+            "Lege CPU- und Arbeitsspeicherlimits für diesen Benutzer fest. Lasse ein Feld leer für unbeschränkt.",
+          cpuLabel: "CPU-Limit",
+          cpuDescription: "Maximale CPU-Kerne, die der Benutzer verwenden darf.",
+          memoryLabel: "Arbeitsspeicherlimit",
+          memoryDescription: "Maximaler Arbeitsspeicher, den der Benutzer verwenden darf.",
+          placeholder: "Unbeschränkt",
+          cancelButton: "Abbrechen",
+          confirmButton: "Speichern",
+          submitError: "Fehler beim Aktualisieren der Ressourcenlimits",
+        },
+        changeRoleDialog: {
+          title: "Rolle ändern",
+          description: "Wähle eine neue Rolle für diesen Benutzer.",
+          rolePlaceholder: "Rolle auswählen",
+          roles: {
+            admin: "Admin",
+            quota_user: "Quota-Benutzer",
+          },
+          cancelButton: "Abbrechen",
+          confirmButton: "Speichern",
+          submitError: "Fehler beim Ändern der Rolle",
+        },
+      },
       backButton: "Zurück",
       userDetailButton: {
         viewUsers: "Marktplatz",
@@ -562,6 +794,13 @@ const translation: i18nLanguage = {
           owner: "Besitzer",
           admin: "Admin",
           quota_user: "Quota",
+        },
+        yourProfile: "Dein Profil",
+        actions: {
+          editPassword: "Passwort ändern",
+          editDockerLimits: "Ressourcenlimits bearbeiten",
+          editRole: "Rolle ändern",
+          deleteUser: "Benutzer löschen",
         },
         resources: {
           cpus: "CPUs",
@@ -586,10 +825,25 @@ const translation: i18nLanguage = {
         noUsersFound: "Keine Benutzer gefunden",
         pendingInvites: "Ausstehende Einladungen",
       },
+      deleteUserDialog: {
+        title: "Benutzer löschen",
+        message:
+          "Bist du sicher, dass du diesen Benutzer löschen möchtest? Dadurch werden alle Daten dieses Benutzers dauerhaft gelöscht und können nicht wiederhergestellt werden.",
+        cancelButton: "Abbrechen",
+        confirmButton: "Benutzer löschen",
+        submitError: "Fehler beim Löschen des Benutzers",
+      },
     },
   },
   genericModal: {
     cancel: "Abbrechen",
+    unsavedModal: {
+      title: "Ungespeicherte Änderungen",
+      message: "Sie haben ungespeicherte Änderungen. Möchten Sie diese wirklich verwerfen?",
+      stay: "Bleiben",
+      leave: "Verwerfen trotzdem",
+      saveAndLeave: "Speichern und verlassen",
+    },
   },
   logDisplay: {
     serverLog: "Konsole",
@@ -599,6 +853,7 @@ const translation: i18nLanguage = {
     enterCommand: "Befehl eingeben...",
     cantSendCommands: "Server muss laufen, um Befehle zu senden",
     noLogsPermission: "Du hast keine Berechtigung, die Server-Logs anzuzeigen",
+    displayTimestamp: "Timestamp anzeigen",
   },
   serverPage: {
     notFound: "404 - Server nicht gefunden",
@@ -637,9 +892,14 @@ const translation: i18nLanguage = {
   },
   metrics: {
     metricDescription: "{{type}} Metrik über Zeit",
+    metricDescriptionCustom: "{{type}} über Zeit",
+    currentValue: "Aktueller {{type}} Wert",
     configure: "Metriken konfigurieren",
     noMetricsPermission: "Kein Metrik-Zugriff",
     noMetricsPermissionDesc: "Du hast keine Berechtigung, die Server-Metriken anzuzeigen",
+    standardMetrics: "Standard-Metriken",
+    customMetrics: "Benutzerdefinierte Metriken",
+    noCustomMetrics: "Keine benutzerdefinierten Metriken verfügbar",
     types: {
       CPU_PERCENT: "CPU",
       MEMORY_PERCENT: "RAM",
@@ -671,6 +931,29 @@ const translation: i18nLanguage = {
     SMALL: "Klein",
     MEDIUM: "Mittel",
     LARGE: "Groß",
+  },
+  footer: {
+    title: "COSY Von Medalheads",
+    description:
+      "COSY steht für Cost Optimised Server Yard. Es ist ein vereinfachter, kosteneffizienter Self-Hosting-Service für den Betrieb von Gameservern.",
+    contact: "Kontakt:",
+    edit: "Fußzeile bearbeiten",
+    noData: "Keine Fußzeilendaten verfügbar",
+    editModal: {
+      title: "Fußzeile bearbeiten",
+      fullName: "Vollständiger Name",
+      fullNamePlaceholder: "Vollständigen Namen eingeben",
+      email: "E-Mail",
+      emailPlaceholder: "E-Mail-Adresse eingeben",
+      phone: "Telefon",
+      phonePlaceholder: "Telefonnummer eingeben",
+      street: "Straße",
+      streetPlaceholder: "Straßenadresse eingeben",
+      city: "Stadt",
+      cityPlaceholder: "Stadt eingeben",
+      cancel: "Abbrechen",
+      save: "Speichern",
+    },
   },
 };
 

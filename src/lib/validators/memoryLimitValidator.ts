@@ -14,19 +14,17 @@ export const memoryLimitValidator = z
       const num = parseFloat(numStr);
 
       if (Number.isNaN(num)) return false;
-      if (unit === "MiB" && num < 6) return false;
-
-      return true;
+      return !(unit === "MiB" && num < 6);
     },
     { message: MEMORY_LIMIT_MIN_ERROR },
   );
 
 /**
  * Extracts the specific error message for memory limit values that are below the minimum threshold.
- * Returns the error message if the value is below 6 MiB, otherwise returns undefined.
+ * Returns the error message if the value is below 6 MiB, otherwise returns null.
  */
-export const getMemoryLimitError = (value: string | null | undefined): string | undefined => {
-  if (!value || typeof value !== "string") return undefined;
+export const getMemoryLimitError = (value: string | null | undefined): string | null => {
+  if (!value) return null;
 
   const match = value.match(/^(\d+(?:\.\d+)?)(MiB|GiB)$/);
   if (match) {
@@ -36,5 +34,5 @@ export const getMemoryLimitError = (value: string | null | undefined): string | 
       return MEMORY_LIMIT_MIN_ERROR;
     }
   }
-  return undefined;
+  return null;
 };

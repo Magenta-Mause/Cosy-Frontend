@@ -15,6 +15,8 @@ import { toast } from "sonner";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import addUserIcon from "@/assets/icons/addUser.svg";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
+import { getCpuLimitError } from "@/lib/validators/cpuLimitValidator.ts";
+import { getMemoryLimitError } from "@/lib/validators/memoryLimitValidator.ts";
 import { InviteForm } from "./InviteForm/InviteForm.tsx";
 import { InviteResult } from "./InviteForm/InviteResult.tsx";
 
@@ -34,6 +36,9 @@ const UserInviteButton = (props: { className?: string }) => {
   const [generatedKey, setGeneratedKey] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [usernameError, setUsernameError] = useState<string | null>(null);
+  const [cpuError, setCpuError] = useState<string | null>(null);
+  const [memoryError, setMemoryError] = useState<string | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const validateUsername = (username: string): string | null => {
     if (!username) return null;
@@ -59,10 +64,27 @@ const UserInviteButton = (props: { className?: string }) => {
     setUsernameError(error);
   };
 
+  const handleCpuChange = (value: number | null) => {
+    setCpuLimit(value);
+    const error = getCpuLimitError(value);
+    setCpuError(error);
+  };
+
+  const handleMemoryChange = (value: string | null) => {
+    setMemoryLimit(value);
+    const error = getMemoryLimitError(value);
+    setMemoryError(error);
+  };
+
   const handleCreateInvite = async () => {
     const error = validateUsername(inviteUsername);
     if (error) {
       setUsernameError(error);
+      return;
+    }
+
+    // Don't submit if there are validation errors
+    if (cpuError || memoryError) {
       return;
     }
 
@@ -86,6 +108,8 @@ const UserInviteButton = (props: { className?: string }) => {
     }
   };
 
+  const isFormValid = !usernameError && !cpuError && !memoryError;
+
   const handleCopyLink = () => {
     if (generatedKey) {
       const link = `${window.location.origin}/?inviteToken=${generatedKey}`;
@@ -99,15 +123,18 @@ const UserInviteButton = (props: { className?: string }) => {
     setInviteUsername("");
     setGeneratedKey(null);
     setUsernameError(null);
+    setCpuError(null);
+    setMemoryError(null);
   }, []);
 
   return (
     <Dialog
+      open={isDialogOpen}
       onOpenChange={(open) => {
+        setIsDialogOpen(open);
         if (open) {
           resetView();
         }
-        return !open;
       }}
     >
       <DialogTrigger asChild>
@@ -131,13 +158,15 @@ const UserInviteButton = (props: { className?: string }) => {
               memory={memoryLimit}
               cpu={cpuLimit}
               onUsernameChange={handleUsernameChange}
-              onMemoryChange={setMemoryLimit}
-              onCpuChange={setCpuLimit}
-              onCancel={() => setView("invite")}
+              onMemoryChange={handleMemoryChange}
+              onCpuChange={handleCpuChange}
+              onCancel={() => setIsDialogOpen(false)}
               onSubmit={handleCreateInvite}
               onUserRoleChange={setUserRole}
               isCreating={isCreating}
               usernameError={usernameError}
+              cpuError={cpuError}
+              memoryError={memoryError}
             />
           )}
 
@@ -152,16 +181,16 @@ const UserInviteButton = (props: { className?: string }) => {
         <DialogFooter>
           {view === "invite" && (
             <>
-              <Button size="sm" onClick={() => setView("invite")} variant="secondary">
+              <Button onClick={() => setIsDialogOpen(false)} variant="secondary">
                 {t("userModal.cancel")}
               </Button>
-              <Button size="sm" onClick={handleCreateInvite} disabled={isCreating}>
+              <Button onClick={handleCreateInvite} disabled={isCreating || !isFormValid}>
                 {isCreating ? t("userModal.creating") : t("userModal.generateInvite")}
               </Button>
             </>
           )}
           {view === "result" && (
-            <Button size="sm" onClick={resetView} variant="secondary">
+            <Button onClick={resetView} variant="secondary">
               <ArrowLeft className="w-4 h-4 mr-2" />
               {t("userModal.backToUsers")}
             </Button>

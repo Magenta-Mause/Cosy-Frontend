@@ -1,18 +1,18 @@
 const UNIQUE_POSITIONS = [
-  { x: 0.105, y: 0.28 },
-  { x: 0.71, y: 0.29 },
+  { x: 0.102, y: 0.248 },
+  { x: 0.665, y: 0.265 },
 ];
 
 const REPEATING_POSITIONS = [
-  { x: 0.65, y: 0.6 },
-  { x: 0.205, y: 0.555 },
-  { x: 0.33, y: 0.805 },
-  { x: 0.78, y: 0.93 },
-  { x: 0.12, y: 0.98 },
-  { x: 0.43, y: 1.07 },
+  { x: 0.625, y: 0.552 },
+  { x: 0.198, y: 0.51 },
+  { x: 0.315, y: 0.745 },
+  { x: 0.733, y: 0.86 },
+  { x: 0.12, y: 0.904 },
+  { x: 0.41, y: 0.995 },
 ];
 
-const VERTICAL_OFFSET = 0.71;
+const VERTICAL_OFFSET = 0.668;
 
 function calculateCoordinate(index: number) {
   if (index < UNIQUE_POSITIONS.length) {

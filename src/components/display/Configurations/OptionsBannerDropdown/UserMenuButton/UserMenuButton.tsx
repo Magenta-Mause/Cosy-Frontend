@@ -1,26 +1,38 @@
 import { UserProfileModal } from "@components/display/UserManagement/UserProfileModal/UserProfileModal.tsx";
 import { Button } from "@components/ui/button.tsx";
-import { useState } from "react";
+import { User } from "lucide-react";
+import type { ComponentProps } from "react";
+import { forwardRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import person from "@/assets/icons/user.svg";
 import { cn } from "@/lib/utils.ts";
 
-const UserMenuButton = () => {
-  const [isUserOpen, setIsUserOpen] = useState(false);
-  const { t } = useTranslation();
+type UserMenuButtonProps = ComponentProps<typeof Button>;
 
-  return (
-    <>
-      <Button
-        onClick={() => setIsUserOpen((prev) => !prev)}
-        className={cn("w-fit p-[.5vw] aspect-square")}
-        aria-label={t("optionsBanner.userMenu")}
-      >
-        <img src={person} alt="User Menu Icon" className="h-[2.5vw] p-0 w-auto aspect-square" />
-      </Button>
-      <UserProfileModal open={isUserOpen} onOpenChange={setIsUserOpen} />
-    </>
-  );
-};
+const UserMenuButton = forwardRef<HTMLButtonElement, UserMenuButtonProps>(
+  ({ onClick, ...props }, ref) => {
+    const [isUserOpen, setIsUserOpen] = useState(false);
+    const { t } = useTranslation();
+
+    return (
+      <>
+        <Button
+          {...props}
+          ref={ref}
+          onClick={(event) => {
+            onClick?.(event);
+            setIsUserOpen((prev) => !prev);
+          }}
+          className={cn("h-auto aspect-square", props.className)}
+          aria-label={t("optionsBanner.userMenu")}
+        >
+          <User className="size-6" />
+        </Button>
+        <UserProfileModal open={isUserOpen} onOpenChange={setIsUserOpen} />
+      </>
+    );
+  },
+);
+
+UserMenuButton.displayName = "UserMenuButton";
 
 export default UserMenuButton;

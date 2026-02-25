@@ -1,5 +1,6 @@
-import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
-import { cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
+import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput.tsx";
+import { useCallback, useEffect, useState } from "react";
+import { CPU_LIMIT_POSITIVE_ERROR, cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
 
 interface CpuLimitInputFieldEditProps {
   label: string;
@@ -9,6 +10,7 @@ interface CpuLimitInputFieldEditProps {
   optional: boolean;
   value: number | undefined;
   onChange: (value: string | null) => void;
+  onValidationChange?: (hasError: boolean) => void;
 }
 
 const CpuLimitInputFieldEdit = ({
@@ -19,27 +21,85 @@ const CpuLimitInputFieldEdit = ({
   optional,
   value,
   onChange,
+  onValidationChange,
 }: CpuLimitInputFieldEditProps) => {
+  const [touched, setTouched] = useState(false);
+  const [isValid, setIsValid] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string>(errorLabel);
+
+  const isError = touched && !isValid;
+
+  const validate = useCallback(
+    (value: unknown): { isValid: boolean; errorMessage: string } => {
+      // If optional and empty, it's valid
+      if (optional && (value === null || value === undefined || value === "")) {
+        return { isValid: true, errorMessage: errorLabel };
+      }
+
+      const validationResult = cpuLimitValidator.safeParse(value);
+      let error = errorLabel;
+
+      if (!validationResult.success) {
+        error = CPU_LIMIT_POSITIVE_ERROR;
+      }
+
+      return {
+        isValid: validationResult.success,
+        errorMessage: error,
+      };
+    },
+    [optional, errorLabel],
+  );
+
+  const changeCallback = useCallback(
+    (inputValue: string) => {
+      setTouched(true);
+
+      if (inputValue === "") {
+        onChange(null);
+        const result = validate(null);
+        setIsValid(result.isValid);
+        setErrorMessage(result.errorMessage);
+        onValidationChange?.(!result.isValid);
+      } else {
+        onChange(inputValue);
+        const result = validate(inputValue);
+        setIsValid(result.isValid);
+        setErrorMessage(result.errorMessage);
+        onValidationChange?.(!result.isValid);
+      }
+    },
+    [onChange, validate, onValidationChange],
+  );
+
+  useEffect(() => {
+    if (value !== undefined) {
+      const result = validate(value);
+      setIsValid(result.isValid);
+      setErrorMessage(result.errorMessage);
+      onValidationChange?.(!result.isValid);
+    }
+  }, [value, validate, onValidationChange]);
+
+  useEffect(() => {
+    if (optional) {
+      setIsValid(true);
+      setTouched(true);
+    }
+  }, [optional]);
+
   return (
-    <InputFieldEditGameServer
-      validator={cpuLimitValidator}
-      placeholder={placeholder}
-      label={label}
-      description={description}
-      errorLabel={errorLabel}
-      value={value}
-      onChange={(v) => {
-        if (typeof v === "string" && v === "") {
-          onChange(null);
-        } else {
-          onChange(v as string);
-        }
-      }}
-      optional={optional}
-      inputType="number"
-      inputMode="decimal"
-      step="any"
-    />
+    <div className="py-2">
+      <CpuLimitInput
+        id="cpu_limit"
+        header={label}
+        error={isError ? errorMessage : undefined}
+        placeholder={placeholder}
+        value={value}
+        onChange={(val) => changeCallback(val)}
+        description={description}
+      />
+    </div>
   );
 };
 

@@ -1,20 +1,19 @@
 import RightClickMenu, {
   type RightClickAction,
 } from "@components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
-import { DeleteGameServerAlertDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerAlertDialog.tsx";
 import NameAndStatusBanner from "@components/display/GameServer/NameAndStatusBanner/NameAndStatusBanner.tsx";
 import Link from "@components/ui/Link.tsx";
 import { useRouter } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { GameServerDto } from "@/api/generated/model";
 import castle from "@/assets/MainPage/castle.png";
 import house from "@/assets/MainPage/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
-import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
 import { cn } from "@/lib/utils.ts";
+import { GameServerDesign } from "@/types/gameServerDesign.ts";
 
 const hashUUID = (uuid: string): number => {
   let hash = 0;
@@ -32,20 +31,24 @@ const GameServerHouse = (props: {
   style?: CSSProperties;
 }) => {
   const { t } = useTranslation();
-  const { deleteGameServer } = useDataInteractions();
-  const { startServer, stopServer } = useServerInteractions();
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const { startServer, stopServer } = useDataInteractions();
   const router = useRouter();
 
-  const serverHouseImage = useMemo(() => {
-    const hash = hashUUID(props.gameServer.uuid);
-    return hash % 2 === 0 ? castle : house;
-  }, [props.gameServer.uuid]);
-
-  const isCastle = useMemo(() => {
+  const isHouse = useMemo(() => {
+    if (props.gameServer.design !== undefined) {
+      return props.gameServer.design === GameServerDesign.HOUSE;
+    }
     const hash = hashUUID(props.gameServer.uuid);
     return hash % 2 === 0;
-  }, [props.gameServer.uuid]);
+  }, [props.gameServer.uuid, props.gameServer.design]);
+
+  const serverHouseImage = useMemo(() => {
+    return {
+      image: isHouse ? house : castle,
+      size: isHouse ? "15vw" : "20vw",
+      translate: isHouse ? "translate-y-[3.5vw] translate-x-[1.5vw]" : "",
+    };
+  }, [isHouse]);
 
   const handleClick = () => {
     sessionStorage.setItem("homeScrollPosition", window.scrollY.toString());
@@ -94,72 +97,55 @@ const GameServerHouse = (props: {
       onClick: () => {
         handleClick();
         router.navigate({
-          to: `/server/${props.gameServer.uuid}`,
+          to: `/server/${props.gameServer.uuid}/console`,
         });
       },
-    },
-    {
-      label: t("rightClickMenu.delete"),
-      onClick: () => {
-        setIsDeleteDialogOpen(true);
-      },
-      closeOnClick: false,
     },
   ];
 
   return (
-    <>
-      <RightClickMenu actions={actions}>
-        <Link
-          className={cn(
-            "block h-auto overflow-visible aspect-square select-none relative",
-            props.className,
-          )}
-          to={`/server/${props.gameServer.uuid}`}
-          aria-label={t("aria.gameServerConfiguration", {
+    <RightClickMenu actions={actions}>
+      <Link
+        className={cn(
+          "block h-auto overflow-visible aspect-square select-none relative",
+          serverHouseImage.translate,
+          props.className,
+        )}
+        to={`/server/${props.gameServer.uuid}`}
+        aria-label={t("aria.gameServerConfiguration", {
+          serverName: props.gameServer.server_name,
+        })}
+        style={{
+          ...props.style,
+          width: serverHouseImage.size,
+          height: serverHouseImage.size,
+        }}
+        onClick={handleClick}
+        preload={"viewport"}
+      >
+        <NameAndStatusBanner
+          className={
+            isHouse
+              ? "absolute -translate-y-[1.1vw] whitespace-nowrap z-10"
+              : "absolute translate-x-[1.55vw] translate-y-[2.6vw] whitespace-nowrap z-10"
+          }
+          classNameTextChildren={"-translate-y-[1.1vw]"}
+          status={props.gameServer.status}
+        >
+          {props.gameServer.server_name}
+        </NameAndStatusBanner>
+        <img
+          alt={t("aria.gameServerConfiguration", {
             serverName: props.gameServer.server_name,
           })}
+          className="w-full h-full object-contain overflow-visible flex items-center justify-center"
           style={{
-            ...props.style,
-            width: "19vw",
-            height: "19vw",
+            imageRendering: "pixelated",
           }}
-          onClick={handleClick}
-          preload={"viewport"}
-        >
-          <NameAndStatusBanner
-            className={
-              isCastle
-                ? "absolute translate-x-[7%] translate-y-[41%] whitespace-nowrap z-10"
-                : "absolute translate-x-[10%] translate-y-[45%] whitespace-nowrap z-10"
-            }
-            classNameTextChildren={"-translate-y-[1.1vw]"}
-            status={props.gameServer.status}
-          >
-            {props.gameServer.server_name}
-          </NameAndStatusBanner>
-          <img
-            alt={t("aria.gameServerConfiguration", {
-              serverName: props.gameServer.server_name,
-            })}
-            className="w-full h-full object-cover overflow-visible"
-            aria-label={t("aria.gameServerConfiguration", {
-              serverName: props.gameServer.server_name,
-            })}
-            style={{
-              imageRendering: "pixelated",
-            }}
-            src={serverHouseImage}
-          />
-        </Link>
-      </RightClickMenu>
-      <DeleteGameServerAlertDialog
-        serverName={props.gameServer.server_name ?? ""}
-        onConfirm={() => deleteGameServer(props.gameServer.uuid ?? "")}
-        open={isDeleteDialogOpen}
-        onOpenChange={setIsDeleteDialogOpen}
-      />
-    </>
+          src={serverHouseImage.image}
+        />
+      </Link>
+    </RightClickMenu>
   );
 };
 

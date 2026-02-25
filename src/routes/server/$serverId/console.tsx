@@ -27,7 +27,7 @@ function RouteComponent() {
   const canSendCommands = hasPermission(GameServerAccessGroupDtoPermissionsItem.SEND_COMMANDS);
 
   return (
-    <div className="container mx-auto flex flex-col gap-4 grow h-full">
+    <div className="flex flex-col gap-4 grow h-full w-full rounded-none">
       <LogDisplay
         logMessages={logs}
         showCommandInput={canSendCommands}
@@ -35,6 +35,8 @@ function RouteComponent() {
         isServerRunning={isServerRunning}
         canReadLogs={canReadLogs}
         showExtendedTimestamps
+        disableRoundness
+        disableBorder
       />
     </div>
   );

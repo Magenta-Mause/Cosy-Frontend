@@ -1,6 +1,6 @@
-import UserDetailListRedirectButton from "@components/display/UserManagement/UserDetailPage/UserDetailListRedirectButton";
+import { DeleteGameServerSuccessDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerSuccessDialog";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
@@ -9,12 +9,19 @@ import { useTypedSelector } from "@/stores/rootReducer.ts";
 
 interface IndexSearch {
   inviteToken?: string;
+  deleted?: boolean;
 }
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): IndexSearch => {
     return {
       inviteToken: typeof search.inviteToken === "string" ? search.inviteToken : undefined,
+      deleted:
+        typeof search.deleted === "boolean"
+          ? search.deleted
+          : typeof search.deleted === "string"
+            ? search.deleted === "true"
+            : undefined,
     };
   },
   component: Index,
@@ -22,12 +29,29 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
-  const { inviteToken } = Route.useSearch();
+  const sortedGameServers = useMemo(
+    () =>
+      [...gameServers].sort((a, b) => {
+        if (!a.created_on && !b.created_on) return 0;
+        if (!a.created_on) return -1;
+        if (!b.created_on) return 1;
+        return a.created_on < b.created_on ? -1 : a.created_on > b.created_on ? 1 : 0;
+      }),
+    [gameServers],
+  );
+  const { inviteToken, deleted } = Route.useSearch();
   const navigate = Route.useNavigate();
 
   const handleCloseInvite = () => {
     navigate({
       search: {},
+      replace: true,
+    });
+  };
+
+  const handleCloseDeleteSuccess = () => {
+    navigate({
+      search: inviteToken ? { inviteToken } : {},
       replace: true,
     });
   };
@@ -43,10 +67,10 @@ function Index() {
   return (
     <div className="relative w-full min-h-screen">
       <div className="relative w-full">
-        <GameServerBackground houseCount={gameServers.length + 1} />
+        <GameServerBackground houseCount={sortedGameServers.length + 1} />
 
         <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
-          <GameServerDisplay gameServerConfigurations={gameServers} />
+          <GameServerDisplay gameServerConfigurations={sortedGameServers} />
         </div>
       </div>
 
@@ -59,9 +83,7 @@ function Index() {
           <InviteRedemptionModal inviteToken={inviteToken} onClose={handleCloseInvite} />
         )}
 
-        <div className="fixed right-10 top-1/4 -translate-y-1/2 pointer-events-auto">
-          <UserDetailListRedirectButton />
-        </div>
+        <DeleteGameServerSuccessDialog open={deleted === true} onClose={handleCloseDeleteSuccess} />
       </div>
     </div>
   );

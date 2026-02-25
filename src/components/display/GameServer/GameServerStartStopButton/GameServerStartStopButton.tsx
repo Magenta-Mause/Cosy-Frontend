@@ -1,18 +1,21 @@
 import { Button } from "@components/ui/button.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
+import { Power } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import {
   GameServerAccessGroupDtoPermissionsItem,
   type GameServerDto,
   GameServerDtoStatus,
 } from "@/api/generated/model";
-import power from "@/assets/icons/power.svg";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
-import useServerInteractions from "@/hooks/useServerInteractions/useServerInteractions.tsx";
 
-const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
+const GameServerStartStopButton = (props: {
+  gameServer: GameServerDto;
+  buttonVariant?: "primary" | "secondary";
+}) => {
   const { t } = useTranslation();
-  const { stopServer, startServer } = useServerInteractions();
+  const { stopServer, startServer } = useDataInteractions();
   const { hasPermission } = useGameServerPermissions(props.gameServer.uuid);
 
   const canStartStopServer = hasPermission(
@@ -27,12 +30,7 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
           disabled: !canStartStopServer,
           children: (
             <>
-              <img
-                //TODO: hier auch background color und spacing anpassen
-                src={power}
-                alt="Power Icon"
-                className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
-              />
+              <Power />
               {t("serverPage.stop")}
             </>
           ),
@@ -44,12 +42,7 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
           disabled: !canStartStopServer,
           children: (
             <>
-              <img
-                //TODO: hier auch background color und spacing anpassen
-                src={power}
-                alt="Power Icon"
-                className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
-              />
+              <Power />
               {t("serverPage.start")}
             </>
           ),
@@ -66,12 +59,7 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
           "data-loading": true,
           children: (
             <>
-              <img
-                //TODO: hier auch background color und spacing anpassen
-                src={power}
-                alt="Power Icon"
-                className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
-              />
+              <Power />
               {t("serverStatus.AWAITING_UPDATE")}
             </>
           ),
@@ -82,12 +70,7 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
           "data-loading": true,
           children: (
             <>
-              <img
-                //TODO: hier auch background color und spacing anpassen
-                src={power}
-                alt="Power Icon"
-                className="h-[2.5vw] p-1 w-[2.5vw] aspect-square"
-              />
+              <Power />
               {t("serverStatus.STOPPING")}
             </>
           ),
@@ -110,7 +93,11 @@ const GameServerStartStopButton = (props: { gameServer: GameServerDto }) => {
       side="bottom"
       align="center"
     >
-      <Button {...buttonProps} className="transition-all duration-300" />
+      <Button
+        {...buttonProps}
+        className="transition-all duration-300"
+        variant={props.buttonVariant ?? "primary"}
+      />
     </TooltipWrapper>
   );
 };

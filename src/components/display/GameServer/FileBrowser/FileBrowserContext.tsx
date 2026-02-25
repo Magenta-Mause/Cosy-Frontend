@@ -39,6 +39,9 @@ export type FileBrowserState = {
 
   readOnly?: boolean;
   isSynthetic: boolean;
+  navigating?: boolean;
+
+  downloadingFiles: string[];
 };
 
 export type FileBrowserContextValue = FileBrowserState & FileBrowserActions;

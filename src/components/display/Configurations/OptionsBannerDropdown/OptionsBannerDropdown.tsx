@@ -5,58 +5,64 @@ import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthPr
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import banner from "@/assets/Banner.webp";
+import banner from "@/assets/header/Banner.webp";
 import { cn } from "@/lib/utils.ts";
 
 const OptionsBannerDropdown = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [hasOpenDialog, setHasOpenDialog] = useState(false);
   const [userTooltipOpen, setUserTooltipOpen] = useState(false);
   const [logOutTooltipOpen, setLogOutTooltipOpen] = useState(false);
   const bannerRef = useRef<HTMLDivElement>(null);
+  const collapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { t } = useTranslation();
   const { authorized } = useContext(AuthContext);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as HTMLElement;
-      const isInsideDialog = target.closest('[data-slot="dialog-content"]') !== null;
-      const isInsidePopover = target.closest("[data-radix-popper-content-wrapper]") !== null;
+  const handleMouseEnter = () => {
+    if (hasOpenDialog) return;
+    if (collapseTimerRef.current) {
+      clearTimeout(collapseTimerRef.current);
+      collapseTimerRef.current = null;
+    }
+    setIsExpanded(true);
+  };
 
-      if (
-        !isInsideDialog &&
-        !isInsidePopover &&
-        bannerRef.current &&
-        !bannerRef.current.contains(event.target as Node)
-      ) {
-        setIsExpanded(false);
+  const handleMouseLeave = () => {
+    if (hasOpenDialog) return;
+    collapseTimerRef.current = setTimeout(() => {
+      setIsExpanded(false);
+    }, 400);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (collapseTimerRef.current) {
+        clearTimeout(collapseTimerRef.current);
       }
     };
-
-    if (isExpanded) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isExpanded]);
+  }, []);
 
   useEffect(() => {
-    const closeTooltipsWhenDialogOpens = () => {
+    const syncDialogState = () => {
       const hasOpenDialog = document.querySelector('[data-slot="dialog-overlay"]') !== null;
+      setHasOpenDialog(hasOpenDialog);
       if (hasOpenDialog) {
+        setIsExpanded(false);
         setUserTooltipOpen(false);
         setLogOutTooltipOpen(false);
       }
     };
 
-    const observer = new MutationObserver(closeTooltipsWhenDialogOpens);
+    syncDialogState();
+
+    const observer = new MutationObserver(syncDialogState);
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => observer.disconnect();
   }, []);
 
   const handleBannerClicked = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (hasOpenDialog) return;
     const target = e.target as HTMLElement;
     const clickedElement = target.closest('button, a, [role="button"]');
     const wasBannerClicked = clickedElement?.id === "banner" || target.id === "banner";
@@ -71,43 +77,51 @@ const OptionsBannerDropdown = () => {
     <div
       id="banner"
       ref={bannerRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       onClick={(e) => handleBannerClicked(e)}
       onKeyDown={(e) => {
+        if (hasOpenDialog) return;
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           setIsExpanded(!isExpanded);
         }
       }}
       className={cn(
-        "flex flex-col gap-4 p-6 items-center justify-center pb-10",
-        "absolute z-50 -top-2 left-[5%]",
+        "flex flex-col gap-4 items-center justify-center",
+        "fixed z-50 left-[5%] w-20 h-65",
         "cursor-pointer transition-all duration-300 ease-in-out",
-        "overflow-hidden border-0",
+        "overflow-visible border-0",
+        hasOpenDialog && "pointer-events-none",
         isExpanded
           ? authorized
-            ? "h-auto"
-            : "h-auto -translate-y-[50%]"
-          : "h-auto -translate-y-[75%] hover:translate-y-[calc(-75%+0.5rem)]",
+            ? ""
+            : "-translate-y-[50%]"
+          : "-translate-y-[75%] hover:translate-y-[calc(-75%+0.5rem)]",
       )}
       style={{
         backgroundImage: banner ? `url(${banner})` : undefined,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "bottom",
-        backgroundSize: "cover",
-        width: "4rem",
-        minHeight: "15rem",
+        backgroundSize: "contain",
+        paddingTop: "1rem",
+        paddingBottom: "4rem",
+        imageRendering: "pixelated",
       }}
     >
       <div
         className={cn(
-          "flex flex-col gap-4 items-center transition-opacity duration-300",
+          "flex flex-col gap-5 items-center transition-opacity duration-300",
           isExpanded ? "opacity-100" : "opacity-0 pointer-events-none",
         )}
       >
         <div className={isExpanded && !authorized ? "translate-y-[130%]" : ""}>
           <TooltipWrapper tooltip={t("optionsBanner.languageSelector")} side="right" asChild>
             <div>
-              <LanguageSelector onLanguageChange={() => setIsExpanded(false)} />
+              <LanguageSelector
+                tabIndex={isExpanded ? undefined : -1}
+                onLanguageChange={() => setIsExpanded(false)}
+              />
             </div>
           </TooltipWrapper>
         </div>
@@ -124,9 +138,7 @@ const OptionsBannerDropdown = () => {
               }}
               asChild
             >
-              <div>
-                <UserMenuButton />
-              </div>
+              <UserMenuButton tabIndex={isExpanded ? undefined : -1} />
             </TooltipWrapper>
             <TooltipWrapper
               tooltip={t("optionsBanner.logout")}
@@ -139,9 +151,7 @@ const OptionsBannerDropdown = () => {
               }}
               asChild
             >
-              <div>
-                <LogOutButton />
-              </div>
+              <LogOutButton tabIndex={isExpanded ? undefined : -1} />
             </TooltipWrapper>
           </>
         )}

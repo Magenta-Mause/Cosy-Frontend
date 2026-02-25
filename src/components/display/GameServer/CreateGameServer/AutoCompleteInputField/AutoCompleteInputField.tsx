@@ -49,6 +49,9 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
     disableDebounce,
     disableCache,
     onItemSelect,
+    alwaysIncludeFallback,
+    fallbackValue,
+    fallbackLabel: noAutoCompleteItemsLabel,
   });
 
   return (
@@ -73,7 +76,7 @@ function AutoCompleteInputField<TSelectedItem, TAutoCompleteData extends GameSer
       </PopoverTrigger>
 
       <PopoverContent
-        className="w-[35vw]"
+        className="w-[35vw] z-500"
         onOpenAutoFocus={(e) => e.preventDefault()}
         onCloseAutoFocus={(e) => {
           e.preventDefault();

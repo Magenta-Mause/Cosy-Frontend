@@ -18,12 +18,13 @@ const InputFieldEditGameServer = (props: {
   onEnterPress?: () => void;
   submitButtonLabel?: string;
   onSubmit?: () => void;
+  isError?: boolean;
   submitDisabled?: boolean;
 }) => {
   const [touched, setTouched] = useState(false);
   const [isValid, setIsValid] = useState(true);
 
-  const isError = touched && !isValid;
+  const isError = (touched && !isValid) || props.isError === true;
 
   const validate = useCallback(
     (value: unknown) => {

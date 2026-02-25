@@ -1,6 +1,5 @@
 import { Button } from "@components/ui/button.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { Copy } from "lucide-react";
+import { CheckCircle2, Copy } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface InviteResultProps {
@@ -11,38 +10,22 @@ interface InviteResultProps {
 
 export const InviteResult = ({ generatedKey, onCopyLink }: InviteResultProps) => {
   const { t } = useTranslation();
+  const inviteLink = generatedKey ? `${window.location.origin}/?inviteToken=${generatedKey}` : "";
 
   return (
-    <div className="flex flex-col gap-4 py-4">
-      <div className="flex flex-col gap-2">
-        <div className="bg-muted p-4 rounded-lg break-all text-center text-xl font-bold border-2 border-dashed border-primary/20 tracking-widest">
-          {generatedKey}
-        </div>
-        <TooltipWrapper tooltip={t("userModal.copyTooltip")} asChild>
-          <button
-            type="button"
-            className="text-xs text-center text-muted-foreground break-all px-2 cursor-pointer hover:text-foreground transition-colors focus:outline-none focus:underline bg-transparent border-none p-0"
-            onClick={onCopyLink}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                onCopyLink();
-              }
-            }}
-          >
-            {generatedKey ? `${window.location.origin}/?inviteToken=${generatedKey}` : ""}
-          </button>
-        </TooltipWrapper>
-      </div>
+    <div className="flex flex-col items-center gap-5 py-4">
+      <CheckCircle2 className="size-12 text-accent" />
       <p className="text-sm text-center text-muted-foreground">
         {t("userModal.shareInstructions")}
       </p>
-      <div className="flex flex-col gap-2 mt-2">
-        <Button size="sm" className="w-full" onClick={onCopyLink}>
-          <Copy className="w-4 h-4 mr-2" />
-          {t("userModal.copyLink")}
-        </Button>
+      <div className="w-full rounded-lg border-2 border-border bg-background/50 px-4 py-3 text-sm break-all text-center text-muted-foreground select-all cursor-text">
+        {inviteLink}
       </div>
+
+      <Button onClick={onCopyLink} className="w-full">
+        <Copy className="size-5 mr-2" />
+        {t("userModal.copyLink")}
+      </Button>
     </div>
   );
 };

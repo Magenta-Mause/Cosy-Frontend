@@ -24,9 +24,13 @@ import type {
   AccessGroupUpdateDto,
   CreateDirectoryInVolumeParams,
   DeleteInVolumeParams,
+  DownloadDirectoryAsZipParams,
+  FooterDto,
+  FooterUpdateDto,
   GameDto,
   GameServerAccessGroupDto,
   GameServerCreationDto,
+  GameServerDesignUpdateDto,
   GameServerDto,
   GameServerFileSystemDto,
   GameServerLogMessageEntity,
@@ -39,18 +43,28 @@ import type {
   LoginDto,
   MetricLayout,
   MetricPointDto,
+  PasswordUpdateByAdminDto,
   PasswordUpdateDto,
+  PrivateDashboardLayout,
   QueryGamesParams,
   RCONConfiguration,
   ReadFileFromVolumeParams,
   RenameInVolumeParams,
   SendCommandDto,
   TemplateEntity,
+  TransferOwnershipDto,
+  UpdateCustomMetric200,
+  UpdateCustomMetricBody,
   UploadFileToVolumeParams,
   UserCreationDto,
+  UserDockerLimitsUpdateDto,
   UserEntityDto,
   UserInviteCreationDto,
-  UserInviteDto
+  UserInviteDto,
+  UserRoleUpdateDto,
+  WebhookCreationDto,
+  WebhookDto,
+  WebhookUpdateDto
 } from './model';
 
 import { customInstance } from '../axiosInstance';
@@ -63,6 +77,65 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 
+export const updateCustomMetric = (
+    uuid: string,
+    updateCustomMetricBody: UpdateCustomMetricBody,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UpdateCustomMetric200>(
+      {url: `/internal/game-server/custom-metric/${uuid}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: updateCustomMetricBody
+    },
+      options);
+    }
+  
+
+
+export const getUpdateCustomMetricMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCustomMetric>>, TError,{uuid: string;data: UpdateCustomMetricBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateCustomMetric>>, TError,{uuid: string;data: UpdateCustomMetricBody}, TContext> => {
+
+const mutationKey = ['updateCustomMetric'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateCustomMetric>>, {uuid: string;data: UpdateCustomMetricBody}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updateCustomMetric(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateCustomMetricMutationResult = NonNullable<Awaited<ReturnType<typeof updateCustomMetric>>>
+    export type UpdateCustomMetricMutationBody = UpdateCustomMetricBody
+    export type UpdateCustomMetricMutationError = unknown
+
+    export const useUpdateCustomMetric = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateCustomMetric>>, TError,{uuid: string;data: UpdateCustomMetricBody}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateCustomMetric>>,
+        TError,
+        {uuid: string;data: UpdateCustomMetricBody},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateCustomMetricMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const getGameServerById = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -237,6 +310,244 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getDeleteGameServerByIdMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const updateWebhook = (
+    gameserverUuid: string,
+    webhookUuid: string,
+    webhookUpdateDto: WebhookUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<WebhookDto>(
+      {url: `/game-server/${gameserverUuid}/webhooks/${webhookUuid}`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: webhookUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdateWebhookMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateWebhook>>, TError,{gameserverUuid: string;webhookUuid: string;data: WebhookUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateWebhook>>, TError,{gameserverUuid: string;webhookUuid: string;data: WebhookUpdateDto}, TContext> => {
+
+const mutationKey = ['updateWebhook'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateWebhook>>, {gameserverUuid: string;webhookUuid: string;data: WebhookUpdateDto}> = (props) => {
+          const {gameserverUuid,webhookUuid,data} = props ?? {};
+
+          return  updateWebhook(gameserverUuid,webhookUuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateWebhookMutationResult = NonNullable<Awaited<ReturnType<typeof updateWebhook>>>
+    export type UpdateWebhookMutationBody = WebhookUpdateDto
+    export type UpdateWebhookMutationError = unknown
+
+    export const useUpdateWebhook = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateWebhook>>, TError,{gameserverUuid: string;webhookUuid: string;data: WebhookUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateWebhook>>,
+        TError,
+        {gameserverUuid: string;webhookUuid: string;data: WebhookUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateWebhookMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const deleteWebhook = (
+    gameserverUuid: string,
+    webhookUuid: string,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${gameserverUuid}/webhooks/${webhookUuid}`, method: 'DELETE'
+    },
+      options);
+    }
+  
+
+
+export const getDeleteWebhookMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteWebhook>>, TError,{gameserverUuid: string;webhookUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteWebhook>>, TError,{gameserverUuid: string;webhookUuid: string}, TContext> => {
+
+const mutationKey = ['deleteWebhook'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteWebhook>>, {gameserverUuid: string;webhookUuid: string}> = (props) => {
+          const {gameserverUuid,webhookUuid} = props ?? {};
+
+          return  deleteWebhook(gameserverUuid,webhookUuid,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteWebhookMutationResult = NonNullable<Awaited<ReturnType<typeof deleteWebhook>>>
+    
+    export type DeleteWebhookMutationError = unknown
+
+    export const useDeleteWebhook = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteWebhook>>, TError,{gameserverUuid: string;webhookUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof deleteWebhook>>,
+        TError,
+        {gameserverUuid: string;webhookUuid: string},
+        TContext
+      > => {
+
+      const mutationOptions = getDeleteWebhookMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const getFooter = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<FooterDto>(
+      {url: `/footer`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetFooterQueryKey = () => {
+    return [
+    `/footer`
+    ] as const;
+    }
+
+    
+export const getGetFooterQueryOptions = <TData = Awaited<ReturnType<typeof getFooter>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFooter>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetFooterQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getFooter>>> = ({ signal }) => getFooter(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getFooter>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetFooterQueryResult = NonNullable<Awaited<ReturnType<typeof getFooter>>>
+export type GetFooterQueryError = unknown
+
+
+
+export function useGetFooter<TData = Awaited<ReturnType<typeof getFooter>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getFooter>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetFooterQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const updateFooter = (
+    footerUpdateDto: FooterUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<FooterDto>(
+      {url: `/footer`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: footerUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdateFooterMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateFooter>>, TError,{data: FooterUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateFooter>>, TError,{data: FooterUpdateDto}, TContext> => {
+
+const mutationKey = ['updateFooter'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateFooter>>, {data: FooterUpdateDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  updateFooter(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateFooterMutationResult = NonNullable<Awaited<ReturnType<typeof updateFooter>>>
+    export type UpdateFooterMutationBody = FooterUpdateDto
+    export type UpdateFooterMutationError = unknown
+
+    export const useUpdateFooter = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateFooter>>, TError,{data: FooterUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateFooter>>,
+        TError,
+        {data: FooterUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateFooterMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -541,6 +852,66 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getCreateGameServerMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const transferOwnership = (
+    uuid: string,
+    transferOwnershipDto: TransferOwnershipDto,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<GameServerDto>(
+      {url: `/game-server/${uuid}/transfer-ownership`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: transferOwnershipDto, signal
+    },
+      options);
+    }
+  
+
+
+export const getTransferOwnershipMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: TransferOwnershipDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: TransferOwnershipDto}, TContext> => {
+
+const mutationKey = ['transferOwnership'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof transferOwnership>>, {uuid: string;data: TransferOwnershipDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  transferOwnership(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type TransferOwnershipMutationResult = NonNullable<Awaited<ReturnType<typeof transferOwnership>>>
+    export type TransferOwnershipMutationBody = TransferOwnershipDto
+    export type TransferOwnershipMutationError = unknown
+
+    export const useTransferOwnership = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof transferOwnership>>, TError,{uuid: string;data: TransferOwnershipDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof transferOwnership>>,
+        TError,
+        {uuid: string;data: TransferOwnershipDto},
+        TContext
+      > => {
+
+      const mutationOptions = getTransferOwnershipMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -965,14 +1336,14 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
     
 export const createGameServerAccessGroup = (
-    gameServerUuid: string,
+    uuid: string,
     accessGroupCreationDto: AccessGroupCreationDto,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
       
       return customInstance<GameServerAccessGroupDto>(
-      {url: `/game-server/${gameServerUuid}/access-groups`, method: 'POST',
+      {url: `/game-server/${uuid}/access-groups`, method: 'POST',
       headers: {'Content-Type': 'application/json', },
       data: accessGroupCreationDto, signal
     },
@@ -982,8 +1353,8 @@ export const createGameServerAccessGroup = (
 
 
 export const getCreateGameServerAccessGroupMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{gameServerUuid: string;data: AccessGroupCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{gameServerUuid: string;data: AccessGroupCreationDto}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{uuid: string;data: AccessGroupCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{uuid: string;data: AccessGroupCreationDto}, TContext> => {
 
 const mutationKey = ['createGameServerAccessGroup'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -995,10 +1366,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createGameServerAccessGroup>>, {gameServerUuid: string;data: AccessGroupCreationDto}> = (props) => {
-          const {gameServerUuid,data} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createGameServerAccessGroup>>, {uuid: string;data: AccessGroupCreationDto}> = (props) => {
+          const {uuid,data} = props ?? {};
 
-          return  createGameServerAccessGroup(gameServerUuid,data,requestOptions)
+          return  createGameServerAccessGroup(uuid,data,requestOptions)
         }
 
         
@@ -1011,15 +1382,138 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type CreateGameServerAccessGroupMutationError = unknown
 
     export const useCreateGameServerAccessGroup = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{gameServerUuid: string;data: AccessGroupCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGameServerAccessGroup>>, TError,{uuid: string;data: AccessGroupCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
         Awaited<ReturnType<typeof createGameServerAccessGroup>>,
         TError,
-        {gameServerUuid: string;data: AccessGroupCreationDto},
+        {uuid: string;data: AccessGroupCreationDto},
         TContext
       > => {
 
       const mutationOptions = getCreateGameServerAccessGroupMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const getAllWebhooks = (
+    gameserverUuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<WebhookDto[]>(
+      {url: `/game-server/${gameserverUuid}/webhooks`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetAllWebhooksQueryKey = (gameserverUuid?: string,) => {
+    return [
+    `/game-server/${gameserverUuid}/webhooks`
+    ] as const;
+    }
+
+    
+export const getGetAllWebhooksQueryOptions = <TData = Awaited<ReturnType<typeof getAllWebhooks>>, TError = unknown>(gameserverUuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllWebhooks>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAllWebhooksQueryKey(gameserverUuid);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllWebhooks>>> = ({ signal }) => getAllWebhooks(gameserverUuid, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(gameserverUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllWebhooks>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetAllWebhooksQueryResult = NonNullable<Awaited<ReturnType<typeof getAllWebhooks>>>
+export type GetAllWebhooksQueryError = unknown
+
+
+
+export function useGetAllWebhooks<TData = Awaited<ReturnType<typeof getAllWebhooks>>, TError = unknown>(
+ gameserverUuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getAllWebhooks>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetAllWebhooksQueryOptions(gameserverUuid,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const createWebhook = (
+    gameserverUuid: string,
+    webhookCreationDto: WebhookCreationDto,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<WebhookDto>(
+      {url: `/game-server/${gameserverUuid}/webhooks`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: webhookCreationDto, signal
+    },
+      options);
+    }
+  
+
+
+export const getCreateWebhookMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createWebhook>>, TError,{gameserverUuid: string;data: WebhookCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof createWebhook>>, TError,{gameserverUuid: string;data: WebhookCreationDto}, TContext> => {
+
+const mutationKey = ['createWebhook'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createWebhook>>, {gameserverUuid: string;data: WebhookCreationDto}> = (props) => {
+          const {gameserverUuid,data} = props ?? {};
+
+          return  createWebhook(gameserverUuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateWebhookMutationResult = NonNullable<Awaited<ReturnType<typeof createWebhook>>>
+    export type CreateWebhookMutationBody = WebhookCreationDto
+    export type CreateWebhookMutationError = unknown
+
+    export const useCreateWebhook = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createWebhook>>, TError,{gameserverUuid: string;data: WebhookCreationDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof createWebhook>>,
+        TError,
+        {gameserverUuid: string;data: WebhookCreationDto},
+        TContext
+      > => {
+
+      const mutationOptions = getCreateWebhookMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -1140,6 +1634,124 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const updateDockerLimits = (
+    uuid: string,
+    userDockerLimitsUpdateDto: UserDockerLimitsUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/docker-limits`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: userDockerLimitsUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdateDockerLimitsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateDockerLimits>>, TError,{uuid: string;data: UserDockerLimitsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateDockerLimits>>, TError,{uuid: string;data: UserDockerLimitsUpdateDto}, TContext> => {
+
+const mutationKey = ['updateDockerLimits'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateDockerLimits>>, {uuid: string;data: UserDockerLimitsUpdateDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updateDockerLimits(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateDockerLimitsMutationResult = NonNullable<Awaited<ReturnType<typeof updateDockerLimits>>>
+    export type UpdateDockerLimitsMutationBody = UserDockerLimitsUpdateDto
+    export type UpdateDockerLimitsMutationError = unknown
+
+    export const useUpdateDockerLimits = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateDockerLimits>>, TError,{uuid: string;data: UserDockerLimitsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateDockerLimits>>,
+        TError,
+        {uuid: string;data: UserDockerLimitsUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateDockerLimitsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const changeRole = (
+    uuid: string,
+    userRoleUpdateDto: UserRoleUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/change-role`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: userRoleUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getChangeRoleMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changeRole>>, TError,{uuid: string;data: UserRoleUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof changeRole>>, TError,{uuid: string;data: UserRoleUpdateDto}, TContext> => {
+
+const mutationKey = ['changeRole'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof changeRole>>, {uuid: string;data: UserRoleUpdateDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  changeRole(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ChangeRoleMutationResult = NonNullable<Awaited<ReturnType<typeof changeRole>>>
+    export type ChangeRoleMutationBody = UserRoleUpdateDto
+    export type ChangeRoleMutationError = unknown
+
+    export const useChangeRole = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changeRole>>, TError,{uuid: string;data: UserRoleUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof changeRole>>,
+        TError,
+        {uuid: string;data: UserRoleUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getChangeRoleMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const changePassword = (
     uuid: string,
     passwordUpdateDto: PasswordUpdateDto,
@@ -1195,6 +1807,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getChangePasswordMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const changePasswordByAdmin = (
+    uuid: string,
+    passwordUpdateByAdminDto: PasswordUpdateByAdminDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/change-password-by-admin`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: passwordUpdateByAdminDto
+    },
+      options);
+    }
+  
+
+
+export const getChangePasswordByAdminMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePasswordByAdmin>>, TError,{uuid: string;data: PasswordUpdateByAdminDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof changePasswordByAdmin>>, TError,{uuid: string;data: PasswordUpdateByAdminDto}, TContext> => {
+
+const mutationKey = ['changePasswordByAdmin'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof changePasswordByAdmin>>, {uuid: string;data: PasswordUpdateByAdminDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  changePasswordByAdmin(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type ChangePasswordByAdminMutationResult = NonNullable<Awaited<ReturnType<typeof changePasswordByAdmin>>>
+    export type ChangePasswordByAdminMutationBody = PasswordUpdateByAdminDto
+    export type ChangePasswordByAdminMutationError = unknown
+
+    export const useChangePasswordByAdmin = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof changePasswordByAdmin>>, TError,{uuid: string;data: PasswordUpdateByAdminDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof changePasswordByAdmin>>,
+        TError,
+        {uuid: string;data: PasswordUpdateByAdminDto},
+        TContext
+      > => {
+
+      const mutationOptions = getChangePasswordByAdminMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -1258,6 +1929,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const updatePrivateDashboard = (
+    uuid: string,
+    privateDashboardLayout: PrivateDashboardLayout[],
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/layout/private-dashboard`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: privateDashboardLayout
+    },
+      options);
+    }
+  
+
+
+export const getUpdatePrivateDashboardMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePrivateDashboard>>, TError,{uuid: string;data: PrivateDashboardLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updatePrivateDashboard>>, TError,{uuid: string;data: PrivateDashboardLayout[]}, TContext> => {
+
+const mutationKey = ['updatePrivateDashboard'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePrivateDashboard>>, {uuid: string;data: PrivateDashboardLayout[]}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updatePrivateDashboard(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdatePrivateDashboardMutationResult = NonNullable<Awaited<ReturnType<typeof updatePrivateDashboard>>>
+    export type UpdatePrivateDashboardMutationBody = PrivateDashboardLayout[]
+    export type UpdatePrivateDashboardMutationError = unknown
+
+    export const useUpdatePrivateDashboard = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePrivateDashboard>>, TError,{uuid: string;data: PrivateDashboardLayout[]}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updatePrivateDashboard>>,
+        TError,
+        {uuid: string;data: PrivateDashboardLayout[]},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdatePrivateDashboardMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const updateMetricLayout = (
     uuid: string,
     metricLayout: MetricLayout[],
@@ -1317,14 +2047,73 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const updateDesign = (
+    uuid: string,
+    gameServerDesignUpdateDto: GameServerDesignUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<GameServerDto>(
+      {url: `/game-server/${uuid}/design`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: gameServerDesignUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdateDesignMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateDesign>>, TError,{uuid: string;data: GameServerDesignUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateDesign>>, TError,{uuid: string;data: GameServerDesignUpdateDto}, TContext> => {
+
+const mutationKey = ['updateDesign'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateDesign>>, {uuid: string;data: GameServerDesignUpdateDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updateDesign(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateDesignMutationResult = NonNullable<Awaited<ReturnType<typeof updateDesign>>>
+    export type UpdateDesignMutationBody = GameServerDesignUpdateDto
+    export type UpdateDesignMutationError = unknown
+
+    export const useUpdateDesign = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateDesign>>, TError,{uuid: string;data: GameServerDesignUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateDesign>>,
+        TError,
+        {uuid: string;data: GameServerDesignUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateDesignMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const deleteGameServerAccessGroup = (
-    gameServerUuid: string,
+    uuid: string,
     accessGroupUuid: string,
  options?: SecondParameter<typeof customInstance>,) => {
       
       
       return customInstance<void>(
-      {url: `/game-server/${gameServerUuid}/access-groups/${accessGroupUuid}`, method: 'DELETE'
+      {url: `/game-server/${uuid}/access-groups/${accessGroupUuid}`, method: 'DELETE'
     },
       options);
     }
@@ -1332,8 +2121,8 @@ export const deleteGameServerAccessGroup = (
 
 
 export const getDeleteGameServerAccessGroupMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{gameServerUuid: string;accessGroupUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{gameServerUuid: string;accessGroupUuid: string}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{uuid: string;accessGroupUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{uuid: string;accessGroupUuid: string}, TContext> => {
 
 const mutationKey = ['deleteGameServerAccessGroup'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -1345,10 +2134,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, {gameServerUuid: string;accessGroupUuid: string}> = (props) => {
-          const {gameServerUuid,accessGroupUuid} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, {uuid: string;accessGroupUuid: string}> = (props) => {
+          const {uuid,accessGroupUuid} = props ?? {};
 
-          return  deleteGameServerAccessGroup(gameServerUuid,accessGroupUuid,requestOptions)
+          return  deleteGameServerAccessGroup(uuid,accessGroupUuid,requestOptions)
         }
 
         
@@ -1361,11 +2150,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type DeleteGameServerAccessGroupMutationError = unknown
 
     export const useDeleteGameServerAccessGroup = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{gameServerUuid: string;accessGroupUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteGameServerAccessGroup>>, TError,{uuid: string;accessGroupUuid: string}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
         Awaited<ReturnType<typeof deleteGameServerAccessGroup>>,
         TError,
-        {gameServerUuid: string;accessGroupUuid: string},
+        {uuid: string;accessGroupUuid: string},
         TContext
       > => {
 
@@ -1375,14 +2164,14 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     }
     
 export const updateGameServerAccessGroups = (
-    gameServerUuid: string,
+    uuid: string,
     accessGroupUuid: string,
     accessGroupUpdateDto: AccessGroupUpdateDto,
  options?: SecondParameter<typeof customInstance>,) => {
       
       
       return customInstance<GameServerAccessGroupDto[]>(
-      {url: `/game-server/${gameServerUuid}/access-groups/${accessGroupUuid}`, method: 'PATCH',
+      {url: `/game-server/${uuid}/access-groups/${accessGroupUuid}`, method: 'PATCH',
       headers: {'Content-Type': 'application/json', },
       data: accessGroupUpdateDto
     },
@@ -1392,8 +2181,8 @@ export const updateGameServerAccessGroups = (
 
 
 export const getUpdateGameServerAccessGroupsMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{uuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{uuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext> => {
 
 const mutationKey = ['updateGameServerAccessGroups'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
@@ -1405,10 +2194,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, {gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}> = (props) => {
-          const {gameServerUuid,accessGroupUuid,data} = props ?? {};
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, {uuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}> = (props) => {
+          const {uuid,accessGroupUuid,data} = props ?? {};
 
-          return  updateGameServerAccessGroups(gameServerUuid,accessGroupUuid,data,requestOptions)
+          return  updateGameServerAccessGroups(uuid,accessGroupUuid,data,requestOptions)
         }
 
         
@@ -1421,11 +2210,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
     export type UpdateGameServerAccessGroupsMutationError = unknown
 
     export const useUpdateGameServerAccessGroups = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGameServerAccessGroups>>, TError,{uuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
  ): UseMutationResult<
         Awaited<ReturnType<typeof updateGameServerAccessGroups>>,
         TError,
-        {gameServerUuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto},
+        {uuid: string;accessGroupUuid: string;data: AccessGroupUpdateDto},
         TContext
       > => {
 
@@ -1873,6 +2662,69 @@ export function useGetMetrics<TData = Awaited<ReturnType<typeof getMetrics>>, TE
 
 
 
+export const checkConnection = (
+    uuid: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<boolean>(
+      {url: `/internal/game-server/test-connection/${uuid}`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getCheckConnectionQueryKey = (uuid?: string,) => {
+    return [
+    `/internal/game-server/test-connection/${uuid}`
+    ] as const;
+    }
+
+    
+export const getCheckConnectionQueryOptions = <TData = Awaited<ReturnType<typeof checkConnection>>, TError = unknown>(uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof checkConnection>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getCheckConnectionQueryKey(uuid);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof checkConnection>>> = ({ signal }) => checkConnection(uuid, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof checkConnection>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type CheckConnectionQueryResult = NonNullable<Awaited<ReturnType<typeof checkConnection>>>
+export type CheckConnectionQueryError = unknown
+
+
+
+export function useCheckConnection<TData = Awaited<ReturnType<typeof checkConnection>>, TError = unknown>(
+ uuid: string, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof checkConnection>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getCheckConnectionQueryOptions(uuid,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
 export const queryGames = (
     params?: QueryGamesParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -2189,6 +3041,81 @@ export function useReadFileFromVolume<TData = Awaited<ReturnType<typeof readFile
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getReadFileFromVolumeQueryOptions(uuid,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+/**
+ * @summary Download a directory as a zip archive
+ */
+export const downloadDirectoryAsZip = (
+    uuid: string,
+    params: DownloadDirectoryAsZipParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<Blob>(
+      {url: `/game-server/${uuid}/file-system/download-as-zip`, method: 'GET',
+        params,
+        responseType: 'blob', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getDownloadDirectoryAsZipQueryKey = (uuid?: string,
+    params?: DownloadDirectoryAsZipParams,) => {
+    return [
+    `/game-server/${uuid}/file-system/download-as-zip`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getDownloadDirectoryAsZipQueryOptions = <TData = Awaited<ReturnType<typeof downloadDirectoryAsZip>>, TError = unknown>(uuid: string,
+    params: DownloadDirectoryAsZipParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof downloadDirectoryAsZip>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getDownloadDirectoryAsZipQueryKey(uuid,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof downloadDirectoryAsZip>>> = ({ signal }) => downloadDirectoryAsZip(uuid,params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(uuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof downloadDirectoryAsZip>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type DownloadDirectoryAsZipQueryResult = NonNullable<Awaited<ReturnType<typeof downloadDirectoryAsZip>>>
+export type DownloadDirectoryAsZipQueryError = unknown
+
+
+/**
+ * @summary Download a directory as a zip archive
+ */
+
+export function useDownloadDirectoryAsZip<TData = Awaited<ReturnType<typeof downloadDirectoryAsZip>>, TError = unknown>(
+ uuid: string,
+    params: DownloadDirectoryAsZipParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof downloadDirectoryAsZip>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getDownloadDirectoryAsZipQueryOptions(uuid,params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

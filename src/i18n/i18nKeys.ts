@@ -1,6 +1,7 @@
 export type i18nLanguage = {
   common: {
     yourLimit: string;
+    loading: string;
   };
   overviewPage: {
     createNewServer: string;
@@ -12,7 +13,7 @@ export type i18nLanguage = {
     startServer: string;
     stopServer: string;
     refresh: string;
-    createNewGameserver: string;
+    createNewGameServer: string;
     viewLogs: string;
     loading: string;
     failed: string;
@@ -41,6 +42,14 @@ export type i18nLanguage = {
     updateGameServerSuccess: string;
     updateGameServerError: string;
     missingUuid: string;
+    createWebhookSuccess: string;
+    createWebhookError: string;
+    updateWebhookSuccess: string;
+    updateWebhookError: string;
+    deleteWebhookSuccess: string;
+    deleteWebhookError: string;
+    updateFooterSuccess: string;
+    updateFooterError: string;
   };
 
   userModal: {
@@ -115,6 +124,12 @@ export type i18nLanguage = {
     confirm: string;
   };
 
+  deleteGameServerSuccessDialog: {
+    title: string;
+    description: string;
+    confirm: string;
+  };
+
   logOutDialog: {
     title: string;
     description: string;
@@ -146,6 +161,7 @@ export type i18nLanguage = {
     passwordChangeSuccess: string;
     passwordChangeError: string;
     missingUuid: string;
+    cancel: string;
   };
 
   aria: {
@@ -181,6 +197,7 @@ export type i18nLanguage = {
     cantSendCommands: string;
     noLogsPermission: string;
     timestampFormatDetailed: string;
+    displayTimestamp: string;
   };
 
   serverPage: {
@@ -254,10 +271,28 @@ export type i18nLanguage = {
         cancel: string;
         confirm: string;
       };
+      keyValueInput: {
+        escapeSequencesTooltip: string;
+      };
+      confirmCreateDialog: {
+        title: string;
+        description: string;
+        cancel: string;
+        confirm: string;
+        creating: string;
+      };
+      successDialog: {
+        title: string;
+        description: ContainsVariable<"name">;
+        completedStepLabel: string;
+        doneButton: string;
+        openDashboard: string;
+      };
       listInput: {
         addButton: string;
       };
       steps: {
+        title: string;
         step1: {
           title: string;
           serverNameSelection: {
@@ -277,6 +312,10 @@ export type i18nLanguage = {
         step2: {
           title: string;
           description: string;
+          noTemplatesAvailable: string;
+          searchPlaceholder: string;
+          requestTemplateText: string;
+          requestTemplateLinkLabel: string;
           templateSelection: {
             title: string;
             description: string;
@@ -394,6 +433,14 @@ export type i18nLanguage = {
         title: string;
         errorLabel: string;
         description: string;
+        pathChange: {
+          title: string;
+          description: string;
+          keepButton: string;
+          deleteButton: string;
+          keepIndicator: string;
+          deleteIndicator: string;
+        };
       };
 
       memoryLimitSelection: {
@@ -402,13 +449,90 @@ export type i18nLanguage = {
         errorLabel: string;
       };
 
+      createdOn: {
+        title: string;
+        description: string;
+      };
+
       cpuLimitSelection: {
         title: string;
         description: string;
         errorLabel: string;
       };
+      uncosyZone: {
+        title: string;
+        transferOwnership: {
+          title: string;
+          description: string;
+          button: string;
+          dialog: {
+            title: string;
+            description: string;
+            userNotFound: string;
+            inputPlaceholder: string;
+            confirm: string;
+            cancel: string;
+            inputLabel: string;
+            successTitle: string;
+            successMessage: string;
+            close: string;
+            checking: string;
+          };
+          confirmationDialog: {
+            title: string;
+            description: string;
+            newOwner: string;
+            confirm: string;
+            cancel: string;
+            transferring: string;
+            transferError: string;
+          };
+        };
+        delete: {
+          title: string;
+          description: string;
+          button: string;
+        };
+      };
     };
     userManagement: {
+      admin: {
+        changePasswordDialog: {
+          title: string;
+          description: string;
+          newPasswordLabel: string;
+          newPasswordDescription: string;
+          newPasswordPlaceholder: string;
+          newPasswordError: string;
+          cancelButton: string;
+          confirmButton: string;
+          submitError: string;
+        };
+        updateDockerLimitsDialog: {
+          title: string;
+          description: string;
+          cpuLabel: string;
+          cpuDescription: string;
+          memoryLabel: string;
+          memoryDescription: string;
+          placeholder: string;
+          cancelButton: string;
+          confirmButton: string;
+          submitError: string;
+        };
+        changeRoleDialog: {
+          title: string;
+          description: string;
+          rolePlaceholder: string;
+          roles: {
+            admin: string;
+            quota_user: string;
+          };
+          cancelButton: string;
+          confirmButton: string;
+          submitError: string;
+        };
+      };
       backButton: string;
       userDetailButton: {
         viewUsers: string;
@@ -418,6 +542,13 @@ export type i18nLanguage = {
           owner: string;
           admin: string;
           quota_user: string;
+        };
+        yourProfile: string;
+        actions: {
+          editPassword: string;
+          editDockerLimits: string;
+          editRole: string;
+          deleteUser: string;
         };
         resources: {
           cpus: string;
@@ -442,6 +573,13 @@ export type i18nLanguage = {
         noUsersFound: string;
         pendingInvites: string;
       };
+      deleteUserDialog: {
+        title: string;
+        message: string;
+        cancelButton: string;
+        confirmButton: string;
+        submitError: string;
+      };
     };
     fileBrowser: {
       filePreview: {
@@ -459,9 +597,12 @@ export type i18nLanguage = {
         noFiles: string;
         directoryType: string;
         fileType: string;
+        fileSizeTooltip: ContainsVariable<"size">;
+        fileModeTooltip: ContainsVariable<"octal"> & ContainsVariable<"rwx">;
         renameAction: string;
         deleteAction: string;
         downloadAction: string;
+        exportAction: string;
         downloadFile: ContainsVariable<"fileName">;
         createFolderAction: string;
         createFolderDescription: ContainsVariable<"dirName">;
@@ -476,10 +617,14 @@ export type i18nLanguage = {
         deleteDialogFile: string;
         cancel: string;
         deleteInProgress: string;
+        cantDeleteWhileDownloading: string;
+        loading: string;
       };
       fileBrowserDialog: {
+        closePreview: string;
         uploadFailure: string;
         downloadZipFailure: string;
+        fileUploadError: string;
         preparing: string;
         downloadingFile: ContainsVariable<"done"> & ContainsVariable<"total">;
         downloadAllAction: string;
@@ -489,11 +634,16 @@ export type i18nLanguage = {
         noFilesPermissionDesc: string;
         uploadInSyntheticDir: string;
         uploadNoPermission: string;
+        errorWhileZipDownload: string;
       };
       fileBrowserHeader: {
         newFolder: string;
         refresh: string;
       };
+    };
+    settingsActionButtons: {
+      revert: string;
+      confirm: string;
     };
     GameServerSettings: {
       tabs: {
@@ -503,6 +653,8 @@ export type i18nLanguage = {
         metrics: string;
         accessManagement: string;
         rcon: string;
+        webhooks: string;
+        design: string;
       };
       sections: {
         general: string;
@@ -510,6 +662,7 @@ export type i18nLanguage = {
         publicDashboard: string;
         metrics: string;
         accessManagement: string;
+        webhooks: string;
       };
       accessManagement: {
         title: string;
@@ -519,6 +672,77 @@ export type i18nLanguage = {
         type: string;
         width: string;
         add: string;
+      };
+      webhooks: {
+        title: string;
+        description: string;
+        form: {
+          webhookType: string;
+          webhookUrl: string;
+          enabled: string;
+          subscribedEvents: string;
+        };
+        create: string;
+        configuredWebhooks: string;
+        loading: string;
+        empty: string;
+        delete: string;
+        deleteDialog: {
+          title: string;
+          description: string;
+        };
+        labels: {
+          type: string;
+          url: string;
+          enabled: string;
+          events: string;
+        };
+        state: {
+          enabled: string;
+          disabled: string;
+        };
+        createSuccess: string;
+        deleteSuccess: string;
+        types: {
+          DISCORD: string;
+          SLACK: string;
+          N8N: string;
+        };
+        events: {
+          SERVER_STARTED: string;
+          SERVER_STOPPED: string;
+          SERVER_FAILED: string;
+        };
+        validation: {
+          webhookUrlRequired: string;
+          webhookUrlInvalid: string;
+          subscribedEventsRequired: string;
+        };
+        cancel: string;
+        creating: string;
+        edit: string;
+        updating: string;
+        copyUrl: string;
+        copied: string;
+      };
+      privateDashboard: {
+        add: string;
+        types: {
+          METRIC: string;
+          LOGS: string;
+          FREETEXT: string;
+        };
+        freetext: {
+          title: string;
+          desc: string;
+          key: string;
+          value: string;
+          confirm: string;
+          cancel: string;
+          placeholder: string;
+          label: string;
+          error: string;
+        };
       };
     };
     gameServerSettings: {
@@ -544,6 +768,14 @@ export type i18nLanguage = {
         revert: string;
         confirm: string;
       };
+      designSettings: {
+        title: string;
+        description: string;
+        house: string;
+        castle: string;
+        revert: string;
+        confirm: string;
+      };
       accessManagement: {
         title: string;
         description: string;
@@ -554,6 +786,7 @@ export type i18nLanguage = {
         groupNameLabel: string;
         groupNamePlaceholder: string;
         groupNameRequired: string;
+        groupNameAlreadyExists: string;
         members: string;
         noUsersAssigned: string;
         addUserLabel: string;
@@ -598,6 +831,10 @@ export type i18nLanguage = {
             name: string;
             description: string;
           };
+          CHANGE_WEBHOOK_SETTINGS: {
+            name: string;
+            description: string;
+          };
           CHANGE_PERMISSIONS_SETTINGS: {
             name: string;
             description: string;
@@ -637,12 +874,24 @@ export type i18nLanguage = {
 
   genericModal: {
     cancel: string;
+    unsavedModal: {
+      title: string;
+      leave: string;
+      stay: string;
+      saveAndLeave: string;
+      message: string;
+    };
   };
   metrics: {
     metricDescription: ContainsVariable<"type">;
+    metricDescriptionCustom: ContainsVariable<"type">;
+    currentValue: ContainsVariable<"type">;
     configure: string;
     noMetricsPermission: string;
     noMetricsPermissionDesc: string;
+    standardMetrics: string;
+    customMetrics: string;
+    noCustomMetrics: string;
     types: {
       CPU_PERCENT: string;
       MEMORY_PERCENT: string;
@@ -674,6 +923,28 @@ export type i18nLanguage = {
     SMALL: string;
     MEDIUM: string;
     LARGE: string;
+  };
+  footer: {
+    title: string;
+    description: string;
+    contact: string;
+    edit: string;
+    noData: string;
+    editModal: {
+      title: string;
+      fullName: string;
+      fullNamePlaceholder: string;
+      email: string;
+      emailPlaceholder: string;
+      phone: string;
+      phonePlaceholder: string;
+      street: string;
+      streetPlaceholder: string;
+      city: string;
+      cityPlaceholder: string;
+      cancel: string;
+      save: string;
+    };
   };
 };
 

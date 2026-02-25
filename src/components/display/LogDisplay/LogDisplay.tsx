@@ -2,9 +2,9 @@ import LogMessage from "@components/display/LogDisplay/LogMessage";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Forward } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Virtuoso } from "react-virtuoso";
+import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { useSendCommand } from "@/api/generated/backend-api";
 import { cn } from "@/lib/utils.ts";
 import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice.ts";
@@ -16,7 +16,10 @@ const LogDisplay = (
     gameServerUuid?: string;
     isServerRunning?: boolean;
     canReadLogs?: boolean;
+    hideTimestamps?: boolean;
     showExtendedTimestamps?: boolean;
+    disableRoundness?: boolean;
+    disableBorder?: boolean;
   } & Omit<React.ComponentProps<"div">, "children">,
 ) => {
   const { t } = useTranslation();
@@ -29,8 +32,10 @@ const LogDisplay = (
     ...divProps
   } = props;
 
+  const logDisplayRef = useRef<VirtuosoHandle>(null);
   const [displayLogs, setDisplayLogs] = useState<GameServerLogWithUuid[]>([]);
   const [sticky, setSticky] = useState(true);
+  const [displayTimestamp, setDisplayTimestamp] = useState(true);
   const [commandInput, setCommandInput] = useState("");
   const isInitialLoad = useRef(true);
 
@@ -67,29 +72,58 @@ const LogDisplay = (
     );
   };
 
+  const handleAutoScrollToggle = (newVal: boolean) => {
+    setSticky(newVal);
+  };
+
+  const scrollTo = useCallback((index: number) => {
+    logDisplayRef.current?.scrollToIndex({ index, align: "end", behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
+    if (!sticky) return;
+    scrollTo(displayLogs.length - 1);
+  }, [displayLogs, scrollTo, sticky]);
+
   return (
     <div
       {...divProps}
       className={cn(
-        "flex flex-col border rounded-md bg-gray-950 text-gray-100 font-mono h-full",
+        "flex flex-col bg-gray-950 text-gray-100 font-mono h-full",
+        !props.disableRoundness && "rounded-md",
+        !props.disableBorder && "border border-gray-800",
         divProps.className,
       )}
     >
       <div className="flex items-center justify-between px-3 py-1 border-b border-gray-800 text-xs uppercase tracking-wide text-gray-400">
         <span>{t("logDisplay.serverLog")}</span>
-        <label className="flex items-center gap-2 cursor-pointer select-none">
-          <input
-            type="checkbox"
-            checked={sticky}
-            onChange={(e) => setSticky(e.target.checked)}
-            className="accent-emerald-500"
-          />
-          <span className="text-[11px]">{t("logDisplay.stickToBottom")}</span>
-        </label>
+        <div className={"flex gap-5"}>
+          {!props.hideTimestamps && (
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={displayTimestamp}
+                onChange={(e) => setDisplayTimestamp(e.target.checked)}
+                className="accent-emerald-500"
+              />
+              <span className="text-[11px]">{t("logDisplay.displayTimestamp")}</span>
+            </label>
+          )}
+          <label className="flex items-center gap-2 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              checked={sticky}
+              onChange={(e) => handleAutoScrollToggle(e.target.checked)}
+              className="accent-emerald-500"
+            />
+            <span className="text-[11px]">{t("logDisplay.stickToBottom")}</span>
+          </label>
+        </div>
       </div>
 
       <div className="flex-1 min-h-0 relative">
         <Virtuoso
+          ref={logDisplayRef}
           key={displayLogs.length === 0 ? "empty" : "loaded"}
           data={displayLogs}
           followOutput={sticky ? "auto" : false}
@@ -107,7 +141,11 @@ const LogDisplay = (
           initialTopMostItemIndex={displayLogs.length > 0 ? displayLogs.length - 1 : 0}
           itemContent={(_index, message) => (
             <div className="w-full overflow-hidden">
-              <LogMessage message={message} showExtendedTimestamps={props.showExtendedTimestamps} />
+              <LogMessage
+                message={message}
+                showExtendedTimestamps={props.showExtendedTimestamps}
+                hideTimestamp={props.hideTimestamps || !displayTimestamp}
+              />
             </div>
           )}
           style={{ height: "100%" }}

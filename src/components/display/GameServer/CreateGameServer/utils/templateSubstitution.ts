@@ -77,11 +77,11 @@ export function applyTemplate(
     newState.port_mappings = portMappings;
   }
 
-  // Substitute execution command and convert to string
+  // Substitute execution command and join to a single string for the form input
   if (template.docker_execution_command) {
-    newState.execution_command = template.docker_execution_command.map((cmd) =>
-      substituteVariables(cmd, variables),
-    );
+    newState.execution_command = template.docker_execution_command
+      .map((cmd) => substituteVariables(cmd, variables))
+      .join(" ") as unknown as string[];
   }
 
   // File mounts (volume mounts) - convert to VolumeMountConfigurationCreationDto format

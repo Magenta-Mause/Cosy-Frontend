@@ -3,6 +3,7 @@ import {
   type GameServerAccessGroupDto,
   type GameServerDto,
   GameServerDtoStatus,
+  type WebhookDto,
 } from "@/api/generated/model";
 import type { SliceState } from "@/stores";
 
@@ -21,7 +22,9 @@ const gameServerSlice = createSlice({
     state: "idle",
     initialized: false,
     pullProgress: {},
-  } as SliceState<GameServerDto> & { pullProgress: Record<string, DockerPullProgressDto> } & {
+  } as SliceState<GameServerDto> & {
+    pullProgress: Record<string, Record<string, DockerPullProgressDto>>;
+  } & {
     initialized: boolean;
   },
   reducers: {
@@ -41,10 +44,10 @@ const gameServerSlice = createSlice({
       state,
       action: PayloadAction<{ uuid: string; progress: DockerPullProgressDto }>,
     ) => {
-      state.pullProgress = {
-        ...state.pullProgress,
-        [action.payload.uuid]: action.payload.progress,
-      };
+      const { uuid, progress } = action.payload;
+      const layerId = progress.id ?? "__unknown__";
+      if (!state.pullProgress[uuid]) state.pullProgress[uuid] = {};
+      state.pullProgress[uuid][layerId] = progress;
     },
     awaitPendingUpdate: (state, action: PayloadAction<string>) => {
       state.data = state.data.map((server) =>
@@ -116,6 +119,35 @@ const gameServerSlice = createSlice({
       const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
       if (index !== -1) {
         state.data[index].access_groups = action.payload.newAccessGroups;
+      }
+    },
+    addWebhook(state, action: PayloadAction<{ gameServerUuid: string; webhook: WebhookDto }>) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1) {
+        if (!state.data[index].webhooks) state.data[index].webhooks = [];
+        state.data[index].webhooks?.push(action.payload.webhook);
+      }
+    },
+    updateWebhook(state, action: PayloadAction<{ gameServerUuid: string; webhook: WebhookDto }>) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1 && state.data[index].webhooks) {
+        const webhookIndex = state.data[index].webhooks?.findIndex(
+          (w) => w.uuid === action.payload.webhook.uuid,
+        );
+        if (webhookIndex !== -1 && webhookIndex !== undefined) {
+          const webhooks = state.data[index].webhooks;
+          if (webhooks) {
+            webhooks[webhookIndex] = action.payload.webhook;
+          }
+        }
+      }
+    },
+    removeWebhook(state, action: PayloadAction<{ gameServerUuid: string; webhookUuid: string }>) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1 && state.data[index].webhooks) {
+        state.data[index].webhooks = state.data[index].webhooks?.filter(
+          (webhook) => webhook.uuid !== action.payload.webhookUuid,
+        );
       }
     },
   },
