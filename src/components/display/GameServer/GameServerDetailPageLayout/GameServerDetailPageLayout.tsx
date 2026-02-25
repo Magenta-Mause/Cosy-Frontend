@@ -237,7 +237,7 @@ const GameServerDetailPageLayout = (props: {
             <BackToHomeLink variant={activeTab.sideBarButtonVariant} />
           </div>
           <div className="grow" />
-          <div className="flex flex-col justify-center items-end w-[10%] shrink-0 h-full pointer-events-auto">
+          <div className="flex flex-col justify-center items-end w-[10%] shrink-0 h-full pointer-events-none">
             <SideBar gameServer={props.gameServer} buttonVariant={activeTab.sideBarButtonVariant} />
           </div>
         </div>
@@ -324,7 +324,7 @@ const SideBar = (props: { gameServer: GameServerDto; buttonVariant?: "primary" |
           to={path}
           activeOptions={{ exact: !activePathPattern }}
           className={
-            "group block rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            "group block rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 pointer-events-auto"
           }
           preload={"viewport"}
           disabled={!isLinkReachable}

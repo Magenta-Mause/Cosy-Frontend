@@ -17,6 +17,7 @@ import { v7 as generateUuid } from "uuid";
 import {
   type GameServerDto,
   MetricLayoutSize,
+  type PublicDashboard,
   type PublicDashboardLayout,
 } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
@@ -161,6 +162,17 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
     size: MetricLayoutSize.MEDIUM,
   });
 
+  const hasSensitive = (config: PublicDashboard) => {
+    if (!config.enabled) {
+      return false;
+    }
+    return config.layouts?.some(
+      (layout) =>
+        layout.layout_type === DashboardElementTypes.METRIC ||
+        layout.layout_type === DashboardElementTypes.LOGS,
+    );
+  };
+
   return (
     <div className="flex flex-col h-full overflow-hidden">
       <div>
@@ -186,12 +198,11 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
         layouts={publicDashboard}
         saveHandler={async (uuid, layout) => {
           const publicLayouts = layout as PublicDashboardLayout[];
-          const hasSensitive = publicLayouts.some(
-            (l) =>
-              l.layout_type === DashboardElementTypes.METRIC ||
-              l.layout_type === DashboardElementTypes.LOGS,
-          );
-          if (hasSensitive) {
+          const publicDashboard: Omit<PublicDashboard, "uuid"> = {
+            enabled: checked,
+            layouts: publicLayouts,
+          };
+          if (hasSensitive(publicDashboard)) {
             setPendingSave(() => async () => {
               await updateGameServerPublicDashboard(uuid, {
                 layouts: layout,

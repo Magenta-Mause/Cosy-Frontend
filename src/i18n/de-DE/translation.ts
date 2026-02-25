@@ -534,7 +534,8 @@ const translation: i18nLanguage = {
         publicDashboardDescription:
           "Konfiguriere das öffentliche Dashboard, das für jeden mit dem Link sichtbar ist",
         metrics: "Metrik-Einstellungen",
-        metricsDescription: "Wähle aus, welche Metriken angezeigt werden und wie sie angeordnet sind",
+        metricsDescription:
+          "Wähle aus, welche Metriken angezeigt werden und wie sie angeordnet sind",
         accessManagement: "Zugriffsverwaltungs-Einstellungen",
         webhooks: "Webhook-Einstellungen",
       },
@@ -870,7 +871,7 @@ const translation: i18nLanguage = {
       title: "Ungespeicherte Änderungen",
       message: "Sie haben ungespeicherte Änderungen. Möchten Sie diese wirklich verwerfen?",
       stay: "Bleiben",
-      leave: "Verwerfen trotzdem",
+      leave: "Verwerfen",
       saveAndLeave: "Speichern und verlassen",
     },
   },
