@@ -15,6 +15,8 @@ import { Pencil } from "lucide-react";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage.tsx";
+import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
 
 interface UserModalProps {
   open: boolean;
@@ -26,6 +28,7 @@ export function UserModal({ open, onOpenChange }: UserModalProps) {
   const { t: tCommon } = useTranslation();
   const { username, role, memoryLimit, cpuLimit, uuid } = useContext(AuthContext);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const { cpuUsage, memoryUsage } = useUserResourceUsage(uuid);
 
   const handleChangePasswordClick = () => {
     setShowPasswordModal(true);
@@ -74,7 +77,7 @@ export function UserModal({ open, onOpenChange }: UserModalProps) {
                 <p className="text-sm font-bold">{t("limits")}</p>
                 <div className="flex gap-2 mt-2">
                   <ResourceUsageBadge
-                    currentValue="calculate_me"
+                    currentValue={cpuUsage}
                     limit={
                       cpuLimit != null
                         ? cpuLimit
@@ -83,10 +86,10 @@ export function UserModal({ open, onOpenChange }: UserModalProps) {
                     resourceType={tCommon("components.userManagement.userRow.resources.cpus")}
                   />
                   <ResourceUsageBadge
-                    currentValue="calculate_me"
+                    currentValue={memoryUsage}
                     limit={
                       memoryLimit != null
-                        ? memoryLimit
+                        ? formatMemoryLimit(memoryLimit)
                         : tCommon("components.userManagement.userRow.resources.unlimited")
                     }
                     resourceType={tCommon("components.userManagement.userRow.resources.memory")}

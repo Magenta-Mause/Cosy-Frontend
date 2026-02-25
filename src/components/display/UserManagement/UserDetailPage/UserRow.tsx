@@ -13,6 +13,7 @@ import { Ellipsis } from "lucide-react";
 import { useContext, useState } from "react";
 import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
 import ChangePasswordByAdminModal from "./ChangePasswordByAdminModal";
 import DeleteUserConfirmationModal from "./DeleteUserConfirmationModal";
@@ -29,6 +30,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [passwordChangeDialogOpen, setPasswordChangeDialogOpen] = useState(false);
   const { role, uuid } = useContext(AuthContext);
+  const { cpuUsage, memoryUsage } = useUserResourceUsage(props.user.uuid);
 
   const userActions: UserAction[] = [
     {
@@ -63,7 +65,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
             props.userRole === UserEntityDtoRole.ADMIN) && (
             <div className="flex gap-3 flex-1 justify-end">
               <ResourceUsageBadge
-                currentValue="calculate_me"
+                currentValue={cpuUsage}
                 limit={
                   props.user.docker_hardware_limits?.docker_max_cpu_cores != null
                     ? props.user.docker_hardware_limits.docker_max_cpu_cores
@@ -73,7 +75,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               />
 
               <ResourceUsageBadge
-                currentValue="calculate_me"
+                currentValue={memoryUsage}
                 limit={
                   props.user.docker_hardware_limits?.docker_memory_limit != null
                     ? formatMemoryLimit(props.user.docker_hardware_limits.docker_memory_limit)
