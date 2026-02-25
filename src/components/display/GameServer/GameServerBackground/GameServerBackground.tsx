@@ -59,7 +59,7 @@ function calculatePathSegments(houseCount: number) {
 }
 
 function calculateBgLoops(houseCount: number) {
-  const loopsPerPosition = [2, 0, 3, 1, 1, 1];
+  const loopsPerPosition = [2, 0, 2, 1, 1, 1];
   let loopCount = 0;
 
   for (let i = 1; i <= houseCount; i++) {
@@ -106,7 +106,7 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
         <Footer bgImageFooter={images.bg.footer} />
       </div>
 
-      <div className="absolute top-0 left-0 w-full">
+      <div className="absolute top-0 left-0 pr-[6vw] w-full">
         {pathSegments.map((segment) => (
           <img
             key={segment.id}
