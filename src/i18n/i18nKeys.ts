@@ -381,6 +381,7 @@ export type i18nLanguage = {
       revert: string;
       confirm: string;
       missingUuidError: string;
+      serverNeedsToBeStopped: string;
 
       gameSelection: {
         title: string;

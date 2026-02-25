@@ -142,7 +142,20 @@ const EditGameServerPage = (props: {
       !cpuError &&
       !memoryError
     );
-  }, [gameServerState, cpuLimit, memoryLimit, cpuError, memoryError]);
+  }, [
+    cpuLimit,
+    memoryLimit,
+    cpuError,
+    memoryError,
+    gameServerState.server_name,
+    gameServerState.docker_image_name,
+    gameServerState.docker_image_tag,
+    gameServerState.port_mappings,
+    gameServerState.environment_variables,
+    gameServerState.volume_mounts,
+    gameServerState.docker_hardware_limits?.docker_max_cpu_cores,
+    gameServerState.docker_hardware_limits?.docker_memory_limit,
+  ]);
 
   const isChanged = useMemo(() => {
     const parsedCommand = executionCommandRaw.trim()
@@ -194,7 +207,26 @@ const EditGameServerPage = (props: {
       volumesChanged ||
       hardwareLimitsChanged
     );
-  }, [gameServerState, executionCommandRaw, props.gameServer]);
+  }, [
+    executionCommandRaw,
+    props.gameServer.execution_command,
+    gameServerState.server_name,
+    props.gameServer.server_name,
+    gameServerState.docker_image_name,
+    props.gameServer.docker_image_name,
+    gameServerState.docker_image_tag,
+    props.gameServer.docker_image_tag,
+    gameServerState.port_mappings,
+    props.gameServer.port_mappings,
+    gameServerState.environment_variables,
+    props.gameServer.environment_variables,
+    gameServerState.volume_mounts,
+    props.gameServer.volume_mounts,
+    gameServerState.docker_hardware_limits?.docker_max_cpu_cores,
+    props.gameServer.docker_hardware_limits?.docker_max_cpu_cores,
+    gameServerState.docker_hardware_limits?.docker_memory_limit,
+    props.gameServer.docker_hardware_limits?.docker_memory_limit,
+  ]);
 
   const handleConfirm = async () => {
     const parsedExecutionCommand = executionCommandRaw.trim()
@@ -239,15 +271,23 @@ const EditGameServerPage = (props: {
       onRevert: handleRevert,
     });
 
+  const isServerActive =
+    props.gameServer.status !== GameServerDtoStatus.STOPPED &&
+    props.gameServer.status !== GameServerDtoStatus.FAILED;
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   return (
     <div>
       <div>
         <h2>{t("title")}</h2>
+        {isServerActive && (
+          <span className={"text-button-destructive-default text-sm"}>
+            {t("serverNeedsToBeStopped")}
+          </span>
+        )}
       </div>
 
-      <div>
+      <fieldset disabled={isServerActive}>
         <InputFieldEditGameServer
           label={t("serverNameSelection.title")}
           value={gameServerState.server_name}
@@ -407,57 +447,57 @@ const EditGameServerPage = (props: {
           inputType="text"
           objectKey="container_path"
         />
-      </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <CpuLimitInputFieldEdit
-          placeholder="0.5"
-          label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
-          description={
-            cpuLimit !== null
-              ? `${t("cpuLimitSelection.description")} ${t_root("common.yourLimit")}: ${cpuLimit} Cores)`
-              : t("cpuLimitSelection.description")
-          }
-          errorLabel={t("cpuLimitSelection.errorLabel")}
-          value={gameServerState.docker_hardware_limits?.docker_max_cpu_cores}
-          onChange={(v) =>
-            setGameServerState((s) => ({
-              ...s,
-              docker_hardware_limits: {
-                ...s.docker_hardware_limits,
-                docker_max_cpu_cores: v !== null && v !== "" ? Number(v) : undefined,
-              },
-            }))
-          }
-          optional={cpuLimit === null}
-          onValidationChange={(hasError) => setCpuError(hasError ? "error" : undefined)}
-        />
+        <div className="grid grid-cols-2 gap-4">
+          <CpuLimitInputFieldEdit
+            placeholder="0.5"
+            label={t("cpuLimitSelection.title") + (cpuLimit === null ? " (Optional)" : "")}
+            description={
+              cpuLimit !== null
+                ? `${t("cpuLimitSelection.description")} ${t_root("common.yourLimit")}: ${cpuLimit} Cores)`
+                : t("cpuLimitSelection.description")
+            }
+            errorLabel={t("cpuLimitSelection.errorLabel")}
+            value={gameServerState.docker_hardware_limits?.docker_max_cpu_cores}
+            onChange={(v) =>
+              setGameServerState((s) => ({
+                ...s,
+                docker_hardware_limits: {
+                  ...s.docker_hardware_limits,
+                  docker_max_cpu_cores: v !== null && v !== "" ? Number(v) : undefined,
+                },
+              }))
+            }
+            optional={cpuLimit === null}
+            onValidationChange={(hasError) => setCpuError(hasError ? "error" : undefined)}
+          />
 
-        <MemoryLimitInputFieldEdit
-          placeholder="512"
-          label={`${t("memoryLimitSelection.title")} ${memoryLimit === null ? " (Optional)" : ""}`}
-          description={
-            memoryLimit !== null
-              ? `${t("memoryLimitSelection.description")} (${t_root("common.yourLimit")}: ${formatMemoryLimit(memoryLimit)})`
-              : t("memoryLimitSelection.description")
-          }
-          errorLabel={t("memoryLimitSelection.errorLabel")}
-          value={gameServerState.docker_hardware_limits?.docker_memory_limit}
-          onChange={(v) => {
-            setMemoryErrorMessage(getMemoryLimitError(v) ?? undefined);
+          <MemoryLimitInputFieldEdit
+            placeholder="512"
+            label={`${t("memoryLimitSelection.title")} ${memoryLimit === null ? " (Optional)" : ""}`}
+            description={
+              memoryLimit !== null
+                ? `${t("memoryLimitSelection.description")} (${t_root("common.yourLimit")}: ${formatMemoryLimit(memoryLimit)})`
+                : t("memoryLimitSelection.description")
+            }
+            errorLabel={t("memoryLimitSelection.errorLabel")}
+            value={gameServerState.docker_hardware_limits?.docker_memory_limit}
+            onChange={(v) => {
+              setMemoryErrorMessage(getMemoryLimitError(v) ?? undefined);
 
-            setGameServerState((s) => ({
-              ...s,
-              docker_hardware_limits: {
-                ...s.docker_hardware_limits,
-                docker_memory_limit: v && v !== "" ? v : undefined,
-              },
-            }));
-          }}
-          optional={memoryLimit === null}
-          onValidationChange={(hasError) => setMemoryError(hasError ? "error" : undefined)}
-        />
-      </div>
+              setGameServerState((s) => ({
+                ...s,
+                docker_hardware_limits: {
+                  ...s.docker_hardware_limits,
+                  docker_memory_limit: v && v !== "" ? v : undefined,
+                },
+              }));
+            }}
+            optional={memoryLimit === null}
+            onValidationChange={(hasError) => setMemoryError(hasError ? "error" : undefined)}
+          />
+        </div>
+      </fieldset>
 
       <div className="pt-5 sticky bottom-4 w-fit ml-auto flex gap-4">
         <Button
@@ -468,22 +508,12 @@ const EditGameServerPage = (props: {
         >
           {t("revert")}
         </Button>
-        <TooltipWrapper
-          tooltip={
-            props.gameServer.status !== GameServerDtoStatus.STOPPED &&
-            props.gameServer.status !== GameServerDtoStatus.FAILED &&
-            "Game Server needs to be stopped to update General Settings"
-          }
-        >
+        <TooltipWrapper tooltip={isServerActive && t("serverNeedsToBeStopped")}>
           <Button
             type="button"
             onClick={handleConfirm}
             className="h-12.5"
-            disabled={
-              isConfirmButtonDisabled ||
-              (props.gameServer.status !== GameServerDtoStatus.STOPPED &&
-                props.gameServer.status !== GameServerDtoStatus.FAILED)
-            }
+            disabled={isConfirmButtonDisabled || isServerActive}
           >
             {t("confirm")}
           </Button>

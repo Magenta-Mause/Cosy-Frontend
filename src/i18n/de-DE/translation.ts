@@ -393,6 +393,7 @@ const translation: i18nLanguage = {
 
       revert: "Zurücksetzen",
       confirm: "Änderungen speichern",
+      serverNeedsToBeStopped: "Server muss gestoppt sein um allgemeinen Einstellungen zu ändern",
       missingUuidError: "Die Server UUID fehlt",
 
       gameSelection: {

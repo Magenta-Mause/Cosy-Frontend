@@ -391,6 +391,7 @@ const translation: i18nLanguage = {
 
       revert: "Revert",
       confirm: "Save changes",
+      serverNeedsToBeStopped: "Game Server needs to be stopped to update General Settings",
       missingUuidError: "UUID is missing",
 
       gameSelection: {
