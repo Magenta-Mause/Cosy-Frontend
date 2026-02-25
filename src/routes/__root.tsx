@@ -11,12 +11,15 @@ const RootLayout = () => {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   const showNotFound = authorized === false && pathname !== "/";
+  const isServerPage = pathname.startsWith("/server/");
 
   return (
     <GameServerOverviewPageRightClickHandler>
       <div>
-        <OptionsBannerDropdown />
-        <MarketplaceSign />
+        <div className={isServerPage ? "hidden lg:block" : undefined}>
+          <OptionsBannerDropdown />
+          <MarketplaceSign />
+        </div>
         {showNotFound ? <GameServerNotFoundPage /> : <Outlet />}
       </div>
     </GameServerOverviewPageRightClickHandler>

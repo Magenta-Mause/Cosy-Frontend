@@ -4,20 +4,26 @@ import FancyNavigationButton from "@components/display/GameServer/GameServerDeta
 import GameServerDetailPageHeader from "@components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageHeader/GameServerDetailPageHeader.tsx";
 import GameServerStartStopButton from "@components/display/GameServer/GameServerStartStopButton/GameServerStartStopButton.tsx";
 import GameServerStatusIndicator from "@components/display/GameServer/GameServerStatusIndicator/GameServerStatusIndicator.tsx";
+import LanguageSelector from "@components/display/Configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
+import LogOutButton from "@components/display/Configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
+import UserMenuButton from "@components/display/Configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
 import Link from "@components/ui/Link.tsx";
+import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useLocation } from "@tanstack/react-router";
 import {
   ChartAreaIcon,
   DoorClosedIcon,
+  EllipsisVerticalIcon,
   FolderIcon,
   HomeIcon,
   SettingsIcon,
   SquareTerminalIcon,
 } from "lucide-react";
 import type * as React from "react";
-import { type CSSProperties, createContext } from "react";
+import { type CSSProperties, createContext, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
 import dashboardBackgroundImage from "@/assets/gameServerDetailPage/dashboard-bg.webp";
@@ -228,6 +234,8 @@ const GameServerDetailPageLayout = (props: {
 
 const MobileTabBar = (props: { gameServer: GameServerDto }) => {
   const { hasPermission } = useGameServerPermissions(props.gameServer.uuid);
+  const { authorized } = useContext(AuthContext);
+  const { t } = useTranslation();
   const location = useLocation();
   const activeTab = getActiveTab(location.pathname);
 
@@ -256,6 +264,33 @@ const MobileTabBar = (props: { gameServer: GameServerDto }) => {
           </Link>
         );
       })}
+      <Popover>
+        <PopoverTrigger asChild>
+          <button type="button" className="flex-1 flex flex-col items-center py-2 gap-1">
+            <div className="p-2 rounded-md">
+              <EllipsisVerticalIcon />
+            </div>
+          </button>
+        </PopoverTrigger>
+        <PopoverContent side="top" align="end" className="z-40 flex flex-col gap-2 p-2 w-auto">
+          <div className="flex items-center gap-2">
+            <LanguageSelector />
+            <span className="text-sm">{t("optionsBanner.languageSelector")}</span>
+          </div>
+          {authorized && (
+            <>
+              <div className="flex items-center gap-2">
+                <UserMenuButton />
+                <span className="text-sm">{t("optionsBanner.userMenu")}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <LogOutButton />
+                <span className="text-sm">{t("optionsBanner.logout")}</span>
+              </div>
+            </>
+          )}
+        </PopoverContent>
+      </Popover>
     </div>
   );
 };
