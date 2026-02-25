@@ -174,28 +174,12 @@ const useDataLoading = () => {
       return;
     }
 
-    await loadGameServerLogs(gameServer.uuid, [
-      GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS,
-    ]);
+    await loadGameServerLogs(gameServer.uuid, [], true);
   };
 
   const loadPublicServerDetails = async (gameServer: GameServerDto) => {
-    if (
-      gameServer.public_dashboard?.layouts?.some(
-        (layout) => layout.layout_type === DashboardElementTypes.LOGS,
-      )
-    ) {
-      await loadGameServerLogs(gameServer.uuid, [
-        GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS,
-      ]);
-    }
-    if (
-      gameServer.public_dashboard?.layouts?.some(
-        (layout) => layout.layout_type === DashboardElementTypes.METRIC,
-      )
-    ) {
-      await loadPublicGameServerMetrics(gameServer.uuid, undefined, undefined);
-    }
+    checkForLoadingPublicLogs(gameServer);
+    checkForLoadingPublicMetrics(gameServer);
   };
 
   const loadGameServers = async () => {
@@ -262,8 +246,10 @@ const useDataLoading = () => {
   const loadGameServerLogs = async (
     gameServerUuid: string,
     permissions?: GameServerAccessGroupDtoPermissionsItem[],
+    skipPermissionCheck?: boolean,
   ) => {
     if (
+      !skipPermissionCheck &&
       !containsPermission(
         permissions ?? [],
         GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS,
