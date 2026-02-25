@@ -16,28 +16,25 @@ import {
   SelectValue,
 } from "@components/ui/select";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useChangeRole } from "@/api/generated/backend-api";
 import { type UserEntityDto, UserRoleUpdateDtoRole } from "@/api/generated/model";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { userSliceActions } from "@/stores/slices/userSlice";
 
 const ASSIGNABLE_ROLES = [UserRoleUpdateDtoRole.ADMIN, UserRoleUpdateDtoRole.QUOTA_USER] as const;
 
 const ChangeRoleModal = (props: { user: UserEntityDto; open: boolean; onClose: () => void }) => {
   const { t } = useTranslationPrefix("components.userManagement.admin.changeRoleDialog");
-  const dispatch = useDispatch();
+  const { changeRole } = useDataInteractions();
 
   const [role, setRole] = useState<UserRoleUpdateDtoRole>(
-    (props.user.role as unknown as UserRoleUpdateDtoRole) ?? UserRoleUpdateDtoRole.QUOTA_USER,
+    (props.user.role as UserRoleUpdateDtoRole) ?? UserRoleUpdateDtoRole.QUOTA_USER,
   );
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     if (props.open) {
-      setRole(
-        (props.user.role as unknown as UserRoleUpdateDtoRole) ?? UserRoleUpdateDtoRole.QUOTA_USER,
-      );
+      setRole((props.user.role as UserRoleUpdateDtoRole) ?? UserRoleUpdateDtoRole.QUOTA_USER);
       setSubmitError(null);
     }
   }, [props.open, props.user]);
@@ -47,25 +44,18 @@ const ChangeRoleModal = (props: { user: UserEntityDto; open: boolean; onClose: (
     props.onClose();
   };
 
-  const { mutate: changeRole, isPending } = useChangeRole({
-    mutation: {
-      onSuccess: (updatedUser) => {
-        dispatch(userSliceActions.updateUser(updatedUser));
-        handleClose();
-      },
-      onError: () => {
-        setSubmitError(t("submitError"));
-      },
-    },
-  });
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!props.user.uuid) return;
     setSubmitError(null);
-    changeRole({
-      uuid: props.user.uuid,
-      data: { role },
-    });
+    setIsPending(true);
+    try {
+      await changeRole(props.user.uuid, role);
+      handleClose();
+    } catch {
+      setSubmitError(t("submitError"));
+    } finally {
+      setIsPending(false);
+    }
   };
 
   const roleLabel = (r: UserRoleUpdateDtoRole) => {

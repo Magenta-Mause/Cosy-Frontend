@@ -11,16 +11,14 @@ import {
   DialogTitle,
 } from "@components/ui/dialog";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useUpdateDockerLimits } from "@/api/generated/backend-api";
 import type { UserEntityDto } from "@/api/generated/model";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { CPU_LIMIT_POSITIVE_ERROR, cpuLimitValidator } from "@/lib/validators/cpuLimitValidator";
 import {
   MEMORY_LIMIT_MIN_ERROR,
   memoryLimitValidator,
 } from "@/lib/validators/memoryLimitValidator";
-import { userSliceActions } from "@/stores/slices/userSlice";
 
 const UpdateDockerLimitsModal = (props: {
   user: UserEntityDto;
@@ -28,7 +26,7 @@ const UpdateDockerLimitsModal = (props: {
   onClose: () => void;
 }) => {
   const { t } = useTranslationPrefix("components.userManagement.admin.updateDockerLimitsDialog");
-  const dispatch = useDispatch();
+  const { updateDockerLimits } = useDataInteractions();
 
   const [cpu, setCpu] = useState<string>(
     props.user.docker_hardware_limits?.docker_max_cpu_cores?.toString() ?? "",
@@ -39,6 +37,7 @@ const UpdateDockerLimitsModal = (props: {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [cpuError, setCpuError] = useState<string | undefined>(undefined);
   const [memoryError, setMemoryError] = useState<string | undefined>(undefined);
+  const [isPending, setIsPending] = useState(false);
 
   useEffect(() => {
     if (props.open) {
@@ -79,19 +78,7 @@ const UpdateDockerLimitsModal = (props: {
     setMemoryError(result.success ? undefined : MEMORY_LIMIT_MIN_ERROR);
   };
 
-  const { mutate: updateDockerLimits, isPending } = useUpdateDockerLimits({
-    mutation: {
-      onSuccess: (updatedUser) => {
-        dispatch(userSliceActions.updateUser(updatedUser));
-        handleClose();
-      },
-      onError: () => {
-        setSubmitError(t("submitError"));
-      },
-    },
-  });
-
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!props.user.uuid) return;
 
     const cpuValue = cpu !== "" ? parseFloat(cpu) : undefined;
@@ -101,15 +88,20 @@ const UpdateDockerLimitsModal = (props: {
     }
 
     setSubmitError(null);
-    updateDockerLimits({
-      uuid: props.user.uuid,
-      data: {
+    setIsPending(true);
+    try {
+      await updateDockerLimits(props.user.uuid, {
         docker_hardware_limits: {
           docker_max_cpu_cores: cpuValue,
           docker_memory_limit: memory !== "" ? memory : undefined,
         },
-      },
-    });
+      });
+      handleClose();
+    } catch {
+      setSubmitError(t("submitError"));
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (

@@ -3,11 +3,18 @@ import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import {
   getGetAllUserInvitesQueryKey,
+  useChangeRole,
   useCreateInvite,
   useRevokeInvite,
+  useUpdateDockerLimits,
 } from "@/api/generated/backend-api.ts";
-import type { UserInviteCreationDto } from "@/api/generated/model";
+import type {
+  UserDockerLimitsUpdateDto,
+  UserInviteCreationDto,
+  UserRoleUpdateDtoRole,
+} from "@/api/generated/model";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
+import { userSliceActions } from "@/stores/slices/userSlice.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
@@ -69,9 +76,35 @@ const useUserDataInteractions = () => {
     await mutateRevokeInvite({ uuid });
   };
 
+  const { mutateAsync: mutateChangeRole } = useChangeRole({
+    mutation: {
+      onSuccess: (updatedUser) => {
+        dispatch(userSliceActions.updateUser(updatedUser));
+      },
+    },
+  });
+
+  const changeRole = async (uuid: string, role: UserRoleUpdateDtoRole) => {
+    await mutateChangeRole({ uuid, data: { role } });
+  };
+
+  const { mutateAsync: mutateUpdateDockerLimits } = useUpdateDockerLimits({
+    mutation: {
+      onSuccess: (updatedUser) => {
+        dispatch(userSliceActions.updateUser(updatedUser));
+      },
+    },
+  });
+
+  const updateDockerLimits = async (uuid: string, data: UserDockerLimitsUpdateDto) => {
+    await mutateUpdateDockerLimits({ uuid, data });
+  };
+
   return {
     createInvite,
     revokeInvite,
+    changeRole,
+    updateDockerLimits,
   };
 };
 
