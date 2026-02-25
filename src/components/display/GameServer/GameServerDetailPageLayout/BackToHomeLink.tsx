@@ -9,7 +9,7 @@ const iconStyles: CSSProperties = {
   scale: 1.8,
 };
 
-const BackToHomeLink = (props: { className?: string }) => {
+const BackToHomeLink = (props: { className?: string; variant?: "primary" | "secondary" }) => {
   const { t } = useTranslation();
 
   return (
@@ -17,6 +17,7 @@ const BackToHomeLink = (props: { className?: string }) => {
       <FancyNavigationButton
         isActive={false}
         label={t("serverPage.back")}
+        variant={props.variant}
         tabIndex={0}
         direction={"right"}
         className={"group"}

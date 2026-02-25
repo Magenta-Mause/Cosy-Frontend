@@ -74,7 +74,7 @@ const MetricDisplay = (
           {liveEnabled ? t("metrics.liveMetricsOn") : t("metrics.liveMetricsOff")}
         </Button>
       </div>
-      <div className="grid grid-cols-6 gap-2 w-full h-auto mb-auto relative">
+      <div className="grid grid-cols-1 md:grid-cols-6 gap-2 w-full h-auto mb-auto relative">
         {loading && (
           <div className="absolute z-10 flex justify-center items-center w-full h-full backdrop-blur-sm">
             <div className="flex flex-col gap-2">

@@ -15,6 +15,7 @@ const FancyNavigationButton = (
     children: ReactNode;
     direction?: "left" | "right";
     disabled?: boolean;
+    variant?: "primary" | "secondary";
   } & ComponentProps<"button">,
 ) => {
   const { isActive, label, children, direction, disabled, ...buttonProps } = props;
@@ -30,9 +31,14 @@ const FancyNavigationButton = (
       style={buttonStyles}
       tabIndex={-1}
       {...buttonProps}
+      variant={props.variant ?? "primary"}
       disabled={disabled}
       className={cn(
-        isActive ? "bg-button-primary-active!" : "",
+        isActive
+          ? !props.variant || props.variant === "primary"
+            ? "bg-button-primary-active!"
+            : "bg-button-secondary-click!"
+          : "",
         "gap-0",
         "transition-all duration-300",
         disabled && "cursor-not-allowed opacity-50",
