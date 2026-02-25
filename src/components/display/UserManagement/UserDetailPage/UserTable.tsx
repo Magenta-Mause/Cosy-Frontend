@@ -82,12 +82,12 @@ const UserTable = ({ onRevoke }: UserListProps) => {
   }, [filteredUsers, sortField, isAsc]);
 
   return (
-    <div className="container text-base mx-auto py-20 flex flex-col gap-2 w-3/4">
+    <div className="container text-base mx-auto flex flex-col gap-2 w-3/4">
       <div className="flex flex-row gap-3 justify-between items-center w-full">
         <div className="flex flex-row items-center gap-3">
           <Input
             startDecorator={<Search />}
-            className="h-10 border-2"
+            className="h-10 border-2 z-1"
             placeholder={t("components.userManagement.userTable.search")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -100,7 +100,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
             onSortDirectionToggle={() => setIsAsc(!isAsc)}
           />
         </div>
-        <UserInviteButton />
+        <UserInviteButton className="z-10" />
       </div>
       {sortedUsers.length > 0 ? (
         sortedUsers.map((user, index) => (
@@ -112,18 +112,18 @@ const UserTable = ({ onRevoke }: UserListProps) => {
           />
         ))
       ) : (
-        <div className="text-center py-10 text-muted-foreground">
+        <div className="text-center py-10 text-muted-foreground z-10">
           {t("components.userManagement.userTable.noUsersFound")}{" "}
           {selectedRole
             ? `for role ${t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)}`
             : ""}
         </div>
       )}
-      {users.length > 0 && invites.length > 0 && <Separator className="my-4 pb-0.5" />}
+      {users.length > 0 && invites.length > 0 && <Separator className="my-4 pb-0.5 z-10" />}
 
       {invites.length > 0 && (
         <>
-          <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+          <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider z-10">
             {t("userModal.pendingInvites")}
           </h4>
           {invites.map((invite, index) => (

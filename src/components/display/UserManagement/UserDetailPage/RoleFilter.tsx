@@ -27,7 +27,7 @@ const RoleFilter = ({ selectedRole, onRoleChange }: RoleFilterProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button>
+        <Button className="z-10">
           <Funnel className="size-5" />
           {selectedRole
             ? t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)
