@@ -82,67 +82,71 @@ function GameServerDetailPageDashboardPage() {
   const canSendCommands = hasPermission(GameServerAccessGroupDtoPermissionsItem.SEND_COMMANDS);
 
   return (
-    <div className="p-4">
-      <div className="grid grid-cols-6 gap-4">
-        {dashboardLayout?.map((dashboard) => {
-          const dashboardType = dashboard.layout_type;
-          const sizeClass = COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM];
+    <div className="grid grid-cols-1 md:grid-cols-6 gap-2">
+      {dashboardLayout?.map((dashboard) => {
+        const dashboardType = dashboard.layout_type;
+        const sizeClass = COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM];
 
-          switch (dashboardType) {
-            case DashboardElementTypes.METRIC:
-              return (
-                <MetricGraph
-                  key={dashboard.uuid}
-                  timeUnit="hour"
-                  type={dashboard.metric_type as MetricsType}
-                  metrics={metrics}
-                  className={sizeClass}
-                  canReadMetrics={canReadMetrics}
+        switch (dashboardType) {
+          case DashboardElementTypes.METRIC:
+            return (
+              <MetricGraph
+                key={dashboard.uuid}
+                timeUnit="hour"
+                type={dashboard.metric_type as MetricsType}
+                metrics={metrics}
+                className={sizeClass}
+                canReadMetrics={canReadMetrics}
+                overridePermissionCheck={currentlyVisibleDashboard === "public"}
+              />
+            );
+
+          case DashboardElementTypes.LOGS:
+            return (
+              <div
+                key={dashboard.uuid}
+                className={`aspect-4/3 md:aspect-16/7 ${sizeClass}`}
+              >
+                <LogDisplay
+                  logMessages={logs}
+                  showCommandInput={canSendCommands}
+                  gameServerUuid={serverId}
+                  isServerRunning={isServerRunning}
+                  canReadLogs={canReadLogs}
+                  hideTimestamps={dashboard.size === LayoutSize.SMALL ? true : undefined}
                   overridePermissionCheck={currentlyVisibleDashboard === "public"}
                 />
-              );
+              </div>
+            );
 
-            case DashboardElementTypes.LOGS:
-              return (
-                <div key={dashboard.uuid} className={`h-95  ${sizeClass}`}>
-                  <LogDisplay
-                    logMessages={logs}
-                    showCommandInput={canSendCommands}
-                    gameServerUuid={serverId}
-                    isServerRunning={isServerRunning}
-                    canReadLogs={canReadLogs}
-                    hideTimestamps={dashboard.size === LayoutSize.SMALL ? true : undefined}
-                    overridePermissionCheck={currentlyVisibleDashboard === "public"}
-                  />
-                </div>
-              );
-
-            case DashboardElementTypes.FREETEXT:
-              return (
-                <div key={dashboard.uuid} className={`h-95  ${sizeClass}`}>
-                  <Card className={`w-full h-full overflow-y-auto`} key={dashboard.uuid}>
-                    <h2 className="mt-5 ml-5">{dashboard.title}</h2>
-                    {dashboard.content?.map((keyValue) => (
-                      <div key={dashboard.uuid} className="flex flex-col">
-                        <div className="mx-5">
-                          <p className="overflow-y-auto text-base font-bold bg-button-primary-default text-button-secondary-default w-fit px-2 rounded-t-md ">
-                            {keyValue.key}
-                          </p>
-                          <p className="overflow-y-auto text-lg w-full border-2 rounded-b-md rounded-r-md px-2 ">
-                            {keyValue.value}
-                          </p>
-                        </div>
+          case DashboardElementTypes.FREETEXT:
+            return (
+              <div
+                key={dashboard.uuid}
+                className={`aspect-4/3 md:aspect-16/7 ${sizeClass}`}
+              >
+                <Card className={`w-full h-full overflow-y-auto`} key={dashboard.uuid}>
+                  <h2 className="mt-5 ml-5">{dashboard.title}</h2>
+                  {dashboard.content?.map((keyValue) => (
+                    <div key={dashboard.uuid} className="flex flex-col">
+                      <div className="mx-5">
+                        <p className="overflow-y-auto text-base font-bold bg-button-primary-default text-button-secondary-default w-fit px-2 rounded-t-md ">
+                          {keyValue.key}
+                        </p>
+                        <p className="overflow-y-auto text-lg w-full border-2 rounded-b-md rounded-r-md px-2 ">
+                          {keyValue.value}
+                        </p>
                       </div>
-                    ))}
-                  </Card>
-                </div>
-              );
+                    </div>
+                  ))}
+                </Card>
+              </div>
+            );
 
-            default:
-              return null;
-          }
-        })}
-      </div>
+          default:
+            return null;
+        }
+      })}
     </div>
   );
 }

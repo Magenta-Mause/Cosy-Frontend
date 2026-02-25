@@ -28,7 +28,8 @@ label {
 
 body {
   font-family: "Glasstown", sans-serif;
-  -webkit-font-smoothing: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   line-height: 0.5;
 }
 

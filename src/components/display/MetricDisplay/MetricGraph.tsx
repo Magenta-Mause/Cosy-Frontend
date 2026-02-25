@@ -186,23 +186,21 @@ const MetricGraph = (props: MetricGraphProps) => {
 
   return (
     <Card
-      className={`flex flex-col col-span-3 text-lg py-5 bg-button-secondary-default border-2 relative ${className}`}
+      className={`flex flex-col col-span-1 md:col-span-3 text-lg py-3 bg-button-secondary-default aspect-4/3 md:aspect-16/7 overflow-hidden border-2 relative ${className}`}
     >
-      <CardHeader>
-        <div>
-          <CardTitle>{displayName}</CardTitle>
-          <CardDescription>
-            {showStringValue
-              ? t("metrics.currentValue", { type: displayName })
-              : isCustomMetric(type)
-                ? t("metrics.metricDescriptionCustom", { type: displayName })
-                : t("metrics.metricDescription", { type: displayName })}
-          </CardDescription>
-        </div>
+      <CardHeader className="py-2 pt-1 grow-0 gap-0.5">
+        <CardTitle>{displayName}</CardTitle>
+        <CardDescription>
+          {showStringValue
+            ? t("metrics.currentValue", { type: displayName })
+            : isCustomMetric(type)
+              ? t("metrics.metricDescriptionCustom", { type: displayName })
+              : t("metrics.metricDescription", { type: displayName })}
+        </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1 min-h-0">
         {showStringValue ? (
-          <div className="flex items-center justify-center h-62.5 w-full">
+          <div className="flex items-center justify-center h-full w-full">
             <div className="text-center">
               <div className="text-5xl font-bold text-primary mb-2 wrap-break-word max-w-full px-4">
                 {getLatestStringValue()}
@@ -210,7 +208,7 @@ const MetricGraph = (props: MetricGraphProps) => {
             </div>
           </div>
         ) : (
-          <ChartContainer config={chartConfig} className="aspect-auto h-62.5 w-full">
+          <ChartContainer config={chartConfig} className="h-full w-full">
             <AreaChart accessibilityLayer data={chartData}>
               <CartesianGrid vertical={false} />
               <XAxis

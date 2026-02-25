@@ -664,6 +664,7 @@ const translation: i18nLanguage = {
         createGroupDescription: "Gib einen Namen für die neue Zugriffsgruppe ein.",
         groupSettings: "Gruppeneinstellungen",
         groupNameLabel: "Gruppenname",
+        groupNameAlreadyExists: "Eine Gruppe mit diesem Namen existiert bereits",
         groupNamePlaceholder: "Gruppennamen eingeben",
         groupNameRequired: "Gruppenname ist erforderlich",
         members: "Mitglieder",

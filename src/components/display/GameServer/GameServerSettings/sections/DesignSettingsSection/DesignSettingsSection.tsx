@@ -78,8 +78,8 @@ const DesignSettingsSection = () => {
             className={cn(
               "flex flex-col items-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition-colors",
               selectedDesign === value
-                ? "border-primary bg-primary/10"
-                : "border-border hover:border-primary/50",
+                ? "border-button-primary-default bg-button-primary-default/30"
+                : "border-button-primary-default hover:bg-button-primary-default/10",
             )}
           >
             <img
