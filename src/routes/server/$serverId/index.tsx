@@ -37,7 +37,7 @@ function GameServerDetailPageDashboardPage() {
   const canSendCommands = hasPermission(GameServerAccessGroupDtoPermissionsItem.SEND_COMMANDS);
 
   return (
-    <div className="grid grid-cols-6 gap-2">
+    <div className="grid grid-cols-1 md:grid-cols-6 gap-2">
       {gameServer.private_dashboard_layouts?.map((dashboard) => {
         switch (dashboard.private_dashboard_types) {
           case PrivateDashboardLayoutPrivateDashboardTypes.METRIC:
@@ -56,7 +56,7 @@ function GameServerDetailPageDashboardPage() {
             return (
               <div
                 key={dashboard.uuid}
-                className={`aspect-16/7 ${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}
+                className={`aspect-4/3 md:aspect-16/7 ${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}
               >
                 <LogDisplay
                   logMessages={logs}
@@ -73,7 +73,7 @@ function GameServerDetailPageDashboardPage() {
             return (
               <div
                 key={dashboard.uuid}
-                className={`aspect-16/7 ${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}
+                className={`aspect-4/3 md:aspect-16/7 ${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}
               >
                 <Card className={`w-full h-full overflow-y-auto`} key={dashboard.uuid}>
                   <h2 className="mt-5 ml-5">{dashboard.title}</h2>
