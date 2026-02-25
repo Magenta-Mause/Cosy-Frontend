@@ -20,9 +20,5 @@ function RouteComponent() {
     return <NoAccess element={t("components.GameServerSettings.tabs.rcon")} />;
   }
 
-  return (
-    <div className="overflow-y-auto flex-1 min-h-0">
-      <RconSettingsSection />
-    </div>
-  );
+  return <RconSettingsSection />;
 }

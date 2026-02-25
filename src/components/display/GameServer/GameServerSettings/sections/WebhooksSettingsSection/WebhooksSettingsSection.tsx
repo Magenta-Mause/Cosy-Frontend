@@ -56,7 +56,7 @@ const WebhooksSettingsSection = () => {
   };
 
   return (
-    <div className="pr-3 pb-10 gap-6 flex flex-col">
+    <div className="flex flex-col gap-5">
       <div>
         <h2>{t("title")}</h2>
         <p className={"text-sm text-muted-foreground leading-none"}>{t("description")}</p>

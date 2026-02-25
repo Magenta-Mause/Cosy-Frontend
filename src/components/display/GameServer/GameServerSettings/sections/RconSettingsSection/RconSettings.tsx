@@ -87,7 +87,7 @@ const RconSettings = (props: {
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   return (
-    <div className="relative pr-3 pb-10 gap-5 flex flex-col">
+    <div className="flex flex-col gap-5">
       <div>
         <h2>{t("title")}</h2>
         <p className={"text-sm text-muted-foreground leading-none"}>

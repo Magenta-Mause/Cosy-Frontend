@@ -25,7 +25,7 @@ const SettingsActionButtons = ({
 
   return (
     <>
-      <div className="sticky bottom-4 w-fit ml-auto flex items-center gap-4 mr-5">
+      <div className="sticky bottom-4 w-fit ml-auto flex items-center gap-4 mr-5 mt-auto">
         {errorMessage && <p className="text-base text-destructive">{errorMessage}</p>}
         <Button className="h-12.5" variant="secondary" disabled={revertDisabled} onClick={onRevert}>
           {t("revert")}

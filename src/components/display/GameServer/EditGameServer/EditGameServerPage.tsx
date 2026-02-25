@@ -276,7 +276,7 @@ const EditGameServerPage = (props: {
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   return (
-    <div>
+    <div className="flex flex-col gap-5">
       <div>
         <h2>{t("title")}</h2>
         <p className="text-sm text-muted-foreground leading-none">{t("description")}</p>
