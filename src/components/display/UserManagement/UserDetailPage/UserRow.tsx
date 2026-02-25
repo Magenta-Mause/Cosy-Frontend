@@ -10,11 +10,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
+import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { User } from "lucide-react";
 import { useContext, useState } from "react";
 import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
-import dotsIcon from "@/assets/icons/dots.svg";
+import dotsIcon from "@/assets/icons/dots.svg?raw";
+import userIcon from "@/assets/icons/user.svg?raw";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
@@ -93,7 +94,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
                   className="h-6 w-6"
                   onClick={() => setUserModalOpen(true)}
                 >
-                  <User className="size-4" />
+                  <Icon src={userIcon} className="size-4" variant="foreground" bold="sm" />
                 </Button>
               </TooltipWrapper>
             )}
@@ -123,16 +124,13 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
 
           <div>
             <DropdownMenu modal={false}>
-              <DropdownMenuTrigger asChild disabled={!canOpenMoreOptions}>
-                <TooltipWrapper
-                  tooltip={t("components.userManagement.userRow.moreOptions")}
-                  asChild
-                >
+              <TooltipWrapper tooltip={t("moreOptions")}>
+                <DropdownMenuTrigger asChild disabled={!canOpenMoreOptions}>
                   <Button className="h-10 w-10">
-                    <img src={dotsIcon} alt="Dots Icon" className="aspect-square" />
+                    <Icon src={dotsIcon} className="size-6" viewBox="0 5 16 16" />
                   </Button>
-                </TooltipWrapper>
-              </DropdownMenuTrigger>
+                </DropdownMenuTrigger>
+              </TooltipWrapper>
 
               <DropdownMenuContent align="end">
                 {userActions

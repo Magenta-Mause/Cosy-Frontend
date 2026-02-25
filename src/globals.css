@@ -86,6 +86,7 @@
   --color-button-drop-shadow: var(--button-drop-shadow);
 
   --color-icon-primary: var(--icon-primary);
+  --color-icon-foreground: var(--icon-foreground);
 
   /* RADIUS: Stardew is pixel art, so we want small, blocky corners.
        4px is basically "2 game pixels" */
@@ -182,6 +183,7 @@
 
   /* ICON */
   --icon-primary: oklch(0.88 0.08 58.79);
+  --icon-foreground: oklch(0.3 0.09 24.71);
 
   /* BUTTON */
   --button-primary-default: oklch(0.3784 0.1014 23.26);
