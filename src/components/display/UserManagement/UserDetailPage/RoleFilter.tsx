@@ -6,9 +6,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
+import Icon from "@components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
-import filterIcon from "@/assets/icons/filter.svg";
+import filterIcon from "@/assets/icons/filter.svg?raw";
 
 interface RoleFilterProps {
   selectedRole: UserRole | null;
@@ -28,7 +29,7 @@ const RoleFilter = ({ selectedRole, onRoleChange }: RoleFilterProps) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button>
-          <img src={filterIcon} alt="Filter Icon" className="aspect-square" />
+          <Icon src={filterIcon} className="size-5" />
           {selectedRole
             ? t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)
             : t("components.userManagement.userTable.filter")}

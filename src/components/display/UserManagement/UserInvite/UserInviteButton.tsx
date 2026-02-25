@@ -8,12 +8,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@components/ui/dialog.tsx";
-import { ArrowLeft } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { UserEntityDtoRole } from "@/api/generated/model";
-import addUserIcon from "@/assets/icons/addUser.svg";
+import addUserIcon from "@/assets/icons/addUser.svg?raw";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { getCpuLimitError } from "@/lib/validators/cpuLimitValidator.ts";
 import { getMemoryLimitError } from "@/lib/validators/memoryLimitValidator.ts";
@@ -139,7 +139,7 @@ const UserInviteButton = (props: { className?: string }) => {
     >
       <DialogTrigger asChild>
         <Button className={props.className} aria-label={t("userModal.title")}>
-          <img src={addUserIcon} alt="User add Icon" className="aspect-square" />
+          <Icon src={addUserIcon} className="size-5" />
           {t("userModal.inviteUserTitle")}
         </Button>
       </DialogTrigger>
@@ -191,7 +191,6 @@ const UserInviteButton = (props: { className?: string }) => {
           )}
           {view === "result" && (
             <Button onClick={resetView} variant="secondary">
-              <ArrowLeft className="w-4 h-4 mr-2" />
               {t("userModal.backToUsers")}
             </Button>
           )}

@@ -1,6 +1,8 @@
 import { Button } from "@components/ui/button.tsx";
-import { CheckCircle2, Copy } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
+import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg?raw";
+import copyIcon from "@/assets/icons/copy.svg?raw";
 
 interface InviteResultProps {
   generatedKey: string | null;
@@ -14,7 +16,7 @@ export const InviteResult = ({ generatedKey, onCopyLink }: InviteResultProps) =>
 
   return (
     <div className="flex flex-col items-center gap-5 py-4">
-      <CheckCircle2 className="size-12 text-accent" />
+      <Icon src={checkmarkCircleIcon} className="size-12 text-accent" />
       <p className="text-sm text-center text-muted-foreground">
         {t("userModal.shareInstructions")}
       </p>
@@ -23,7 +25,7 @@ export const InviteResult = ({ generatedKey, onCopyLink }: InviteResultProps) =>
       </div>
 
       <Button onClick={onCopyLink} className="w-full">
-        <Copy className="size-5 mr-2" />
+        <Icon src={copyIcon} className="size-5 mr-2" />
         {t("userModal.copyLink")}
       </Button>
     </div>

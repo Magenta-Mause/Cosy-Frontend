@@ -1,9 +1,10 @@
+import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input";
 import { Separator } from "@components/ui/separator";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
-import searchIcon from "@/assets/icons/search.svg";
+import searchIcon from "@/assets/icons/search.svg?raw";
 import { useTypedSelector } from "@/stores/rootReducer";
 import UserInviteButton from "../UserInvite/UserInviteButton";
 import PendingInvitesList from "./PendingInvitesList";
@@ -86,7 +87,9 @@ const UserTable = ({ onRevoke }: UserListProps) => {
       <div className="flex flex-row gap-3 justify-between items-center w-full">
         <div className="flex flex-row items-center gap-3">
           <Input
-            startDecorator={<img src={searchIcon} alt="Search Icon" className="aspect-square" />}
+            startDecorator={
+              <Icon src={searchIcon} className="size-5" variant="foreground" bold="sm" />
+            }
             className="h-10 border-2"
             placeholder={t("components.userManagement.userTable.search")}
             value={searchTerm}

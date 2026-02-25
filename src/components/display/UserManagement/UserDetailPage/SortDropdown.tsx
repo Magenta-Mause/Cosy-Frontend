@@ -6,10 +6,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
+import Icon from "@components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
-import filterIcon from "@/assets/icons/filter.svg";
-import sortDownIcon from "@/assets/icons/sortDown.svg";
-import sortUpIcon from "@/assets/icons/sortUp.svg";
+import sortIcon from "@/assets/icons/sort.svg?raw";
+import sortDownIcon from "@/assets/icons/sortDown.svg?raw";
+import sortUpIcon from "@/assets/icons/sortUp.svg?raw";
 
 export type SortField = "username" | "role" | "docker_max_cpu_cores" | "docker_memory_limit";
 
@@ -67,11 +68,11 @@ const SortDropdown = ({
       </DropdownMenu>
       <Button disabled={!sortField} onClick={onSortDirectionToggle} className="rounded-l-none">
         {!sortField ? (
-          <img src={filterIcon} alt="Filter Icon" className="aspect-square" />
+          <Icon src={sortIcon} className="size-5" />
         ) : isAscending ? (
-          <img src={sortDownIcon} alt="Sort Down Icon" className="aspect-square" />
+          <Icon src={sortDownIcon} className="size-5" />
         ) : (
-          <img src={sortUpIcon} alt="Sort Up Icon" className="aspect-square" />
+          <Icon src={sortUpIcon} className="size-5" />
         )}
       </Button>
     </div>

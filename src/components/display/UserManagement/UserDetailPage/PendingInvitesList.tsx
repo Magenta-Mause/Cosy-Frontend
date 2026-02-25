@@ -1,7 +1,9 @@
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { Link, Trash2 } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
+import copyLinkIcon from "@/assets/icons/copyLink.svg?raw";
+import thrashIcon from "@/assets/icons/thrash.svg?raw";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { UserInviteDto } from "@/api/generated/model";
@@ -42,7 +44,7 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
                 }
               }}
             >
-              <Link className="size-5" />
+              <Icon src={copyLinkIcon} className="size-5" />
               <span className="sr-only">{t("userModal.copyLink")}</span>
             </Button>
           </TooltipWrapper>
@@ -51,7 +53,7 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
               className="h-10 w-10 hover:text-destructive"
               onClick={() => invite.uuid && onRevoke(invite.uuid)}
             >
-              <Trash2 className="size-5" />
+              <Icon src={thrashIcon} className="size-5" />
               <span className="sr-only">{t("userModal.revokeTooltip")}</span>
             </Button>
           </TooltipWrapper>

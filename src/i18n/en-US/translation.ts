@@ -75,7 +75,7 @@ const translation: i18nLanguage = {
     shareInstructions:
       "Share this link with the person you want to invite. They can use it to create their account.",
     copyLink: "Copy Invite Link",
-    backToUsers: "Back to Creation",
+    backToUsers: "Back to Overview",
     pendingInvites: "Pending Invites",
     unclaimedInvite: "Unclaimed Invite",
     created: "Created: {{date}}",
@@ -580,8 +580,8 @@ const translation: i18nLanguage = {
         sortBy: {
           username: "Name",
           role: "Role",
-          max_cpu: "CPU Limit",
-          max_memory: "Memory Limit",
+          docker_max_cpu_cores: "CPU Limit",
+          docker_memory_limit: "Memory Limit",
         },
         noUsersFound: "No users found",
         pendingInvites: "Pending Invites",

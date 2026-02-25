@@ -564,8 +564,8 @@ export type i18nLanguage = {
         sortBy: {
           username: string;
           role: string;
-          max_cpu: string;
-          max_memory: string;
+          docker_max_cpu_cores: string;
+          docker_memory_limit: string;
         };
         noUsersFound: string;
         pendingInvites: string;
