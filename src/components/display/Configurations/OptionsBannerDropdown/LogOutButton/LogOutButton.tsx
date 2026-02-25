@@ -1,7 +1,8 @@
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import Icon from "@components/ui/Icon.tsx";
 import { Button } from "@components/ui/button.tsx";
-import { LogOut } from "lucide-react";
 import type { ComponentProps } from "react";
+import logoutIcon from "@/assets/icons/logout.svg?raw";
 import { forwardRef, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.ts";
@@ -27,7 +28,7 @@ const LogOutButton = forwardRef<HTMLButtonElement, LogOutButtonProps>(
             setOpen(true);
           }}
         >
-          <LogOut className="size-6" />
+          <Icon src={logoutIcon} />
         </Button>
         <LogOutAlertDialog open={open} onOpenChange={setOpen} onConfirm={handleLogout} />
       </>

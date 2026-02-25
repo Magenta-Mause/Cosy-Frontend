@@ -1,9 +1,10 @@
 import { UserProfileModal } from "@components/display/UserManagement/UserProfileModal/UserProfileModal.tsx";
 import { Button } from "@components/ui/button.tsx";
-import { User } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
 import type { ComponentProps } from "react";
 import { forwardRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import userIcon from "@/assets/icons/user.svg?raw";
 import { cn } from "@/lib/utils.ts";
 
 type UserMenuButtonProps = ComponentProps<typeof Button>;
@@ -25,7 +26,7 @@ const UserMenuButton = forwardRef<HTMLButtonElement, UserMenuButtonProps>(
           className={cn("h-auto aspect-square", props.className)}
           aria-label={t("optionsBanner.userMenu")}
         >
-          <User className="size-6" />
+          <Icon src={userIcon} />
         </Button>
         <UserProfileModal open={isUserOpen} onOpenChange={setIsUserOpen} />
       </>

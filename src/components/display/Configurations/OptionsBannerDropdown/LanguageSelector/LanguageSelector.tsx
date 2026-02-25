@@ -1,7 +1,8 @@
+import Icon from "@components/ui/Icon.tsx";
 import { Button } from "@components/ui/button.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.tsx";
-import { GlobeIcon } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import globeIcon from "@/assets/icons/globe.svg?raw";
 import { cn } from "@/lib/utils.ts";
 
 const LANGUAGES = [
@@ -33,7 +34,7 @@ const LanguageSelector = (props: {
             e.stopPropagation();
           }}
         >
-          <GlobeIcon className="size-6" />
+          <Icon src={globeIcon} />
         </Button>
       </PopoverTrigger>
       <PopoverContent
