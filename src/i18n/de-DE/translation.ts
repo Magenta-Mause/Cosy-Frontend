@@ -385,7 +385,9 @@ const translation: i18nLanguage = {
     },
     settingsActionButtons: {
       revert: "Zurücksetzen",
+      warning: "Warnung",
       confirm: "Bestätigen",
+      cancel: "Abbrechen",
     },
 
     editGameServer: {
@@ -873,6 +875,7 @@ const translation: i18nLanguage = {
       stay: "Bleiben",
       leave: "Verwerfen",
       saveAndLeave: "Speichern und verlassen",
+      saving: "Speichern...",
     },
   },
   logDisplay: {

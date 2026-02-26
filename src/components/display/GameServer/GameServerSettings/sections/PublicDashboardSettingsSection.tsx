@@ -1,13 +1,5 @@
 import MetricDropDown from "@components/display/DropDown/MetricDropDown";
 import WidgetDropDown from "@components/display/DropDown/WidgetDropDown";
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@components/ui/alert-dialog";
 import { Button } from "@components/ui/button";
 import { Checkbox } from "@components/ui/checkbox";
 import { FieldGroup } from "@components/ui/field";
@@ -17,7 +9,6 @@ import { v7 as generateUuid } from "uuid";
 import {
   type GameServerDto,
   MetricLayoutSize,
-  type PublicDashboard,
   type PublicDashboardLayout,
 } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
@@ -47,8 +38,6 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   const [freeText, setFreeText] = useState<PublicDashboardLayoutUI | null>(null);
   const [unfulfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
   const [checked, setChecked] = useState(gameServer.public_dashboard.enabled ?? false);
-  const [showSensitiveWarning, setShowSensitiveWarning] = useState(false);
-  const [pendingSave, setPendingSave] = useState<(() => Promise<void>) | null>(null);
 
   const isChanged = useMemo(() => {
     if (publicDashboard.length !== gameServer.public_dashboard?.layouts?.length) return true;
@@ -162,16 +151,14 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
     size: MetricLayoutSize.MEDIUM,
   });
 
-  const hasSensitive = (config: PublicDashboard) => {
-    if (!config.enabled) {
-      return false;
-    }
-    return config.layouts?.some(
-      (layout) =>
-        layout.layout_type === DashboardElementTypes.METRIC ||
-        layout.layout_type === DashboardElementTypes.LOGS,
+  const isSensitive = useMemo(() => {
+    if (!checked) return false;
+    return publicDashboard.some(
+      (dashboard) =>
+        dashboard.layout_type === DashboardElementTypes.METRIC ||
+        dashboard.layout_type === DashboardElementTypes.LOGS,
     );
-  };
+  }, [checked, publicDashboard]);
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -197,32 +184,10 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
         isChanged={isChanged}
         layouts={publicDashboard}
         saveHandler={async (uuid, layout) => {
-          const publicLayouts = layout as PublicDashboardLayout[];
-          const publicDashboard: Omit<PublicDashboard, "uuid"> = {
-            enabled: checked,
-            layouts: publicLayouts,
-          };
-          if (hasSensitive(publicDashboard)) {
-            setPendingSave(() => async () => {
-              await updateGameServerPublicDashboard(uuid, {
-                layouts: layout,
-                enabled: checked,
-              });
-            });
-            setShowSensitiveWarning(true);
-            return;
-          }
           await updateGameServerPublicDashboard(uuid, { layouts: layout, enabled: checked });
         }}
-        forceSaveHandler={async (uuid, layout) => {
-          await updateGameServerPublicDashboard(uuid, { layouts: layout, enabled: checked });
-        }}
-        blockerWarningMessage={
-          publicDashboard.some(
-            (l) =>
-              l.layout_type === DashboardElementTypes.METRIC ||
-              l.layout_type === DashboardElementTypes.LOGS,
-          )
+        warningMessage={
+          isSensitive
             ? t("GameServerSettings.publicDashboard.sensitiveWarning.description")
             : undefined
         }
@@ -270,39 +235,6 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
         isModalChanged={isModalChanged}
         errorText={unfulfilledChanges}
       />
-      <AlertDialog open={showSensitiveWarning}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              {t("GameServerSettings.publicDashboard.sensitiveWarning.title")}
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              {t("GameServerSettings.publicDashboard.sensitiveWarning.description")}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                setShowSensitiveWarning(false);
-                setPendingSave(null);
-              }}
-            >
-              {t("GameServerSettings.publicDashboard.sensitiveWarning.cancel")}
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={async () => {
-                setShowSensitiveWarning(false);
-                await pendingSave?.();
-                setPendingSave(null);
-              }}
-            >
-              {t("GameServerSettings.publicDashboard.sensitiveWarning.confirm")}
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }

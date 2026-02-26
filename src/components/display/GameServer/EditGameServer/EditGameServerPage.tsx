@@ -1,9 +1,9 @@
 import CpuLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/CpuLimitInputFieldEdit.tsx";
 import MemoryLimitInputFieldEdit from "@components/display/GameServer/EditGameServer/MemoryLimitInputFieldEdit.tsx";
-import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
+import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import UnsavedModal from "@components/ui/UnsavedModal";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { parse as parseCommand, quote } from "shell-quote";
 import * as z from "zod";
@@ -227,6 +227,11 @@ const EditGameServerPage = (props: {
     props.gameServer.docker_hardware_limits?.docker_memory_limit,
   ]);
 
+  const handleRevert = () => {
+    setGameServerState(mapGameServerDtoToUpdate(props.gameServer));
+    setExecutionCommandRaw(quote(props.gameServer.execution_command ?? []));
+  };
+
   const handleConfirm = async () => {
     const parsedExecutionCommand = executionCommandRaw.trim()
       ? parseCommand(executionCommandRaw).filter((x): x is string => typeof x === "string")
@@ -258,16 +263,10 @@ const EditGameServerPage = (props: {
     }
   };
 
-  const handleRevert = useCallback(() => {
-    setGameServerState(mapGameServerDtoToUpdate(props.gameServer));
-    setExecutionCommandRaw(quote(props.gameServer.execution_command ?? []));
-  }, [props.gameServer]);
-
-  const { showUnsavedModal, setShowUnsavedModal, handleLeave, handleSaveAndLeave } =
+  const { showUnsavedModal, handleStay, handleLeave, handleSaveAndLeave } =
     useUnsavedChangesBlocker({
       isChanged,
       onSave: handleConfirm,
-      onRevert: handleRevert,
     });
 
   const isServerActive =
@@ -508,8 +507,8 @@ const EditGameServerPage = (props: {
       />
       <UnsavedModal
         open={showUnsavedModal}
-        setOpen={setShowUnsavedModal}
-        onLeave={handleLeave}
+        handleStay={handleStay}
+        handleLeave={handleLeave}
         onSaveAndLeave={handleSaveAndLeave}
       />
     </div>

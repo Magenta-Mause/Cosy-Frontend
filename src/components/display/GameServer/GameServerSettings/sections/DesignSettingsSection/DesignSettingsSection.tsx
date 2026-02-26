@@ -39,11 +39,10 @@ const DesignSettingsSection = () => {
     setSelectedDesign(gameServer.design ?? GameServerDesign.HOUSE);
   }, [gameServer.design]);
 
-  const { showUnsavedModal, setShowUnsavedModal, handleLeave, handleSaveAndLeave } =
+  const { showUnsavedModal, handleLeave, handleStay, handleSaveAndLeave } =
     useUnsavedChangesBlocker({
       isChanged: hasChanges,
       onSave: handleSave,
-      onRevert: handleRevert,
     });
 
   const designs: { value: GameServerDesign; image: string; label: string }[] = [
@@ -98,8 +97,8 @@ const DesignSettingsSection = () => {
       />
       <UnsavedModal
         open={showUnsavedModal}
-        setOpen={setShowUnsavedModal}
-        onLeave={handleLeave}
+        handleStay={handleStay}
+        handleLeave={handleLeave}
         onSaveAndLeave={handleSaveAndLeave}
       />
     </div>

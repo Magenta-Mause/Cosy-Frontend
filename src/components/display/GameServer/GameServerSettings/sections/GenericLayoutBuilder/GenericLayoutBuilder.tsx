@@ -91,10 +91,10 @@ interface GenericLayoutSelectionProps<T extends { _uiUuid: string; size?: Layout
     uuid: string,
     layouts: PrivateDashboardLayout[] | MetricLayout[] | PublicDashboardLayout[],
   ) => Promise<void>;
-  blockerWarningMessage?: string;
   setLayouts: React.Dispatch<React.SetStateAction<T[]>>;
   wrapper: (layouts: T[]) => T[];
   children?: (layout: T) => React.ReactNode;
+  warningMessage?: string;
 }
 
 export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?: LayoutSize }>(
@@ -111,9 +111,9 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
     setLayouts,
     setUnfulfilledChanges,
     children,
+    warningMessage,
     saveHandler,
     forceSaveHandler,
-    blockerWarningMessage,
   } = props;
   const { t } = useTranslationPrefix("components");
   const [cardErrors, setCardErrors] = useState<Set<string>>(new Set());
@@ -293,12 +293,10 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
     setUnfulfilledChanges?.(null);
   }, [getOriginalLayouts, wrapper, setLayouts, setUnfulfilledChanges]);
 
-  const { showUnsavedModal, setShowUnsavedModal, handleLeave, handleSaveAndLeave, warningMessage } =
+  const { showUnsavedModal, handleLeave, handleStay, handleSaveAndLeave } =
     useUnsavedChangesBlocker({
       isChanged,
       onSave: handleForceConfirm,
-      onRevert: handleRevert,
-      warningMessage: blockerWarningMessage,
     });
 
   return (
@@ -373,11 +371,12 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
         revertDisabled={!isChanged || isSaving}
         confirmDisabled={!isChanged || isSaving}
         errorMessage={cardErrors.size > 0 ? unfulfilledChanges : null}
+        requireConfirmationLabel={props.warningMessage}
       />
       <UnsavedModal
         open={showUnsavedModal}
-        setOpen={setShowUnsavedModal}
-        onLeave={handleLeave}
+        handleLeave={handleLeave}
+        handleStay={handleStay}
         onSaveAndLeave={handleSaveAndLeave}
         warningMessage={warningMessage}
       />

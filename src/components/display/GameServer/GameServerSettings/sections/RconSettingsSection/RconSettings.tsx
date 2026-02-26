@@ -77,11 +77,10 @@ const RconSettings = (props: {
     setRconPassword(rconState?.password);
   }, [rconState]);
 
-  const { showUnsavedModal, setShowUnsavedModal, handleLeave, handleSaveAndLeave } =
+  const { showUnsavedModal, handleStay, handleLeave, handleSaveAndLeave } =
     useUnsavedChangesBlocker({
       isChanged,
       onSave: handleConfirm,
-      onRevert: handleRevert,
     });
 
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
@@ -157,8 +156,8 @@ const RconSettings = (props: {
       />
       <UnsavedModal
         open={showUnsavedModal}
-        setOpen={setShowUnsavedModal}
-        onLeave={handleLeave}
+        handleStay={handleStay}
+        handleLeave={handleLeave}
         onSaveAndLeave={handleSaveAndLeave}
       />
     </div>

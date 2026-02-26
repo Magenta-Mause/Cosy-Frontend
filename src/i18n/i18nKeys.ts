@@ -645,7 +645,9 @@ export type i18nLanguage = {
     };
     settingsActionButtons: {
       revert: string;
+      warning: string;
       confirm: string;
+      cancel: string;
     };
     GameServerSettings: {
       tabs: {
@@ -905,6 +907,7 @@ export type i18nLanguage = {
       leave: string;
       stay: string;
       saveAndLeave: string;
+      saving: string;
       message: string;
     };
   };
