@@ -11,7 +11,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { Ellipsis, User } from "lucide-react";
 import { useContext, useState } from "react";
 import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
