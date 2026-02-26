@@ -1,6 +1,6 @@
 import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { ChevronRight } from "lucide-react";
+import arrowRightIcon from "@/assets/icons/arrowRight.svg?raw";
 import houseIcon from "@/assets/icons/house.svg?raw";
 import plusIcon from "@/assets/icons/plus.svg?raw";
 import reloadIcon from "@/assets/icons/reload.svg?raw";
@@ -44,7 +44,7 @@ export const FileBrowserHeader = ({
 
       {crumbs.map((c, i) => (
         <span key={c.path} className="flex items-center gap-1 min-w-0">
-          <ChevronRight className="h-4 w-4" />
+          <Icon src={arrowRightIcon} variant="foreground" className="size-4" />
           <TooltipWrapper tooltip={c.path}>
             <button
               type="button"
