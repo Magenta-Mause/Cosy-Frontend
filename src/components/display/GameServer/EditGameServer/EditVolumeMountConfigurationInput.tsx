@@ -11,7 +11,9 @@ import {
 import { Button } from "@components/ui/button.tsx";
 import { Input } from "@components/ui/input.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { FolderCheck, FolderX } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
+import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg?raw";
+import closeRoundedIcon from "@/assets/icons/closeRounded.svg?raw";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";
@@ -245,9 +247,9 @@ function EditVolumeMountConfigurationInput<T extends Record<string, string>>({
                   }}
                 >
                   {pathChangeDecisions.get(row.originalUuid) === "keep" ? (
-                    <FolderCheck className="size-5 text-green-500" />
+                    <Icon src={checkmarkCircleIcon} className="size-5 text-green-500" />
                   ) : (
-                    <FolderX className="size-5 text-destructive" />
+                    <Icon src={closeRoundedIcon} className="size-5 text-destructive" />
                   )}
                 </Button>
               </TooltipWrapper>
