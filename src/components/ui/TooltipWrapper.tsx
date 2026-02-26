@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@components/ui/tooltip.tsx";
+import type {MouseEventHandler, ReactNode} from "react";
+import {Tooltip, TooltipContent, TooltipTrigger} from "@components/ui/tooltip.tsx";
 
 interface TooltipWrapperProps {
   children?: ReactNode;
@@ -11,6 +11,7 @@ interface TooltipWrapperProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   triggerProps?: React.ComponentProps<typeof TooltipTrigger>;
+  onClick?: MouseEventHandler<HTMLDivElement>
 }
 
 const TooltipWrapper = ({
@@ -23,6 +24,7 @@ const TooltipWrapper = ({
   open,
   onOpenChange,
   triggerProps = {},
+  onClick,
 }: TooltipWrapperProps) => {
   // If tooltip is falsy, just return children without tooltip wrapper
   if (!tooltip) {
@@ -34,7 +36,7 @@ const TooltipWrapper = ({
       <TooltipTrigger asChild={asChild} {...triggerProps}>
         {children}
       </TooltipTrigger>
-      <TooltipContent side={side} align={align} className={contentClassName}>
+      <TooltipContent side={side} align={align} className={contentClassName} onClick={onClick}>
         {typeof tooltip === "string" ? <p>{tooltip}</p> : tooltip}
       </TooltipContent>
     </Tooltip>

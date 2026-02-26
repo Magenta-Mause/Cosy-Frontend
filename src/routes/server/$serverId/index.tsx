@@ -1,102 +1,90 @@
-import LogDisplay from "@components/display/LogDisplay/LogDisplay.tsx";
-import MetricGraph from "@components/display/MetricDisplay/MetricGraph";
-import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
-import { Card } from "@components/ui/card";
+import DashboardRenderer from "@components/display/Dashboard/DashboardRenderer";
 import { createFileRoute } from "@tanstack/react-router";
+import { useMemo } from "react";
 import {
   GameServerAccessGroupDtoPermissionsItem,
   GameServerDtoStatus,
-  MetricLayoutSize,
-  PrivateDashboardLayoutPrivateDashboardTypes,
 } from "@/api/generated/model";
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
-import { LayoutSize } from "@/types/layoutSize.ts";
-import type { MetricsType } from "@/types/metricsTyp";
+import { DashboardElementTypes } from "@/types/dashboardTypes";
+
+interface DashboardSearch {
+  view?: "private" | "public";
+}
 
 export const Route = createFileRoute("/server/$serverId/")({
+  validateSearch: (search: Record<string, unknown>): DashboardSearch => ({
+    view: search.view === "public" || search.view === "private" ? search.view : undefined,
+  }),
   component: GameServerDetailPageDashboardPage,
 });
 
 function GameServerDetailPageDashboardPage() {
   const { serverId } = Route.useParams();
+  const { view } = Route.useSearch();
   const { logs } = useGameServerLogs(serverId ?? "");
   const { metrics } = useGameServerMetrics(serverId ?? "");
   const { gameServer } = useGameServer(serverId ?? "");
   const { hasPermission } = useGameServerPermissions(serverId ?? "");
+  const canSeePrivateDashboard = hasPermission(
+    GameServerAccessGroupDtoPermissionsItem.READ_SERVER_PRIVATE_DASHBOARD,
+  );
+
+  const currentlyVisibleDashboard = useMemo(
+    () => (canSeePrivateDashboard && view !== "public" ? "private" : "public"),
+    [canSeePrivateDashboard, view],
+  );
+
+  const dashboardLayout = useMemo(() => {
+    if (!gameServer) return [];
+    return currentlyVisibleDashboard === "private"
+      ? gameServer.private_dashboard_layouts
+      : gameServer.public_dashboard.layouts;
+  }, [gameServer, currentlyVisibleDashboard]);
+
+  const { canSeeMetric, canSeeLogs } = useMemo(() => {
+    let metric = false;
+    let logs = false;
+
+    dashboardLayout?.forEach((dashboard) => {
+      if ("public_dashboard_types" in dashboard && gameServer?.public_dashboard.enabled) {
+        if (dashboard.public_dashboard_types === DashboardElementTypes.METRIC) {
+          metric = true;
+        }
+        if (dashboard.public_dashboard_types === DashboardElementTypes.LOGS) {
+          logs = true;
+        }
+      }
+    });
+
+    return { canSeeMetric: metric, canSeeLogs: logs };
+  }, [dashboardLayout, gameServer?.public_dashboard.enabled]);
 
   if (!gameServer) {
     return null;
   }
 
   const isServerRunning = gameServer.status === GameServerDtoStatus.RUNNING;
-  const canReadMetrics = hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS);
-  const canReadLogs = hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS);
+  const canReadMetrics =
+    hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS) || canSeeMetric;
+  const canReadLogs =
+    hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS) || canSeeLogs;
   const canSendCommands = hasPermission(GameServerAccessGroupDtoPermissionsItem.SEND_COMMANDS);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-6 gap-2">
-      {gameServer.private_dashboard_layouts?.map((dashboard) => {
-        switch (dashboard.private_dashboard_types) {
-          case PrivateDashboardLayoutPrivateDashboardTypes.METRIC:
-            return (
-              <MetricGraph
-                key={dashboard.uuid}
-                timeUnit="hour"
-                type={dashboard.metric_type as MetricsType}
-                metrics={metrics}
-                className={`${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}
-                canReadMetrics={canReadMetrics}
-              />
-            );
-
-          case PrivateDashboardLayoutPrivateDashboardTypes.LOGS:
-            return (
-              <div
-                key={dashboard.uuid}
-                className={`aspect-4/3 md:aspect-16/7 ${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}
-              >
-                <LogDisplay
-                  logMessages={logs}
-                  showCommandInput={canSendCommands}
-                  gameServerUuid={serverId}
-                  isServerRunning={isServerRunning}
-                  canReadLogs={canReadLogs}
-                  hideTimestamps={dashboard.size === LayoutSize.SMALL ? true : undefined}
-                />
-              </div>
-            );
-
-          case PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT:
-            return (
-              <div
-                key={dashboard.uuid}
-                className={`aspect-4/3 md:aspect-16/7 ${COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM]}`}
-              >
-                <Card className={`w-full h-full overflow-y-auto`} key={dashboard.uuid}>
-                  <h2 className="mt-5 ml-5">{dashboard.title}</h2>
-                  {dashboard.content?.map((keyValue) => (
-                    <div key={dashboard.uuid} className="flex flex-col">
-                      <div className="mx-5">
-                        <p className="overflow-y-auto text-base font-bold bg-button-primary-default text-button-secondary-default w-fit px-2 rounded-t-md ">
-                          {keyValue.key}
-                        </p>
-                        <p className="overflow-y-auto text-lg w-full border-2 rounded-b-md rounded-r-md px-2 ">
-                          {keyValue.value}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </Card>
-              </div>
-            );
-
-          default:
-            return null;
-        }
-      })}
-    </div>
+    <DashboardRenderer
+      dashboardLayout={dashboardLayout ?? []}
+      metrics={metrics}
+      logs={logs}
+      serverId={serverId}
+      isServerRunning={isServerRunning}
+      canReadMetrics={canReadMetrics}
+      canReadLogs={canReadLogs}
+      canSendCommands={canSendCommands}
+      overridePermissionCheck={currentlyVisibleDashboard === "public"}
+    />
   );
 }

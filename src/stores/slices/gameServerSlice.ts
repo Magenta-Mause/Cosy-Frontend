@@ -3,6 +3,9 @@ import {
   type GameServerAccessGroupDto,
   type GameServerDto,
   GameServerDtoStatus,
+  type MetricLayout,
+  type PrivateDashboardLayout,
+  type PublicDashboard,
   type WebhookDto,
 } from "@/api/generated/model";
 import type { SliceState } from "@/stores";
@@ -148,6 +151,33 @@ const gameServerSlice = createSlice({
         state.data[index].webhooks = state.data[index].webhooks?.filter(
           (webhook) => webhook.uuid !== action.payload.webhookUuid,
         );
+      }
+    },
+    updatePublicDashboard(
+      state,
+      action: PayloadAction<{ gameServerUuid: string; publicDashboard: PublicDashboard }>,
+    ) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1) {
+        state.data[index].public_dashboard = action.payload.publicDashboard;
+      }
+    },
+    updateMetricLayout(
+      state,
+      action: PayloadAction<{ gameServerUuid: string; metricLayout: MetricLayout[] }>,
+    ) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1) {
+        state.data[index].metric_layout = action.payload.metricLayout;
+      }
+    },
+    updatePrivateDashboard(
+      state,
+      action: PayloadAction<{ gameServerUuid: string; privateDashboard: PrivateDashboardLayout[] }>,
+    ) {
+      const index = state.data.findIndex((server) => server.uuid === action.payload.gameServerUuid);
+      if (index !== -1) {
+        state.data[index].private_dashboard_layouts = action.payload.privateDashboard;
       }
     },
   },

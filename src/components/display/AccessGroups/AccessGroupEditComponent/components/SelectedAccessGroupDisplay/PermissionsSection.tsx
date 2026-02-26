@@ -22,7 +22,7 @@ const PermissionsSection = ({
   return (
     <div className="flex flex-col gap-3">
       <h3 className="text-sm font-medium">{t("permissions")}</h3>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         {Object.values(PermissionEnum).map((permission) => {
           const isChecked = localPermissions.includes(permission);
 
@@ -47,23 +47,24 @@ const PermissionsSection = ({
           const permissionDescription = t(`permissionDescriptions.${permissionKey}.description`);
 
           return (
-            <div key={permission} className="flex flex-col gap-1">
-              {/* biome-ignore lint/a11y/useSemanticElements: Checkbox wrapper needs to be clickable */}
-              <div
-                className={cn(
-                  "cursor-pointer flex gap-2 align-middle items-center select-none grow-0 w-fit",
-                  isDisabled && "opacity-50 cursor-not-allowed",
-                )}
-                onClick={() => !isDisabled && handleTogglePermission(permission)}
-                onKeyDown={(e) => {
-                  if ((e.key === "Enter" || e.key === " ") && !isDisabled) {
-                    e.preventDefault();
-                    handleTogglePermission(permission);
-                  }
-                }}
-                tabIndex={0}
-                role={"button"}
-              >
+            // biome-ignore lint/a11y/useSemanticElements: Checkbox wrapper needs to be clickable
+            <div
+              key={permission}
+              className={cn(
+                "cursor-pointer flex flex-col gap-0 align-middle select-none grow-0 w-fit ml-3",
+                isDisabled && "opacity-50 cursor-not-allowed",
+              )}
+              onClick={() => !isDisabled && handleTogglePermission(permission)}
+              onKeyDown={(e) => {
+                if ((e.key === "Enter" || e.key === " ") && !isDisabled) {
+                  e.preventDefault();
+                  handleTogglePermission(permission);
+                }
+              }}
+              tabIndex={0}
+              role={"button"}
+            >
+              <div className={"flex align-middle items-center gap-3"}>
                 <Checkbox
                   checked={isChecked}
                   className="size-4"
@@ -74,7 +75,7 @@ const PermissionsSection = ({
                   {permissionName}
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground ml-6">{permissionDescription}</p>
+              <p className="text-xs text-muted-foreground ml-8">{permissionDescription}</p>
             </div>
           );
         })}

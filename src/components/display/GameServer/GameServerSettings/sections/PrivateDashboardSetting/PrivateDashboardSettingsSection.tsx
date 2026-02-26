@@ -4,19 +4,19 @@ import { Button } from "@components/ui/button";
 import Icon from "@components/ui/Icon.tsx";
 import { useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
-import { updatePrivateDashboard } from "@/api/generated/backend-api";
 import {
   type GameServerDto,
   MetricLayoutSize,
   type PrivateDashboardLayout,
-  PrivateDashboardLayoutPrivateDashboardTypes,
 } from "@/api/generated/model";
 import pencilWriteIcon from "@/assets/icons/pencilWrite.svg?raw";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize.ts";
 import { MetricsType } from "@/types/metricsTyp";
 import type { PrivateDashboardLayoutUI } from "@/types/privateDashboard";
-import GenericLayoutSelection from "../GenericLayoutBuilder/GenericLayoutBuilder";
+import GenericLayoutBuilder from "../GenericLayoutBuilder/GenericLayoutBuilder";
 import FreeTextModal from "./FreeTextModal";
 
 const wrapPrivateDashboard = (dashboard: PrivateDashboardLayout): PrivateDashboardLayoutUI => ({
@@ -30,6 +30,7 @@ const wrapPrivateDashboards = (dashboard: PrivateDashboardLayout[]): PrivateDash
 export default function PrivateDashboardSettingsSection(props: { gameServer: GameServerDto }) {
   const { gameServer } = props;
   const { t } = useTranslationPrefix("components");
+  const { updateGameServerPrivateDashboard } = useDataInteractions();
   const [privateDashboard, setPrivateDashboard] = useState<PrivateDashboardLayoutUI[]>(() =>
     wrapPrivateDashboards(gameServer.private_dashboard_layouts),
   );
@@ -46,7 +47,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
         dashboard.metric_type !== original.metric_type ||
         dashboard.content !== original.content ||
         dashboard.title !== original.title ||
-        dashboard.private_dashboard_types !== original.private_dashboard_types ||
+        dashboard.layout_type !== original.layout_type ||
         JSON.stringify(dashboard.content ?? []) !== JSON.stringify(original.content ?? [])
       );
     });
@@ -67,21 +68,21 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
 
   const sanitizePrivateDashboardLayout = (
     layout: PrivateDashboardLayoutUI,
-    type: PrivateDashboardLayoutPrivateDashboardTypes,
+    type: DashboardElementTypes,
   ): PrivateDashboardLayoutUI => {
     const layoutObject: PrivateDashboardLayoutUI = {
       _uiUuid: layout._uiUuid,
-      private_dashboard_types: type,
+      layout_type: type,
       size: layout.size ?? LayoutSize.MEDIUM,
       uuid: layout.uuid,
       valid: true,
     };
 
-    if (type === PrivateDashboardLayoutPrivateDashboardTypes.METRIC) {
-      layoutObject.metric_type = layout.metric_type ?? "CPU_PERCENT";
+    if (type === DashboardElementTypes.METRIC) {
+      layoutObject.metric_type = layout.metric_type ?? MetricsType.CPU_PERCENT;
     }
 
-    if (type === PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT) {
+    if (type === DashboardElementTypes.FREETEXT) {
       layoutObject.content = layout.content ?? [{ key: "", value: "" }];
       layoutObject.title = layout.title ?? "";
     }
@@ -89,7 +90,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
     return layoutObject;
   };
 
-  const handleTypeSelect = (type: PrivateDashboardLayoutPrivateDashboardTypes, uuid?: string) => {
+  const handleTypeSelect = (type: DashboardElementTypes, uuid?: string) => {
     if (!uuid) return;
 
     setPrivateDashboard((prev) =>
@@ -136,20 +137,25 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
   };
 
   const newWidget = wrapPrivateDashboard({
-    private_dashboard_types: PrivateDashboardLayoutPrivateDashboardTypes.METRIC,
+    layout_type: DashboardElementTypes.METRIC,
     metric_type: MetricsType.CPU_PERCENT,
     size: MetricLayoutSize.MEDIUM,
   });
 
   return (
-    <>
-      <h2>{t("GameServerSettings.sections.privateDashboard")}</h2>
-      <GenericLayoutSelection<PrivateDashboardLayoutUI>
+    <div className="flex flex-col h-full overflow-hidden">
+      <div>
+        <h2>{t("GameServerSettings.sections.privateDashboard")}</h2>
+        <p className="text-sm text-muted-foreground leading-none">
+          {t("GameServerSettings.sections.privateDashboardDescription")}
+        </p>
+      </div>
+      <GenericLayoutBuilder<PrivateDashboardLayoutUI>
         gameServer={gameServer}
         layoutSection="private_dashboard_layouts"
         isChanged={isChanged}
         layouts={privateDashboard}
-        saveHandler={updatePrivateDashboard}
+        saveHandler={updateGameServerPrivateDashboard}
         setLayouts={setPrivateDashboard}
         wrapper={wrapPrivateDashboards}
         defaultAddNew={newWidget}
@@ -160,13 +166,12 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
           <>
             <div className="flex gap-2">
               <WidgetDropDown
-                widgetType={dashboard.private_dashboard_types}
+                widgetType={dashboard.layout_type}
                 setWidgetType={(type) => {
                   handleTypeSelect(type, dashboard._uiUuid);
                 }}
               />
-              {dashboard.private_dashboard_types ===
-                PrivateDashboardLayoutPrivateDashboardTypes.METRIC && (
+              {dashboard.layout_type === DashboardElementTypes.METRIC && (
                 <MetricDropDown
                   className="flex-1"
                   metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
@@ -174,8 +179,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
                   gameServerUuid={props.gameServer.uuid}
                 />
               )}
-              {dashboard.private_dashboard_types ===
-                PrivateDashboardLayoutPrivateDashboardTypes.FREETEXT && (
+              {dashboard.layout_type === DashboardElementTypes.FREETEXT && (
                 <Button variant={"secondary"} onClick={() => handleFreeTextEdit(dashboard)}>
                   <Icon src={pencilWriteIcon} variant="secondary" className="size-5" />
                 </Button>
@@ -183,7 +187,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
             </div>
           </>
         )}
-      </GenericLayoutSelection>
+      </GenericLayoutBuilder>
       <FreeTextModal
         freeText={freeText}
         setFreeText={setFreeText}
@@ -191,6 +195,6 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
         isModalChanged={isModalChanged}
         errorText={unfulfilledChanges}
       />
-    </>
+    </div>
   );
 }

@@ -380,14 +380,18 @@ const translation: i18nLanguage = {
 
     settingsActionButtons: {
       revert: "Revert",
+      warning: "Warning",
       confirm: "Confirm",
+      cancel: "Cancel",
     },
 
     editGameServer: {
       title: "General Server Settings",
+      description: "Configure the core settings of your game server",
 
       revert: "Revert",
       confirm: "Save changes",
+      serverNeedsToBeStopped: "Game Server needs to be stopped to update General Settings",
       missingUuidError: "UUID is missing",
 
       gameSelection: {
@@ -609,8 +613,13 @@ const translation: i18nLanguage = {
       sections: {
         general: "General Settings",
         privateDashboard: "Private Dashboard Settings",
+        privateDashboardDescription:
+          "Customize the layout of your private dashboard with widgets like metrics, logs, and free text",
         publicDashboard: "Public Dashboard Settings",
+        publicDashboardDescription:
+          "Configure the public dashboard that is visible to anyone with the link",
         metrics: "Metrics Settings",
+        metricsDescription: "Choose which metrics to display and how they are arranged",
         accessManagement: "Access Management Settings",
         webhooks: "Webhook Settings",
       },
@@ -692,6 +701,16 @@ const translation: i18nLanguage = {
           placeholder: "Title",
           label: "Enter Title (optional)",
           error: "Please set a key value pair",
+        },
+      },
+      publicDashboard: {
+        label: "Make Public Dashboard Visable",
+        sensitiveWarning: {
+          title: "Sensitive Data Warning",
+          description:
+            "Your public dashboard contains metrics or logs widgets. This data will be visible to anyone on the internet. Metrics and logs can contain sensitive information. Please make sure you are comfortable sharing this data publicly.",
+          cancel: "Cancel",
+          confirm: "Save Anyway",
         },
       },
     },
@@ -821,6 +840,18 @@ const translation: i18nLanguage = {
             name: "Delete Server",
             description: "Permanently delete the server. This action cannot be undone.",
           },
+          READ_SERVER_PRIVATE_DASHBOARD: {
+            name: "Read Private Dashboard",
+            description: "View the private dashboard.",
+          },
+          CHANGE_PRIVATE_DASHBOARD_SETTINGS: {
+            name: "Change Private Dashboard Settings",
+            description: "Configure the private dashboard layout and widgets.",
+          },
+          CHANGE_PUBLIC_DASHBOARD_SETTINGS: {
+            name: "Change Public Dashboard Settings",
+            description: "Configure the public dashboard layout and widgets.",
+          },
         },
       },
     },
@@ -834,6 +865,7 @@ const translation: i18nLanguage = {
       leave: "Leave anyway",
       stay: "Stay",
       saveAndLeave: "Save and Leave",
+      saving: "Saving...",
     },
   },
 
@@ -947,6 +979,10 @@ const translation: i18nLanguage = {
       cancel: "Cancel",
       save: "Save",
     },
+  },
+  dashboard: {
+    showPublicDashboard: "Show Public Dashboard",
+    hidePublicDashboard: "Show Private Dashboard",
   },
 };
 

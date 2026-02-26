@@ -10,9 +10,11 @@ import Icon from "@components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
 import { MetricLayoutSize } from "@/api/generated/model";
 import arrowDownIcon from "@/assets/icons/arrowDown.svg?raw";
+import { cn } from "@/lib/utils";
 import type { LayoutSize } from "@/types/layoutSize";
 
 interface SizeDropDownProps {
+  className?: string;
   size: LayoutSize;
   uuid?: string;
   handleWidthSelect: (size: LayoutSize, uuid?: string) => void;
@@ -20,12 +22,12 @@ interface SizeDropDownProps {
 
 const SizeDropDown = (props: SizeDropDownProps) => {
   const { t } = useTranslation();
-  const { size, uuid, handleWidthSelect } = props;
+  const { className, size, uuid, handleWidthSelect } = props;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" className="w-full">
+        <Button variant="secondary" className={cn("w-full", className)}>
           {t(`cardWidth.${size}`)}
           <Icon src={arrowDownIcon} variant="secondary" className="size-5 -m-1 mt-0.5" />
         </Button>

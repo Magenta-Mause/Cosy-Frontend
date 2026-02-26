@@ -8,6 +8,7 @@ export const containsPermission = (
   if (permissions.includes(GameServerAccessGroupDtoPermissionsItem.ADMIN)) {
     return true;
   }
+
   return (
     permissions.includes(GameServerAccessGroupDtoPermissionsItem.SEE_SERVER) &&
     permissions.includes(permission)

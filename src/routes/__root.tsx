@@ -10,7 +10,7 @@ const RootLayout = () => {
   const { authorized } = useContext(AuthContext);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
-  const showNotFound = authorized === false && pathname !== "/";
+  const showNotFound = authorized === false && pathname !== "/" && !pathname.startsWith("/server");
   const isServerPage = pathname.startsWith("/server/");
 
   return (

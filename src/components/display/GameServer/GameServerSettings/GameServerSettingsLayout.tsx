@@ -3,7 +3,7 @@ import Icon from "@components/ui/Icon.tsx";
 import Link from "@components/ui/Link";
 import { Separator } from "@components/ui/separator.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { createContext, useCallback, useLayoutEffect, useRef, useState } from "react";
+import { type CSSProperties, createContext, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
 import consoleIcon from "@/assets/icons/console.svg?raw";
@@ -33,48 +33,8 @@ const SettingsProvider = createContext<SettingsContextType>({
   setSettings: () => () => {},
 });
 
-const ResizableLabel = ({ label }: { label: string }) => {
-  const ref = useRef<HTMLParagraphElement | null>(null);
-
-  useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const calculateFontSize = () => {
-      // Reset to initial size before recalculating
-      el.style.fontSize = "";
-
-      const computed = getComputedStyle(el);
-      let fontSize = parseFloat(computed.fontSize) || 16;
-      el.style.fontSize = `${fontSize}px`;
-
-      let iterations = 0;
-      while (el.scrollWidth > el.clientWidth && fontSize > 12 && iterations < 50) {
-        fontSize -= 1;
-        el.style.fontSize = `${fontSize}px`;
-        iterations += 1;
-      }
-    };
-
-    calculateFontSize();
-
-    // Observe element size changes
-    const resizeObserver = new ResizeObserver(() => {
-      calculateFontSize();
-    });
-
-    resizeObserver.observe(el);
-
-    return () => {
-      resizeObserver.disconnect();
-    };
-  });
-
-  return (
-    <p ref={ref} className="truncate overflow-hidden text-left" style={{ margin: 0 }}>
-      {label}
-    </p>
-  );
+const iconStyles: CSSProperties = {
+  transform: "scale(1.8)",
 };
 
 interface GameServerSettingsProps {
@@ -92,7 +52,6 @@ const GameServerSettingsLayout = ({
 
   const { t } = useTranslationPrefix("components.GameServerSettings");
   const { t: tGlobal } = useTranslation();
-  const { i18n } = useTranslation();
   const { hasPermission } = useGameServerPermissions(serverUuid);
 
   const TABS = [
@@ -124,11 +83,25 @@ const GameServerSettingsLayout = ({
       label: t("tabs.privateDashboard"),
       icon: <Icon src={dashboardIcon} className="mr-2" />,
       path: "/server/$serverId/settings/private-dashboard",
+      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_PRIVATE_DASHBOARD_SETTINGS],
     },
     {
       label: t("tabs.publicDashboard"),
       icon: <Icon src={dashboardIcon} className="mr-2" />,
       path: "/server/$serverId/settings/public-dashboard",
+      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_PUBLIC_DASHBOARD_SETTINGS],
+    },
+    {
+      label: t("tabs.rcon"),
+      icon: <SquareTerminalIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/rcon",
+      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_RCON_SETTINGS],
+    },
+    {
+      label: t("tabs.metrics"),
+      icon: <ChartAreaIcon style={iconStyles} className="mr-2" />,
+      path: "/server/$serverId/settings/metrics",
+      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_METRICS_SETTINGS],
     },
     {
       label: t("tabs.webhooks"),
@@ -180,10 +153,11 @@ const GameServerSettingsLayout = ({
                           ? tGlobal("settings.noAccessFor", {
                               element: label,
                             })
-                          : null
+                          : label
                       }
                       side={"right"}
                       align="center"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <Button
                         className={cn(
@@ -194,7 +168,7 @@ const GameServerSettingsLayout = ({
                         disabled={!isLinkReachable}
                       >
                         {icon}
-                        <ResizableLabel key={`${label}-${i18n.language}`} label={label} />
+                        <span className="truncate text-left">{label}</span>
                       </Button>
                     </TooltipWrapper>
                   )}
@@ -206,7 +180,9 @@ const GameServerSettingsLayout = ({
         <div className={"p-4 h-auto overflow-y-hidden"}>
           <Separator className=" w-0.5! h-full!" orientation="vertical" />
         </div>
-        <div className="w-full max-w-full overflow-y-auto pt-8 pr-5">{children}</div>
+        <div className="w-full max-w-full h-full overflow-y-auto pt-8 pr-5 [&>*]:min-h-full">
+          {children}
+        </div>
       </div>
     </SettingsProvider.Provider>
   );

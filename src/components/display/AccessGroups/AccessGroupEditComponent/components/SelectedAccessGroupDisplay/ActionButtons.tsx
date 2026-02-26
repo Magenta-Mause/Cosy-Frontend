@@ -1,3 +1,4 @@
+import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
 import { Button } from "@components/ui/button.tsx";
 import {
   Dialog,
@@ -36,27 +37,13 @@ const ActionButtons = ({
   const { t } = useTranslationPrefix("components.gameServerSettings.accessManagement");
 
   return (
-    <>
-      {/* Action Buttons */}
-      <div className="sticky bottom-4 w-fit ml-auto flex gap-4">
-        <Button
-          className="h-12.5"
-          variant="secondary"
-          disabled={loading || !isChanged}
-          onClick={handleRevert}
-        >
-          {t("revert")}
-        </Button>
-        <Button
-          type="button"
-          onClick={handleConfirm}
-          className="h-12.5"
-          disabled={isConfirmButtonDisabled}
-        >
-          {t("confirm")}
-        </Button>
-      </div>
-
+    <SettingsActionButtons
+      onRevert={handleRevert}
+      onConfirm={handleConfirm}
+      revertDisabled={loading || !isChanged}
+      confirmDisabled={isConfirmButtonDisabled}
+      className="mr-2"
+    >
       {/* Delete Group Button */}
       <div className="pt-4 border-t">
         <Button variant="destructive" onClick={() => setDeleteDialogOpen(true)} disabled={loading}>
@@ -92,7 +79,7 @@ const ActionButtons = ({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
+    </SettingsActionButtons>
   );
 };
 

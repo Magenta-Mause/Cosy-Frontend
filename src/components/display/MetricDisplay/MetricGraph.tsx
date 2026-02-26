@@ -24,6 +24,7 @@ interface MetricGraphProps {
   timeUnit: string;
   metrics: GameServerMetricsWithUuid[];
   canReadMetrics?: boolean;
+  overridePermissionCheck?: boolean;
 }
 
 const chartConfig = {
@@ -185,7 +186,7 @@ const MetricGraph = (props: MetricGraphProps) => {
 
   return (
     <Card
-      className={`flex flex-col col-span-1 md:col-span-3 text-lg py-3 bg-button-secondary-default aspect-4/3 md:aspect-16/7 overflow-hidden border-2 relative ${className}`}
+      className={`flex flex-col col-span-1 lg:col-span-3 text-lg py-3 bg-button-secondary-default aspect-4/2 lg:aspect-16/7 overflow-hidden border-2 relative ${className}`}
     >
       <CardHeader className="py-2 pt-1 grow-0 gap-0.5">
         <CardTitle>{displayName}</CardTitle>
@@ -252,7 +253,7 @@ const MetricGraph = (props: MetricGraphProps) => {
         )}
       </CardContent>
 
-      {!canReadMetrics && (
+      {!canReadMetrics && !props.overridePermissionCheck && (
         <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center rounded-lg">
           <div className="text-center">
             <div className="text-lg font-semibold mb-1">{t("metrics.noMetricsPermission")}</div>
