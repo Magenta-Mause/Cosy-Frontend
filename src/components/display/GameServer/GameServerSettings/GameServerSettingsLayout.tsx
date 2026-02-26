@@ -1,26 +1,18 @@
 import { Button } from "@components/ui/button";
+import Icon from "@components/ui/Icon.tsx";
 import Link from "@components/ui/Link";
 import { Separator } from "@components/ui/separator.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import {
-  ChartAreaIcon,
-  HouseIcon,
-  LayoutDashboardIcon,
-  SettingsIcon,
-  SquareTerminalIcon,
-  User,
-  WebhookIcon,
-} from "lucide-react";
-import {
-  type CSSProperties,
-  createContext,
-  useCallback,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { createContext, useCallback, useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
+import consoleIcon from "@/assets/icons/console.svg?raw";
+import dashboardIcon from "@/assets/icons/dashboard.svg?raw";
+import houseIcon from "@/assets/icons/house.svg?raw";
+import linkIcon from "@/assets/icons/link.svg?raw";
+import chartIcon from "@/assets/icons/metrics.svg?raw";
+import settingsIcon from "@/assets/icons/settings.svg?raw";
+import userIcon from "@/assets/icons/user.svg?raw";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils.ts";
@@ -85,10 +77,6 @@ const ResizableLabel = ({ label }: { label: string }) => {
   );
 };
 
-const iconStyles: CSSProperties = {
-  transform: "scale(1.8)",
-};
-
 interface GameServerSettingsProps {
   initialSettings: ServerSettingsState;
   serverUuid: string;
@@ -110,47 +98,47 @@ const GameServerSettingsLayout = ({
   const TABS = [
     {
       label: t("tabs.general"),
-      icon: <SettingsIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={settingsIcon} className="mr-2" />,
       path: "/server/$serverId/settings/general",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_CONFIGS],
     },
     {
       label: t("tabs.design"),
-      icon: <HouseIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={houseIcon} className="mr-2" />,
       path: "/server/$serverId/settings/design",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_CONFIGS],
     },
     {
       label: t("tabs.metrics"),
-      icon: <ChartAreaIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={chartIcon} className="mr-2" />,
       path: "/server/$serverId/settings/metrics",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_METRICS_SETTINGS],
     },
     {
       label: t("tabs.rcon"),
-      icon: <SquareTerminalIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={consoleIcon} className="mr-2" />,
       path: "/server/$serverId/settings/rcon",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_RCON_SETTINGS],
     },
     {
       label: t("tabs.privateDashboard"),
-      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={dashboardIcon} className="mr-2" />,
       path: "/server/$serverId/settings/private-dashboard",
     },
     {
       label: t("tabs.publicDashboard"),
-      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={dashboardIcon} className="mr-2" />,
       path: "/server/$serverId/settings/public-dashboard",
     },
     {
       label: t("tabs.webhooks"),
-      icon: <WebhookIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={linkIcon} className="mr-2" />,
       path: "/server/$serverId/settings/webhooks",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_WEBHOOK_SETTINGS],
     },
     {
       label: t("tabs.accessManagement"),
-      icon: <User style={iconStyles} className="mr-2" />,
+      icon: <Icon src={userIcon} className="mr-2" />,
       path: "/server/$serverId/settings/access-management",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_PERMISSIONS_SETTINGS],
     },
