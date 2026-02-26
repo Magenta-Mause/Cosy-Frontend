@@ -30,7 +30,7 @@ const MarketplaceSign = () => {
     >
       <div className="pt-15 pb-4 pl-3">
         <Button size="sm" onClick={() => router.navigate({ to: "/users" })}>
-          {t("components.userManagement.userDetailButton.viewUsers")} <ArrowBigRight />
+          <p className="text-sm">{t("components.userManagement.userDetailButton.viewUsers")} </p> <ArrowBigRight />
         </Button>
       </div>
     </div>

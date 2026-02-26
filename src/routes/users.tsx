@@ -53,8 +53,8 @@ function UserDetailPage() {
               className="pointer-events-none absolute w-full top-2 z-0"
               style={{ imageRendering: "pixelated" }}
             />
-            <div className="h-[37%]" />
-            <div className="overflow-y-auto aspect-510/280 relative z-10 mx-[9vw]">
+            <div className="h-[36.5%]" />
+            <div className="overflow-y-auto aspect-509/284 relative z-10 mx-[9vw]">
               <div className="min-h-full bg-background rounded-lg">
                 <UserTable onRevoke={revokeInvite} />
               </div>

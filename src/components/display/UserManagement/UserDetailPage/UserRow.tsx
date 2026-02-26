@@ -2,6 +2,7 @@ import ResourceUsageBadge from "@components/display/ResourceUsageBadge/ResourceU
 import { UserModal } from "@components/display/UserManagement/UserModal/UserModal";
 import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
+import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import {
@@ -79,23 +80,17 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
 
   return (
     <>
-      <Card className={isCurrentUser ? "border-primary bg-primary/5" : undefined}>
+      <Card className={isCurrentUser ? "border-accent bg-card" : undefined}>
         <CardContent>
           <div className="flex items-center my-3 justify-between">
             <div className="flex gap-2 font-semibold items-center">
               {props.user.username}
               <UserRoleBadge role={props.userRole} />
               {isCurrentUser && (
-                <TooltipWrapper tooltip={t("yourProfile")}>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="h-6 w-6"
-                    onClick={() => setUserModalOpen(true)}
-                  >
-                    <User className="size-4" />
-                  </Button>
-                </TooltipWrapper>
+                <Badge className="bg-secondary-background border-accent border-2" onClick={() => setUserModalOpen(true)}>
+                  <User className="size-4" />
+                  {t("yourProfile")}
+                </Badge>
               )}
             </div>
 

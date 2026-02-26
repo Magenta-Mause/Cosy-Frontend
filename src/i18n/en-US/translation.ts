@@ -551,7 +551,7 @@ const translation: i18nLanguage = {
       },
       backButton: "Back",
       userDetailButton: {
-        viewUsers: "Marketplace",
+        viewUsers: "User Management",
       },
       userRow: {
         roles: {
@@ -559,7 +559,7 @@ const translation: i18nLanguage = {
           admin: "Admin",
           quota_user: "Quota",
         },
-        yourProfile: "Your Profile",
+        yourProfile: "You",
         actions: {
           editPassword: "Edit Password",
           editDockerLimits: "Edit Resource Limits",
