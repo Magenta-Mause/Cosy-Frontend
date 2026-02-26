@@ -3,13 +3,14 @@ import Icon from "@components/ui/Icon.tsx";
 import Link from "@components/ui/Link";
 import { Separator } from "@components/ui/separator.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { type CSSProperties, createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
 import consoleIcon from "@/assets/icons/console.svg?raw";
 import dashboardIcon from "@/assets/icons/dashboard.svg?raw";
 import houseIcon from "@/assets/icons/house.svg?raw";
 import linkIcon from "@/assets/icons/link.svg?raw";
+import metricsIcon from "@/assets/icons/metrics.svg";
 import chartIcon from "@/assets/icons/metrics.svg?raw";
 import settingsIcon from "@/assets/icons/settings.svg?raw";
 import userIcon from "@/assets/icons/user.svg?raw";
@@ -32,10 +33,6 @@ const SettingsProvider = createContext<SettingsContextType>({
   settings: { serverName: "" },
   setSettings: () => () => {},
 });
-
-const iconStyles: CSSProperties = {
-  transform: "scale(1.8)",
-};
 
 interface GameServerSettingsProps {
   initialSettings: ServerSettingsState;
@@ -93,13 +90,13 @@ const GameServerSettingsLayout = ({
     },
     {
       label: t("tabs.rcon"),
-      icon: <SquareTerminalIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={consoleIcon} className="mr-2" />,
       path: "/server/$serverId/settings/rcon",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_RCON_SETTINGS],
     },
     {
       label: t("tabs.metrics"),
-      icon: <ChartAreaIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={metricsIcon} className="mr-2" />,
       path: "/server/$serverId/settings/metrics",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_METRICS_SETTINGS],
     },
