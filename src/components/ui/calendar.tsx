@@ -1,9 +1,7 @@
 import * as React from "react"
-import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "lucide-react"
+import arrowDownIcon from "@/assets/icons/arrowDown.svg?raw"
+import arrowLeftIcon from "@/assets/icons/arrowLeft.svg?raw"
+import arrowRightIcon from "@/assets/icons/arrowRight.svg?raw"
 import {
   DayPicker,
   getDefaultClassNames,
@@ -12,6 +10,7 @@ import {
 
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
+import Icon from "@components/ui/Icon.tsx";
 
 function Calendar({
   className,
@@ -140,24 +139,21 @@ function Calendar({
             />
           )
         },
-        Chevron: ({ className, orientation, ...props }) => {
+        Chevron: ({ className, orientation, size: _size, ...props }) => {
           if (orientation === "left") {
             return (
-              <ChevronLeftIcon className={cn("size-6", className)} {...props} />
+              <Icon src={arrowLeftIcon} variant="foreground" className={cn("size-6", className)} {...props} />
             )
           }
 
           if (orientation === "right") {
             return (
-              <ChevronRightIcon
-                className={cn("size-6", className)}
-                {...props}
-              />
+              <Icon src={arrowRightIcon} variant="foreground" className={cn("size-6", className)} {...props} />
             )
           }
 
           return (
-            <ChevronDownIcon className={cn("size-6", className)} {...props} />
+            <Icon src={arrowDownIcon} variant="foreground" className={cn("size-6", className)} {...props} />
           )
         },
         DayButton: CalendarDayButton,

@@ -1,3 +1,4 @@
+import * as React from "react";
 import { cn } from "@/lib/utils.ts";
 
 type Variant = "primary" | "secondary" | "foreground";
@@ -15,9 +16,9 @@ type IconProps = {
   variant?: Variant;
   viewBox?: string;
   bold?: boolean | "sm";
-};
+} & Omit<React.SVGAttributes<SVGSVGElement>, "children">;
 
-const Icon = ({ src, alt = "", className, variant = "primary", viewBox = "0 0 16 16", bold = false }: IconProps) => {
+const Icon = ({ src, alt = "", className, variant = "primary", viewBox = "0 0 16 16", bold = false, ...rest }: IconProps) => {
   const innerHtml = src
     .replace(/fill="#FFFFFF"/gi, 'fill="currentColor"')
     .replace(/^[\s\S]*<svg[^>]*>([\s\S]*)<\/svg>[\s\S]*$/, "$1");
@@ -30,13 +31,14 @@ const Icon = ({ src, alt = "", className, variant = "primary", viewBox = "0 0 16
       aria-label={alt || undefined}
       aria-hidden={alt ? undefined : true}
       className={cn(
-        "size-7 shrink-0 [image-rendering:pixelated]",
+        "size-7 shrink-0 pointer-events-none [image-rendering:pixelated]",
         bold === "sm" && "[filter:drop-shadow(1px_0_0_currentColor)_drop-shadow(-1px_0_0_currentColor)]",
         bold === true && "[filter:drop-shadow(1px_0_0_currentColor)_drop-shadow(-1px_0_0_currentColor)_drop-shadow(0_1px_0_currentColor)_drop-shadow(0_-1px_0_currentColor)]",
         variantClass[variant],
         className,
       )}
       dangerouslySetInnerHTML={{ __html: innerHtml }}
+      {...rest}
     />
   );
 };
