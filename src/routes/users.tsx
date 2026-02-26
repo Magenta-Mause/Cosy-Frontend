@@ -38,8 +38,8 @@ function UserDetailPage() {
         <div
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex"
           style={{
-            width: "max(100vw, 100vh * 640 / 640)",
-            height: "max(100vh, 100vw * 640 / 640)",
+            width: "max(100vw, 100vh)",
+            height: "max(100vh, 100vw)",
             backgroundImage: `url(${marketplace})`,
             imageRendering: "pixelated",
             backgroundSize: "100% 100%",
@@ -50,16 +50,16 @@ function UserDetailPage() {
             <img
               src={marketplace_foreground}
               alt=""
-              className="pointer-events-none absolute w-full top-2 z-0"
+              className="pointer-events-none absolute w-full z-0"
               style={{ imageRendering: "pixelated" }}
             />
-            <div className="h-[36.5%]" />
+            <div className="h-[35.5%]" />
             <div className="overflow-y-auto aspect-509/284 relative z-10 mx-[9vw]">
               <div className="min-h-full bg-background rounded-lg">
                 <UserTable onRevoke={revokeInvite} />
               </div>
             </div>
-            <div className="h-[34%]" />
+            <div className="h-[34.5%]" />
           </div>
         </div>
 
