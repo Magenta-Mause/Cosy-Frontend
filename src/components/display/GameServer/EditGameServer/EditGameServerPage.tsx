@@ -98,12 +98,11 @@ const EditGameServerPage = (props: {
       !gameServerState.volume_mounts ||
       gameServerState.volume_mounts.length === 0 ||
       gameServerState.volume_mounts.every((vol) => {
-        if (!vol.container_path) return true;
-        return z
-          .string()
-          .min(1)
-          .refine((path) => path !== "/")
-          .safeParse(vol.container_path).success;
+        const trimmed = vol.container_path?.trim() ?? "";
+        if (trimmed.length === 0) return true;
+        if (!trimmed.startsWith("/")) return false;
+        if (trimmed === "/") return false;
+        return true;
       });
 
     const cpuLimitValid =
@@ -432,7 +431,7 @@ const EditGameServerPage = (props: {
               volume_mounts: volumes,
             }))
           }
-          placeholder="Container Path"
+          placeholder="/data"
           validator={z.string().min(1)}
           errorLabel={t("volumeMountSelection.errorLabel")}
           required={false}

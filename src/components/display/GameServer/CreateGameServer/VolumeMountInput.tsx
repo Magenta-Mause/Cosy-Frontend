@@ -21,7 +21,10 @@ interface Props {
 
 function VolumeMountInput({ attribute, label, description, errorLabel, placeholder }: Props) {
   const validateItem = useCallback((container_path?: string) => {
-    if (container_path?.trim() === "/") return false;
+    const trimmed = container_path?.trim() ?? "";
+    if (trimmed.length === 0) return true;
+    if (!trimmed.startsWith("/")) return false;
+    if (trimmed === "/") return false;
     return true;
   }, []);
 

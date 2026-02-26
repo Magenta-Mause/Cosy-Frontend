@@ -303,7 +303,7 @@ const translation: i18nLanguage = {
           hostPathSelection: {
             title: "Volume-Mount",
             description: "Volume-Mounts für deinen Server",
-            errorLabel: "Containerpfad darf nicht '/' sein.",
+            errorLabel: "Pfad muss mit '/' beginnen und darf nicht genau '/' sein.",
           },
           memoryLimitSelection: {
             title: "RAM Limit",

@@ -299,7 +299,7 @@ const translation: i18nLanguage = {
           hostPathSelection: {
             title: "Volume Mount",
             description: "Volume mounts for your server",
-            errorLabel: "Path cannot be equal to '/'.",
+            errorLabel: "Path must start with '/' and cannot be exactly '/'.",
           },
           memoryLimitSelection: {
             title: "RAM Limit",
