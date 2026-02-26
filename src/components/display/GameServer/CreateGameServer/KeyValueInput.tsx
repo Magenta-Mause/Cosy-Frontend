@@ -139,7 +139,7 @@ function KeyValueInput({
                 side="top"
                 asChild={false}
               >
-                <Icon src={infoIcon} className="size-4" variant="foreground" />
+                <Icon src={infoIcon} className="size-5" variant="foreground" />
               </TooltipWrapper>
             )}
           </div>
