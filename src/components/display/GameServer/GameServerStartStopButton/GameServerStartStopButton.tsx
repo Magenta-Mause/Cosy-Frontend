@@ -1,12 +1,13 @@
 import { Button } from "@components/ui/button.tsx";
+import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { Power } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import {
   GameServerAccessGroupDtoPermissionsItem,
   type GameServerDto,
   GameServerDtoStatus,
 } from "@/api/generated/model";
+import powerIcon from "@/assets/icons/power.svg?raw";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
 
@@ -30,7 +31,7 @@ const GameServerStartStopButton = (props: {
           disabled: !canStartStopServer,
           children: (
             <>
-              <Power />
+              <Icon src={powerIcon} variant="secondary" className="size-5" />
               {t("serverPage.stop")}
             </>
           ),
@@ -42,7 +43,7 @@ const GameServerStartStopButton = (props: {
           disabled: !canStartStopServer,
           children: (
             <>
-              <Power />
+              <Icon src={powerIcon} variant="secondary" className="size-5" />
               {t("serverPage.start")}
             </>
           ),
@@ -59,7 +60,7 @@ const GameServerStartStopButton = (props: {
           "data-loading": true,
           children: (
             <>
-              <Power />
+              <Icon src={powerIcon} variant="secondary" className="size-5" />
               {t("serverStatus.AWAITING_UPDATE")}
             </>
           ),
@@ -70,7 +71,7 @@ const GameServerStartStopButton = (props: {
           "data-loading": true,
           children: (
             <>
-              <Power />
+              <Icon src={powerIcon} variant="secondary" className="size-5" />
               {t("serverStatus.STOPPING")}
             </>
           ),
