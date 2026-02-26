@@ -15,5 +15,9 @@ function RouteComponent() {
   if (!gameServer) {
     return null;
   }
-  return <MetricDisplay metrics={metrics} gameServer={gameServer} />;
+  return (
+    <div className="pb-6">
+      <MetricDisplay metrics={metrics} gameServer={gameServer} />
+    </div>
+  );
 }

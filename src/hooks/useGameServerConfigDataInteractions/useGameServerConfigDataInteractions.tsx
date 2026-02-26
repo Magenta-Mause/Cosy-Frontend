@@ -1,9 +1,18 @@
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
-import { useUpdateDesign, useUpdateRconConfiguration } from "@/api/generated/backend-api.ts";
+import {
+  useUpdateDesign,
+  useUpdateMetricLayout,
+  useUpdatePrivateDashboard,
+  useUpdatePublicDashboardLayout,
+  useUpdateRconConfiguration,
+} from "@/api/generated/backend-api.ts";
 import type {
   GameServerDesignUpdateDtoDesign,
   GameServerDto,
+  MetricLayout,
+  PrivateDashboardLayout,
+  PublicDashboard,
   RCONConfiguration,
 } from "@/api/generated/model";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
@@ -53,9 +62,85 @@ const useGameServerConfigDataInteractions = () => {
     });
   };
 
+  const { mutateAsync: updateGameServerPublicDashboardConfiguration } =
+    useUpdatePublicDashboardLayout({
+      mutation: {
+        onSuccess: (_, query) => {
+          dispatch(
+            gameServerSliceActions.updatePublicDashboard({
+              gameServerUuid: query.uuid,
+              publicDashboard: query.data,
+            }),
+          );
+          toast.success(t("updateGameServerSuccess"));
+        },
+        onError: (err: unknown) => {
+          toast.error(t("updateGameServerError"));
+          throw err;
+        },
+      },
+    });
+
+  const updateGameServerPublicDashboard = async (
+    uuid: string,
+    publicDashboard: PublicDashboard,
+  ) => {
+    return await updateGameServerPublicDashboardConfiguration({ uuid, data: publicDashboard });
+  };
+
+  const { mutateAsync: updateGameServerMetricLayoutConfiguration } = useUpdateMetricLayout({
+    mutation: {
+      onSuccess: (_, query) => {
+        dispatch(
+          gameServerSliceActions.updateMetricLayout({
+            gameServerUuid: query.uuid,
+            metricLayout: query.data,
+          }),
+        );
+        toast.success(t("updateGameServerSuccess"));
+      },
+      onError: (err: unknown) => {
+        toast.error(t("updateGameServerError"));
+        throw err;
+      },
+    },
+  });
+
+  const updateGameServerMetricLayout = async (uuid: string, publicDashboard: MetricLayout[]) => {
+    return await updateGameServerMetricLayoutConfiguration({ uuid, data: publicDashboard });
+  };
+
+  const { mutateAsync: updatePrivateDashboard } = useUpdatePrivateDashboard({
+    mutation: {
+      onSuccess: (_, query) => {
+        dispatch(
+          gameServerSliceActions.updatePrivateDashboard({
+            gameServerUuid: query.uuid,
+            privateDashboard: query.data,
+          }),
+        );
+        toast.success(t("updateGameServerSuccess"));
+      },
+      onError: (err: unknown) => {
+        toast.error(t("updateGameServerError"));
+        throw err;
+      },
+    },
+  });
+
+  const updateGameServerPrivateDashboard = async (
+    uuid: string,
+    privateDashboard: PrivateDashboardLayout[],
+  ) => {
+    return await updatePrivateDashboard({ uuid, data: privateDashboard });
+  };
+
   return {
     updateRconConfiguration,
     updateGameServerDesign,
+    updateGameServerPublicDashboard,
+    updateGameServerMetricLayout,
+    updateGameServerPrivateDashboard,
   };
 };
 

@@ -377,10 +377,12 @@ export type i18nLanguage = {
 
     editGameServer: {
       title: string;
+      description: string;
 
       revert: string;
       confirm: string;
       missingUuidError: string;
+      serverNeedsToBeStopped: string;
 
       gameSelection: {
         title: string;
@@ -643,7 +645,9 @@ export type i18nLanguage = {
     };
     settingsActionButtons: {
       revert: string;
+      warning: string;
       confirm: string;
+      cancel: string;
     };
     GameServerSettings: {
       tabs: {
@@ -659,8 +663,11 @@ export type i18nLanguage = {
       sections: {
         general: string;
         privateDashboard: string;
+        privateDashboardDescription: string;
         publicDashboard: string;
+        publicDashboardDescription: string;
         metrics: string;
+        metricsDescription: string;
         accessManagement: string;
         webhooks: string;
       };
@@ -742,6 +749,15 @@ export type i18nLanguage = {
           placeholder: string;
           label: string;
           error: string;
+        };
+      };
+      publicDashboard: {
+        label: string;
+        sensitiveWarning: {
+          title: string;
+          description: string;
+          cancel: string;
+          confirm: string;
         };
       };
     };
@@ -867,6 +883,18 @@ export type i18nLanguage = {
             name: string;
             description: string;
           };
+          READ_SERVER_PRIVATE_DASHBOARD: {
+            name: string;
+            description: string;
+          };
+          CHANGE_PRIVATE_DASHBOARD_SETTINGS: {
+            name: string;
+            description: string;
+          };
+          CHANGE_PUBLIC_DASHBOARD_SETTINGS: {
+            name: string;
+            description: string;
+          };
         };
       };
     };
@@ -879,6 +907,7 @@ export type i18nLanguage = {
       leave: string;
       stay: string;
       saveAndLeave: string;
+      saving: string;
       message: string;
     };
   };
@@ -945,6 +974,10 @@ export type i18nLanguage = {
       cancel: string;
       save: string;
     };
+  };
+  dashboard: {
+    showPublicDashboard: string;
+    hidePublicDashboard: string;
   };
 };
 

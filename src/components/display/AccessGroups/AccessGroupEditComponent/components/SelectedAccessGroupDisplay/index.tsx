@@ -1,4 +1,5 @@
 import { Card } from "@components/ui/card.tsx";
+import UnsavedModal from "@components/ui/UnsavedModal.tsx";
 import { useEffect, useMemo, useState } from "react";
 import * as z from "zod";
 import { getUUIDByUsername } from "@/api/generated/backend-api.ts";
@@ -56,8 +57,7 @@ const SelectedAccessGroupDisplay = ({ accessGroup, onChangeStatusUpdate }: Props
 
   // Validate all fields
   const allFieldsValid = useMemo(() => {
-    const groupNameValid = z.string().min(1).safeParse(localGroupName).success;
-    return groupNameValid;
+    return z.string().min(1).safeParse(localGroupName).success;
   }, [localGroupName]);
 
   // Detect changes
@@ -73,7 +73,14 @@ const SelectedAccessGroupDisplay = ({ accessGroup, onChangeStatusUpdate }: Props
       !localPermissions.every((perm) => accessGroup.permissions.includes(perm));
 
     return nameChanged || usersChanged || permissionsChanged;
-  }, [localGroupName, localUsers, localPermissions, accessGroup]);
+  }, [
+    localGroupName,
+    localUsers,
+    localPermissions,
+    accessGroup.group_name,
+    accessGroup.users,
+    accessGroup.permissions,
+  ]);
 
   // Notify parent when change status updates
   useEffect(() => {
@@ -154,7 +161,7 @@ const SelectedAccessGroupDisplay = ({ accessGroup, onChangeStatusUpdate }: Props
   };
 
   return (
-    <Card className="relative p-3 gap-5 flex flex-col mt-5">
+    <Card className="relative p-3 gap-5 flex flex-col mt-5 mb-5">
       <div>
         <h2 className="text-lg font-semibold">{t("groupSettings")}</h2>
         <p className="text-sm text-muted-foreground">{t("description")}</p>
@@ -199,6 +206,7 @@ const SelectedAccessGroupDisplay = ({ accessGroup, onChangeStatusUpdate }: Props
         setDeleteDialogOpen={setDeleteDialogOpen}
         accessGroupName={accessGroup.group_name}
       />
+      <UnsavedModal isChanged={isChanged} onSave={handleConfirm} />
     </Card>
   );
 };

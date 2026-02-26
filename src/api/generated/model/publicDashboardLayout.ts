@@ -5,14 +5,14 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { PrivateDashboardLayoutSize } from './privateDashboardLayoutSize';
-import type { PrivateDashboardLayoutLayoutType } from './privateDashboardLayoutLayoutType';
+import type { PublicDashboardLayoutSize } from './publicDashboardLayoutSize';
+import type { PublicDashboardLayoutLayoutType } from './publicDashboardLayoutLayoutType';
 import type { KeyValueEntry } from './keyValueEntry';
 
-export interface PrivateDashboardLayout {
+export interface PublicDashboardLayout {
   uuid?: string;
-  size?: PrivateDashboardLayoutSize;
-  layout_type?: PrivateDashboardLayoutLayoutType;
+  size?: PublicDashboardLayoutSize;
+  layout_type?: PublicDashboardLayoutLayoutType;
   metric_type?: string;
   title?: string;
   content?: KeyValueEntry[];

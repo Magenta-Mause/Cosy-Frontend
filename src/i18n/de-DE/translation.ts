@@ -385,14 +385,18 @@ const translation: i18nLanguage = {
     },
     settingsActionButtons: {
       revert: "Zurücksetzen",
+      warning: "Warnung",
       confirm: "Bestätigen",
+      cancel: "Abbrechen",
     },
 
     editGameServer: {
       title: "Allgemeine Server Einstellungen",
+      description: "Konfiguriere die grundlegenden Einstellungen deines Spieleservers",
 
       revert: "Zurücksetzen",
       confirm: "Änderungen speichern",
+      serverNeedsToBeStopped: "Server muss gestoppt sein um allgemeinen Einstellungen zu ändern",
       missingUuidError: "Die Server UUID fehlt",
 
       gameSelection: {
@@ -526,8 +530,14 @@ const translation: i18nLanguage = {
       sections: {
         general: "Allgemeine Einstellungen",
         privateDashboard: "Einstellungen für privates Dashboard",
+        privateDashboardDescription:
+          "Passe das Layout deines privaten Dashboards mit Widgets wie Metriken, Logs und Freitext an",
         publicDashboard: "Einstellungen für öffentliches Dashboard",
+        publicDashboardDescription:
+          "Konfiguriere das öffentliche Dashboard, das für jeden mit dem Link sichtbar ist",
         metrics: "Metrik-Einstellungen",
+        metricsDescription:
+          "Wähle aus, welche Metriken angezeigt werden und wie sie angeordnet sind",
         accessManagement: "Zugriffsverwaltungs-Einstellungen",
         webhooks: "Webhook-Einstellungen",
       },
@@ -610,6 +620,16 @@ const translation: i18nLanguage = {
           placeholder: "Titel",
           label: "Titel eingeben (optional)",
           error: "Fehlendes Schlüssel-Wert-Paar",
+        },
+      },
+      publicDashboard: {
+        label: "Öffentliches Dashboard sichtbar machen",
+        sensitiveWarning: {
+          title: "Warnung: Sensible Daten",
+          description:
+            "Dein öffentliches Dashboard enthält Metriken oder Log-Widgets. Diese Daten sind für jeden im Internet sichtbar. Metriken und Logs können sensible Informationen enthalten. Bitte stelle sicher, dass du diese Daten öffentlich teilen möchtest.",
+          cancel: "Abbrechen",
+          confirm: "Trotzdem speichern",
         },
       },
     },
@@ -743,6 +763,18 @@ const translation: i18nLanguage = {
             description:
               "Den Server dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.",
           },
+          READ_SERVER_PRIVATE_DASHBOARD: {
+            name: "Privates Dashboard ansehen",
+            description: "Das private Dashboard anzeigen.",
+          },
+          CHANGE_PRIVATE_DASHBOARD_SETTINGS: {
+            name: "Private Dashboard-Einstellungen ändern",
+            description: "Layout und Widgets des privaten Dashboards konfigurieren.",
+          },
+          CHANGE_PUBLIC_DASHBOARD_SETTINGS: {
+            name: "Öffentliche Dashboard-Einstellungen ändern",
+            description: "Layout und Widgets des öffentlichen Dashboards konfigurieren.",
+          },
         },
       },
     },
@@ -841,8 +873,9 @@ const translation: i18nLanguage = {
       title: "Ungespeicherte Änderungen",
       message: "Sie haben ungespeicherte Änderungen. Möchten Sie diese wirklich verwerfen?",
       stay: "Bleiben",
-      leave: "Verwerfen trotzdem",
+      leave: "Verwerfen",
       saveAndLeave: "Speichern und verlassen",
+      saving: "Speichern...",
     },
   },
   logDisplay: {
@@ -954,6 +987,10 @@ const translation: i18nLanguage = {
       cancel: "Abbrechen",
       save: "Speichern",
     },
+  },
+  dashboard: {
+    showPublicDashboard: "Öffentliches Dashboard anzeigen",
+    hidePublicDashboard: "Privates Dashboard anzeigen",
   },
 };
 

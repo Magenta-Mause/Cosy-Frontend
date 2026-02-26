@@ -1,7 +1,8 @@
 import InputFieldEditGameServer from "@components/display/GameServer/EditGameServer/InputFieldEditGameServer.tsx";
 import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
 import { Checkbox } from "@components/ui/checkbox.tsx";
-import { useEffect, useMemo, useState } from "react";
+import UnsavedModal from "@components/ui/UnsavedModal";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import * as z from "zod";
 import type { GameServerDto, RCONConfiguration } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
@@ -39,7 +40,7 @@ const RconSettings = (props: {
   }, [rconPassword, rconPort, rconEnabled]);
 
   const isChanged = useMemo(() => {
-    const rconEnabledChanged = rconEnabled !== rconState?.enabled;
+    const rconEnabledChanged = rconEnabled !== (rconState?.enabled ?? false);
     const rconPasswordChanged = rconPassword !== rconState?.password;
     const rconPortChanged = !(
       (rconPort === "" && (rconState?.port === undefined || rconState?.port === null)) ||
@@ -69,10 +70,16 @@ const RconSettings = (props: {
     }
   };
 
+  const handleRevert = useCallback(() => {
+    setRconEnabled(rconState?.enabled ?? false);
+    setRconPort(rconState?.port?.toString() ?? "");
+    setRconPassword(rconState?.password);
+  }, [rconState]);
+
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
   return (
-    <div className="relative pr-3 pb-10 gap-5 flex flex-col">
+    <div className="flex flex-col gap-5">
       <div>
         <h2>{t("title")}</h2>
         <p className={"text-sm text-muted-foreground leading-none"}>
@@ -135,15 +142,12 @@ const RconSettings = (props: {
       </div>
 
       <SettingsActionButtons
-        onRevert={() => {
-          setRconEnabled(rconState?.enabled ?? false);
-          setRconPort(rconState?.port?.toString() ?? "");
-          setRconPassword(rconState?.password);
-        }}
+        onRevert={handleRevert}
         onConfirm={handleConfirm}
         revertDisabled={loading || !isChanged}
         confirmDisabled={isConfirmButtonDisabled}
       />
+      <UnsavedModal isChanged={isChanged} onSave={handleConfirm} />
     </div>
   );
 };

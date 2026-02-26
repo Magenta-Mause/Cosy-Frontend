@@ -38,6 +38,7 @@ import type {
   GetFileSystemForVolumeParams,
   GetLogsParams,
   GetMetricsParams,
+  GetPublicEvaluableMetricsParams,
   GetServiceInfo200,
   GetUserPermissions200Item,
   LoginDto,
@@ -46,6 +47,7 @@ import type {
   PasswordUpdateByAdminDto,
   PasswordUpdateDto,
   PrivateDashboardLayout,
+  PublicDashboardUpdateDto,
   QueryGamesParams,
   RCONConfiguration,
   ReadFileFromVolumeParams,
@@ -1929,6 +1931,65 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       return useMutation(mutationOptions);
     }
     
+export const updatePublicDashboardLayout = (
+    uuid: string,
+    publicDashboardUpdateDto: PublicDashboardUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<void>(
+      {url: `/game-server/${uuid}/layout/public-dashboard`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: publicDashboardUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdatePublicDashboardLayoutMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePublicDashboardLayout>>, TError,{uuid: string;data: PublicDashboardUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updatePublicDashboardLayout>>, TError,{uuid: string;data: PublicDashboardUpdateDto}, TContext> => {
+
+const mutationKey = ['updatePublicDashboardLayout'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePublicDashboardLayout>>, {uuid: string;data: PublicDashboardUpdateDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updatePublicDashboardLayout(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdatePublicDashboardLayoutMutationResult = NonNullable<Awaited<ReturnType<typeof updatePublicDashboardLayout>>>
+    export type UpdatePublicDashboardLayoutMutationBody = PublicDashboardUpdateDto
+    export type UpdatePublicDashboardLayoutMutationError = unknown
+
+    export const useUpdatePublicDashboardLayout = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePublicDashboardLayout>>, TError,{uuid: string;data: PublicDashboardUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updatePublicDashboardLayout>>,
+        TError,
+        {uuid: string;data: PublicDashboardUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdatePublicDashboardLayoutMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
 export const updatePrivateDashboard = (
     uuid: string,
     privateDashboardLayout: PrivateDashboardLayout[],
@@ -2594,74 +2655,6 @@ export function useGetAllTemplates<TData = Awaited<ReturnType<typeof getAllTempl
 
 
 
-export const getMetrics = (
-    gameServerUuid: string,
-    params?: GetMetricsParams,
- options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
-) => {
-      
-      
-      return customInstance<MetricPointDto[]>(
-      {url: `/metrics/${gameServerUuid}`, method: 'GET',
-        params, signal
-    },
-      options);
-    }
-  
-
-
-
-export const getGetMetricsQueryKey = (gameServerUuid?: string,
-    params?: GetMetricsParams,) => {
-    return [
-    `/metrics/${gameServerUuid}`, ...(params ? [params]: [])
-    ] as const;
-    }
-
-    
-export const getGetMetricsQueryOptions = <TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(gameServerUuid: string,
-    params?: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-) => {
-
-const {query: queryOptions, request: requestOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetMetricsQueryKey(gameServerUuid,params);
-
-  
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getMetrics>>> = ({ signal }) => getMetrics(gameServerUuid,params, requestOptions, signal);
-
-      
-
-      
-
-   return  { queryKey, queryFn, enabled: !!(gameServerUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type GetMetricsQueryResult = NonNullable<Awaited<ReturnType<typeof getMetrics>>>
-export type GetMetricsQueryError = unknown
-
-
-
-export function useGetMetrics<TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(
- gameServerUuid: string,
-    params?: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
-  
- ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-
-  const queryOptions = getGetMetricsQueryOptions(gameServerUuid,params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
-
 export const checkConnection = (
     uuid: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
@@ -3184,6 +3177,142 @@ export function useGetFileSystemForVolume<TData = Awaited<ReturnType<typeof getF
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetFileSystemForVolumeQueryOptions(uuid,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getMetrics = (
+    gameServerUuid: string,
+    params?: GetMetricsParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<MetricPointDto[]>(
+      {url: `/game-server/${gameServerUuid}/metrics`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetMetricsQueryKey = (gameServerUuid?: string,
+    params?: GetMetricsParams,) => {
+    return [
+    `/game-server/${gameServerUuid}/metrics`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getGetMetricsQueryOptions = <TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(gameServerUuid: string,
+    params?: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetMetricsQueryKey(gameServerUuid,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getMetrics>>> = ({ signal }) => getMetrics(gameServerUuid,params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(gameServerUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetMetricsQueryResult = NonNullable<Awaited<ReturnType<typeof getMetrics>>>
+export type GetMetricsQueryError = unknown
+
+
+
+export function useGetMetrics<TData = Awaited<ReturnType<typeof getMetrics>>, TError = unknown>(
+ gameServerUuid: string,
+    params?: GetMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetMetricsQueryOptions(gameServerUuid,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getPublicEvaluableMetrics = (
+    gameServerUuid: string,
+    params?: GetPublicEvaluableMetricsParams,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<MetricPointDto[]>(
+      {url: `/game-server/${gameServerUuid}/metrics/public`, method: 'GET',
+        params, signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetPublicEvaluableMetricsQueryKey = (gameServerUuid?: string,
+    params?: GetPublicEvaluableMetricsParams,) => {
+    return [
+    `/game-server/${gameServerUuid}/metrics/public`, ...(params ? [params]: [])
+    ] as const;
+    }
+
+    
+export const getGetPublicEvaluableMetricsQueryOptions = <TData = Awaited<ReturnType<typeof getPublicEvaluableMetrics>>, TError = unknown>(gameServerUuid: string,
+    params?: GetPublicEvaluableMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPublicEvaluableMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPublicEvaluableMetricsQueryKey(gameServerUuid,params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPublicEvaluableMetrics>>> = ({ signal }) => getPublicEvaluableMetrics(gameServerUuid,params, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(gameServerUuid), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPublicEvaluableMetrics>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetPublicEvaluableMetricsQueryResult = NonNullable<Awaited<ReturnType<typeof getPublicEvaluableMetrics>>>
+export type GetPublicEvaluableMetricsQueryError = unknown
+
+
+
+export function useGetPublicEvaluableMetrics<TData = Awaited<ReturnType<typeof getPublicEvaluableMetrics>>, TError = unknown>(
+ gameServerUuid: string,
+    params?: GetPublicEvaluableMetricsParams, options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getPublicEvaluableMetrics>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetPublicEvaluableMetricsQueryOptions(gameServerUuid,params,options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
