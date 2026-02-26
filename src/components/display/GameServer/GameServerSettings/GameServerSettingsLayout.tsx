@@ -10,8 +10,7 @@ import consoleIcon from "@/assets/icons/console.svg?raw";
 import dashboardIcon from "@/assets/icons/dashboard.svg?raw";
 import houseIcon from "@/assets/icons/house.svg?raw";
 import linkIcon from "@/assets/icons/link.svg?raw";
-import metricsIcon from "@/assets/icons/metrics.svg";
-import chartIcon from "@/assets/icons/metrics.svg?raw";
+import metricsIcon from "@/assets/icons/metrics.svg?raw";
 import settingsIcon from "@/assets/icons/settings.svg?raw";
 import userIcon from "@/assets/icons/user.svg?raw";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
@@ -63,18 +62,6 @@ const GameServerSettingsLayout = ({
       icon: <Icon src={houseIcon} className="mr-2" />,
       path: "/server/$serverId/settings/design",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_CONFIGS],
-    },
-    {
-      label: t("tabs.metrics"),
-      icon: <Icon src={chartIcon} className="mr-2" />,
-      path: "/server/$serverId/settings/metrics",
-      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_METRICS_SETTINGS],
-    },
-    {
-      label: t("tabs.rcon"),
-      icon: <Icon src={consoleIcon} className="mr-2" />,
-      path: "/server/$serverId/settings/rcon",
-      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_RCON_SETTINGS],
     },
     {
       label: t("tabs.privateDashboard"),
