@@ -1,9 +1,12 @@
 import { Button } from "@components/ui/button.tsx";
 import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
+import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { CircleAlertIcon, CircleX, Plus } from "lucide-react";
 import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { v7 as generateUuid } from "uuid";
+import attentionIcon from "@/assets/icons/attention.svg?raw";
+import plusIcon from "@/assets/icons/plus.svg?raw";
+import trashIcon from "@/assets/icons/thrash.svg?raw";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,
@@ -196,17 +199,17 @@ function ListInput<T extends { uuid: string }>({
                   className="h-9 w-9 p-0 flex items-center justify-center"
                   aria-label="Remove entry"
                 >
-                  <CircleX className="w-full h-full" />
+                  <Icon src={trashIcon} className="size-5" />
                 </Button>
               )}
               {index === (values ?? []).length - 1 && (
                 <Button className="h-9 w-9 p-0" onClick={addNewValue}>
-                  <Plus className="size-6" />
+                  <Icon src={plusIcon} className="size-5" />
                 </Button>
               )}
               {rowError && (
                 <TooltipWrapper tooltip={errorLabel} asChild>
-                  <CircleAlertIcon className="text-red-500 w-5 h-5" />
+                  <Icon src={attentionIcon} className="size-5 text-red-500" />
                 </TooltipWrapper>
               )}
             </div>
