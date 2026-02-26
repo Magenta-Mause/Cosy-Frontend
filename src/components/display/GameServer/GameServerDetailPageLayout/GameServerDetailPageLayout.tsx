@@ -230,7 +230,10 @@ const GameServerDetailPageLayout = (props: {
             </div>
             <div className="grow" />
             <div className="flex flex-col justify-center items-end w-[10%] shrink-0 h-full pointer-events-none">
-              <SideBar gameServer={props.gameServer} buttonVariant={activeTab.sideBarButtonVariant} />
+              <SideBar
+                gameServer={props.gameServer}
+                buttonVariant={activeTab.sideBarButtonVariant}
+              />
             </div>
           </div>
         </div>
