@@ -5,9 +5,15 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
+import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { Download, Ellipsis, File, Folder, FolderDown, Pencil, Trash2 } from "lucide-react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
+import dotsIcon from "@/assets/icons/dots.svg?raw";
+import downloadIcon from "@/assets/icons/download.svg?raw";
+import fileIcon from "@/assets/icons/file.svg?raw";
+import folderIcon from "@/assets/icons/folder.svg?raw";
+import pencilWriteIcon from "@/assets/icons/pencilWrite.svg?raw";
+import thrashIcon from "@/assets/icons/thrash.svg?raw";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { formatBytes, formatUnixPerms, isDirectory, joinRemotePath } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
@@ -61,7 +67,11 @@ export const FileBrowserRow = ({
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50",
         )}
       >
-        {dir ? <Folder className="h-4 w-4 shrink-0" /> : <File className="h-4 w-4 shrink-0" />}
+        {dir ? (
+          <Icon src={folderIcon} variant="foreground" className="size-4" />
+        ) : (
+          <Icon src={fileIcon} className="size-4" />
+        )}
 
         <span className="truncate text-sm ml-2 grow">{obj.name}</span>
 
@@ -122,7 +132,7 @@ export const FileBrowserRow = ({
                   data-loading={loading}
                   aria-label={`${t("renameAction")} ${obj.name}`}
                 >
-                  <Pencil className="h-4 w-4 mr-1" />
+                  <Icon src={pencilWriteIcon} variant="foreground" className="size-4 mr-1" />
                   <span className="hidden sm:inline">{t("renameAction")}</span>
                 </button>
               </TooltipWrapper>
@@ -146,7 +156,7 @@ export const FileBrowserRow = ({
                   data-loading={loading}
                   aria-label={`${t("deleteAction")} ${obj.name}`}
                 >
-                  <Trash2 className="h-4 w-4 mr-1" />
+                  <Icon src={thrashIcon} variant="foreground" className="size-4 mr-1" />
                   <span className="hidden sm:inline">{t("deleteAction")}</span>
                 </button>
               </TooltipWrapper>
@@ -167,7 +177,7 @@ export const FileBrowserRow = ({
               data-loading={loading}
               aria-label={`${t("downloadAction")} ${obj.name}`}
             >
-              <Download className="h-4 w-4 mr-1" />
+              <Icon src={downloadIcon} variant="foreground" className="size-4 mr-1" />
               <span className="hidden sm:inline">
                 {!isBeingDownloaded ? t("downloadAction") : t("loading")}
               </span>
@@ -188,7 +198,7 @@ export const FileBrowserRow = ({
               data-loading={loading}
               aria-label={`${t("exportAction")} ${obj.name}`}
             >
-              <FolderDown className="h-4 w-4 mr-1" />
+              <Icon src={downloadIcon} variant="foreground" className="size-4 mr-1" />
               {!isBeingDownloaded ? t("exportAction") : t("loading")}
             </button>
           </TooltipWrapper>
@@ -209,7 +219,7 @@ export const FileBrowserRow = ({
                 disabled={loading}
                 aria-label={t("renameAction")}
               >
-                <Ellipsis className="h-4 w-4" />
+                <Icon src={dotsIcon} variant="foreground" className="size-4" viewBox="0 5 16 16" />
               </button>
             </DropdownMenuTrigger>
 

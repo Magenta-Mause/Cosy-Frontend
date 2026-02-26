@@ -1,5 +1,9 @@
+import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { ChevronRight, Home, Plus, RefreshCw } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import houseIcon from "@/assets/icons/house.svg?raw";
+import plusIcon from "@/assets/icons/plus.svg?raw";
+import reloadIcon from "@/assets/icons/reload.svg?raw";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 
@@ -34,7 +38,7 @@ export const FileBrowserHeader = ({
   return (
     <div className="border-b border-b-border px-3 py-2 flex items-center gap-1 text-sm text-muted-foreground">
       <button type="button" className="flex items-center gap-1 hover:underline" onClick={onHome}>
-        <Home className="h-4 w-4" />
+        <Icon src={houseIcon} variant="foreground" className="size-4" />
         <span className={cn(crumbs.length === 0 && "text-foreground font-medium")}>HOME</span>
       </button>
 
@@ -68,7 +72,7 @@ export const FileBrowserHeader = ({
               )}
               disabled={loading}
             >
-              <Plus className="h-4 w-4" />
+              <Icon src={plusIcon} variant="foreground" className="size-4" />
               <span className="hidden sm:inline">{t("newFolder")}</span>
             </button>
           </TooltipWrapper>
@@ -85,7 +89,11 @@ export const FileBrowserHeader = ({
             aria-label={t("refresh")}
             disabled={loading}
           >
-            <RefreshCw className={cn("h-4 w-4", loading && "animate-spin")} />
+            <Icon
+              src={reloadIcon}
+              variant="foreground"
+              className={cn("size-4", loading && "animate-spin")}
+            />
             <span className="hidden sm:inline">{t("refresh")}</span>
           </button>
         </TooltipWrapper>
