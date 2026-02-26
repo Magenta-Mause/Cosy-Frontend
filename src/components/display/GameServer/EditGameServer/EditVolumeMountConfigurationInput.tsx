@@ -54,7 +54,6 @@ function EditVolumeMountConfigurationInput<T extends Record<string, string>>({
   placeholder,
   fieldLabel,
   fieldDescription,
-  validator,
   errorLabel,
   required,
   inputType,
