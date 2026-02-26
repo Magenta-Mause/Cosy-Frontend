@@ -28,7 +28,7 @@ function UserDetailPage() {
       {/* ── Mobile layout ── */}
       <div className="lg:hidden flex flex-col h-screen bg-background pt-2 gap-3">
         <BackToHomeLink />
-        <div className="relative flex justify-center">
+        <div className="relative flex justify-center px-5">
           <UserTable onRevoke={revokeInvite} />
         </div>
       </div>
