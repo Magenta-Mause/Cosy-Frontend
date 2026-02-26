@@ -15,7 +15,13 @@ import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useLocation, useSearch } from "@tanstack/react-router";
 import type * as React from "react";
-import { type CSSProperties, createContext, useContext, useSyncExternalStore } from "react";
+import {
+  type CSSProperties,
+  cloneElement,
+  createContext,
+  useContext,
+  useSyncExternalStore,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
 import dashboardBackgroundImage from "@/assets/gameServerDetailPage/dashboard-bg.webp";
@@ -239,7 +245,7 @@ const GameServerDetailPageLayout = (props: {
           <div className="flex items-center gap-2 p-3 border-b-4 border-foreground">
             <Link to="/" className="shrink-0">
               <Button variant="secondary" size="icon-sm">
-                <Icon src={doorClosedIcon} />
+                <Icon src={doorClosedIcon} variant="foreground" className="size-6" />
               </Button>
             </Link>
             <div className="truncate text-lg font-bold">{props.gameServer.server_name}</div>
@@ -287,7 +293,11 @@ const MobileTabBar = (props: { gameServer: GameServerDto }) => {
                 !isReachable && "opacity-50",
               )}
             >
-              <div className="[&_svg]:!scale-100">{tab.icon}</div>
+              {isActive
+                ? cloneElement(tab.icon as React.ReactElement<{ variant: string }>, {
+                    variant: "primary",
+                  })
+                : tab.icon}
             </div>
           </Link>
         );
