@@ -23,6 +23,8 @@ const GameServerStartStopButton = (props: {
     GameServerAccessGroupDtoPermissionsItem.START_STOP_SERVER,
   );
 
+  const icon = <Icon src={powerIcon} variant={props.buttonVariant} className="size-5" />;
+
   const buttonProps: React.ComponentProps<"button"> = (() => {
     switch (props.gameServer.status) {
       case GameServerDtoStatus.RUNNING:
@@ -31,7 +33,7 @@ const GameServerStartStopButton = (props: {
           disabled: !canStartStopServer,
           children: (
             <>
-              <Icon src={powerIcon} variant="secondary" className="size-5" />
+              {icon}
               {t("serverPage.stop")}
             </>
           ),
@@ -43,7 +45,7 @@ const GameServerStartStopButton = (props: {
           disabled: !canStartStopServer,
           children: (
             <>
-              <Icon src={powerIcon} variant="secondary" className="size-5" />
+              {icon}
               {t("serverPage.start")}
             </>
           ),
@@ -60,7 +62,7 @@ const GameServerStartStopButton = (props: {
           "data-loading": true,
           children: (
             <>
-              <Icon src={powerIcon} variant="secondary" className="size-5" />
+              {icon}
               {t("serverStatus.AWAITING_UPDATE")}
             </>
           ),
@@ -71,7 +73,7 @@ const GameServerStartStopButton = (props: {
           "data-loading": true,
           children: (
             <>
-              <Icon src={powerIcon} variant="secondary" className="size-5" />
+              {icon}
               {t("serverStatus.STOPPING")}
             </>
           ),
