@@ -20,6 +20,7 @@ const LogDisplay = (
     showExtendedTimestamps?: boolean;
     disableRoundness?: boolean;
     disableBorder?: boolean;
+    overridePermissionCheck?: boolean;
   } & Omit<React.ComponentProps<"div">, "children">,
 ) => {
   const { t } = useTranslation();
@@ -158,7 +159,7 @@ const LogDisplay = (
             Footer: () => <div className="h-2" />,
           }}
         />
-        {!canReadLogs && (
+        {!canReadLogs && !props.overridePermissionCheck && (
           <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center">
             <div className="text-gray-400 text-center px-2">
               <div className="text-lg font-semibold mb-2">

@@ -7,7 +7,7 @@ export default function AccessManagementSettingsSection() {
   const { gameServer } = useSelectedGameServer();
 
   return (
-    <div className="relative pr-3 pb-10 gap-5 flex flex-col">
+    <div className="flex flex-col gap-5">
       <div>
         <h2>{t("title")}</h2>
         <p className={"text-sm text-muted-foreground leading-none"}>{t("description")}</p>
