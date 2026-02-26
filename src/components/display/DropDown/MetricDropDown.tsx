@@ -1,4 +1,5 @@
-import { ChevronDown } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
+import arrowDownIcon from "@/assets/icons/arrowDown.svg?raw";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
@@ -70,7 +71,7 @@ const MetricDropDown = (props: {
           <span className="truncate max-w-3 md:max-w-10 lg:max-w-50">
             {getDisplayName(props.metricType)}
           </span>
-          <ChevronDown className="-m-1" />
+          <Icon src={arrowDownIcon} variant="secondary" className="size-4 -m-1 mt-0.5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-40 bg-primary-modal-background" align="center">

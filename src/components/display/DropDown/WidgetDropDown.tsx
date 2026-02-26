@@ -1,5 +1,6 @@
-import { ChevronDown } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
 import { PrivateDashboardLayoutPrivateDashboardTypes } from "@/api/generated/model";
+import arrowDownIcon from "@/assets/icons/arrowDown.svg?raw";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -39,7 +40,7 @@ const WidgetDropDown = (props: {
           <span className="truncate max-w-3 md:max-w-10 lg:max-w-50">
             {t(props.widgetType ?? PrivateDashboardLayoutPrivateDashboardTypes.METRIC)}
           </span>
-          <ChevronDown className="-m-1" />
+          <Icon src={arrowDownIcon} variant="secondary" className="size-4 -m-1 mt-0.5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-30 bg-primary-modal-background" align="end">
