@@ -431,6 +431,12 @@ export type i18nLanguage = {
         errorLabel: string;
       };
 
+      hostPathSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+      };
+
       volumeMountSelection: {
         title: string;
         errorLabel: string;

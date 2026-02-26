@@ -433,7 +433,7 @@ const EditGameServerPage = (props: {
           }
           placeholder="/data"
           validator={z.string().min(1)}
-          errorLabel={t("volumeMountSelection.errorLabel")}
+          errorLabel={t("hostPathSelection.errorLabel")}
           required={false}
           inputType="text"
           objectKey="container_path"

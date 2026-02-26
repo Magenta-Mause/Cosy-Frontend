@@ -446,6 +446,12 @@ const translation: i18nLanguage = {
         errorLabel: "Ausführungsbefehl darf nicht leer sein",
       },
 
+      hostPathSelection: {
+        title: "Volume-Mount",
+        description: "Volume-Mounts für deinen Server",
+        errorLabel: "Pfad muss mit '/' beginnen und darf nicht genau '/' sein.",
+      },
+
       volumeMountSelection: {
         title: "Volume-Mounts",
         errorLabel: "Pfad darf nicht leer sein",

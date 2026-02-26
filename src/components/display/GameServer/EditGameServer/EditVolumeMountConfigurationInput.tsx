@@ -101,11 +101,13 @@ function EditVolumeMountConfigurationInput<T extends Record<string, string>>({
 
   const validateContainerPath = useCallback(
     (container_path?: string) => {
-      if (!required) return true;
-      if (container_path?.trim() === "/") return false;
-      return validator.safeParse(container_path).success;
+      const trimmed = container_path?.trim() ?? "";
+      if (trimmed.length === 0) return !required;
+      if (!trimmed.startsWith("/")) return false;
+      if (trimmed === "/") return false;
+      return true;
     },
-    [required, validator],
+    [required],
   );
 
   const checkValidity = useCallback(

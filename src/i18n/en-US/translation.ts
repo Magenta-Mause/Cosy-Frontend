@@ -444,6 +444,12 @@ const translation: i18nLanguage = {
         errorLabel: "Execution command must not be empty",
       },
 
+      hostPathSelection: {
+        title: "Volume Mount",
+        description: "Volume mounts for your server",
+        errorLabel: "Path must start with '/' and cannot be exactly '/'.",
+      },
+
       volumeMountSelection: {
         title: "Volume Mounts",
         errorLabel: "Path must not be empty",
