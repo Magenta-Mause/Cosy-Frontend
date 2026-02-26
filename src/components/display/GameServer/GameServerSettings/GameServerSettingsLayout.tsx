@@ -144,6 +144,7 @@ const GameServerSettingsLayout = ({
                       }
                       side={"right"}
                       align="center"
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <Button
                         className={cn(
