@@ -88,7 +88,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
           <div className="flex flex-row items-center gap-3">
             <Input
               startDecorator={<Search />}
-              className="h-10 border-2 z-1"
+              className="h-10 border-2"
               placeholder={t("components.userManagement.userTable.search")}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -101,7 +101,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
               onSortDirectionToggle={() => setIsAsc(!isAsc)}
             />
           </div>
-          <UserInviteButton className="z-10" />
+          <UserInviteButton />
         </div>
         {sortedUsers.length > 0 ? (
           sortedUsers.map((user, index) => (
@@ -113,18 +113,18 @@ const UserTable = ({ onRevoke }: UserListProps) => {
             />
           ))
         ) : (
-          <div className="text-center py-10 text-muted-foreground z-10">
+          <div className="text-center py-10 text-muted-foreground">
             {t("components.userManagement.userTable.noUsersFound")}{" "}
             {selectedRole
               ? `for role ${t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)}`
               : ""}
           </div>
         )}
-        {users.length > 0 && invites.length > 0 && <Separator className="my-4 pb-0.5 z-10" />}
+        {users.length > 0 && invites.length > 0 && <Separator className="my-4 pb-0.5" />}
 
         {invites.length > 0 && (
           <>
-            <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider z-10">
+            <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
               {t("userModal.pendingInvites")}
             </h4>
             {invites.map((invite, index) => (
