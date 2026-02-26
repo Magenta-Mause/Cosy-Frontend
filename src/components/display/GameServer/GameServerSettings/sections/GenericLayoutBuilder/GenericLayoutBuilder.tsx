@@ -3,6 +3,7 @@ import SettingsActionButtons from "@components/display/GameServer/GameServerSett
 import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
+import Icon from "@components/ui/Icon.tsx";
 import {
   closestCorners,
   DndContext,
@@ -22,7 +23,6 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useBlocker } from "@tanstack/react-router";
-import { Plus, X } from "lucide-react";
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
@@ -32,6 +32,8 @@ import {
   type PrivateDashboardLayout,
   PrivateDashboardLayoutPrivateDashboardTypes,
 } from "@/api/generated/model";
+import closeIcon from "@/assets/icons/close.svg?raw";
+import plusIcon from "@/assets/icons/plus.svg?raw";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice";
@@ -222,7 +224,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
               handleOnDelete(layout._uiUuid);
             }}
           >
-            <X />
+            <Icon src={closeIcon} className="size-4" />
           </Button>
           <div className="flex gap-2 items-center justify-center overflow-x-auto p-2">
             <div>
@@ -282,7 +284,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
                       variant="destructive"
                       className="pointer-events-none flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 opacity-50 z-10"
                     >
-                      <X />
+                      <Icon src={closeIcon} className="size-4" />
                     </Button>
                     <div className="flex gap-2 items-center justify-center overflow-x-auto p-2">
                       <div>
@@ -310,7 +312,7 @@ export default function GenericLayoutSelection<T extends { _uiUuid: string; size
               className="outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none bg-background/35"
             >
               <div className="flex items-center">
-                <Plus className="-size-2" />
+                <Icon src={plusIcon} variant="foreground" className="size-5 m-1" />
                 {t("GameServerSettings.privateDashboard.add")}
               </div>
             </Button>
