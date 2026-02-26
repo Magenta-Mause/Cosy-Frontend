@@ -72,11 +72,13 @@ const GameServerSettingsLayout = ({
       label: t("tabs.privateDashboard"),
       icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
       path: "/server/$serverId/settings/private-dashboard",
+      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_PRIVATE_DASHBOARD_SETTINGS],
     },
     {
       label: t("tabs.publicDashboard"),
       icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
       path: "/server/$serverId/settings/public-dashboard",
+      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_PUBLIC_DASHBOARD_SETTINGS],
     },
     {
       label: t("tabs.rcon"),
