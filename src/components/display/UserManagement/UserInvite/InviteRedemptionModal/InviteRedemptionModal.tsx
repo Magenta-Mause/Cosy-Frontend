@@ -110,18 +110,22 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
           <DialogTitle>{t("inviteRedemption.title")}</DialogTitle>
           <DialogDescription>{t("inviteRedemption.description")}</DialogDescription>
         </DialogHeader>
-        <DialogMain className="flex justify-center">
-          {isLoadingInvite ? (
+        {isLoadingInvite ? (
+          <DialogMain className="flex justify-center">
             <img src={spinner} alt="spinner" />
-          ) : isInviteError ? (
+          </DialogMain>
+        ) : isInviteError ? (
+          <DialogMain className="flex justify-center">
             <div className="py-4 text-center space-y-4">
               <p className="text-sm text-destructive">{t("inviteRedemption.invalidLink")}</p>
               <Button variant="secondary" onClick={handleClose}>
                 {t("inviteRedemption.close")}
               </Button>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
+          </DialogMain>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <DialogMain className="justify-center">
               {inviteData?.invite_by_username && (
                 <p className="text-base text-muted-foreground text-center">
                   {t("inviteRedemption.invitedBy", { username: inviteData.invite_by_username })}
@@ -190,30 +194,29 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
               </div>
 
               {formError && <div className="text-destructive text-sm mt-2">{formError}</div>}
-
-              <DialogFooter className="mt-6 flex gap-5">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={handleClose}
-                  disabled={isRegistering}
-                >
-                  {t("inviteRedemption.cancel")}
-                </Button>
-                <Button type="submit" disabled={isRegistering}>
-                  {isRegistering ? (
-                    <>
-                      <img src={spinner} alt="spinner" className="mr-2 h-4 w-4" />
-                      {t("inviteRedemption.creating")}
-                    </>
-                  ) : (
-                    t("inviteRedemption.createAccount")
-                  )}
-                </Button>
-              </DialogFooter>
-            </form>
-          )}
-        </DialogMain>
+            </DialogMain>
+            <DialogFooter className="mt-6 flex gap-5">
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={handleClose}
+                disabled={isRegistering}
+              >
+                {t("inviteRedemption.cancel")}
+              </Button>
+              <Button type="submit" disabled={isRegistering}>
+                {isRegistering ? (
+                  <>
+                    <img src={spinner} alt="spinner" className="mr-2 h-4 w-4" />
+                    {t("inviteRedemption.creating")}
+                  </>
+                ) : (
+                  t("inviteRedemption.createAccount")
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        )}
       </DialogContent>
     </Dialog>
   );
