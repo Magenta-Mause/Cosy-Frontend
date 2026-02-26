@@ -136,7 +136,7 @@ function DropdownMenuRadioItem({
     >
       <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
         <DropdownMenuPrimitive.ItemIndicator>
-          <Icon src={circleIcon} className="size-2 fill-current" />
+          <Icon src={circleIcon} variant="foreground" className="size-2 fill-current" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {children}
@@ -218,7 +218,7 @@ function DropdownMenuSubTrigger({
       {...props}
     >
       {children}
-      <Icon src={arrowRight} className="ml-auto size-4" />
+      <Icon src={arrowRight} variant="foreground" className="ml-auto size-4" />
     </DropdownMenuPrimitive.SubTrigger>
   )
 }
