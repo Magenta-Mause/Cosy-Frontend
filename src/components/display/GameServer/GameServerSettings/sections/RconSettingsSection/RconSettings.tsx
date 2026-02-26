@@ -6,7 +6,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import * as z from "zod";
 import type { GameServerDto, RCONConfiguration } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import useUnsavedChangesBlocker from "@/hooks/useUnsavedChangesBlocker/useUnsavedChangesBlocker";
 
 const RconSettings = (props: {
   gameServer: GameServerDto;
@@ -76,12 +75,6 @@ const RconSettings = (props: {
     setRconPort(rconState?.port?.toString() ?? "");
     setRconPassword(rconState?.password);
   }, [rconState]);
-
-  const { showUnsavedModal, handleStay, handleLeave, handleSaveAndLeave } =
-    useUnsavedChangesBlocker({
-      isChanged,
-      onSave: handleConfirm,
-    });
 
   const isConfirmButtonDisabled = loading || !isChanged || !allFieldsValid;
 
@@ -154,12 +147,7 @@ const RconSettings = (props: {
         revertDisabled={loading || !isChanged}
         confirmDisabled={isConfirmButtonDisabled}
       />
-      <UnsavedModal
-        open={showUnsavedModal}
-        handleStay={handleStay}
-        handleLeave={handleLeave}
-        onSaveAndLeave={handleSaveAndLeave}
-      />
+      <UnsavedModal isChanged={isChanged} onSave={handleConfirm} />
     </div>
   );
 };

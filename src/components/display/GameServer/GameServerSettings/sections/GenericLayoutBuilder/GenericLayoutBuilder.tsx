@@ -32,7 +32,6 @@ import type {
   PublicDashboardLayout,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import useUnsavedChangesBlocker from "@/hooks/useUnsavedChangesBlocker/useUnsavedChangesBlocker";
 import { cn } from "@/lib/utils";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
 import { LayoutSize } from "@/types/layoutSize";
@@ -293,12 +292,6 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
     setUnfulfilledChanges?.(null);
   }, [getOriginalLayouts, wrapper, setLayouts, setUnfulfilledChanges]);
 
-  const { showUnsavedModal, handleLeave, handleStay, handleSaveAndLeave } =
-    useUnsavedChangesBlocker({
-      isChanged,
-      onSave: handleForceConfirm,
-    });
-
   return (
     <>
       <div className={`flex flex-1 min-h-0 w-full pt-3 ${isDisabled ? "blur-xs" : ""}`}>
@@ -374,10 +367,8 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
         requireConfirmationLabel={props.warningMessage}
       />
       <UnsavedModal
-        open={showUnsavedModal}
-        handleLeave={handleLeave}
-        handleStay={handleStay}
-        onSaveAndLeave={handleSaveAndLeave}
+        isChanged={isChanged}
+        onSave={handleForceConfirm}
         warningMessage={warningMessage}
       />
     </>

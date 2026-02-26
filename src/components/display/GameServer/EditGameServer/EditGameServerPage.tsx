@@ -15,7 +15,6 @@ import {
   PortMappingProtocol,
 } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import useUnsavedChangesBlocker from "@/hooks/useUnsavedChangesBlocker/useUnsavedChangesBlocker";
 import { mapGameServerDtoToUpdate } from "@/lib/gameServerMapper.ts";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import { cpuLimitValidator } from "@/lib/validators/cpuLimitValidator.ts";
@@ -263,12 +262,6 @@ const EditGameServerPage = (props: {
     }
   };
 
-  const { showUnsavedModal, handleStay, handleLeave, handleSaveAndLeave } =
-    useUnsavedChangesBlocker({
-      isChanged,
-      onSave: handleConfirm,
-    });
-
   const isServerActive =
     props.gameServer.status !== GameServerDtoStatus.STOPPED &&
     props.gameServer.status !== GameServerDtoStatus.FAILED;
@@ -505,12 +498,7 @@ const EditGameServerPage = (props: {
         confirmDisabled={isConfirmButtonDisabled || isServerActive}
         confirmTooltip={isServerActive && t("serverNeedsToBeStopped")}
       />
-      <UnsavedModal
-        open={showUnsavedModal}
-        handleStay={handleStay}
-        handleLeave={handleLeave}
-        onSaveAndLeave={handleSaveAndLeave}
-      />
+      <UnsavedModal isChanged={isChanged} onSave={handleConfirm} />
     </div>
   );
 };

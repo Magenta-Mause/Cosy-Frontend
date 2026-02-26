@@ -7,7 +7,6 @@ import castle from "@/assets/MainPage/castle.png";
 import house from "@/assets/MainPage/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer.tsx";
-import useUnsavedChangesBlocker from "@/hooks/useUnsavedChangesBlocker/useUnsavedChangesBlocker";
 import { cn } from "@/lib/utils.ts";
 import { GameServerDesign } from "@/types/gameServerDesign.ts";
 
@@ -38,12 +37,6 @@ const DesignSettingsSection = () => {
   const handleRevert = useCallback(() => {
     setSelectedDesign(gameServer.design ?? GameServerDesign.HOUSE);
   }, [gameServer.design]);
-
-  const { showUnsavedModal, handleLeave, handleStay, handleSaveAndLeave } =
-    useUnsavedChangesBlocker({
-      isChanged: hasChanges,
-      onSave: handleSave,
-    });
 
   const designs: { value: GameServerDesign; image: string; label: string }[] = [
     {
@@ -95,12 +88,7 @@ const DesignSettingsSection = () => {
         revertDisabled={loading || !hasChanges}
         confirmDisabled={loading || !hasChanges}
       />
-      <UnsavedModal
-        open={showUnsavedModal}
-        handleStay={handleStay}
-        handleLeave={handleLeave}
-        onSaveAndLeave={handleSaveAndLeave}
-      />
+      <UnsavedModal isChanged={hasChanges} onSave={handleSave} />
     </div>
   );
 };
