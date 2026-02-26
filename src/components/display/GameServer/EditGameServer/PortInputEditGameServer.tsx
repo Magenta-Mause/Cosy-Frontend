@@ -127,7 +127,7 @@ function PortInputEditGameServer({
               changeCallback({ ...row, protocol: newVal as PortMappingProtocol })
             }
           >
-            <SelectTrigger className="w-22">
+            <SelectTrigger className="w-22 bg-secondary-background">
               <SelectValue placeholder={t("portSelection.placeholder.protocol")} />
             </SelectTrigger>
             <SelectContent className="w-22">
