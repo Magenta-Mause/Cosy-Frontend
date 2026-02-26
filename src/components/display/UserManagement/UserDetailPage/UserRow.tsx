@@ -86,7 +86,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               {props.user.username}
               <UserRoleBadge role={props.userRole} />
               {isCurrentUser && (
-                <Badge className="bg-secondary-background border-accent border-2" onClick={() => setUserModalOpen(true)}>
+                <Badge className="bg-secondary-background border-accent border-2">
                   <User className="size-4" />
                   {t("yourProfile")}
                 </Badge>
