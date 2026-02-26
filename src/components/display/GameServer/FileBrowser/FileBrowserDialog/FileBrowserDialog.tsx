@@ -389,7 +389,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
               setSearch("");
             }}
           >
-            <Icon src={closeIcon} className="size-4" />
+            <Icon src={closeIcon} variant="foreground" className="size-4" />
           </button>
         }
         type="text"
