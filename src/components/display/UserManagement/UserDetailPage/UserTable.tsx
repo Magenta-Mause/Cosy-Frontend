@@ -87,9 +87,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
       <div className="flex flex-row gap-3 justify-between items-center w-full">
         <div className="flex flex-row items-center gap-3">
           <Input
-            startDecorator={
-              <Icon src={searchIcon} className="size-5" variant="foreground" bold="sm" />
-            }
+            startDecorator={<Icon src={searchIcon} className="size-6" variant="foreground" />}
             className="h-10 border-2"
             placeholder={t("components.userManagement.userTable.search")}
             value={searchTerm}
