@@ -82,55 +82,57 @@ const UserTable = ({ onRevoke }: UserListProps) => {
   }, [filteredUsers, sortField, isAsc]);
 
   return (
-    <div className="container text-base flex flex-col gap-2 w-full">
-      <div className="flex flex-row gap-3 justify-between items-center w-full">
-        <div className="flex flex-row items-center gap-3">
-          <Input
-            startDecorator={<Search />}
-            className="h-10 border-2 z-1"
-            placeholder={t("components.userManagement.userTable.search")}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <RoleFilter selectedRole={selectedRole} onRoleChange={setSelectedRole} />
-          <SortDropdown
-            sortField={sortField}
-            isAscending={isAsc}
-            onSortFieldChange={setSortField}
-            onSortDirectionToggle={() => setIsAsc(!isAsc)}
-          />
+    <div className="p-4">
+      <div className="container text-base flex flex-col gap-2 w-full">
+        <div className="flex flex-row gap-3 justify-between items-center w-full">
+          <div className="flex flex-row items-center gap-3">
+            <Input
+              startDecorator={<Search />}
+              className="h-10 border-2 z-1"
+              placeholder={t("components.userManagement.userTable.search")}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <RoleFilter selectedRole={selectedRole} onRoleChange={setSelectedRole} />
+            <SortDropdown
+              sortField={sortField}
+              isAscending={isAsc}
+              onSortFieldChange={setSortField}
+              onSortDirectionToggle={() => setIsAsc(!isAsc)}
+            />
+          </div>
+          <UserInviteButton className="z-10" />
         </div>
-        <UserInviteButton className="z-10" />
-      </div>
-      {sortedUsers.length > 0 ? (
-        sortedUsers.map((user, index) => (
-          <UserRow
-            key={user.uuid || index}
-            user={user}
-            userName={user.username ?? "Unknown"}
-            userRole={user.role ?? UserEntityDtoRole.QUOTA_USER}
-          />
-        ))
-      ) : (
-        <div className="text-center py-10 text-muted-foreground z-10">
-          {t("components.userManagement.userTable.noUsersFound")}{" "}
-          {selectedRole
-            ? `for role ${t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)}`
-            : ""}
-        </div>
-      )}
-      {users.length > 0 && invites.length > 0 && <Separator className="my-4 pb-0.5 z-10" />}
+        {sortedUsers.length > 0 ? (
+          sortedUsers.map((user, index) => (
+            <UserRow
+              key={user.uuid || index}
+              user={user}
+              userName={user.username ?? "Unknown"}
+              userRole={user.role ?? UserEntityDtoRole.QUOTA_USER}
+            />
+          ))
+        ) : (
+          <div className="text-center py-10 text-muted-foreground z-10">
+            {t("components.userManagement.userTable.noUsersFound")}{" "}
+            {selectedRole
+              ? `for role ${t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)}`
+              : ""}
+          </div>
+        )}
+        {users.length > 0 && invites.length > 0 && <Separator className="my-4 pb-0.5 z-10" />}
 
-      {invites.length > 0 && (
-        <>
-          <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider z-10">
-            {t("userModal.pendingInvites")}
-          </h4>
-          {invites.map((invite, index) => (
-            <PendingInvitesList onRevoke={onRevoke} invite={invite} key={invite.uuid || index} />
-          ))}
-        </>
-      )}
+        {invites.length > 0 && (
+          <>
+            <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wider z-10">
+              {t("userModal.pendingInvites")}
+            </h4>
+            {invites.map((invite, index) => (
+              <PendingInvitesList onRevoke={onRevoke} invite={invite} key={invite.uuid || index} />
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 };
