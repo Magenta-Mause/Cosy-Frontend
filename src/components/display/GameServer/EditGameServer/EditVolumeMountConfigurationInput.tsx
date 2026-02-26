@@ -9,16 +9,16 @@ import {
   AlertDialogTitle,
 } from "@components/ui/alert-dialog.tsx";
 import { Button } from "@components/ui/button.tsx";
+import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import Icon from "@components/ui/Icon.tsx";
-import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg?raw";
-import closeRoundedIcon from "@/assets/icons/closeRounded.svg?raw";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import type { VolumeMountConfiguration } from "@/api/generated/model";
+import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg?raw";
+import closeRoundedIcon from "@/assets/icons/closeRounded.svg?raw";
 import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
 import ListInputEdit from "./ListInputEditGameServer";
 

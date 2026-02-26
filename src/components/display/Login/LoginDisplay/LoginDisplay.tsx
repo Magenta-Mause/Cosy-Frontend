@@ -7,10 +7,10 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { login } from "@/api/generated/backend-api";
+import { Button } from "@/components/ui/button";
 import LoginBanner from "../LoginBanner/LoginBanner";
 import LoginForm from "../LoginDialog/LoginForm";
 

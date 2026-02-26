@@ -1,12 +1,12 @@
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
 import Icon from "@components/ui/Icon.tsx";
-import copyLinkIcon from "@/assets/icons/copyLink.svg?raw";
-import thrashIcon from "@/assets/icons/thrash.svg?raw";
+import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { UserInviteDto } from "@/api/generated/model";
+import copyLinkIcon from "@/assets/icons/copyLink.svg?raw";
+import thrashIcon from "@/assets/icons/thrash.svg?raw";
 
 interface UserListProps {
   onRevoke: (uuid: string) => void;
