@@ -79,7 +79,6 @@ const translation: i18nLanguage = {
     pendingInvites: "Pending Invites",
     unclaimedInvite: "Unclaimed Invite",
     created: "Created: {{date}}",
-    revokeTooltip: "Revoke invite",
     copyTooltip: "Click to copy link",
     roleLabel: "User role",
     editTooltip: "Click to edit user settings",
@@ -88,6 +87,13 @@ const translation: i18nLanguage = {
     cpuLimit: "CPU Cores (Optional)",
     cpuDescription: "Leave it empty to allow the user to have unlimited CPU cores.",
     placeholder: "Unlimited",
+    revoke: {
+      tooltip: "Revoke invite",
+      confirmTitle: "Revoke Invite",
+      confirmDescription:
+        "Are you sure you want to revoke this invite? This action cannot be undone.",
+      confirmAction: "Revoke",
+    },
   },
   inviteRedemption: {
     title: "Accept Invitation",
@@ -555,7 +561,7 @@ const translation: i18nLanguage = {
       },
       backButton: "Back",
       userDetailButton: {
-        viewUsers: "Marketplace",
+        viewUsers: "User Management",
       },
       userRow: {
         roles: {
@@ -563,7 +569,7 @@ const translation: i18nLanguage = {
           admin: "Admin",
           quota_user: "Quota",
         },
-        yourProfile: "Your Profile",
+        yourProfile: "You",
         actions: {
           editPassword: "Edit Password",
           editDockerLimits: "Edit Resource Limits",
