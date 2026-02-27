@@ -18,6 +18,12 @@ const translation: i18nLanguage = {
     viewLogs: "Logs anzeigen",
     loading: "Lädt...",
     failed: "Starten fehlgeschlagen",
+    theme: "Design",
+    themes: {
+      day: "Tag",
+      night: "Nacht",
+      auto: "Dynamisch",
+    },
   },
   toasts: {
     notImplemented: "Noch nicht implementiert!",

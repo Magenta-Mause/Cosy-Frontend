@@ -17,6 +17,12 @@ export type i18nLanguage = {
     viewLogs: string;
     loading: string;
     failed: string;
+    theme: string;
+    themes: {
+      day: string;
+      night: string;
+      auto: string;
+    };
   };
 
   toasts: {
