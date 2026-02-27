@@ -4,7 +4,6 @@ import {
   DialogContent,
   DialogDescription,
   DialogFooter,
-  DialogMain,
   DialogTitle,
 } from "@components/ui/dialog";
 import { useContext, useState } from "react";
@@ -49,9 +48,7 @@ const LoginDisplay = () => {
           <DialogContent className="w-100">
             <DialogTitle>{t("signIn.signIn")}</DialogTitle>
             <DialogDescription>{t("signIn.desc")}</DialogDescription>
-            <DialogMain>
-              <LoginForm loginCallback={handleLogin} error={error} />
-            </DialogMain>
+            <LoginForm loginCallback={handleLogin} error={error} />
             <DialogFooter>
               <Button type="submit" form="login-form" disabled={isLoggingIn} className="w-full">
                 {isLoggingIn ? t("signIn.loading") : t("signIn.signIn")}
