@@ -2,7 +2,7 @@ import SettingsActionButtons from "@components/display/GameServer/GameServerSett
 import UnsavedModal from "@components/ui/UnsavedModal";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
+import { modal } from "@/lib/notificationModal";
 import castle from "@/assets/MainPage/castle.png";
 import house from "@/assets/MainPage/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
@@ -23,7 +23,7 @@ const DesignSettingsSection = () => {
 
   const handleSave = async () => {
     if (!gameServer.uuid) {
-      toast.error(t("toasts.missingUuid"));
+      modal.error({ message: t("toasts.missingUuid") });
       return;
     }
     setLoading(true);

@@ -10,9 +10,9 @@ import {
 import { Input } from "@components/ui/input.tsx";
 import type * as React from "react";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { useChangePassword } from "@/api/generated/backend-api";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { modal } from "@/lib/notificationModal";
 
 interface ChangePasswordModalProps {
   open: boolean;
@@ -44,7 +44,7 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
     e.preventDefault();
 
     if (!uuid) {
-      toast.error(t("missingUuid"));
+      modal.error({ message: t("missingUuid") });
       return;
     }
 
@@ -52,14 +52,13 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
       { uuid, data: { old_password: oldPassword, new_password: newPassword } },
       {
         onSuccess: () => {
-          toast.success(t("passwordChangeSuccess"));
           setOldPassword("");
           setNewPassword("");
           setConfirmPassword("");
           onOpenChange(false);
         },
-        onError: () => {
-          toast.error(t("passwordChangeError"));
+        onError: (err) => {
+          modal.error({ message: t("passwordChangeError"), cause: err });
         },
       },
     );

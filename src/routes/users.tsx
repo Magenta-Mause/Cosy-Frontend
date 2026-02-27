@@ -2,10 +2,12 @@ import BackToHomeLink from "@components/display/GameServer/GameServerDetailPageL
 import { GameServerNotFoundPage } from "@components/display/GameServer/GameServerNotFoundPage/GameServerNotFoundPage";
 import UserTable from "@components/display/UserManagement/UserDetailPage/UserTable";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
+import { ThemeContext, ThemeOptions } from "@components/technical/Providers/ThemeProvider.tsx";
 import { createFileRoute } from "@tanstack/react-router";
 import { type CSSProperties, useContext } from "react";
 import { UserEntityDtoRole } from "@/api/generated/model";
-import marketplace from "@/assets/userManagement/market-bg-day.png";
+import marketplace_day from "@/assets/userManagement/market-bg-day.png";
+import marketplace_night from "@/assets/userManagement/market-bg-night.png";
 import marketplace_foreground from "@/assets/userManagement/market-foreground.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import { useRequireRoles } from "@/utils/routeGuards";
@@ -17,6 +19,9 @@ export const Route = createFileRoute("/users")({
 function UserDetailPage() {
   const { revokeInvite } = useDataInteractions();
   const auth = useContext(AuthContext);
+  const { currentTheme } = useContext(ThemeContext);
+  const currentBackground =
+    currentTheme === ThemeOptions.NIGHT ? marketplace_night : marketplace_day;
 
   const hasAccess = useRequireRoles([UserEntityDtoRole.OWNER, UserEntityDtoRole.ADMIN]);
 
@@ -37,14 +42,16 @@ function UserDetailPage() {
       <div className="hidden lg:block w-screen h-screen bg-black relative overflow-hidden">
         <div
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex"
-          style={{
-            width: "max(100vw, 100vh)",
-            height: "max(100vh, 100vw)",
-            backgroundImage: `url(${marketplace})`,
-            imageRendering: "pixelated",
-            backgroundSize: "100% 100%",
-            backgroundRepeat: "no-repeat",
-          } as CSSProperties}
+          style={
+            {
+              width: "max(100vw, 100vh)",
+              height: "max(100vh, 100vw)",
+              backgroundImage: `url(${currentBackground})`,
+              imageRendering: "pixelated",
+              backgroundSize: "100% 100%",
+              backgroundRepeat: "no-repeat",
+            } as CSSProperties
+          }
         >
           <div className="grow flex flex-col min-w-0 relative z-10 justify-center h-auto">
             <img

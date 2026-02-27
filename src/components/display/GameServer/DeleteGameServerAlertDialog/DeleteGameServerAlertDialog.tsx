@@ -46,7 +46,7 @@ export function DeleteGameServerAlertDialog({
         onOpenChange(false); // Close dialog on success
         navigate({ to: "/", search: { deleted: true } });
       } catch (_e) {
-        // Error is already handled by the hook, no need to toast here
+        // Error is already handled by the hook
       } finally {
         setLoading(false);
       }

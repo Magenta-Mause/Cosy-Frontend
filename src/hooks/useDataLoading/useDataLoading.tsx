@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { toast } from "sonner";
+import { modal } from "@/lib/notificationModal";
 import { v7 as generateUuid } from "uuid";
 import {
   getAllGameServers,
@@ -288,7 +288,7 @@ const useDataLoading = () => {
         }),
       );
     } catch {
-      toast.error(`Failed to load public metrics for server: ${gameServerUuid}`);
+      modal.error({ message: `Failed to load public metrics for server: ${gameServerUuid}` });
       dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "failed" }));
     }
   };
@@ -325,7 +325,7 @@ const useDataLoading = () => {
         );
         dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "idle" }));
       } catch {
-        toast.error(`Failed to load metrics for server: ${gameServerUuid}`);
+        modal.error({ message: `Failed to load metrics for server: ${gameServerUuid}` });
         dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "failed" }));
       }
     },

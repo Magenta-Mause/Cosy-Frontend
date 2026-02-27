@@ -3,15 +3,17 @@ import RightClickMenu, {
 } from "@components/display/Configurations/RightClickMenu/RightClickMenu.tsx";
 import CreateGameServer from "@components/display/GameServer/CreateGameServer/CreateGameServer";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import { ThemeContext, ThemeOptions } from "@components/technical/Providers/ThemeProvider.tsx";
 import { type ReactNode, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
+import { modal } from "@/lib/notificationModal";
 
 const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode }) => {
   const { t } = useTranslation();
   const { loadGameServers } = useDataLoading();
   const { authorized } = useContext(AuthContext);
+  const { selectedTheme, setTheme } = useContext(ThemeContext);
 
   const [openIsGameServerCreationModalOpen, setIsOpenGameServerCreationModalOpen] = useState(false);
 
@@ -20,11 +22,37 @@ const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode })
       label: t("rightClickMenu.refresh"),
       onClick: async () => {
         if (await loadGameServers()) {
-          toast.success(t("toasts.refreshGameServersSuccess"));
         } else {
-          toast.error(t("toasts.refreshGameServersError"));
+          modal.error({ message: t("toasts.refreshGameServersError") });
         }
       },
+    },
+    {
+      label: t("rightClickMenu.theme"),
+      value: selectedTheme ?? "",
+      children: [
+        {
+          label: t("rightClickMenu.themes.auto"),
+          onClick: () => {
+            setTheme(null);
+          },
+          value: "",
+        },
+        {
+          label: t("rightClickMenu.themes.day"),
+          onClick: () => {
+            setTheme("day");
+          },
+          value: ThemeOptions.DAY,
+        },
+        {
+          label: t("rightClickMenu.themes.night"),
+          onClick: () => {
+            setTheme("night");
+          },
+          value: ThemeOptions.NIGHT,
+        },
+      ],
     },
     ...(authorized
       ? [

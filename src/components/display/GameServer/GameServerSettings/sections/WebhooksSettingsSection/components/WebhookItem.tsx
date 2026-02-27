@@ -1,8 +1,8 @@
 import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
+import CopyButton from "@components/ui/CopyButton";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { Check, CheckCircle2, Copy, Link2, Pencil, Trash2, XCircle } from "lucide-react";
-import { useState } from "react";
+import { CheckCircle2, Pencil, Trash2, XCircle } from "lucide-react";
 import type { WebhookDto } from "@/api/generated/model";
 
 interface WebhookItemProps {
@@ -24,27 +24,20 @@ const WebhookItem = ({
   getEventLabel,
   t,
 }: WebhookItemProps) => {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopyUrl = async () => {
-    if (!webhook.webhook_url) return;
-    await navigator.clipboard.writeText(webhook.webhook_url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   return (
     <div className="border border-border rounded-lg p-4 flex flex-col gap-4 bg-card/50 hover:bg-card transition-colors">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-center gap-2">
-          <Badge className="text-sm text-bold bg-accent">
+          <Badge className="text-sm text-bold bg-accent px-3 py-0">
             {getWebhookTypeLabel(webhook.webhook_type)}
           </Badge>
           <div className="flex items-center gap-1.5">
             {webhook.enabled ? (
               <>
-                <CheckCircle2 className="h-4 w-4 text-green-500" />
-                <span className="text-sm text-green-500 font-medium">{t("state.enabled")}</span>
+                <CheckCircle2 className="h-4 w-4 text-button-primary-default" />
+                <span className="text-sm text-button-primary-default font-medium">
+                  {t("state.enabled")}
+                </span>
               </>
             ) : (
               <>
@@ -82,29 +75,22 @@ const WebhookItem = ({
 
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <Link2 className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+          <span className="text-sm text-button-primary-default font-bold shrink-0 mt-0.5">
+            {t("labels.url")}:
+          </span>
           <code className="text-xs bg-muted/50 px-2 py-1 rounded break-all flex-1 font-mono text-muted-foreground">
             {webhook.webhook_url}
           </code>
-          <TooltipWrapper tooltip={copied ? t("copied") : t("copyUrl")}>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="h-7 w-7 shrink-0"
-              onClick={handleCopyUrl}
-            >
-              {copied ? (
-                <Check className="h-3.5 w-3.5 bg-green-500" />
-              ) : (
-                <Copy className="h-3.5 w-3.5" />
-              )}
-            </Button>
-          </TooltipWrapper>
+          <CopyButton
+            value={webhook.webhook_url ?? ""}
+            tooltip={t("copyUrl")}
+            copiedTooltip={t("copied")}
+            className="h-7 w-7 shrink-0"
+          />
         </div>
 
         <div className="flex items-start gap-2">
-          <span className="text-sm text-muted-foreground font-bold shrink-0 mt-0.5">
+          <span className="text-sm text-button-primary-default font-bold shrink-0 mt-0.5">
             {t("labels.events")}:
           </span>
           <div className="flex flex-wrap gap-1.5">

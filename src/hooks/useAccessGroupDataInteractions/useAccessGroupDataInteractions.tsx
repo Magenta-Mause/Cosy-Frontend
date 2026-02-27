@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
-import { toast } from "sonner";
 import {
   useCreateGameServerAccessGroup,
   useDeleteGameServerAccessGroup,
   useUpdateGameServerAccessGroups,
 } from "@/api/generated/backend-api.ts";
 import type { AccessGroupCreationDto, AccessGroupUpdateDto } from "@/api/generated/model";
+import { modal } from "@/lib/notificationModal";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
@@ -22,10 +22,9 @@ const useAccessGroupDataInteractions = () => {
             accessGroup: createdAccessGroup,
           }),
         );
-        toast.success(t("updateGameServerSuccess"));
       },
       onError: (err) => {
-        toast.error(t("updateGameServerError"));
+        modal.error({ message: t("updateGameServerError"), cause: err });
         throw err;
       },
     },
@@ -50,10 +49,10 @@ const useAccessGroupDataInteractions = () => {
             accessGroupUuid: props.accessGroupUuid,
           }),
         );
-        toast.success(t("updateGameServerSuccess"));
+        modal.success({ message: t("updateGameServerSuccess") });
       },
       onError: (err) => {
-        toast.error(t("updateGameServerError"));
+        modal.error({ message: t("updateGameServerError"), cause: err });
         throw err;
       },
     },
@@ -75,10 +74,10 @@ const useAccessGroupDataInteractions = () => {
             newAccessGroups: updatedAccessGroups,
           }),
         );
-        toast.success(t("updateGameServerSuccess"));
+        modal.success({ message: t("updateGameServerSuccess") });
       },
       onError: (err) => {
-        toast.error(t("updateGameServerError"));
+        modal.error({ message: t("updateGameServerError"), cause: err });
         throw err;
       },
     },

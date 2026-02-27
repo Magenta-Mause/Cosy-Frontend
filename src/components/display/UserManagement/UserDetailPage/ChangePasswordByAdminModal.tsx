@@ -10,8 +10,8 @@ import {
 } from "@components/ui/dialog";
 import { Input } from "@components/ui/input";
 import { useState } from "react";
-import { useChangePasswordByAdmin } from "@/api/generated/backend-api";
 import type { UserEntityDto } from "@/api/generated/model";
+import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
 const ChangePasswordByAdminModal = (props: {
@@ -20,32 +20,24 @@ const ChangePasswordByAdminModal = (props: {
   onClose: () => void;
 }) => {
   const { t } = useTranslationPrefix("components.userManagement.admin.changePasswordDialog");
+  const { changePasswordByAdmin } = useDataInteractions();
   const [newPassword, setNewPassword] = useState("");
-  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const handleClose = () => {
     setNewPassword("");
-    setSubmitError(null);
     props.onClose();
   };
 
-  const { mutate: changePasswordByAdmin } = useChangePasswordByAdmin({
-    mutation: {
-      onSuccess: () => {
-        handleClose();
-      },
-      onError: () => {
-        setSubmitError(t("submitError"));
-      },
-    },
-  });
-
   const hasPasswordError = newPassword.length > 0 && newPassword.length < 8;
 
-  const handleChangePassword = () => {
+  const handleChangePassword = async () => {
     if (!props.user.uuid) return;
-    setSubmitError(null);
-    changePasswordByAdmin({ uuid: props.user.uuid, data: { new_password: newPassword } });
+    try {
+      await changePasswordByAdmin(props.user.uuid, newPassword);
+      handleClose();
+    } catch {
+      // Error is already handled by the hook
+    }
   };
 
   return (
@@ -62,15 +54,11 @@ const ChangePasswordByAdminModal = (props: {
             description={t("newPasswordDescription")}
             placeholder={t("newPasswordPlaceholder")}
             value={newPassword}
-            onChange={(e) => {
-              setNewPassword(e.target.value);
-              setSubmitError(null);
-            }}
+            onChange={(e) => setNewPassword(e.target.value)}
             error={hasPasswordError ? t("newPasswordError") : undefined}
           />
         </DialogMain>
         <DialogFooter>
-          {submitError && <p className="text-sm text-destructive">{submitError}</p>}
           <Button variant="secondary" onClick={handleClose}>
             {t("cancelButton")}
           </Button>
