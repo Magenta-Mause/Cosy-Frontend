@@ -181,7 +181,7 @@ function ListInput<T extends { uuid: string }>({
 
   return (
     <Field>
-      <FieldLabel htmlFor="key-value-input">{fieldLabel}</FieldLabel>
+      <FieldLabel className="font-bold" htmlFor="key-value-input">{fieldLabel}</FieldLabel>
 
       <div className="space-y-2 w-full">
         {values.map((keyValuePair, index) => {
