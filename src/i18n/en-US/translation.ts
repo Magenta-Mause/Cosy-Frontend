@@ -246,6 +246,7 @@ const translation: i18nLanguage = {
           title: "Choose name and Game",
           serverNameSelection: {
             title: "Server Name",
+            placeholder: "Australiania",
             description: "Name your server",
             errorLabel: "Please enter a valid server name.",
           },

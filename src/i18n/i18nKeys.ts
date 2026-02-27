@@ -302,6 +302,7 @@ export type i18nLanguage = {
           title: string;
           serverNameSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };
