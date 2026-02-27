@@ -22,7 +22,7 @@ interface UserListProps {
 
 const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
   const { t } = useTranslation();
-  const [deleteConfirmationDialogOpen, setDeleteConfirmationDialogOpen] = useState(false);
+  const [revokeConfirmationDialogOpen, setRevokeConfirmationDialogOpen] = useState(false);
 
   return (
     <>
@@ -58,7 +58,7 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
               </Button>
             </TooltipWrapper>
             <TooltipWrapper tooltip={t("userModal.revoke.tooltip")} asChild>
-              <Button className="h-10 w-10 hover:text-destructive" onClick={() => setDeleteConfirmationDialogOpen(true)}>
+              <Button className="h-10 w-10 hover:text-destructive" onClick={() => setRevokeConfirmationDialogOpen(true)}>
                 <Trash2 className="size-5" />
                 <span className="sr-only">{t("userModal.revoke.tooltip")}</span>
               </Button>
@@ -67,14 +67,14 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
         </CardContent>
       </Card>
 
-      <Dialog open={deleteConfirmationDialogOpen} onOpenChange={setDeleteConfirmationDialogOpen}>
+      <Dialog open={revokeConfirmationDialogOpen} onOpenChange={setRevokeConfirmationDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("userModal.revoke.confirmTitle")}</DialogTitle>
             <DialogDescription>{t("userModal.revoke.confirmDescription")}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <Button variant="primary" onClick={() => setDeleteConfirmationDialogOpen(false)}>
+            <Button variant="primary" onClick={() => setRevokeConfirmationDialogOpen(false)}>
               {t("userModal.cancel")}
             </Button>
             <Button
@@ -83,7 +83,7 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
                 if (invite.uuid) {
                   onRevoke(invite.uuid);
                 }
-                setDeleteConfirmationDialogOpen(false);
+                setRevokeConfirmationDialogOpen(false);
               }}
             >
               {t("userModal.revoke.confirmAction")}
