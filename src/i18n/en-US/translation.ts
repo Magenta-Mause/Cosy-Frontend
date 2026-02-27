@@ -305,7 +305,7 @@ const translation: i18nLanguage = {
           hostPathSelection: {
             title: "Volume Mount",
             description: "Volume mounts for your server",
-            errorLabel: "Path cannot be equal to '/'.",
+            errorLabel: "Path must start with '/' and cannot be exactly '/'.",
           },
           memoryLimitSelection: {
             title: "RAM Limit",
@@ -448,6 +448,12 @@ const translation: i18nLanguage = {
         title: "Execution command",
         description: "Command used to start the server",
         errorLabel: "Execution command must not be empty",
+      },
+
+      hostPathSelection: {
+        title: "Volume Mount",
+        description: "Volume mounts for your server",
+        errorLabel: "Path must start with '/' and cannot be exactly '/'.",
       },
 
       volumeMountSelection: {

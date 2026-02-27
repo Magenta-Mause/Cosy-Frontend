@@ -309,7 +309,7 @@ const translation: i18nLanguage = {
           hostPathSelection: {
             title: "Volume-Mount",
             description: "Volume-Mounts für deinen Server",
-            errorLabel: "Containerpfad darf nicht '/' sein.",
+            errorLabel: "Pfad muss mit '/' beginnen und darf nicht genau '/' sein.",
           },
           memoryLimitSelection: {
             title: "RAM Limit",
@@ -450,6 +450,12 @@ const translation: i18nLanguage = {
         title: "Ausführungsbefehl",
         description: "Befehl zum Starten des Servers",
         errorLabel: "Ausführungsbefehl darf nicht leer sein",
+      },
+
+      hostPathSelection: {
+        title: "Volume-Mount",
+        description: "Volume-Mounts für deinen Server",
+        errorLabel: "Pfad muss mit '/' beginnen und darf nicht genau '/' sein.",
       },
 
       volumeMountSelection: {
