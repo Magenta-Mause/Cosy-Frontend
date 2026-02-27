@@ -14,8 +14,8 @@ import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useContext, useState } from "react";
 import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
-import dotsIcon from "@/assets/icons/dots.svg?raw";
-import userIcon from "@/assets/icons/user.svg?raw";
+import dotsIcon from "@/assets/icons/dots.svg";
+import userIcon from "@/assets/icons/user.svg";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
@@ -127,7 +127,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               <TooltipWrapper tooltip={t("moreOptions")}>
                 <DropdownMenuTrigger asChild disabled={!canOpenMoreOptions}>
                   <Button className="h-10 w-10">
-                    <Icon src={dotsIcon} className="size-6" viewBox="0 5 16 16" />
+                    <Icon src={dotsIcon} className="size-6" />
                   </Button>
                 </DropdownMenuTrigger>
               </TooltipWrapper>

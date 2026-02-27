@@ -6,8 +6,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { useSendCommand } from "@/api/generated/backend-api";
-import arrowRightIcon from "@/assets/icons/arrowRight.svg?raw";
-import arrowSentIcon from "@/assets/icons/arrowSent.svg?raw";
+import arrowRightIcon from "@/assets/icons/arrowRight.svg";
+import arrowSentIcon from "@/assets/icons/arrowSent.svg";
 import { cn } from "@/lib/utils.ts";
 import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice.ts";
 

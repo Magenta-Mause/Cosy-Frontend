@@ -4,13 +4,13 @@ import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useState } from "react";
 import type { WebhookDto } from "@/api/generated/model";
-import checkmarkIcon from "@/assets/icons/checkmark.svg?raw";
-import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg?raw";
-import closeRoundedIcon from "@/assets/icons/closeRounded.svg?raw";
-import copyIcon from "@/assets/icons/copy.svg?raw";
-import linkIcon from "@/assets/icons/link.svg?raw";
-import pencilWriteIcon from "@/assets/icons/pencilWrite.svg?raw";
-import thrashIcon from "@/assets/icons/thrash.svg?raw";
+import checkmarkIcon from "@/assets/icons/checkmark.svg";
+import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg";
+import closeRoundedIcon from "@/assets/icons/closeRounded.svg";
+import copyIcon from "@/assets/icons/copy.svg";
+import linkIcon from "@/assets/icons/link.svg";
+import pencilWriteIcon from "@/assets/icons/pencilWrite.svg";
+import thrashIcon from "@/assets/icons/thrash.svg";
 
 interface WebhookItemProps {
   webhook: WebhookDto;

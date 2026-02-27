@@ -1,8 +1,8 @@
 import { Button } from "@components/ui/button.tsx";
 import Icon from "@components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
-import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg?raw";
-import copyIcon from "@/assets/icons/copy.svg?raw";
+import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg";
+import copyIcon from "@/assets/icons/copy.svg";
 
 interface InviteResultProps {
   generatedKey: string | null;

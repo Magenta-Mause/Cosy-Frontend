@@ -17,8 +17,8 @@ import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import type { VolumeMountConfiguration } from "@/api/generated/model";
-import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg?raw";
-import closeRoundedIcon from "@/assets/icons/closeRounded.svg?raw";
+import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg";
+import closeRoundedIcon from "@/assets/icons/closeRounded.svg";
 import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
 import ListInputEdit from "./ListInputEditGameServer";
 

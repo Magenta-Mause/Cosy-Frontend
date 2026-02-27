@@ -5,8 +5,8 @@ import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { UserInviteDto } from "@/api/generated/model";
-import copyLinkIcon from "@/assets/icons/copyLink.svg?raw";
-import thrashIcon from "@/assets/icons/thrash.svg?raw";
+import copyLinkIcon from "@/assets/icons/copyLink.svg";
+import thrashIcon from "@/assets/icons/thrash.svg";
 
 interface UserListProps {
   onRevoke: (uuid: string) => void;

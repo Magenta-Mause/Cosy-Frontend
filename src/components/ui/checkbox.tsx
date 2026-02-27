@@ -1,5 +1,5 @@
 import * as React from "react"
-import checkIcon from "@/assets/icons/checkmark.svg?raw"
+import checkIcon from "@/assets/icons/checkmark.svg"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 
 import { cn } from "@/lib/utils"

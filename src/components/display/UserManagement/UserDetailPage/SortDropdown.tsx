@@ -8,9 +8,9 @@ import {
 } from "@components/ui/dropdown-menu";
 import Icon from "@components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
-import sortIcon from "@/assets/icons/sort.svg?raw";
-import sortDownIcon from "@/assets/icons/sortDown.svg?raw";
-import sortUpIcon from "@/assets/icons/sortUp.svg?raw";
+import sortIcon from "@/assets/icons/sort.svg";
+import sortDownIcon from "@/assets/icons/sortDown.svg";
+import sortUpIcon from "@/assets/icons/sortUp.svg";
 
 export type SortField = "username" | "role" | "docker_max_cpu_cores" | "docker_memory_limit";
 

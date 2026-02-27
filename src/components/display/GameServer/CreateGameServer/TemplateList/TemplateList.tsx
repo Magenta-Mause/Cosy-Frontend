@@ -1,7 +1,7 @@
 import { Card } from "@components/ui/card.tsx";
 import Icon from "@components/ui/Icon.tsx";
 import type { TemplateEntity } from "@/api/generated/model";
-import checkmarkIcon from "@/assets/icons/checkmark.svg?raw";
+import checkmarkIcon from "@/assets/icons/checkmark.svg";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 const TemplateList = ({

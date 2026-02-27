@@ -31,13 +31,13 @@ import logsMetricsBackgroundImage from "@/assets/gameServerDetailPage/logs-metri
 import logsMetricsForegroundImage from "@/assets/gameServerDetailPage/logs-metrics-fg.webp";
 import settingsBackgroundImage from "@/assets/gameServerDetailPage/settings-bg.webp";
 import settingsForegroundImage from "@/assets/gameServerDetailPage/settings-fg.webp";
-import consoleIcon from "@/assets/icons/console.svg?raw";
-import doorClosedIcon from "@/assets/icons/doorClosed.svg?raw";
-import dotsIcon from "@/assets/icons/dots.svg?raw";
-import folderIcon from "@/assets/icons/folder.svg?raw";
-import houseIcon from "@/assets/icons/house.svg?raw";
-import chartIcon from "@/assets/icons/metrics.svg?raw";
-import settingsIcon from "@/assets/icons/settings.svg?raw";
+import consoleIcon from "@/assets/icons/console.svg";
+import doorClosedIcon from "@/assets/icons/doorClosed.svg";
+import dotsIcon from "@/assets/icons/dots.svg";
+import folderIcon from "@/assets/icons/folder.svg";
+import houseIcon from "@/assets/icons/house.svg";
+import chartIcon from "@/assets/icons/metrics.svg";
+import settingsIcon from "@/assets/icons/settings.svg";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import { cn } from "@/lib/utils.ts";
 
@@ -306,7 +306,7 @@ const MobileTabBar = (props: { gameServer: GameServerDto }) => {
         <PopoverTrigger asChild>
           <button type="button" className="flex-1 flex flex-col items-center py-2 gap-1">
             <div className="p-2 rounded-md">
-              <Icon src={dotsIcon} variant="secondary" viewBox="0 5 16 16" />
+              <Icon src={dotsIcon} variant="secondary" />
             </div>
           </button>
         </PopoverTrigger>

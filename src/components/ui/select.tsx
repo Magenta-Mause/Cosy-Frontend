@@ -1,8 +1,8 @@
 import * as React from "react"
 import * as SelectPrimitive from "@radix-ui/react-select"
-import checkIcon from "@/assets/icons/checkmark.svg?raw"
-import arrowDown from "@/assets/icons/arrowDown.svg?raw"
-import arrowUp from "@/assets/icons/arrowUp.svg?raw"
+import checkIcon from "@/assets/icons/checkmark.svg"
+import arrowDown from "@/assets/icons/arrowDown.svg"
+import arrowUp from "@/assets/icons/arrowUp.svg"
 
 import { cn } from "@/lib/utils"
 import Icon from "@components/ui/Icon.tsx";

@@ -14,33 +14,37 @@ type IconProps = {
   alt?: string;
   className?: string;
   variant?: Variant;
-  viewBox?: string;
   bold?: boolean | "sm";
-} & Omit<React.SVGAttributes<SVGSVGElement>, "children">;
+} & Omit<React.HTMLAttributes<HTMLSpanElement>, "children">;
 
-const Icon = ({ src, alt = "", className, variant = "primary", viewBox = "0 0 16 16", bold = false, ...rest }: IconProps) => {
-  const innerHtml = src
-    .replace(/fill="#FFFFFF"/gi, 'fill="currentColor"')
-    .replace(/^[\s\S]*<svg[^>]*>([\s\S]*)<\/svg>[\s\S]*$/, "$1");
-
+const Icon = ({ src, alt = "", className, variant = "primary", bold = false, style, ...rest }: IconProps) => {
   return (
-    <svg
-      viewBox={viewBox}
-      shapeRendering="crispEdges"
+    <span
       role={alt ? "img" : undefined}
       aria-label={alt || undefined}
       aria-hidden={alt ? undefined : true}
+      style={{
+        maskImage: `url("${src}")`,
+        maskRepeat: "no-repeat",
+        maskSize: "contain",
+        maskPosition: "center",
+        maskMode: "alpha",
+        WebkitMaskImage: `url("${src}")`,
+        WebkitMaskRepeat: "no-repeat",
+        WebkitMaskSize: "contain",
+        WebkitMaskPosition: "center",
+        ...style,
+      }}
       className={cn(
-        "size-7 shrink-0 pointer-events-none [image-rendering:pixelated]",
-        bold === "sm" && "[filter:drop-shadow(1px_0_0_currentColor)_drop-shadow(-1px_0_0_currentColor)]",
-        bold === true && "[filter:drop-shadow(1px_0_0_currentColor)_drop-shadow(-1px_0_0_currentColor)_drop-shadow(0_1px_0_currentColor)_drop-shadow(0_-1px_0_currentColor)]",
+        "inline-block size-7 shrink-0 pointer-events-none bg-current",
+        bold === "sm" && "filter-[drop-shadow(1px_0_0_currentColor)_drop-shadow(-1px_0_0_currentColor)]",
+        bold === true && "filter-[drop-shadow(1px_0_0_currentColor)_drop-shadow(-1px_0_0_currentColor)_drop-shadow(0_1px_0_currentColor)_drop-shadow(0_-1px_0_currentColor)]",
         variantClass[variant],
         className,
       )}
-      dangerouslySetInnerHTML={{ __html: innerHtml }}
       {...rest}
     />
   );
-};
+}
 
 export default Icon;

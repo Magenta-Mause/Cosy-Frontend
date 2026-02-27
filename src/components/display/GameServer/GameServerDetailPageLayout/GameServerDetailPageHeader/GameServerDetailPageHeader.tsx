@@ -6,7 +6,7 @@ import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useNavigate } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
 import type { GameServerDto } from "@/api/generated/model";
-import globeIcon from "@/assets/icons/globe.svg?raw";
+import globeIcon from "@/assets/icons/globe.svg";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils.ts";
 

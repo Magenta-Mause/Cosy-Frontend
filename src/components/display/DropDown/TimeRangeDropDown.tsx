@@ -3,7 +3,7 @@ import Icon from "@components/ui/Icon.tsx";
 import { format } from "date-fns";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import arrowDownIcon from "@/assets/icons/arrowDown.svg?raw";
+import arrowDownIcon from "@/assets/icons/arrowDown.svg";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

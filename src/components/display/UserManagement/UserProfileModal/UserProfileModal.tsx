@@ -15,7 +15,7 @@ import { Input } from "@components/ui/input.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import pencilWrite from "@/assets/icons/pencilWrite.svg?raw";
+import pencilWrite from "@/assets/icons/pencilWrite.svg";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage.tsx";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";

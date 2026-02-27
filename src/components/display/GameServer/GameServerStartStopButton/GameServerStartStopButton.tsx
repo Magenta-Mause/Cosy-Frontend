@@ -7,7 +7,7 @@ import {
   type GameServerDto,
   GameServerDtoStatus,
 } from "@/api/generated/model";
-import powerIcon from "@/assets/icons/power.svg?raw";
+import powerIcon from "@/assets/icons/power.svg";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
 

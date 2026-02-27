@@ -1,8 +1,8 @@
 import * as React from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
-import checkIcon from "@/assets/icons/checkmark.svg?raw"
-import arrowRight from "@/assets/icons/arrowRight.svg?raw"
-import circleIcon from "@/assets/icons/circle.svg?raw"
+import checkIcon from "@/assets/icons/checkmark.svg"
+import arrowRight from "@/assets/icons/arrowRight.svg"
+import circleIcon from "@/assets/icons/circle.svg"
 
 import { cn } from "@/lib/utils"
 import Icon from "@components/ui/Icon.tsx";
@@ -136,7 +136,7 @@ function DropdownMenuRadioItem({
     >
       <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
         <DropdownMenuPrimitive.ItemIndicator>
-          <Icon src={circleIcon} variant="foreground" className="size-2 fill-current" />
+          <Icon src={circleIcon} variant="foreground" className="size-2" />
         </DropdownMenuPrimitive.ItemIndicator>
       </span>
       {children}

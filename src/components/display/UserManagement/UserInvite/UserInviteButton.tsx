@@ -13,7 +13,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { UserEntityDtoRole } from "@/api/generated/model";
-import addUserIcon from "@/assets/icons/addUser.svg?raw";
+import addUserIcon from "@/assets/icons/addUser.svg";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { getCpuLimitError } from "@/lib/validators/cpuLimitValidator.ts";
 import { getMemoryLimitError } from "@/lib/validators/memoryLimitValidator.ts";
@@ -139,7 +139,7 @@ const UserInviteButton = (props: { className?: string }) => {
     >
       <DialogTrigger asChild>
         <Button className={props.className} aria-label={t("userModal.title")}>
-          <Icon src={addUserIcon} className="size-5" />
+          <Icon src={addUserIcon} className="size-5" bold={true} />
           {t("userModal.inviteUserTitle")}
         </Button>
       </DialogTrigger>

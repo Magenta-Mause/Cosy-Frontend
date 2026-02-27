@@ -8,12 +8,12 @@ import {
 import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import type { FileSystemObjectDto } from "@/api/generated/model";
-import dotsIcon from "@/assets/icons/dots.svg?raw";
-import downloadIcon from "@/assets/icons/download.svg?raw";
-import fileIcon from "@/assets/icons/file.svg?raw";
-import folderIcon from "@/assets/icons/folder.svg?raw";
-import pencilWriteIcon from "@/assets/icons/pencilWrite.svg?raw";
-import thrashIcon from "@/assets/icons/thrash.svg?raw";
+import dotsIcon from "@/assets/icons/dots.svg";
+import downloadIcon from "@/assets/icons/download.svg";
+import fileIcon from "@/assets/icons/file.svg";
+import folderIcon from "@/assets/icons/folder.svg";
+import pencilWriteIcon from "@/assets/icons/pencilWrite.svg";
+import thrashIcon from "@/assets/icons/thrash.svg";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { formatBytes, formatUnixPerms, isDirectory, joinRemotePath } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
@@ -219,7 +219,7 @@ export const FileBrowserRow = ({
                 disabled={loading}
                 aria-label={t("renameAction")}
               >
-                <Icon src={dotsIcon} variant="foreground" className="size-4" viewBox="0 5 16 16" />
+                <Icon src={dotsIcon} variant="foreground" className="size-4" />
               </button>
             </DropdownMenuTrigger>
 

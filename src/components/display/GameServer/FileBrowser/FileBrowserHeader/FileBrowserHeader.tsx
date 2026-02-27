@@ -1,9 +1,9 @@
 import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import arrowRightIcon from "@/assets/icons/arrowRight.svg?raw";
-import houseIcon from "@/assets/icons/house.svg?raw";
-import plusIcon from "@/assets/icons/plus.svg?raw";
-import reloadIcon from "@/assets/icons/reload.svg?raw";
+import arrowRightIcon from "@/assets/icons/arrowRight.svg";
+import houseIcon from "@/assets/icons/house.svg";
+import plusIcon from "@/assets/icons/plus.svg";
+import reloadIcon from "@/assets/icons/reload.svg";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 

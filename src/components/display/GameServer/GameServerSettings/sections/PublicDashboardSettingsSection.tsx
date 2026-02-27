@@ -11,7 +11,7 @@ import {
   MetricLayoutSize,
   type PublicDashboardLayout,
 } from "@/api/generated/model";
-import pencilWriteIcon from "@/assets/icons/pencilWrite.svg?raw";
+import pencilWriteIcon from "@/assets/icons/pencilWrite.svg";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
