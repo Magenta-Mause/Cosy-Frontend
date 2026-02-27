@@ -53,6 +53,7 @@ const LoginDisplay = () => {
               <Button type="submit" form="login-form" disabled={isLoggingIn} className="w-full">
                 {isLoggingIn ? t("signIn.loading") : t("signIn.signIn")}
               </Button>
+              <p>Made with love by Medalheads</p>
             </DialogFooter>
           </DialogContent>
         </Dialog>
