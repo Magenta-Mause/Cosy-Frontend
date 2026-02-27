@@ -232,7 +232,7 @@ const translation: i18nLanguage = {
         title: "Server erstellt!",
         description: '"{{name}}" ist bereit gestartet werden.',
         completedStepLabel: "Server bereit!",
-        doneButton: "Fertig",
+        doneButton: "Schließen",
         openDashboard: "Dashboard öffnen",
       },
       listInput: {
