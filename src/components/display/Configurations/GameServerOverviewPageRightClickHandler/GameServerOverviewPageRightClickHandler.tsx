@@ -5,7 +5,7 @@ import CreateGameServer from "@components/display/GameServer/CreateGameServer/Cr
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { type ReactNode, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
+import { modal } from "@/lib/notificationModal";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
 
 const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode }) => {
@@ -20,9 +20,9 @@ const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode })
       label: t("rightClickMenu.refresh"),
       onClick: async () => {
         if (await loadGameServers()) {
-          toast.success(t("toasts.refreshGameServersSuccess"));
+          modal.success({ message: t("toasts.refreshGameServersSuccess") });
         } else {
-          toast.error(t("toasts.refreshGameServersError"));
+          modal.error({ message: t("toasts.refreshGameServersError") });
         }
       },
     },

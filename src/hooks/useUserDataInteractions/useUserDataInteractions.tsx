@@ -1,8 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
-import { toast } from "sonner";
 import {
   getGetAllUserInvitesQueryKey,
+  useChangePasswordByAdmin,
   useChangeRole,
   useCreateInvite,
   useRevokeInvite,
@@ -13,6 +13,7 @@ import type {
   UserInviteCreationDto,
   UserRoleUpdateDtoRole,
 } from "@/api/generated/model";
+import { modal } from "@/lib/notificationModal";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import { userSliceActions } from "@/stores/slices/userSlice.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
@@ -27,7 +28,6 @@ const useUserDataInteractions = () => {
     mutation: {
       onSuccess: (data) => {
         dispatch(userInviteSliceActions.addInvite(data));
-        toast.success(t("inviteCreatedSuccess"));
       },
       onError: (err) => {
         const typedError = err as InvalidRequestError;
@@ -39,7 +39,7 @@ const useUserDataInteractions = () => {
         } else if (errorData) {
           errorMessage = errorData;
         }
-        toast.error(t("inviteCreateError", { error: errorMessage }));
+        modal.error({ message: t("inviteCreateError", { error: errorMessage }), cause: err });
         throw err;
       },
       onSettled: () => {
@@ -58,10 +58,9 @@ const useUserDataInteractions = () => {
     mutation: {
       onSuccess: (_data, variables) => {
         dispatch(userInviteSliceActions.removeInvite(variables.uuid));
-        toast.success(t("toasts.inviteRevokedSuccess"));
       },
       onError: (err) => {
-        toast.error(t("toasts.inviteRevokeError"));
+        modal.error({ message: t("toasts.inviteRevokeError"), cause: err });
         throw err;
       },
       onSettled: () => {
@@ -100,11 +99,28 @@ const useUserDataInteractions = () => {
     await mutateUpdateDockerLimits({ uuid, data });
   };
 
+  const { mutateAsync: mutateChangePasswordByAdmin } = useChangePasswordByAdmin({
+    mutation: {
+      onSuccess: () => {
+        modal.success({ message: t("adminChangePasswordSuccess") });
+      },
+      onError: (err) => {
+        modal.error({ message: t("adminChangePasswordError"), cause: err });
+        throw err;
+      },
+    },
+  });
+
+  const changePasswordByAdmin = async (uuid: string, newPassword: string) => {
+    await mutateChangePasswordByAdmin({ uuid, data: { new_password: newPassword } });
+  };
+
   return {
     createInvite,
     revokeInvite,
     changeRole,
     updateDockerLimits,
+    changePasswordByAdmin,
   };
 };
 

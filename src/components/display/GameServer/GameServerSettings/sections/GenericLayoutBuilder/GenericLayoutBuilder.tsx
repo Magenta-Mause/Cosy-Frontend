@@ -251,7 +251,7 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
           <Button
             variant="destructive"
             disabled={isDisabled}
-            className="flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 z-10"
+            className="flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 z-0"
             onClick={(e) => {
               e.stopPropagation();
               handleOnDelete(layout._uiUuid);

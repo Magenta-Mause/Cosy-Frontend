@@ -130,7 +130,7 @@ const GameServerSettingsLayout = ({
                 <Link
                   key={label}
                   to={path}
-                  activeOptions={{ exact: true }}
+                  activeOptions={{ exact: true, includeSearch: false }}
                   className={"group w-full"}
                   tabIndex={-1}
                   disabled={!isLinkReachable}

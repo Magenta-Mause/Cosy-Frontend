@@ -50,6 +50,8 @@ export type i18nLanguage = {
     deleteWebhookError: string;
     updateFooterSuccess: string;
     updateFooterError: string;
+    adminChangePasswordSuccess: string;
+    adminChangePasswordError: string;
   };
 
   userModal: {
@@ -192,6 +194,14 @@ export type i18nLanguage = {
     languageSelector: string;
     userMenu: string;
     logout: string;
+  };
+
+  notificationModal: {
+    successTitle: string;
+    errorTitle: string;
+    infoTitle: string;
+    ok: string;
+    dismiss: string;
   };
 
   logDisplay: {

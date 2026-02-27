@@ -55,6 +55,8 @@ const translation: i18nLanguage = {
     updateWebhookError: "Failed to update webhook",
     deleteWebhookSuccess: "Webhook deleted successfully!",
     deleteWebhookError: "Failed to delete webhook",
+    adminChangePasswordSuccess: "Password changed successfully!",
+    adminChangePasswordError: "Failed to change password",
   },
   userModal: {
     title: "Users",
@@ -79,7 +81,7 @@ const translation: i18nLanguage = {
     pendingInvites: "Pending Invites",
     unclaimedInvite: "Unclaimed Invite",
     created: "Created: {{date}}",
-    copyTooltip: "Click to copy link",
+    copyTooltip: "Click to copy invitation link",
     roleLabel: "User role",
     editTooltip: "Click to edit user settings",
     memoryLimit: "RAM (Optional)",
@@ -187,6 +189,13 @@ const translation: i18nLanguage = {
     languageSelector: "Select Language",
     userMenu: "User Menu",
     logout: "Log Out",
+  },
+  notificationModal: {
+    successTitle: "Success",
+    errorTitle: "Error",
+    infoTitle: "Info",
+    ok: "OK",
+    dismiss: "Dismiss",
   },
   components: {
     TemplateVariableForm: {

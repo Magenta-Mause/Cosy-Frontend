@@ -1,5 +1,5 @@
 import AuthProvider from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { Toaster } from "@components/ui/sonner.tsx";
+import { NotificationModalProvider } from "./NotificationModalProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { Provider } from "react-redux";
@@ -13,7 +13,7 @@ const ProviderCollection = (props: { children: ReactNode }) => {
       <QueryClientProvider client={client}>
         <AuthProvider>
           {props.children}
-          <Toaster toastOptions={{ duration: 2000 }} />
+          <NotificationModalProvider />
         </AuthProvider>
       </QueryClientProvider>
     </Provider>

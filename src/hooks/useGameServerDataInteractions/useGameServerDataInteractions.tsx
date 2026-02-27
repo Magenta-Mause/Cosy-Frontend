@@ -1,6 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
-import { toast } from "sonner";
 import {
   type CreateGameServerMutationBody,
   getGetAllGameServersQueryKey,
@@ -12,6 +11,7 @@ import {
 } from "@/api/generated/backend-api.ts";
 import type { TransferOwnershipDto } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
+import { modal } from "@/lib/notificationModal";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
@@ -26,10 +26,9 @@ const useGameServerDataInteractions = () => {
     mutation: {
       onSuccess: (_data, variables) => {
         dispatch(gameServerSliceActions.removeGameServer(variables.uuid));
-        toast.success(t("deleteGameServerSuccess"));
       },
       onError: (err) => {
-        toast.error(t("deleteGameServerError"));
+        modal.error({ message: t("deleteGameServerError"), cause: err });
         throw err;
       },
       onSettled: () => {
@@ -48,10 +47,9 @@ const useGameServerDataInteractions = () => {
     mutation: {
       onSuccess: async (data) => {
         await loadGameServer(data.uuid);
-        toast.success(t("createGameServerSuccess"));
       },
       onError: (err) => {
-        toast.error(t("createGameServerError"));
+        modal.error({ message: t("createGameServerError"), cause: err });
         throw err;
       },
     },
@@ -65,10 +63,10 @@ const useGameServerDataInteractions = () => {
     mutation: {
       onSuccess: (updatedGameServer) => {
         dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
-        toast.success(t("updateGameServerSuccess"));
+        modal.success({ message: t("updateGameServerSuccess") });
       },
       onError: (err) => {
-        toast.error(t("updateGameServerError"));
+        modal.error({ message: t("updateGameServerError"), cause: err });
         throw err;
       },
     },
@@ -87,7 +85,7 @@ const useGameServerDataInteractions = () => {
         dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
       },
       onError: (err) => {
-        toast.error("Failed to transfer ownership");
+        modal.error({ message: "Failed to transfer ownership", cause: err });
         throw err;
       },
       onSettled: () => {

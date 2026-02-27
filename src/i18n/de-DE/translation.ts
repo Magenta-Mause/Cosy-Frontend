@@ -51,6 +51,8 @@ const translation: i18nLanguage = {
     deleteWebhookError: "Fehler beim Löschen des Webhooks",
     updateFooterSuccess: "Fußzeile erfolgreich aktualisiert!",
     updateFooterError: "Fehler beim Aktualisieren der Fußzeile",
+    adminChangePasswordSuccess: "Passwort erfolgreich geändert!",
+    adminChangePasswordError: "Fehler beim Ändern des Passworts",
   },
   userModal: {
     title: "Benutzer",
@@ -76,7 +78,7 @@ const translation: i18nLanguage = {
     pendingInvites: "Ausstehende Einladungen",
     unclaimedInvite: "Nicht beanspruchte Einladung",
     created: "Erstellt: {{date}}",
-    copyTooltip: "Klicken zum Kopieren",
+    copyTooltip: "Klicken um Link zu Kopieren",
     roleLabel: "Benutzerrolle",
     editTooltip: "Klicken zum Bearbeiten der Benutzereinstellungen",
     memoryLimit: "RAM Limit (Optional)",
@@ -189,6 +191,13 @@ const translation: i18nLanguage = {
   },
   filesPage: {
     loading: "Lade Gameserver",
+  },
+  notificationModal: {
+    successTitle: "Erfolg",
+    errorTitle: "Fehler",
+    infoTitle: "Info",
+    ok: "OK",
+    dismiss: "Schließen",
   },
   components: {
     TemplateVariableForm: {

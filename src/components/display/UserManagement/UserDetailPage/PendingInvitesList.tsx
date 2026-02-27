@@ -1,4 +1,5 @@
 import { Button } from "@components/ui/button";
+import CopyButton from "@components/ui/CopyButton.tsx";
 import { Card, CardContent } from "@components/ui/card";
 import {
   Dialog,
@@ -9,10 +10,9 @@ import {
   DialogTitle,
 } from "@components/ui/dialog";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { Link, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import type { UserInviteDto } from "@/api/generated/model";
 
 interface UserListProps {
@@ -41,24 +41,16 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
             )}
           </div>
           <div className="flex items-center gap-3">
-            <TooltipWrapper tooltip={t("userModal.copyTooltip")} asChild>
-              <Button
-                variant="primary"
-                className="h-10 w-10 hover:text-button-secondary-default"
-                onClick={() => {
-                  if (invite.secret_key) {
-                    const link = `${window.location.origin}/?inviteToken=${invite.secret_key}`;
-                    navigator.clipboard.writeText(link);
-                    toast.success(t("toasts.copyClipboardSuccess"));
-                  }
-                }}
-              >
-                <Link className="size-5" />
-                <span className="sr-only">{t("userModal.copyLink")}</span>
-              </Button>
-            </TooltipWrapper>
+            <CopyButton
+              value={`${window.location.origin}/?inviteToken=${invite.secret_key}`}
+              tooltip={t("userModal.copyTooltip")}
+              copiedTooltip={t("toasts.copyClipboardSuccess")}
+            />
             <TooltipWrapper tooltip={t("userModal.revoke.tooltip")} asChild>
-              <Button className="h-10 w-10 hover:text-destructive" onClick={() => setRevokeConfirmationDialogOpen(true)}>
+              <Button
+                className="h-10 w-10 hover:text-destructive"
+                onClick={() => setRevokeConfirmationDialogOpen(true)}
+              >
                 <Trash2 className="size-5" />
                 <span className="sr-only">{t("userModal.revoke.tooltip")}</span>
               </Button>

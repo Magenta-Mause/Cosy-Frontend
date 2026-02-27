@@ -1,6 +1,6 @@
 import RconSettings from "@components/display/GameServer/GameServerSettings/sections/RconSettingsSection/RconSettings.tsx";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
+import { modal } from "@/lib/notificationModal";
 import type { RCONConfiguration } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer.tsx";
@@ -12,7 +12,7 @@ const RconSettingsSection = () => {
 
   const handleUpdateGameServer = async (updatedState: RCONConfiguration) => {
     if (!gameServer.uuid) {
-      toast.error(t("toasts.missingUuid"));
+      modal.error({ message: t("toasts.missingUuid") });
       return;
     }
     await updateRconConfiguration(gameServer.uuid, updatedState);

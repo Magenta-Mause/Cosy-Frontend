@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
+import { modal } from "@/lib/notificationModal";
 import type { GameServerUpdateDto } from "@/api/generated/model/gameServerUpdateDto";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useSelectedGameServer from "@/hooks/useSelectedGameServer/useSelectedGameServer";
@@ -13,7 +13,7 @@ const GeneralSettingsSection = () => {
 
   const handleUpdateGameServer = async (updatedState: GameServerUpdateDto) => {
     if (!gameServer.uuid) {
-      toast.error(t("toasts.missingUuid"));
+      modal.error({ message: t("toasts.missingUuid") });
       return;
     }
     await updateGameServer(gameServer.uuid, updatedState);

@@ -11,7 +11,7 @@ import {
 import { ArrowLeft, UserRoundPlus } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
+import { modal } from "@/lib/notificationModal";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { getCpuLimitError } from "@/lib/validators/cpuLimitValidator.ts";
@@ -113,7 +113,7 @@ const UserInviteButton = (props: { className?: string }) => {
     if (generatedKey) {
       const link = `${window.location.origin}/?inviteToken=${generatedKey}`;
       navigator.clipboard.writeText(link);
-      toast.success(t("toasts.copyClipboardSuccess"));
+      modal.success({ message: t("toasts.copyClipboardSuccess") });
     }
   };
 

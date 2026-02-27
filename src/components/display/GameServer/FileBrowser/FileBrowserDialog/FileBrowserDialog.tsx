@@ -3,7 +3,7 @@ import { Input } from "@components/ui/input";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { Download, Search, Upload, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { toast } from "sonner";
+import { modal } from "@/lib/notificationModal";
 import {
   uploadFileToVolume,
   useCreateDirectoryInVolume,
@@ -124,7 +124,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     try {
       await uploadSelectedFile(file);
     } catch (_err) {
-      toast.error(t("fileUploadError"));
+      modal.error({ message: t("fileUploadError") });
     } finally {
       e.target.value = "";
     }
@@ -179,7 +179,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       });
     } catch (e) {
       console.error(e);
-      toast.error(t("downloadZipFailure"));
+      modal.error({ message: t("downloadZipFailure") });
     } finally {
       setDownloadingAll(false);
       setDownloadProgress(null);
@@ -319,7 +319,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
               onProgress: (done, total) => setDownloadProgress({ done, total }),
             });
           } catch (_err) {
-            toast.error(t("errorWhileZipDownload"));
+            modal.error({ message: t("errorWhileZipDownload") });
           } finally {
             setDownloading((downloading) => downloading.filter((path) => path !== fullPath));
             setDownloadProgress(null);
@@ -332,7 +332,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
               name: obj.name,
             });
           } catch (_err) {
-            toast.error(t("errorWhileDownload"));
+            modal.error({ message: t("errorWhileDownload") });
           } finally {
             setDownloading((downloading) => downloading.filter((path) => path !== fullPath));
           }
