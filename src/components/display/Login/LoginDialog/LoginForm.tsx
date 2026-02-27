@@ -30,7 +30,7 @@ const LoginForm = (props: {
         props.loginCallback(data);
       }}
     >
-      <FieldGroup>
+      <FieldGroup className="gap-2">
         <Input type="text" id="username" name="username" header={t("signIn.username")} required />
 
         <Input
