@@ -76,7 +76,6 @@ const translation: i18nLanguage = {
     pendingInvites: "Ausstehende Einladungen",
     unclaimedInvite: "Nicht beanspruchte Einladung",
     created: "Erstellt: {{date}}",
-    revokeTooltip: "Einladung widerrufen",
     copyTooltip: "Klicken zum Kopieren",
     roleLabel: "Benutzerrolle",
     editTooltip: "Klicken zum Bearbeiten der Benutzereinstellungen",
@@ -85,6 +84,13 @@ const translation: i18nLanguage = {
     cpuLimit: "CPU Kern Limit (Optional)",
     cpuDescription: "Leer lassen, damit der Benutzer unbegrenzte CPU Kerne zur Verfügung hat.",
     placeholder: "Unbegrenzt",
+    revoke: {
+      tooltip: "Einladung widerrufen",
+      confirmTitle: "Einladung widerrufen",
+      confirmDescription:
+        "Bist du sicher, dass du diese Einladung widerrufen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+      confirmAction: "Einladung widerrufen",
+    },
   },
   userRoles: {
     QUOTA_USER: "Nutzer",
@@ -825,7 +831,7 @@ const translation: i18nLanguage = {
       },
       backButton: "Zurück",
       userDetailButton: {
-        viewUsers: "Marktplatz",
+        viewUsers: "Nutzerverwaltung",
       },
       userRow: {
         roles: {
@@ -833,7 +839,7 @@ const translation: i18nLanguage = {
           admin: "Admin",
           quota_user: "Quota",
         },
-        yourProfile: "Dein Profil",
+        yourProfile: "Du",
         actions: {
           editPassword: "Passwort ändern",
           editDockerLimits: "Ressourcenlimits bearbeiten",
