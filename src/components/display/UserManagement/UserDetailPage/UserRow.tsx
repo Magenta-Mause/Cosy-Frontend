@@ -89,7 +89,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               <UserRoleBadge role={props.userRole} />
               {isCurrentUser && (
                 <Badge className="bg-secondary-background border-accent border-2">
-                  <Icon src={userIcon} className="size-4" />
+                  <Icon src={userIcon} variant="foreground" className="size-4" />
                   {t("yourProfile")}
                 </Badge>
               )}
