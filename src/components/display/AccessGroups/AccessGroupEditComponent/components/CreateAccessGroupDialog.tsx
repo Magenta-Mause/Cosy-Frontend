@@ -13,7 +13,7 @@ import Icon from "@components/ui/Icon.tsx";
 import { useState } from "react";
 import * as z from "zod";
 import type { GameServerAccessGroupDto } from "@/api/generated/model";
-import plusIcon from "@/assets/icons/plus.svg";
+import plusIcon from "@/assets/icons/plus.webp";
 import { toggleVariants } from "@/components/ui/toggle";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";

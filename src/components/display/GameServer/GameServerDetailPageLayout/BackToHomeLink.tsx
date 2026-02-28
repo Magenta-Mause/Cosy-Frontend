@@ -1,8 +1,8 @@
 import Icon from "@components/ui/Icon.tsx";
 import Link from "@components/ui/Link.tsx";
 import { useTranslation } from "react-i18next";
-import doorClosedIcon from "@/assets/icons/doorClosed.svg";
-import doorOpenIcon from "@/assets/icons/doorOpen.svg";
+import doorClosedIcon from "@/assets/icons/doorClosed.webp";
+import doorOpenIcon from "@/assets/icons/doorOpen.webp";
 import { cn } from "@/lib/utils.ts";
 import FancyNavigationButton from "./FancyNavigationButton.tsx";
 

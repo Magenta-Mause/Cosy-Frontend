@@ -4,7 +4,7 @@ import { useRouter, useRouterState } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole } from "@/api/generated/model";
 import marketPlaceSignAsset from "@/assets/header/marketPlaceSign.png";
-import arrowBigRightIcon from "@/assets/icons/arrowBigRight.svg";
+import arrowBigRightIcon from "@/assets/icons/arrowBigRight.webp";
 import { useRequireRoles } from "@/utils/routeGuards";
 
 const MarketplaceSign = () => {

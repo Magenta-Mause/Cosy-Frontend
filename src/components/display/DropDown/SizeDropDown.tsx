@@ -9,7 +9,7 @@ import {
 import Icon from "@components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
 import { MetricLayoutSize } from "@/api/generated/model";
-import arrowDownIcon from "@/assets/icons/arrowDown.svg";
+import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { cn } from "@/lib/utils";
 import type { LayoutSize } from "@/types/layoutSize";
 

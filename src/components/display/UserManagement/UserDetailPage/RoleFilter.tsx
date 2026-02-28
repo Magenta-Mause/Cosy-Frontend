@@ -9,7 +9,7 @@ import {
 import Icon from "@components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
-import filterIcon from "@/assets/icons/filter.svg";
+import filterIcon from "@/assets/icons/filter.webp";
 
 interface RoleFilterProps {
   selectedRole: UserRole | null;

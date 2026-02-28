@@ -4,7 +4,7 @@ import { Separator } from "@components/ui/separator";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
-import searchIcon from "@/assets/icons/search.svg";
+import searchIcon from "@/assets/icons/search.webp";
 import { useTypedSelector } from "@/stores/rootReducer";
 import UserInviteButton from "../UserInvite/UserInviteButton";
 import PendingInvitesList from "./PendingInvitesList";

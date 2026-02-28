@@ -17,8 +17,8 @@ import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import type { VolumeMountConfiguration } from "@/api/generated/model";
-import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg";
-import closeRoundedIcon from "@/assets/icons/closeRounded.svg";
+import checkCircleIcon from "@/assets/icons/checkCircle.webp";
+import closeCirleIcon from "@/assets/icons/closeCircle.webp";
 import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
 import ListInputEdit from "./ListInputEditGameServer";
 
@@ -248,9 +248,9 @@ function EditVolumeMountConfigurationInput<T extends Record<string, string>>({
                   }}
                 >
                   {pathChangeDecisions.get(row.originalUuid) === "keep" ? (
-                    <Icon src={checkmarkCircleIcon} className="size-5 text-green-500" />
+                    <Icon src={checkCircleIcon} className="size-5 text-green-500" />
                   ) : (
-                    <Icon src={closeRoundedIcon} className="size-5 text-destructive" />
+                    <Icon src={closeCirleIcon} className="size-5 text-destructive" />
                   )}
                 </Button>
               </TooltipWrapper>

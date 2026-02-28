@@ -6,7 +6,7 @@ import { Fragment, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
-import infoIcon from "@/assets/icons/info.svg";
+import infoIcon from "@/assets/icons/info.webp";
 import type { GameServerCreationFormState } from "./CreateGameServerModal.tsx";
 import { type InputType, preProcessInputValue } from "./util";
 

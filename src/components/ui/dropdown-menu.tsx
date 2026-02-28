@@ -1,8 +1,8 @@
 import * as React from "react"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
-import checkIcon from "@/assets/icons/checkmark.svg"
-import arrowRight from "@/assets/icons/arrowRight.svg"
-import circleIcon from "@/assets/icons/circle.svg"
+import checkIcon from "@/assets/icons/check.webp"
+import arrowRight from "@/assets/icons/arrowRight.webp"
+import circleIcon from "@/assets/icons/circle.webp"
 
 import { cn } from "@/lib/utils"
 import Icon from "@components/ui/Icon.tsx";

@@ -4,9 +4,9 @@ import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { type ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { v7 as generateUuid } from "uuid";
-import attentionIcon from "@/assets/icons/attention.svg";
-import plusIcon from "@/assets/icons/plus.svg";
-import trashIcon from "@/assets/icons/thrash.svg";
+import attentionIcon from "@/assets/icons/attention.webp";
+import plusIcon from "@/assets/icons/plus.webp";
+import trashIcon from "@/assets/icons/trash.webp";
 import {
   GameServerCreationContext,
   type GameServerCreationFormState,

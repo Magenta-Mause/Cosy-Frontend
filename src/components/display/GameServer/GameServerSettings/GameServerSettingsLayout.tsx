@@ -6,13 +6,13 @@ import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { createContext, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
-import consoleIcon from "@/assets/icons/console.svg";
-import dashboardIcon from "@/assets/icons/dashboard.svg";
+import consoleIcon from "@/assets/icons/console.webp";
+import dashboardIcon from "@/assets/icons/dashboard.webp";
 import houseIcon from "@/assets/icons/house.webp";
-import linkIcon from "@/assets/icons/link.svg";
-import metricsIcon from "@/assets/icons/metrics.svg";
-import settingsIcon from "@/assets/icons/settings.svg";
-import userIcon from "@/assets/icons/user.svg";
+import metricsIcon from "@/assets/icons/metrics.webp";
+import settingsIcon from "@/assets/icons/settings.webp";
+import userIcon from "@/assets/icons/user.webp";
+import webhookIcon from "@/assets/icons/webhook.webp";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils.ts";
@@ -89,7 +89,7 @@ const GameServerSettingsLayout = ({
     },
     {
       label: t("tabs.webhooks"),
-      icon: <Icon src={linkIcon} className="mr-2" />,
+      icon: <Icon src={webhookIcon} className="mr-2" />,
       path: "/server/$serverId/settings/webhooks",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_WEBHOOK_SETTINGS],
     },

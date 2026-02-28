@@ -1,8 +1,8 @@
 import { Button } from "@components/ui/button.tsx";
 import Icon from "@components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
-import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg";
-import copyIcon from "@/assets/icons/copy.svg";
+import checkCircleIcon from "@/assets/icons/checkCircle.webp";
+import copyIcon from "@/assets/icons/copy.webp";
 
 interface InviteResultProps {
   generatedKey: string | null;
@@ -16,7 +16,7 @@ export const InviteResult = ({ generatedKey, onCopyLink }: InviteResultProps) =>
 
   return (
     <div className="flex flex-col items-center gap-5 py-4">
-      <Icon src={checkmarkCircleIcon} className="size-12 text-accent" />
+      <Icon src={checkCircleIcon} className="size-12 text-accent" />
       <p className="text-sm text-center text-muted-foreground">
         {t("userModal.shareInstructions")}
       </p>

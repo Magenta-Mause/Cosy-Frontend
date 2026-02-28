@@ -5,7 +5,7 @@ import { Fragment, useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
-import infoIcon from "@/assets/icons/info.svg";
+import infoIcon from "@/assets/icons/info.webp";
 import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
 import ListInputEdit from "./ListInputEditGameServer";
 

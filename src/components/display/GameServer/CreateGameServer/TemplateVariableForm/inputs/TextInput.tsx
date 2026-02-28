@@ -3,7 +3,7 @@ import { FieldLabel } from "@components/ui/field";
 import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import infoIcon from "@/assets/icons/info.svg";
+import infoIcon from "@/assets/icons/info.webp";
 import type { VariableInputProps } from "./types";
 
 export default function TextInput({

@@ -8,12 +8,12 @@ import {
 import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import type { FileSystemObjectDto } from "@/api/generated/model";
-import dotsIcon from "@/assets/icons/dots.svg";
-import downloadIcon from "@/assets/icons/download.svg";
-import fileIcon from "@/assets/icons/file.svg";
-import folderIcon from "@/assets/icons/folder.svg";
-import pencilWriteIcon from "@/assets/icons/pencilWrite.svg";
-import thrashIcon from "@/assets/icons/thrash.svg";
+import dotsIcon from "@/assets/icons/dots.webp";
+import downloadIcon from "@/assets/icons/download.webp";
+import fileIcon from "@/assets/icons/file.webp";
+import folderIcon from "@/assets/icons/folder.webp";
+import pencilWriteIcon from "@/assets/icons/pencilWrite.webp";
+import trashIcon from "@/assets/icons/trash.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { formatBytes, formatUnixPerms, isDirectory, joinRemotePath } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
@@ -156,7 +156,7 @@ export const FileBrowserRow = ({
                   data-loading={loading}
                   aria-label={`${t("deleteAction")} ${obj.name}`}
                 >
-                  <Icon src={thrashIcon} variant="foreground" className="size-4 mr-1" />
+                  <Icon src={trashIcon} variant="foreground" className="size-4 mr-1" />
                   <span className="hidden sm:inline">{t("deleteAction")}</span>
                 </button>
               </TooltipWrapper>

@@ -9,10 +9,10 @@ import {
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { login } from "@/api/generated/backend-api";
+import HerzIcon from "@/assets/deko/herz.webp";
 import { Button } from "@/components/ui/button";
 import LoginBanner from "../LoginBanner/LoginBanner";
 import LoginForm from "../LoginDialog/LoginForm";
-import HerzIcon from "@/assets/deko/herz.webp";
 
 const LoginDisplay = () => {
   const { t } = useTranslation();
@@ -55,7 +55,17 @@ const LoginDisplay = () => {
                 {isLoggingIn ? t("signIn.loading") : t("signIn.signIn")}
               </Button>
               <p className="flex items-center gap-1">
-                Made with <img src={HerzIcon} alt="love" className="w-4 h-4 inline-block" style={{ filter: 'brightness(0) saturate(100%) invert(17%) sepia(97%) saturate(7426%) hue-rotate(1deg) brightness(98%) contrast(114%)' }} /> by Medalheads
+                Made with{" "}
+                <img
+                  src={HerzIcon}
+                  alt="love"
+                  className="w-4 h-4 inline-block"
+                  style={{
+                    filter:
+                      "brightness(0) saturate(100%) invert(17%) sepia(97%) saturate(7426%) hue-rotate(1deg) brightness(98%) contrast(114%)",
+                  }}
+                />{" "}
+                by Medalheads
               </p>
             </DialogFooter>
           </DialogContent>

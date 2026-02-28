@@ -4,9 +4,9 @@ import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { type ReactNode, useCallback, useEffect, useState } from "react";
 import { v7 as generateUuid } from "uuid";
-import attentionIcon from "@/assets/icons/attention.svg";
-import plusIcon from "@/assets/icons/plus.svg";
-import thrashIcon from "@/assets/icons/thrash.svg";
+import attentionIcon from "@/assets/icons/attention.webp";
+import plusIcon from "@/assets/icons/plus.webp";
+import trashIcon from "@/assets/icons/trash.webp";
 
 interface Props<T extends { uuid: string }> {
   value?: T[];
@@ -90,7 +90,7 @@ function ListInputEditGameServer<T extends { uuid: string }>({
                 onClick={() => removeValue(item.uuid)}
                 className="h-9 w-9 p-0 flex items-center justify-center"
               >
-                <Icon src={thrashIcon} className="size-5" />
+                <Icon src={trashIcon} className="size-5" />
               </Button>
               {index === (value ?? []).length - 1 && (
                 <Button className="h-9 w-9 p-0" onClick={addNewValue}>

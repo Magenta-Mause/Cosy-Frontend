@@ -4,7 +4,7 @@ import Icon from "@components/ui/Icon.tsx";
 import type { ComponentProps } from "react";
 import { forwardRef, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import logoutIcon from "@/assets/icons/logout.svg";
+import logoutIcon from "@/assets/icons/logout.webp";
 import { cn } from "@/lib/utils.ts";
 import { LogOutAlertDialog } from "./LogOutAlertDialog.tsx";
 

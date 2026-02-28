@@ -9,7 +9,7 @@ import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input.tsx";
 import { useContext, useEffect, useState } from "react";
 import type { TemplateEntity } from "@/api/generated/model";
-import searchIcon from "@/assets/icons/search.svg";
+import searchIcon from "@/assets/icons/search.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";

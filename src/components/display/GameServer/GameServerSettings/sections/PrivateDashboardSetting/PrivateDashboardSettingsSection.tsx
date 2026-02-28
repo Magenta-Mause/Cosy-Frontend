@@ -9,7 +9,7 @@ import {
   MetricLayoutSize,
   type PrivateDashboardLayout,
 } from "@/api/generated/model";
-import pencilWriteIcon from "@/assets/icons/pencilWrite.svg";
+import pencilWriteIcon from "@/assets/icons/pencilWrite.webp";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { DashboardElementTypes } from "@/types/dashboardTypes";

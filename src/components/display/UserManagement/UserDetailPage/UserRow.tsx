@@ -12,11 +12,10 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import Icon from "@components/ui/Icon.tsx";
-import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useContext, useState } from "react";
 import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
-import dotsIcon from "@/assets/icons/dots.svg";
-import userIcon from "@/assets/icons/user.svg";
+import dotsIcon from "@/assets/icons/dots.webp";
+import userIcon from "@/assets/icons/user.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
@@ -90,7 +89,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               <UserRoleBadge role={props.userRole} />
               {isCurrentUser && (
                 <Badge className="bg-secondary-background border-accent border-2">
-                  <User className="size-4" />
+                  <Icon src={userIcon} className="size-4" />
                   {t("yourProfile")}
                 </Badge>
               )}
@@ -120,7 +119,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild disabled={!canOpenMoreOptions}>
                   <Button className="h-10 w-10">
-                    <Ellipsis className="size-4" />
+                    <Icon src={dotsIcon} className="size-4" />
                   </Button>
                 </DropdownMenuTrigger>
 

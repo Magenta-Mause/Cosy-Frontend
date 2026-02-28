@@ -13,7 +13,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import type { UserEntityDtoRole } from "@/api/generated/model";
-import addUserIcon from "@/assets/icons/addUser.svg";
+import addUserIcon from "@/assets/icons/userAdd.webp";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import { getCpuLimitError } from "@/lib/validators/cpuLimitValidator.ts";
 import { getMemoryLimitError } from "@/lib/validators/memoryLimitValidator.ts";

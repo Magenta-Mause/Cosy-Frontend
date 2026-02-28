@@ -1,6 +1,6 @@
 import Icon from "@components/ui/Icon.tsx";
 import { PrivateDashboardLayoutPrivateDashboardTypes } from "@/api/generated/model";
-import arrowDownIcon from "@/assets/icons/arrowDown.svg";
+import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

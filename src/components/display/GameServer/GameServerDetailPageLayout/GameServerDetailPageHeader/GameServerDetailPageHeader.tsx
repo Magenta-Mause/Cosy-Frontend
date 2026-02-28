@@ -6,7 +6,8 @@ import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useNavigate } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
 import type { GameServerDto } from "@/api/generated/model";
-import globeIcon from "@/assets/icons/globe.svg";
+import globeIcon from "@/assets/icons/globe.webp";
+import globePrivateIcon from "@/assets/icons/globePrivate.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils.ts";
 
@@ -39,8 +40,7 @@ const DashboardViewToggle = (props: {
         {isPublic ? (
           <Icon src={globeIcon} variant="foreground" className="size-6" />
         ) : (
-          // TODO: replace with globeLock icon if ready and change size
-          <Icon src={globeIcon} variant="foreground" className="size-4" />
+          <Icon src={globePrivateIcon} variant="foreground" className="size-6" />
         )}
       </Button>
     </TooltipWrapper>

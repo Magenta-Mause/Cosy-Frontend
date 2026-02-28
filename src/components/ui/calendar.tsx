@@ -1,7 +1,7 @@
 import * as React from "react"
-import arrowDownIcon from "@/assets/icons/arrowDown.svg"
-import arrowLeftIcon from "@/assets/icons/arrowLeft.svg"
-import arrowRightIcon from "@/assets/icons/arrowRight.svg"
+import arrowDownIcon from "@/assets/icons/arrowDown.webp"
+import arrowLeftIcon from "@/assets/icons/arrowLeft.webp"
+import arrowRightIcon from "@/assets/icons/arrowRight.webp"
 import {
   DayPicker,
   getDefaultClassNames,

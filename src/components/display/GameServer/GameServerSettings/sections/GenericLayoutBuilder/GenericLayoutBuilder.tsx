@@ -31,8 +31,8 @@ import type {
   PrivateDashboardLayout,
   PublicDashboardLayout,
 } from "@/api/generated/model";
-import closeIcon from "@/assets/icons/close.svg";
-import plusIcon from "@/assets/icons/plus.svg";
+import closeIcon from "@/assets/icons/close.webp";
+import plusIcon from "@/assets/icons/plus.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 import { DashboardElementTypes } from "@/types/dashboardTypes";

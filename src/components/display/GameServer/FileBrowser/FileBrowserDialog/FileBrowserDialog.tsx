@@ -12,10 +12,10 @@ import {
   useRenameInVolume,
 } from "@/api/generated/backend-api";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
-import closeIcon from "@/assets/icons/close.svg";
-import downloadIcon from "@/assets/icons/download.svg";
-import searchIcon from "@/assets/icons/search.svg";
-import uploadIcon from "@/assets/icons/upload.svg";
+import closeIcon from "@/assets/icons/close.webp";
+import downloadIcon from "@/assets/icons/download.webp";
+import searchIcon from "@/assets/icons/search.webp";
+import uploadIcon from "@/assets/icons/upload.webp";
 import { useFileBrowserCache } from "@/hooks/useFileBrowserCache/useFileBrowserCache";
 import { useFileSelection } from "@/hooks/useFileSelection/useFileSelection";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";

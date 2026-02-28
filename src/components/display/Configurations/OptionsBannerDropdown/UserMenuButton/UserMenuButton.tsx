@@ -4,7 +4,7 @@ import Icon from "@components/ui/Icon.tsx";
 import type { ComponentProps } from "react";
 import { forwardRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import userIcon from "@/assets/icons/user.svg";
+import userIcon from "@/assets/icons/user.webp";
 import { cn } from "@/lib/utils.ts";
 
 type UserMenuButtonProps = ComponentProps<typeof Button>;

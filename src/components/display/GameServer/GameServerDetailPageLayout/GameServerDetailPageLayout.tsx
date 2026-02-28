@@ -31,13 +31,13 @@ import logsMetricsBackgroundImage from "@/assets/gameServerDetailPage/logs-metri
 import logsMetricsForegroundImage from "@/assets/gameServerDetailPage/logs-metrics-fg.webp";
 import settingsBackgroundImage from "@/assets/gameServerDetailPage/settings-bg.webp";
 import settingsForegroundImage from "@/assets/gameServerDetailPage/settings-fg.webp";
-import consoleIcon from "@/assets/icons/console.svg";
-import doorClosedIcon from "@/assets/icons/doorClosed.svg";
-import dotsIcon from "@/assets/icons/dots.svg";
-import folderIcon from "@/assets/icons/folder.svg";
-import houseIcon from "@/assets/icons/house.svg";
-import chartIcon from "@/assets/icons/metrics.svg";
-import settingsIcon from "@/assets/icons/settings.svg";
+import consoleIcon from "@/assets/icons/console.webp";
+import doorClosedIcon from "@/assets/icons/doorClosed.webp";
+import dotsIcon from "@/assets/icons/dots.webp";
+import folderIcon from "@/assets/icons/folder.webp";
+import houseIcon from "@/assets/icons/house.webp";
+import chartIcon from "@/assets/icons/metrics.webp";
+import settingsIcon from "@/assets/icons/settings.webp";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import { cn } from "@/lib/utils.ts";
 

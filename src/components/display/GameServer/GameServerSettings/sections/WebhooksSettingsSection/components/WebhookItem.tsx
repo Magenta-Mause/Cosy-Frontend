@@ -4,13 +4,13 @@ import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useState } from "react";
 import type { WebhookDto } from "@/api/generated/model";
-import checkmarkIcon from "@/assets/icons/checkmark.svg";
-import checkmarkCircleIcon from "@/assets/icons/checkmarkCircle.svg";
-import closeRoundedIcon from "@/assets/icons/closeRounded.svg";
-import copyIcon from "@/assets/icons/copy.svg";
-import linkIcon from "@/assets/icons/link.svg";
-import pencilWriteIcon from "@/assets/icons/pencilWrite.svg";
-import thrashIcon from "@/assets/icons/thrash.svg";
+import checkIcon from "@/assets/icons/check.webp";
+import checkCircleIcon from "@/assets/icons/checkCircle.webp";
+import closeCircleIcon from "@/assets/icons/closeCircle.webp";
+import copyIcon from "@/assets/icons/copy.webp";
+import copyLinkIcon from "@/assets/icons/copyLink.webp";
+import pencilWriteIcon from "@/assets/icons/pencilWrite.webp";
+import trashIcon from "@/assets/icons/trash.webp";
 
 interface WebhookItemProps {
   webhook: WebhookDto;
@@ -50,12 +50,12 @@ const WebhookItem = ({
           <div className="flex items-center gap-1.5">
             {webhook.enabled ? (
               <>
-                <Icon src={checkmarkCircleIcon} className="size-4 text-green-500" />
+                <Icon src={checkCircleIcon} className="size-4 text-green-500" />
                 <span className="text-sm text-green-500 font-medium">{t("state.enabled")}</span>
               </>
             ) : (
               <>
-                <Icon src={closeRoundedIcon} className="size-4 text-muted-foreground" />
+                <Icon src={closeCircleIcon} className="size-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">{t("state.disabled")}</span>
               </>
             )}
@@ -81,7 +81,7 @@ const WebhookItem = ({
               disabled={!webhook.uuid || deletingWebhookUuid === webhook.uuid}
               onClick={() => webhook.uuid && onDelete(webhook)}
             >
-              <Icon src={thrashIcon} className="size-4" />
+              <Icon src={trashIcon} className="size-4" />
             </Button>
           </TooltipWrapper>
         </div>
@@ -89,7 +89,7 @@ const WebhookItem = ({
 
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <Icon src={linkIcon} className="size-5 text-muted-foreground shrink-0" />
+          <Icon src={copyLinkIcon} className="size-5 text-muted-foreground shrink-0" />
           <code className="text-xs bg-muted/50 px-2 py-1 rounded break-all flex-1 font-mono text-muted-foreground">
             {webhook.webhook_url}
           </code>
@@ -102,7 +102,7 @@ const WebhookItem = ({
               onClick={handleCopyUrl}
             >
               {copied ? (
-                <Icon src={checkmarkIcon} variant="foreground" className="size-5 text-green-500" />
+                <Icon src={checkIcon} variant="foreground" className="size-5 text-green-500" />
               ) : (
                 <Icon src={copyIcon} variant="foreground" className="size-5" />
               )}
