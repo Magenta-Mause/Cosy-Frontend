@@ -74,7 +74,6 @@ export type i18nLanguage = {
     pendingInvites: string;
     unclaimedInvite: string;
     created: ContainsVariable<"date">;
-    revokeTooltip: string;
     copyTooltip: string;
     roleLabel: string;
     editTooltip: string;
@@ -83,6 +82,12 @@ export type i18nLanguage = {
     cpuLimit: string;
     cpuDescription: string;
     placeholder: string;
+    revoke: {
+      tooltip: string;
+      confirmTitle: string;
+      confirmDescription: string;
+      confirmAction: string;
+    };
   };
 
   userRoles: {
@@ -423,6 +428,12 @@ export type i18nLanguage = {
       };
 
       executionCommandSelection: {
+        title: string;
+        description: string;
+        errorLabel: string;
+      };
+
+      hostPathSelection: {
         title: string;
         description: string;
         errorLabel: string;

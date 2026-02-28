@@ -2,6 +2,7 @@ import ResourceUsageBadge from "@components/display/ResourceUsageBadge/ResourceU
 import { UserProfileModal } from "@components/display/UserManagement/UserProfileModal/UserProfileModal.tsx";
 import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
+import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
 import {
@@ -81,71 +82,63 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
 
   return (
     <>
-      <Card className={isCurrentUser ? "border-primary bg-primary/5" : undefined}>
-        <CardContent className="flex gap-7 items-center my-3 justify-between">
-          <div className="flex gap-2 font-semibold items-center">
-            {props.user.username}
-            <UserRoleBadge role={props.userRole} />
-            {isCurrentUser && (
-              <TooltipWrapper tooltip={t("yourProfile")}>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="h-6 w-6"
-                  onClick={() => setUserModalOpen(true)}
-                >
-                  <Icon src={userIcon} className="size-4" variant="foreground" bold="sm" />
-                </Button>
-              </TooltipWrapper>
-            )}
-          </div>
+      <Card className={isCurrentUser ? "border-accent bg-card" : undefined}>
+        <CardContent>
+          <div className="flex items-center my-3 justify-between">
+            <div className="flex gap-2 font-semibold items-center">
+              {props.user.username}
+              <UserRoleBadge role={props.userRole} />
+              {isCurrentUser && (
+                <Badge className="bg-secondary-background border-accent border-2">
+                  <User className="size-4" />
+                  {t("yourProfile")}
+                </Badge>
+              )}
+            </div>
 
-          <div className="flex gap-3 flex-1 justify-end">
-            <ResourceUsageBadge
-              currentValue={cpuUsage}
-              limit={
-                props.user.docker_hardware_limits?.docker_max_cpu_cores != null
-                  ? props.user.docker_hardware_limits.docker_max_cpu_cores
-                  : t("resources.unlimited")
-              }
-              resourceType={t("resources.cpus")}
-            />
+            <div className="flex gap-3 justify-end min-w-0">
+              <ResourceUsageBadge
+                currentValue={cpuUsage}
+                limit={
+                  props.user.docker_hardware_limits?.docker_max_cpu_cores != null
+                    ? props.user.docker_hardware_limits.docker_max_cpu_cores
+                    : t("resources.unlimited")
+                }
+                resourceType={t("resources.cpus")}
+              />
 
-            <ResourceUsageBadge
-              currentValue={memoryUsage}
-              limit={
-                props.user.docker_hardware_limits?.docker_memory_limit != null
-                  ? formatMemoryLimit(props.user.docker_hardware_limits.docker_memory_limit)
-                  : t("resources.unlimited")
-              }
-              resourceType={t("resources.memory")}
-            />
-          </div>
+              <ResourceUsageBadge
+                currentValue={memoryUsage}
+                limit={
+                  props.user.docker_hardware_limits?.docker_memory_limit != null
+                    ? formatMemoryLimit(props.user.docker_hardware_limits.docker_memory_limit)
+                    : t("resources.unlimited")
+                }
+                resourceType={t("resources.memory")}
+              />
 
-          <div>
-            <DropdownMenu modal={false}>
-              <TooltipWrapper tooltip={t("moreOptions")}>
+              <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild disabled={!canOpenMoreOptions}>
                   <Button className="h-10 w-10">
-                    <Icon src={dotsIcon} className="size-6" />
+                    <Ellipsis className="size-4" />
                   </Button>
                 </DropdownMenuTrigger>
-              </TooltipWrapper>
 
-              <DropdownMenuContent align="end">
-                {userActions
-                  .filter((action) => !action.hidden)
-                  .map((action) => (
-                    <DropdownMenuItem
-                      key={action.label}
-                      onClick={action.onClick}
-                      className={action.className}
-                    >
-                      {action.label}
-                    </DropdownMenuItem>
-                  ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
+                <DropdownMenuContent align="end">
+                  {userActions
+                    .filter((action) => !action.hidden)
+                    .map((action) => (
+                      <DropdownMenuItem
+                        key={action.label}
+                        onClick={action.onClick}
+                        className={action.className}
+                      >
+                        {action.label}
+                      </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
 import consoleIcon from "@/assets/icons/console.svg";
 import dashboardIcon from "@/assets/icons/dashboard.svg";
-import houseIcon from "@/assets/icons/house.svg";
+import houseIcon from "@/assets/icons/house.webp";
 import linkIcon from "@/assets/icons/link.svg";
 import metricsIcon from "@/assets/icons/metrics.svg";
 import settingsIcon from "@/assets/icons/settings.svg";

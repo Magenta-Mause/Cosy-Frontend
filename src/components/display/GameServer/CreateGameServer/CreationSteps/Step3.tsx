@@ -82,7 +82,7 @@ export default function Step3() {
         label={t("hostPathSelection.title")}
         description={t("hostPathSelection.description")}
         errorLabel={t("hostPathSelection.errorLabel")}
-        placeholder="Container Path"
+        placeholder="/data"
       />
 
       <div className="grid grid-cols-2 gap-4">
