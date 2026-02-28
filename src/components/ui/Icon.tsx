@@ -33,6 +33,7 @@ const Icon = ({ src, alt = "", className, variant = "primary", bold = false, sty
         WebkitMaskRepeat: "no-repeat",
         WebkitMaskSize: "contain",
         WebkitMaskPosition: "center",
+        imageRendering: "pixelated",
         ...style,
       }}
       className={cn(
