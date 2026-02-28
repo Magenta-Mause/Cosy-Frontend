@@ -84,7 +84,7 @@ const UserTable = ({ onRevoke }: UserListProps) => {
 
   return (
     <div className="p-4">
-      <div className="container text-base flex flex-col gap-2 w-full">
+      <div className="container text-base mx-auto flex flex-col gap-2">
         <div className="flex flex-row gap-3 justify-between items-center w-full">
           <div className="flex flex-row items-center gap-3">
             <Input
