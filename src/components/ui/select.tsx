@@ -172,7 +172,7 @@ function SelectScrollDownButton({
       )}
       {...props}
     >
-      <Icon src={arrowDown} className="size-4" />
+      <Icon src={arrowDown} variant="foreground" className="size-4" />
     </SelectPrimitive.ScrollDownButton>
   )
 }
