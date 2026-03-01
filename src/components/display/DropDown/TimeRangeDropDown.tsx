@@ -81,7 +81,10 @@ const TimeRangeDropDown = (props: TimeRangeProps) => {
             <Icon src={arrowDownIcon} className="size-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-30 bg-primary-modal-background" align="end">
+        <DropdownMenuContent
+          align="end"
+          className="w-(--radix-dropdown-menu-trigger-width) bg-primary-modal-background"
+        >
           <DropdownMenuGroup>
             <DropdownMenuItem onSelect={() => setOpenCustom(true)}>
               {t("timerange.custom")}
