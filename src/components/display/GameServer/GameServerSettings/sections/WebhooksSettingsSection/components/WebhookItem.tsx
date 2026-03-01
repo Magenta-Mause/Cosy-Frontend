@@ -40,7 +40,9 @@ const WebhookItem = ({
             {webhook.enabled ? (
               <>
                 <Icon src={checkCircleIcon} className="size-4 text-button-primary-default" />
-                <span className="text-sm text-button-primary-default font-medium">{t("state.enabled")}</span>
+                <span className="text-sm text-button-primary-default font-medium">
+                  {t("state.enabled")}
+                </span>
               </>
             ) : (
               <>
