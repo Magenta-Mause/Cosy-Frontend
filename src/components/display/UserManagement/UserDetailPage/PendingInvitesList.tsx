@@ -14,7 +14,6 @@ import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { UserInviteDto } from "@/api/generated/model";
-import copyLinkIcon from "@/assets/icons/copyLink.webp";
 import trashIcon from "@/assets/icons/trash.webp";
 
 interface UserListProps {
@@ -43,22 +42,6 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
             )}
           </div>
           <div className="flex items-center gap-3">
-            <TooltipWrapper tooltip={t("userModal.copyTooltip")} asChild>
-              <Button
-                variant="primary"
-                className="h-10 w-10 hover:text-button-secondary-default"
-                onClick={() => {
-                  if (invite.secret_key) {
-                    const link = `${window.location.origin}/?inviteToken=${invite.secret_key}`;
-                    navigator.clipboard.writeText(link);
-                    toast.success(t("toasts.copyClipboardSuccess"));
-                  }
-                }}
-              >
-                <Icon src={copyLinkIcon} className="size-5" />
-                <span className="sr-only">{t("userModal.copyLink")}</span>
-              </Button>
-            </TooltipWrapper>
             {invite.secret_key && (
               <CopyButton
                 value={`${window.location.origin}/?inviteToken=${invite.secret_key}`}
