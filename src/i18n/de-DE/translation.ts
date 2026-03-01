@@ -119,6 +119,8 @@ const translation: i18nLanguage = {
     createGameServerError: "Fehler beim Erstellen des Gameservers!",
     cpuLimit: "CPU Kern Limit: {{cpu}}",
     memoryLimit: "RAM Limit: {{memory}}",
+    passwordTooShort: "Passwort muss mindestens 8 Zeichen lang sein",
+    passwordsDoNotMatch: "Passwörter stimmen nicht überein",
   },
   deleteGameServerDialog: {
     title: "Bist du sicher?",

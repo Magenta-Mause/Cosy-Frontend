@@ -118,6 +118,8 @@ export type i18nLanguage = {
     createGameServerError: string;
     cpuLimit: ContainsVariable<"cpu">;
     memoryLimit: ContainsVariable<"memory">;
+    passwordTooShort: string;
+    passwordsDoNotMatch: string;
   };
 
   deleteGameServerDialog: {

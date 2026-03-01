@@ -30,7 +30,6 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isOpen, setIsOpen] = useState(true);
   const [usernameError, setUsernameError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [formError, setFormError] = useState("");
 
   // Fetch invite details to validate and see if username is pre-filled
@@ -48,6 +47,16 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
   // Mutation to register the user
   const { mutate: registerUser, isPending: isRegistering } = useUseInvite();
 
+  const hasPasswordError = password.length > 0 && password.length < 8;
+  const hasConfirmPasswordError = confirmPassword.length > 0 && password !== confirmPassword;
+  const hasUsernameTooShortError =
+    !inviteData?.username && username.length > 0 && username.length < 3;
+  const hasUsernameTooLongError = !inviteData?.username && username.length > 50;
+  const isFormValid =
+    (!!inviteData?.username || (username.length >= 3 && username.length <= 50)) &&
+    password.length >= 8 &&
+    password === confirmPassword;
+
   useEffect(() => {
     if (inviteData?.username) {
       setUsername(inviteData.username);
@@ -62,16 +71,10 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setUsernameError("");
-    setConfirmPasswordError("");
     setFormError("");
 
     if (!username) {
       setUsernameError(t("toasts.usernameRequired"));
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setConfirmPasswordError(t("toasts.passwordsDoNotMatch"));
       return;
     }
 
@@ -166,7 +169,13 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                   placeholder={t("inviteRedemption.usernamePlaceholder")}
                   disabled={!!inviteData?.username || isRegistering}
                   required={!inviteData?.username}
-                  error={usernameError}
+                  error={
+                    hasUsernameTooShortError
+                      ? t("userModal.usernameErrors.tooShort")
+                      : hasUsernameTooLongError
+                        ? t("userModal.usernameErrors.tooLong")
+                        : usernameError
+                  }
                 />
 
                 <Input
@@ -178,6 +187,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                   placeholder={t("inviteRedemption.passwordPlaceholder")}
                   required
                   disabled={isRegistering}
+                  error={hasPasswordError ? t("inviteRedemption.passwordTooShort") : undefined}
                 />
 
                 <Input
@@ -189,7 +199,9 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
                   placeholder={t("inviteRedemption.confirmPasswordPlaceholder")}
                   required
                   disabled={isRegistering}
-                  error={confirmPasswordError}
+                  error={
+                    hasConfirmPasswordError ? t("inviteRedemption.passwordsDoNotMatch") : undefined
+                  }
                 />
               </div>
 
@@ -204,7 +216,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
               >
                 {t("inviteRedemption.cancel")}
               </Button>
-              <Button type="submit" disabled={isRegistering}>
+              <Button type="submit" disabled={!isFormValid || isRegistering}>
                 {isRegistering ? (
                   <>
                     <img src={spinner} alt="spinner" className="mr-2 h-4 w-4" />
