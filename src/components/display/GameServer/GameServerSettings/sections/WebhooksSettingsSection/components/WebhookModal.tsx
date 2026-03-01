@@ -112,7 +112,7 @@ const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: Web
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md min-w-[500px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{t("form.webhookUrl")}</DialogDescription>

@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import { toast } from "sonner";
 import {
   useUpdateDesign,
   useUpdateMetricLayout,
@@ -15,6 +14,7 @@ import type {
   PublicDashboard,
   RCONConfiguration,
 } from "@/api/generated/model";
+import { notificationModal } from "@/lib/notificationModal";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
@@ -26,10 +26,10 @@ const useGameServerConfigDataInteractions = () => {
     mutation: {
       onSuccess: (updatedGameServer) => {
         dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
-        toast.success(t("updateGameServerSuccess"));
+        notificationModal.success({ message: t("updateGameServerSuccess") });
       },
       onError: (err) => {
-        toast.error(t("updateGameServerError"));
+        notificationModal.error({ message: t("updateGameServerError"), cause: err });
         throw err;
       },
     },
@@ -46,10 +46,10 @@ const useGameServerConfigDataInteractions = () => {
     mutation: {
       onSuccess: (updatedGameServer: GameServerDto) => {
         dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
-        toast.success(t("updateGameServerSuccess"));
+        notificationModal.success({ message: t("updateGameServerSuccess") });
       },
       onError: (err: unknown) => {
-        toast.error(t("updateGameServerError"));
+        notificationModal.error({ message: t("updateGameServerError"), cause: err });
         throw err;
       },
     },
@@ -72,10 +72,10 @@ const useGameServerConfigDataInteractions = () => {
               publicDashboard: query.data,
             }),
           );
-          toast.success(t("updateGameServerSuccess"));
+          notificationModal.success({ message: t("updateGameServerSuccess") });
         },
         onError: (err: unknown) => {
-          toast.error(t("updateGameServerError"));
+          notificationModal.error({ message: t("updateGameServerError"), cause: err });
           throw err;
         },
       },
@@ -97,10 +97,10 @@ const useGameServerConfigDataInteractions = () => {
             metricLayout: query.data,
           }),
         );
-        toast.success(t("updateGameServerSuccess"));
+        notificationModal.success({ message: t("updateGameServerSuccess") });
       },
       onError: (err: unknown) => {
-        toast.error(t("updateGameServerError"));
+        notificationModal.error({ message: t("updateGameServerError"), cause: err });
         throw err;
       },
     },
@@ -119,10 +119,10 @@ const useGameServerConfigDataInteractions = () => {
             privateDashboard: query.data,
           }),
         );
-        toast.success(t("updateGameServerSuccess"));
+        notificationModal.success({ message: t("updateGameServerSuccess") });
       },
       onError: (err: unknown) => {
-        toast.error(t("updateGameServerError"));
+        notificationModal.error({ message: t("updateGameServerError"), cause: err });
         throw err;
       },
     },

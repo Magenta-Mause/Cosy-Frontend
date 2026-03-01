@@ -17,6 +17,12 @@ export type i18nLanguage = {
     viewLogs: string;
     loading: string;
     failed: string;
+    theme: string;
+    themes: {
+      day: string;
+      night: string;
+      auto: string;
+    };
   };
 
   toasts: {
@@ -39,6 +45,7 @@ export type i18nLanguage = {
     serverStartError: ContainsVariable<"error">;
     serverStopSuccess: string;
     serverStopError: ContainsVariable<"error">;
+    serverTransferError: string;
     updateGameServerSuccess: string;
     updateGameServerError: string;
     missingUuid: string;
@@ -50,6 +57,8 @@ export type i18nLanguage = {
     deleteWebhookError: string;
     updateFooterSuccess: string;
     updateFooterError: string;
+    adminChangePasswordSuccess: string;
+    adminChangePasswordError: string;
   };
 
   userModal: {
@@ -192,6 +201,14 @@ export type i18nLanguage = {
     languageSelector: string;
     userMenu: string;
     logout: string;
+  };
+
+  notificationModal: {
+    successTitle: string;
+    errorTitle: string;
+    infoTitle: string;
+    ok: string;
+    dismiss: string;
   };
 
   logDisplay: {

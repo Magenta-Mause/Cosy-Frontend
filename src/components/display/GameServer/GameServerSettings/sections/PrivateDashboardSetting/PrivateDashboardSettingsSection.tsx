@@ -24,7 +24,7 @@ const wrapPrivateDashboard = (dashboard: PrivateDashboardLayout): PrivateDashboa
 });
 
 const wrapPrivateDashboards = (dashboard: PrivateDashboardLayout[]): PrivateDashboardLayoutUI[] =>
-  dashboard.map(wrapPrivateDashboard);
+  dashboard ? dashboard.map(wrapPrivateDashboard) : [];
 
 export default function PrivateDashboardSettingsSection(props: { gameServer: GameServerDto }) {
   const { gameServer } = props;
@@ -37,7 +37,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
   const [unfulfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
 
   const isChanged = useMemo(() => {
-    if (privateDashboard.length !== gameServer.private_dashboard_layouts.length) return true;
+    if (privateDashboard.length !== gameServer.private_dashboard_layouts?.length) return true;
 
     return privateDashboard.some((dashboard, i) => {
       const original = gameServer.private_dashboard_layouts[i];
