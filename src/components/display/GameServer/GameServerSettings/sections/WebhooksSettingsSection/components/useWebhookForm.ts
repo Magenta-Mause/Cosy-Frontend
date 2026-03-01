@@ -11,13 +11,6 @@ const webhookUrlSchema = z
     "validation.webhookUrlInvalid",
   );
 
-const formSchema = z.object({
-  webhook_type: z.string(),
-  webhook_url: webhookUrlSchema,
-  enabled: z.boolean(),
-  subscribed_events: z.array(z.string()).min(1, "validation.subscribedEventsRequired"),
-});
-
 type FormErrors = {
   webhook_url?: string;
   subscribed_events?: string;
@@ -31,17 +24,27 @@ interface UseWebhookFormOptions {
 export const useWebhookForm = ({ defaultValues, onSubmit }: UseWebhookFormOptions) => {
   const { t } = useTranslationPrefix("components.GameServerSettings.webhooks");
   const [values, setValues] = useState<WebhookFormValues>(defaultValues);
-  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const errors = useMemo<FormErrors>(() => {
+    const result: FormErrors = {};
+
+    if (values.webhook_url.length > 0) {
+      const urlResult = webhookUrlSchema.safeParse(values.webhook_url);
+      if (!urlResult.success) {
+        result.webhook_url = t(urlResult.error.issues[0].message);
+      }
+    }
+
+    if (values.subscribed_events.length === 0) {
+      result.subscribed_events = t("validation.subscribedEventsRequired");
+    }
+
+    return result;
+  }, [values.webhook_url, values.subscribed_events, t]);
 
   const handleValuesChange = useCallback((partial: Partial<WebhookFormValues>) => {
     setValues((prev) => ({ ...prev, ...partial }));
-    if (partial.webhook_url !== undefined) {
-      setErrors((prev) => ({ ...prev, webhook_url: undefined }));
-    }
-    if (partial.subscribed_events !== undefined) {
-      setErrors((prev) => ({ ...prev, subscribed_events: undefined }));
-    }
   }, []);
 
   const toggleSubscribedEvent = useCallback((event: WebhookEvent, checked: boolean) => {
@@ -53,28 +56,23 @@ export const useWebhookForm = ({ defaultValues, onSubmit }: UseWebhookFormOption
         : prev.subscribed_events.filter((e) => e !== event);
       return { ...prev, subscribed_events: newEvents };
     });
-    setErrors((prev) => ({ ...prev, subscribed_events: undefined }));
   }, []);
 
   const resetForm = useCallback(() => {
     setValues(defaultValues);
-    setErrors({});
   }, [defaultValues]);
 
-  const handleSubmit = useCallback(async () => {
-    const result = formSchema.safeParse(values);
+  const isDisabled = useMemo(() => {
+    return (
+      values.webhook_url.trim().length === 0 ||
+      !!errors.webhook_url ||
+      values.subscribed_events.length === 0 ||
+      isSubmitting
+    );
+  }, [values.webhook_url, errors.webhook_url, values.subscribed_events, isSubmitting]);
 
-    if (!result.success) {
-      const fieldErrors: FormErrors = {};
-      for (const issue of result.error.issues) {
-        const field = issue.path[0] as keyof FormErrors;
-        if (!fieldErrors[field]) {
-          fieldErrors[field] = t(issue.message);
-        }
-      }
-      setErrors(fieldErrors);
-      return;
-    }
+  const handleSubmit = useCallback(async () => {
+    if (isDisabled) return;
 
     setIsSubmitting(true);
     try {
@@ -82,15 +80,7 @@ export const useWebhookForm = ({ defaultValues, onSubmit }: UseWebhookFormOption
     } finally {
       setIsSubmitting(false);
     }
-  }, [values, onSubmit, t]);
-
-  const isDisabled = useMemo(() => {
-    return (
-      values.webhook_url.trim().length === 0 ||
-      values.subscribed_events.length === 0 ||
-      isSubmitting
-    );
-  }, [values.webhook_url, values.subscribed_events, isSubmitting]);
+  }, [isDisabled, values, onSubmit]);
 
   return {
     values,
