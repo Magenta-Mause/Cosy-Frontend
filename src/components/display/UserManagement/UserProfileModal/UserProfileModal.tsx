@@ -71,6 +71,7 @@ export function UserProfileModal({ open, onOpenChange }: UserProfileModalProps) 
                     size="icon"
                     className="h-9 w-9"
                     aria-label={t("changePasswordButton")}
+                    tabIndex={-1}
                   >
                     <Icon src={pencilWrite} className="size-5" />
                   </Button>
