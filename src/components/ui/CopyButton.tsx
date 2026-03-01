@@ -25,9 +25,19 @@ const CopyButton = ({ value, tooltip, copiedTooltip, variant = "ghost", size = "
   }, []);
 
   const handleCopy = useCallback(async () => {
-    await navigator.clipboard.writeText(value);
-    setCopied(true);
-    timerRef.current = setTimeout(() => setCopied(false), 5000);
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      timerRef.current = setTimeout(() => setCopied(false), 5000);
+    } catch (error) {
+      // Provide feedback and a manual-copy fallback if the clipboard write fails
+      // (for example, in insecure contexts or when permissions are denied).
+      // eslint-disable-next-line no-console
+      console.error("Failed to copy to clipboard:", error);
+      if (typeof window !== "undefined") {
+        window.prompt("Copy to clipboard: Press Ctrl+C, then Enter", value);
+      }
+    }
   }, [value]);
 
   const activeTooltip = copied ? (copiedTooltip ?? tooltip) : tooltip;
