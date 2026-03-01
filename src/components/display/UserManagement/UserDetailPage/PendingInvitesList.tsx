@@ -41,11 +41,13 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
             )}
           </div>
           <div className="flex items-center gap-3">
-            <CopyButton
-              value={`${window.location.origin}/?inviteToken=${invite.secret_key}`}
-              tooltip={t("userModal.copyTooltip")}
-              copiedTooltip={t("toasts.copyClipboardSuccess")}
-            />
+            {invite.secret_key && (
+              <CopyButton
+                value={`${window.location.origin}/?inviteToken=${invite.secret_key}`}
+                tooltip={t("userModal.copyTooltip")}
+                copiedTooltip={t("toasts.copyClipboardSuccess")}
+              />
+            )}
             <TooltipWrapper tooltip={t("userModal.revoke.tooltip")} asChild>
               <Button
                 className="h-10 w-10 hover:text-destructive"
