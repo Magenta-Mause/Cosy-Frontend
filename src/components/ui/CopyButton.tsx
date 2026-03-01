@@ -56,9 +56,9 @@ const CopyButton = ({ value, tooltip, copiedTooltip, variant = "ghost", size = "
       onClick={handleCopy}
     >
       {copied ? (
-        <Icon src={checkIcon} variant="foreground" className="size-4 text-green-500" />
+        <Icon src={checkIcon} variant="secondary" className="size-4 text-green-500" />
       ) : (
-        <Icon src={copyIcon} variant="foreground" className="size-4 -m-1 mt-0.5" />
+        <Icon src={copyIcon} variant="secondary" className="size-4" />
       )}
     </Button>
   );
