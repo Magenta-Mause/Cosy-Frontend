@@ -65,6 +65,7 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
         id="webhook-url"
         header={t("components.GameServerSettings.webhooks.form.webhookUrl")}
         value={values.webhook_url}
+        placeholder="https://your-webhook-url.org"
         onChange={(e) => handleWebhookUrlChange(e.target.value)}
         error={errors.webhook_url}
         disabled={isSubmitting}
