@@ -76,7 +76,7 @@ function extractErrorDetails(error: unknown): string | undefined {
   return parts.length > 0 ? parts.join("\n") : undefined;
 }
 
-export const modal = {
+export const notificationModal = {
   success(opts: { title?: string; message: string }) {
     return enqueue({ type: "success", ...opts });
   },

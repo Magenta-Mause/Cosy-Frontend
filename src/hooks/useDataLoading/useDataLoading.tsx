@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { modal } from "@/lib/notificationModal";
 import { v7 as generateUuid } from "uuid";
 import {
   getAllGameServers,
@@ -14,6 +13,7 @@ import {
   getUserPermissions,
 } from "@/api/generated/backend-api.ts";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
+import { notificationModal } from "@/lib/notificationModal";
 import { containsPermission } from "@/lib/permissionCalculations.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
@@ -288,7 +288,9 @@ const useDataLoading = () => {
         }),
       );
     } catch {
-      modal.error({ message: `Failed to load public metrics for server: ${gameServerUuid}` });
+      notificationModal.error({
+        message: `Failed to load public metrics for server: ${gameServerUuid}`,
+      });
       dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "failed" }));
     }
   };
@@ -325,7 +327,9 @@ const useDataLoading = () => {
         );
         dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "idle" }));
       } catch {
-        modal.error({ message: `Failed to load metrics for server: ${gameServerUuid}` });
+        notificationModal.error({
+          message: `Failed to load metrics for server: ${gameServerUuid}`,
+        });
         dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "failed" }));
       }
     },

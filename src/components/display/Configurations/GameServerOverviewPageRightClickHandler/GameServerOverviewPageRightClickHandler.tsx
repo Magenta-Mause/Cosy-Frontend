@@ -7,7 +7,7 @@ import { ThemeContext, ThemeOptions } from "@components/technical/Providers/Them
 import { type ReactNode, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
-import { modal } from "@/lib/notificationModal";
+import { notificationModal } from "@/lib/notificationModal";
 
 const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode }) => {
   const { t } = useTranslation();
@@ -23,7 +23,7 @@ const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode })
       onClick: async () => {
         if (await loadGameServers()) {
         } else {
-          modal.error({ message: t("toasts.refreshGameServersError") });
+          notificationModal.error({ message: t("toasts.refreshGameServersError") });
         }
       },
     },

@@ -13,7 +13,7 @@ import type {
   UserInviteCreationDto,
   UserRoleUpdateDtoRole,
 } from "@/api/generated/model";
-import { modal } from "@/lib/notificationModal";
+import { notificationModal } from "@/lib/notificationModal";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import { userSliceActions } from "@/stores/slices/userSlice.ts";
 import type { InvalidRequestError } from "@/types/errors.ts";
@@ -39,7 +39,10 @@ const useUserDataInteractions = () => {
         } else if (errorData) {
           errorMessage = errorData;
         }
-        modal.error({ message: t("inviteCreateError", { error: errorMessage }), cause: err });
+        notificationModal.error({
+          message: t("inviteCreateError", { error: errorMessage }),
+          cause: err,
+        });
         throw err;
       },
       onSettled: () => {
@@ -60,7 +63,7 @@ const useUserDataInteractions = () => {
         dispatch(userInviteSliceActions.removeInvite(variables.uuid));
       },
       onError: (err) => {
-        modal.error({ message: t("toasts.inviteRevokeError"), cause: err });
+        notificationModal.error({ message: t("toasts.inviteRevokeError"), cause: err });
         throw err;
       },
       onSettled: () => {
@@ -102,10 +105,10 @@ const useUserDataInteractions = () => {
   const { mutateAsync: mutateChangePasswordByAdmin } = useChangePasswordByAdmin({
     mutation: {
       onSuccess: () => {
-        modal.success({ message: t("adminChangePasswordSuccess") });
+        notificationModal.success({ message: t("adminChangePasswordSuccess") });
       },
       onError: (err) => {
-        modal.error({ message: t("adminChangePasswordError"), cause: err });
+        notificationModal.error({ message: t("adminChangePasswordError"), cause: err });
         throw err;
       },
     },

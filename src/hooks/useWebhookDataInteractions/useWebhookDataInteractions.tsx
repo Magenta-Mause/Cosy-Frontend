@@ -3,7 +3,7 @@ import {
   useDeleteWebhook,
   useUpdateWebhook,
 } from "@/api/generated/backend-api.ts";
-import { modal } from "@/lib/notificationModal";
+import { notificationModal } from "@/lib/notificationModal";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
 const useWebhookDataInteractions = () => {
@@ -14,7 +14,7 @@ const useWebhookDataInteractions = () => {
       onSuccess: async () => {},
       onError: (error) => {
         console.error("Create webhook error:", error);
-        modal.error({ message: t("createWebhookError"), cause: error });
+        notificationModal.error({ message: t("createWebhookError"), cause: error });
       },
     },
   });
@@ -26,7 +26,7 @@ const useWebhookDataInteractions = () => {
       },
       onError: (error) => {
         console.error("Update webhook error:", error);
-        modal.error({ message: t("updateWebhookError"), cause: error });
+        notificationModal.error({ message: t("updateWebhookError"), cause: error });
       },
     },
   });
@@ -38,7 +38,7 @@ const useWebhookDataInteractions = () => {
       },
       onError: (error) => {
         console.error("Delete webhook error:", error);
-        modal.error({ message: t("deleteWebhookError"), cause: error });
+        notificationModal.error({ message: t("deleteWebhookError"), cause: error });
       },
     },
   });

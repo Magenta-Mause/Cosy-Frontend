@@ -12,7 +12,7 @@ import type * as React from "react";
 import { useEffect, useState } from "react";
 import { useChangePassword } from "@/api/generated/backend-api";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { modal } from "@/lib/notificationModal";
+import { notificationModal } from "@/lib/notificationModal";
 
 interface ChangePasswordModalProps {
   open: boolean;
@@ -44,7 +44,7 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
     e.preventDefault();
 
     if (!uuid) {
-      modal.error({ message: t("missingUuid") });
+      notificationModal.error({ message: t("missingUuid") });
       return;
     }
 
@@ -58,7 +58,7 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
           onOpenChange(false);
         },
         onError: (err) => {
-          modal.error({ message: t("passwordChangeError"), cause: err });
+          notificationModal.error({ message: t("passwordChangeError"), cause: err });
         },
       },
     );

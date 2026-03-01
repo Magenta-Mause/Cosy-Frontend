@@ -1,6 +1,9 @@
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { createContext, type ReactNode, useEffect, useState } from "react";
 
+const NIGHT_START = 19;
+const NIGHT_END = 7;
+
 export const ThemeOptions = {
   DAY: "day",
   NIGHT: "night",
@@ -33,7 +36,7 @@ function useCurrentTime() {
 
 const calculateCurrentTheme = (time: Date) => {
   const hour = time.getHours();
-  return hour >= 7 && hour < 19 ? ThemeOptions.DAY : ThemeOptions.NIGHT;
+  return hour >= NIGHT_END && hour < NIGHT_START ? ThemeOptions.DAY : ThemeOptions.NIGHT;
 };
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {

@@ -5,7 +5,7 @@ import {
   useUpdateGameServerAccessGroups,
 } from "@/api/generated/backend-api.ts";
 import type { AccessGroupCreationDto, AccessGroupUpdateDto } from "@/api/generated/model";
-import { modal } from "@/lib/notificationModal";
+import { notificationModal } from "@/lib/notificationModal";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
@@ -24,7 +24,7 @@ const useAccessGroupDataInteractions = () => {
         );
       },
       onError: (err) => {
-        modal.error({ message: t("updateGameServerError"), cause: err });
+        notificationModal.error({ message: t("updateGameServerError"), cause: err });
         throw err;
       },
     },
@@ -49,10 +49,10 @@ const useAccessGroupDataInteractions = () => {
             accessGroupUuid: props.accessGroupUuid,
           }),
         );
-        modal.success({ message: t("updateGameServerSuccess") });
+        notificationModal.success({ message: t("updateGameServerSuccess") });
       },
       onError: (err) => {
-        modal.error({ message: t("updateGameServerError"), cause: err });
+        notificationModal.error({ message: t("updateGameServerError"), cause: err });
         throw err;
       },
     },
@@ -74,10 +74,10 @@ const useAccessGroupDataInteractions = () => {
             newAccessGroups: updatedAccessGroups,
           }),
         );
-        modal.success({ message: t("updateGameServerSuccess") });
+        notificationModal.success({ message: t("updateGameServerSuccess") });
       },
       onError: (err) => {
-        modal.error({ message: t("updateGameServerError"), cause: err });
+        notificationModal.error({ message: t("updateGameServerError"), cause: err });
         throw err;
       },
     },

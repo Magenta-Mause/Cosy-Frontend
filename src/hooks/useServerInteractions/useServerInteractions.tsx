@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
-import { modal } from "@/lib/notificationModal";
 import { startService, stopService } from "@/api/generated/backend-api.ts";
 import { GameServerDtoStatus } from "@/api/generated/model";
+import { notificationModal } from "@/lib/notificationModal";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 const useServerInteractions = () => {
@@ -16,7 +16,7 @@ const useServerInteractions = () => {
       dispatch(gameServerSliceActions.awaitPendingUpdate(gameServerId));
       await startPromise;
       if (includeToastNotification) {
-        modal.success({ message: t("toasts.serverStartSuccess") });
+        notificationModal.success({ message: t("toasts.serverStartSuccess") });
       }
     } catch (e) {
       if (axios.isAxiosError(e) && e.code === "ECONNABORTED") return;
@@ -26,7 +26,7 @@ const useServerInteractions = () => {
           serverState: GameServerDtoStatus.FAILED,
         }),
       );
-      modal.error({ message: t("toasts.serverStartError", { error: e }), cause: e });
+      notificationModal.error({ message: t("toasts.serverStartError", { error: e }), cause: e });
     }
   };
 
@@ -36,10 +36,10 @@ const useServerInteractions = () => {
       dispatch(gameServerSliceActions.awaitPendingUpdate(gameServerId));
       await stopPromise;
       if (includeToastNotification) {
-        modal.success({ message: t("toasts.serverStopSuccess") });
+        notificationModal.success({ message: t("toasts.serverStopSuccess") });
       }
     } catch (e) {
-      modal.error({ message: t("toasts.serverStopError", { error: e }), cause: e });
+      notificationModal.error({ message: t("toasts.serverStopError", { error: e }), cause: e });
     }
   };
 

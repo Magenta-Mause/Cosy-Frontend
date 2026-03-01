@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
-import { subscribe, getSnapshot } from "@/lib/notificationModal";
 import { NotificationModal } from "@/components/ui/notification-modal";
+import { getSnapshot, subscribe } from "@/lib/notificationModal";
 
 export function NotificationModalProvider() {
   const queue = useSyncExternalStore(subscribe, getSnapshot);

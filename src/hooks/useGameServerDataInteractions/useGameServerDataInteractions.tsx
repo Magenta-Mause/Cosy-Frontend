@@ -11,7 +11,7 @@ import {
 } from "@/api/generated/backend-api.ts";
 import type { TransferOwnershipDto } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
-import { modal } from "@/lib/notificationModal";
+import { notificationModal } from "@/lib/notificationModal";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
@@ -28,7 +28,7 @@ const useGameServerDataInteractions = () => {
         dispatch(gameServerSliceActions.removeGameServer(variables.uuid));
       },
       onError: (err) => {
-        modal.error({ message: t("deleteGameServerError"), cause: err });
+        notificationModal.error({ message: t("deleteGameServerError"), cause: err });
         throw err;
       },
       onSettled: () => {
@@ -49,7 +49,7 @@ const useGameServerDataInteractions = () => {
         await loadGameServer(data.uuid);
       },
       onError: (err) => {
-        modal.error({ message: t("createGameServerError"), cause: err });
+        notificationModal.error({ message: t("createGameServerError"), cause: err });
         throw err;
       },
     },
@@ -63,10 +63,10 @@ const useGameServerDataInteractions = () => {
     mutation: {
       onSuccess: (updatedGameServer) => {
         dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
-        modal.success({ message: t("updateGameServerSuccess") });
+        notificationModal.success({ message: t("updateGameServerSuccess") });
       },
       onError: (err) => {
-        modal.error({ message: t("updateGameServerError"), cause: err });
+        notificationModal.error({ message: t("updateGameServerError"), cause: err });
         throw err;
       },
     },
@@ -85,7 +85,7 @@ const useGameServerDataInteractions = () => {
         dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
       },
       onError: (err) => {
-        modal.error({ message: "Failed to transfer ownership", cause: err });
+        notificationModal.error({ message: "Failed to transfer ownership", cause: err });
         throw err;
       },
       onSettled: () => {

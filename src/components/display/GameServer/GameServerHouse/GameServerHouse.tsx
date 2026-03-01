@@ -7,11 +7,11 @@ import { useRouter } from "@tanstack/react-router";
 import type { CSSProperties } from "react";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { modal } from "@/lib/notificationModal";
 import type { GameServerDto } from "@/api/generated/model";
 import castle from "@/assets/MainPage/castle.png";
 import house from "@/assets/MainPage/house.png";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
+import { notificationModal } from "@/lib/notificationModal";
 import { cn } from "@/lib/utils.ts";
 import { GameServerDesign } from "@/types/gameServerDesign.ts";
 
@@ -61,10 +61,13 @@ const GameServerHouse = (props: {
             label: t("rightClickMenu.startServer"),
             onClick: async () => {
               try {
-                modal.info({ message: "Starting server..." });
+                notificationModal.info({ message: "Starting server..." });
                 startServer(props.gameServer.uuid, true);
               } catch (e) {
-                modal.error({ message: t("toasts.serverStartError", { error: e }), cause: e });
+                notificationModal.error({
+                  message: t("toasts.serverStartError", { error: e }),
+                  cause: e,
+                });
               }
             },
           },
@@ -77,7 +80,10 @@ const GameServerHouse = (props: {
                 try {
                   await stopServer(props.gameServer.uuid, true);
                 } catch (e) {
-                  modal.error({ message: t("toasts.serverStopError", { error: e }), cause: e });
+                  notificationModal.error({
+                    message: t("toasts.serverStopError", { error: e }),
+                    cause: e,
+                  });
                 }
               },
             },
