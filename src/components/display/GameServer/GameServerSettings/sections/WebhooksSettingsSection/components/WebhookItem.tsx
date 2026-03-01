@@ -82,6 +82,7 @@ const WebhookItem = ({
             {webhook.webhook_url}
           </code>
           <CopyButton
+            disabled={!webhook.webhook_url}
             value={webhook.webhook_url ?? ""}
             tooltip={t("copyUrl")}
             copiedTooltip={t("copied")}

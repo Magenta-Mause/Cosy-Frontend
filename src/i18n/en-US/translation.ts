@@ -50,6 +50,7 @@ const translation: i18nLanguage = {
     serverStartSuccess: "Started server.",
     serverStopError: 'Failed to stop server. "{{error}}"',
     serverStopSuccess: "Stopped Server",
+    serverTransferError: "Failed to transfer game server.",
     updateGameServerSuccess: "Game Server updated successfully!",
     updateGameServerError: "Failed to update Game Server",
     missingUuid: "UUID is missing",

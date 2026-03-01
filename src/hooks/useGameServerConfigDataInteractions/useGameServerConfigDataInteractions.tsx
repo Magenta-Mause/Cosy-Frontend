@@ -75,7 +75,7 @@ const useGameServerConfigDataInteractions = () => {
           notificationModal.success({ message: t("updateGameServerSuccess") });
         },
         onError: (err: unknown) => {
-          notificationModal.error({ message: t("updateGameServerError") });
+          notificationModal.error({ message: t("updateGameServerError"), cause: err });
           throw err;
         },
       },

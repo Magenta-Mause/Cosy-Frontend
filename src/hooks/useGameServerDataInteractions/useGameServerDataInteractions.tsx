@@ -85,7 +85,7 @@ const useGameServerDataInteractions = () => {
         dispatch(gameServerSliceActions.updateGameServer(updatedGameServer));
       },
       onError: (err) => {
-        notificationModal.error({ message: "Failed to transfer ownership", cause: err });
+        notificationModal.error({ message: t("serverTransferError"), cause: err });
         throw err;
       },
       onSettled: () => {

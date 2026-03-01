@@ -1,6 +1,6 @@
 import { Check, Copy } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Button, type buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import type { VariantProps } from "class-variance-authority";
 
@@ -10,9 +10,10 @@ interface CopyButtonProps
   tooltip?: string;
   copiedTooltip?: string;
   className?: string;
+  disabled?: boolean;
 }
 
-const CopyButton = ({ value, tooltip, copiedTooltip, variant = "ghost", size = "icon", className }: CopyButtonProps) => {
+const CopyButton = ({ value, tooltip, copiedTooltip, variant = "ghost", size = "icon", className, disabled = false }: CopyButtonProps) => {
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -47,8 +48,9 @@ const CopyButton = ({ value, tooltip, copiedTooltip, variant = "ghost", size = "
       type="button"
       variant={variant}
       size={size}
+      aria-label={activeTooltip}
       className={className}
-      disabled={copied}
+      disabled={copied || disabled}
       onClick={handleCopy}
     >
       {copied ? (

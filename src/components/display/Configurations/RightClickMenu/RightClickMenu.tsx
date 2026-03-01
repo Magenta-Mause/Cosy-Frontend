@@ -69,7 +69,7 @@ const RightClickMenu = (props: RightClickMenuProps) => {
                   {action.children.map((children) => (
                     <ContextMenuRadioItem
                       key={children.label}
-                      onClick={children.onClick}
+                      onSelect={children.onClick}
                       value={children.value ?? ""}
                     >
                       {children.label}

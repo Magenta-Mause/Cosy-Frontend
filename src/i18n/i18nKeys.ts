@@ -45,6 +45,7 @@ export type i18nLanguage = {
     serverStartError: ContainsVariable<"error">;
     serverStopSuccess: string;
     serverStopError: ContainsVariable<"error">;
+    serverTransferError: string;
     updateGameServerSuccess: string;
     updateGameServerError: string;
     missingUuid: string;
