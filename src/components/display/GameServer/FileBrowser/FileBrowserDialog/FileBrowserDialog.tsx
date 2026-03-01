@@ -384,6 +384,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
         endDecorator={
           <button
             type="button"
+            aria-label="clear search"
             className="pointer-events-auto cursor-pointer"
             onClick={() => {
               setSearch("");
