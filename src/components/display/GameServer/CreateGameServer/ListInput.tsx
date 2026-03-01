@@ -209,7 +209,7 @@ function ListInput<T extends { uuid: string }>({
               )}
               {rowError && (
                 <TooltipWrapper tooltip={errorLabel} asChild>
-                  <Icon src={attentionIcon} className="size-5 text-red-500" />
+                  <Icon src={attentionIcon} className="size-5 text-red-500 pointer-events-auto" />
                 </TooltipWrapper>
               )}
             </div>
