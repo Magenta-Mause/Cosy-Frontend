@@ -27,7 +27,7 @@ const WebhookList = ({
   }
 
   return (
-    <Card className={cn("relative p-3 gap-5 flex flex-col mt-5", "flex flex-col gap-3")}>
+    <Card className={cn("relative p-3 gap-5 flex flex-col mt-5 mb-5", "flex flex-col gap-3")}>
       <h3 className="text-lg">{t("configuredWebhooks")}</h3>
       <div className="flex flex-col gap-3">
         {webhooks.map((webhook) => (
