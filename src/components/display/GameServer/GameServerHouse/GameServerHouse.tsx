@@ -61,7 +61,9 @@ const GameServerHouse = (props: {
             label: t("rightClickMenu.startServer"),
             onClick: async () => {
               try {
-                notificationModal.info({ message: "Starting server..." });
+                notificationModal.info({
+                  message: t("toasts.serverStarting"),
+                });
                 startServer(props.gameServer.uuid, true);
               } catch (e) {
                 notificationModal.error({
