@@ -12,10 +12,10 @@ import {
 import { Input } from "@components/ui/input.tsx";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import { useGetUserInvite, useUseInvite } from "@/api/generated/backend-api.ts";
 import spinner from "@/assets/gifs/spinner.gif";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
+import { notificationModal } from "@/lib/notificationModal";
 import type { InvalidRequestError } from "@/types/errors.ts";
 
 interface InviteRedemptionModalProps {
@@ -85,7 +85,7 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
       },
       {
         onSuccess: () => {
-          toast.success(t("toasts.accountCreatedSuccess"));
+          notificationModal.success({ message: t("toasts.accountCreatedSuccess") });
           handleClose();
         },
         onError: (e) => {

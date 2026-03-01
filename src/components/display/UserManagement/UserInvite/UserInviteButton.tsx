@@ -11,10 +11,10 @@ import {
 import Icon from "@components/ui/Icon.tsx";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import addUserIcon from "@/assets/icons/userAdd.webp";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
+import { notificationModal } from "@/lib/notificationModal";
 import { getCpuLimitError } from "@/lib/validators/cpuLimitValidator.ts";
 import { getMemoryLimitError } from "@/lib/validators/memoryLimitValidator.ts";
 import { InviteForm } from "./InviteForm/InviteForm.tsx";
@@ -114,7 +114,7 @@ const UserInviteButton = (props: { className?: string }) => {
     if (generatedKey) {
       const link = `${window.location.origin}/?inviteToken=${generatedKey}`;
       navigator.clipboard.writeText(link);
-      toast.success(t("toasts.copyClipboardSuccess"));
+      notificationModal.success({ message: t("toasts.copyClipboardSuccess") });
     }
   };
 

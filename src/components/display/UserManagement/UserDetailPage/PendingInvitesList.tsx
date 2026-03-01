@@ -1,4 +1,5 @@
 import { Button } from "@components/ui/button";
+import CopyButton from "@components/ui/CopyButton.tsx";
 import { Card, CardContent } from "@components/ui/card";
 import {
   Dialog,
@@ -12,7 +13,6 @@ import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import type { UserInviteDto } from "@/api/generated/model";
 import copyLinkIcon from "@/assets/icons/copyLink.webp";
 import trashIcon from "@/assets/icons/trash.webp";
@@ -59,6 +59,13 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
                 <span className="sr-only">{t("userModal.copyLink")}</span>
               </Button>
             </TooltipWrapper>
+            {invite.secret_key && (
+              <CopyButton
+                value={`${window.location.origin}/?inviteToken=${invite.secret_key}`}
+                tooltip={t("userModal.copyTooltip")}
+                copiedTooltip={t("toasts.copyClipboardSuccess")}
+              />
+            )}
             <TooltipWrapper tooltip={t("userModal.revoke.tooltip")} asChild>
               <Button
                 className="h-10 w-10 hover:text-destructive"

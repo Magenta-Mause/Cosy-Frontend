@@ -1,7 +1,12 @@
 import Footer from "@components/display/Footer/Footer.tsx";
-import bgImageLoop from "@/assets/MainPage/backgrounds/bg_day_loop.png";
-import bgImageTop from "@/assets/MainPage/backgrounds/bg_day_top.png";
-import bgImageFooter from "@/assets/MainPage/backgrounds/bg_footer_day.webp";
+import { ThemeContext, ThemeOptions } from "@components/technical/Providers/ThemeProvider.tsx";
+import { useContext } from "react";
+import bgImageLoopDay from "@/assets/MainPage/backgrounds/bg_day_loop.png";
+import bgImageTopDay from "@/assets/MainPage/backgrounds/bg_day_top.png";
+import bgImageFooterDay from "@/assets/MainPage/backgrounds/bg_footer_day.webp";
+import bgImageFooterNight from "@/assets/MainPage/backgrounds/bg_footer_night.webp";
+import bgImageLoopNight from "@/assets/MainPage/backgrounds/bg_night_loop.png";
+import bgImageTopNight from "@/assets/MainPage/backgrounds/bg_night_top.png";
 import logo from "@/assets/MainPage/logo.gif";
 import path_1 from "@/assets/MainPage/platze_1.png";
 import path_2 from "@/assets/MainPage/platze_2.png";
@@ -15,20 +20,20 @@ import pathLoop_6 from "@/assets/MainPage/platze_loop_6.png";
 const HOUSES_PER_CYCLE = 6;
 const BASE_THRESHOLD = 2;
 
-const images = {
+const IMAGES = (theme: ThemeOptions) => ({
   bg: {
-    top: bgImageTop,
-    loop: bgImageLoop,
-    footer: bgImageFooter,
+    top: theme === ThemeOptions.DAY ? bgImageTopDay : bgImageTopNight,
+    loop: theme === ThemeOptions.DAY ? bgImageLoopDay : bgImageLoopNight,
+    footer: theme === ThemeOptions.DAY ? bgImageFooterDay : bgImageFooterNight,
   },
   path: {
     1: path_1,
     2: path_2,
     loop: [pathLoop_1, pathLoop_2, pathLoop_3, pathLoop_4, pathLoop_5, pathLoop_6],
   },
-};
+});
 
-function calculatePathSegments(houseCount: number) {
+function calculatePathSegments(houseCount: number, images: ReturnType<typeof IMAGES>) {
   if (houseCount === 1) {
     return [{ id: "path-base-1", src: images.path[1] }];
   }
@@ -58,7 +63,7 @@ function calculatePathSegments(houseCount: number) {
   return segments;
 }
 
-function calculateBgLoops(houseCount: number) {
+function calculateBgLoops(houseCount: number, images: ReturnType<typeof IMAGES>) {
   const loopsPerPosition = [2, 0, 2, 1, 1, 1];
   let loopCount = 0;
 
@@ -82,8 +87,10 @@ interface GameServerBackgroundProps {
 }
 
 const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
-  const pathSegments = calculatePathSegments(houseCount);
-  const bgLoops = calculateBgLoops(houseCount);
+  const { currentTheme } = useContext(ThemeContext);
+  const images = IMAGES(currentTheme);
+  const pathSegments = calculatePathSegments(houseCount, images);
+  const bgLoops = calculateBgLoops(houseCount, images);
 
   return (
     <div className="relative w-full min-h-screen bg-[#1F4D15]">
@@ -118,12 +125,12 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
         ))}
       </div>
 
-      <div className="absolute top-0 pt-[2vw] left-0 w-full z-20 flex justify-center">
+      <div className="absolute top-0 pt-[2vw] left-0 w-full z-20 flex justify-center select-none">
         <img
           src={logo}
           alt="Cosy Logo"
           className="w-[45vw] h-auto"
-          style={{ imageRendering: "pixelated" }}
+          style={{ imageRendering: "pixelated", pointerEvents: "none" }}
         />
       </div>
     </div>
