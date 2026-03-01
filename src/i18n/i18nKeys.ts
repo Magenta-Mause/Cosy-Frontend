@@ -179,10 +179,7 @@ export type i18nLanguage = {
     desc: string;
     username: string;
     password: string;
-    resetPassword: string;
     question: string;
-    continueMeansAccept: string;
-    legal: string;
     incorrectCredentials: string;
     loading: string;
     logout: string;
@@ -580,8 +577,8 @@ export type i18nLanguage = {
         sortBy: {
           username: string;
           role: string;
-          max_cpu: string;
-          max_memory: string;
+          docker_max_cpu_cores: string;
+          docker_memory_limit: string;
         };
         noUsersFound: string;
         pendingInvites: string;

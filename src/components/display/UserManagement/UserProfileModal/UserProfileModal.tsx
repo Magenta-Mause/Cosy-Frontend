@@ -10,20 +10,22 @@ import {
   DialogMain,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
+import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input.tsx";
-import { Pencil } from "lucide-react";
+import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
+import pencilWrite from "@/assets/icons/pencilWrite.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage.tsx";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
 
-interface UserModalProps {
+interface UserProfileModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function UserModal({ open, onOpenChange }: UserModalProps) {
+export function UserProfileModal({ open, onOpenChange }: UserProfileModalProps) {
   const { t } = useTranslationPrefix("userProfileModal");
   const { t: tCommon } = useTranslation();
   const { username, role, memoryLimit, cpuLimit, uuid } = useContext(AuthContext);
@@ -63,14 +65,17 @@ export function UserModal({ open, onOpenChange }: UserModalProps) {
                   />
                 </div>
 
-                <Button
-                  onClick={handleChangePasswordClick}
-                  size="icon"
-                  className="h-9 w-9"
-                  aria-label={t("changePasswordButton")}
-                >
-                  <Pencil className="h-4 w-4" />
-                </Button>
+                <TooltipWrapper tooltip={t("changePasswordButton")} asChild>
+                  <Button
+                    onClick={handleChangePasswordClick}
+                    size="icon"
+                    className="h-9 w-9"
+                    aria-label={t("changePasswordButton")}
+                    tabIndex={-1}
+                  >
+                    <Icon src={pencilWrite} className="size-5" />
+                  </Button>
+                </TooltipWrapper>
               </div>
 
               <div>

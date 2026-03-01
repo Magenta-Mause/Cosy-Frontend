@@ -121,6 +121,7 @@ const OptionsBannerDropdown = () => {
               <LanguageSelector
                 tabIndex={isExpanded ? undefined : -1}
                 onLanguageChange={() => setIsExpanded(false)}
+                className="size-12"
               />
             </div>
           </TooltipWrapper>
@@ -138,7 +139,7 @@ const OptionsBannerDropdown = () => {
               }}
               asChild
             >
-              <UserMenuButton tabIndex={isExpanded ? undefined : -1} />
+              <UserMenuButton tabIndex={isExpanded ? undefined : -1} className="size-12" />
             </TooltipWrapper>
             <TooltipWrapper
               tooltip={t("optionsBanner.logout")}
@@ -151,7 +152,7 @@ const OptionsBannerDropdown = () => {
               }}
               asChild
             >
-              <LogOutButton tabIndex={isExpanded ? undefined : -1} />
+              <LogOutButton tabIndex={isExpanded ? undefined : -1} className="size-12" />
             </TooltipWrapper>
           </>
         )}

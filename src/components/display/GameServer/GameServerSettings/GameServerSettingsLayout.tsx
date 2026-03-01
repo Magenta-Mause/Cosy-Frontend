@@ -1,19 +1,18 @@
 import { Button } from "@components/ui/button";
+import Icon from "@components/ui/Icon.tsx";
 import Link from "@components/ui/Link";
 import { Separator } from "@components/ui/separator.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import {
-  ChartAreaIcon,
-  HouseIcon,
-  LayoutDashboardIcon,
-  SettingsIcon,
-  SquareTerminalIcon,
-  User,
-  WebhookIcon,
-} from "lucide-react";
-import { type CSSProperties, createContext, useCallback, useState } from "react";
+import { createContext, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
+import consoleIcon from "@/assets/icons/console.webp";
+import dashboardIcon from "@/assets/icons/dashboard.webp";
+import houseIcon from "@/assets/icons/house.webp";
+import metricsIcon from "@/assets/icons/metrics.webp";
+import settingsIcon from "@/assets/icons/settings.webp";
+import userIcon from "@/assets/icons/user.webp";
+import webhookIcon from "@/assets/icons/webhook.webp";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils.ts";
@@ -33,10 +32,6 @@ const SettingsProvider = createContext<SettingsContextType>({
   settings: { serverName: "" },
   setSettings: () => () => {},
 });
-
-const iconStyles: CSSProperties = {
-  transform: "scale(1.8)",
-};
 
 interface GameServerSettingsProps {
   initialSettings: ServerSettingsState;
@@ -58,49 +53,49 @@ const GameServerSettingsLayout = ({
   const TABS = [
     {
       label: t("tabs.general"),
-      icon: <SettingsIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={settingsIcon} className="mr-2" />,
       path: "/server/$serverId/settings/general",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_CONFIGS],
     },
     {
       label: t("tabs.design"),
-      icon: <HouseIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={houseIcon} className="mr-2" />,
       path: "/server/$serverId/settings/design",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_CONFIGS],
     },
     {
       label: t("tabs.privateDashboard"),
-      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={dashboardIcon} className="mr-2" />,
       path: "/server/$serverId/settings/private-dashboard",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_PRIVATE_DASHBOARD_SETTINGS],
     },
     {
       label: t("tabs.publicDashboard"),
-      icon: <LayoutDashboardIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={dashboardIcon} className="mr-2" />,
       path: "/server/$serverId/settings/public-dashboard",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_PUBLIC_DASHBOARD_SETTINGS],
     },
     {
       label: t("tabs.rcon"),
-      icon: <SquareTerminalIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={consoleIcon} className="mr-2" />,
       path: "/server/$serverId/settings/rcon",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_RCON_SETTINGS],
     },
     {
       label: t("tabs.metrics"),
-      icon: <ChartAreaIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={metricsIcon} className="mr-2" />,
       path: "/server/$serverId/settings/metrics",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_METRICS_SETTINGS],
     },
     {
       label: t("tabs.webhooks"),
-      icon: <WebhookIcon style={iconStyles} className="mr-2" />,
+      icon: <Icon src={webhookIcon} className="mr-2" />,
       path: "/server/$serverId/settings/webhooks",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_WEBHOOK_SETTINGS],
     },
     {
       label: t("tabs.accessManagement"),
-      icon: <User style={iconStyles} className="mr-2" />,
+      icon: <Icon src={userIcon} className="mr-2" />,
       path: "/server/$serverId/settings/access-management",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_PERMISSIONS_SETTINGS],
     },

@@ -1,8 +1,9 @@
 import DatePicker from "@components/display/DatePicker/DatePicker";
+import Icon from "@components/ui/Icon.tsx";
 import { format } from "date-fns";
-import { ChevronDown } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -77,7 +78,7 @@ const TimeRangeDropDown = (props: TimeRangeProps) => {
         <DropdownMenuTrigger asChild>
           <Button className={`${props.className}`}>
             {selectedLabel}
-            <ChevronDown className="-m-1" />
+            <Icon src={arrowDownIcon} className="size-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-30 bg-primary-modal-background" align="end">

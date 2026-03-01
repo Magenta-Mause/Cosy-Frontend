@@ -5,10 +5,11 @@ import {
 import TemplateList from "@components/display/GameServer/CreateGameServer/TemplateList/TemplateList.tsx";
 import TemplateVariableForm from "@components/display/GameServer/CreateGameServer/TemplateVariableForm";
 import { validateTemplateVariables } from "@components/display/GameServer/CreateGameServer/utils/templateSubstitution";
+import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input.tsx";
-import { Search } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import type { TemplateEntity } from "@/api/generated/model";
+import searchIcon from "@/assets/icons/search.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
 import GenericGameServerCreationPage from "../GenericGameServerCreationPage.tsx";
@@ -91,7 +92,7 @@ export default function Step2() {
       <div className="flex flex-col gap-4">
         {templatesForGame.length > 1 && (
           <Input
-            startDecorator={<Search className="w-4 h-4" />}
+            startDecorator={<Icon src={searchIcon} variant="foreground" className="size-4" />}
             placeholder={t("searchPlaceholder")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

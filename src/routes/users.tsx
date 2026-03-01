@@ -37,14 +37,16 @@ function UserDetailPage() {
       <div className="hidden lg:block w-screen h-screen bg-black relative overflow-hidden">
         <div
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex"
-          style={{
-            width: "max(100vw, 100vh)",
-            height: "max(100vh, 100vw)",
-            backgroundImage: `url(${marketplace})`,
-            imageRendering: "pixelated",
-            backgroundSize: "100% 100%",
-            backgroundRepeat: "no-repeat",
-          } as CSSProperties}
+          style={
+            {
+              width: "max(100vw, 100vh)",
+              height: "max(100vh, 100vw)",
+              backgroundImage: `url(${marketplace})`,
+              imageRendering: "pixelated",
+              backgroundSize: "100% 100%",
+              backgroundRepeat: "no-repeat",
+            } as CSSProperties
+          }
         >
           <div className="grow flex flex-col min-w-0 relative z-10 justify-center h-auto">
             <img

@@ -9,14 +9,16 @@ import {
   AlertDialogTitle,
 } from "@components/ui/alert-dialog.tsx";
 import { Button } from "@components/ui/button.tsx";
+import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { FolderCheck, FolderX } from "lucide-react";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
 import type { VolumeMountConfiguration } from "@/api/generated/model";
+import checkCircleIcon from "@/assets/icons/checkCircle.webp";
+import closeCirleIcon from "@/assets/icons/closeCircle.webp";
 import { type InputType, preProcessInputValue } from "../CreateGameServer/util";
 import ListInputEdit from "./ListInputEditGameServer";
 
@@ -246,9 +248,9 @@ function EditVolumeMountConfigurationInput<T extends Record<string, string>>({
                   }}
                 >
                   {pathChangeDecisions.get(row.originalUuid) === "keep" ? (
-                    <FolderCheck className="size-5 text-green-500" />
+                    <Icon src={checkCircleIcon} className="size-5 text-green-500" />
                   ) : (
-                    <FolderX className="size-5 text-destructive" />
+                    <Icon src={closeCirleIcon} className="size-5 text-destructive" />
                   )}
                 </Button>
               </TooltipWrapper>

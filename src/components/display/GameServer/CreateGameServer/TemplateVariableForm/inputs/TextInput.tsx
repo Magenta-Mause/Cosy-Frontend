@@ -1,8 +1,9 @@
 import { Button } from "@components/ui/button.tsx";
 import { FieldLabel } from "@components/ui/field";
+import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { Info } from "lucide-react";
+import infoIcon from "@/assets/icons/info.webp";
 import type { VariableInputProps } from "./types";
 
 export default function TextInput({
@@ -39,7 +40,7 @@ export default function TextInput({
               asChild={false}
             >
               <Button variant={"ghost"} tabIndex={0} className={"p-0! m-0!"}>
-                <Info className="w-4 h-4 text-muted-foreground" />
+                <Icon src={infoIcon} className="size-4" variant="foreground" />
               </Button>
             </TooltipWrapper>
           ) : undefined

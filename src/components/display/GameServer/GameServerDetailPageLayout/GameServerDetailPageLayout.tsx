@@ -9,21 +9,19 @@ import GameServerStartStopButton from "@components/display/GameServer/GameServer
 import GameServerStatusIndicator from "@components/display/GameServer/GameServerStatusIndicator/GameServerStatusIndicator.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@components/ui/button.tsx";
+import Icon from "@components/ui/Icon.tsx";
 import Link from "@components/ui/Link.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useLocation, useSearch } from "@tanstack/react-router";
-import {
-  ChartAreaIcon,
-  DoorClosedIcon,
-  EllipsisVerticalIcon,
-  FolderIcon,
-  HomeIcon,
-  SettingsIcon,
-  SquareTerminalIcon,
-} from "lucide-react";
 import type * as React from "react";
-import { type CSSProperties, createContext, useContext, useSyncExternalStore } from "react";
+import {
+  type CSSProperties,
+  cloneElement,
+  createContext,
+  useContext,
+  useSyncExternalStore,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
 import dashboardBackgroundImage from "@/assets/gameServerDetailPage/dashboard-bg.webp";
@@ -33,12 +31,15 @@ import logsMetricsBackgroundImage from "@/assets/gameServerDetailPage/logs-metri
 import logsMetricsForegroundImage from "@/assets/gameServerDetailPage/logs-metrics-fg.webp";
 import settingsBackgroundImage from "@/assets/gameServerDetailPage/settings-bg.webp";
 import settingsForegroundImage from "@/assets/gameServerDetailPage/settings-fg.webp";
+import consoleIcon from "@/assets/icons/console.webp";
+import doorClosedIcon from "@/assets/icons/doorClosed.webp";
+import dotsIcon from "@/assets/icons/dots.webp";
+import folderIcon from "@/assets/icons/folder.webp";
+import houseIcon from "@/assets/icons/house.webp";
+import chartIcon from "@/assets/icons/metrics.webp";
+import settingsIcon from "@/assets/icons/settings.webp";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import { cn } from "@/lib/utils.ts";
-
-const iconStyles: CSSProperties = {
-  scale: 1.8,
-};
 
 interface Tab {
   label: string;
@@ -56,7 +57,7 @@ interface Tab {
 const TABS: Tab[] = [
   {
     label: "overview",
-    icon: <HomeIcon style={iconStyles} />,
+    icon: <Icon src={houseIcon} variant="secondary" className="scale-[1.4]" />,
     path: "/server/$serverId",
     background: dashboardBackgroundImage,
     foreground: dashboardForegroundImage,
@@ -66,7 +67,7 @@ const TABS: Tab[] = [
   },
   {
     label: "console",
-    icon: <SquareTerminalIcon style={iconStyles} />,
+    icon: <Icon src={consoleIcon} variant="secondary" className="scale-[1.4]" />,
     path: "/server/$serverId/console",
     permissions: [
       GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS,
@@ -80,7 +81,7 @@ const TABS: Tab[] = [
   },
   {
     label: "metrics",
-    icon: <ChartAreaIcon style={iconStyles} />,
+    icon: <Icon src={chartIcon} variant="secondary" className="scale-[1.4]" />,
     path: "/server/$serverId/metrics",
     permissions: [GameServerAccessGroupDtoPermissionsItem.READ_SERVER_METRICS],
     background: logsMetricsBackgroundImage,
@@ -91,7 +92,7 @@ const TABS: Tab[] = [
   },
   {
     label: "file_explorer",
-    icon: <FolderIcon style={iconStyles} />,
+    icon: <Icon src={folderIcon} variant="secondary" className="scale-[1.4]" />,
     path: "/server/$serverId/files",
     activePathPattern: /\/server\/.*\/files/,
     permissions: [
@@ -105,7 +106,7 @@ const TABS: Tab[] = [
   },
   {
     label: "settings",
-    icon: <SettingsIcon style={iconStyles} />,
+    icon: <Icon src={settingsIcon} variant="secondary" className="scale-[1.4]" />,
     path: "/server/$serverId/settings/general",
     activePathPattern: /\/server\/.*\/settings/,
     permissions: [
@@ -244,7 +245,7 @@ const GameServerDetailPageLayout = (props: {
           <div className="flex items-center gap-2 p-3 border-b-4 border-foreground">
             <Link to="/" className="shrink-0">
               <Button variant="secondary" size="icon-sm">
-                <DoorClosedIcon />
+                <Icon src={doorClosedIcon} variant="foreground" className="size-6" />
               </Button>
             </Link>
             <div className="truncate text-lg font-bold">{props.gameServer.server_name}</div>
@@ -292,7 +293,11 @@ const MobileTabBar = (props: { gameServer: GameServerDto }) => {
                 !isReachable && "opacity-50",
               )}
             >
-              <div className="[&_svg]:!scale-100">{tab.icon}</div>
+              {isActive
+                ? cloneElement(tab.icon as React.ReactElement<{ variant: string }>, {
+                    variant: "primary",
+                  })
+                : tab.icon}
             </div>
           </Link>
         );
@@ -301,7 +306,7 @@ const MobileTabBar = (props: { gameServer: GameServerDto }) => {
         <PopoverTrigger asChild>
           <button type="button" className="flex-1 flex flex-col items-center py-2 gap-1">
             <div className="p-2 rounded-md">
-              <EllipsisVerticalIcon />
+              <Icon src={dotsIcon} variant="secondary" />
             </div>
           </button>
         </PopoverTrigger>

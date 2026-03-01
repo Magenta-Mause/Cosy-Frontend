@@ -2,7 +2,6 @@ import { Button } from "@components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogMain,
@@ -115,7 +114,6 @@ const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: Web
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{t("form.webhookUrl")}</DialogDescription>
         </DialogHeader>
         <DialogMain>
           <WebhookForm

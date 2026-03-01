@@ -6,9 +6,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
 import { MetricLayoutSize } from "@/api/generated/model";
+import arrowDownIcon from "@/assets/icons/arrowDown.webp";
 import { cn } from "@/lib/utils";
 import type { LayoutSize } from "@/types/layoutSize";
 
@@ -28,7 +29,7 @@ const SizeDropDown = (props: SizeDropDownProps) => {
       <DropdownMenuTrigger asChild>
         <Button variant="secondary" className={cn("w-full", className)}>
           {t(`cardWidth.${size}`)}
-          <ChevronDown className="-m-1" />
+          <Icon src={arrowDownIcon} variant="secondary" className="size-5 -m-1 mt-0.5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-5 bg-primary-modal-background" align="end">

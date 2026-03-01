@@ -1,11 +1,12 @@
 import ListInput from "@components/display/GameServer/CreateGameServer/ListInput.tsx";
+import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { Info } from "lucide-react";
 import { Fragment, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { v7 as generateUuid } from "uuid";
 import type { ZodType } from "zod";
+import infoIcon from "@/assets/icons/info.webp";
 import type { GameServerCreationFormState } from "./CreateGameServerModal.tsx";
 import { type InputType, preProcessInputValue } from "./util";
 
@@ -138,7 +139,7 @@ function KeyValueInput({
                 side="top"
                 asChild={false}
               >
-                <Info className="w-4 h-4 text-muted-foreground cursor-help" />
+                <Icon src={infoIcon} className="size-5" variant="foreground" />
               </TooltipWrapper>
             )}
           </div>

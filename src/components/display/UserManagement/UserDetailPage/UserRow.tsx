@@ -1,5 +1,5 @@
 import ResourceUsageBadge from "@components/display/ResourceUsageBadge/ResourceUsageBadge";
-import { UserModal } from "@components/display/UserManagement/UserModal/UserModal";
+import { UserProfileModal } from "@components/display/UserManagement/UserProfileModal/UserProfileModal.tsx";
 import UserRoleBadge from "@components/display/UserRoleBadge/UserRoleBadge";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
 import { Badge } from "@components/ui/badge";
@@ -11,9 +11,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
-import { Ellipsis, User } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
 import { useContext, useState } from "react";
 import { type UserEntityDto, UserEntityDtoRole } from "@/api/generated/model";
+import dotsIcon from "@/assets/icons/dots.webp";
+import userIcon from "@/assets/icons/user.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { useUserResourceUsage } from "@/hooks/useUserResourceUsage/useUserResourceUsage";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil";
@@ -87,7 +89,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               <UserRoleBadge role={props.userRole} />
               {isCurrentUser && (
                 <Badge className="bg-secondary-background border-accent border-2">
-                  <User className="size-4" />
+                  <Icon src={userIcon} variant="foreground" className="size-4" />
                   {t("yourProfile")}
                 </Badge>
               )}
@@ -117,7 +119,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
               <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild disabled={!canOpenMoreOptions}>
                   <Button className="h-10 w-10">
-                    <Ellipsis className="size-4" />
+                    <Icon src={dotsIcon} className="size-4" />
                   </Button>
                 </DropdownMenuTrigger>
 
@@ -164,7 +166,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
         onClose={() => setChangeRoleDialogOpen(false)}
       />
 
-      <UserModal open={userModalOpen} onOpenChange={setUserModalOpen} />
+      <UserProfileModal open={userModalOpen} onOpenChange={setUserModalOpen} />
     </>
   );
 };

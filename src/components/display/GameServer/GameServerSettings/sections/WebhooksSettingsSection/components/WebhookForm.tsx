@@ -1,5 +1,12 @@
 import { Checkbox } from "@components/ui/checkbox";
 import { Input } from "@components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@components/ui/select";
 import { useTranslation } from "react-i18next";
 import {
   WEBHOOK_EVENTS,
@@ -12,8 +19,8 @@ import {
 const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFormProps) => {
   const { t } = useTranslation();
 
-  const handleWebhookTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onValuesChange({ webhook_type: e.target.value as WebhookType });
+  const handleWebhookTypeChange = (value: string) => {
+    onValuesChange({ webhook_type: value as WebhookType });
   };
 
   const handleWebhookUrlChange = (value: string) => {
@@ -40,19 +47,18 @@ const WebhookForm = ({ values, errors, isSubmitting, onValuesChange }: WebhookFo
         <label className="text-sm font-bold" htmlFor="webhook-type">
           {t("components.GameServerSettings.webhooks.form.webhookType")}
         </label>
-        <select
-          id="webhook-type"
-          className="text-sm border border-input rounded-md px-3 py-2"
-          value={values.webhook_type}
-          onChange={handleWebhookTypeChange}
-          disabled={isSubmitting}
-        >
-          {WEBHOOK_TYPES.map((value) => (
-            <option className="text-sm" key={value} value={value}>
-              {t(`components.GameServerSettings.webhooks.types.${value}`)}
-            </option>
-          ))}
-        </select>
+        <Select value={values.webhook_type} onValueChange={handleWebhookTypeChange}>
+          <SelectTrigger id="webhook-type" className="w-full" disabled={isSubmitting}>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {WEBHOOK_TYPES.map((value) => (
+              <SelectItem key={value} value={value}>
+                {t(`components.GameServerSettings.webhooks.types.${value}`)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <Input
