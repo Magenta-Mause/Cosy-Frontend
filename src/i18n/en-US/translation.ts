@@ -980,6 +980,7 @@ const translation: i18nLanguage = {
     contact: "Contact:",
     edit: "Edit Footer",
     noData: "No footer data available",
+    duckTooltip: "Go to",
     editModal: {
       title: "Edit Footer",
       fullName: "Full Name",

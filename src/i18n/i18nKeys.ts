@@ -971,6 +971,7 @@ export type i18nLanguage = {
     contact: string;
     edit: string;
     noData: string;
+    duckTooltip: string;
     editModal: {
       title: string;
       fullName: string;
