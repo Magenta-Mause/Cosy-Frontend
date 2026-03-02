@@ -298,7 +298,11 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
     <>
       <div className={`flex flex-1 min-h-0 w-full pt-3 ${isDisabled ? "blur-xs" : ""}`}>
         <Card className="w-full grid flex-col min-h-0 content-start">
-          <CardContent className={"grid grid-cols-6 gap-4 scroller p-6 flex-1 min-h-0"}>
+          <CardContent
+            className={
+              "grid grid-cols-1 min-[1300px]:grid-cols-6 gap-4 scroller p-6 flex-1 min-h-0"
+            }
+          >
             <DndContext
               sensors={sensors}
               collisionDetection={closestCorners}
@@ -349,7 +353,7 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
             <Button
               onClick={handleOnAdd}
               variant="secondary"
-              className={`outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none bg-background/35
+              className={`outline-dashed outline-button-primary-default border-none h-[16vh] col-span-1 min-[1300px]:col-span-3 flex items-center justify-center shadow-none bg-background/35
               ${isDisabled ? "pointer-events-none" : ""}`}
             >
               <div className="flex items-center">

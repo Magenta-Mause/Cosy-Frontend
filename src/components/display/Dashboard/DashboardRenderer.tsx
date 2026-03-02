@@ -5,6 +5,7 @@ import { Card } from "@components/ui/card";
 import { MetricLayoutSize } from "@/api/generated/model";
 import type { PrivateDashboardLayout } from "@/api/generated/model/privateDashboardLayout";
 import type { PublicDashboardLayout } from "@/api/generated/model/publicDashboardLayout";
+import useIsDesktop from "@/hooks/useIsDesktop/useIsDesktop.tsx";
 import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice";
 import type { GameServerMetricsWithUuid } from "@/stores/slices/gameServerMetrics";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
@@ -34,8 +35,9 @@ export default function DashboardRenderer({
   canSendCommands,
   overridePermissionCheck,
 }: DashboardRendererProps) {
+  const isDesktop = useIsDesktop();
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-6 gap-2 p-4 pb-6">
+    <div className="grid grid-cols-1 min-[1300px]:grid-cols-6 gap-2 p-4 pb-6">
       {dashboardLayout?.map((dashboard) => {
         const dashboardType = dashboard.layout_type;
         const sizeClass = COL_SPAN_MAP[dashboard.size ?? MetricLayoutSize.MEDIUM];
@@ -56,7 +58,10 @@ export default function DashboardRenderer({
 
           case DashboardElementTypes.LOGS:
             return (
-              <div key={dashboard.uuid} className={`h-[20vw] ${sizeClass}`}>
+              <div
+                key={dashboard.uuid}
+                className={`${isDesktop ? "h-[20vw]" : "h-150"} ${sizeClass}`}
+              >
                 <LogDisplay
                   logMessages={logs}
                   showCommandInput={canSendCommands}
@@ -71,7 +76,10 @@ export default function DashboardRenderer({
 
           case DashboardElementTypes.FREETEXT:
             return (
-              <div key={dashboard.uuid} className={`aspect-square lg:aspect-16/7 ${sizeClass}`}>
+              <div
+                key={dashboard.uuid}
+                className={`aspect-square min-[1300px]:aspect-16/7 ${sizeClass}`}
+              >
                 <Card className={`w-full h-full overflow-y-auto`} key={dashboard.uuid}>
                   <h2 className="mt-5 ml-5">{dashboard.title}</h2>
                   {dashboard.content?.map((keyValue) => (
