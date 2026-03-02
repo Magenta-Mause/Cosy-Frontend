@@ -145,7 +145,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
   return (
     <div className="flex flex-col h-full overflow-hidden">
       <div>
-        <h2>{t("GameServerSettings.sections.privateDashboard")}</h2>
+        <h2 style={{ lineHeight: "initial" }}>{t("GameServerSettings.sections.privateDashboard")}</h2>
         <p className="text-sm text-muted-foreground leading-none">
           {t("GameServerSettings.sections.privateDashboardDescription")}
         </p>

@@ -53,7 +53,7 @@ export default function MetricsSettingsSection(props: MetricSetting) {
   return (
     <div className="flex flex-col h-full overflow-hidden">
       <div>
-        <h2>{t("GameServerSettings.sections.metrics")}</h2>
+        <h2 style={{ lineHeight: "initial" }}>{t("GameServerSettings.sections.metrics")}</h2>
         <p className="text-sm text-muted-foreground leading-none">
           {t("GameServerSettings.sections.metricsDescription")}
         </p>

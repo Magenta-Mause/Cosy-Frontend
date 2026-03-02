@@ -108,15 +108,15 @@ const EditGameServerPage = (props: {
     const cpuLimitValid =
       cpuLimit === null
         ? // Optional: empty is valid, but provided values must be validated
-          gameServerState.docker_hardware_limits?.docker_max_cpu_cores === undefined ||
-          gameServerState.docker_hardware_limits?.docker_max_cpu_cores === null ||
-          cpuLimitValidator.safeParse(gameServerState.docker_hardware_limits?.docker_max_cpu_cores)
-            .success
+        gameServerState.docker_hardware_limits?.docker_max_cpu_cores === undefined ||
+        gameServerState.docker_hardware_limits?.docker_max_cpu_cores === null ||
+        cpuLimitValidator.safeParse(gameServerState.docker_hardware_limits?.docker_max_cpu_cores)
+          .success
         : // Required: must have value AND be valid
-          gameServerState.docker_hardware_limits?.docker_max_cpu_cores !== undefined &&
-          gameServerState.docker_hardware_limits?.docker_max_cpu_cores !== null &&
-          cpuLimitValidator.safeParse(gameServerState.docker_hardware_limits?.docker_max_cpu_cores)
-            .success;
+        gameServerState.docker_hardware_limits?.docker_max_cpu_cores !== undefined &&
+        gameServerState.docker_hardware_limits?.docker_max_cpu_cores !== null &&
+        cpuLimitValidator.safeParse(gameServerState.docker_hardware_limits?.docker_max_cpu_cores)
+          .success;
 
     const memoryLimitValid =
       memoryLimit === null ||
@@ -192,9 +192,9 @@ const EditGameServerPage = (props: {
 
     const hardwareLimitsChanged =
       normalizeLimitValue(gameServerState.docker_hardware_limits?.docker_max_cpu_cores) !==
-        normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_max_cpu_cores) ||
+      normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_max_cpu_cores) ||
       normalizeLimitValue(gameServerState.docker_hardware_limits?.docker_memory_limit) !==
-        normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_memory_limit);
+      normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_memory_limit);
 
     return (
       commandsChanged ||
@@ -269,7 +269,7 @@ const EditGameServerPage = (props: {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h2>{t("title")}</h2>
+        <h2 style={{ lineHeight: "initial" }}>{t("title")}</h2>
         <p className="text-sm text-muted-foreground leading-none">{t("description")}</p>
         {isServerActive && (
           <span className={"text-button-destructive-default text-sm"}>
@@ -314,7 +314,7 @@ const EditGameServerPage = (props: {
               { dateStyle: "medium", timeStyle: "short" },
             )}
             disabled={true}
-            onChange={() => {}}
+            onChange={() => { }}
             optional={true}
           />
         )}

@@ -81,7 +81,7 @@ const RconSettings = (props: {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h2>{t("title")}</h2>
+        <h2 style={{ lineHeight: "initial" }}>{t("title")}</h2>
         <p className={"text-sm text-muted-foreground leading-none"}>
           {t("description.part1")} <br />
           {t("description.part2")}{" "}
