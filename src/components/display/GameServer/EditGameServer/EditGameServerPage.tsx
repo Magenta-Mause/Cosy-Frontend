@@ -108,15 +108,15 @@ const EditGameServerPage = (props: {
     const cpuLimitValid =
       cpuLimit === null
         ? // Optional: empty is valid, but provided values must be validated
-          gameServerState.docker_hardware_limits?.docker_max_cpu_cores === undefined ||
-          gameServerState.docker_hardware_limits?.docker_max_cpu_cores === null ||
-          cpuLimitValidator.safeParse(gameServerState.docker_hardware_limits?.docker_max_cpu_cores)
-            .success
+        gameServerState.docker_hardware_limits?.docker_max_cpu_cores === undefined ||
+        gameServerState.docker_hardware_limits?.docker_max_cpu_cores === null ||
+        cpuLimitValidator.safeParse(gameServerState.docker_hardware_limits?.docker_max_cpu_cores)
+          .success
         : // Required: must have value AND be valid
-          gameServerState.docker_hardware_limits?.docker_max_cpu_cores !== undefined &&
-          gameServerState.docker_hardware_limits?.docker_max_cpu_cores !== null &&
-          cpuLimitValidator.safeParse(gameServerState.docker_hardware_limits?.docker_max_cpu_cores)
-            .success;
+        gameServerState.docker_hardware_limits?.docker_max_cpu_cores !== undefined &&
+        gameServerState.docker_hardware_limits?.docker_max_cpu_cores !== null &&
+        cpuLimitValidator.safeParse(gameServerState.docker_hardware_limits?.docker_max_cpu_cores)
+          .success;
 
     const memoryLimitValid =
       memoryLimit === null ||
@@ -192,9 +192,9 @@ const EditGameServerPage = (props: {
 
     const hardwareLimitsChanged =
       normalizeLimitValue(gameServerState.docker_hardware_limits?.docker_max_cpu_cores) !==
-        normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_max_cpu_cores) ||
+      normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_max_cpu_cores) ||
       normalizeLimitValue(gameServerState.docker_hardware_limits?.docker_memory_limit) !==
-        normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_memory_limit);
+      normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_memory_limit);
 
     return (
       commandsChanged ||
@@ -290,34 +290,36 @@ const EditGameServerPage = (props: {
           onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
 
-        <InputFieldEditGameServer
-          validator={z.string().min(1)}
-          placeholder="Game"
-          label={t("gameSelection.title")}
-          description={t("gameSelection.description")}
-          errorLabel={t("gameSelection.errorLabel")}
-          value={gameServerState.external_game_id}
-          disabled={true}
-          onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
-          optional={true}
-        />
-
-        {props.gameServer.created_on && (
+        <div className="grid grid-cols-2 gap-4">
           <InputFieldEditGameServer
-            validator={z.string()}
-            placeholder=""
-            label={t("createdOn.title")}
-            description={t("createdOn.description")}
-            errorLabel=""
-            value={new Date(props.gameServer.created_on).toLocaleString(
-              t_root("timerange.localTime"),
-              { dateStyle: "medium", timeStyle: "short" },
-            )}
+            validator={z.number().int().positive()}
+            placeholder="Game"
+            label={t("gameSelection.title")}
+            description={t("gameSelection.description")}
+            errorLabel={t("gameSelection.errorLabel")}
+            value={gameServerState.external_game_id}
             disabled={true}
-            onChange={() => {}}
+            onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
             optional={true}
           />
-        )}
+
+          {props.gameServer.created_on && (
+            <InputFieldEditGameServer
+              validator={z.string()}
+              placeholder=""
+              label={t("createdOn.title")}
+              description={t("createdOn.description")}
+              errorLabel=""
+              value={new Date(props.gameServer.created_on).toLocaleString(
+                t_root("timerange.localTime"),
+                { dateStyle: "medium", timeStyle: "short" },
+              )}
+              disabled={true}
+              onChange={() => { }}
+              optional={true}
+            />
+          )}
+        </div>
 
         <div className="grid grid-cols-2 gap-4">
           <InputFieldEditGameServer

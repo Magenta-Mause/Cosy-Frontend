@@ -2,6 +2,7 @@ import type { GameServerDto, GameServerUpdateDto } from "@/api/generated/model";
 
 export const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdateDto => ({
   server_name: server.server_name,
+  external_game_id: server.external_game_id,
   docker_image_name: server.docker_image_name,
   docker_image_tag: server.docker_image_tag,
   port_mappings: server.port_mappings?.map((pm) => ({
