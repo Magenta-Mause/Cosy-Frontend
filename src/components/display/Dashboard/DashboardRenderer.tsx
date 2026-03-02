@@ -56,7 +56,7 @@ export default function DashboardRenderer({
 
           case DashboardElementTypes.LOGS:
             return (
-              <div key={dashboard.uuid} className={`aspect-4/2 lg:aspect-16/7 ${sizeClass}`}>
+              <div key={dashboard.uuid} className={`h-[20vw] ${sizeClass}`}>
                 <LogDisplay
                   logMessages={logs}
                   showCommandInput={canSendCommands}
