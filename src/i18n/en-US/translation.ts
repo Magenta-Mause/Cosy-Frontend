@@ -23,6 +23,12 @@ const translation: i18nLanguage = {
     viewLogs: "View Logs",
     loading: "Loading...",
     failed: "Failed to start",
+    theme: "Theme",
+    themes: {
+      day: "Day",
+      night: "Night",
+      auto: "Dynamic",
+    },
   },
   toasts: {
     notImplemented: "Not implemented yet!",
@@ -44,6 +50,7 @@ const translation: i18nLanguage = {
     serverStartSuccess: "Started server.",
     serverStopError: 'Failed to stop server. "{{error}}"',
     serverStopSuccess: "Stopped Server",
+    serverTransferError: "Failed to transfer game server.",
     updateGameServerSuccess: "Game Server updated successfully!",
     updateGameServerError: "Failed to update Game Server",
     missingUuid: "UUID is missing",
@@ -55,6 +62,8 @@ const translation: i18nLanguage = {
     updateWebhookError: "Failed to update webhook",
     deleteWebhookSuccess: "Webhook deleted successfully!",
     deleteWebhookError: "Failed to delete webhook",
+    adminChangePasswordSuccess: "Password changed successfully!",
+    adminChangePasswordError: "Failed to change password",
   },
   userModal: {
     title: "Users",
@@ -75,11 +84,11 @@ const translation: i18nLanguage = {
     shareInstructions:
       "Share this link with the person you want to invite. They can use it to create their account.",
     copyLink: "Copy Invite Link",
-    backToUsers: "Back to Creation",
+    backToUsers: "Back to Overview",
     pendingInvites: "Pending Invites",
     unclaimedInvite: "Unclaimed Invite",
     created: "Created: {{date}}",
-    copyTooltip: "Click to copy link",
+    copyTooltip: "Click to copy invitation link",
     roleLabel: "User role",
     editTooltip: "Click to edit user settings",
     memoryLimit: "RAM (Optional)",
@@ -117,6 +126,8 @@ const translation: i18nLanguage = {
     createGameServerError: "Failed to create Game Server!",
     cpuLimit: "CPU Cores: {{cpu}}",
     memoryLimit: "RAM: {{memory}}",
+    passwordTooShort: "Password must be at least 8 characters long",
+    passwordsDoNotMatch: "Passwords do not match",
   },
   deleteGameServerDialog: {
     title: "Are you sure?",
@@ -169,13 +180,10 @@ const translation: i18nLanguage = {
   },
   signIn: {
     signIn: "Sign In",
-    desc: "C.O.S.Y. - Cost Optimized Server Yard",
+    desc: "COSY - Cost Optimized Server Yard",
     username: "Username",
     password: "Password",
-    resetPassword: "Forgot Password?",
     question: "You are not signed in",
-    continueMeansAccept: "By signing in, you accept our",
-    legal: "Privacy Policy",
     incorrectCredentials: "Incorrect username or password.",
     loading: "Loading...",
     logout: "Logout",
@@ -187,6 +195,13 @@ const translation: i18nLanguage = {
     languageSelector: "Select Language",
     userMenu: "User Menu",
     logout: "Log Out",
+  },
+  notificationModal: {
+    successTitle: "Success",
+    errorTitle: "Error",
+    infoTitle: "Info",
+    ok: "OK",
+    dismiss: "Dismiss",
   },
   components: {
     TemplateVariableForm: {
@@ -600,8 +615,8 @@ const translation: i18nLanguage = {
         sortBy: {
           username: "Name",
           role: "Role",
-          max_cpu: "CPU Limit",
-          max_memory: "Memory Limit",
+          docker_max_cpu_cores: "CPU Limit",
+          docker_memory_limit: "Memory Limit",
         },
         noUsersFound: "No users found",
         pendingInvites: "Pending Invites",

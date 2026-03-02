@@ -1,8 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
-import { toast } from "sonner";
 import { getGetFooterQueryKey, useUpdateFooter } from "@/api/generated/backend-api.ts";
 import type { FooterUpdateDto } from "@/api/generated/model";
+import { notificationModal } from "@/lib/notificationModal";
 import { footerSliceActions } from "@/stores/slices/footerSlice.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
@@ -15,10 +15,10 @@ const useFooterDataInteractions = () => {
     mutation: {
       onSuccess: (updatedFooter) => {
         dispatch(footerSliceActions.updateFooter(updatedFooter));
-        toast.success(t("updateFooterSuccess"));
+        notificationModal.success({ message: t("updateFooterSuccess") });
       },
       onError: (err) => {
-        toast.error(t("updateFooterError"));
+        notificationModal.error({ message: t("updateFooterError"), cause: err });
         throw err;
       },
       onSettled: () => {

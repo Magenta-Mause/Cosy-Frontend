@@ -1,12 +1,13 @@
 import { Button } from "@components/ui/button.tsx";
+import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { Power } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import {
   GameServerAccessGroupDtoPermissionsItem,
   type GameServerDto,
   GameServerDtoStatus,
 } from "@/api/generated/model";
+import powerIcon from "@/assets/icons/power.webp";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
 
@@ -22,6 +23,8 @@ const GameServerStartStopButton = (props: {
     GameServerAccessGroupDtoPermissionsItem.START_STOP_SERVER,
   );
 
+  const icon = <Icon src={powerIcon} variant={props.buttonVariant} className="size-5" />;
+
   const buttonProps: React.ComponentProps<"button"> = (() => {
     switch (props.gameServer.status) {
       case GameServerDtoStatus.RUNNING:
@@ -30,7 +33,7 @@ const GameServerStartStopButton = (props: {
           disabled: !canStartStopServer,
           children: (
             <>
-              <Power />
+              {icon}
               {t("serverPage.stop")}
             </>
           ),
@@ -42,7 +45,7 @@ const GameServerStartStopButton = (props: {
           disabled: !canStartStopServer,
           children: (
             <>
-              <Power />
+              {icon}
               {t("serverPage.start")}
             </>
           ),
@@ -59,7 +62,7 @@ const GameServerStartStopButton = (props: {
           "data-loading": true,
           children: (
             <>
-              <Power />
+              {icon}
               {t("serverStatus.AWAITING_UPDATE")}
             </>
           ),
@@ -70,7 +73,7 @@ const GameServerStartStopButton = (props: {
           "data-loading": true,
           children: (
             <>
-              <Power />
+              {icon}
               {t("serverStatus.STOPPING")}
             </>
           ),

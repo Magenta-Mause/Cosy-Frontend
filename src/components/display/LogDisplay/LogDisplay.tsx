@@ -1,11 +1,13 @@
 import LogMessage from "@components/display/LogDisplay/LogMessage";
 import { Button } from "@components/ui/button";
+import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input";
-import { Forward } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Virtuoso, type VirtuosoHandle } from "react-virtuoso";
 import { useSendCommand } from "@/api/generated/backend-api";
+import arrowRightIcon from "@/assets/icons/arrowRight.webp";
+import sendIcon from "@/assets/icons/send.webp";
 import { cn } from "@/lib/utils.ts";
 import type { GameServerLogWithUuid } from "@/stores/slices/gameServerLogSlice.ts";
 
@@ -189,7 +191,7 @@ const LogDisplay = (
             disabled={!isServerRunning}
             className="bg-gray-900 border-gray-700 text-gray-100 font-mono text-[15px] placeholder:text-gray-500 grow w-auto h-10"
             wrapperClassName={"w-auto grow"}
-            startDecorator={<span className={"pr-1 text-gray-500"}>{">"}</span>}
+            startDecorator={<Icon src={arrowRightIcon} className="size-4" variant="foreground" />}
           />
           <Button
             onClick={handleSendCommand}
@@ -197,7 +199,7 @@ const LogDisplay = (
             size="sm"
             className={"w-fit h-10"}
           >
-            <Forward className={"size-5"} />
+            <Icon src={sendIcon} className="size-5" />
           </Button>
         </div>
       )}

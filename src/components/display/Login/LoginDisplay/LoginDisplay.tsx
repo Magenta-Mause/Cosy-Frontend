@@ -1,8 +1,16 @@
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogTitle,
+} from "@components/ui/dialog";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { login } from "@/api/generated/backend-api";
+import HerzIcon from "@/assets/deko/herz.webp";
+import { Button } from "@/components/ui/button";
 import LoginBanner from "../LoginBanner/LoginBanner";
 import LoginForm from "../LoginDialog/LoginForm";
 
@@ -41,7 +49,25 @@ const LoginDisplay = () => {
           <DialogContent className="w-100">
             <DialogTitle>{t("signIn.signIn")}</DialogTitle>
             <DialogDescription>{t("signIn.desc")}</DialogDescription>
-            <LoginForm loginCallback={handleLogin} error={error} isLoading={isLoggingIn} />
+            <LoginForm loginCallback={handleLogin} error={error} />
+            <DialogFooter>
+              <Button type="submit" form="login-form" disabled={isLoggingIn} className="w-full">
+                {isLoggingIn ? t("signIn.loading") : t("signIn.signIn")}
+              </Button>
+              <p className="flex items-center gap-1">
+                Made with{" "}
+                <img
+                  src={HerzIcon}
+                  alt="love"
+                  className="w-4 h-4 inline-block"
+                  style={{
+                    filter:
+                      "brightness(0) saturate(100%) invert(17%) sepia(97%) saturate(7426%) hue-rotate(1deg) brightness(98%) contrast(114%)",
+                  }}
+                />{" "}
+                by Medalheads
+              </p>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>

@@ -1,9 +1,10 @@
+import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input";
 import { Separator } from "@components/ui/separator";
-import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
+import searchIcon from "@/assets/icons/search.webp";
 import { useTypedSelector } from "@/stores/rootReducer";
 import UserInviteButton from "../UserInvite/UserInviteButton";
 import PendingInvitesList from "./PendingInvitesList";
@@ -83,11 +84,11 @@ const UserTable = ({ onRevoke }: UserListProps) => {
 
   return (
     <div className="p-4">
-      <div className="container text-base flex flex-col gap-2 w-full">
+      <div className="container text-base mx-auto flex flex-col gap-2">
         <div className="flex flex-row gap-3 justify-between items-center w-full">
           <div className="flex flex-row items-center gap-3">
             <Input
-              startDecorator={<Search />}
+              startDecorator={<Icon src={searchIcon} className="size-6" variant="foreground" />}
               className="h-10 border-2"
               placeholder={t("components.userManagement.userTable.search")}
               value={searchTerm}

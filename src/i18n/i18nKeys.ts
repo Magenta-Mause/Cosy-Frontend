@@ -17,6 +17,12 @@ export type i18nLanguage = {
     viewLogs: string;
     loading: string;
     failed: string;
+    theme: string;
+    themes: {
+      day: string;
+      night: string;
+      auto: string;
+    };
   };
 
   toasts: {
@@ -39,6 +45,7 @@ export type i18nLanguage = {
     serverStartError: ContainsVariable<"error">;
     serverStopSuccess: string;
     serverStopError: ContainsVariable<"error">;
+    serverTransferError: string;
     updateGameServerSuccess: string;
     updateGameServerError: string;
     missingUuid: string;
@@ -50,6 +57,8 @@ export type i18nLanguage = {
     deleteWebhookError: string;
     updateFooterSuccess: string;
     updateFooterError: string;
+    adminChangePasswordSuccess: string;
+    adminChangePasswordError: string;
   };
 
   userModal: {
@@ -118,6 +127,8 @@ export type i18nLanguage = {
     createGameServerError: string;
     cpuLimit: ContainsVariable<"cpu">;
     memoryLimit: ContainsVariable<"memory">;
+    passwordTooShort: string;
+    passwordsDoNotMatch: string;
   };
 
   deleteGameServerDialog: {
@@ -179,10 +190,7 @@ export type i18nLanguage = {
     desc: string;
     username: string;
     password: string;
-    resetPassword: string;
     question: string;
-    continueMeansAccept: string;
-    legal: string;
     incorrectCredentials: string;
     loading: string;
     logout: string;
@@ -192,6 +200,14 @@ export type i18nLanguage = {
     languageSelector: string;
     userMenu: string;
     logout: string;
+  };
+
+  notificationModal: {
+    successTitle: string;
+    errorTitle: string;
+    infoTitle: string;
+    ok: string;
+    dismiss: string;
   };
 
   logDisplay: {
@@ -581,8 +597,8 @@ export type i18nLanguage = {
         sortBy: {
           username: string;
           role: string;
-          max_cpu: string;
-          max_memory: string;
+          docker_max_cpu_cores: string;
+          docker_memory_limit: string;
         };
         noUsersFound: string;
         pendingInvites: string;

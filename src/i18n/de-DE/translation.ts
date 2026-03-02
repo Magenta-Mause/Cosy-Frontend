@@ -18,6 +18,12 @@ const translation: i18nLanguage = {
     viewLogs: "Logs anzeigen",
     loading: "Lädt...",
     failed: "Starten fehlgeschlagen",
+    theme: "Design",
+    themes: {
+      day: "Tag",
+      night: "Nacht",
+      auto: "Dynamisch",
+    },
   },
   toasts: {
     notImplemented: "Noch nicht implementiert!",
@@ -40,6 +46,7 @@ const translation: i18nLanguage = {
     serverStartSuccess: "Server erfolgreich gestartet.",
     serverStopError: 'Fehler beim Stoppen des Servers. "{{error}}"',
     serverStopSuccess: "Server erfolgreich gestoppt.",
+    serverTransferError: "Fehler beim Transferieren des Servers.",
     updateGameServerSuccess: "Game-Server erfolgreich aktualisiert!",
     updateGameServerError: "Fehler beim Aktualisieren des Game-Servers",
     missingUuid: "Die Server UUID fehlt",
@@ -51,6 +58,8 @@ const translation: i18nLanguage = {
     deleteWebhookError: "Fehler beim Löschen des Webhooks",
     updateFooterSuccess: "Fußzeile erfolgreich aktualisiert!",
     updateFooterError: "Fehler beim Aktualisieren der Fußzeile",
+    adminChangePasswordSuccess: "Passwort erfolgreich geändert!",
+    adminChangePasswordError: "Fehler beim Ändern des Passworts",
   },
   userModal: {
     title: "Benutzer",
@@ -72,11 +81,11 @@ const translation: i18nLanguage = {
     shareInstructions:
       "Teile diesen Link mit der Person, die du einladen möchtest. Sie kann ihn nutzen, um ihr Konto zu erstellen.",
     copyLink: "Einladungslink kopieren",
-    backToUsers: "Zurück zur Erstellung",
+    backToUsers: "Zurück zur Übersicht",
     pendingInvites: "Ausstehende Einladungen",
     unclaimedInvite: "Nicht beanspruchte Einladung",
     created: "Erstellt: {{date}}",
-    copyTooltip: "Klicken zum Kopieren",
+    copyTooltip: "Klicken, um Link zu Kopieren",
     roleLabel: "Benutzerrolle",
     editTooltip: "Klicken zum Bearbeiten der Benutzereinstellungen",
     memoryLimit: "RAM Limit (Optional)",
@@ -119,6 +128,8 @@ const translation: i18nLanguage = {
     createGameServerError: "Fehler beim Erstellen des Gameservers!",
     cpuLimit: "CPU Kern Limit: {{cpu}}",
     memoryLimit: "RAM Limit: {{memory}}",
+    passwordTooShort: "Passwort muss mindestens 8 Zeichen lang sein",
+    passwordsDoNotMatch: "Passwörter stimmen nicht überein",
   },
   deleteGameServerDialog: {
     title: "Bist du sicher?",
@@ -171,13 +182,10 @@ const translation: i18nLanguage = {
   },
   signIn: {
     signIn: "Anmelden",
-    desc: "C.O.S.Y. - Cost Optimized Server Yard",
+    desc: "COSY - Cost Optimized Server Yard",
     username: "Benutzername",
     password: "Passwort",
-    resetPassword: "Passwort vergessen?",
     question: "Du bist nicht angemeldet",
-    continueMeansAccept: "Durch die Anmeldung akzeptierst du unsere",
-    legal: "Datenschutzerklärung",
     incorrectCredentials: "Falscher Benutzername oder Passwort.",
     loading: "Lädt...",
     logout: "Abmelden",
@@ -189,6 +197,13 @@ const translation: i18nLanguage = {
   },
   filesPage: {
     loading: "Lade Gameserver",
+  },
+  notificationModal: {
+    successTitle: "Erfolg",
+    errorTitle: "Fehler",
+    infoTitle: "Info",
+    ok: "OK",
+    dismiss: "Schließen",
   },
   components: {
     TemplateVariableForm: {
@@ -860,12 +875,12 @@ const translation: i18nLanguage = {
         filter: "Filter",
         sort: "Sortieren",
         resetFilter: "Filter zurücksetzen",
-        clearSort: "Sortierung löschen",
+        clearSort: "Sortierung entfernen",
         sortBy: {
           username: "Name",
           role: "Rolle",
-          max_cpu: "CPU Limit",
-          max_memory: "RAM Limit",
+          docker_max_cpu_cores: "CPU Limit",
+          docker_memory_limit: "RAM Limit",
         },
         noUsersFound: "Keine Benutzer gefunden",
         pendingInvites: "Ausstehende Einladungen",

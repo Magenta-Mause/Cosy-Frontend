@@ -8,11 +8,11 @@ import {
   DialogTitle,
 } from "@components/ui/dialog.tsx";
 import { Input } from "@components/ui/input.tsx";
-import type * as React from "react";
+import * as React from "react";
 import { useEffect, useState } from "react";
-import { toast } from "sonner";
 import { useChangePassword } from "@/api/generated/backend-api";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
+import { notificationModal } from "@/lib/notificationModal";
 
 interface ChangePasswordModalProps {
   open: boolean;
@@ -32,6 +32,10 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
   const isFormValid =
     oldPassword.length > 0 && newPassword.length >= 8 && newPassword === confirmPassword;
 
+  const oldPasswordRef = React.useRef<HTMLInputElement>(null);
+  const newPasswordRef = React.useRef<HTMLInputElement>(null);
+  const confirmPasswordRef = React.useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (!open) {
       setOldPassword("");
@@ -44,7 +48,7 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
     e.preventDefault();
 
     if (!uuid) {
-      toast.error(t("missingUuid"));
+      notificationModal.error({ message: t("missingUuid") });
       return;
     }
 
@@ -52,14 +56,13 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
       { uuid, data: { old_password: oldPassword, new_password: newPassword } },
       {
         onSuccess: () => {
-          toast.success(t("passwordChangeSuccess"));
           setOldPassword("");
           setNewPassword("");
           setConfirmPassword("");
           onOpenChange(false);
         },
-        onError: () => {
-          toast.error(t("passwordChangeError"));
+        onError: (err) => {
+          notificationModal.error({ message: t("passwordChangeError"), cause: err });
         },
       },
     );
@@ -79,29 +82,54 @@ export function ChangePasswordModal({ open, onOpenChange, uuid }: ChangePassword
             className="flex flex-col gap-4"
           >
             <Input
+              ref={oldPasswordRef}
               type="password"
               header={t("oldPassword")}
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Tab" && !e.shiftKey) {
+                  e.preventDefault();
+                  newPasswordRef.current?.focus();
+                }
+              }}
               placeholder={t("oldPasswordPlaceholder")}
               disabled={isPending}
               className="w-full"
             />
             <Input
+              ref={newPasswordRef}
               type="password"
               header={t("newPassword")}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Tab") {
+                  e.preventDefault();
+                  if (e.shiftKey) {
+                    oldPasswordRef.current?.focus();
+                  } else {
+                    confirmPasswordRef.current?.focus();
+                  }
+                }
+              }}
               placeholder={t("newPasswordPlaceholder")}
               disabled={isPending}
               className="w-full"
               error={hasPasswordError ? t("passwordTooShort") : undefined}
             />
             <Input
+              ref={confirmPasswordRef}
               type="password"
               header={t("confirmPassword")}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Tab" && e.shiftKey) {
+                  e.preventDefault();
+                  newPasswordRef.current?.focus();
+                }
+              }}
               placeholder={t("confirmPasswordPlaceholder")}
               disabled={isPending}
               className="w-full"

@@ -6,9 +6,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
-import { Funnel } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole, type UserEntityDtoRole as UserRole } from "@/api/generated/model";
+import filterIcon from "@/assets/icons/filter.webp";
 
 interface RoleFilterProps {
   selectedRole: UserRole | null;
@@ -28,7 +29,7 @@ const RoleFilter = ({ selectedRole, onRoleChange }: RoleFilterProps) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button className="z-10">
-          <Funnel className="size-5" />
+          <Icon src={filterIcon} className="size-5" />
           {selectedRole
             ? t(`components.userManagement.userRow.roles.${selectedRole.toLowerCase()}`)
             : t("components.userManagement.userTable.filter")}

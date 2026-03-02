@@ -1,7 +1,7 @@
 import MetricDropDown from "@components/display/DropDown/MetricDropDown";
 import WidgetDropDown from "@components/display/DropDown/WidgetDropDown";
 import { Button } from "@components/ui/button";
-import { SquarePen } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
 import { useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
 import {
@@ -9,6 +9,7 @@ import {
   MetricLayoutSize,
   type PrivateDashboardLayout,
 } from "@/api/generated/model";
+import pencilWriteIcon from "@/assets/icons/pencilWrite.webp";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
@@ -24,7 +25,7 @@ const wrapPrivateDashboard = (dashboard: PrivateDashboardLayout): PrivateDashboa
 });
 
 const wrapPrivateDashboards = (dashboard: PrivateDashboardLayout[]): PrivateDashboardLayoutUI[] =>
-  dashboard.map(wrapPrivateDashboard);
+  dashboard ? dashboard.map(wrapPrivateDashboard) : [];
 
 export default function PrivateDashboardSettingsSection(props: { gameServer: GameServerDto }) {
   const { gameServer } = props;
@@ -37,7 +38,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
   const [unfulfilledChanges, setUnfulfilledChanges] = useState<string | null>(null);
 
   const isChanged = useMemo(() => {
-    if (privateDashboard.length !== gameServer.private_dashboard_layouts.length) return true;
+    if (privateDashboard.length !== gameServer.private_dashboard_layouts?.length) return true;
 
     return privateDashboard.some((dashboard, i) => {
       const original = gameServer.private_dashboard_layouts[i];
@@ -180,7 +181,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
               )}
               {dashboard.layout_type === DashboardElementTypes.FREETEXT && (
                 <Button variant={"secondary"} onClick={() => handleFreeTextEdit(dashboard)}>
-                  <SquarePen className="size-6" />
+                  <Icon src={pencilWriteIcon} variant="secondary" className="size-5" />
                 </Button>
               )}
             </div>

@@ -1,9 +1,8 @@
 import { Button } from "@components/ui/button";
+import Icon from "@components/ui/Icon.tsx";
 import { Input } from "@components/ui/input";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { Download, Search, Upload, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { toast } from "sonner";
 import {
   uploadFileToVolume,
   useCreateDirectoryInVolume,
@@ -12,10 +11,15 @@ import {
   useRenameInVolume,
 } from "@/api/generated/backend-api";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
+import closeIcon from "@/assets/icons/close.webp";
+import downloadIcon from "@/assets/icons/download.webp";
+import searchIcon from "@/assets/icons/search.webp";
+import uploadIcon from "@/assets/icons/upload.webp";
 import { useFileBrowserCache } from "@/hooks/useFileBrowserCache/useFileBrowserCache";
 import { useFileSelection } from "@/hooks/useFileSelection/useFileSelection";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { downloadSingleFile, joinDir, joinRemotePath, normalizePath } from "@/lib/fileSystemUtils";
+import { notificationModal } from "@/lib/notificationModal";
 import { cn } from "@/lib/utils";
 import { zipAndDownload } from "@/lib/zipDownload";
 import { type FileBrowserContextValue, FileBrowserProvider } from "../FileBrowserContext";
@@ -124,7 +128,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     try {
       await uploadSelectedFile(file);
     } catch (_err) {
-      toast.error(t("fileUploadError"));
+      notificationModal.error({ message: t("fileUploadError") });
     } finally {
       e.target.value = "";
     }
@@ -179,7 +183,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       });
     } catch (e) {
       console.error(e);
-      toast.error(t("downloadZipFailure"));
+      notificationModal.error({ message: t("downloadZipFailure") });
     } finally {
       setDownloadingAll(false);
       setDownloadProgress(null);
@@ -213,7 +217,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
           <TooltipWrapper tooltip={t("closePreview")}>
             <Button size="icon" onClick={closePreview} aria-label={t("closePreview")}>
-              <X className="h-4 w-4" />
+              <Icon src={closeIcon} className="size-4" />
             </Button>
           </TooltipWrapper>
         </div>
@@ -319,7 +323,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
               onProgress: (done, total) => setDownloadProgress({ done, total }),
             });
           } catch (_err) {
-            toast.error(t("errorWhileZipDownload"));
+            notificationModal.error({ message: t("errorWhileZipDownload") });
           } finally {
             setDownloading((downloading) => downloading.filter((path) => path !== fullPath));
             setDownloadProgress(null);
@@ -332,7 +336,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
               name: obj.name,
             });
           } catch (_err) {
-            toast.error(t("errorWhileDownload"));
+            notificationModal.error({ message: t("errorWhileDownload") });
           } finally {
             setDownloading((downloading) => downloading.filter((path) => path !== fullPath));
           }
@@ -376,14 +380,18 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
       }}
     >
       <Input
-        startDecorator={<Search />}
+        startDecorator={<Icon src={searchIcon} variant="foreground" className="size-5" />}
         endDecorator={
-          <X
-            className="pointer-events-auto"
+          <button
+            type="button"
+            aria-label="clear search"
+            className="pointer-events-auto cursor-pointer"
             onClick={() => {
               setSearch("");
             }}
-          />
+          >
+            <Icon src={closeIcon} variant="foreground" className="size-4" />
+          </button>
         }
         type="text"
         placeholder="Search"
@@ -413,7 +421,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
             disabled={isSynthetic || !canChangeFiles}
             className="transition-all duration-300"
           >
-            <Upload />
+            <Icon src={uploadIcon} className="size-5" />
             {t("uploadFile")}
           </Button>
         </TooltipWrapper>
@@ -423,7 +431,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
           data-loading={downloadingAll || loading}
           disabled={downloadingAll || loading || !canReadFiles}
         >
-          <Download />
+          <Icon src={downloadIcon} className="size-5" />
           {downloadingAll
             ? downloadProgress
               ? t("downloadingFile", { done: downloadProgress.done, total: downloadProgress.total })

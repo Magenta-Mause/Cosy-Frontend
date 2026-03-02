@@ -2,7 +2,6 @@ import { Button } from "@components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogMain,
@@ -77,6 +76,7 @@ const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: Web
     values,
     errors,
     isSubmitting,
+    isDisabled,
     handleValuesChange,
     resetForm,
     handleSubmit: onFormSubmit,
@@ -108,14 +108,11 @@ const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: Web
       ? t("creating")
       : t("create");
 
-  const canSubmit = values.webhook_url.trim().length > 0;
-
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-md min-w-[500px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{t("form.webhookUrl")}</DialogDescription>
         </DialogHeader>
         <DialogMain>
           <WebhookForm
@@ -126,14 +123,14 @@ const WebhookModal = ({ mode, gameServerUuid, webhook, open, onOpenChange }: Web
             onSubmit={onFormSubmit}
             onCancel={() => handleClose(false)}
             submitLabel={submitLabel}
-            canSubmit={canSubmit}
+            canSubmit={!isDisabled}
           />
         </DialogMain>
         <DialogFooter>
           <Button variant="secondary" onClick={() => handleClose(false)} disabled={isLoading}>
             {t("cancel")}
           </Button>
-          <Button onClick={onFormSubmit} disabled={!canSubmit || isLoading}>
+          <Button onClick={onFormSubmit} disabled={isDisabled || isCreatingWebhook}>
             {submitLabel}
           </Button>
         </DialogFooter>
