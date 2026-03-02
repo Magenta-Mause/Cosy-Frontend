@@ -1,6 +1,6 @@
 import Footer from "@components/display/Footer/Footer.tsx";
 import { ThemeContext, ThemeOptions } from "@components/technical/Providers/ThemeProvider.tsx";
-import { useContext } from "react";
+import { type ReactNode, type RefObject, useContext } from "react";
 import bgImageLoopDay from "@/assets/MainPage/backgrounds/bg_day_loop.png";
 import bgImageTopDay from "@/assets/MainPage/backgrounds/bg_day_top.png";
 import bgImageFooterDay from "@/assets/MainPage/backgrounds/bg_footer_day.webp";
@@ -84,16 +84,23 @@ function calculateBgLoops(houseCount: number, images: ReturnType<typeof IMAGES>)
 
 interface GameServerBackgroundProps {
   houseCount: number;
+  scrollRef?: RefObject<HTMLDivElement | null>;
+  children?: ReactNode;
 }
 
-const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
+const GameServerBackground = ({ houseCount, scrollRef, children }: GameServerBackgroundProps) => {
   const { currentTheme } = useContext(ThemeContext);
   const images = IMAGES(currentTheme);
   const pathSegments = calculatePathSegments(houseCount, images);
   const bgLoops = calculateBgLoops(houseCount, images);
 
   return (
-    <div className="relative w-full min-h-screen bg-[#1F4D15]">
+    <div
+      ref={scrollRef}
+      data-scroll-container
+      className="relative w-full h-screen bg-[#1F4D15]"
+      style={{ overflowY: "overlay" } as React.CSSProperties}
+    >
       <div className="relative w-full">
         <img
           src={images.bg.top}
@@ -133,6 +140,8 @@ const GameServerBackground = ({ houseCount }: GameServerBackgroundProps) => {
           style={{ imageRendering: "pixelated", pointerEvents: "none" }}
         />
       </div>
+
+      {children}
     </div>
   );
 };

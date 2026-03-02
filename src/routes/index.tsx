@@ -1,6 +1,6 @@
 import { DeleteGameServerSuccessDialog } from "@components/display/GameServer/DeleteGameServerAlertDialog/DeleteGameServerSuccessDialog";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import GameServerBackground from "@/components/display/GameServer/GameServerBackground/GameServerBackground.tsx";
 import GameServerDisplay from "@/components/display/GameServer/GameServerDisplay/GameServerDisplay.tsx";
 import LoginDisplay from "@/components/display/Login/LoginDisplay/LoginDisplay.tsx";
@@ -28,6 +28,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const scrollRef = useRef<HTMLDivElement>(null);
   const gameServers = useTypedSelector((state) => state.gameServerSliceReducer.data);
   const sortedGameServers = useMemo(
     () =>
@@ -58,20 +59,16 @@ function Index() {
 
   useEffect(() => {
     const savedPosition = sessionStorage.getItem("homeScrollPosition");
-    if (savedPosition) {
-      window.scrollTo(0, parseInt(savedPosition, 10));
+    if (savedPosition && scrollRef.current) {
+      scrollRef.current.scrollTo(0, parseInt(savedPosition, 10));
       sessionStorage.removeItem("homeScrollPosition");
     }
   }, []);
 
   return (
-    <div className="relative w-full min-h-screen">
-      <div className="relative w-full">
-        <GameServerBackground houseCount={sortedGameServers.length + 1} />
-
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
-          <GameServerDisplay gameServerConfigurations={sortedGameServers} />
-        </div>
+    <GameServerBackground houseCount={sortedGameServers.length + 1} scrollRef={scrollRef}>
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-auto">
+        <GameServerDisplay gameServerConfigurations={sortedGameServers} />
       </div>
 
       <div className="absolute top-0 left-0 w-full z-50 flex flex-col items-center pt-20 pointer-events-none">
@@ -85,6 +82,6 @@ function Index() {
 
         <DeleteGameServerSuccessDialog open={deleted === true} onClose={handleCloseDeleteSuccess} />
       </div>
-    </div>
+    </GameServerBackground>
   );
 }
