@@ -28,7 +28,7 @@ const allDucks = [
   { src: duckLars, name: "Lars", alt: "Lars's GitHub Link", link: "https://github.com/Larsbobo" },
   { src: duckLeni, name: "LeeSoko", alt: "LeeSoko's GitHub Link", link: "https://github.com/LeeSoko" },
   { src: duckLore, name: "Lemuri", alt: "Lemuri's GitHub Link", link: "https://github.com/MCLemuri" },
-  { src: duckSimon, name: "PyBay", alt: "PyBay's GitHub Link", link: "https://github.com//py-bay" },
+  { src: duckSimon, name: "PyBay", alt: "PyBay's GitHub Link", link: "https://github.com/py-bay" },
 ];
 
 const getDucks = () => {
