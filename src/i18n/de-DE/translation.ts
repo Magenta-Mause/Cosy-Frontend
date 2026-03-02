@@ -1000,7 +1000,7 @@ const translation: i18nLanguage = {
     contact: "Kontakt:",
     edit: "Fußzeile bearbeiten",
     noData: "Keine Fußzeilendaten verfügbar",
-    duckTooltip: "Auf zu",
+    duckTooltip: "Auf zu {{name}}'s {{site}}!",
     editModal: {
       title: "Fußzeile bearbeiten",
       fullName: "Vollständiger Name",

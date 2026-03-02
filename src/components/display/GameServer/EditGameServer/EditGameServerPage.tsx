@@ -299,7 +299,7 @@ const EditGameServerPage = (props: {
             errorLabel={t("gameSelection.errorLabel")}
             value={gameServerState.external_game_id}
             disabled={true}
-            onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
+            onChange={() => { }}
             optional={true}
           />
 

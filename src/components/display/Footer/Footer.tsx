@@ -41,8 +41,7 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
   const { data: footerData, isLoading } = useGetFooter();
   const isOwner = useRequireRoles([UserEntityDtoRole.OWNER]);
   const [editModalOpen, setEditModalOpen] = useState(false);
-
-  const [duck1, duck2] = getDucks();
+  const [[duck1, duck2]] = useState(() => getDucks());
 
   return (
     <div className="relative w-full">
@@ -53,7 +52,10 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
         style={{ imageRendering: "pixelated" }}
       />
 
-      <TooltipWrapper tooltip={`${t("footer.duckTooltip")} ${duck1.name}'s ${duck1.site ? duck1.site : "GitHub"}!`}>
+      <TooltipWrapper tooltip={t('footer.duckTooltip', {
+        name: duck1.name,
+        site: duck1.site ? duck1.site : "GitHub"
+      })}>
         <a href={duck1.link}
           target="_blank"
           rel="noopener noreferrer"
@@ -67,8 +69,10 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
           />
         </a>
       </TooltipWrapper>
-      <TooltipWrapper tooltip={`${t("footer.duckTooltip")} ${duck2.name}'s ${duck2.site ? duck2.site : "GitHub"}!`}>
-
+      <TooltipWrapper tooltip={t('footer.duckTooltip', {
+        name: duck2.name,
+        site: duck2.site ? duck1.site : "GitHub"
+      })}>
         <a href={duck2.link}
           target="_blank"
           rel="noopener noreferrer"

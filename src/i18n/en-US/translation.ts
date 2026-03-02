@@ -995,7 +995,7 @@ const translation: i18nLanguage = {
     contact: "Contact:",
     edit: "Edit Footer",
     noData: "No footer data available",
-    duckTooltip: "Go to",
+    duckTooltip: "Go to {{name}}'s {{site}}!",
     editModal: {
       title: "Edit Footer",
       fullName: "Full Name",
