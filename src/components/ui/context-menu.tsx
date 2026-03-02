@@ -164,8 +164,11 @@ function ContextMenuCheckboxItem({
 function ContextMenuRadioItem({
   className,
   children,
+  indicator,
   ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.RadioItem>) {
+}: React.ComponentProps<typeof ContextMenuPrimitive.RadioItem> & {
+  indicator?: React.ReactNode;
+}) {
   return (
     <ContextMenuPrimitive.RadioItem
       data-slot="context-menu-radio-item"
@@ -176,8 +179,8 @@ function ContextMenuRadioItem({
       {...props}
     >
       <span className="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
-        <ContextMenuPrimitive.ItemIndicator>
-          <Icon src={circleIcon} variant="foreground" className="size-2" />
+        <ContextMenuPrimitive.ItemIndicator className={"flex"}>
+          {indicator ?? <Icon src={circleIcon} variant="foreground" className="size-3" />}
         </ContextMenuPrimitive.ItemIndicator>
       </span>
       {children}
