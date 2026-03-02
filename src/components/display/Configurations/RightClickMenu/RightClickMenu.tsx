@@ -9,12 +9,14 @@ import {
   ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@components/ui/context-menu.tsx";
+import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { type ReactNode, useState } from "react";
 
 export interface RightClickChildren {
   label: string;
   onClick?: () => Promise<void> | void;
   value?: string;
+  tooltip?: string;
 }
 
 export interface RightClickAction {
@@ -66,14 +68,20 @@ const RightClickMenu = (props: RightClickMenuProps) => {
               <ContextMenuSubTrigger>{action.label}</ContextMenuSubTrigger>
               <ContextMenuSubContent>
                 <ContextMenuRadioGroup value={action.value}>
-                  {action.children.map((children) => (
-                    <ContextMenuRadioItem
-                      key={children.label}
-                      onSelect={children.onClick}
-                      value={children.value ?? ""}
+                  {action.children.map((child) => (
+                    <TooltipWrapper
+                      key={child.label}
+                      tooltip={child.tooltip ?? null}
+                      side="right"
+                      asChild
                     >
-                      {children.label}
-                    </ContextMenuRadioItem>
+                      <ContextMenuRadioItem
+                        onSelect={child.onClick}
+                        value={child.value ?? ""}
+                      >
+                        {child.label}
+                      </ContextMenuRadioItem>
+                    </TooltipWrapper>
                   ))}
                 </ContextMenuRadioGroup>
               </ContextMenuSubContent>

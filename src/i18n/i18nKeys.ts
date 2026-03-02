@@ -22,6 +22,7 @@ export type i18nLanguage = {
       day: string;
       night: string;
       auto: string;
+      autoTooltip: string;
     };
   };
 
