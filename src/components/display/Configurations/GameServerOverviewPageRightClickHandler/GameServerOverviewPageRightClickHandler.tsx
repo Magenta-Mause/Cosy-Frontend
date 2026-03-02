@@ -33,6 +33,7 @@ const GameServerOverviewPageRightClickHandler = (props: { children: ReactNode })
       children: [
         {
           label: t("rightClickMenu.themes.auto"),
+          tooltip: t("rightClickMenu.themes.autoTooltip"),
           onClick: () => {
             setTheme(null);
           },

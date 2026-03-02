@@ -37,7 +37,7 @@ const TooltipWrapper = ({
         {children}
       </TooltipTrigger>
       <TooltipContent side={side} align={align} className={contentClassName} onClick={onClick}>
-        {typeof tooltip === "string" ? <p>{tooltip}</p> : tooltip}
+        {typeof tooltip === "string" ? <p className="whitespace-pre-line">{tooltip}</p> : tooltip}
       </TooltipContent>
     </Tooltip>
   );

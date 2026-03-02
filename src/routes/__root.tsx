@@ -5,10 +5,12 @@ import MarketplaceSign from "@components/display/header/MarketplaceSign/Marketpl
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { createRootRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { useContext } from "react";
+import useIsDesktop from "@/hooks/useIsDesktop/useIsDesktop.tsx";
 
 const RootLayout = () => {
   const { authorized } = useContext(AuthContext);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isDesktop = useIsDesktop();
 
   const showNotFound = authorized === false && pathname !== "/" && !pathname.startsWith("/server");
   const isServerPage = pathname.startsWith("/server/");
@@ -16,7 +18,7 @@ const RootLayout = () => {
   return (
     <GameServerOverviewPageRightClickHandler>
       <div>
-        <div className={isServerPage ? "hidden lg:block" : undefined}>
+        <div className={isServerPage && !isDesktop ? "hidden" : undefined}>
           <OptionsBannerDropdown />
           <MarketplaceSign />
         </div>
