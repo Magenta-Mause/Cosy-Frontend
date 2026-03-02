@@ -84,7 +84,7 @@ const translation: i18nLanguage = {
     shareInstructions:
       "Share this link with the person you want to invite. They can use it to create their account.",
     copyLink: "Copy Invite Link",
-    backToUsers: "Back to Creation",
+    backToUsers: "Back to Overview",
     pendingInvites: "Pending Invites",
     unclaimedInvite: "Unclaimed Invite",
     created: "Created: {{date}}",
@@ -126,6 +126,8 @@ const translation: i18nLanguage = {
     createGameServerError: "Failed to create Game Server!",
     cpuLimit: "CPU Cores: {{cpu}}",
     memoryLimit: "RAM: {{memory}}",
+    passwordTooShort: "Password must be at least 8 characters long",
+    passwordsDoNotMatch: "Passwords do not match",
   },
   deleteGameServerDialog: {
     title: "Are you sure?",
@@ -178,13 +180,10 @@ const translation: i18nLanguage = {
   },
   signIn: {
     signIn: "Sign In",
-    desc: "C.O.S.Y. - Cost Optimized Server Yard",
+    desc: "COSY - Cost Optimized Server Yard",
     username: "Username",
     password: "Password",
-    resetPassword: "Forgot Password?",
     question: "You are not signed in",
-    continueMeansAccept: "By signing in, you accept our",
-    legal: "Privacy Policy",
     incorrectCredentials: "Incorrect username or password.",
     loading: "Loading...",
     logout: "Logout",
@@ -615,8 +614,8 @@ const translation: i18nLanguage = {
         sortBy: {
           username: "Name",
           role: "Role",
-          max_cpu: "CPU Limit",
-          max_memory: "Memory Limit",
+          docker_max_cpu_cores: "CPU Limit",
+          docker_memory_limit: "Memory Limit",
         },
         noUsersFound: "No users found",
         pendingInvites: "Pending Invites",

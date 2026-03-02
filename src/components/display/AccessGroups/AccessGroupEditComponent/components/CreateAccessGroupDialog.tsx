@@ -9,10 +9,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog.tsx";
-import { PlusIcon } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
 import { useState } from "react";
 import * as z from "zod";
 import type { GameServerAccessGroupDto } from "@/api/generated/model";
+import plusIcon from "@/assets/icons/plus.webp";
 import { toggleVariants } from "@/components/ui/toggle";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
@@ -59,7 +60,7 @@ const CreateAccessGroupDialog = (props: {
         )}
         onClick={() => setDialogOpen(true)}
       >
-        <PlusIcon />
+        <Icon src={plusIcon} variant="secondary" className="size-5" />
         <span>{t("createNewGroup")}</span>
       </button>
       <Dialog open={dialogOpen} onOpenChange={handleOpenChange}>

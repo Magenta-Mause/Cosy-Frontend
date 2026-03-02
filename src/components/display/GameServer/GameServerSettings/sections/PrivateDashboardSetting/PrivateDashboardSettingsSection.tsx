@@ -1,7 +1,7 @@
 import MetricDropDown from "@components/display/DropDown/MetricDropDown";
 import WidgetDropDown from "@components/display/DropDown/WidgetDropDown";
 import { Button } from "@components/ui/button";
-import { SquarePen } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
 import { useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
 import {
@@ -9,6 +9,7 @@ import {
   MetricLayoutSize,
   type PrivateDashboardLayout,
 } from "@/api/generated/model";
+import pencilWriteIcon from "@/assets/icons/pencilWrite.webp";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
@@ -180,7 +181,7 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
               )}
               {dashboard.layout_type === DashboardElementTypes.FREETEXT && (
                 <Button variant={"secondary"} onClick={() => handleFreeTextEdit(dashboard)}>
-                  <SquarePen className="size-6" />
+                  <Icon src={pencilWriteIcon} variant="secondary" className="size-5" />
                 </Button>
               )}
             </div>

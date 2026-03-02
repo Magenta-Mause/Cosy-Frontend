@@ -1,9 +1,14 @@
 import { Badge } from "@components/ui/badge";
 import { Button } from "@components/ui/button";
 import CopyButton from "@components/ui/CopyButton";
+import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { CheckCircle2, Pencil, Trash2, XCircle } from "lucide-react";
 import type { WebhookDto } from "@/api/generated/model";
+import checkCircleIcon from "@/assets/icons/checkCircle.webp";
+import closeCircleIcon from "@/assets/icons/closeCircle.webp";
+import copyLinkIcon from "@/assets/icons/copyLink.webp";
+import pencilWriteIcon from "@/assets/icons/pencilWrite.webp";
+import trashIcon from "@/assets/icons/trash.webp";
 
 interface WebhookItemProps {
   webhook: WebhookDto;
@@ -34,14 +39,14 @@ const WebhookItem = ({
           <div className="flex items-center gap-1.5">
             {webhook.enabled ? (
               <>
-                <CheckCircle2 className="h-4 w-4 text-button-primary-default" />
+                <Icon src={checkCircleIcon} className="size-4 text-button-primary-default" />
                 <span className="text-sm text-button-primary-default font-medium">
                   {t("state.enabled")}
                 </span>
               </>
             ) : (
               <>
-                <XCircle className="h-4 w-4 text-muted-foreground" />
+                <Icon src={closeCircleIcon} className="size-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">{t("state.disabled")}</span>
               </>
             )}
@@ -56,7 +61,7 @@ const WebhookItem = ({
               disabled={!webhook.uuid}
               onClick={() => onEdit(webhook)}
             >
-              <Pencil className="h-4 w-4" />
+              <Icon src={pencilWriteIcon} className="size-4" />
             </Button>
           </TooltipWrapper>
           <TooltipWrapper tooltip={t("delete")}>
@@ -67,7 +72,7 @@ const WebhookItem = ({
               disabled={!webhook.uuid || deletingWebhookUuid === webhook.uuid}
               onClick={() => webhook.uuid && onDelete(webhook)}
             >
-              <Trash2 className="h-4 w-4" />
+              <Icon src={trashIcon} className="size-4" />
             </Button>
           </TooltipWrapper>
         </div>
@@ -75,9 +80,7 @@ const WebhookItem = ({
 
       <div className="space-y-3">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-button-primary-default font-bold shrink-0 mt-0.5">
-            {t("labels.url")}:
-          </span>
+          <Icon src={copyLinkIcon} className="size-5 text-muted-foreground shrink-0" />
           <code className="text-xs bg-muted/50 px-2 py-1 rounded break-all flex-1 font-mono text-muted-foreground">
             {webhook.webhook_url}
           </code>

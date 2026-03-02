@@ -16,7 +16,7 @@ const ConstructionPlaceHouse = (props: { className?: string; style?: CSSProperti
 
   const actions: RightClickAction[] = [
     {
-      label: t("rightClickMenu.createNewGameserver"),
+      label: t("rightClickMenu.createNewGameServer"),
       onClick: () => {
         setIsOpenGameServerCreationModalOpen(true);
       },

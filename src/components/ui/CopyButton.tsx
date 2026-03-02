@@ -1,8 +1,10 @@
-import { Check, Copy } from "lucide-react";
+import checkIcon from "@/assets/icons/check.webp";
+import copyIcon from "@/assets/icons/copy.webp";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import type { VariantProps } from "class-variance-authority";
+import Icon from "@components/ui/Icon.tsx";
 
 interface CopyButtonProps
   extends VariantProps<typeof buttonVariants> {
@@ -54,9 +56,9 @@ const CopyButton = ({ value, tooltip, copiedTooltip, variant = "ghost", size = "
       onClick={handleCopy}
     >
       {copied ? (
-        <Check className="text-green-500" />
+        <Icon src={checkIcon} variant="secondary" className="size-4 text-green-500" />
       ) : (
-        <Copy />
+        <Icon src={copyIcon} variant="secondary" className="size-4" />
       )}
     </Button>
   );

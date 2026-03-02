@@ -1,6 +1,7 @@
 import { Card } from "@components/ui/card.tsx";
-import { Check } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
 import type { TemplateEntity } from "@/api/generated/model";
+import checkIcon from "@/assets/icons/check.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 
 const TemplateList = ({
@@ -32,7 +33,7 @@ const TemplateList = ({
               <div className="flex items-center gap-2 pr-5">
                 <span className="text-sm font-semibold leading-none">{template.name}</span>
                 {isSelected && (
-                  <Check className="absolute top-2 right-2 w-3.5 h-3.5 text-primary" />
+                  <Icon src={checkIcon} className="absolute top-2 right-2 size-4 text-primary" />
                 )}
               </div>
               {template.description && (

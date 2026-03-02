@@ -6,8 +6,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
-import { ArrowDownWideNarrow, ArrowUpDown, ArrowUpWideNarrow } from "lucide-react";
+import Icon from "@components/ui/Icon.tsx";
 import { useTranslation } from "react-i18next";
+import sortIcon from "@/assets/icons/sort.webp";
+import sortDownIcon from "@/assets/icons/sortDown.webp";
+import sortUpIcon from "@/assets/icons/sortUp.webp";
 
 export type SortField = "username" | "role" | "docker_max_cpu_cores" | "docker_memory_limit";
 
@@ -65,11 +68,11 @@ const SortDropdown = ({
       </DropdownMenu>
       <Button disabled={!sortField} onClick={onSortDirectionToggle} className="rounded-l-none">
         {!sortField ? (
-          <ArrowUpDown className="size-6" />
+          <Icon src={sortIcon} className="size-5" />
         ) : isAscending ? (
-          <ArrowDownWideNarrow className="size-6" />
+          <Icon src={sortDownIcon} className="size-5" />
         ) : (
-          <ArrowUpWideNarrow className="size-6" />
+          <Icon src={sortUpIcon} className="size-5" />
         )}
       </Button>
     </div>

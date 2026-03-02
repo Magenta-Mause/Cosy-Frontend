@@ -9,11 +9,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@components/ui/dialog";
+import Icon from "@components/ui/Icon.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper";
-import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { UserInviteDto } from "@/api/generated/model";
+import trashIcon from "@/assets/icons/trash.webp";
 
 interface UserListProps {
   onRevoke: (uuid: string) => void;
@@ -53,7 +54,7 @@ const PendingInvitesList = ({ onRevoke, invite }: UserListProps) => {
                 className="h-10 w-10 hover:text-destructive"
                 onClick={() => setRevokeConfirmationDialogOpen(true)}
               >
-                <Trash2 className="size-5" />
+                <Icon src={trashIcon} className="size-5" />
                 <span className="sr-only">{t("userModal.revoke.tooltip")}</span>
               </Button>
             </TooltipWrapper>

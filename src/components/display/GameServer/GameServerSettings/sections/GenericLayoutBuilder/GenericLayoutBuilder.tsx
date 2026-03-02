@@ -3,6 +3,7 @@ import SettingsActionButtons from "@components/display/GameServer/GameServerSett
 import { COL_SPAN_MAP } from "@components/display/MetricDisplay/metricLayout";
 import { Button } from "@components/ui/button";
 import { Card, CardContent } from "@components/ui/card";
+import Icon from "@components/ui/Icon.tsx";
 import UnsavedModal from "@components/ui/UnsavedModal";
 import {
   closestCorners,
@@ -22,7 +23,6 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Plus, X } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import { v7 as generateUuid } from "uuid";
 import type {
@@ -31,6 +31,8 @@ import type {
   PrivateDashboardLayout,
   PublicDashboardLayout,
 } from "@/api/generated/model";
+import closeIcon from "@/assets/icons/close.webp";
+import plusIcon from "@/assets/icons/plus.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
@@ -257,7 +259,7 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
               handleOnDelete(layout._uiUuid);
             }}
           >
-            <X />
+            <Icon src={closeIcon} className="size-4" />
           </Button>
           <div className="flex gap-2 items-center justify-center overflow-x-auto p-2">
             <div>
@@ -321,7 +323,7 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
                       disabled={isDisabled}
                       className="pointer-events-none flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 opacity-50 z-10"
                     >
-                      <X />
+                      <Icon src={closeIcon} className="size-4" />
                     </Button>
                     <div className="flex gap-2 items-center justify-center overflow-x-auto p-2">
                       <div>
@@ -351,7 +353,7 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
               ${isDisabled ? "pointer-events-none" : ""}`}
             >
               <div className="flex items-center">
-                <Plus className="-size-2" />
+                <Icon src={plusIcon} variant="foreground" className="size-5 m-1" />
                 {t("GameServerSettings.privateDashboard.add")}
               </div>
             </Button>
