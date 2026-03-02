@@ -20,15 +20,15 @@ interface FooterProps {
 }
 
 const allDucks = [
-  { src: duckAlex, name: "EcoFreshKase", alt: "EcoFreshKase's Github Link", link: "https://github.com/EcoFreshKase", },
+  { src: duckAlex, name: "EcoFreshKase", alt: "EcoFreshKase's GitHub Link", link: "https://github.com/EcoFreshKase", },
   { src: duckAnni, name: "Anni", alt: "Anni's LinkedIn Link", link: "https://de.linkedin.com/in/annika-schatter", site: "LinkedIn" },
-  { src: duckFiete, name: "Fiete", alt: "Fietes Github Link", link: "https://github.com/fietensen" },
-  { src: duckJanne, name: "Janne", alt: "Jannes Github Link", link: "https://github.com/Janne6565" },
-  { src: duckJoon, name: "Joon", alt: "Joon's Github Link", link: "https://github.com/joonjester" },
-  { src: duckLars, name: "Lars", alt: "Lars's Github Link", link: "https://github.com/Larsbobo" },
-  { src: duckLeni, name: "LeeSoko", alt: "LeeSoko's Github Link", link: "https://github.com/LeeSoko" },
-  { src: duckLore, name: "Lemuri", alt: "Lemuri's Github Link", link: "https://github.com/MCLemuri" },
-  { src: duckSimon, name: "PyBay", alt: "PyBay's Github Link", link: "https://github.com//py-bay" },
+  { src: duckFiete, name: "Fiete", alt: "Fietes GitHub Link", link: "https://github.com/fietensen" },
+  { src: duckJanne, name: "Janne", alt: "Jannes GitHub Link", link: "https://github.com/Janne6565" },
+  { src: duckJoon, name: "Joon", alt: "Joon's GitHub Link", link: "https://github.com/joonjester" },
+  { src: duckLars, name: "Lars", alt: "Lars's GitHub Link", link: "https://github.com/Larsbobo" },
+  { src: duckLeni, name: "LeeSoko", alt: "LeeSoko's GitHub Link", link: "https://github.com/LeeSoko" },
+  { src: duckLore, name: "Lemuri", alt: "Lemuri's GitHub Link", link: "https://github.com/MCLemuri" },
+  { src: duckSimon, name: "PyBay", alt: "PyBay's GitHub Link", link: "https://github.com//py-bay" },
 ];
 
 const getDucks = () => {
