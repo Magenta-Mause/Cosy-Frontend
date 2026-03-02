@@ -22,6 +22,7 @@ interface SettingsActionButtonsProps {
   className?: string;
   children?: React.ReactNode;
   requireConfirmationLabel?: string;
+  positionChildren?: "before" | "after";
 }
 
 const SettingsActionButtons = ({
@@ -34,6 +35,7 @@ const SettingsActionButtons = ({
   className,
   children,
   requireConfirmationLabel,
+  positionChildren = "after",
 }: SettingsActionButtonsProps) => {
   const { t } = useTranslationPrefix("components.settingsActionButtons");
   const [isConfirmationModalOpen, setConfirmationModalOpen] = useState(false);
@@ -49,6 +51,7 @@ const SettingsActionButtons = ({
 
   return (
     <>
+      {positionChildren === "before" && children}
       <div
         className={cn(
           "sticky bottom-4 w-fit ml-auto flex items-center gap-4 mr-5 mt-auto",
@@ -72,7 +75,7 @@ const SettingsActionButtons = ({
         </TooltipWrapper>
       </div>
 
-      {children}
+      {positionChildren !== "before" && children}
 
       <Dialog open={isConfirmationModalOpen} onOpenChange={setConfirmationModalOpen}>
         <DialogContent>
