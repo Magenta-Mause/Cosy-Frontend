@@ -1,0 +1,30 @@
+/*
+Source - https://stackoverflow.com/a/69581075
+Posted by nima
+Retrieved 2026-03-02, License - CC BY-SA 4.0
+*/
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background: #dddddd;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid rgba(0, 0, 0, 0);
+  background-clip: padding-box;
+  border-radius: 9999px;
+  background-color: #8d8d8d;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #868686;
+}
+
+.scroller {
+  overflow: auto;
+  overflow-y: overlay;
+  scrollbar-gutter: stable; /* keeps space reserved when scrollbar appears */
+}

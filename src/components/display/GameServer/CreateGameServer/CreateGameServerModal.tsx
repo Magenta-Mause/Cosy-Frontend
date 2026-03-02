@@ -93,7 +93,7 @@ const CreateGameServerModal = ({ setOpen, isOpen }: Props) => {
                   </DialogTitle>
                 </DialogHeader>
 
-                <DialogMain className="overflow-auto p-6">
+                <DialogMain className="scroller p-6">
                   <div>{PAGES[currentPage]}</div>
                 </DialogMain>
                 <DialogFooter className="shrink-0 pt-4">

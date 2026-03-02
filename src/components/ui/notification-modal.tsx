@@ -45,7 +45,7 @@ export function NotificationModal({ item }: NotificationModalProps) {
               <DialogDescription>{item.message}</DialogDescription>
             </DialogHeader>
             {item.details && (
-              <pre className="bg-secondary-background rounded-lg p-3 text-xs overflow-auto max-h-40">
+              <pre className="bg-secondary-background rounded-lg p-3 text-xs scroller max-h-40">
                 {item.details}
               </pre>
             )}

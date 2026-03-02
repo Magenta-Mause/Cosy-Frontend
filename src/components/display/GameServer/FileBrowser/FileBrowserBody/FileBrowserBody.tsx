@@ -39,7 +39,7 @@ export const FileBrowserBody = ({
 
   return (
     <div
-      className={cn("flex-1 overflow-auto", navigating && "opacity-50 transition-opacity")}
+      className={cn("flex-1 scroller", navigating && "opacity-50 transition-opacity")}
       data-loading={navigating || undefined}
     >
       <ul className="p-2">
