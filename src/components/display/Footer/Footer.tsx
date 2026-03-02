@@ -20,15 +20,15 @@ interface FooterProps {
 }
 
 const allDucks = [
-  { src: duckAlex, alt: "Alex", link: "https://github.com/EcoFreshKase" },
-  { src: duckAnni, alt: "Anni", link: "https://github.com/Anni075" },
-  { src: duckFiete, alt: "Fiete", link: "https://github.com/fietensen" },
-  { src: duckJanne, alt: "Janne", link: "https://github.com/Janne6565" },
-  { src: duckJoon, alt: "Joon", link: "https://github.com/joonjester" },
-  { src: duckLars, alt: "Lars", link: "https://github.com/Larsbobo" },
-  { src: duckLeni, alt: "Leni", link: "https://github.com/LeeSoko" },
-  { src: duckLore, alt: "Lore", link: "https://github.com/MCLemuri" },
-  { src: duckSimon, alt: "Simon", link: "https://github.com//py-bay" },
+  { src: duckAlex, name: "EcoFreshKase", alt: "EcoFreshKase's Github Link", link: "https://github.com/EcoFreshKase", },
+  { src: duckAnni, name: "Anni", alt: "Anni's LinkedIn Link", link: "https://de.linkedin.com/in/annika-schatter", site: "LinkedIn" },
+  { src: duckFiete, name: "Fiete", alt: "Fietes Github Link", link: "https://github.com/fietensen" },
+  { src: duckJanne, name: "Janne", alt: "Jannes Github Link", link: "https://github.com/Janne6565" },
+  { src: duckJoon, name: "Joon", alt: "Joon's Github Link", link: "https://github.com/joonjester" },
+  { src: duckLars, name: "Lars", alt: "Lars's Github Link", link: "https://github.com/Larsbobo" },
+  { src: duckLeni, name: "LeeSoko", alt: "LeeSoko's Github Link", link: "https://github.com/LeeSoko" },
+  { src: duckLore, name: "Lemuri", alt: "Lemuri's Github Link", link: "https://github.com/MCLemuri" },
+  { src: duckSimon, name: "PyBay", alt: "PyBay's Github Link", link: "https://github.com//py-bay" },
 ];
 
 const getDucks = () => {
@@ -53,7 +53,7 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
         style={{ imageRendering: "pixelated" }}
       />
 
-      <TooltipWrapper tooltip={`${t("footer.duckTooltip")} ${duck1.alt}'s GitHub!`}>
+      <TooltipWrapper tooltip={`${t("footer.duckTooltip")} ${duck1.name}'s ${duck1.site ? duck1.site : "GitHub"}!`}>
         <a href={duck1.link}
           target="_blank"
           rel="noopener noreferrer"
@@ -67,7 +67,7 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
           />
         </a>
       </TooltipWrapper>
-      <TooltipWrapper tooltip={`${t("footer.duckTooltip")} ${duck2.alt}'s GitHub!`}>
+      <TooltipWrapper tooltip={`${t("footer.duckTooltip")} ${duck2.name}'s ${duck2.site ? duck2.site : "GitHub"}!`}>
 
         <a href={duck2.link}
           target="_blank"
@@ -82,7 +82,6 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
           />
         </a>
       </TooltipWrapper>
-
 
       <div
         className="absolute top-[14vw] left-0 right-0 flex items-center justify-between px-[2vw] z-20"
