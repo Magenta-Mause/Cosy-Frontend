@@ -69,7 +69,7 @@ const WebSocketCollection = () => {
 
   useSubscription(
     gameServer
-      ? gameServer.map((server) => `/topics/game-server-logs/creation/${server.uuid}`)
+      ? gameServer.map((server) => `/topics/game-servers/${server.uuid}/logs`)
       : [],
     (message) => {
       const messageBody = JSON.parse(message.body) as GameServerLogMessageEntity;
@@ -83,7 +83,7 @@ const WebSocketCollection = () => {
   );
 
   useSubscription(
-    gameServer ? gameServer.map((server) => `/topics/game-servers/metrics/${server.uuid}`) : [],
+    gameServer ? gameServer.map((server) => `/topics/game-servers/${server.uuid}/metrics`) : [],
     (message) => {
       const messageBody = JSON.parse(message.body) as MetricPointDto;
       const serverMetricState = gameServerMetrics[messageBody.game_server_uuid ?? ""];
