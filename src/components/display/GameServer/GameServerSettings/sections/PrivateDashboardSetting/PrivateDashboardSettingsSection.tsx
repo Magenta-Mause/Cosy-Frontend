@@ -45,7 +45,6 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
       return (
         dashboard.size !== original.size ||
         dashboard.metric_type !== original.metric_type ||
-        dashboard.content !== original.content ||
         dashboard.title !== original.title ||
         dashboard.layout_type !== original.layout_type ||
         JSON.stringify(dashboard.content ?? []) !== JSON.stringify(original.content ?? [])

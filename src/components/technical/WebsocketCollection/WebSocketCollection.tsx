@@ -36,7 +36,7 @@ const WebSocketCollection = () => {
   const dispatch = useDispatch();
 
   useSubscription(
-    gameServer ? gameServer.map((server) => `/topics/game-servers/updates/${server.uuid}`) : [],
+    gameServer ? gameServer.map((server) => `/user/topics/game-servers/updates/${server.uuid}`) : [],
     (message) => {
       const messageBody = JSON.parse(message.body);
 
