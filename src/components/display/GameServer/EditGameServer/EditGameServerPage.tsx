@@ -290,34 +290,36 @@ const EditGameServerPage = (props: {
           onEnterPress={isConfirmButtonDisabled ? undefined : handleConfirm}
         />
 
-        <InputFieldEditGameServer
-          validator={z.string().min(1)}
-          placeholder="Game"
-          label={t("gameSelection.title")}
-          description={t("gameSelection.description")}
-          errorLabel={t("gameSelection.errorLabel")}
-          value={gameServerState.external_game_id}
-          disabled={true}
-          onChange={(v) => setGameServerState((s) => ({ ...s, game_uuid: v as string }))}
-          optional={true}
-        />
-
-        {props.gameServer.created_on && (
+        <div className="grid grid-cols-2 gap-4">
           <InputFieldEditGameServer
-            validator={z.string()}
-            placeholder=""
-            label={t("createdOn.title")}
-            description={t("createdOn.description")}
-            errorLabel=""
-            value={new Date(props.gameServer.created_on).toLocaleString(
-              t_root("timerange.localTime"),
-              { dateStyle: "medium", timeStyle: "short" },
-            )}
+            validator={z.number().int().positive()}
+            placeholder="Game"
+            label={t("gameSelection.title")}
+            description={t("gameSelection.description")}
+            errorLabel={t("gameSelection.errorLabel")}
+            value={gameServerState.external_game_id}
             disabled={true}
             onChange={() => { }}
             optional={true}
           />
-        )}
+
+          {props.gameServer.created_on && (
+            <InputFieldEditGameServer
+              validator={z.string()}
+              placeholder=""
+              label={t("createdOn.title")}
+              description={t("createdOn.description")}
+              errorLabel=""
+              value={new Date(props.gameServer.created_on).toLocaleString(
+                t_root("timerange.localTime"),
+                { dateStyle: "medium", timeStyle: "short" },
+              )}
+              disabled={true}
+              onChange={() => { }}
+              optional={true}
+            />
+          )}
+        </div>
 
         <div className="grid grid-cols-2 gap-4">
           <InputFieldEditGameServer

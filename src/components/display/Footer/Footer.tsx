@@ -3,6 +3,15 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGetFooter } from "@/api/generated/backend-api.ts";
 import { UserEntityDtoRole } from "@/api/generated/model";
+import duck1 from "@/assets/ducks/duck1.png";
+import duck2 from "@/assets/ducks/duck2.png";
+import duck3 from "@/assets/ducks/duck3.png";
+import duck4 from "@/assets/ducks/duck4.png";
+import duck5 from "@/assets/ducks/duck5.png";
+import duck6 from "@/assets/ducks/duck6.png";
+import duck7 from "@/assets/ducks/duck7.png";
+import duck8 from "@/assets/ducks/duck8.png";
+import duck9 from "@/assets/ducks/duck9.png";
 import { useRequireRoles } from "@/utils/routeGuards";
 import EditFooterModal from "./EditFooterModal";
 
@@ -10,11 +19,29 @@ interface FooterProps {
   bgImageFooter: string;
 }
 
+const allDucks = [
+  { src: duck1, name: "EcoFreshKase", alt: "EcoFreshKase's GitHub Link", link: "https://github.com/EcoFreshKase", },
+  { src: duck2, name: "Anni", alt: "Anni's LinkedIn Link", link: "https://de.linkedin.com/in/annika-schatter", site: "LinkedIn" },
+  { src: duck3, name: "Fiete", alt: "Fiete's GitHub Link", link: "https://github.com/fietensen" },
+  { src: duck4, name: "Janne", alt: "Janne's GitHub Link", link: "https://github.com/Janne6565" },
+  { src: duck5, name: "Joon", alt: "Joon's GitHub Link", link: "https://github.com/joonjester" },
+  { src: duck6, name: "Lars", alt: "Lars's GitHub Link", link: "https://github.com/Larsbobo" },
+  { src: duck7, name: "LeeSoko", alt: "LeeSoko's GitHub Link", link: "https://github.com/LeeSoko" },
+  { src: duck8, name: "Lemuri", alt: "Lemuri's GitHub Link", link: "https://github.com/MCLemuri" },
+  { src: duck9, name: "PyBay", alt: "PyBay's GitHub Link", link: "https://github.com/py-bay" },
+];
+
+const getDucks = () => {
+  const shuffled = [...allDucks].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, 2);
+};
+
 const Footer = ({ bgImageFooter }: FooterProps) => {
   const { t } = useTranslation();
   const { data: footerData, isLoading } = useGetFooter();
   const isOwner = useRequireRoles([UserEntityDtoRole.OWNER]);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [[duck1, duck2]] = useState(() => getDucks());
 
   return (
     <div className="relative w-full">
@@ -24,6 +51,41 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
         className="w-full h-auto block"
         style={{ imageRendering: "pixelated" }}
       />
+
+      <TooltipWrapper tooltip={t('footer.duckTooltip', {
+        name: duck1.name,
+        site: duck1.site ? duck1.site : "GitHub"
+      })}>
+        <a href={duck1.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute top-[12.5vw] left-[43vw] w-[5vw] h-auto z-30"
+        >
+          <img
+            src={duck1.src}
+            alt={duck1.alt}
+            className="w-full h-auto scale-x-[-1]"
+            style={{ imageRendering: "pixelated" }}
+          />
+        </a>
+      </TooltipWrapper>
+      <TooltipWrapper tooltip={t('footer.duckTooltip', {
+        name: duck2.name,
+        site: duck2.site ? duck2.site : "GitHub"
+      })}>
+        <a href={duck2.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute top-[13vw] left-[51vw] w-[5vw] h-auto z-30"
+        >
+          <img
+            src={duck2.src}
+            alt={duck2.alt}
+            className="w-full h-auto"
+            style={{ imageRendering: "pixelated" }}
+          />
+        </a>
+      </TooltipWrapper>
 
       <div
         className="absolute top-[14vw] left-0 right-0 flex items-center justify-between px-[2vw] z-20"

@@ -5,7 +5,7 @@ import bush1 from "@/assets/deko/bush1.png";
 import bush2 from "@/assets/deko/bush2.png";
 import bush3 from "@/assets/deko/bush3.png";
 import bush4 from "@/assets/deko/bush4.png";
-import stone from "@/assets/deko/StoneWithHugo.png";
+import stone from "@/assets/deko/StoneWithHugo.webp";
 import tree1_1 from "@/assets/deko/tree1_1.png";
 import tree1_2 from "@/assets/deko/tree1_2.png";
 import tree1_3 from "@/assets/deko/tree1_3.png";

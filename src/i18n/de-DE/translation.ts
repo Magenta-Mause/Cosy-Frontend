@@ -248,7 +248,7 @@ const translation: i18nLanguage = {
         title: "Server erstellt!",
         description: '"{{name}}" ist bereit gestartet werden.',
         completedStepLabel: "Server bereit!",
-        doneButton: "Fertig",
+        doneButton: "Schließen",
         openDashboard: "Dashboard öffnen",
       },
       listInput: {
@@ -264,6 +264,7 @@ const translation: i18nLanguage = {
           title: "Namen und Spiel auswählen",
           serverNameSelection: {
             title: "Servername",
+            placeholder: "Australianien",
             description: "Benenne deinen Server",
             errorLabel: "Bitte gib einen gültigen Servernamen ein.",
           },
@@ -1000,6 +1001,7 @@ const translation: i18nLanguage = {
     contact: "Kontakt:",
     edit: "Fußzeile bearbeiten",
     noData: "Keine Fußzeilendaten verfügbar",
+    duckTooltip: "Auf zu {{name}}'s {{site}}!",
     editModal: {
       title: "Fußzeile bearbeiten",
       fullName: "Vollständiger Name",

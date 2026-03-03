@@ -47,7 +47,7 @@ const Step1 = () => {
         <GenericGameServerCreationInputField
           attribute="server_name"
           validator={z.string().min(1)}
-          placeholder="My Game Server"
+          placeholder={t("serverNameSelection.placeholder")}
           label={t("serverNameSelection.title")}
           description={t("serverNameSelection.description")}
           errorLabel={t("serverNameSelection.errorLabel")}
