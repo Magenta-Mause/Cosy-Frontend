@@ -3,15 +3,15 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useGetFooter } from "@/api/generated/backend-api.ts";
 import { UserEntityDtoRole } from "@/api/generated/model";
-import duckAlex from "@/assets/ducks/duck_Alex.png";
-import duckAnni from "@/assets/ducks/duck_Anni.png";
-import duckFiete from "@/assets/ducks/duck_Fiete.png";
-import duckJanne from "@/assets/ducks/duck_Janne.png";
-import duckJoon from "@/assets/ducks/duck_Joon.png";
-import duckLars from "@/assets/ducks/duck_Lars.png";
-import duckLeni from "@/assets/ducks/duck_Leni.png";
-import duckLore from "@/assets/ducks/duck_Lore.png";
-import duckSimon from "@/assets/ducks/duck_Simon.png";
+import duck1 from "@/assets/ducks/duck1.png";
+import duck2 from "@/assets/ducks/duck2.png";
+import duck3 from "@/assets/ducks/duck3.png";
+import duck4 from "@/assets/ducks/duck4.png";
+import duck5 from "@/assets/ducks/duck5.png";
+import duck6 from "@/assets/ducks/duck6.png";
+import duck7 from "@/assets/ducks/duck7.png";
+import duck8 from "@/assets/ducks/duck8.png";
+import duck9 from "@/assets/ducks/duck9.png";
 import { useRequireRoles } from "@/utils/routeGuards";
 import EditFooterModal from "./EditFooterModal";
 
@@ -20,15 +20,15 @@ interface FooterProps {
 }
 
 const allDucks = [
-  { src: duckAlex, name: "EcoFreshKase", alt: "EcoFreshKase's GitHub Link", link: "https://github.com/EcoFreshKase", },
-  { src: duckAnni, name: "Anni", alt: "Anni's LinkedIn Link", link: "https://de.linkedin.com/in/annika-schatter", site: "LinkedIn" },
-  { src: duckFiete, name: "Fiete", alt: "Fietes GitHub Link", link: "https://github.com/fietensen" },
-  { src: duckJanne, name: "Janne", alt: "Jannes GitHub Link", link: "https://github.com/Janne6565" },
-  { src: duckJoon, name: "Joon", alt: "Joon's GitHub Link", link: "https://github.com/joonjester" },
-  { src: duckLars, name: "Lars", alt: "Lars's GitHub Link", link: "https://github.com/Larsbobo" },
-  { src: duckLeni, name: "LeeSoko", alt: "LeeSoko's GitHub Link", link: "https://github.com/LeeSoko" },
-  { src: duckLore, name: "Lemuri", alt: "Lemuri's GitHub Link", link: "https://github.com/MCLemuri" },
-  { src: duckSimon, name: "PyBay", alt: "PyBay's GitHub Link", link: "https://github.com/py-bay" },
+  { src: duck1, name: "EcoFreshKase", alt: "EcoFreshKase's GitHub Link", link: "https://github.com/EcoFreshKase", },
+  { src: duck2, name: "Anni", alt: "Anni's LinkedIn Link", link: "https://de.linkedin.com/in/annika-schatter", site: "LinkedIn" },
+  { src: duck3, name: "Fiete", alt: "Fietes GitHub Link", link: "https://github.com/fietensen" },
+  { src: duck4, name: "Janne", alt: "Jannes GitHub Link", link: "https://github.com/Janne6565" },
+  { src: duck5, name: "Joon", alt: "Joon's GitHub Link", link: "https://github.com/joonjester" },
+  { src: duck6, name: "Lars", alt: "Lars's GitHub Link", link: "https://github.com/Larsbobo" },
+  { src: duck7, name: "LeeSoko", alt: "LeeSoko's GitHub Link", link: "https://github.com/LeeSoko" },
+  { src: duck8, name: "Lemuri", alt: "Lemuri's GitHub Link", link: "https://github.com/MCLemuri" },
+  { src: duck9, name: "PyBay", alt: "PyBay's GitHub Link", link: "https://github.com/py-bay" },
 ];
 
 const getDucks = () => {
@@ -71,7 +71,7 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
       </TooltipWrapper>
       <TooltipWrapper tooltip={t('footer.duckTooltip', {
         name: duck2.name,
-        site: duck2.site ? duck1.site : "GitHub"
+        site: duck2.site ? duck2.site : "GitHub"
       })}>
         <a href={duck2.link}
           target="_blank"
