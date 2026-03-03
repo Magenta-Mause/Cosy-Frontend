@@ -54,7 +54,9 @@ const DesignSettingsSection = () => {
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <h2 style={{ lineHeight: "initial" }}>{t("components.gameServerSettings.designSettings.title")}</h2>
+        <h2 style={{ lineHeight: "initial" }}>
+          {t("components.gameServerSettings.designSettings.title")}
+        </h2>
         <p className="text-sm text-muted-foreground leading-none">
           {t("components.gameServerSettings.designSettings.description")}
         </p>

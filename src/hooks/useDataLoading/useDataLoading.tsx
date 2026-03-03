@@ -317,8 +317,9 @@ const useDataLoading = () => {
         dispatch(gameServerMetricsSliceActions.removeMetricsFromServer(gameServerUuid));
         return;
       }
-      const requestId = (metricsRequestCounters[gameServerUuid] =
-        (metricsRequestCounters[gameServerUuid] ?? 0) + 1);
+      const nextRequestId = (metricsRequestCounters[gameServerUuid] ?? 0) + 1;
+      metricsRequestCounters[gameServerUuid] = nextRequestId;
+      const requestId = nextRequestId;
       dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "loading" }));
       try {
         const metrics = await getMetrics(gameServerUuid, {

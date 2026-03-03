@@ -17,9 +17,7 @@ const PublicWebSocketCollection = () => {
   const gameServerMetrics = useTypedSelector((state) => state.gameServerMetricsSliceReducer.data);
   const dispatch = useDispatch();
 
-  const publicServers = gameServer?.filter(
-    (server) => server.public_dashboard?.enabled,
-  );
+  const publicServers = gameServer?.filter((server) => server.public_dashboard?.enabled);
 
   const serversWithLogs = publicServers?.filter((server) =>
     server.public_dashboard?.layouts?.some(

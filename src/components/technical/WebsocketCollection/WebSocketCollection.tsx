@@ -36,7 +36,9 @@ const WebSocketCollection = () => {
   const dispatch = useDispatch();
 
   useSubscription(
-    gameServer ? gameServer.map((server) => `/user/topics/game-servers/updates/${server.uuid}`) : [],
+    gameServer
+      ? gameServer.map((server) => `/user/topics/game-servers/updates/${server.uuid}`)
+      : [],
     (message) => {
       const messageBody = JSON.parse(message.body);
 
@@ -68,9 +70,7 @@ const WebSocketCollection = () => {
   );
 
   useSubscription(
-    gameServer
-      ? gameServer.map((server) => `/topics/game-servers/${server.uuid}/logs`)
-      : [],
+    gameServer ? gameServer.map((server) => `/topics/game-servers/${server.uuid}/logs`) : [],
     (message) => {
       const messageBody = JSON.parse(message.body) as GameServerLogMessageEntity;
       dispatch(
