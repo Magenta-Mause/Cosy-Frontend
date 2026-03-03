@@ -1,3 +1,4 @@
+import PublicWebSocketCollection from "@components/technical/WebsocketCollection/PublicWebSocketCollection.tsx";
 import WebSocketCollection from "@components/technical/WebsocketCollection/WebSocketCollection.tsx";
 import config from "@config";
 import { jwtDecode } from "jwt-decode";
@@ -221,6 +222,16 @@ const AuthProvider = (props: { children: ReactNode }) => {
           }}
         >
           <WebSocketCollection />
+          {props.children}
+        </StompSessionProvider>
+      ) : authorized === false ? (
+        <StompSessionProvider
+          url={config.backendBrokerUrl}
+          webSocketFactory={() => {
+            return new SockJS(config.websocketFactory);
+          }}
+        >
+          <PublicWebSocketCollection />
           {props.children}
         </StompSessionProvider>
       ) : (
