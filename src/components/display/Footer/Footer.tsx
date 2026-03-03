@@ -22,8 +22,8 @@ interface FooterProps {
 const allDucks = [
   { src: duck1, name: "EcoFreshKase", alt: "EcoFreshKase's GitHub Link", link: "https://github.com/EcoFreshKase", },
   { src: duck2, name: "Anni", alt: "Anni's LinkedIn Link", link: "https://de.linkedin.com/in/annika-schatter", site: "LinkedIn" },
-  { src: duck3, name: "Fiete", alt: "Fietes GitHub Link", link: "https://github.com/fietensen" },
-  { src: duck4, name: "Janne", alt: "Jannes GitHub Link", link: "https://github.com/Janne6565" },
+  { src: duck3, name: "Fiete", alt: "Fiete's GitHub Link", link: "https://github.com/fietensen" },
+  { src: duck4, name: "Janne", alt: "Janne's GitHub Link", link: "https://github.com/Janne6565" },
   { src: duck5, name: "Joon", alt: "Joon's GitHub Link", link: "https://github.com/joonjester" },
   { src: duck6, name: "Lars", alt: "Lars's GitHub Link", link: "https://github.com/Larsbobo" },
   { src: duck7, name: "LeeSoko", alt: "LeeSoko's GitHub Link", link: "https://github.com/LeeSoko" },
