@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
 import { useSubscription } from "react-stomp-hooks";
 import { v7 as generateUuid } from "uuid";
-import type {
-  GameServerDto,
-  GameServerLogMessageEntity,
-  MetricPointDto,
+import {
+  type GameServerDto,
+  type GameServerLogMessageEntity,
+  type MetricPointDto,
   PublicDashboardLayoutLayoutType,
 } from "@/api/generated/model";
 import { useTypedSelector } from "@/stores/rootReducer.ts";
@@ -21,13 +21,13 @@ const PublicWebSocketCollection = () => {
 
   const serversWithLogs = publicServers?.filter((server) =>
     server.public_dashboard?.layouts?.some(
-      (layout) => layout.layout_type === ("LOGS" as PublicDashboardLayoutLayoutType),
+      (layout) => layout.layout_type === PublicDashboardLayoutLayoutType.LOGS,
     ),
   );
 
   const serversWithMetrics = publicServers?.filter((server) =>
     server.public_dashboard?.layouts?.some(
-      (layout) => layout.layout_type === ("METRIC" as PublicDashboardLayoutLayoutType),
+      (layout) => layout.layout_type === PublicDashboardLayoutLayoutType.METRIC,
     ),
   );
 
