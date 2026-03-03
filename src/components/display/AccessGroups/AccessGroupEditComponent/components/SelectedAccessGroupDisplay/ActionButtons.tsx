@@ -42,10 +42,11 @@ const ActionButtons = ({
       onConfirm={handleConfirm}
       revertDisabled={loading || !isChanged}
       confirmDisabled={isConfirmButtonDisabled}
-      className="mr-2"
+      className="mr-2 -mt-17.5 pb-3"
+      positionChildren={"before"}
     >
       {/* Delete Group Button */}
-      <div className="pt-4 border-t">
+      <div>
         <Button variant="destructive" onClick={() => setDeleteDialogOpen(true)} disabled={loading}>
           {t("deleteGroup")}
         </Button>

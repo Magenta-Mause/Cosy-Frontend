@@ -84,7 +84,7 @@ export function FilePreview(props: FilePreviewProps) {
 
   if (objectUrl && IMAGE_EXTS.has(ext)) {
     return (
-      <div className="p-2 overflow-auto">
+      <div className="p-2 scroller">
         <img
           src={objectUrl}
           alt={props.fileName}
@@ -96,7 +96,7 @@ export function FilePreview(props: FilePreviewProps) {
 
   if (objectUrl && VIDEO_EXTS.has(ext)) {
     return (
-      <div className="p-2 overflow-auto">
+      <div className="p-2 scroller">
         {/** biome-ignore lint/a11y/useMediaCaption: no captions for arbitrary media files from volumes */}
         <video src={objectUrl} controls className="w-full rounded-md border border-border" />
       </div>
@@ -105,12 +105,12 @@ export function FilePreview(props: FilePreviewProps) {
 
   if (textPreview) {
     return (
-      <div className="p-2 flex-1 flex flex-col overflow-auto h-full">
+      <div className="p-2 flex-1 flex flex-col scroller h-full">
         <pre
           className={cn(
             "text-xs whitespace-pre-wrap wrap-break-words",
             "rounded-md border border-border bg-background p-3",
-            "flex-1 min-h-0 overflow-auto",
+            "flex-1 min-h-0 scroller",
           )}
         >
           {textPreview.text}

@@ -51,7 +51,9 @@ const GameServerHouse = (props: {
   }, [isHouse]);
 
   const handleClick = () => {
-    sessionStorage.setItem("homeScrollPosition", window.scrollY.toString());
+    const scrollContainer = document.querySelector("[data-scroll-container]");
+    const scrollTop = scrollContainer ? scrollContainer.scrollTop : window.scrollY;
+    sessionStorage.setItem("homeScrollPosition", scrollTop.toString());
   };
 
   const actions: RightClickAction[] = [

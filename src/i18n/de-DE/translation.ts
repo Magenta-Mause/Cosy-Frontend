@@ -23,6 +23,7 @@ const translation: i18nLanguage = {
       day: "Tag",
       night: "Nacht",
       auto: "Dynamisch",
+      autoTooltip: "Tag 07:00–19:00\nNacht 19:00–07:00",
     },
   },
   toasts: {

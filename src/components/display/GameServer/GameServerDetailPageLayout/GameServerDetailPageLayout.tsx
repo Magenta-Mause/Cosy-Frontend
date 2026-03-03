@@ -15,13 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useLocation, useSearch } from "@tanstack/react-router";
 import type * as React from "react";
-import {
-  type CSSProperties,
-  cloneElement,
-  createContext,
-  useContext,
-  useSyncExternalStore,
-} from "react";
+import { type CSSProperties, cloneElement, createContext, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
 import dashboardBackgroundImage from "@/assets/gameServerDetailPage/dashboard-bg.webp";
@@ -39,6 +33,7 @@ import houseIcon from "@/assets/icons/house.webp";
 import chartIcon from "@/assets/icons/metrics.webp";
 import settingsIcon from "@/assets/icons/settings.webp";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
+import useIsDesktop, { useIsUltraWide } from "@/hooks/useIsDesktop/useIsDesktop.tsx";
 import { cn } from "@/lib/utils.ts";
 
 interface Tab {
@@ -123,18 +118,6 @@ const TABS: Tab[] = [
   },
 ];
 
-const lgMediaQuery = "(min-width: 1024px)";
-const subscribeLg = (cb: () => void) => {
-  const mql = window.matchMedia(lgMediaQuery);
-  mql.addEventListener("change", cb);
-  return () => mql.removeEventListener("change", cb);
-};
-const getLgSnapshot = () => window.matchMedia(lgMediaQuery).matches;
-
-function useIsDesktop() {
-  return useSyncExternalStore(subscribeLg, getLgSnapshot);
-}
-
 function getActiveTab(pathname: string): Tab {
   // Tabs with an explicit regex pattern take priority
   const patternMatch = TABS.find((tab) => tab.activePathPattern?.test(pathname));
@@ -178,15 +161,19 @@ const GameServerDetailPageLayout = (props: {
       : undefined;
 
   const isDesktop = useIsDesktop();
+  const isUltraWide = useIsUltraWide();
 
   return (
     <GameServerDetailContext.Provider value={{ gameServer: props.gameServer }}>
       {isDesktop ? (
         /* Desktop layout */
-        <div className="w-screen h-screen bg-black relative overflow-hidden">
+        <div className="w-screen h-screen bg-red relative overflow-hidden">
           {/* Layer 1: cover-sized background + content */}
           <div
-            className="game-server-bg absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex"
+            className={cn(
+              "game-server-bg absolute left-1/2 top-1/2 flex",
+              !isUltraWide && "-translate-x-1/2 -translate-y-[50%]",
+            )}
             style={
               {
                 width: "max(100vw, 100vh * 640 / 368)",
@@ -196,14 +183,24 @@ const GameServerDetailPageLayout = (props: {
                 imageRendering: "pixelated",
                 backgroundSize: "100% 100%",
                 backgroundRepeat: "no-repeat",
+                /*
+                 * On ultra-wide (aspect > 2.147) the bg div is taller than the viewport,
+                 * so centering it clips the header. We shift the entire div (bg + content
+                 * together) down so the header sits at the viewport top.
+                 *
+                 * shift = (groupHeight − viewportH) / 2, where groupH ≈ 4.0625rem + 43.8vw:
+                 *   header 4.0625rem + margin 1.7vw + content 80% × 241/514 (≈ 37.5vw) + footer 8% of bgH (≈ 4.6vw)
+                 * → translateY = −50% + 2.03rem + 21.9vw − 50vh
+                 */
+                ...(isUltraWide && { translate: "-50% calc(-50% + 2.03rem + 21.9vw - 50vh)" }),
               } as React.CSSProperties
             }
           >
             <div className="w-[10%] shrink-0" />
-            <div className="grow flex flex-col min-w-0 relative z-10 justify-center h-auto">
+            <div className="grow flex flex-col min-w-0 relative z-10 h-auto justify-center">
               <GameServerDetailPageHeader
                 gameServer={props.gameServer}
-                className={"h-[12%] overflow-y-hidden flex justify-end pb-[1.7vw]"}
+                className={"h-16.25 overflow-y-hidden flex justify-end mb-[1.7vw]"}
                 style={
                   {
                     "--foreground": activeTab.foregroundColor,
@@ -216,7 +213,10 @@ const GameServerDetailPageLayout = (props: {
               <div className={"overflow-y-auto h-auto w-full aspect-514/241 bg-background"}>
                 {props.children}
               </div>
-              <div id={"lowerCenterPlaceholder"} className={"h-[12%] overflow-y-auto"}></div>
+              <div
+                id={"lowerCenterPlaceholder"}
+                className={"h-16.5 overflow-y-auto mt-[1.7vw]"}
+              ></div>
             </div>
             <div className="w-[10%] shrink-0" />
           </div>

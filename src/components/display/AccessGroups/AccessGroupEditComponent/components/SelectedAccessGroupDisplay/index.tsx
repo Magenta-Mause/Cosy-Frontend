@@ -161,12 +161,11 @@ const SelectedAccessGroupDisplay = ({ accessGroup, onChangeStatusUpdate }: Props
   };
 
   return (
-    <Card className="relative p-3 gap-5 flex flex-col mt-5 mb-5">
+    <Card className="relative p-3 gap-5 flex flex-col mt-5 mb-5 pb-0">
       <div>
         <h2 className="text-lg font-semibold">{t("groupSettings")}</h2>
         <p className="text-sm text-muted-foreground">{t("description")}</p>
       </div>
-
       <div className="flex flex-col gap-6">
         <GroupNameSection
           localGroupName={localGroupName}
@@ -194,7 +193,6 @@ const SelectedAccessGroupDisplay = ({ accessGroup, onChangeStatusUpdate }: Props
           isAdminChecked={isAdminChecked}
         />
       </div>
-
       <ActionButtons
         loading={loading}
         isChanged={isChanged}

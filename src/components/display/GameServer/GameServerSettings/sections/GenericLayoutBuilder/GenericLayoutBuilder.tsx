@@ -253,7 +253,7 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
           <Button
             variant="destructive"
             disabled={isDisabled}
-            className="flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 z-0"
+            className="flex justify-center items-center w-7 h-7 rounded-full absolute top-0 right-0 -mr-3 -mt-2 z-0 p-2"
             onClick={(e) => {
               e.stopPropagation();
               handleOnDelete(layout._uiUuid);
@@ -298,7 +298,11 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
     <>
       <div className={`flex flex-1 min-h-0 w-full pt-3 ${isDisabled ? "blur-xs" : ""}`}>
         <Card className="w-full grid flex-col min-h-0 content-start">
-          <CardContent className={"grid grid-cols-6 gap-4 overflow-auto p-6 flex-1 min-h-0"}>
+          <CardContent
+            className={
+              "grid grid-cols-1 min-[1300px]:grid-cols-6 gap-4 scroller p-6 flex-1 min-h-0"
+            }
+          >
             <DndContext
               sensors={sensors}
               collisionDetection={closestCorners}
@@ -321,7 +325,7 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
                     <Button
                       variant="destructive"
                       disabled={isDisabled}
-                      className="pointer-events-none flex justify-center items-center w-6 h-6 rounded-full absolute top-0 right-0 -mr-3 -mt-2 opacity-50 z-10"
+                      className="pointer-events-none flex justify-center items-center w-7 h-7 rounded-full absolute top-0 right-0 -mr-3 -mt-2 opacity-50 z-10 p-2"
                     >
                       <Icon src={closeIcon} className="size-4" />
                     </Button>
@@ -349,7 +353,7 @@ export default function GenericLayoutBuilder<T extends { _uiUuid: string; size?:
             <Button
               onClick={handleOnAdd}
               variant="secondary"
-              className={`outline-dashed outline-button-primary-default border-none h-[16vh] col-span-3 flex items-center justify-center shadow-none bg-background/35
+              className={`outline-dashed outline-button-primary-default border-none h-[16vh] col-span-1 min-[1300px]:col-span-3 flex items-center justify-center shadow-none bg-background/35
               ${isDisabled ? "pointer-events-none" : ""}`}
             >
               <div className="flex items-center">
