@@ -307,6 +307,9 @@ const useDataLoading = () => {
       end?: Date,
       permissions?: GameServerAccessGroupDtoPermissionsItem[],
     ) => {
+      const nextRequestId = (metricsRequestCounters[gameServerUuid] ?? 0) + 1;
+      metricsRequestCounters[gameServerUuid] = nextRequestId;
+      const requestId = nextRequestId;
       if (
         permissions !== undefined &&
         !containsPermission(
@@ -317,9 +320,6 @@ const useDataLoading = () => {
         dispatch(gameServerMetricsSliceActions.removeMetricsFromServer(gameServerUuid));
         return;
       }
-      const nextRequestId = (metricsRequestCounters[gameServerUuid] ?? 0) + 1;
-      metricsRequestCounters[gameServerUuid] = nextRequestId;
-      const requestId = nextRequestId;
       dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "loading" }));
       try {
         const metrics = await getMetrics(gameServerUuid, {
