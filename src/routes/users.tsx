@@ -62,7 +62,7 @@ function UserDetailPage() {
             />
             <div className="h-[35.5%]" />
             <div className="overflow-y-auto aspect-509/284 relative z-10 mx-[9vw]">
-              <div className="min-h-full bg-background rounded-lg">
+              <div className="min-h-full bg-background w-full rounded-lg">
                 <UserTable onRevoke={revokeInvite} />
               </div>
             </div>
