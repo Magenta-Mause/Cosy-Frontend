@@ -24,6 +24,11 @@ import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import { userSliceActions } from "@/stores/slices/userSlice.ts";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
 
+// Module-level counter to track the latest metrics request per server UUID.
+// Ensures that if multiple requests are in-flight (e.g. on page reload), only
+// the result of the most recently initiated request is applied to the store.
+const metricsRequestCounters: Record<string, number> = {};
+
 const useDataLoading = () => {
   const dispatch = useDispatch();
 
@@ -312,12 +317,15 @@ const useDataLoading = () => {
         dispatch(gameServerMetricsSliceActions.removeMetricsFromServer(gameServerUuid));
         return;
       }
+      const requestId = (metricsRequestCounters[gameServerUuid] =
+        (metricsRequestCounters[gameServerUuid] ?? 0) + 1);
       dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "loading" }));
       try {
         const metrics = await getMetrics(gameServerUuid, {
           start: start ? start.toISOString() : undefined,
           end: end ? end.toISOString() : undefined,
         });
+        if (metricsRequestCounters[gameServerUuid] !== requestId) return;
         const metricsWithUuid = metrics.map((metric) => ({ ...metric, uuid: generateUuid() }));
         dispatch(
           gameServerMetricsSliceActions.setGameServerMetrics({
@@ -327,6 +335,7 @@ const useDataLoading = () => {
         );
         dispatch(gameServerMetricsSliceActions.setState({ gameServerUuid, state: "idle" }));
       } catch {
+        if (metricsRequestCounters[gameServerUuid] !== requestId) return;
         notificationModal.error({
           message: `Failed to load metrics for server: ${gameServerUuid}`,
         });
