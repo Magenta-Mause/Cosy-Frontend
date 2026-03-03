@@ -164,7 +164,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
   return (
     <div className="flex flex-col h-full overflow-hidden">
       <div>
-        <h2>{t("GameServerSettings.sections.publicDashboard")}</h2>
+        <h2 style={{ lineHeight: "initial" }}>{t("GameServerSettings.sections.publicDashboard")}</h2>
         <p className="text-sm text-muted-foreground leading-none">
           {t("GameServerSettings.sections.publicDashboardDescription")}
         </p>
@@ -213,6 +213,7 @@ export default function PublicDashboardSettingsSection(props: { gameServer: Game
                 <MetricDropDown
                   className={`flex-1 ${checked ? "" : "pointer-events-none"}`}
                   metricType={dashboard.metric_type || MetricsType.CPU_PERCENT}
+                  gameServerUuid={gameServer.uuid}
                   setMetricType={(type) => handleMetricTypeChange(type, dashboard._uiUuid)}
                 />
               )}
