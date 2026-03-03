@@ -145,6 +145,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
         setAuthToken(token);
         return token;
       }
+      updateAuthState(null);
     } catch (error) {
       console.error("Failed to refresh token:", error);
       updateAuthState(null);
