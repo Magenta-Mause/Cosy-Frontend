@@ -262,6 +262,7 @@ const translation: i18nLanguage = {
           title: "Choose name and Game",
           serverNameSelection: {
             title: "Server Name",
+            placeholder: "Australiania",
             description: "Name your server",
             errorLabel: "Please enter a valid server name.",
           },
@@ -995,6 +996,7 @@ const translation: i18nLanguage = {
     contact: "Contact:",
     edit: "Edit Footer",
     noData: "No footer data available",
+    duckTooltip: "Go to {{name}}'s {{site}}!",
     editModal: {
       title: "Edit Footer",
       fullName: "Full Name",

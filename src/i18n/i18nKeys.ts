@@ -319,6 +319,7 @@ export type i18nLanguage = {
           title: string;
           serverNameSelection: {
             title: string;
+            placeholder: string;
             description: string;
             errorLabel: string;
           };
@@ -987,6 +988,7 @@ export type i18nLanguage = {
     contact: string;
     edit: string;
     noData: string;
+    duckTooltip: string;
     editModal: {
       title: string;
       fullName: string;

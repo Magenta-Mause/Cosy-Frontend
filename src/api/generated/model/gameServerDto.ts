@@ -32,6 +32,7 @@ export interface GameServerDto {
   rcon_configuration?: RCONConfiguration;
   /** @minLength 1 */
   game_uuid: string;
+  external_game_id?: number;
   /** @minLength 1 */
   docker_image_name: string;
   /** @minLength 1 */
