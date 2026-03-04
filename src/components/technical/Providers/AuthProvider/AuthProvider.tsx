@@ -206,6 +206,8 @@ const AuthProvider = (props: { children: ReactNode }) => {
   useEffect(() => {
     if (authorized === null) return;
 
+    setInitialDataLoaded(false);
+
     const loadData = async () => {
       if (authorized) {
         const isAdmin = role === "ADMIN" || role === "OWNER";

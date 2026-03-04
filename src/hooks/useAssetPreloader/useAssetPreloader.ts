@@ -22,7 +22,8 @@ const useAssetPreloader = () => {
         }),
     );
 
-    Promise.all([document.fonts.ready, ...imagePromises]).then(() => setLoaded(true));
+    const fontReadyPromise = document.fonts?.ready ?? Promise.resolve();
+    Promise.all([fontReadyPromise, ...imagePromises]).then(() => setLoaded(true));
   }, []);
 
   return loaded;

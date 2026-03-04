@@ -183,8 +183,10 @@ const useDataLoading = () => {
   };
 
   const loadPublicServerDetails = async (gameServer: GameServerDto) => {
-    checkForLoadingPublicLogs(gameServer);
-    checkForLoadingPublicMetrics(gameServer);
+    await Promise.allSettled([
+      checkForLoadingPublicLogs(gameServer),
+      checkForLoadingPublicMetrics(gameServer),
+    ]);
   };
 
   const loadGameServers = async () => {
