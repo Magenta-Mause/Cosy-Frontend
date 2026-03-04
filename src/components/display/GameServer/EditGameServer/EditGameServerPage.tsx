@@ -278,7 +278,11 @@ const EditGameServerPage = (props: {
         )}
       </div>
 
-      <fieldset disabled={isServerActive || loading}>
+      <fieldset
+        disabled={isServerActive || loading}
+        data-disabled={isServerActive || undefined}
+        data-loading={loading || undefined}
+      >
         <InputFieldEditGameServer
           label={t("serverNameSelection.title")}
           value={gameServerState.server_name}

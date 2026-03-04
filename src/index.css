@@ -97,6 +97,13 @@ select,
     not-allowed;
 }
 
+[data-disabled="true"],
+[data-disabled="true"] * {
+  cursor:
+    url("./assets/cursor/cursor-not-allowed.png") 0 0,
+    not-allowed;
+}
+
 [data-loading="true"],
 [data-loading="true"] * {
   cursor:

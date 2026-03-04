@@ -1,8 +1,8 @@
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useGetFooter } from "@/api/generated/backend-api.ts";
-import { UserEntityDtoRole } from "@/api/generated/model";
+import {useState} from "react";
+import {useTranslation} from "react-i18next";
+import {useGetFooter} from "@/api/generated/backend-api.ts";
+import {UserEntityDtoRole} from "@/api/generated/model";
 import duck1 from "@/assets/ducks/duck1.png";
 import duck2 from "@/assets/ducks/duck2.png";
 import duck3 from "@/assets/ducks/duck3.png";
@@ -12,7 +12,7 @@ import duck6 from "@/assets/ducks/duck6.png";
 import duck7 from "@/assets/ducks/duck7.png";
 import duck8 from "@/assets/ducks/duck8.png";
 import duck9 from "@/assets/ducks/duck9.png";
-import { useRequireRoles } from "@/utils/routeGuards";
+import {useRequireRoles} from "@/utils/routeGuards";
 import EditFooterModal from "./EditFooterModal";
 
 interface FooterProps {
@@ -33,13 +33,13 @@ const allDucks = [
     link: "https://de.linkedin.com/in/annika-schatter",
     site: "LinkedIn",
   },
-  { src: duck3, name: "Fiete", alt: "Fiete's GitHub Link", link: "https://github.com/fietensen" },
-  { src: duck4, name: "Janne", alt: "Janne's GitHub Link", link: "https://github.com/Janne6565" },
-  { src: duck5, name: "Joon", alt: "Joon's GitHub Link", link: "https://github.com/joonjester" },
-  { src: duck6, name: "Lars", alt: "Lars's GitHub Link", link: "https://github.com/Larsbobo" },
-  { src: duck7, name: "LeeSoko", alt: "LeeSoko's GitHub Link", link: "https://github.com/LeeSoko" },
-  { src: duck8, name: "Lemuri", alt: "Lemuri's GitHub Link", link: "https://github.com/MCLemuri" },
-  { src: duck9, name: "PyBay", alt: "PyBay's GitHub Link", link: "https://github.com/py-bay" },
+  {src: duck3, name: "Fiete", alt: "Fiete's GitHub Link", link: "https://github.com/fietensen"},
+  {src: duck4, name: "Janne", alt: "Janne's GitHub Link", link: "https://github.com/Janne6565"},
+  {src: duck5, name: "Joon", alt: "Joon's GitHub Link", link: "https://github.com/joonjester"},
+  {src: duck6, name: "Lars", alt: "Lars's GitHub Link", link: "https://github.com/Larsbobo"},
+  {src: duck7, name: "LeeSoko", alt: "LeeSoko's GitHub Link", link: "https://github.com/LeeSoko"},
+  {src: duck8, name: "Lemuri", alt: "Lemuri's GitHub Link", link: "https://github.com/MCLemuri"},
+  {src: duck9, name: "PyBay", alt: "PyBay's GitHub Link", link: "https://github.com/py-bay"},
 ];
 
 const getDucks = () => {
@@ -47,9 +47,9 @@ const getDucks = () => {
   return shuffled.slice(0, 2);
 };
 
-const Footer = ({ bgImageFooter }: FooterProps) => {
-  const { t } = useTranslation();
-  const { data: footerData, isLoading } = useGetFooter();
+const Footer = ({bgImageFooter}: FooterProps) => {
+  const {t} = useTranslation();
+  const {data: footerData, isLoading} = useGetFooter();
   const isOwner = useRequireRoles([UserEntityDtoRole.OWNER]);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [[duck1, duck2]] = useState(() => getDucks());
@@ -60,7 +60,7 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
         src={bgImageFooter}
         alt="BG Bottom"
         className="w-full h-auto block"
-        style={{ imageRendering: "pixelated" }}
+        style={{imageRendering: "pixelated"}}
       />
 
       <TooltipWrapper
@@ -78,8 +78,8 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
           <img
             src={duck1.src}
             alt={duck1.alt}
-            className="w-full h-auto scale-x-[-1]"
-            style={{ imageRendering: "pixelated" }}
+            className="w-full h-auto scale-x-[-1] hover:-translate-y-0.5 transition-transform transition-duration-150"
+            style={{imageRendering: "pixelated"}}
           />
         </a>
       </TooltipWrapper>
@@ -98,30 +98,30 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
           <img
             src={duck2.src}
             alt={duck2.alt}
-            className="w-full h-auto"
-            style={{ imageRendering: "pixelated" }}
+            className="w-full h-auto hover:-translate-y-0.5 transition-transform transition-duration-150"
+            style={{imageRendering: "pixelated"}}
           />
         </a>
       </TooltipWrapper>
 
       <div
         className="absolute top-[14vw] left-0 right-0 flex items-center justify-between px-[2vw] z-20"
-        style={{ gap: "2vw" }}
+        style={{gap: "2vw"}}
       >
         {/* Left side - Title and Description */}
-        <div className="flex-1 text-left" style={{ fontSize: "1vw", color: "#87FF97" }}>
+        <div className="flex-1 text-left" style={{fontSize: "1vw", color: "#87FF97"}}>
           <h3
             className="font-bold"
-            style={{ color: "#87FF97", fontSize: "1vw", marginBottom: "1vw" }}
+            style={{color: "#87FF97", fontSize: "1vw", marginBottom: "1vw"}}
           >
             {t("footer.title")}
           </h3>
-          <p style={{ maxWidth: "30vw", lineHeight: "1" }}>{t("footer.description")}</p>
+          <p style={{maxWidth: "30vw", lineHeight: "1"}}>{t("footer.description")}</p>
         </div>
 
         {/* Right side - Imprint */}
         <div className="flex-1 text-right">
-          <div className="flex items-start justify-end" style={{ gap: "1vw" }}>
+          <div className="flex items-start justify-end" style={{gap: "1vw"}}>
             <TooltipWrapper tooltip={isOwner ? t("footer.edit") : undefined}>
               {isOwner ? (
                 <button
@@ -147,21 +147,21 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
                         justifyContent: "end",
                       }}
                     >
-                      <p className="font-bold" style={{ textAlign: "right" }}>
+                      <p className="font-bold" style={{textAlign: "right"}}>
                         {t("footer.contact")}
                       </p>
-                      <p style={{ textAlign: "right" }}>{footerData.full_name}</p>
-                      <p style={{ textAlign: "right" }}>{footerData.email}</p>
-                      <p style={{ textAlign: "right" }}>{footerData.street}</p>
-                      <p style={{ textAlign: "right" }}>{footerData.phone}</p>
-                      <p style={{ textAlign: "right" }}>{footerData.city}</p>
+                      <p style={{textAlign: "right"}}>{footerData.full_name}</p>
+                      <p style={{textAlign: "right"}}>{footerData.email}</p>
+                      <p style={{textAlign: "right"}}>{footerData.street}</p>
+                      <p style={{textAlign: "right"}}>{footerData.phone}</p>
+                      <p style={{textAlign: "right"}}>{footerData.city}</p>
                     </div>
                   ) : (
                     <p>{t("footer.noData")}</p>
                   )}
                 </button>
               ) : (
-                <div style={{ fontSize: "1vw", color: "#87FF97" }}>
+                <div style={{fontSize: "1vw", color: "#87FF97"}}>
                   {isLoading ? (
                     <p>{t("common.loading")}</p>
                   ) : footerData ? (
@@ -173,14 +173,14 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
                         justifyContent: "end",
                       }}
                     >
-                      <p className="font-bold" style={{ textAlign: "right" }}>
+                      <p className="font-bold" style={{textAlign: "right"}}>
                         {t("footer.contact")}
                       </p>
-                      <p style={{ textAlign: "right" }}>{footerData.full_name}</p>
-                      <p style={{ textAlign: "right" }}>{footerData.email}</p>
-                      <p style={{ textAlign: "right" }}>{footerData.street}</p>
-                      <p style={{ textAlign: "right" }}>{footerData.phone}</p>
-                      <p style={{ textAlign: "right" }}>{footerData.city}</p>
+                      <p style={{textAlign: "right"}}>{footerData.full_name}</p>
+                      <p style={{textAlign: "right"}}>{footerData.email}</p>
+                      <p style={{textAlign: "right"}}>{footerData.street}</p>
+                      <p style={{textAlign: "right"}}>{footerData.phone}</p>
+                      <p style={{textAlign: "right"}}>{footerData.city}</p>
                     </div>
                   ) : (
                     <p>{t("footer.noData")}</p>

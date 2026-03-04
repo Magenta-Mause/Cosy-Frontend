@@ -70,6 +70,7 @@ const SettingsActionButtons = ({
           <Button
             className="h-12.5"
             disabled={confirmDisabled}
+            data-loading={loading || undefined}
             onClick={requireConfirmationLabel ? () => setConfirmationModalOpen(true) : onConfirm}
           >
             {loading ? t("saving") : t("confirm")}
