@@ -677,6 +677,7 @@ export type i18nLanguage = {
       warning: string;
       confirm: string;
       cancel: string;
+      saving: string;
     };
     GameServerSettings: {
       tabs: {

@@ -17,6 +17,7 @@ interface SettingsActionButtonsProps {
   onConfirm: () => void;
   revertDisabled: boolean;
   confirmDisabled: boolean;
+  loading?: boolean;
   errorMessage?: string | null;
   confirmTooltip?: string | false;
   className?: string;
@@ -30,6 +31,7 @@ const SettingsActionButtons = ({
   onConfirm,
   revertDisabled,
   confirmDisabled,
+  loading,
   errorMessage,
   confirmTooltip,
   className,
@@ -70,7 +72,7 @@ const SettingsActionButtons = ({
             disabled={confirmDisabled}
             onClick={requireConfirmationLabel ? () => setConfirmationModalOpen(true) : onConfirm}
           >
-            {t("confirm")}
+            {loading ? t("saving") : t("confirm")}
           </Button>
         </TooltipWrapper>
       </div>

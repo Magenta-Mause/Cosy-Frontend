@@ -410,6 +410,7 @@ const translation: i18nLanguage = {
       revert: "Zurücksetzen",
       warning: "Warnung",
       confirm: "Bestätigen",
+      saving: "Speichern...",
       cancel: "Abbrechen",
     },
 
