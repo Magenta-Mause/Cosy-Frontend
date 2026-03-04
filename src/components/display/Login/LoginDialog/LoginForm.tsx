@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -16,6 +17,7 @@ const LoginForm = (props: {
   error: string | null;
 }) => {
   const { t } = useTranslation();
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <form
@@ -34,12 +36,21 @@ const LoginForm = (props: {
         <Input type="text" id="username" name="username" header={t("signIn.username")} required />
 
         <Input
-          type="password"
+          type={showPassword ? "text" : "password"}
           id="password"
           name="password"
           header={t("signIn.password")}
           error={props.error}
           required
+          endDecorator={
+            <button
+              type="button"
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              onClick={() => setShowPassword((v) => !v)}
+            >
+              {showPassword ? t("signIn.hidePassword") : t("signIn.showPassword")}
+            </button>
+          }
         />
       </FieldGroup>
     </form>

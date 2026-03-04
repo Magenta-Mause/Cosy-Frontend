@@ -184,6 +184,8 @@ const translation: i18nLanguage = {
     desc: "COSY - Cost Optimized Server Yard",
     username: "Username",
     password: "Password",
+    showPassword: "Show",
+    hidePassword: "Hide",
     question: "You are not signed in",
     incorrectCredentials: "Incorrect username or password.",
     loading: "Loading...",

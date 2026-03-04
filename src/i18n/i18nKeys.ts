@@ -191,6 +191,8 @@ export type i18nLanguage = {
     desc: string;
     username: string;
     password: string;
+    showPassword: string;
+    hidePassword: string;
     question: string;
     incorrectCredentials: string;
     loading: string;
