@@ -9,10 +9,10 @@ import SockJS from "sockjs-client";
 import { setAuthToken } from "@/api/axiosInstance";
 import { fetchToken, logout } from "@/api/generated/backend-api";
 import type { UserEntityDtoRole } from "@/api/generated/model";
-import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
-import useAssetPreloader from "@/hooks/useAssetPreloader/useAssetPreloader";
-import { RESET_STORE } from "@/stores/rootReducer";
 import LoadingScreen from "@/components/technical/LoadingScreen/LoadingScreen";
+import useAssetPreloader from "@/hooks/useAssetPreloader/useAssetPreloader";
+import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
+import { RESET_STORE } from "@/stores/rootReducer";
 
 interface AuthContextType {
   identityToken: string | null;
@@ -221,7 +221,8 @@ const AuthProvider = (props: { children: ReactNode }) => {
     loadData();
   }, [authorized, role, loadAllData, loadPublicGameServer]);
 
-  const isLoading = !assetsLoaded || authorized === null || !initialDataLoaded || !minLoadingTimeMet;
+  const isLoading =
+    !assetsLoaded || authorized === null || !initialDataLoaded || !minLoadingTimeMet;
 
   useEffect(() => {
     if (!isLoading) {
@@ -245,7 +246,9 @@ const AuthProvider = (props: { children: ReactNode }) => {
         handleLogout,
       }}
     >
-      {screenMounted && <LoadingScreen visible={screenVisible} onFaded={() => setScreenMounted(false)} />}
+      {screenMounted && (
+        <LoadingScreen visible={screenVisible} onFaded={() => setScreenMounted(false)} />
+      )}
       {authorized && identityToken ? (
         <StompSessionProvider
           url={config.backendBrokerUrl}

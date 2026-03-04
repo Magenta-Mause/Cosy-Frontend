@@ -49,10 +49,7 @@ const useDataLoading = () => {
   }, [dispatch]);
 
   const loadGameServerPermissions = useCallback(
-    async (
-      gameServerUuid: string,
-      permissions?: GameServerAccessGroupDtoPermissionsItem[],
-    ) => {
+    async (gameServerUuid: string, permissions?: GameServerAccessGroupDtoPermissionsItem[]) => {
       dispatch(
         gameServerPermissionsSliceActions.updateGameServerPermissionsStatus({
           gameServerUuid,
