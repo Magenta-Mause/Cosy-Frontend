@@ -20,8 +20,19 @@ interface FooterProps {
 }
 
 const allDucks = [
-  { src: duck1, name: "EcoFreshKase", alt: "EcoFreshKase's GitHub Link", link: "https://github.com/EcoFreshKase", },
-  { src: duck2, name: "Anni", alt: "Anni's LinkedIn Link", link: "https://de.linkedin.com/in/annika-schatter", site: "LinkedIn" },
+  {
+    src: duck1,
+    name: "EcoFreshKase",
+    alt: "EcoFreshKase's GitHub Link",
+    link: "https://github.com/EcoFreshKase",
+  },
+  {
+    src: duck2,
+    name: "Anni",
+    alt: "Anni's LinkedIn Link",
+    link: "https://de.linkedin.com/in/annika-schatter",
+    site: "LinkedIn",
+  },
   { src: duck3, name: "Fiete", alt: "Fiete's GitHub Link", link: "https://github.com/fietensen" },
   { src: duck4, name: "Janne", alt: "Janne's GitHub Link", link: "https://github.com/Janne6565" },
   { src: duck5, name: "Joon", alt: "Joon's GitHub Link", link: "https://github.com/joonjester" },
@@ -52,11 +63,14 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
         style={{ imageRendering: "pixelated" }}
       />
 
-      <TooltipWrapper tooltip={t('footer.duckTooltip', {
-        name: duck1.name,
-        site: duck1.site ? duck1.site : "GitHub"
-      })}>
-        <a href={duck1.link}
+      <TooltipWrapper
+        tooltip={t("footer.duckTooltip", {
+          name: duck1.name,
+          site: duck1.site ? duck1.site : "GitHub",
+        })}
+      >
+        <a
+          href={duck1.link}
           target="_blank"
           rel="noopener noreferrer"
           className="absolute top-[12.5vw] left-[43vw] w-[5vw] h-auto z-30"
@@ -69,11 +83,14 @@ const Footer = ({ bgImageFooter }: FooterProps) => {
           />
         </a>
       </TooltipWrapper>
-      <TooltipWrapper tooltip={t('footer.duckTooltip', {
-        name: duck2.name,
-        site: duck2.site ? duck2.site : "GitHub"
-      })}>
-        <a href={duck2.link}
+      <TooltipWrapper
+        tooltip={t("footer.duckTooltip", {
+          name: duck2.name,
+          site: duck2.site ? duck2.site : "GitHub",
+        })}
+      >
+        <a
+          href={duck2.link}
           target="_blank"
           rel="noopener noreferrer"
           className="absolute top-[13vw] left-[51vw] w-[5vw] h-auto z-30"

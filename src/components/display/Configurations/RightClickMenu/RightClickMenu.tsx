@@ -75,10 +75,7 @@ const RightClickMenu = (props: RightClickMenuProps) => {
                       side="right"
                       asChild
                     >
-                      <ContextMenuRadioItem
-                        onSelect={child.onClick}
-                        value={child.value ?? ""}
-                      >
+                      <ContextMenuRadioItem onSelect={child.onClick} value={child.value ?? ""}>
                         {child.label}
                       </ContextMenuRadioItem>
                     </TooltipWrapper>

@@ -45,7 +45,6 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
       return (
         dashboard.size !== original.size ||
         dashboard.metric_type !== original.metric_type ||
-        dashboard.content !== original.content ||
         dashboard.title !== original.title ||
         dashboard.layout_type !== original.layout_type ||
         JSON.stringify(dashboard.content ?? []) !== JSON.stringify(original.content ?? [])
@@ -145,7 +144,9 @@ export default function PrivateDashboardSettingsSection(props: { gameServer: Gam
   return (
     <div className="flex flex-col h-full overflow-hidden">
       <div>
-        <h2 style={{ lineHeight: "initial" }}>{t("GameServerSettings.sections.privateDashboard")}</h2>
+        <h2 style={{ lineHeight: "initial" }}>
+          {t("GameServerSettings.sections.privateDashboard")}
+        </h2>
         <p className="text-sm text-muted-foreground leading-none">
           {t("GameServerSettings.sections.privateDashboardDescription")}
         </p>

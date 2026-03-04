@@ -32,6 +32,11 @@ const LogDisplay = (
     gameServerUuid,
     isServerRunning = false,
     canReadLogs = true,
+    hideTimestamps,
+    showExtendedTimestamps,
+    disableRoundness,
+    disableBorder,
+    overridePermissionCheck,
     ...divProps
   } = props;
 
@@ -93,15 +98,15 @@ const LogDisplay = (
       {...divProps}
       className={cn(
         "flex flex-col bg-gray-950 text-gray-100 font-mono h-full",
-        !props.disableRoundness && "rounded-md",
-        !props.disableBorder && "border border-gray-800",
+        !disableRoundness && "rounded-md",
+        !disableBorder && "border border-gray-800",
         divProps.className,
       )}
     >
       <div className="flex items-center justify-between px-3 py-1 border-b border-gray-800 text-xs uppercase tracking-wide text-gray-400">
         <span>{t("logDisplay.serverLog")}</span>
         <div className={"flex gap-5"}>
-          {!props.hideTimestamps && (
+          {!hideTimestamps && (
             <label className="flex items-center gap-2 cursor-pointer select-none">
               <input
                 type="checkbox"
@@ -146,8 +151,8 @@ const LogDisplay = (
             <div className="w-full overflow-hidden">
               <LogMessage
                 message={message}
-                showExtendedTimestamps={props.showExtendedTimestamps}
-                hideTimestamp={props.hideTimestamps || !displayTimestamp}
+                showExtendedTimestamps={showExtendedTimestamps}
+                hideTimestamp={hideTimestamps || !displayTimestamp}
               />
             </div>
           )}
@@ -161,7 +166,7 @@ const LogDisplay = (
             Footer: () => <div className="h-2" />,
           }}
         />
-        {!canReadLogs && !props.overridePermissionCheck && (
+        {!canReadLogs && !overridePermissionCheck && (
           <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center">
             <div className="text-gray-400 text-center px-2">
               <div className="text-lg font-semibold mb-2">
