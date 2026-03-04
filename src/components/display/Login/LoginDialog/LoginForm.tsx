@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import eyeClosed from "@/assets/icons/eyeClosed.webp";
+import eyeOpen from "@/assets/icons/eyeOpen.webp";
 import { FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import Icon from "@/components/ui/Icon";
 
 interface FormElements extends HTMLFormControlsCollection {
   username: HTMLInputElement;
@@ -45,10 +48,15 @@ const LoginForm = (props: {
           endDecorator={
             <button
               type="button"
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              className="opacity-60 hover:opacity-100 transition-opacity"
               onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? t("signIn.hidePassword") : t("signIn.showPassword")}
             >
-              {showPassword ? t("signIn.hidePassword") : t("signIn.showPassword")}
+              <Icon
+                src={showPassword ? eyeOpen : eyeClosed}
+                variant="foreground"
+                className="size-5"
+              />
             </button>
           }
         />
