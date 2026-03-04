@@ -10,7 +10,9 @@ import { setAuthToken } from "@/api/axiosInstance";
 import { fetchToken, logout } from "@/api/generated/backend-api";
 import type { UserEntityDtoRole } from "@/api/generated/model";
 import useDataLoading from "@/hooks/useDataLoading/useDataLoading.tsx";
+import useAssetPreloader from "@/hooks/useAssetPreloader/useAssetPreloader";
 import { RESET_STORE } from "@/stores/rootReducer";
+import LoadingScreen from "@/components/technical/LoadingScreen/LoadingScreen";
 
 interface AuthContextType {
   identityToken: string | null;
@@ -63,6 +65,7 @@ const TOKEN_REFRESH_BUFFER = 5 * 60 * 1000;
 
 const AuthProvider = (props: { children: ReactNode }) => {
   const { loadAllData, loadPublicGameServer } = useDataLoading();
+  const assetsLoaded = useAssetPreloader();
   const dispatch = useDispatch();
   const [username, setUsername] = useState<string | null>(null);
   const [uuid, setUuid] = useState<string | null>(null);
@@ -72,6 +75,10 @@ const AuthProvider = (props: { children: ReactNode }) => {
   const [identityToken, setIdentityToken] = useState<string | null>(null);
   const [authorized, setAuthorized] = useState<boolean | null>(null);
   const [tokenExpirationDate, setTokenExpirationDate] = useState<number | null>(null);
+  const [initialDataLoaded, setInitialDataLoaded] = useState(false);
+  const [minLoadingTimeMet, setMinLoadingTimeMet] = useState(false);
+  const [screenVisible, setScreenVisible] = useState(true);
+  const [screenMounted, setScreenMounted] = useState(true);
 
   const parseToken = useCallback((token: string): DecodedToken | null => {
     try {
@@ -189,13 +196,36 @@ const AuthProvider = (props: { children: ReactNode }) => {
   }, [tokenExpirationDate, refreshIdentityToken]);
 
   useEffect(() => {
-    if (authorized) {
-      const isAdmin = role === "ADMIN" || role === "OWNER";
-      loadAllData(isAdmin);
-    } else {
-      loadPublicGameServer();
-    }
+    const isFirstVisit = !localStorage.getItem("hasVisited");
+    localStorage.setItem("hasVisited", "true");
+    const minTime = isFirstVisit ? 1000 : 500;
+    const timer = setTimeout(() => setMinLoadingTimeMet(true), minTime);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (authorized === null) return;
+
+    const loadData = async () => {
+      if (authorized) {
+        const isAdmin = role === "ADMIN" || role === "OWNER";
+        await loadAllData(isAdmin);
+      } else {
+        await loadPublicGameServer();
+      }
+      setInitialDataLoaded(true);
+    };
+
+    loadData();
   }, [authorized, role, loadAllData, loadPublicGameServer]);
+
+  const isLoading = !assetsLoaded || authorized === null || !initialDataLoaded || !minLoadingTimeMet;
+
+  useEffect(() => {
+    if (!isLoading) {
+      setScreenVisible(false);
+    }
+  }, [isLoading]);
 
   return (
     <AuthContext.Provider
@@ -213,6 +243,7 @@ const AuthProvider = (props: { children: ReactNode }) => {
         handleLogout,
       }}
     >
+      {screenMounted && <LoadingScreen visible={screenVisible} onFaded={() => setScreenMounted(false)} />}
       {authorized && identityToken ? (
         <StompSessionProvider
           url={config.backendBrokerUrl}
