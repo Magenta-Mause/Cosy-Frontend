@@ -736,7 +736,7 @@ const translation: i18nLanguage = {
         },
       },
       publicDashboard: {
-        label: "Make Public Dashboard Visable",
+        label: "Make Public Dashboard Visible",
         sensitiveWarning: {
           title: "Sensitive Data Warning",
           description:
