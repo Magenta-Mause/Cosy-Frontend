@@ -39,7 +39,7 @@ export default function TextInput({
               side="top"
               asChild={false}
             >
-              <Button variant={"ghost"} tabIndex={0} className={"p-0! m-0!"}>
+              <Button variant={"ghost"} tabIndex={-1} className={"p-0! m-0!"}>
                 <Icon src={infoIcon} className="size-4" variant="foreground" />
               </Button>
             </TooltipWrapper>

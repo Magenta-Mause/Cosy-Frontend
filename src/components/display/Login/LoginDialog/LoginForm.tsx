@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import eyeClosed from "@/assets/icons/eyeClosed.webp";
 import eyeOpen from "@/assets/icons/eyeOpen.webp";
 import { FieldGroup } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import Icon from "@/components/ui/Icon";
+import { Input } from "@/components/ui/input";
 
 interface FormElements extends HTMLFormControlsCollection {
   username: HTMLInputElement;

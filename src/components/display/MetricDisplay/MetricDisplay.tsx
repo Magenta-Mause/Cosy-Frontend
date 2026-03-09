@@ -31,8 +31,7 @@ const MetricDisplay = (
   const { metrics, gameServer } = props;
 
   const search = useSearch({ strict: false }) as { timeRangeType?: string };
-  const hasUrlTimeRange =
-    search.timeRangeType === "preset" || search.timeRangeType === "custom";
+  const hasUrlTimeRange = search.timeRangeType === "preset" || search.timeRangeType === "custom";
 
   // When a URL-restored time range is present, the initial onChange from
   // TimeRangeDropDown races against loadAdditionalGameServerData's default

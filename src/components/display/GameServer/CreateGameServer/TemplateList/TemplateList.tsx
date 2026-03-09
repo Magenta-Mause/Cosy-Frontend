@@ -27,7 +27,7 @@ const TemplateList = ({
               key={template.uuid}
               tabIndex={0}
               role="button"
-              className={`relative shrink-0 cursor-pointer transition-colors select-none px-3 py-2 gap-0.5 max-w-[200px] outline-none focus-visible:border-primary/50 ${
+              className={`relative shrink-0 cursor-pointer transition-colors select-none px-3 py-2 gap-0.5 max-w-50 outline-none focus-visible:border-amber-600 focus-visible:shadow-amber-500 ${
                 isSelected ? "border-primary bg-primary/5" : ""
               }`}
               onClick={() => handleCardClick(template)}
