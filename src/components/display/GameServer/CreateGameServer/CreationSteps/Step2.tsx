@@ -42,7 +42,22 @@ export default function Step2() {
       setUtilState("templateApplied")(false);
     } else {
       setUtilState("selectedTemplate")(template);
-      setUtilState("templateVariables")({});
+      // Initialize templateVariables with default values so they are available
+      // when applying the template even if the user doesn't touch the inputs
+      const defaults: Record<string, string | number | boolean> = {};
+      template.variables?.forEach((variable) => {
+        if (variable.placeholder && variable.default_value != null) {
+          const raw = variable.default_value;
+          if (variable.type === "number" && !Number.isNaN(Number(raw))) {
+            defaults[variable.placeholder] = Number(raw);
+          } else if (variable.type === "boolean") {
+            defaults[variable.placeholder] = String(raw) === "true";
+          } else {
+            defaults[variable.placeholder] = String(raw);
+          }
+        }
+      });
+      setUtilState("templateVariables")(defaults);
       setUtilState("templateApplied")(false);
     }
   };

@@ -91,13 +91,16 @@ export function applyTemplate(
     }));
   }
 
-  // Apply hardware limits - convert to form state format (strings)
+  // Apply hardware limits - convert to form state format (strings) with variable substitution
   if (template.resource_limit?.cpu !== undefined) {
-    newState.docker_max_cpu = String(template.resource_limit.cpu);
+    newState.docker_max_cpu = substituteVariables(String(template.resource_limit.cpu), variables);
   }
 
   if (template.resource_limit?.memory !== undefined) {
-    newState.docker_max_memory = template.resource_limit.memory;
+    newState.docker_max_memory = substituteVariables(
+      String(template.resource_limit.memory),
+      variables,
+    );
   }
 
   return newState;

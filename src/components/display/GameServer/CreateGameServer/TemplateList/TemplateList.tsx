@@ -25,10 +25,18 @@ const TemplateList = ({
           return (
             <Card
               key={template.uuid}
-              className={`relative shrink-0 cursor-pointer transition-colors select-none px-3 py-2 gap-0.5 max-w-[200px] ${
+              tabIndex={0}
+              role="button"
+              className={`relative shrink-0 cursor-pointer transition-colors select-none px-3 py-2 gap-0.5 max-w-[200px] outline-none focus-visible:border-primary/50 ${
                 isSelected ? "border-primary bg-primary/5" : ""
               }`}
               onClick={() => handleCardClick(template)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleCardClick(template);
+                }
+              }}
             >
               <div className="flex items-center gap-2 pr-5">
                 <span className="text-sm font-semibold leading-none">{template.name}</span>
