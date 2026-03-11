@@ -46,7 +46,8 @@ export default function Step2() {
       // when applying the template even if the user doesn't touch the inputs
       const defaults: Record<string, string | number | boolean> = {};
       template.variables?.forEach((variable) => {
-        if (variable.placeholder && variable.default_value != null) {
+        if (!variable.placeholder) return;
+        if (variable.default_value != null) {
           const raw = variable.default_value;
           if (variable.type === "number" && !Number.isNaN(Number(raw))) {
             defaults[variable.placeholder] = Number(raw);
@@ -55,6 +56,8 @@ export default function Step2() {
           } else {
             defaults[variable.placeholder] = String(raw);
           }
+        } else {
+          defaults[variable.placeholder] = "";
         }
       });
       setUtilState("templateVariables")(defaults);

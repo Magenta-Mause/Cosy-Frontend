@@ -127,6 +127,11 @@ export function validateTemplateVariables(
     const value = variables[placeholder];
     const stringValue = value === undefined || value === null ? "" : String(value);
 
+    // All variables must have a non-empty value for substitution to work
+    if (stringValue === "") {
+      return false;
+    }
+
     // Validate based on type
     switch (variable.type) {
       case "number":
