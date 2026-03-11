@@ -37,9 +37,9 @@ export default function TextInput({
             <TooltipWrapper
               tooltip={`${t("pattern")}: ${variable.regex}`}
               side="top"
-              asChild={false}
+              asChild={true}
             >
-              <Button variant={"ghost"} tabIndex={-1} className={"p-0! m-0!"}>
+              <Button variant={"ghost"} className={"p-0! m-0! h-fit"}>
                 <Icon src={infoIcon} className="size-4" variant="foreground" />
               </Button>
             </TooltipWrapper>
