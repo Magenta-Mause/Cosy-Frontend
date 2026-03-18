@@ -143,6 +143,11 @@ button:focus-visible,
 input:focus-visible,
 a:focus-visible {
   outline: none;
+}
+
+button:focus-visible:not(.absolute),
+input:focus-visible:not(.absolute),
+a:focus-visible:not(.absolute) {
   position: relative;
 }
 
