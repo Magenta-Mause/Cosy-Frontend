@@ -25,4 +25,5 @@ export interface GameServerCreationDto {
   execution_command?: string[];
   environment_variables?: EnvironmentVariableConfiguration[];
   volume_mounts?: VolumeMountConfigurationDto[];
+  mc_router_domains?: string[];
 }

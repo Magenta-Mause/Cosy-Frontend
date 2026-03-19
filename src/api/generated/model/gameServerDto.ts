@@ -47,4 +47,5 @@ export interface GameServerDto {
   access_groups: GameServerAccessGroupDto[];
   webhooks?: WebhookDto[];
   public_dashboard: PublicDashboard;
+  mc_router_domains?: string[];
 }

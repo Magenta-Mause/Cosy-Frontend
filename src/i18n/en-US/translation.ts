@@ -197,6 +197,7 @@ const translation: i18nLanguage = {
   optionsBanner: {
     languageSelector: "Select Language",
     userMenu: "User Menu",
+    instanceSettings: "Instance Settings",
     logout: "Log Out",
   },
   notificationModal: {
@@ -335,6 +336,17 @@ const translation: i18nLanguage = {
             title: "CPU Cores",
             description: "Limit the CPU usage of the server",
             errorLabel: "Please enter a valid CPU limit.",
+          },
+          mcRouterDomains: {
+            title: "MC-Router Domains",
+            description:
+              "Select domains for Minecraft server routing. Players can connect using these domains on port 25565.",
+            placeholder: "Select domains...",
+            noDomains:
+              "No domains available. Contact an administrator to configure MC-Router domains.",
+            notEnabled: "MC-Router is not enabled. Contact an administrator to enable it.",
+            selectDomains: "Select domains",
+            selectedCount: "{{count}} domain(s) selected",
           },
         },
         title: "Create Server",
@@ -1019,6 +1031,94 @@ const translation: i18nLanguage = {
   dashboard: {
     showPublicDashboard: "Show Public Dashboard",
     hidePublicDashboard: "Show Private Dashboard",
+  },
+  cosyInstanceSettings: {
+    title: "Instance Settings",
+    description: "Configure your COSY instance settings",
+    save: "Save Changes",
+    saveSuccess: "Settings saved successfully",
+    saveError: "Failed to save settings",
+    revert: "Revert Changes",
+    sidebar: {
+      mcRouter: "MC-Router",
+      footer: "Footer / Contact",
+    },
+    mcRouter: {
+      title: "MC-Router Configuration",
+      description:
+        "MC-Router allows multiple Minecraft servers to share port 25565 with domain-based routing.",
+      enabled: "Enable MC-Router",
+      enabledDescription: "When enabled, Minecraft servers can use domain-based routing",
+      port: "Router Port",
+      portDescription: "The port MC-Router will listen on (default: 25565)",
+      portPlaceholder: "25565",
+      domains: "Allowed Domains",
+      domainsDescription: "List of domains that can be used by servers",
+      domainsPlaceholder: "Enter domain (e.g., mc.example.com)",
+      addDomain: "Add Domain",
+      status: {
+        title: "Router Status",
+        running: "Running",
+        stopped: "Stopped",
+        startButton: "Start Router",
+        stopButton: "Stop Router",
+        containerId: "Container ID",
+        startSuccess: "MC-Router started successfully",
+        startError: "Failed to start MC-Router",
+        stopSuccess: "MC-Router stopped successfully",
+        stopError: "Failed to stop MC-Router",
+      },
+      confirmDisable: {
+        title: "Disable MC-Router?",
+        description:
+          "There are Minecraft servers with domains configured. Disabling MC-Router will cause them to lose domain routing.",
+        cancel: "Cancel",
+        confirm: "Disable Anyway",
+      },
+    },
+    footer: {
+      title: "Footer / Contact Information",
+      description: "Configure the contact information displayed in the footer of the application.",
+      fullName: "Full Name",
+      fullNamePlaceholder: "John Doe",
+      email: "Email Address",
+      emailPlaceholder: "john@example.com",
+      phone: "Phone Number",
+      phonePlaceholder: "+1 234 567 890",
+      street: "Street Address",
+      streetPlaceholder: "123 Main Street",
+      city: "City & ZIP",
+      cityPlaceholder: "12345 City",
+    },
+  },
+  userRestrictions: {
+    title: "User Restrictions",
+    portRestrictions: {
+      enabled: "Enable Port Restrictions",
+      enabledDescription: "When enabled, user can only use ports from the allowed list",
+      allowedPorts: "Allowed Ports",
+      allowedPortsDescription: "Ports or port ranges (e.g., 25565 or 25565-26000)",
+      allowedPortsPlaceholder: "Enter port or range",
+    },
+    gameServerCreation: {
+      allowed: "Allow Game Server Creation",
+      allowedDescription: "When disabled, user cannot create new game servers",
+    },
+    mcRouter: {
+      allowAllDomains: "Allow All MC-Router Domains",
+      allowAllDomainsDescription: "When enabled, user can use any configured domain",
+      allowedDomains: "Allowed Domains",
+      allowedDomainsDescription: "Specific domains this user can use",
+      allowedDomainsPlaceholder: "Enter domain",
+    },
+  },
+  mcRouterDomains: {
+    title: "MC-Router Domains",
+    description: "Configure domains for this Minecraft server",
+    placeholder: "Select domains...",
+    addDomain: "Add Domain",
+    noDomainsAvailable: "No domains available. Contact an administrator.",
+    mcRouterNotEnabled: "MC-Router is not enabled. Contact an administrator.",
   },
 };
 

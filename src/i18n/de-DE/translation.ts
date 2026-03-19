@@ -196,6 +196,7 @@ const translation: i18nLanguage = {
   optionsBanner: {
     languageSelector: "Sprache auswählen",
     userMenu: "Benutzermenü",
+    instanceSettings: "Instanz-Einstellungen",
     logout: "Abmelden",
   },
   filesPage: {
@@ -339,6 +340,18 @@ const translation: i18nLanguage = {
             title: "CPU Kern Limit",
             description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
             errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
+          },
+          mcRouterDomains: {
+            title: "MC-Router Domains",
+            description:
+              "Wähle Domains für das Minecraft-Server-Routing. Spieler können sich über diese Domains auf Port 25565 verbinden.",
+            placeholder: "Domains auswählen...",
+            noDomains:
+              "Keine Domains verfügbar. Kontaktiere einen Administrator um MC-Router Domains zu konfigurieren.",
+            notEnabled:
+              "MC-Router ist nicht aktiviert. Kontaktiere einen Administrator um es zu aktivieren.",
+            selectDomains: "Domains auswählen",
+            selectedCount: "{{count}} Domain(s) ausgewählt",
           },
         },
       },
@@ -1024,6 +1037,98 @@ const translation: i18nLanguage = {
   dashboard: {
     showPublicDashboard: "Öffentliches Dashboard anzeigen",
     hidePublicDashboard: "Privates Dashboard anzeigen",
+  },
+  cosyInstanceSettings: {
+    title: "Instanzeinstellungen",
+    description: "Konfiguriere deine COSY-Instanzeinstellungen",
+    save: "Änderungen speichern",
+    saveSuccess: "Einstellungen erfolgreich gespeichert",
+    saveError: "Fehler beim Speichern der Einstellungen",
+    revert: "Änderungen verwerfen",
+    sidebar: {
+      mcRouter: "MC-Router",
+      footer: "Fußzeile / Kontakt",
+    },
+    mcRouter: {
+      title: "MC-Router Konfiguration",
+      description:
+        "MC-Router ermöglicht es mehreren Minecraft-Servern, Port 25565 mit domainbasiertem Routing zu teilen.",
+      enabled: "MC-Router aktivieren",
+      enabledDescription:
+        "Wenn aktiviert, können Minecraft-Server domainbasiertes Routing verwenden",
+      port: "Router Port",
+      portDescription: "Der Port, auf dem MC-Router lauscht (Standard: 25565)",
+      portPlaceholder: "25565",
+      domains: "Erlaubte Domains",
+      domainsDescription: "Liste der Domains, die von Servern verwendet werden können",
+      domainsPlaceholder: "Domain eingeben (z.B. mc.beispiel.de)",
+      addDomain: "Domain hinzufügen",
+      status: {
+        title: "Router Status",
+        running: "Läuft",
+        stopped: "Gestoppt",
+        startButton: "Router starten",
+        stopButton: "Router stoppen",
+        containerId: "Container ID",
+        startSuccess: "MC-Router erfolgreich gestartet",
+        startError: "Fehler beim Starten von MC-Router",
+        stopSuccess: "MC-Router erfolgreich gestoppt",
+        stopError: "Fehler beim Stoppen von MC-Router",
+      },
+      confirmDisable: {
+        title: "MC-Router deaktivieren?",
+        description:
+          "Es gibt Minecraft-Server mit konfigurierten Domains. Das Deaktivieren von MC-Router führt dazu, dass diese ihr Domain-Routing verlieren.",
+        cancel: "Abbrechen",
+        confirm: "Trotzdem deaktivieren",
+      },
+    },
+    footer: {
+      title: "Fußzeile / Kontaktinformationen",
+      description:
+        "Konfiguriere die Kontaktinformationen, die in der Fußzeile der Anwendung angezeigt werden.",
+      fullName: "Vollständiger Name",
+      fullNamePlaceholder: "Max Mustermann",
+      email: "E-Mail-Adresse",
+      emailPlaceholder: "max@beispiel.de",
+      phone: "Telefonnummer",
+      phonePlaceholder: "+49 123 456 789",
+      street: "Straße",
+      streetPlaceholder: "Musterstraße 123",
+      city: "Stadt & PLZ",
+      cityPlaceholder: "12345 Musterstadt",
+    },
+  },
+  userRestrictions: {
+    title: "Benutzereinschränkungen",
+    portRestrictions: {
+      enabled: "Port-Einschränkungen aktivieren",
+      enabledDescription:
+        "Wenn aktiviert, kann der Benutzer nur Ports aus der erlaubten Liste verwenden",
+      allowedPorts: "Erlaubte Ports",
+      allowedPortsDescription: "Ports oder Port-Bereiche (z.B. 25565 oder 25565-26000)",
+      allowedPortsPlaceholder: "Port oder Bereich eingeben",
+    },
+    gameServerCreation: {
+      allowed: "Gameserver-Erstellung erlauben",
+      allowedDescription: "Wenn deaktiviert, kann der Benutzer keine neuen Gameserver erstellen",
+    },
+    mcRouter: {
+      allowAllDomains: "Alle MC-Router Domains erlauben",
+      allowAllDomainsDescription:
+        "Wenn aktiviert, kann der Benutzer jede konfigurierte Domain verwenden",
+      allowedDomains: "Erlaubte Domains",
+      allowedDomainsDescription: "Bestimmte Domains, die dieser Benutzer verwenden kann",
+      allowedDomainsPlaceholder: "Domain eingeben",
+    },
+  },
+  mcRouterDomains: {
+    title: "MC-Router Domains",
+    description: "Konfiguriere Domains für diesen Minecraft-Server",
+    placeholder: "Domains auswählen...",
+    addDomain: "Domain hinzufügen",
+    noDomainsAvailable: "Keine Domains verfügbar. Kontaktiere einen Administrator.",
+    mcRouterNotEnabled: "MC-Router ist nicht aktiviert. Kontaktiere einen Administrator.",
   },
 };
 

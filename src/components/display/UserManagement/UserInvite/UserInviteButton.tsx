@@ -39,6 +39,10 @@ const UserInviteButton = (props: { className?: string }) => {
   const [cpuError, setCpuError] = useState<string | null>(null);
   const [memoryError, setMemoryError] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  // New restriction states
+  const [allowGameServerCreation, setAllowGameServerCreation] = useState(true);
+  const [mcRouterAllowAllDomains, setMcRouterAllowAllDomains] = useState(false);
+  const [mcRouterAllowedDomains, setMcRouterAllowedDomains] = useState<string[]>([]);
 
   const validateUsername = (username: string): string | null => {
     if (!username) return null;
@@ -98,6 +102,10 @@ const UserInviteButton = (props: { className?: string }) => {
           docker_memory_limit: memoryLimit || undefined,
           docker_max_cpu_cores: cpuLimit || undefined,
         },
+        allow_game_server_creation: allowGameServerCreation,
+        mc_router_allow_all_domains: mcRouterAllowAllDomains,
+        mc_router_allowed_domains:
+          mcRouterAllowedDomains.length > 0 ? mcRouterAllowedDomains : undefined,
       });
       setGeneratedKey(data.secret_key || "");
       setView("result");
@@ -125,6 +133,10 @@ const UserInviteButton = (props: { className?: string }) => {
     setUsernameError(null);
     setCpuError(null);
     setMemoryError(null);
+    // Reset restriction states
+    setAllowGameServerCreation(true);
+    setMcRouterAllowAllDomains(false);
+    setMcRouterAllowedDomains([]);
   }, []);
 
   return (
@@ -157,9 +169,15 @@ const UserInviteButton = (props: { className?: string }) => {
               userRole={userRole}
               memory={memoryLimit}
               cpu={cpuLimit}
+              allowGameServerCreation={allowGameServerCreation}
+              mcRouterAllowAllDomains={mcRouterAllowAllDomains}
+              mcRouterAllowedDomains={mcRouterAllowedDomains}
               onUsernameChange={handleUsernameChange}
               onMemoryChange={handleMemoryChange}
               onCpuChange={handleCpuChange}
+              onAllowGameServerCreationChange={setAllowGameServerCreation}
+              onMcRouterAllowAllDomainsChange={setMcRouterAllowAllDomains}
+              onMcRouterAllowedDomainsChange={setMcRouterAllowedDomains}
               onCancel={() => setIsDialogOpen(false)}
               onSubmit={handleCreateInvite}
               onUserRoleChange={setUserRole}

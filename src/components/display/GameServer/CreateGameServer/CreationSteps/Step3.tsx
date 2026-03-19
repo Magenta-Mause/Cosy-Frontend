@@ -1,5 +1,6 @@
 import CpuLimitInputField from "@components/display/GameServer/CreateGameServer/CpuLimitInputField.tsx";
 import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
+import McRouterDomainSelector from "@components/display/GameServer/CreateGameServer/McRouterDomainSelector.tsx";
 import MemoryLimitInputFieldCreation from "@components/display/GameServer/CreateGameServer/MemoryLimitInputFieldCreation.tsx";
 import PortInput from "@components/display/GameServer/CreateGameServer/PortInput.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
@@ -84,6 +85,9 @@ export default function Step3() {
         errorLabel={t("hostPathSelection.errorLabel")}
         placeholder="/data"
       />
+
+      {/* MC-Router domain selector - only visible for Minecraft servers when MC-Router is enabled */}
+      <McRouterDomainSelector attribute="mc_router_domains" />
 
       <div className="grid grid-cols-2 gap-4">
         <CpuLimitInputField

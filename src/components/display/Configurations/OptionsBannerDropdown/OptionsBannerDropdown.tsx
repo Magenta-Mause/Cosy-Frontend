@@ -1,3 +1,4 @@
+import InstanceSettingsButton from "@components/display/Configurations/OptionsBannerDropdown/InstanceSettingsButton/InstanceSettingsButton.tsx";
 import LanguageSelector from "@components/display/Configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
 import LogOutButton from "@components/display/Configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
 import UserMenuButton from "@components/display/Configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
@@ -12,11 +13,14 @@ const OptionsBannerDropdown = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasOpenDialog, setHasOpenDialog] = useState(false);
   const [userTooltipOpen, setUserTooltipOpen] = useState(false);
+  const [settingsTooltipOpen, setSettingsTooltipOpen] = useState(false);
   const [logOutTooltipOpen, setLogOutTooltipOpen] = useState(false);
   const bannerRef = useRef<HTMLDivElement>(null);
   const collapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { t } = useTranslation();
-  const { authorized } = useContext(AuthContext);
+  const { authorized, role } = useContext(AuthContext);
+
+  const isAdmin = role === "ADMIN" || role === "OWNER";
 
   const handleMouseEnter = () => {
     if (hasOpenDialog) return;
@@ -141,6 +145,24 @@ const OptionsBannerDropdown = () => {
             >
               <UserMenuButton tabIndex={isExpanded ? undefined : -1} className="size-12" />
             </TooltipWrapper>
+            {isAdmin && (
+              <TooltipWrapper
+                tooltip={t("optionsBanner.instanceSettings")}
+                side="right"
+                open={settingsTooltipOpen}
+                onOpenChange={setSettingsTooltipOpen}
+                triggerProps={{
+                  onMouseDown: () => setSettingsTooltipOpen(false),
+                  onPointerDown: () => setSettingsTooltipOpen(false),
+                }}
+                asChild
+              >
+                <InstanceSettingsButton
+                  tabIndex={isExpanded ? undefined : -1}
+                  className="size-12"
+                />
+              </TooltipWrapper>
+            )}
             <TooltipWrapper
               tooltip={t("optionsBanner.logout")}
               side="right"

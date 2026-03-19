@@ -202,6 +202,7 @@ export type i18nLanguage = {
   optionsBanner: {
     languageSelector: string;
     userMenu: string;
+    instanceSettings: string;
     logout: string;
   };
 
@@ -391,6 +392,15 @@ export type i18nLanguage = {
             title: string;
             description: string;
             errorLabel: string;
+          };
+          mcRouterDomains: {
+            title: string;
+            description: string;
+            placeholder: string;
+            noDomains: string;
+            notEnabled: string;
+            selectDomains: string;
+            selectedCount: ContainsVariable<"count">;
           };
         };
       };
@@ -1011,6 +1021,92 @@ export type i18nLanguage = {
   dashboard: {
     showPublicDashboard: string;
     hidePublicDashboard: string;
+  };
+  cosyInstanceSettings: {
+    title: string;
+    description: string;
+    save: string;
+    saveSuccess: string;
+    saveError: string;
+    revert: string;
+    sidebar: {
+      mcRouter: string;
+      footer: string;
+    };
+    mcRouter: {
+      title: string;
+      description: string;
+      enabled: string;
+      enabledDescription: string;
+      port: string;
+      portDescription: string;
+      portPlaceholder: string;
+      domains: string;
+      domainsDescription: string;
+      domainsPlaceholder: string;
+      addDomain: string;
+      status: {
+        title: string;
+        running: string;
+        stopped: string;
+        startButton: string;
+        stopButton: string;
+        containerId: string;
+        startSuccess: string;
+        startError: string;
+        stopSuccess: string;
+        stopError: string;
+      };
+      confirmDisable: {
+        title: string;
+        description: string;
+        cancel: string;
+        confirm: string;
+      };
+    };
+    footer: {
+      title: string;
+      description: string;
+      fullName: string;
+      fullNamePlaceholder: string;
+      email: string;
+      emailPlaceholder: string;
+      phone: string;
+      phonePlaceholder: string;
+      street: string;
+      streetPlaceholder: string;
+      city: string;
+      cityPlaceholder: string;
+    };
+  };
+  userRestrictions: {
+    title: string;
+    portRestrictions: {
+      enabled: string;
+      enabledDescription: string;
+      allowedPorts: string;
+      allowedPortsDescription: string;
+      allowedPortsPlaceholder: string;
+    };
+    gameServerCreation: {
+      allowed: string;
+      allowedDescription: string;
+    };
+    mcRouter: {
+      allowAllDomains: string;
+      allowAllDomainsDescription: string;
+      allowedDomains: string;
+      allowedDomainsDescription: string;
+      allowedDomainsPlaceholder: string;
+    };
+  };
+  mcRouterDomains: {
+    title: string;
+    description: string;
+    placeholder: string;
+    addDomain: string;
+    noDomainsAvailable: string;
+    mcRouterNotEnabled: string;
   };
 };
 
