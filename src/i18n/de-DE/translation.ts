@@ -467,7 +467,7 @@ const translation: i18nLanguage = {
       portSelection: {
         title: "Port-Zuordnungen",
         errorLabel: "Port muss eine Zahl zwischen 1 und 65535 sein",
-        description: "Port, auf dem dein Server läuft",
+        description: "Port, der von deinem Server erreichbar sein soll",
         placeholder: {
           instancePort: "Instanz Port",
           containerPort: "Container Port",
@@ -573,6 +573,7 @@ const translation: i18nLanguage = {
         rcon: "RCON",
         webhooks: "Webhooks",
         design: "Design",
+        gameSpecific: "Spielspezifisch",
       },
       sections: {
         general: "Allgemeine Einstellungen",
@@ -677,6 +678,15 @@ const translation: i18nLanguage = {
             "Dein öffentliches Dashboard enthält Metriken oder Log-Widgets. Diese Daten sind für jeden im Internet sichtbar. Metriken und Logs können sensible Informationen enthalten. Bitte stelle sicher, dass du diese Daten öffentlich teilen möchtest.",
           cancel: "Abbrechen",
           confirm: "Trotzdem speichern",
+        },
+      },
+      gameSpecific: {
+        title: "Spielspezifische Einstellungen",
+        description: "Konfiguriere Einstellungen, die spezifisch für das Spiel auf diesem Server sind.",
+        serverNeedsToBeStopped: "Der Server muss gestoppt sein, um diese Einstellungen zu ändern.",
+        noGameSpecificSettings: "Keine spielspezifischen Einstellungen für diesen Server verfügbar.",
+        minecraft: {
+          title: "Minecraft",
         },
       },
     },

@@ -1,10 +1,8 @@
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { Badge } from "@components/ui/badge.tsx";
-import { Button } from "@components/ui/button.tsx";
 import { Checkbox } from "@components/ui/checkbox.tsx";
 import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.tsx";
-import { ChevronDown, X } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useGetUserEntity } from "@/api/generated/backend-api";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
@@ -31,24 +29,19 @@ const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
   const [selectedDomains, setSelectedDomains] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  // Get MC-Router configuration from Redux store
   const mcRouterConfig = useTypedSelector(
     (state) => state.cosyInstanceSettingsSliceReducer.settings?.mc_router_configuration,
   );
 
-  // Fetch current user's data to get their domain restrictions
   const { data: currentUser } = useGetUserEntity(uuid ?? "", {
     query: { enabled: !!uuid },
   });
 
-  // Determine if the game is Minecraft
   const isMinecraft =
     creationState.utilState.gameEntity?.external_game_id === MINECRAFT_EXTERNAL_GAME_ID;
 
-  // Determine if MC-Router is enabled
   const isMcRouterEnabled = mcRouterConfig?.enabled === true;
 
-  // Compute available domains based on user restrictions
   const availableDomains = useMemo(() => {
     if (!isMcRouterEnabled || !mcRouterConfig?.domains) {
       return [];
@@ -56,22 +49,18 @@ const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
 
     const allDomains = mcRouterConfig.domains;
 
-    // Admin and Owner can use all domains
     if (role === "ADMIN" || role === "OWNER") {
       return allDomains;
     }
 
-    // For regular users, check their restrictions
     if (currentUser?.mc_router_allow_all_domains) {
       return allDomains;
     }
 
-    // Filter to only allowed domains
     const allowedDomains = currentUser?.mc_router_allowed_domains ?? [];
     return allDomains.filter((domain) => allowedDomains.includes(domain));
   }, [isMcRouterEnabled, mcRouterConfig?.domains, role, currentUser]);
 
-  // Initialize from context if values exist
   useEffect(() => {
     const contextValue = creationState.gameServerState[attribute];
     if (contextValue && Array.isArray(contextValue)) {
@@ -79,13 +68,11 @@ const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
     }
   }, [creationState.gameServerState, attribute]);
 
-  // Update context when selected domains change
   const updateSelection = useCallback(
     (domains: string[]) => {
       setSelectedDomains(domains);
       setGameServerState(attribute)(domains);
       setAttributeTouched(attribute, true);
-      // MC-Router domains are optional, so always valid
       setAttributeValid(attribute, true);
     },
     [attribute, setGameServerState, setAttributeTouched, setAttributeValid],
@@ -101,26 +88,15 @@ const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
     [selectedDomains, updateSelection],
   );
 
-  const handleRemoveDomain = useCallback(
-    (domain: string) => {
-      updateSelection(selectedDomains.filter((d) => d !== domain));
-    },
-    [selectedDomains, updateSelection],
-  );
-
-  // Initialize validation state on mount
   useEffect(() => {
-    // MC-Router domains are optional
     setAttributeValid(attribute, true);
     setAttributeTouched(attribute, true);
   }, [attribute, setAttributeValid, setAttributeTouched]);
 
-  // Don't render if not Minecraft
   if (!isMinecraft) {
     return null;
   }
 
-  // Show message if MC-Router is not enabled
   if (!isMcRouterEnabled) {
     return (
       <Field>
@@ -132,7 +108,6 @@ const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
     );
   }
 
-  // Show message if no domains are available
   if (availableDomains.length === 0) {
     return (
       <Field>
@@ -148,64 +123,50 @@ const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
     <Field>
       <FieldLabel className="font-bold">{t("title")}</FieldLabel>
 
-      <div className="space-y-2">
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="secondary"
-              role="combobox"
-              aria-expanded={isOpen}
-              className="w-full justify-between"
-            >
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
+        <PopoverTrigger asChild>
+          <button
+            type="button"
+            role="combobox"
+            aria-expanded={isOpen}
+            className={cn(
+              "flex w-full items-center justify-between rounded-md border border-input bg-primary-banner px-3 py-1 h-9 text-base",
+              "[box-shadow:inset_0_1px_2px_rgba(132,66,57,0.4)]",
+              "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none",
+            )}
+          >
+            <span className="truncate text-left">
               {selectedDomains.length > 0
-                ? t("selectedCount", { count: selectedDomains.length })
-                : t("selectDomains")}
-              <ChevronDown
-                className={cn(
-                  "ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform",
-                  isOpen && "rotate-180",
-                )}
-              />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-full p-2" align="start">
-            <div className="space-y-1 max-h-48 overflow-y-auto">
-              {availableDomains.map((domain) => (
-                <button
-                  key={domain}
-                  type="button"
-                  className="flex items-center gap-2 p-2 rounded hover:bg-muted cursor-pointer w-full text-left"
-                  onClick={() => handleDomainToggle(domain)}
-                >
-                  <Checkbox
-                    checked={selectedDomains.includes(domain)}
-                    onCheckedChange={() => handleDomainToggle(domain)}
-                  />
-                  <span className="text-sm">{domain}</span>
-                </button>
-              ))}
-            </div>
-          </PopoverContent>
-        </Popover>
-
-        {/* Display selected domains as badges */}
-        {selectedDomains.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {selectedDomains.map((domain) => (
-              <Badge key={domain} variant="secondary" className="gap-1">
-                {domain}
-                <button
-                  type="button"
-                  onClick={() => handleRemoveDomain(domain)}
-                  className="ml-1 hover:text-destructive"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </Badge>
+                ? selectedDomains.join(", ")
+                : <span className="text-muted-foreground">{t("placeholder")}</span>}
+            </span>
+            <ChevronDown
+              className={cn(
+                "ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform",
+                isOpen && "rotate-180",
+              )}
+            />
+          </button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-2" align="start">
+          <div className="space-y-1 max-h-48 overflow-y-auto">
+            {availableDomains.map((domain) => (
+              <button
+                key={domain}
+                type="button"
+                className="flex items-center gap-2 p-2 rounded hover:bg-muted cursor-pointer w-full text-left"
+                onClick={() => handleDomainToggle(domain)}
+              >
+                <Checkbox
+                  checked={selectedDomains.includes(domain)}
+                  onCheckedChange={() => handleDomainToggle(domain)}
+                />
+                <span className="text-sm">{domain}</span>
+              </button>
             ))}
           </div>
-        )}
-      </div>
+        </PopoverContent>
+      </Popover>
 
       <FieldDescription>{t("description")}</FieldDescription>
     </Field>

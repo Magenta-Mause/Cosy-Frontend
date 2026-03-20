@@ -710,6 +710,7 @@ export type i18nLanguage = {
         rcon: string;
         webhooks: string;
         design: string;
+        gameSpecific: string;
       };
       sections: {
         general: string;
@@ -809,6 +810,15 @@ export type i18nLanguage = {
           description: string;
           cancel: string;
           confirm: string;
+        };
+      };
+      gameSpecific: {
+        title: string;
+        description: string;
+        serverNeedsToBeStopped: string;
+        noGameSpecificSettings: string;
+        minecraft: {
+          title: string;
         };
       };
     };

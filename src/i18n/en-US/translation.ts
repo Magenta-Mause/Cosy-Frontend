@@ -665,6 +665,7 @@ const translation: i18nLanguage = {
         rcon: "RCON",
         webhooks: "Webhooks",
         design: "Design",
+        gameSpecific: "Game Specific",
       },
       sections: {
         general: "General Settings",
@@ -767,6 +768,15 @@ const translation: i18nLanguage = {
             "Your public dashboard contains metrics or logs widgets. This data will be visible to anyone on the internet. Metrics and logs can contain sensitive information. Please make sure you are comfortable sharing this data publicly.",
           cancel: "Cancel",
           confirm: "Save Anyway",
+        },
+      },
+      gameSpecific: {
+        title: "Game Specific Settings",
+        description: "Configure settings specific to the game running on this server.",
+        serverNeedsToBeStopped: "The server needs to be stopped to change these settings.",
+        noGameSpecificSettings: "No game specific settings available for this server.",
+        minecraft: {
+          title: "Minecraft",
         },
       },
     },

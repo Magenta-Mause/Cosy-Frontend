@@ -1,10 +1,8 @@
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { Badge } from "@components/ui/badge.tsx";
-import { Button } from "@components/ui/button.tsx";
 import { Checkbox } from "@components/ui/checkbox.tsx";
 import { Field, FieldDescription, FieldLabel } from "@components/ui/field.tsx";
 import { Popover, PopoverContent, PopoverTrigger } from "@components/ui/popover.tsx";
-import { ChevronDown, X } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useCallback, useContext, useMemo, useState } from "react";
 import { useGetUserEntity } from "@/api/generated/backend-api";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
@@ -70,13 +68,6 @@ const McRouterDomainSelectorEdit = ({
     [selectedDomains, onChange],
   );
 
-  const handleRemoveDomain = useCallback(
-    (domain: string) => {
-      onChange(selectedDomains.filter((d) => d !== domain));
-    },
-    [selectedDomains, onChange],
-  );
-
   if (!isMinecraft) {
     return null;
   }
@@ -107,63 +98,50 @@ const McRouterDomainSelectorEdit = ({
     <Field>
       <FieldLabel className="font-bold">{t("title")}</FieldLabel>
 
-      <div className="space-y-2">
-        <Popover open={isOpen} onOpenChange={setIsOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="secondary"
-              role="combobox"
-              aria-expanded={isOpen}
-              className="w-full justify-between"
-            >
+      <Popover open={isOpen} onOpenChange={setIsOpen}>
+        <PopoverTrigger asChild>
+          <button
+            type="button"
+            role="combobox"
+            aria-expanded={isOpen}
+            className={cn(
+              "flex w-full items-center justify-between rounded-md border border-input bg-primary-banner px-3 py-1 h-9 text-base",
+              "[box-shadow:inset_0_1px_2px_rgba(132,66,57,0.4)]",
+              "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] outline-none",
+            )}
+          >
+            <span className="truncate text-left">
               {selectedDomains.length > 0
-                ? `${selectedDomains.length} selected`
-                : t("placeholder")}
-              <ChevronDown
-                className={cn(
-                  "ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform",
-                  isOpen && "rotate-180",
-                )}
-              />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-full p-2" align="start">
-            <div className="space-y-1 max-h-48 overflow-y-auto">
-              {availableDomains.map((domain) => (
-                <button
-                  key={domain}
-                  type="button"
-                  className="flex items-center gap-2 p-2 rounded hover:bg-muted cursor-pointer w-full text-left"
-                  onClick={() => handleDomainToggle(domain)}
-                >
-                  <Checkbox
-                    checked={selectedDomains.includes(domain)}
-                    onCheckedChange={() => handleDomainToggle(domain)}
-                  />
-                  <span className="text-sm">{domain}</span>
-                </button>
-              ))}
-            </div>
-          </PopoverContent>
-        </Popover>
-
-        {selectedDomains.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {selectedDomains.map((domain) => (
-              <Badge key={domain} variant="secondary" className="gap-1">
-                {domain}
-                <button
-                  type="button"
-                  onClick={() => handleRemoveDomain(domain)}
-                  className="ml-1 hover:text-destructive"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </Badge>
+                ? selectedDomains.join(", ")
+                : <span className="text-muted-foreground">{t("placeholder")}</span>}
+            </span>
+            <ChevronDown
+              className={cn(
+                "ml-2 h-4 w-4 shrink-0 opacity-50 transition-transform",
+                isOpen && "rotate-180",
+              )}
+            />
+          </button>
+        </PopoverTrigger>
+        <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-2" align="start">
+          <div className="space-y-1 max-h-48 overflow-y-auto">
+            {availableDomains.map((domain) => (
+              <button
+                key={domain}
+                type="button"
+                className="flex items-center gap-2 p-2 rounded hover:bg-muted cursor-pointer w-full text-left"
+                onClick={() => handleDomainToggle(domain)}
+              >
+                <Checkbox
+                  checked={selectedDomains.includes(domain)}
+                  onCheckedChange={() => handleDomainToggle(domain)}
+                />
+                <span className="text-sm">{domain}</span>
+              </button>
             ))}
           </div>
-        )}
-      </div>
+        </PopoverContent>
+      </Popover>
 
       <FieldDescription>{t("description")}</FieldDescription>
     </Field>

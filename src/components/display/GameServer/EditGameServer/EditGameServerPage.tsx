@@ -26,7 +26,6 @@ import { processEscapeSequences } from "../CreateGameServer/util";
 import EditVolumeMountConfigurationInput from "./EditVolumeMountConfigurationInput";
 import InputFieldEditGameServer from "./InputFieldEditGameServer";
 import EditKeyValueInput from "./KeyValueInputEditGameServer";
-import McRouterDomainSelectorEdit from "./McRouterDomainSelectorEdit";
 import PortInputEditGameServer from "./PortInputEditGameServer";
 
 const EditGameServerPage = (props: {
@@ -197,18 +196,13 @@ const EditGameServerPage = (props: {
       normalizeLimitValue(gameServerState.docker_hardware_limits?.docker_memory_limit) !==
         normalizeLimitValue(props.gameServer.docker_hardware_limits?.docker_memory_limit);
 
-    const mcRouterDomainsChanged =
-      JSON.stringify(gameServerState.mc_router_domains ?? []) !==
-      JSON.stringify(props.gameServer.mc_router_domains ?? []);
-
     return (
       commandsChanged ||
       fieldsChanged ||
       portsChanged ||
       envChanged ||
       volumesChanged ||
-      hardwareLimitsChanged ||
-      mcRouterDomainsChanged
+      hardwareLimitsChanged
     );
   }, [
     executionCommandRaw,
@@ -229,8 +223,6 @@ const EditGameServerPage = (props: {
     props.gameServer.docker_hardware_limits?.docker_max_cpu_cores,
     gameServerState.docker_hardware_limits?.docker_memory_limit,
     props.gameServer.docker_hardware_limits?.docker_memory_limit,
-    gameServerState.mc_router_domains,
-    props.gameServer.mc_router_domains,
   ]);
 
   const handleRevert = () => {
@@ -451,14 +443,6 @@ const EditGameServerPage = (props: {
           required={false}
           inputType="text"
           objectKey="container_path"
-        />
-
-        <McRouterDomainSelectorEdit
-          value={gameServerState.mc_router_domains}
-          onChange={(domains) =>
-            setGameServerState((s) => ({ ...s, mc_router_domains: domains }))
-          }
-          externalGameId={gameServerState.external_game_id}
         />
 
         <div className="grid grid-cols-2 gap-4">

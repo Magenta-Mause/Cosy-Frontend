@@ -42,6 +42,8 @@ export default function Step3() {
         />
       </div>
 
+      <McRouterDomainSelector attribute="mc_router_domains" />
+
       <PortInput
         attribute="port_mappings"
         fieldLabel={t("portSelection.title")}
@@ -85,9 +87,6 @@ export default function Step3() {
         errorLabel={t("hostPathSelection.errorLabel")}
         placeholder="/data"
       />
-
-      {/* MC-Router domain selector - only visible for Minecraft servers when MC-Router is enabled */}
-      <McRouterDomainSelector attribute="mc_router_domains" />
 
       <div className="grid grid-cols-2 gap-4">
         <CpuLimitInputField
