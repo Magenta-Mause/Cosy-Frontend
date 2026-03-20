@@ -884,8 +884,7 @@ const translation: i18nLanguage = {
         yourProfile: "Du",
         actions: {
           editPassword: "Passwort ändern",
-          editDockerLimits: "Ressourcenlimits bearbeiten",
-          editRestrictions: "Einschränkungen bearbeiten",
+          editSettings: "Berechtigungen ändern",
           editRole: "Rolle ändern",
           deleteUser: "Benutzer löschen",
         },
@@ -1124,12 +1123,26 @@ const translation: i18nLanguage = {
       allowedDescription: "Wenn deaktiviert, kann der Benutzer keine neuen Gameserver erstellen",
     },
     mcRouter: {
+      title: "MC-Router Berechtigungen",
       allowAllDomains: "Alle MC-Router Domains erlauben",
       allowAllDomainsDescription:
         "Wenn aktiviert, kann der Benutzer jede konfigurierte Domain verwenden",
       allowedDomains: "Erlaubte Domains",
       allowedDomainsDescription: "Bestimmte Domains, die dieser Benutzer verwenden kann",
       allowedDomainsPlaceholder: "Domain eingeben",
+      disabledHint:
+        "MC-Router muss in den Cosy-Instanzeinstellungen aktiviert werden, um Domain-Einschränkungen zu konfigurieren.",
+    },
+  },
+  userSettingsModal: {
+    title: "Benutzereinstellungen",
+    save: "Speichern",
+    revert: "Zurücksetzen",
+    submitError: "Fehler beim Speichern der Einstellungen",
+    sidebar: {
+      resourceLimits: "Ressourcenlimits",
+      permissions: "Berechtigungen",
+      mcRouterPermissions: "MC-Router Berechtigungen",
     },
   },
   mcRouterDomains: {

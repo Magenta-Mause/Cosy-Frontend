@@ -598,8 +598,7 @@ export type i18nLanguage = {
         yourProfile: string;
         actions: {
           editPassword: string;
-          editDockerLimits: string;
-          editRestrictions: string;
+          editSettings: string;
           editRole: string;
           deleteUser: string;
         };
@@ -1103,11 +1102,24 @@ export type i18nLanguage = {
       allowedDescription: string;
     };
     mcRouter: {
+      title: string;
       allowAllDomains: string;
       allowAllDomainsDescription: string;
       allowedDomains: string;
       allowedDomainsDescription: string;
       allowedDomainsPlaceholder: string;
+      disabledHint: string;
+    };
+  };
+  userSettingsModal: {
+    title: string;
+    save: string;
+    revert: string;
+    submitError: string;
+    sidebar: {
+      resourceLimits: string;
+      permissions: string;
+      mcRouterPermissions: string;
     };
   };
   mcRouterDomains: {

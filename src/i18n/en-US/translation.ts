@@ -619,8 +619,7 @@ const translation: i18nLanguage = {
         yourProfile: "You",
         actions: {
           editPassword: "Edit Password",
-          editDockerLimits: "Edit Resource Limits",
-          editRestrictions: "Edit Restrictions",
+          editSettings: "Edit Settings",
           editRole: "Change Role",
           deleteUser: "Delete User",
         },
@@ -1115,11 +1114,25 @@ const translation: i18nLanguage = {
       allowedDescription: "When disabled, user cannot create new game servers",
     },
     mcRouter: {
+      title: "MC-Router Restrictions",
       allowAllDomains: "Allow All MC-Router Domains",
       allowAllDomainsDescription: "When enabled, user can use any configured domain",
       allowedDomains: "Allowed Domains",
       allowedDomainsDescription: "Specific domains this user can use",
       allowedDomainsPlaceholder: "Enter domain",
+      disabledHint:
+        "MC-Router must be enabled in the Cosy Instance Settings to configure domain restrictions.",
+    },
+  },
+  userSettingsModal: {
+    title: "User Settings",
+    save: "Save",
+    revert: "Revert",
+    submitError: "Failed to save settings",
+    sidebar: {
+      resourceLimits: "Resource Limits",
+      permissions: "Permissions",
+      mcRouterPermissions: "MC-Router Permissions",
     },
   },
   mcRouterDomains: {
