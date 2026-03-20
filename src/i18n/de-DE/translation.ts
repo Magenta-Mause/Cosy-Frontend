@@ -61,6 +61,8 @@ const translation: i18nLanguage = {
     updateFooterError: "Fehler beim Aktualisieren der Fußzeile",
     adminChangePasswordSuccess: "Passwort erfolgreich geändert!",
     adminChangePasswordError: "Fehler beim Ändern des Passworts",
+    updateRestrictionsSuccess: "Benutzereinschränkungen erfolgreich aktualisiert!",
+    updateRestrictionsError: "Fehler beim Aktualisieren der Benutzereinschränkungen",
   },
   userModal: {
     title: "Benutzer",
@@ -849,6 +851,13 @@ const translation: i18nLanguage = {
           confirmButton: "Speichern",
           submitError: "Fehler beim Aktualisieren der Ressourcenlimits",
         },
+        updateRestrictionsDialog: {
+          title: "Benutzereinschränkungen bearbeiten",
+          description: "Konfiguriere Einschränkungen für diesen Benutzer.",
+          cancelButton: "Abbrechen",
+          confirmButton: "Speichern",
+          submitError: "Fehler beim Aktualisieren der Einschränkungen",
+        },
         changeRoleDialog: {
           title: "Rolle ändern",
           description: "Wähle eine neue Rolle für diesen Benutzer.",
@@ -876,6 +885,7 @@ const translation: i18nLanguage = {
         actions: {
           editPassword: "Passwort ändern",
           editDockerLimits: "Ressourcenlimits bearbeiten",
+          editRestrictions: "Einschränkungen bearbeiten",
           editRole: "Rolle ändern",
           deleteUser: "Benutzer löschen",
         },

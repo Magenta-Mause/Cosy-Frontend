@@ -11,8 +11,10 @@ import {
 import type {
   UserDockerLimitsUpdateDto,
   UserInviteCreationDto,
+  UserRestrictionsUpdateDto,
   UserRoleUpdateDtoRole,
 } from "@/api/generated/model";
+import { updateUserRestrictions as updateUserRestrictionsApi } from "@/api/cosyInstanceSettingsApi";
 import { notificationModal } from "@/lib/notificationModal";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import { userSliceActions } from "@/stores/slices/userSlice.ts";
@@ -118,12 +120,23 @@ const useUserDataInteractions = () => {
     await mutateChangePasswordByAdmin({ uuid, data: { new_password: newPassword } });
   };
 
+  const updateUserRestrictions = async (uuid: string, data: UserRestrictionsUpdateDto) => {
+    try {
+      const updatedUser = await updateUserRestrictionsApi(uuid, data);
+      dispatch(userSliceActions.updateUser(updatedUser));
+    } catch (err) {
+      notificationModal.error({ message: t("updateRestrictionsError"), cause: err as Error });
+      throw err;
+    }
+  };
+
   return {
     createInvite,
     revokeInvite,
     changeRole,
     updateDockerLimits,
     changePasswordByAdmin,
+    updateUserRestrictions,
   };
 };
 

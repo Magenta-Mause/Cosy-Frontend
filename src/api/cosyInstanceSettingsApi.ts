@@ -80,7 +80,7 @@ export const stopMcRouter = (force: boolean = false) => {
 export const updateUserRestrictions = (uuid: string, data: UserRestrictionsUpdateDto) => {
   return customInstance<UserEntityDto>({
     url: `/user-entity/${uuid}/restrictions`,
-    method: "PUT",
+    method: "PATCH",
     headers: { "Content-Type": "application/json" },
     data,
   });

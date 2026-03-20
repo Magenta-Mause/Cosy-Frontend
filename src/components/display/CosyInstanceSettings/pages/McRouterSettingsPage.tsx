@@ -143,7 +143,7 @@ const McRouterSettingsPage = () => {
                 checked={formData.enabled}
                 onCheckedChange={(checked) => updateFormData({ enabled: checked === true })}
                 disabled={isPending}
-                className="mt-0.5"
+                className="mt-3"
               />
               <div className="flex-1">
                 <Label htmlFor="mc-router-enabled" className="text-base font-medium cursor-pointer">

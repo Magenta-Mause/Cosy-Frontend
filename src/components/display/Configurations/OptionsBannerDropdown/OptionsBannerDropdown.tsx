@@ -93,7 +93,8 @@ const OptionsBannerDropdown = () => {
       }}
       className={cn(
         "flex flex-col gap-4 items-center justify-center",
-        "fixed z-50 left-[5%] w-20 h-65",
+        "fixed z-50 left-[5%] w-20",
+        isAdmin ? "h-80" : "h-65",
         "cursor-pointer transition-all duration-300 ease-in-out",
         "overflow-visible border-0",
         hasOpenDialog && "pointer-events-none",

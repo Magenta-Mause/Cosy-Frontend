@@ -88,7 +88,7 @@ const FooterSettingsPage = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto p-6 pt-2">
+      <div className="flex-1 overflow-y-auto p-6">
         <div className="space-y-6">
           {/* Header */}
           <div>

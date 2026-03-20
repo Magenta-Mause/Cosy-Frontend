@@ -65,6 +65,8 @@ const translation: i18nLanguage = {
     deleteWebhookError: "Failed to delete webhook",
     adminChangePasswordSuccess: "Password changed successfully!",
     adminChangePasswordError: "Failed to change password",
+    updateRestrictionsSuccess: "User restrictions updated successfully!",
+    updateRestrictionsError: "Failed to update user restrictions",
   },
   userModal: {
     title: "Users",
@@ -584,6 +586,13 @@ const translation: i18nLanguage = {
           confirmButton: "Save",
           submitError: "Failed to update resource limits",
         },
+        updateRestrictionsDialog: {
+          title: "Edit User Restrictions",
+          description: "Configure restrictions for this user.",
+          cancelButton: "Cancel",
+          confirmButton: "Save",
+          submitError: "Failed to update user restrictions",
+        },
         changeRoleDialog: {
           title: "Change Role",
           description: "Select a new role for this user.",
@@ -611,6 +620,7 @@ const translation: i18nLanguage = {
         actions: {
           editPassword: "Edit Password",
           editDockerLimits: "Edit Resource Limits",
+          editRestrictions: "Edit Restrictions",
           editRole: "Change Role",
           deleteUser: "Delete User",
         },

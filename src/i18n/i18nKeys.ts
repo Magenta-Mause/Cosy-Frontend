@@ -60,6 +60,8 @@ export type i18nLanguage = {
     updateFooterError: string;
     adminChangePasswordSuccess: string;
     adminChangePasswordError: string;
+    updateRestrictionsSuccess: string;
+    updateRestrictionsError: string;
   };
 
   userModal: {
@@ -563,6 +565,13 @@ export type i18nLanguage = {
           confirmButton: string;
           submitError: string;
         };
+        updateRestrictionsDialog: {
+          title: string;
+          description: string;
+          cancelButton: string;
+          confirmButton: string;
+          submitError: string;
+        };
         changeRoleDialog: {
           title: string;
           description: string;
@@ -590,6 +599,7 @@ export type i18nLanguage = {
         actions: {
           editPassword: string;
           editDockerLimits: string;
+          editRestrictions: string;
           editRole: string;
           deleteUser: string;
         };

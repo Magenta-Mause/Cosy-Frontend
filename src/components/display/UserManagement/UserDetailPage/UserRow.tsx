@@ -23,6 +23,7 @@ import ChangePasswordByAdminModal from "./ChangePasswordByAdminModal";
 import ChangeRoleModal from "./ChangeRoleModal";
 import DeleteUserConfirmationModal from "./DeleteUserConfirmationModal";
 import UpdateDockerLimitsModal from "./UpdateDockerLimitsModal";
+import UpdateUserRestrictionsModal from "./UpdateUserRestrictionsModal";
 
 type UserAction = {
   label: string;
@@ -36,6 +37,7 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [passwordChangeDialogOpen, setPasswordChangeDialogOpen] = useState(false);
   const [dockerLimitsDialogOpen, setDockerLimitsDialogOpen] = useState(false);
+  const [restrictionsDialogOpen, setRestrictionsDialogOpen] = useState(false);
   const [changeRoleDialogOpen, setChangeRoleDialogOpen] = useState(false);
   const [userModalOpen, setUserModalOpen] = useState(false);
   const { role, uuid } = useContext(AuthContext);
@@ -57,6 +59,11 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
     {
       label: t("actions.editDockerLimits"),
       onClick: () => setDockerLimitsDialogOpen(true),
+      hidden: !canUpdateDockerLimits,
+    },
+    {
+      label: t("actions.editRestrictions"),
+      onClick: () => setRestrictionsDialogOpen(true),
       hidden: !canUpdateDockerLimits,
     },
     {
@@ -158,6 +165,12 @@ const UserRow = (props: { user: UserEntityDto; userName: string; userRole: UserE
         user={props.user}
         open={dockerLimitsDialogOpen}
         onClose={() => setDockerLimitsDialogOpen(false)}
+      />
+
+      <UpdateUserRestrictionsModal
+        user={props.user}
+        open={restrictionsDialogOpen}
+        onClose={() => setRestrictionsDialogOpen(false)}
       />
 
       <ChangeRoleModal

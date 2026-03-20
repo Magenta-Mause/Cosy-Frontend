@@ -124,6 +124,7 @@ const useGameServerCreation = ({
             }
           : undefined,
       design: formState.design,
+      mc_router_domains: formState.mc_router_domains,
     };
 
     setIsCreating(true);
