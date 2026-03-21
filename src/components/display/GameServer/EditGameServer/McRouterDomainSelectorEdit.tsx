@@ -134,7 +134,6 @@ const McRouterDomainSelectorEdit = ({
               >
                 <Checkbox
                   checked={selectedDomains.includes(domain)}
-                  onCheckedChange={() => handleDomainToggle(domain)}
                 />
                 <span className="text-sm">{domain}</span>
               </button>

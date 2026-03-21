@@ -29,6 +29,8 @@ const cosyInstanceSettingsSlice = createSlice({
     updateMcRouterConfiguration: (state, action: PayloadAction<McRouterConfigurationDto>) => {
       if (state.settings) {
         state.settings.mc_router_configuration = action.payload;
+      } else {
+        state.settings = { mc_router_configuration: action.payload };
       }
     },
     setMcRouterStatus: (state, action: PayloadAction<McRouterStatusDto>) => {

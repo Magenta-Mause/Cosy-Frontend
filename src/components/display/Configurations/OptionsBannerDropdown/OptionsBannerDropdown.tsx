@@ -53,6 +53,7 @@ const OptionsBannerDropdown = () => {
       if (hasOpenDialog) {
         setIsExpanded(false);
         setUserTooltipOpen(false);
+        setSettingsTooltipOpen(false);
         setLogOutTooltipOpen(false);
       }
     };

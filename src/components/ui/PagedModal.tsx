@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import {Button} from "@components/ui/button.tsx";
 import {Dialog, DialogContent, DialogFooter, DialogHeader, DialogMain, DialogTitle,} from "@components/ui/dialog.tsx";
 import {Separator} from "@components/ui/separator.tsx";
@@ -7,7 +8,7 @@ import {cn} from "@/lib/utils";
 import PixelIcon from "@components/ui/PixelIcon.tsx";
 
 interface SidebarItemProps {
-  icon: React.ReactNode;
+  icon: ReactNode;
   label: string;
   isActive: boolean;
   onClick: () => void;
@@ -32,8 +33,8 @@ const SidebarItem = ({ icon, label, isActive, onClick }: SidebarItemProps) => (
 export interface PagedModalPage {
   id: string;
   label: string;
-  icon: React.ReactNode;
-  content: React.ReactNode;
+  icon: ReactNode;
+  content: ReactNode;
   hasUnsavedChanges?: boolean;
 }
 

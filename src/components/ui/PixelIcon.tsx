@@ -1,29 +1,25 @@
-import {isValidElement, useEffect, useMemo, useState} from "react";
-import {renderToStaticMarkup} from "react-dom/server";
+import type { ReactNode } from "react";
+import {useEffect, useRef, useState} from "react";
 import {cn} from "@/lib/utils";
 
-// ✅ allow ReactNode for flexibility
 interface PixelIconProps {
-  icon: React.ReactNode;
+  icon: ReactNode;
   resolution?: number;
   className?: string;
 }
 
 const PixelIcon = ({ icon, resolution = 32, className }: PixelIconProps) => {
-  // Convert icon to static SVG only if it’s a valid React element
-  const svgMarkup = useMemo(() => {
-    if (!icon || !isValidElement(icon)) return "";
-    return renderToStaticMarkup(icon);
-  }, [icon]);
-
+  const iconRef = useRef<HTMLSpanElement>(null);
   const [maskUrl, setMaskUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!svgMarkup) {
+    const svgElement = iconRef.current?.querySelector("svg");
+    if (!svgElement) {
       setMaskUrl(null);
       return;
     }
 
+    const svgMarkup = svgElement.outerHTML;
     const canvas = document.createElement("canvas");
     canvas.width = resolution;
     canvas.height = resolution;
@@ -43,26 +39,33 @@ const PixelIcon = ({ icon, resolution = 32, className }: PixelIconProps) => {
     img.src = url;
 
     return () => URL.revokeObjectURL(url);
-  }, [svgMarkup, resolution]);
-
-  if (!maskUrl) return <span className={cn("inline-block shrink-0", className)} />;
+  }, [icon, resolution]);
 
   return (
-    <span
-      aria-hidden
-      className={cn("inline-block shrink-0 bg-current", className)}
-      style={{
-        maskImage: maskUrl,
-        maskRepeat: "no-repeat",
-        maskSize: "contain",
-        maskPosition: "center",
-        WebkitMaskImage: maskUrl,
-        WebkitMaskRepeat: "no-repeat",
-        WebkitMaskSize: "contain",
-        WebkitMaskPosition: "center",
-        imageRendering: "pixelated",
-      }}
-    />
+    <>
+      <span ref={iconRef} className="absolute invisible pointer-events-none">
+        {icon}
+      </span>
+      {maskUrl ? (
+        <span
+          aria-hidden
+          className={cn("inline-block shrink-0 bg-current", className)}
+          style={{
+            maskImage: maskUrl,
+            maskRepeat: "no-repeat",
+            maskSize: "contain",
+            maskPosition: "center",
+            WebkitMaskImage: maskUrl,
+            WebkitMaskRepeat: "no-repeat",
+            WebkitMaskSize: "contain",
+            WebkitMaskPosition: "center",
+            imageRendering: "pixelated",
+          }}
+        />
+      ) : (
+        <span className={cn("inline-block shrink-0", className)} />
+      )}
+    </>
   );
 };
 
