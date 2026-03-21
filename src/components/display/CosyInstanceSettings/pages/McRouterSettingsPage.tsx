@@ -7,7 +7,7 @@ import { Loader2, Plus, RefreshCw, X } from "lucide-react";
 import type * as React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getMcRouterStatus, updateMcRouterConfiguration } from "@/api/cosyInstanceSettingsApi";
+import { getMcRouterStatus, updateMcRouterConfiguration } from "@/api/generated/backend-api";
 import type { McRouterConfigurationUpdateDto, McRouterStatusDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { notificationModal } from "@/lib/notificationModal";
@@ -100,7 +100,7 @@ const McRouterSettingsPage = ({
     e.preventDefault();
     setIsPending(true);
     try {
-      const updatedConfig = await updateMcRouterConfiguration(formData, false);
+      const updatedConfig = await updateMcRouterConfiguration(formData);
       dispatch(cosyInstanceSettingsSliceActions.updateMcRouterConfiguration(updatedConfig));
       notificationModal.success({ message: tRoot("saveSuccess") });
       // Reload status after config change

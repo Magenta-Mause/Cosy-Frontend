@@ -2,19 +2,17 @@ import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { v7 as generateUuid } from "uuid";
 import {
-  getCosyInstanceSettings,
-  getMcRouterConfiguration,
-  getMcRouterStatus,
-} from "@/api/cosyInstanceSettingsApi";
-import {
   getAllGameServers,
   getAllTemplates,
   getAllUserEntities,
   getAllUserInvites,
   getGameServerById,
   getLogs,
+  getMcRouterConfiguration,
+  getMcRouterStatus,
   getMetrics,
   getPublicEvaluableMetrics,
+  getSettings,
   getUserPermissions,
 } from "@/api/generated/backend-api.ts";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
@@ -130,7 +128,7 @@ const useDataLoading = () => {
   const loadCosyInstanceSettings = useCallback(async () => {
     dispatch(cosyInstanceSettingsSliceActions.setState("loading"));
     try {
-      const settings = await getCosyInstanceSettings();
+      const settings = await getSettings();
       dispatch(cosyInstanceSettingsSliceActions.setSettings(settings));
       return true;
     } catch (e) {

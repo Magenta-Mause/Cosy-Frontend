@@ -5,7 +5,7 @@
  * Management API for Cosy (Cost Optimised Server Yard).
  * OpenAPI spec version: v1.0
  */
-import type { McRouterConfigurationDto } from "./mcRouterConfigurationDto";
+import type { McRouterConfigurationDto } from './mcRouterConfigurationDto';
 
 export interface CosyInstanceSettingsDto {
   id?: number;

@@ -8,7 +8,10 @@
 
 export interface McRouterConfigurationUpdateDto {
   enabled?: boolean;
-  /** @minimum 1 @maximum 65535 */
+  /**
+   * @minimum 1
+   * @maximum 65535
+   */
   port?: number;
   domains?: string[];
 }

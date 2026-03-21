@@ -7,8 +7,8 @@
  */
 
 export interface McRouterStatusDto {
+  running?: boolean;
   enabled?: boolean;
   port?: number;
-  running?: boolean;
   container_id?: string;
 }
