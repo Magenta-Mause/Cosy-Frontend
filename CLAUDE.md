@@ -116,6 +116,8 @@ t("invitedBy", { username: "admin" })
 ### How It Works
 The API client is auto-generated from the backend's OpenAPI spec using Orval.
 
+**IMPORTANT**: Files in `src/api/generated/` must NEVER be edited manually. Always regenerate them using `bun gen:api`.
+
 **Configuration** (`orval.config.js`):
 - Input: `openapi-backend.json` (downloaded from running backend)
 - Output: `src/api/generated/backend-api.ts` (React Query hooks)
