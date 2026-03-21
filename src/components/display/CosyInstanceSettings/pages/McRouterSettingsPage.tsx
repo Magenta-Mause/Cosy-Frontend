@@ -189,6 +189,7 @@ const McRouterSettingsPage = ({
                 variant="secondary"
                 onClick={handleAddDomain}
                 disabled={isPending || isDisabled || !newDomain}
+                aria-label={t("addDomain")}
               >
                 <Plus className="h-4 w-4" />
               </Button>
@@ -204,6 +205,7 @@ const McRouterSettingsPage = ({
                       onClick={() => handleRemoveDomain(domain)}
                       disabled={isPending || isDisabled}
                       className="ml-1 hover:text-destructive disabled:opacity-50"
+                      aria-label={t("removeDomain", { domain })}
                     >
                       <X className="h-3 w-3" />
                     </button>
@@ -235,7 +237,7 @@ const McRouterSettingsPage = ({
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-sm font-medium">Status:</span>
+            <span className="text-sm font-medium">{t("status.label")}</span>
             {isLoadingStatus ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (

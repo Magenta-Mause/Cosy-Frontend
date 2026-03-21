@@ -64,8 +64,10 @@ const PagedModal = ({
   activePageRef.current = activePage;
 
   useEffect(() => {
-    setActivePageId(defaultPageId || pages[0]?.id);
-  }, [defaultPageId]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (open) {
+      setActivePageId(defaultPageId || pages[0]?.id);
+    }
+  }, [open, defaultPageId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handlePageSwitch = useCallback((targetId: string) => {
     if (activePageRef.current?.hasUnsavedChanges) {

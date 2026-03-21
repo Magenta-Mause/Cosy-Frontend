@@ -1082,8 +1082,10 @@ const translation: i18nLanguage = {
       domainsDescription: "Liste der Domains, die von Servern verwendet werden können",
       domainsPlaceholder: "Domain eingeben (z.B. mc.beispiel.de)",
       addDomain: "Domain hinzufügen",
+      removeDomain: "Domain {{domain}} entfernen",
       status: {
         title: "Router Status",
+        label: "Status:",
         running: "Läuft",
         stopped: "Gestoppt",
         startButton: "Router starten",
@@ -1140,6 +1142,7 @@ const translation: i18nLanguage = {
       allowedDomains: "Erlaubte Domains",
       allowedDomainsDescription: "Bestimmte Domains, die dieser Benutzer verwenden kann",
       allowedDomainsPlaceholder: "Domain eingeben",
+      removeDomain: "Domain {{domain}} entfernen",
       disabledHint:
         "MC-Router muss in den Cosy-Instanzeinstellungen aktiviert werden, um Domain-Einschränkungen zu konfigurieren.",
     },

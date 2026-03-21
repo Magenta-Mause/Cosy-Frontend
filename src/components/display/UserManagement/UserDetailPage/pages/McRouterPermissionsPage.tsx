@@ -71,9 +71,6 @@ const McRouterPermissionsPage = ({
     setIsPending(true);
     try {
       await updateUserRestrictions(user.uuid, {
-        port_restrictions_enabled: user.port_restrictions_enabled ?? false,
-        allowed_ports: user.allowed_ports ?? [],
-        allow_game_server_creation: user.allow_game_server_creation ?? true,
         mc_router_allow_all_domains: mcRouterAllowAllDomains,
         mc_router_allowed_domains: mcRouterAllowedDomains,
       });
@@ -150,6 +147,7 @@ const McRouterPermissionsPage = ({
                       setMcRouterAllowedDomains((prev) => prev.filter((d) => d !== domain))
                     }
                     className="ml-1 hover:text-destructive"
+                    aria-label={t("removeDomain", { domain })}
                   >
                     <X className="h-3 w-3" />
                   </button>

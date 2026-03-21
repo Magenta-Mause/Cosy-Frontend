@@ -1064,8 +1064,10 @@ export type i18nLanguage = {
       domainsDescription: string;
       domainsPlaceholder: string;
       addDomain: string;
+      removeDomain: ContainsVariable<"domain">;
       status: {
         title: string;
+        label: string;
         running: string;
         stopped: string;
         startButton: string;
@@ -1118,6 +1120,7 @@ export type i18nLanguage = {
       allowedDomains: string;
       allowedDomainsDescription: string;
       allowedDomainsPlaceholder: string;
+      removeDomain: ContainsVariable<"domain">;
       disabledHint: string;
     };
   };

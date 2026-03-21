@@ -224,6 +224,7 @@ export const InviteForm = ({
                           type="button"
                           onClick={() => handleRemoveDomain(domain)}
                           className="ml-1 hover:text-destructive"
+                          aria-label={t("userRestrictions.mcRouter.removeDomain", { domain })}
                         >
                           <X className="h-3 w-3" />
                         </button>

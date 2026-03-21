@@ -47,11 +47,7 @@ const PermissionsPage = ({
     setIsPending(true);
     try {
       await updateUserRestrictions(user.uuid, {
-        port_restrictions_enabled: user.port_restrictions_enabled ?? false,
-        allowed_ports: user.allowed_ports ?? [],
         allow_game_server_creation: allowGameServerCreation,
-        mc_router_allow_all_domains: user.mc_router_allow_all_domains ?? true,
-        mc_router_allowed_domains: user.mc_router_allowed_domains ?? [],
       });
     } catch {
       setSubmitError(tModal("submitError"));

@@ -12,14 +12,19 @@ const PixelIcon = ({ icon, resolution = 32, className }: PixelIconProps) => {
   const iconRef = useRef<HTMLSpanElement>(null);
   const [maskUrl, setMaskUrl] = useState<string | null>(null);
 
+  const [svgMarkup, setSvgMarkup] = useState<string | null>(null);
+
   useEffect(() => {
-    const svgElement = iconRef.current?.querySelector("svg");
-    if (!svgElement) {
+    const svg = iconRef.current?.querySelector("svg");
+    setSvgMarkup(svg?.outerHTML ?? null);
+  });
+
+  useEffect(() => {
+    if (!svgMarkup) {
       setMaskUrl(null);
       return;
     }
 
-    const svgMarkup = svgElement.outerHTML;
     const canvas = document.createElement("canvas");
     canvas.width = resolution;
     canvas.height = resolution;
@@ -39,7 +44,7 @@ const PixelIcon = ({ icon, resolution = 32, className }: PixelIconProps) => {
     img.src = url;
 
     return () => URL.revokeObjectURL(url);
-  }, [icon, resolution]);
+  }, [svgMarkup, resolution]);
 
   return (
     <>
