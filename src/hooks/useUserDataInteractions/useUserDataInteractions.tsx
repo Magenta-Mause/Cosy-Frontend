@@ -8,10 +8,14 @@ import {
   useRevokeInvite,
   useUpdateDockerLimits,
   updateRestrictions,
+  updateMcRouterRestrictions,
+  updatePortRestrictions,
 } from "@/api/generated/backend-api.ts";
 import type {
   UserDockerLimitsUpdateDto,
   UserInviteCreationDto,
+  UserMcRouterRestrictionsUpdateDto,
+  UserPortRestrictionsUpdateDto,
   UserRestrictionsUpdateDto,
   UserRoleUpdateDtoRole,
 } from "@/api/generated/model";
@@ -130,6 +134,32 @@ const useUserDataInteractions = () => {
     }
   };
 
+  const updateUserMcRouterRestrictions = async (
+    uuid: string,
+    data: UserMcRouterRestrictionsUpdateDto,
+  ) => {
+    try {
+      const updatedUser = await updateMcRouterRestrictions(uuid, data);
+      dispatch(userSliceActions.updateUser(updatedUser));
+    } catch (err) {
+      notificationModal.error({ message: t("updateRestrictionsError"), cause: err as Error });
+      throw err;
+    }
+  };
+
+  const updateUserPortRestrictions = async (
+    uuid: string,
+    data: UserPortRestrictionsUpdateDto,
+  ) => {
+    try {
+      const updatedUser = await updatePortRestrictions(uuid, data);
+      dispatch(userSliceActions.updateUser(updatedUser));
+    } catch (err) {
+      notificationModal.error({ message: t("updateRestrictionsError"), cause: err as Error });
+      throw err;
+    }
+  };
+
   return {
     createInvite,
     revokeInvite,
@@ -137,6 +167,8 @@ const useUserDataInteractions = () => {
     updateDockerLimits,
     changePasswordByAdmin,
     updateUserRestrictions,
+    updateUserMcRouterRestrictions,
+    updateUserPortRestrictions,
   };
 };
 

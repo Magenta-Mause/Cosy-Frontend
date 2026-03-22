@@ -86,6 +86,8 @@ export * from './userInviteCreationDto';
 export * from './userInviteCreationDtoRole';
 export * from './userInviteDto';
 export * from './userInviteDtoRole';
+export * from './userMcRouterRestrictionsUpdateDto';
+export * from './userPortRestrictionsUpdateDto';
 export * from './userRestrictionsUpdateDto';
 export * from './userRoleUpdateDto';
 export * from './userRoleUpdateDtoRole';

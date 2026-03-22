@@ -68,6 +68,8 @@ import type {
   UserEntityDto,
   UserInviteCreationDto,
   UserInviteDto,
+  UserMcRouterRestrictionsUpdateDto,
+  UserPortRestrictionsUpdateDto,
   UserRestrictionsUpdateDto,
   UserRoleUpdateDto,
   WebhookCreationDto,
@@ -1939,6 +1941,124 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getUpdateRestrictionsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const updatePortRestrictions = (
+    uuid: string,
+    userPortRestrictionsUpdateDto: UserPortRestrictionsUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/port-restrictions`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: userPortRestrictionsUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdatePortRestrictionsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePortRestrictions>>, TError,{uuid: string;data: UserPortRestrictionsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updatePortRestrictions>>, TError,{uuid: string;data: UserPortRestrictionsUpdateDto}, TContext> => {
+
+const mutationKey = ['updatePortRestrictions'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePortRestrictions>>, {uuid: string;data: UserPortRestrictionsUpdateDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updatePortRestrictions(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdatePortRestrictionsMutationResult = NonNullable<Awaited<ReturnType<typeof updatePortRestrictions>>>
+    export type UpdatePortRestrictionsMutationBody = UserPortRestrictionsUpdateDto
+    export type UpdatePortRestrictionsMutationError = unknown
+
+    export const useUpdatePortRestrictions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePortRestrictions>>, TError,{uuid: string;data: UserPortRestrictionsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updatePortRestrictions>>,
+        TError,
+        {uuid: string;data: UserPortRestrictionsUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdatePortRestrictionsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const updateMcRouterRestrictions = (
+    uuid: string,
+    userMcRouterRestrictionsUpdateDto: UserMcRouterRestrictionsUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/mc-router-restrictions`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: userMcRouterRestrictionsUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdateMcRouterRestrictionsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMcRouterRestrictions>>, TError,{uuid: string;data: UserMcRouterRestrictionsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateMcRouterRestrictions>>, TError,{uuid: string;data: UserMcRouterRestrictionsUpdateDto}, TContext> => {
+
+const mutationKey = ['updateMcRouterRestrictions'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateMcRouterRestrictions>>, {uuid: string;data: UserMcRouterRestrictionsUpdateDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updateMcRouterRestrictions(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateMcRouterRestrictionsMutationResult = NonNullable<Awaited<ReturnType<typeof updateMcRouterRestrictions>>>
+    export type UpdateMcRouterRestrictionsMutationBody = UserMcRouterRestrictionsUpdateDto
+    export type UpdateMcRouterRestrictionsMutationError = unknown
+
+    export const useUpdateMcRouterRestrictions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMcRouterRestrictions>>, TError,{uuid: string;data: UserMcRouterRestrictionsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateMcRouterRestrictions>>,
+        TError,
+        {uuid: string;data: UserMcRouterRestrictionsUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateMcRouterRestrictionsMutationOptions(options);
 
       return useMutation(mutationOptions);
     }

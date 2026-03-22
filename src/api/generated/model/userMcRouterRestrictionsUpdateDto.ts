@@ -6,6 +6,7 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface UserRestrictionsUpdateDto {
-  allow_game_server_creation?: boolean;
+export interface UserMcRouterRestrictionsUpdateDto {
+  mc_router_allow_all_domains?: boolean;
+  mc_router_allowed_domains?: string[];
 }

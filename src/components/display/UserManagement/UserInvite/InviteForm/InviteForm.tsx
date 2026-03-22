@@ -1,6 +1,7 @@
 import { CpuLimitInput } from "@components/display/CpuLimit/CpuLimitInput.tsx";
 import { MemoryLimitInput } from "@components/display/MemoryLimit/MemoryLimitInput.tsx";
 import { Badge } from "@components/ui/badge.tsx";
+import { Button } from "@components/ui/button.tsx";
 import { Checkbox } from "@components/ui/checkbox.tsx";
 import { Input } from "@components/ui/input.tsx";
 import {
@@ -11,20 +12,42 @@ import {
   SelectValue,
 } from "@components/ui/select.tsx";
 import { Label } from "@radix-ui/react-label";
-import { X } from "lucide-react";
+import { Plus, X } from "lucide-react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { UserEntityDtoRole } from "@/api/generated/model";
+import { cn } from "@/lib/utils";
 import { useTypedSelector } from "@/stores/rootReducer";
+
+const isValidPortOrRange = (value: string): boolean => {
+  const singlePort = /^\d{1,5}$/;
+  const portRange = /^\d{1,5}-\d{1,5}$/;
+
+  if (singlePort.test(value)) {
+    const port = Number.parseInt(value, 10);
+    return port >= 1 && port <= 65535;
+  }
+
+  if (portRange.test(value)) {
+    const [startStr, endStr] = value.split("-");
+    const start = Number.parseInt(startStr, 10);
+    const end = Number.parseInt(endStr, 10);
+    return start >= 1 && start <= 65535 && end >= 1 && end <= 65535 && start < end;
+  }
+
+  return false;
+};
 
 interface InviteFormProps {
   username: string;
   memory: string | null;
   cpu: number | null;
   userRole: UserEntityDtoRole;
-  // New restriction fields
   allowGameServerCreation: boolean;
   mcRouterAllowAllDomains: boolean;
   mcRouterAllowedDomains: string[];
+  allowAllPorts: boolean;
+  allowedPorts: string[];
   onUsernameChange: (value: string) => void;
   onUserRoleChange: (value: UserEntityDtoRole) => void;
   onMemoryChange: (value: string | null) => void;
@@ -32,6 +55,8 @@ interface InviteFormProps {
   onAllowGameServerCreationChange: (value: boolean) => void;
   onMcRouterAllowAllDomainsChange: (value: boolean) => void;
   onMcRouterAllowedDomainsChange: (value: string[]) => void;
+  onAllowAllPortsChange: (value: boolean) => void;
+  onAllowedPortsChange: (value: string[]) => void;
   onCancel: () => void;
   onSubmit: () => void;
   isCreating: boolean;
@@ -48,6 +73,8 @@ export const InviteForm = ({
   allowGameServerCreation,
   mcRouterAllowAllDomains,
   mcRouterAllowedDomains,
+  allowAllPorts,
+  allowedPorts,
   onUsernameChange,
   onMemoryChange,
   onCpuChange,
@@ -56,13 +83,15 @@ export const InviteForm = ({
   onAllowGameServerCreationChange,
   onMcRouterAllowAllDomainsChange,
   onMcRouterAllowedDomainsChange,
+  onAllowAllPortsChange,
+  onAllowedPortsChange,
   usernameError,
   cpuError,
   memoryError,
 }: InviteFormProps) => {
   const { t } = useTranslation();
+  const [newPort, setNewPort] = useState("");
 
-  // Get available domains from instance settings
   const mcRouterConfig = useTypedSelector(
     (state) => state.cosyInstanceSettingsSliceReducer.settings?.mc_router_configuration,
   );
@@ -71,6 +100,14 @@ export const InviteForm = ({
 
   const handleRemoveDomain = (domain: string) => {
     onMcRouterAllowedDomainsChange(mcRouterAllowedDomains.filter((d) => d !== domain));
+  };
+
+  const handleAddPort = () => {
+    const trimmed = newPort.trim();
+    if (trimmed && isValidPortOrRange(trimmed) && !allowedPorts.includes(trimmed)) {
+      onAllowedPortsChange([...allowedPorts, trimmed]);
+      setNewPort("");
+    }
   };
 
   return (
@@ -144,7 +181,7 @@ export const InviteForm = ({
         </div>
 
         {/* User Restrictions Section */}
-        <div className="border-t pt-4 space-y-4">
+        <div className="border-t pt-4 space-y-1">
           <Label className="font-bold text-sm">{t("userRestrictions.title")}</Label>
 
           {/* Allow Game Server Creation */}
@@ -164,10 +201,76 @@ export const InviteForm = ({
             </div>
           </div>
 
+          {/* Port Restrictions */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <Checkbox
+                id="allow-all-ports"
+                checked={allowAllPorts}
+                onCheckedChange={(checked) => onAllowAllPortsChange(checked === true)}
+              />
+              <div>
+                <Label htmlFor="allow-all-ports" className="text-sm">
+                  {t("userRestrictions.portRestrictions.allowAllPorts")}
+                </Label>
+                <p className="text-xs text-muted-foreground">
+                  {t("userRestrictions.portRestrictions.allowAllPortsDescription")}
+                </p>
+              </div>
+            </div>
+
+            <div
+              className={cn("space-y-2 pl-6", allowAllPorts && "opacity-50 pointer-events-none")}
+            >
+              <Label className="text-sm">
+                {t("userRestrictions.portRestrictions.allowedPorts")}
+              </Label>
+              <p className="text-xs text-muted-foreground">
+                {t("userRestrictions.portRestrictions.allowedPortsDescription")}
+              </p>
+              <div className="flex gap-2">
+                <Input
+                  value={newPort}
+                  onChange={(e) => setNewPort(e.target.value)}
+                  placeholder={t("userRestrictions.portRestrictions.allowedPortsPlaceholder")}
+                  disabled={allowAllPorts}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      handleAddPort();
+                    }
+                  }}
+                />
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleAddPort}
+                  disabled={allowAllPorts || !newPort.trim() || !isValidPortOrRange(newPort.trim())}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {allowedPorts.map((port) => (
+                  <Badge key={port} variant="secondary" className="gap-1">
+                    {port}
+                    <button
+                      type="button"
+                      onClick={() => onAllowedPortsChange(allowedPorts.filter((p) => p !== port))}
+                      className="ml-1 hover:text-destructive"
+                      aria-label={t("userRestrictions.portRestrictions.removePort", { port })}
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* MC-Router Domains (only show if mc-router is enabled) */}
           {isMcRouterEnabled && (
             <div className="space-y-3">
-              {/* Allow All Domains */}
               <div className="flex items-center gap-3">
                 <Checkbox
                   id="mc-router-allow-all"
@@ -184,55 +287,58 @@ export const InviteForm = ({
                 </div>
               </div>
 
-              {/* Specific Domains (only show if not allowing all) */}
-              {!mcRouterAllowAllDomains && (
-                <div className="space-y-2 pl-6">
-                  <Label className="text-sm">{t("userRestrictions.mcRouter.allowedDomains")}</Label>
-                  <p className="text-xs text-muted-foreground">
-                    {t("userRestrictions.mcRouter.allowedDomainsDescription")}
-                  </p>
-                  <div className="flex gap-2">
-                    <Select
-                      value=""
-                      onValueChange={(domain) => {
-                        if (domain && !mcRouterAllowedDomains.includes(domain)) {
-                          onMcRouterAllowedDomainsChange([...mcRouterAllowedDomains, domain]);
-                        }
-                      }}
-                    >
-                      <SelectTrigger className="flex-1">
-                        <SelectValue
-                          placeholder={t("userRestrictions.mcRouter.allowedDomainsPlaceholder")}
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {availableDomains
-                          .filter((d) => !mcRouterAllowedDomains.includes(d))
-                          .map((domain) => (
-                            <SelectItem value={domain} key={domain}>
-                              {domain}
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {mcRouterAllowedDomains.map((domain) => (
-                      <Badge key={domain} variant="secondary" className="gap-1">
-                        {domain}
-                        <button
-                          type="button"
-                          onClick={() => handleRemoveDomain(domain)}
-                          className="ml-1 hover:text-destructive"
-                          aria-label={t("userRestrictions.mcRouter.removeDomain", { domain })}
-                        >
-                          <X className="h-3 w-3" />
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
+              <div
+                className={cn(
+                  "space-y-2 pl-6",
+                  mcRouterAllowAllDomains && "opacity-50 pointer-events-none",
+                )}
+              >
+                <Label className="text-sm">{t("userRestrictions.mcRouter.allowedDomains")}</Label>
+                <p className="text-xs text-muted-foreground">
+                  {t("userRestrictions.mcRouter.allowedDomainsDescription")}
+                </p>
+                <div className="flex gap-2">
+                  <Select
+                    value=""
+                    disabled={mcRouterAllowAllDomains}
+                    onValueChange={(domain) => {
+                      if (domain && !mcRouterAllowedDomains.includes(domain)) {
+                        onMcRouterAllowedDomainsChange([...mcRouterAllowedDomains, domain]);
+                      }
+                    }}
+                  >
+                    <SelectTrigger className="flex-1">
+                      <SelectValue
+                        placeholder={t("userRestrictions.mcRouter.allowedDomainsPlaceholder")}
+                      />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableDomains
+                        .filter((d) => !mcRouterAllowedDomains.includes(d))
+                        .map((domain) => (
+                          <SelectItem value={domain} key={domain}>
+                            {domain}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
                 </div>
-              )}
+                <div className="flex flex-wrap gap-2">
+                  {mcRouterAllowedDomains.map((domain) => (
+                    <Badge key={domain} variant="secondary" className="gap-1">
+                      {domain}
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveDomain(domain)}
+                        className="ml-1 hover:text-destructive"
+                        aria-label={t("userRestrictions.mcRouter.removeDomain", { domain })}
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
         </div>

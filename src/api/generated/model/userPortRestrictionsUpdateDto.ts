@@ -6,6 +6,7 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface UserRestrictionsUpdateDto {
-  allow_game_server_creation?: boolean;
+export interface UserPortRestrictionsUpdateDto {
+  port_restrictions_enabled?: boolean;
+  allowed_ports?: string[];
 }

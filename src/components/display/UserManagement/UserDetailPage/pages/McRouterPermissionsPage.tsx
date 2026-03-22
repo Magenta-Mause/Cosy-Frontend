@@ -27,7 +27,7 @@ const McRouterPermissionsPage = ({
   const { t } = useTranslationPrefix("userRestrictions.mcRouter");
   const { t: tModal } = useTranslationPrefix("userSettingsModal");
   const { t: tRestrictions } = useTranslationPrefix("userRestrictions");
-  const { updateUserRestrictions } = useDataInteractions();
+  const { updateUserMcRouterRestrictions } = useDataInteractions();
 
   const mcRouterConfig = useTypedSelector(
     (state) => state.cosyInstanceSettingsSliceReducer.settings?.mc_router_configuration,
@@ -70,7 +70,7 @@ const McRouterPermissionsPage = ({
     setSubmitError(null);
     setIsPending(true);
     try {
-      await updateUserRestrictions(user.uuid, {
+      await updateUserMcRouterRestrictions(user.uuid, {
         mc_router_allow_all_domains: mcRouterAllowAllDomains,
         mc_router_allowed_domains: mcRouterAllowedDomains,
       });

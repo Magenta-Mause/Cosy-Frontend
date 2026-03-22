@@ -1,10 +1,11 @@
 import PagedModal, { type PagedModalPage } from "@components/ui/PagedModal.tsx";
-import { Cpu, Router, Shield } from "lucide-react";
+import { Cpu, Network, Router, Shield } from "lucide-react";
 import { useCallback, useMemo, useState } from "react";
 import type { UserEntityDto } from "@/api/generated/model";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import McRouterPermissionsPage from "./pages/McRouterPermissionsPage";
 import PermissionsPage from "./pages/PermissionsPage";
+import PortRestrictionsPage from "./pages/PortRestrictionsPage";
 import ResourceLimitsPage from "./pages/ResourceLimitsPage";
 
 interface UserSettingsModalProps {
@@ -39,6 +40,13 @@ const UserSettingsModal = ({ user, open, onOpenChange }: UserSettingsModalProps)
         icon: <Shield className="h-5 w-5" />,
         content: <PermissionsPage user={user} onUnsavedChange={setPageDirty("permissions")} />,
         hasUnsavedChanges: dirtyPages.permissions ?? false,
+      },
+      {
+        id: "port-restrictions",
+        label: t("sidebar.portRestrictions"),
+        icon: <Network className="h-5 w-5" />,
+        content: <PortRestrictionsPage user={user} onUnsavedChange={setPageDirty("port-restrictions")} />,
+        hasUnsavedChanges: dirtyPages["port-restrictions"] ?? false,
       },
       {
         id: "mc-router-permissions",

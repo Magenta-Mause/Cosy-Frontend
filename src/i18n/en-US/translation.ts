@@ -1115,11 +1115,13 @@ const translation: i18nLanguage = {
   userRestrictions: {
     title: "User Restrictions",
     portRestrictions: {
-      enabled: "Enable Port Restrictions",
-      enabledDescription: "When enabled, user can only use ports from the allowed list",
+      title: "Port Restrictions",
+      allowAllPorts: "Allow Access to All Ports",
+      allowAllPortsDescription: "When enabled, user can use any port",
       allowedPorts: "Allowed Ports",
       allowedPortsDescription: "Ports or port ranges (e.g., 25565 or 25565-26000)",
       allowedPortsPlaceholder: "Enter port or range",
+      removePort: "Remove port {{port}}",
     },
     gameServerCreation: {
       allowed: "Allow Game Server Creation",
@@ -1145,6 +1147,7 @@ const translation: i18nLanguage = {
     sidebar: {
       resourceLimits: "Resource Limits",
       permissions: "Permissions",
+      portRestrictions: "Port Restrictions",
       mcRouterPermissions: "MC-Router Permissions",
     },
   },

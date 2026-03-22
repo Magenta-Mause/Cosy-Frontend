@@ -1103,11 +1103,13 @@ export type i18nLanguage = {
   userRestrictions: {
     title: string;
     portRestrictions: {
-      enabled: string;
-      enabledDescription: string;
+      title: string;
+      allowAllPorts: string;
+      allowAllPortsDescription: string;
       allowedPorts: string;
       allowedPortsDescription: string;
       allowedPortsPlaceholder: string;
+      removePort: ContainsVariable<"port">;
     };
     gameServerCreation: {
       allowed: string;
@@ -1132,6 +1134,7 @@ export type i18nLanguage = {
     sidebar: {
       resourceLimits: string;
       permissions: string;
+      portRestrictions: string;
       mcRouterPermissions: string;
     };
   };

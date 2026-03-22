@@ -39,10 +39,12 @@ const UserInviteButton = (props: { className?: string }) => {
   const [cpuError, setCpuError] = useState<string | null>(null);
   const [memoryError, setMemoryError] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  // New restriction states
+  // Restriction states
   const [allowGameServerCreation, setAllowGameServerCreation] = useState(true);
   const [mcRouterAllowAllDomains, setMcRouterAllowAllDomains] = useState(false);
   const [mcRouterAllowedDomains, setMcRouterAllowedDomains] = useState<string[]>([]);
+  const [allowAllPorts, setAllowAllPorts] = useState(true);
+  const [allowedPorts, setAllowedPorts] = useState<string[]>([]);
 
   const validateUsername = (username: string): string | null => {
     if (!username) return null;
@@ -106,6 +108,8 @@ const UserInviteButton = (props: { className?: string }) => {
         mc_router_allow_all_domains: mcRouterAllowAllDomains,
         mc_router_allowed_domains:
           mcRouterAllowedDomains.length > 0 ? mcRouterAllowedDomains : undefined,
+        port_restrictions_enabled: !allowAllPorts,
+        allowed_ports: allowedPorts.length > 0 ? allowedPorts : undefined,
       });
       setGeneratedKey(data.secret_key || "");
       setView("result");
@@ -137,6 +141,8 @@ const UserInviteButton = (props: { className?: string }) => {
     setAllowGameServerCreation(true);
     setMcRouterAllowAllDomains(false);
     setMcRouterAllowedDomains([]);
+    setAllowAllPorts(true);
+    setAllowedPorts([]);
   }, []);
 
   return (
@@ -155,7 +161,7 @@ const UserInviteButton = (props: { className?: string }) => {
           {t("userModal.inviteUserTitle")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-[40%]">
+      <DialogContent className="w-[55%] min-w-96 max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             {view === "invite" && t("userModal.inviteUserTitle")}
@@ -172,12 +178,16 @@ const UserInviteButton = (props: { className?: string }) => {
               allowGameServerCreation={allowGameServerCreation}
               mcRouterAllowAllDomains={mcRouterAllowAllDomains}
               mcRouterAllowedDomains={mcRouterAllowedDomains}
+              allowAllPorts={allowAllPorts}
+              allowedPorts={allowedPorts}
               onUsernameChange={handleUsernameChange}
               onMemoryChange={handleMemoryChange}
               onCpuChange={handleCpuChange}
               onAllowGameServerCreationChange={setAllowGameServerCreation}
               onMcRouterAllowAllDomainsChange={setMcRouterAllowAllDomains}
               onMcRouterAllowedDomainsChange={setMcRouterAllowedDomains}
+              onAllowAllPortsChange={setAllowAllPorts}
+              onAllowedPortsChange={setAllowedPorts}
               onCancel={() => setIsDialogOpen(false)}
               onSubmit={handleCreateInvite}
               onUserRoleChange={setUserRole}
