@@ -1,5 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { type TypedUseSelectorHook, useSelector } from "react-redux";
+import { cosyInstanceSettingsSliceReducer } from "@/stores/slices/cosyInstanceSettingsSlice.ts";
 import { gameServerLogSliceReducer } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerPermissionsSliceReducer } from "@/stores/slices/gameServerPermissionsSlice.ts";
 import { gameServerSliceReducer } from "@/stores/slices/gameServerSlice.ts";
@@ -17,6 +18,7 @@ const appReducer = combineReducers({
   gameServerMetricsSliceReducer,
   userSliceReducer,
   templateSliceReducer,
+  cosyInstanceSettingsSliceReducer,
 });
 
 export const RESET_STORE = "RESET_STORE";

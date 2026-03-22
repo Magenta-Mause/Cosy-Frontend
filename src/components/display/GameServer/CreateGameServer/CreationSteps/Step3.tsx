@@ -1,5 +1,6 @@
 import CpuLimitInputField from "@components/display/GameServer/CreateGameServer/CpuLimitInputField.tsx";
 import KeyValueInput from "@components/display/GameServer/CreateGameServer/KeyValueInput.tsx";
+import McRouterDomainSelector from "@components/display/GameServer/CreateGameServer/McRouterDomainSelector.tsx";
 import MemoryLimitInputFieldCreation from "@components/display/GameServer/CreateGameServer/MemoryLimitInputFieldCreation.tsx";
 import PortInput from "@components/display/GameServer/CreateGameServer/PortInput.tsx";
 import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthProvider.tsx";
@@ -40,6 +41,8 @@ export default function Step3() {
           optional
         />
       </div>
+
+      <McRouterDomainSelector attribute="mc_router_domains" />
 
       <PortInput
         attribute="port_mappings"

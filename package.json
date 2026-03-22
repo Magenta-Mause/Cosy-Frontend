@@ -54,6 +54,7 @@
     "jszip": "^3.10.1",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.562.0",
+    "@radix-ui/react-accordion": "^1.2.3",
     "react": "^19",
     "react-day-picker": "^9.13.0",
     "react-dom": "^19",

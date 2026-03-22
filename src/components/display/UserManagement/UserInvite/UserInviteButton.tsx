@@ -39,6 +39,12 @@ const UserInviteButton = (props: { className?: string }) => {
   const [cpuError, setCpuError] = useState<string | null>(null);
   const [memoryError, setMemoryError] = useState<string | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  // Restriction states
+  const [allowGameServerCreation, setAllowGameServerCreation] = useState(true);
+  const [mcRouterAllowAllDomains, setMcRouterAllowAllDomains] = useState(true);
+  const [mcRouterAllowedDomains, setMcRouterAllowedDomains] = useState<string[]>([]);
+  const [allowAllPorts, setAllowAllPorts] = useState(true);
+  const [allowedPorts, setAllowedPorts] = useState<string[]>([]);
 
   const validateUsername = (username: string): string | null => {
     if (!username) return null;
@@ -98,6 +104,12 @@ const UserInviteButton = (props: { className?: string }) => {
           docker_memory_limit: memoryLimit || undefined,
           docker_max_cpu_cores: cpuLimit || undefined,
         },
+        allow_game_server_creation: allowGameServerCreation,
+        mc_router_allow_all_domains: mcRouterAllowAllDomains,
+        mc_router_allowed_domains:
+          mcRouterAllowedDomains.length > 0 ? mcRouterAllowedDomains : undefined,
+        port_restrictions_enabled: !allowAllPorts,
+        allowed_ports: allowedPorts.length > 0 ? allowedPorts : undefined,
       });
       setGeneratedKey(data.secret_key || "");
       setView("result");
@@ -125,6 +137,12 @@ const UserInviteButton = (props: { className?: string }) => {
     setUsernameError(null);
     setCpuError(null);
     setMemoryError(null);
+    // Reset restriction states
+    setAllowGameServerCreation(true);
+    setMcRouterAllowAllDomains(true);
+    setMcRouterAllowedDomains([]);
+    setAllowAllPorts(true);
+    setAllowedPorts([]);
   }, []);
 
   return (
@@ -143,7 +161,7 @@ const UserInviteButton = (props: { className?: string }) => {
           {t("userModal.inviteUserTitle")}
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-[40%]">
+      <DialogContent className="w-[55%] min-w-96 max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             {view === "invite" && t("userModal.inviteUserTitle")}
@@ -157,9 +175,19 @@ const UserInviteButton = (props: { className?: string }) => {
               userRole={userRole}
               memory={memoryLimit}
               cpu={cpuLimit}
+              allowGameServerCreation={allowGameServerCreation}
+              mcRouterAllowAllDomains={mcRouterAllowAllDomains}
+              mcRouterAllowedDomains={mcRouterAllowedDomains}
+              allowAllPorts={allowAllPorts}
+              allowedPorts={allowedPorts}
               onUsernameChange={handleUsernameChange}
               onMemoryChange={handleMemoryChange}
               onCpuChange={handleCpuChange}
+              onAllowGameServerCreationChange={setAllowGameServerCreation}
+              onMcRouterAllowAllDomainsChange={setMcRouterAllowAllDomains}
+              onMcRouterAllowedDomainsChange={setMcRouterAllowedDomains}
+              onAllowAllPortsChange={setAllowAllPorts}
+              onAllowedPortsChange={setAllowedPorts}
               onCancel={() => setIsDialogOpen(false)}
               onSubmit={handleCreateInvite}
               onUserRoleChange={setUserRole}

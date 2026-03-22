@@ -1,3 +1,4 @@
+import InstanceSettingsButton from "@components/display/Configurations/OptionsBannerDropdown/InstanceSettingsButton/InstanceSettingsButton.tsx";
 import LanguageSelector from "@components/display/Configurations/OptionsBannerDropdown/LanguageSelector/LanguageSelector.tsx";
 import LogOutButton from "@components/display/Configurations/OptionsBannerDropdown/LogOutButton/LogOutButton.tsx";
 import UserMenuButton from "@components/display/Configurations/OptionsBannerDropdown/UserMenuButton/UserMenuButton.tsx";
@@ -5,18 +6,21 @@ import { AuthContext } from "@components/technical/Providers/AuthProvider/AuthPr
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import banner from "@/assets/header/Banner.webp";
+import banner from "@/assets/header/extendedBanner.webp";
 import { cn } from "@/lib/utils.ts";
 
 const OptionsBannerDropdown = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasOpenDialog, setHasOpenDialog] = useState(false);
   const [userTooltipOpen, setUserTooltipOpen] = useState(false);
+  const [settingsTooltipOpen, setSettingsTooltipOpen] = useState(false);
   const [logOutTooltipOpen, setLogOutTooltipOpen] = useState(false);
   const bannerRef = useRef<HTMLDivElement>(null);
   const collapseTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { t } = useTranslation();
-  const { authorized } = useContext(AuthContext);
+  const { authorized, role } = useContext(AuthContext);
+
+  const isAdmin = role === "ADMIN" || role === "OWNER";
 
   const handleMouseEnter = () => {
     if (hasOpenDialog) return;
@@ -49,6 +53,7 @@ const OptionsBannerDropdown = () => {
       if (hasOpenDialog) {
         setIsExpanded(false);
         setUserTooltipOpen(false);
+        setSettingsTooltipOpen(false);
         setLogOutTooltipOpen(false);
       }
     };
@@ -89,7 +94,7 @@ const OptionsBannerDropdown = () => {
       }}
       className={cn(
         "flex flex-col gap-4 items-center justify-center",
-        "fixed z-50 left-[5%] w-20 h-65",
+        "fixed z-50 left-[5%] w-[69px] h-[340px]",
         "cursor-pointer transition-all duration-300 ease-in-out",
         "overflow-visible border-0",
         hasOpenDialog && "pointer-events-none",
@@ -103,7 +108,7 @@ const OptionsBannerDropdown = () => {
         backgroundImage: banner ? `url(${banner})` : undefined,
         backgroundRepeat: "no-repeat",
         backgroundPosition: "bottom",
-        backgroundSize: "contain",
+        backgroundSize: "100% auto",
         paddingTop: "1rem",
         paddingBottom: "4rem",
         imageRendering: "pixelated",
@@ -141,6 +146,24 @@ const OptionsBannerDropdown = () => {
             >
               <UserMenuButton tabIndex={isExpanded ? undefined : -1} className="size-12" />
             </TooltipWrapper>
+            {isAdmin && (
+              <TooltipWrapper
+                tooltip={t("optionsBanner.instanceSettings")}
+                side="right"
+                open={settingsTooltipOpen}
+                onOpenChange={setSettingsTooltipOpen}
+                triggerProps={{
+                  onMouseDown: () => setSettingsTooltipOpen(false),
+                  onPointerDown: () => setSettingsTooltipOpen(false),
+                }}
+                asChild
+              >
+                <InstanceSettingsButton
+                  tabIndex={isExpanded ? undefined : -1}
+                  className="size-12"
+                />
+              </TooltipWrapper>
+            )}
             <TooltipWrapper
               tooltip={t("optionsBanner.logout")}
               side="right"

@@ -7,10 +7,16 @@ import {
   useCreateInvite,
   useRevokeInvite,
   useUpdateDockerLimits,
+  useUpdateMcRouterRestrictions,
+  useUpdatePortRestrictions,
+  useUpdateRestrictions,
 } from "@/api/generated/backend-api.ts";
 import type {
   UserDockerLimitsUpdateDto,
   UserInviteCreationDto,
+  UserMcRouterRestrictionsUpdateDto,
+  UserPortRestrictionsUpdateDto,
+  UserRestrictionsUpdateDto,
   UserRoleUpdateDtoRole,
 } from "@/api/generated/model";
 import { notificationModal } from "@/lib/notificationModal";
@@ -118,12 +124,69 @@ const useUserDataInteractions = () => {
     await mutateChangePasswordByAdmin({ uuid, data: { new_password: newPassword } });
   };
 
+  const { mutateAsync: mutateUpdateRestrictions } = useUpdateRestrictions({
+    mutation: {
+      onSuccess: (updatedUser) => {
+        dispatch(userSliceActions.updateUser(updatedUser));
+        notificationModal.success({ message: t("updateRestrictionsSuccess") });
+      },
+      onError: (err) => {
+        notificationModal.error({ message: t("updateRestrictionsError"), cause: err });
+        throw err;
+      },
+    },
+  });
+
+  const updateUserRestrictions = async (uuid: string, data: UserRestrictionsUpdateDto) => {
+    await mutateUpdateRestrictions({ uuid, data });
+  };
+
+  const { mutateAsync: mutateUpdateMcRouterRestrictions } = useUpdateMcRouterRestrictions({
+    mutation: {
+      onSuccess: (updatedUser) => {
+        dispatch(userSliceActions.updateUser(updatedUser));
+        notificationModal.success({ message: t("updateRestrictionsSuccess") });
+      },
+      onError: (err) => {
+        notificationModal.error({ message: t("updateRestrictionsError"), cause: err });
+        throw err;
+      },
+    },
+  });
+
+  const updateUserMcRouterRestrictions = async (
+    uuid: string,
+    data: UserMcRouterRestrictionsUpdateDto,
+  ) => {
+    await mutateUpdateMcRouterRestrictions({ uuid, data });
+  };
+
+  const { mutateAsync: mutateUpdatePortRestrictions } = useUpdatePortRestrictions({
+    mutation: {
+      onSuccess: (updatedUser) => {
+        dispatch(userSliceActions.updateUser(updatedUser));
+        notificationModal.success({ message: t("updateRestrictionsSuccess") });
+      },
+      onError: (err) => {
+        notificationModal.error({ message: t("updateRestrictionsError"), cause: err });
+        throw err;
+      },
+    },
+  });
+
+  const updateUserPortRestrictions = async (uuid: string, data: UserPortRestrictionsUpdateDto) => {
+    await mutateUpdatePortRestrictions({ uuid, data });
+  };
+
   return {
     createInvite,
     revokeInvite,
     changeRole,
     updateDockerLimits,
     changePasswordByAdmin,
+    updateUserRestrictions,
+    updateUserMcRouterRestrictions,
+    updateUserPortRestrictions,
   };
 };
 

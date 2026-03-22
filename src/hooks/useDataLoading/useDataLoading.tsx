@@ -8,13 +8,17 @@ import {
   getAllUserInvites,
   getGameServerById,
   getLogs,
+  getMcRouterConfiguration,
+  getMcRouterStatus,
   getMetrics,
   getPublicEvaluableMetrics,
+  getSettings,
   getUserPermissions,
 } from "@/api/generated/backend-api.ts";
 import { GameServerAccessGroupDtoPermissionsItem, type GameServerDto } from "@/api/generated/model";
 import { notificationModal } from "@/lib/notificationModal";
 import { containsPermission } from "@/lib/permissionCalculations.ts";
+import { cosyInstanceSettingsSliceActions } from "@/stores/slices/cosyInstanceSettingsSlice.ts";
 import { gameServerLogSliceActions } from "@/stores/slices/gameServerLogSlice.ts";
 import { gameServerMetricsSliceActions } from "@/stores/slices/gameServerMetrics";
 import { gameServerPermissionsSliceActions } from "@/stores/slices/gameServerPermissionsSlice.ts";
@@ -118,6 +122,41 @@ const useDataLoading = () => {
     } catch {
       dispatch(userInviteSliceActions.setState("failed"));
       return false;
+    }
+  }, [dispatch]);
+
+  const loadCosyInstanceSettings = useCallback(async () => {
+    dispatch(cosyInstanceSettingsSliceActions.setState("loading"));
+    try {
+      const settings = await getSettings();
+      dispatch(cosyInstanceSettingsSliceActions.setSettings(settings));
+      return true;
+    } catch (e) {
+      console.error("Unexpected error while loading cosy instance settings", e);
+      dispatch(cosyInstanceSettingsSliceActions.setState("failed"));
+      return false;
+    }
+  }, [dispatch]);
+
+  const loadMcRouterConfiguration = useCallback(async () => {
+    try {
+      const config = await getMcRouterConfiguration();
+      dispatch(cosyInstanceSettingsSliceActions.updateMcRouterConfiguration(config));
+      return config;
+    } catch (e) {
+      console.error("Unexpected error while loading mc-router configuration", e);
+      return null;
+    }
+  }, [dispatch]);
+
+  const loadMcRouterStatus = useCallback(async () => {
+    try {
+      const status = await getMcRouterStatus();
+      dispatch(cosyInstanceSettingsSliceActions.setMcRouterStatus(status));
+      return status;
+    } catch (e) {
+      console.error("Unexpected error while loading mc-router status", e);
+      return null;
     }
   }, [dispatch]);
 
@@ -393,13 +432,14 @@ const useDataLoading = () => {
 
   const loadAllData = useCallback(
     async (isAdmin: boolean = false) => {
-      const tasks = [loadGameServers(), loadTemplates()];
-      const taskNames = ["gameServers", "templates"];
+      // MC-Router config is loaded for all users so they can see available domains when creating Minecraft servers
+      const tasks = [loadGameServers(), loadTemplates(), loadMcRouterConfiguration()];
+      const taskNames = ["gameServers", "templates", "mcRouterConfiguration"];
 
-      // Only load users and invites for admin users
+      // Only load users, invites, and full instance settings for admin users
       if (isAdmin) {
-        tasks.push(loadUsers(), loadInvites());
-        taskNames.push("users", "invites");
+        tasks.push(loadUsers(), loadInvites(), loadCosyInstanceSettings());
+        taskNames.push("users", "invites", "cosyInstanceSettings");
       }
 
       const results = await Promise.allSettled(tasks);
@@ -407,13 +447,18 @@ const useDataLoading = () => {
       const summary = {
         gameServers: results[0].status === "fulfilled" && results[0].value === true,
         templates: results[1].status === "fulfilled" && results[1].value === true,
+        mcRouterConfiguration: results[2].status === "fulfilled" && results[2].value !== null,
         users:
-          isAdmin && results[2]
-            ? results[2].status === "fulfilled" && results[2].value === true
-            : undefined,
-        invites:
           isAdmin && results[3]
             ? results[3].status === "fulfilled" && results[3].value === true
+            : undefined,
+        invites:
+          isAdmin && results[4]
+            ? results[4].status === "fulfilled" && results[4].value === true
+            : undefined,
+        cosyInstanceSettings:
+          isAdmin && results[5]
+            ? results[5].status === "fulfilled" && results[5].value === true
             : undefined,
       };
 
@@ -425,7 +470,14 @@ const useDataLoading = () => {
 
       return summary;
     },
-    [loadGameServers, loadTemplates, loadUsers, loadInvites],
+    [
+      loadGameServers,
+      loadTemplates,
+      loadUsers,
+      loadInvites,
+      loadCosyInstanceSettings,
+      loadMcRouterConfiguration,
+    ],
   );
 
   return {
@@ -440,6 +492,9 @@ const useDataLoading = () => {
     loadAdditionalGameServerData,
     loadGameServer,
     loadPublicGameServer,
+    loadCosyInstanceSettings,
+    loadMcRouterConfiguration,
+    loadMcRouterStatus,
   };
 };
 

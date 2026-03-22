@@ -18,4 +18,5 @@ export const mapGameServerDtoToUpdate = (server: GameServerDto): GameServerUpdat
     docker_memory_limit: server.docker_hardware_limits?.docker_memory_limit,
     docker_max_cpu_cores: server.docker_hardware_limits?.docker_max_cpu_cores,
   },
+  mc_router_domains: server.mc_router_domains,
 });

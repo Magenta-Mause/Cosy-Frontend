@@ -61,6 +61,8 @@ const translation: i18nLanguage = {
     updateFooterError: "Fehler beim Aktualisieren der Fußzeile",
     adminChangePasswordSuccess: "Passwort erfolgreich geändert!",
     adminChangePasswordError: "Fehler beim Ändern des Passworts",
+    updateRestrictionsSuccess: "Benutzereinschränkungen erfolgreich aktualisiert!",
+    updateRestrictionsError: "Fehler beim Aktualisieren der Benutzereinschränkungen",
   },
   userModal: {
     title: "Benutzer",
@@ -196,6 +198,7 @@ const translation: i18nLanguage = {
   optionsBanner: {
     languageSelector: "Sprache auswählen",
     userMenu: "Benutzermenü",
+    instanceSettings: "Instanz-Einstellungen",
     logout: "Abmelden",
   },
   filesPage: {
@@ -340,6 +343,18 @@ const translation: i18nLanguage = {
             description: "Maximale CPU-Kerne, die diesem Server zugewiesen werden",
             errorLabel: "Bitte gib ein gültiges CPU-Limit ein.",
           },
+          mcRouterDomains: {
+            title: "MC-Router Domains",
+            description:
+              "Wähle Domains für das Minecraft-Server-Routing. Spieler können sich über diese Domains auf Port 25565 verbinden.",
+            placeholder: "Domains auswählen...",
+            noDomains:
+              "Keine Domains verfügbar. Kontaktiere einen Administrator um MC-Router Domains zu konfigurieren.",
+            notEnabled:
+              "MC-Router ist nicht aktiviert. Kontaktiere einen Administrator um es zu aktivieren.",
+            selectDomains: "Domains auswählen",
+            selectedCount: "{{count}} Domain(s) ausgewählt",
+          },
         },
       },
       autoCompleteInputField: {
@@ -452,7 +467,7 @@ const translation: i18nLanguage = {
       portSelection: {
         title: "Port-Zuordnungen",
         errorLabel: "Port muss eine Zahl zwischen 1 und 65535 sein",
-        description: "Port, auf dem dein Server läuft",
+        description: "Port, der von deinem Server erreichbar sein soll",
         placeholder: {
           instancePort: "Instanz Port",
           containerPort: "Container Port",
@@ -558,6 +573,7 @@ const translation: i18nLanguage = {
         rcon: "RCON",
         webhooks: "Webhooks",
         design: "Design",
+        gameSpecific: "Spielspezifisch",
       },
       sections: {
         general: "Allgemeine Einstellungen",
@@ -662,6 +678,17 @@ const translation: i18nLanguage = {
             "Dein öffentliches Dashboard enthält Metriken oder Log-Widgets. Diese Daten sind für jeden im Internet sichtbar. Metriken und Logs können sensible Informationen enthalten. Bitte stelle sicher, dass du diese Daten öffentlich teilen möchtest.",
           cancel: "Abbrechen",
           confirm: "Trotzdem speichern",
+        },
+      },
+      gameSpecific: {
+        title: "Spielspezifische Einstellungen",
+        description:
+          "Konfiguriere Einstellungen, die spezifisch für das Spiel auf diesem Server sind.",
+        serverNeedsToBeStopped: "Der Server muss gestoppt sein, um diese Einstellungen zu ändern.",
+        noGameSpecificSettings:
+          "Keine spielspezifischen Einstellungen für diesen Server verfügbar.",
+        minecraft: {
+          title: "Minecraft",
         },
       },
     },
@@ -836,6 +863,13 @@ const translation: i18nLanguage = {
           confirmButton: "Speichern",
           submitError: "Fehler beim Aktualisieren der Ressourcenlimits",
         },
+        updateRestrictionsDialog: {
+          title: "Benutzereinschränkungen bearbeiten",
+          description: "Konfiguriere Einschränkungen für diesen Benutzer.",
+          cancelButton: "Abbrechen",
+          confirmButton: "Speichern",
+          submitError: "Fehler beim Aktualisieren der Einschränkungen",
+        },
         changeRoleDialog: {
           title: "Rolle ändern",
           description: "Wähle eine neue Rolle für diesen Benutzer.",
@@ -862,7 +896,7 @@ const translation: i18nLanguage = {
         yourProfile: "Du",
         actions: {
           editPassword: "Passwort ändern",
-          editDockerLimits: "Ressourcenlimits bearbeiten",
+          editSettings: "Berechtigungen ändern",
           editRole: "Rolle ändern",
           deleteUser: "Benutzer löschen",
         },
@@ -1024,6 +1058,117 @@ const translation: i18nLanguage = {
   dashboard: {
     showPublicDashboard: "Öffentliches Dashboard anzeigen",
     hidePublicDashboard: "Privates Dashboard anzeigen",
+  },
+  cosyInstanceSettings: {
+    title: "Instanzeinstellungen",
+    description: "Konfiguriere deine COSY-Instanzeinstellungen",
+    save: "Änderungen speichern",
+    saveSuccess: "Einstellungen erfolgreich gespeichert",
+    saveError: "Fehler beim Speichern der Einstellungen",
+    revert: "Änderungen verwerfen",
+    sidebar: {
+      mcRouter: "MC-Router",
+      footer: "Fußzeile / Kontakt",
+    },
+    mcRouter: {
+      title: "MC-Router Konfiguration",
+      description:
+        "MC-Router ermöglicht es mehreren Minecraft-Servern, Port 25565 mit domainbasiertem Routing zu teilen.",
+      enabled: "MC-Router aktivieren",
+      enabledDescription:
+        "Wenn aktiviert, können Minecraft-Server domainbasiertes Routing verwenden",
+      port: "Router Port",
+      portDescription: "Der Port, auf dem MC-Router lauscht (Standard: 25565)",
+      portPlaceholder: "25565",
+      domains: "Erlaubte Domains",
+      domainsDescription: "Liste der Domains, die von Servern verwendet werden können",
+      domainsPlaceholder: "Domain eingeben (z.B. mc.beispiel.de)",
+      addDomain: "Domain hinzufügen",
+      removeDomain: "Domain {{domain}} entfernen",
+      status: {
+        title: "Router Status",
+        label: "Status:",
+        running: "Läuft",
+        stopped: "Gestoppt",
+        startButton: "Router starten",
+        stopButton: "Router stoppen",
+        containerId: "Container ID",
+        startSuccess: "MC-Router erfolgreich gestartet",
+        startError: "Fehler beim Starten von MC-Router",
+        stopSuccess: "MC-Router erfolgreich gestoppt",
+        stopError: "Fehler beim Stoppen von MC-Router",
+      },
+      confirmDisable: {
+        title: "MC-Router deaktivieren?",
+        description:
+          "Es gibt Minecraft-Server mit konfigurierten Domains. Das Deaktivieren von MC-Router führt dazu, dass diese ihr Domain-Routing verlieren.",
+        cancel: "Abbrechen",
+        confirm: "Trotzdem deaktivieren",
+      },
+    },
+    footer: {
+      title: "Fußzeile / Kontaktinformationen",
+      description:
+        "Konfiguriere die Kontaktinformationen, die in der Fußzeile der Anwendung angezeigt werden.",
+      fullName: "Vollständiger Name",
+      fullNamePlaceholder: "Max Mustermann",
+      email: "E-Mail-Adresse",
+      emailPlaceholder: "max@beispiel.de",
+      phone: "Telefonnummer",
+      phonePlaceholder: "+49 123 456 789",
+      street: "Straße",
+      streetPlaceholder: "Musterstraße 123",
+      city: "Stadt & PLZ",
+      cityPlaceholder: "12345 Musterstadt",
+    },
+  },
+  userRestrictions: {
+    title: "Benutzereinschränkungen",
+    portRestrictions: {
+      title: "Port-Einschränkungen",
+      allowAllPorts: "Zugriff auf alle Ports erlauben",
+      allowAllPortsDescription: "Wenn aktiviert, kann der Benutzer jeden Port verwenden",
+      allowedPorts: "Erlaubte Ports",
+      allowedPortsDescription: "Ports oder Port-Bereiche (z.B. 25565 oder 25565-26000)",
+      allowedPortsPlaceholder: "Port oder Bereich eingeben",
+      removePort: "Port {{port}} entfernen",
+    },
+    gameServerCreation: {
+      allowed: "Gameserver-Erstellung erlauben",
+      allowedDescription: "Wenn deaktiviert, kann der Benutzer keine neuen Gameserver erstellen",
+    },
+    mcRouter: {
+      title: "MC-Router Berechtigungen",
+      allowAllDomains: "Alle MC-Router Domains erlauben",
+      allowAllDomainsDescription:
+        "Wenn aktiviert, kann der Benutzer jede konfigurierte Domain verwenden",
+      allowedDomains: "Erlaubte Domains",
+      allowedDomainsDescription: "Bestimmte Domains, die dieser Benutzer verwenden kann",
+      allowedDomainsPlaceholder: "Domain eingeben",
+      removeDomain: "Domain {{domain}} entfernen",
+      disabledHint:
+        "MC-Router muss in den Cosy-Instanzeinstellungen aktiviert werden, um Domain-Einschränkungen zu konfigurieren.",
+    },
+  },
+  userSettingsModal: {
+    title: "Benutzereinstellungen",
+    save: "Speichern",
+    revert: "Zurücksetzen",
+    submitError: "Fehler beim Speichern der Einstellungen",
+    sidebar: {
+      resourceLimits: "Ressourcenlimits",
+      permissions: "Berechtigungen",
+      portRestrictions: "Port-Einschränkungen",
+      mcRouterPermissions: "MC-Router Berechtigungen",
+    },
+  },
+  mcRouterDomains: {
+    title: "MC-Router Domains",
+    description: "Konfiguriere Domains für diesen Minecraft-Server",
+    placeholder: "Domains auswählen...",
+    addDomain: "Domain hinzufügen",
+    noDomainsAvailable: "Keine Domains verfügbar. Kontaktiere einen Administrator.",
+    mcRouterNotEnabled: "MC-Router ist nicht aktiviert. Kontaktiere einen Administrator.",
   },
 };
 

@@ -17,4 +17,9 @@ export interface UserInviteDto {
   created_at?: string;
   role?: UserInviteDtoRole;
   docker_hardware_limits?: DockerHardwareLimits;
+  port_restrictions_enabled?: boolean;
+  allowed_ports?: string[];
+  allow_game_server_creation?: boolean;
+  mc_router_allow_all_domains?: boolean;
+  mc_router_allowed_domains?: string[];
 }

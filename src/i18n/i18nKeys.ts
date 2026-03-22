@@ -60,6 +60,8 @@ export type i18nLanguage = {
     updateFooterError: string;
     adminChangePasswordSuccess: string;
     adminChangePasswordError: string;
+    updateRestrictionsSuccess: string;
+    updateRestrictionsError: string;
   };
 
   userModal: {
@@ -202,6 +204,7 @@ export type i18nLanguage = {
   optionsBanner: {
     languageSelector: string;
     userMenu: string;
+    instanceSettings: string;
     logout: string;
   };
 
@@ -392,6 +395,15 @@ export type i18nLanguage = {
             description: string;
             errorLabel: string;
           };
+          mcRouterDomains: {
+            title: string;
+            description: string;
+            placeholder: string;
+            noDomains: string;
+            notEnabled: string;
+            selectDomains: string;
+            selectedCount: ContainsVariable<"count">;
+          };
         };
       };
       autoCompleteInputField: {
@@ -553,6 +565,13 @@ export type i18nLanguage = {
           confirmButton: string;
           submitError: string;
         };
+        updateRestrictionsDialog: {
+          title: string;
+          description: string;
+          cancelButton: string;
+          confirmButton: string;
+          submitError: string;
+        };
         changeRoleDialog: {
           title: string;
           description: string;
@@ -579,7 +598,7 @@ export type i18nLanguage = {
         yourProfile: string;
         actions: {
           editPassword: string;
-          editDockerLimits: string;
+          editSettings: string;
           editRole: string;
           deleteUser: string;
         };
@@ -691,6 +710,7 @@ export type i18nLanguage = {
         rcon: string;
         webhooks: string;
         design: string;
+        gameSpecific: string;
       };
       sections: {
         general: string;
@@ -790,6 +810,15 @@ export type i18nLanguage = {
           description: string;
           cancel: string;
           confirm: string;
+        };
+      };
+      gameSpecific: {
+        title: string;
+        description: string;
+        serverNeedsToBeStopped: string;
+        noGameSpecificSettings: string;
+        minecraft: {
+          title: string;
         };
       };
     };
@@ -1011,6 +1040,111 @@ export type i18nLanguage = {
   dashboard: {
     showPublicDashboard: string;
     hidePublicDashboard: string;
+  };
+  cosyInstanceSettings: {
+    title: string;
+    description: string;
+    save: string;
+    saveSuccess: string;
+    saveError: string;
+    revert: string;
+    sidebar: {
+      mcRouter: string;
+      footer: string;
+    };
+    mcRouter: {
+      title: string;
+      description: string;
+      enabled: string;
+      enabledDescription: string;
+      port: string;
+      portDescription: string;
+      portPlaceholder: string;
+      domains: string;
+      domainsDescription: string;
+      domainsPlaceholder: string;
+      addDomain: string;
+      removeDomain: ContainsVariable<"domain">;
+      status: {
+        title: string;
+        label: string;
+        running: string;
+        stopped: string;
+        startButton: string;
+        stopButton: string;
+        containerId: string;
+        startSuccess: string;
+        startError: string;
+        stopSuccess: string;
+        stopError: string;
+      };
+      confirmDisable: {
+        title: string;
+        description: string;
+        cancel: string;
+        confirm: string;
+      };
+    };
+    footer: {
+      title: string;
+      description: string;
+      fullName: string;
+      fullNamePlaceholder: string;
+      email: string;
+      emailPlaceholder: string;
+      phone: string;
+      phonePlaceholder: string;
+      street: string;
+      streetPlaceholder: string;
+      city: string;
+      cityPlaceholder: string;
+    };
+  };
+  userRestrictions: {
+    title: string;
+    portRestrictions: {
+      title: string;
+      allowAllPorts: string;
+      allowAllPortsDescription: string;
+      allowedPorts: string;
+      allowedPortsDescription: string;
+      allowedPortsPlaceholder: string;
+      removePort: ContainsVariable<"port">;
+    };
+    gameServerCreation: {
+      allowed: string;
+      allowedDescription: string;
+    };
+    mcRouter: {
+      title: string;
+      allowAllDomains: string;
+      allowAllDomainsDescription: string;
+      allowedDomains: string;
+      allowedDomainsDescription: string;
+      allowedDomainsPlaceholder: string;
+      removeDomain: ContainsVariable<"domain">;
+      disabledHint: string;
+    };
+  };
+  userSettingsModal: {
+    title: string;
+    save: string;
+    revert: string;
+    submitError: string;
+    sidebar: {
+      resourceLimits: string;
+      permissions: string;
+      portRestrictions: string;
+      mcRouterPermissions: string;
+    };
+  };
+  mcRouterDomains: {
+    title: string;
+    description: string;
+    placeholder: string;
+    addDomain: string;
+    noDomainsAvailable: string;
+    mcRouterNotEnabled: string;
   };
 };
 

@@ -6,10 +6,12 @@
  * OpenAPI spec version: v1.0
  */
 
-export interface RCONConfiguration {
+export interface McRouterConfigurationUpdateDto {
   enabled?: boolean;
+  /**
+   * @minimum 1
+   * @maximum 65535
+   */
   port?: number;
-  password?: string;
-  password_valid?: boolean;
-  port_valid?: boolean;
+  domains?: string[];
 }

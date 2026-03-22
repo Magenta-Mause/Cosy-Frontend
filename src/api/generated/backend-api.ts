@@ -22,6 +22,8 @@ import type {
 import type {
   AccessGroupCreationDto,
   AccessGroupUpdateDto,
+  CosyInstanceSettingsDto,
+  CosyInstanceSettingsUpdateDto,
   CreateDirectoryInVolumeParams,
   DeleteInVolumeParams,
   DownloadDirectoryAsZipParams,
@@ -42,6 +44,9 @@ import type {
   GetServiceInfo200,
   GetUserPermissions200Item,
   LoginDto,
+  McRouterConfigurationDto,
+  McRouterConfigurationUpdateDto,
+  McRouterStatusDto,
   MetricLayout,
   MetricPointDto,
   PasswordUpdateByAdminDto,
@@ -63,6 +68,9 @@ import type {
   UserEntityDto,
   UserInviteCreationDto,
   UserInviteDto,
+  UserMcRouterRestrictionsUpdateDto,
+  UserPortRestrictionsUpdateDto,
+  UserRestrictionsUpdateDto,
   UserRoleUpdateDto,
   WebhookCreationDto,
   WebhookDto,
@@ -550,6 +558,248 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getUpdateFooterMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const getSettings = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<CosyInstanceSettingsDto>(
+      {url: `/cosy-settings`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetSettingsQueryKey = () => {
+    return [
+    `/cosy-settings`
+    ] as const;
+    }
+
+    
+export const getGetSettingsQueryOptions = <TData = Awaited<ReturnType<typeof getSettings>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getSettings>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetSettingsQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSettings>>> = ({ signal }) => getSettings(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getSettings>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetSettingsQueryResult = NonNullable<Awaited<ReturnType<typeof getSettings>>>
+export type GetSettingsQueryError = unknown
+
+
+
+export function useGetSettings<TData = Awaited<ReturnType<typeof getSettings>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getSettings>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetSettingsQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const updateSettings = (
+    cosyInstanceSettingsUpdateDto: CosyInstanceSettingsUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<CosyInstanceSettingsDto>(
+      {url: `/cosy-settings`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: cosyInstanceSettingsUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdateSettingsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSettings>>, TError,{data: CosyInstanceSettingsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateSettings>>, TError,{data: CosyInstanceSettingsUpdateDto}, TContext> => {
+
+const mutationKey = ['updateSettings'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateSettings>>, {data: CosyInstanceSettingsUpdateDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  updateSettings(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateSettingsMutationResult = NonNullable<Awaited<ReturnType<typeof updateSettings>>>
+    export type UpdateSettingsMutationBody = CosyInstanceSettingsUpdateDto
+    export type UpdateSettingsMutationError = unknown
+
+    export const useUpdateSettings = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSettings>>, TError,{data: CosyInstanceSettingsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateSettings>>,
+        TError,
+        {data: CosyInstanceSettingsUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateSettingsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const getMcRouterConfiguration = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<McRouterConfigurationDto>(
+      {url: `/cosy-settings/mc-router`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetMcRouterConfigurationQueryKey = () => {
+    return [
+    `/cosy-settings/mc-router`
+    ] as const;
+    }
+
+    
+export const getGetMcRouterConfigurationQueryOptions = <TData = Awaited<ReturnType<typeof getMcRouterConfiguration>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMcRouterConfiguration>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetMcRouterConfigurationQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getMcRouterConfiguration>>> = ({ signal }) => getMcRouterConfiguration(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getMcRouterConfiguration>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetMcRouterConfigurationQueryResult = NonNullable<Awaited<ReturnType<typeof getMcRouterConfiguration>>>
+export type GetMcRouterConfigurationQueryError = unknown
+
+
+
+export function useGetMcRouterConfiguration<TData = Awaited<ReturnType<typeof getMcRouterConfiguration>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMcRouterConfiguration>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetMcRouterConfigurationQueryOptions(options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const updateMcRouterConfiguration = (
+    mcRouterConfigurationUpdateDto: McRouterConfigurationUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<McRouterConfigurationDto>(
+      {url: `/cosy-settings/mc-router`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: mcRouterConfigurationUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdateMcRouterConfigurationMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMcRouterConfiguration>>, TError,{data: McRouterConfigurationUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateMcRouterConfiguration>>, TError,{data: McRouterConfigurationUpdateDto}, TContext> => {
+
+const mutationKey = ['updateMcRouterConfiguration'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateMcRouterConfiguration>>, {data: McRouterConfigurationUpdateDto}> = (props) => {
+          const {data} = props ?? {};
+
+          return  updateMcRouterConfiguration(data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateMcRouterConfigurationMutationResult = NonNullable<Awaited<ReturnType<typeof updateMcRouterConfiguration>>>
+    export type UpdateMcRouterConfigurationMutationBody = McRouterConfigurationUpdateDto
+    export type UpdateMcRouterConfigurationMutationError = unknown
+
+    export const useUpdateMcRouterConfiguration = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMcRouterConfiguration>>, TError,{data: McRouterConfigurationUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateMcRouterConfiguration>>,
+        TError,
+        {data: McRouterConfigurationUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateMcRouterConfigurationMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -1632,6 +1882,183 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       > => {
 
       const mutationOptions = getLoginMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const updateRestrictions = (
+    uuid: string,
+    userRestrictionsUpdateDto: UserRestrictionsUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/restrictions`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: userRestrictionsUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdateRestrictionsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRestrictions>>, TError,{uuid: string;data: UserRestrictionsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateRestrictions>>, TError,{uuid: string;data: UserRestrictionsUpdateDto}, TContext> => {
+
+const mutationKey = ['updateRestrictions'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateRestrictions>>, {uuid: string;data: UserRestrictionsUpdateDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updateRestrictions(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateRestrictionsMutationResult = NonNullable<Awaited<ReturnType<typeof updateRestrictions>>>
+    export type UpdateRestrictionsMutationBody = UserRestrictionsUpdateDto
+    export type UpdateRestrictionsMutationError = unknown
+
+    export const useUpdateRestrictions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRestrictions>>, TError,{uuid: string;data: UserRestrictionsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateRestrictions>>,
+        TError,
+        {uuid: string;data: UserRestrictionsUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateRestrictionsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const updatePortRestrictions = (
+    uuid: string,
+    userPortRestrictionsUpdateDto: UserPortRestrictionsUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/port-restrictions`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: userPortRestrictionsUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdatePortRestrictionsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePortRestrictions>>, TError,{uuid: string;data: UserPortRestrictionsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updatePortRestrictions>>, TError,{uuid: string;data: UserPortRestrictionsUpdateDto}, TContext> => {
+
+const mutationKey = ['updatePortRestrictions'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updatePortRestrictions>>, {uuid: string;data: UserPortRestrictionsUpdateDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updatePortRestrictions(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdatePortRestrictionsMutationResult = NonNullable<Awaited<ReturnType<typeof updatePortRestrictions>>>
+    export type UpdatePortRestrictionsMutationBody = UserPortRestrictionsUpdateDto
+    export type UpdatePortRestrictionsMutationError = unknown
+
+    export const useUpdatePortRestrictions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updatePortRestrictions>>, TError,{uuid: string;data: UserPortRestrictionsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updatePortRestrictions>>,
+        TError,
+        {uuid: string;data: UserPortRestrictionsUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdatePortRestrictionsMutationOptions(options);
+
+      return useMutation(mutationOptions);
+    }
+    
+export const updateMcRouterRestrictions = (
+    uuid: string,
+    userMcRouterRestrictionsUpdateDto: UserMcRouterRestrictionsUpdateDto,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<UserEntityDto>(
+      {url: `/user-entity/${uuid}/mc-router-restrictions`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: userMcRouterRestrictionsUpdateDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdateMcRouterRestrictionsMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMcRouterRestrictions>>, TError,{uuid: string;data: UserMcRouterRestrictionsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateMcRouterRestrictions>>, TError,{uuid: string;data: UserMcRouterRestrictionsUpdateDto}, TContext> => {
+
+const mutationKey = ['updateMcRouterRestrictions'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateMcRouterRestrictions>>, {uuid: string;data: UserMcRouterRestrictionsUpdateDto}> = (props) => {
+          const {uuid,data} = props ?? {};
+
+          return  updateMcRouterRestrictions(uuid,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateMcRouterRestrictionsMutationResult = NonNullable<Awaited<ReturnType<typeof updateMcRouterRestrictions>>>
+    export type UpdateMcRouterRestrictionsMutationBody = UserMcRouterRestrictionsUpdateDto
+    export type UpdateMcRouterRestrictionsMutationError = unknown
+
+    export const useUpdateMcRouterRestrictions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateMcRouterRestrictions>>, TError,{uuid: string;data: UserMcRouterRestrictionsUpdateDto}, TContext>, request?: SecondParameter<typeof customInstance>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof updateMcRouterRestrictions>>,
+        TError,
+        {uuid: string;data: UserMcRouterRestrictionsUpdateDto},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateMcRouterRestrictionsMutationOptions(options);
 
       return useMutation(mutationOptions);
     }
@@ -3381,6 +3808,69 @@ export function useGetLogs<TData = Awaited<ReturnType<typeof getLogs>>, TError =
  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
 
   const queryOptions = getGetLogsQueryOptions(gameServerUuid,params,options)
+
+  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+
+export const getMcRouterStatus = (
+    
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<McRouterStatusDto>(
+      {url: `/cosy-settings/mc-router/status`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetMcRouterStatusQueryKey = () => {
+    return [
+    `/cosy-settings/mc-router/status`
+    ] as const;
+    }
+
+    
+export const getGetMcRouterStatusQueryOptions = <TData = Awaited<ReturnType<typeof getMcRouterStatus>>, TError = unknown>( options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMcRouterStatus>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetMcRouterStatusQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getMcRouterStatus>>> = ({ signal }) => getMcRouterStatus(requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getMcRouterStatus>>, TError, TData> & { queryKey: QueryKey }
+}
+
+export type GetMcRouterStatusQueryResult = NonNullable<Awaited<ReturnType<typeof getMcRouterStatus>>>
+export type GetMcRouterStatusQueryError = unknown
+
+
+
+export function useGetMcRouterStatus<TData = Awaited<ReturnType<typeof getMcRouterStatus>>, TError = unknown>(
+  options?: { query?:UseQueryOptions<Awaited<ReturnType<typeof getMcRouterStatus>>, TError, TData>, request?: SecondParameter<typeof customInstance>}
+  
+ ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+
+  const queryOptions = getGetMcRouterStatusQueryOptions(options)
 
   const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
 

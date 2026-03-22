@@ -1,8 +1,10 @@
 import { Button } from "@components/ui/button";
 import Icon from "@components/ui/Icon.tsx";
 import Link from "@components/ui/Link";
+import PixelIcon from "@components/ui/PixelIcon.tsx";
 import { Separator } from "@components/ui/separator.tsx";
 import TooltipWrapper from "@components/ui/TooltipWrapper.tsx";
+import { Gamepad2 } from "lucide-react";
 import { createContext, useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GameServerAccessGroupDtoPermissionsItem } from "@/api/generated/model";
@@ -92,6 +94,12 @@ const GameServerSettingsLayout = ({
       icon: <Icon src={webhookIcon} className="mr-2" />,
       path: "/server/$serverId/settings/webhooks",
       permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_WEBHOOK_SETTINGS],
+    },
+    {
+      label: t("tabs.gameSpecific"),
+      icon: <PixelIcon icon={<Gamepad2 />} className="mr-2 size-7" />,
+      path: "/server/$serverId/settings/game-specific",
+      permissions: [GameServerAccessGroupDtoPermissionsItem.CHANGE_SERVER_CONFIGS],
     },
     {
       label: t("tabs.accessManagement"),
