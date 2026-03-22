@@ -74,7 +74,10 @@ const UserSettingsModal = ({ user, open, onOpenChange }: UserSettingsModalProps)
   return (
     <PagedModal
       open={open}
-      onOpenChange={onOpenChange}
+      onOpenChange={(open) => {
+        if (!open) setDirtyPages({});
+        onOpenChange(open);
+      }}
       title={t("title")}
       pages={pages}
       sizeClassName="max-w-[70vw] w-[70vw] h-[70vh] max-h-[70vh]"
