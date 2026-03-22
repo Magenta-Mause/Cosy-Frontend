@@ -33,7 +33,7 @@ const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
     (state) => state.cosyInstanceSettingsSliceReducer.settings?.mc_router_configuration,
   );
 
-  const { data: currentUser } = useGetUserEntity(uuid ?? "", {
+  const { data: currentUser, isLoading: isUserLoading } = useGetUserEntity(uuid ?? "", {
     query: { enabled: !!uuid },
   });
 
@@ -106,6 +106,10 @@ const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
         </div>
       </Field>
     );
+  }
+
+  if (isUserLoading) {
+    return null;
   }
 
   if (availableDomains.length === 0) {

@@ -17,7 +17,7 @@ const PixelIcon = ({ icon, resolution = 32, className }: PixelIconProps) => {
   useEffect(() => {
     const svg = iconRef.current?.querySelector("svg");
     setSvgMarkup(svg?.outerHTML ?? null);
-  });
+  }, [icon]);
 
   useEffect(() => {
     if (!svgMarkup) {
