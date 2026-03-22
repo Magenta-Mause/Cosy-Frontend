@@ -80,10 +80,11 @@ const McRouterSettingsPage = ({
   }, [loadRouterStatus]);
 
   const handleAddDomain = () => {
-    if (newDomain && !formData.domains?.includes(newDomain)) {
+    const trimmed = newDomain.trim().toLowerCase();
+    if (trimmed && !formData.domains?.includes(trimmed)) {
       setFormData({
         ...formData,
-        domains: [...(formData.domains || []), newDomain],
+        domains: [...(formData.domains || []), trimmed],
       });
       setNewDomain("");
     }

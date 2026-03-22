@@ -41,7 +41,7 @@ const UserInviteButton = (props: { className?: string }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   // Restriction states
   const [allowGameServerCreation, setAllowGameServerCreation] = useState(true);
-  const [mcRouterAllowAllDomains, setMcRouterAllowAllDomains] = useState(false);
+  const [mcRouterAllowAllDomains, setMcRouterAllowAllDomains] = useState(true);
   const [mcRouterAllowedDomains, setMcRouterAllowedDomains] = useState<string[]>([]);
   const [allowAllPorts, setAllowAllPorts] = useState(true);
   const [allowedPorts, setAllowedPorts] = useState<string[]>([]);

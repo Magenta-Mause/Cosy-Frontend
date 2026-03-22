@@ -9,25 +9,7 @@ import type { UserEntityDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
-
-const isValidPortOrRange = (value: string): boolean => {
-  const singlePort = /^\d{1,5}$/;
-  const portRange = /^\d{1,5}-\d{1,5}$/;
-
-  if (singlePort.test(value)) {
-    const port = Number.parseInt(value, 10);
-    return port >= 1 && port <= 65535;
-  }
-
-  if (portRange.test(value)) {
-    const [startStr, endStr] = value.split("-");
-    const start = Number.parseInt(startStr, 10);
-    const end = Number.parseInt(endStr, 10);
-    return start >= 1 && start <= 65535 && end >= 1 && end <= 65535 && start < end;
-  }
-
-  return false;
-};
+import { isValidPortOrRange } from "@/lib/validators/portRestrictionsValidator";
 
 const PortRestrictionsPage = ({
   user,

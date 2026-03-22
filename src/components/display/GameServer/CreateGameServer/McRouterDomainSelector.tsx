@@ -22,7 +22,7 @@ interface McRouterDomainSelectorProps {
 
 const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
   const { t } = useTranslationPrefix("components.CreateGameServer.steps.step3.mcRouterDomains");
-  const { uuid, role } = useContext(AuthContext);
+  const { uuid } = useContext(AuthContext);
   const { setGameServerState, creationState } = useContext(GameServerCreationContext);
   const { setAttributeTouched, setAttributeValid } = useContext(GameServerCreationPageContext);
 
@@ -49,17 +49,13 @@ const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
 
     const allDomains = mcRouterConfig.domains;
 
-    if (role === "ADMIN" || role === "OWNER") {
-      return allDomains;
-    }
-
     if (currentUser?.mc_router_allow_all_domains) {
       return allDomains;
     }
 
     const allowedDomains = currentUser?.mc_router_allowed_domains ?? [];
     return allDomains.filter((domain) => allowedDomains.includes(domain));
-  }, [isMcRouterEnabled, mcRouterConfig?.domains, role, currentUser]);
+  }, [isMcRouterEnabled, mcRouterConfig?.domains, currentUser]);
 
   useEffect(() => {
     const contextValue = creationState.gameServerState[attribute];

@@ -21,7 +21,7 @@ const InstanceSettingsButton = forwardRef<HTMLButtonElement, InstanceSettingsBut
           ref={ref}
           onClick={(event) => {
             onClick?.(event);
-            setIsSettingsOpen((prev) => !prev);
+            setIsSettingsOpen(true);
           }}
           className={cn("h-auto aspect-square", props.className)}
           aria-label={t("optionsBanner.instanceSettings")}
