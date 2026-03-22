@@ -155,17 +155,26 @@ const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
         <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-2" align="start">
           <div className="space-y-1 max-h-48 overflow-y-auto">
             {availableDomains.map((domain) => (
-              <button
+              <div
                 key={domain}
-                type="button"
+                role="option"
+                aria-selected={selectedDomains.includes(domain)}
+                tabIndex={0}
                 className="flex items-center gap-2 p-2 rounded hover:bg-muted cursor-pointer w-full text-left"
                 onClick={() => handleDomainToggle(domain)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleDomainToggle(domain);
+                  }
+                }}
               >
                 <Checkbox
                   checked={selectedDomains.includes(domain)}
+                  tabIndex={-1}
                 />
                 <span className="text-sm">{domain}</span>
-              </button>
+              </div>
             ))}
           </div>
         </PopoverContent>

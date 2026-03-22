@@ -128,6 +128,7 @@ const useUserDataInteractions = () => {
     try {
       const updatedUser = await updateRestrictions(uuid, data);
       dispatch(userSliceActions.updateUser(updatedUser));
+      notificationModal.success({ message: t("updateRestrictionsSuccess") });
     } catch (err) {
       notificationModal.error({ message: t("updateRestrictionsError"), cause: err as Error });
       throw err;
@@ -141,6 +142,7 @@ const useUserDataInteractions = () => {
     try {
       const updatedUser = await updateMcRouterRestrictions(uuid, data);
       dispatch(userSliceActions.updateUser(updatedUser));
+      notificationModal.success({ message: t("updateRestrictionsSuccess") });
     } catch (err) {
       notificationModal.error({ message: t("updateRestrictionsError"), cause: err as Error });
       throw err;
@@ -154,6 +156,7 @@ const useUserDataInteractions = () => {
     try {
       const updatedUser = await updatePortRestrictions(uuid, data);
       dispatch(userSliceActions.updateUser(updatedUser));
+      notificationModal.success({ message: t("updateRestrictionsSuccess") });
     } catch (err) {
       notificationModal.error({ message: t("updateRestrictionsError"), cause: err as Error });
       throw err;

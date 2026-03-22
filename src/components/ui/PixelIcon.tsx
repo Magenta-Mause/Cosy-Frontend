@@ -35,7 +35,10 @@ const PixelIcon = ({ icon, resolution = 32, className }: PixelIconProps) => {
     const url = URL.createObjectURL(blob);
     const img = new Image();
 
+    let cancelled = false;
+
     img.onload = () => {
+      if (cancelled) return;
       ctx.drawImage(img, 0, 0, resolution, resolution);
       setMaskUrl(`url("${canvas.toDataURL()}")`);
       URL.revokeObjectURL(url);
@@ -43,7 +46,10 @@ const PixelIcon = ({ icon, resolution = 32, className }: PixelIconProps) => {
 
     img.src = url;
 
-    return () => URL.revokeObjectURL(url);
+    return () => {
+      cancelled = true;
+      URL.revokeObjectURL(url);
+    };
   }, [svgMarkup, resolution]);
 
   return (
