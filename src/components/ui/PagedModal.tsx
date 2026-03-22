@@ -102,7 +102,7 @@ const PagedModal = ({
   return (
     <>
       <Dialog open={open} onOpenChange={handleClose}>
-        <DialogContent className={cn(sizeClassName, "p-0 flex overflow-hidden gap-0")}>
+        <DialogContent className={cn(sizeClassName, "p-0 flex flex-col overflow-hidden gap-0")}>
           <div>
             <DialogTitle className="px-4 text-lg font-bold bg-background border-b border-black/15 mb-0! pb-2 pt-5">
               {title}

@@ -139,7 +139,7 @@ const UserInviteButton = (props: { className?: string }) => {
     setMemoryError(null);
     // Reset restriction states
     setAllowGameServerCreation(true);
-    setMcRouterAllowAllDomains(false);
+    setMcRouterAllowAllDomains(true);
     setMcRouterAllowedDomains([]);
     setAllowAllPorts(true);
     setAllowedPorts([]);
