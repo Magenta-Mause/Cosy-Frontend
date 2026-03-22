@@ -682,9 +682,11 @@ const translation: i18nLanguage = {
       },
       gameSpecific: {
         title: "Spielspezifische Einstellungen",
-        description: "Konfiguriere Einstellungen, die spezifisch für das Spiel auf diesem Server sind.",
+        description:
+          "Konfiguriere Einstellungen, die spezifisch für das Spiel auf diesem Server sind.",
         serverNeedsToBeStopped: "Der Server muss gestoppt sein, um diese Einstellungen zu ändern.",
-        noGameSpecificSettings: "Keine spielspezifischen Einstellungen für diesen Server verfügbar.",
+        noGameSpecificSettings:
+          "Keine spielspezifischen Einstellungen für diesen Server verfügbar.",
         minecraft: {
           title: "Minecraft",
         },
@@ -1125,8 +1127,7 @@ const translation: i18nLanguage = {
     portRestrictions: {
       title: "Port-Einschränkungen",
       allowAllPorts: "Zugriff auf alle Ports erlauben",
-      allowAllPortsDescription:
-        "Wenn aktiviert, kann der Benutzer jeden Port verwenden",
+      allowAllPortsDescription: "Wenn aktiviert, kann der Benutzer jeden Port verwenden",
       allowedPorts: "Erlaubte Ports",
       allowedPortsDescription: "Ports oder Port-Bereiche (z.B. 25565 oder 25565-26000)",
       allowedPortsPlaceholder: "Port oder Bereich eingeben",

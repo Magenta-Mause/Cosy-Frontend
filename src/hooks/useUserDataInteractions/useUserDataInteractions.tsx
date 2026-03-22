@@ -7,9 +7,9 @@ import {
   useCreateInvite,
   useRevokeInvite,
   useUpdateDockerLimits,
-  useUpdateRestrictions,
   useUpdateMcRouterRestrictions,
   useUpdatePortRestrictions,
+  useUpdateRestrictions,
 } from "@/api/generated/backend-api.ts";
 import type {
   UserDockerLimitsUpdateDto,
@@ -174,10 +174,7 @@ const useUserDataInteractions = () => {
     },
   });
 
-  const updateUserPortRestrictions = async (
-    uuid: string,
-    data: UserPortRestrictionsUpdateDto,
-  ) => {
+  const updateUserPortRestrictions = async (uuid: string, data: UserPortRestrictionsUpdateDto) => {
     await mutateUpdatePortRestrictions({ uuid, data });
   };
 

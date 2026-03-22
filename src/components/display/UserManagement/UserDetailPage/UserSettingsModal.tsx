@@ -18,12 +18,15 @@ const UserSettingsModal = ({ user, open, onOpenChange }: UserSettingsModalProps)
   const { t } = useTranslationPrefix("userSettingsModal");
   const [dirtyPages, setDirtyPages] = useState<Record<string, boolean>>({});
 
-  const setPageDirty = useCallback((pageId: string) => (dirty: boolean) => {
-    setDirtyPages((prev) => {
-      if (prev[pageId] === dirty) return prev;
-      return { ...prev, [pageId]: dirty };
-    });
-  }, []);
+  const setPageDirty = useCallback(
+    (pageId: string) => (dirty: boolean) => {
+      setDirtyPages((prev) => {
+        if (prev[pageId] === dirty) return prev;
+        return { ...prev, [pageId]: dirty };
+      });
+    },
+    [],
+  );
 
   const pages: PagedModalPage[] = useMemo(
     () => [
@@ -31,7 +34,9 @@ const UserSettingsModal = ({ user, open, onOpenChange }: UserSettingsModalProps)
         id: "resource-limits",
         label: t("sidebar.resourceLimits"),
         icon: <Cpu className="h-5 w-5" />,
-        content: <ResourceLimitsPage user={user} onUnsavedChange={setPageDirty("resource-limits")} />,
+        content: (
+          <ResourceLimitsPage user={user} onUnsavedChange={setPageDirty("resource-limits")} />
+        ),
         hasUnsavedChanges: dirtyPages["resource-limits"] ?? false,
       },
       {
@@ -45,14 +50,21 @@ const UserSettingsModal = ({ user, open, onOpenChange }: UserSettingsModalProps)
         id: "port-restrictions",
         label: t("sidebar.portRestrictions"),
         icon: <Network className="h-5 w-5" />,
-        content: <PortRestrictionsPage user={user} onUnsavedChange={setPageDirty("port-restrictions")} />,
+        content: (
+          <PortRestrictionsPage user={user} onUnsavedChange={setPageDirty("port-restrictions")} />
+        ),
         hasUnsavedChanges: dirtyPages["port-restrictions"] ?? false,
       },
       {
         id: "mc-router-permissions",
         label: t("sidebar.mcRouterPermissions"),
         icon: <Router className="h-5 w-5" />,
-        content: <McRouterPermissionsPage user={user} onUnsavedChange={setPageDirty("mc-router-permissions")} />,
+        content: (
+          <McRouterPermissionsPage
+            user={user}
+            onUnsavedChange={setPageDirty("mc-router-permissions")}
+          />
+        ),
         hasUnsavedChanges: dirtyPages["mc-router-permissions"] ?? false,
       },
     ],

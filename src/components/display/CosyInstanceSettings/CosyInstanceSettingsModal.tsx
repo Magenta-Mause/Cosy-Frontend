@@ -21,12 +21,15 @@ const CosyInstanceSettingsModal = ({
   const { t } = useTranslationPrefix("cosyInstanceSettings");
   const [dirtyPages, setDirtyPages] = useState<Record<string, boolean>>({});
 
-  const setPageDirty = useCallback((pageId: string) => (dirty: boolean) => {
-    setDirtyPages((prev) => {
-      if (prev[pageId] === dirty) return prev;
-      return { ...prev, [pageId]: dirty };
-    });
-  }, []);
+  const setPageDirty = useCallback(
+    (pageId: string) => (dirty: boolean) => {
+      setDirtyPages((prev) => {
+        if (prev[pageId] === dirty) return prev;
+        return { ...prev, [pageId]: dirty };
+      });
+    },
+    [],
+  );
 
   const pages: PagedModalPage[] = useMemo(
     () => [

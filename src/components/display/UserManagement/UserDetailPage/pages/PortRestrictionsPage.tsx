@@ -22,9 +22,7 @@ const PortRestrictionsPage = ({
   const { t: tModal } = useTranslationPrefix("userSettingsModal");
   const { updateUserPortRestrictions } = useDataInteractions();
 
-  const [allowAllPorts, setAllowAllPorts] = useState(
-    !(user.port_restrictions_enabled ?? false),
-  );
+  const [allowAllPorts, setAllowAllPorts] = useState(!(user.port_restrictions_enabled ?? false));
   const [allowedPorts, setAllowedPorts] = useState<string[]>(user.allowed_ports ?? []);
   const [newPort, setNewPort] = useState("");
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -98,12 +96,7 @@ const PortRestrictionsPage = ({
             </div>
           </div>
 
-          <div
-            className={cn(
-              "space-y-2 pl-6",
-              allowAllPorts && "opacity-50 pointer-events-none",
-            )}
-          >
+          <div className={cn("space-y-2 pl-6", allowAllPorts && "opacity-50 pointer-events-none")}>
             <Label className="text-sm">{t("allowedPorts")}</Label>
             <p className="text-xs text-muted-foreground">{t("allowedPortsDescription")}</p>
 

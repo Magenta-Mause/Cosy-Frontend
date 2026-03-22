@@ -136,9 +136,11 @@ const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
             )}
           >
             <span className="truncate text-left">
-              {selectedDomains.length > 0
-                ? selectedDomains.join(", ")
-                : <span className="text-muted-foreground">{t("placeholder")}</span>}
+              {selectedDomains.length > 0 ? (
+                selectedDomains.join(", ")
+              ) : (
+                <span className="text-muted-foreground">{t("placeholder")}</span>
+              )}
             </span>
             <ChevronDown
               className={cn(
@@ -165,10 +167,7 @@ const McRouterDomainSelector = ({ attribute }: McRouterDomainSelectorProps) => {
                   }
                 }}
               >
-                <Checkbox
-                  checked={selectedDomains.includes(domain)}
-                  tabIndex={-1}
-                />
+                <Checkbox checked={selectedDomains.includes(domain)} tabIndex={-1} />
                 <span className="text-sm">{domain}</span>
               </div>
             ))}

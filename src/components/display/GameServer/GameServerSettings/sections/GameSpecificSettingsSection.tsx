@@ -1,10 +1,10 @@
+import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@components/ui/accordion.tsx";
-import SettingsActionButtons from "@components/display/GameServer/GameServerSettings/SettingsActionButtons.tsx";
 import UnsavedModal from "@components/ui/UnsavedModal";
 import { useEffect, useMemo, useState } from "react";
 import { GameServerDtoStatus, type GameServerUpdateDto } from "@/api/generated/model";
@@ -33,9 +33,7 @@ const GameSpecificSettingsSection = () => {
   }, [gameServer.mc_router_domains]);
 
   const isChanged = useMemo(
-    () =>
-      JSON.stringify(mcRouterDomains) !==
-      JSON.stringify(gameServer.mc_router_domains ?? []),
+    () => JSON.stringify(mcRouterDomains) !== JSON.stringify(gameServer.mc_router_domains ?? []),
     [mcRouterDomains, gameServer.mc_router_domains],
   );
 
