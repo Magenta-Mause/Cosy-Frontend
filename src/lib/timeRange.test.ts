@@ -81,6 +81,32 @@ describe("toTimeRangeSearch / validateTimeRangeSearch", () => {
     }
   });
 
+  it("rejects presets longer than the maximum span", () => {
+    expect(
+      parseTimeRangeSearch({ timeRangeType: "preset", timeRangeValue: "30", timeRangeUnit: "day" }),
+    ).toEqual({ type: "preset", value: 30, unit: "day" });
+    expect(
+      parseTimeRangeSearch({ timeRangeType: "preset", timeRangeValue: "31", timeRangeUnit: "day" }),
+    ).toBeNull();
+    expect(
+      parseTimeRangeSearch({
+        timeRangeType: "preset",
+        timeRangeValue: "721",
+        timeRangeUnit: "hour",
+      }),
+    ).toBeNull();
+  });
+
+  it("rejects custom ranges longer than the maximum span", () => {
+    expect(
+      parseTimeRangeSearch({
+        timeRangeType: "custom",
+        timeRangeStart: "2026-08-01T00:00:00.000Z",
+        timeRangeEnd: "2026-09-01T00:00:00.000Z",
+      }),
+    ).toBeNull();
+  });
+
   it("drops invalid params instead of keeping them", () => {
     expect(validateTimeRangeSearch({ timeRangeType: "preset", timeRangeValue: "x" })).toEqual({});
   });
@@ -164,6 +190,18 @@ describe("resolveTimeRange", () => {
       NOW,
     );
     expect(lastMonth.isLive).toBe(false);
+  });
+});
+
+describe("resolveTimeRange across a DST change", () => {
+  it("trims a 30-day custom range that is an hour longer to the maximum span", () => {
+    const end = new Date("2026-09-01T00:00:00Z");
+    const start = new Date(end.getTime() - 30 * DAY_MS - HOUR_MS);
+
+    const resolved = resolveTimeRange({ type: "custom", start, end }, NOW);
+
+    expect(resolved.start).toEqual(new Date(end.getTime() - 30 * DAY_MS));
+    expect(resolved.end).toEqual(end);
   });
 });
 

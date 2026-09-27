@@ -161,7 +161,7 @@ const LogDisplay = (
         </div>
       </div>
 
-      {displayLogs.length > 0 && (
+      {(displayLogs.length > 0 || exceedsRetention) && (
         <LogRangeNotice
           loadedCount={displayLogs.length}
           hasOlder={hasOlder}

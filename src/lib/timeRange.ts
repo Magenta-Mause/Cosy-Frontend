@@ -51,6 +51,7 @@ export const TIME_RANGE_PRESETS: readonly (readonly [number, TimeRangeUnit])[] =
 export const DEFAULT_TIME_RANGE: TimeRangeSelection = { type: "preset", value: 5, unit: "hour" };
 
 export const MAX_SPAN_DAYS = 30;
+const MAX_SPAN_MS = MAX_SPAN_DAYS * DAY_MS;
 export const PUBLIC_MAX_LOOKBACK_MS = DAY_MS;
 export const LOG_RETENTION_DAYS = 7;
 
@@ -85,17 +86,25 @@ export const parseTimeRangeSearch = (
 ): TimeRangeSelection | null => {
   if (search.timeRangeType === "preset") {
     const value = Number(search.timeRangeValue);
-    if (Number.isInteger(value) && value > 0 && isUnit(search.timeRangeUnit)) {
+    if (
+      Number.isInteger(value) &&
+      value > 0 &&
+      isUnit(search.timeRangeUnit) &&
+      value * UNIT_MS[search.timeRangeUnit] <= MAX_SPAN_MS
+    ) {
       return { type: "preset", value, unit: search.timeRangeUnit };
     }
   }
   if (search.timeRangeType === "custom") {
     const start = parseDate(search.timeRangeStart);
     const end = parseDate(search.timeRangeEnd);
-    if (start && end && start < end) {
+    // Custom ranges cover whole local days, which can be an hour longer across a DST change.
+    if (start && end && start < end && end.getTime() - start.getTime() <= MAX_SPAN_MS + HOUR_MS) {
       return { type: "custom", start, end };
     }
   }
+  // Anything the backend would reject (malformed, or longer than the maximum span) falls back
+  // to the default instead of producing an error.
   return null;
 };
 
@@ -157,8 +166,11 @@ export const resolveTimeRange = (
   }
 
   const isLive = selection.end >= now;
+  // Whole local days can add up to an hour more than the maximum span across a DST change;
+  // trim that hour instead of sending a range the backend rejects.
+  const earliestStart = selection.end.getTime() - MAX_SPAN_MS;
   return {
-    start: selection.start,
+    start: selection.start.getTime() < earliestStart ? new Date(earliestStart) : selection.start,
     end: isLive ? undefined : selection.end,
     isLive,
     displayUnit: selection.end.getTime() - selection.start.getTime() > DAY_MS ? "day" : "hour",

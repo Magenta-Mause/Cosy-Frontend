@@ -22,18 +22,22 @@ const LogRangeNotice = (props: LogRangeNoticeProps) => {
     return null;
   }
 
-  const message = !hasOlder
-    ? t("retentionNotice", { days: LOG_RETENTION_DAYS })
-    : olderState === "failed"
-      ? t("loadingOlderFailed")
-      : t("showingLatest", { count: loadedCount });
+  // Both can apply at once: a range reaching past retention may still hold more lines
+  // than one page.
+  const messages = [
+    hasOlder &&
+      (olderState === "failed"
+        ? t("loadingOlderFailed")
+        : t("showingLatest", { count: loadedCount })),
+    exceedsRetention && t("retentionNotice", { days: LOG_RETENTION_DAYS }),
+  ].filter(Boolean);
 
   return (
     <div
       className="flex items-center justify-between gap-3 px-3 py-1 border-b border-gray-800 text-[11px] text-gray-400"
       data-testid="console-range-notice"
     >
-      <span>{message}</span>
+      <span>{messages.join(" · ")}</span>
       {hasOlder && onLoadOlder && (
         <Button
           size="sm"
