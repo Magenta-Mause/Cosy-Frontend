@@ -58,7 +58,7 @@ const TimeRangeDropDown = (props: TimeRangeDropDownProps) => {
             data-testid="time-range-dropdown"
           >
             {selectedLabel}
-            <Icon src={arrowDownIcon} className="size-4" />
+            <Icon src={arrowDownIcon} variant={props.buttonVariant} className="size-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
