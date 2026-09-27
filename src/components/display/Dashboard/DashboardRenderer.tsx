@@ -24,6 +24,19 @@ interface DashboardRendererProps {
   overridePermissionCheck?: boolean;
   metricsLoadState?: DataLoadState;
   logsLoadState?: DataLoadState;
+  /** Axis granularity matching the selected time range. */
+  metricsTimeUnit: "hour" | "day";
+  logPaging?: LogPaging;
+  onCommandSent?: () => void;
+}
+
+/** Paging state of the log widgets, see `useGameServerLogs`. */
+export interface LogPaging {
+  hasOlder: boolean;
+  onLoadOlder: () => void;
+  olderState: DataLoadState;
+  prependedCount: number;
+  exceedsRetention: boolean;
 }
 
 export default function DashboardRenderer({
@@ -38,6 +51,9 @@ export default function DashboardRenderer({
   overridePermissionCheck,
   metricsLoadState,
   logsLoadState,
+  metricsTimeUnit,
+  logPaging,
+  onCommandSent,
 }: DashboardRendererProps) {
   const isDesktop = useIsDesktop();
   return (
@@ -51,7 +67,7 @@ export default function DashboardRenderer({
             return (
               <MetricGraph
                 key={dashboard.uuid}
-                timeUnit="hour"
+                timeUnit={metricsTimeUnit}
                 type={dashboard.metric_type as MetricsType}
                 metrics={metrics}
                 className={sizeClass}
@@ -76,6 +92,8 @@ export default function DashboardRenderer({
                   canReadLogs={canReadLogs}
                   hideTimestamps={dashboard.size === LayoutSize.SMALL ? true : undefined}
                   overridePermissionCheck={overridePermissionCheck}
+                  onCommandSent={onCommandSent}
+                  {...logPaging}
                 />
               </div>
             );
