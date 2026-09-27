@@ -63,7 +63,9 @@ const TimeRangeDropDown = (props: TimeRangeDropDownProps) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="end"
-          className="w-(--radix-dropdown-menu-trigger-width) min-w-48 bg-primary-modal-background"
+          // At least as wide as the button, but wide enough that no option wraps
+          // ("Benutzerdefinierter Zeitraum" is far longer than the button's label).
+          className="w-max min-w-(--radix-dropdown-menu-trigger-width) bg-primary-modal-background [&_[role=menuitem]]:whitespace-nowrap"
         >
           <DropdownMenuGroup>
             <DropdownMenuItem
