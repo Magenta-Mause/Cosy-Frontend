@@ -7,6 +7,7 @@ import {
 import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
+import useServerTimeRange from "@/hooks/useServerTimeRange/useServerTimeRange.tsx";
 
 export const Route = createFileRoute("/server/$serverId/console")({
   component: RouteComponent,
@@ -17,10 +18,14 @@ function RouteComponent() {
   const { gameServer } = useGameServer(serverId ?? "");
   const { hasPermission } = useGameServerPermissions(serverId ?? "");
   const canReadLogs = hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS);
+  const { selection, ensureLive } = useServerTimeRange(serverId ?? "");
   // Only this view renders the logs, so they are fetched here and dropped on unmount.
-  const { logs, state: logsLoadState } = useGameServerLogs(serverId ?? "", {
-    enabled: canReadLogs,
-  });
+  const {
+    logs,
+    state: logsLoadState,
+    loadOlder,
+    ...logPaging
+  } = useGameServerLogs(serverId ?? "", { enabled: canReadLogs, range: selection });
 
   if (!gameServer) {
     return null;
@@ -41,6 +46,9 @@ function RouteComponent() {
         showExtendedTimestamps
         disableRoundness
         disableBorder
+        onLoadOlder={loadOlder}
+        onCommandSent={ensureLive}
+        {...logPaging}
       />
     </div>
   );

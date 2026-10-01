@@ -1,10 +1,11 @@
 import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useSubscription } from "react-stomp-hooks";
 import { v7 as generateUuid } from "uuid";
 import { getMetrics, getPublicEvaluableMetrics } from "@/api/generated/backend-api.ts";
 import type { MetricPointDto } from "@/api/generated/model";
 import { notificationModal } from "@/lib/notificationModal";
+import { resolveTimeRange, type TimeRangeSelection, timeRangeKey } from "@/lib/timeRange.ts";
 import type { DataLoadState } from "@/types/dataLoadState";
 import type { GameServerMetricsWithUuid } from "@/types/metricsTyp";
 
@@ -16,76 +17,42 @@ interface UseGameServerMetricsOptions {
   enabled?: boolean;
   /** Which endpoint to read from — the public one does not require permissions. */
   source?: "private" | "public";
-  /**
-   * Skip the default load on mount because the consumer immediately requests an
-   * explicit time range (e.g. one restored from the URL). Avoids a throwaway request.
-   */
-  deferInitialLoad?: boolean;
+  /** The range to load. Live updates are only applied while it ends now. */
+  range: TimeRangeSelection;
 }
 
 interface UseGameServerMetricsResult {
   metrics: GameServerMetricsWithUuid[];
   state: DataLoadState;
-  liveUpdatesEnabled: boolean;
-  setLiveUpdatesEnabled: (enabled: boolean) => void;
-  loadRange: (start?: Date, end?: Date) => Promise<void>;
 }
 
 /**
  * View-scoped metric access for a single game server.
  *
- * The metrics are fetched when the consuming component mounts (or becomes enabled)
- * and dropped again as soon as it unmounts, so nothing outlives the view that
- * actually renders it.
+ * The metrics are fetched when the consuming component mounts (or becomes enabled, or the
+ * range changes) and dropped again as soon as it unmounts, so nothing outlives the view
+ * that actually renders it.
  */
 const useGameServerMetrics = (
   serverId: string,
-  options: UseGameServerMetricsOptions = {},
+  options: UseGameServerMetricsOptions,
 ): UseGameServerMetricsResult => {
-  const { enabled = true, source = "private", deferInitialLoad = false } = options;
+  const { enabled = true, source = "private", range } = options;
   const { authorized } = useContext(AuthContext);
 
   const [metrics, setMetrics] = useState<GameServerMetricsWithUuid[]>([]);
   const [state, setState] = useState<DataLoadState>("idle");
-  const [liveUpdatesEnabled, setLiveUpdatesEnabled] = useState(true);
 
   const active = enabled && !!serverId;
+  const rangeKey = timeRangeKey(range);
+  const isLive = resolveTimeRange(range).isLive;
 
   // Guards against a slow response of an outdated range overwriting a newer one.
   const requestIdRef = useRef(0);
-  // Only the very first load can be deferred — the flag is derived from the URL
-  // and flips once the consumer writes its selection back to it.
-  const skipInitialLoadRef = useRef(deferInitialLoad);
+  const rangeRef = useRef(range);
+  rangeRef.current = range;
 
-  const loadRange = useCallback(
-    async (start?: Date, end?: Date) => {
-      if (!active) return;
-
-      const requestId = ++requestIdRef.current;
-      setState("loading");
-      const params = {
-        start: start ? start.toISOString() : undefined,
-        end: end ? end.toISOString() : undefined,
-      };
-      try {
-        const fetchedMetrics =
-          source === "public"
-            ? await getPublicEvaluableMetrics(serverId, params)
-            : await getMetrics(serverId, params);
-        if (requestIdRef.current !== requestId) return;
-        setMetrics(fetchedMetrics.map((metric) => ({ ...metric, uuid: generateUuid() })));
-        setState("idle");
-      } catch {
-        if (requestIdRef.current !== requestId) return;
-        notificationModal.error({
-          message: `Failed to load metrics for server: ${serverId}`,
-        });
-        setState("failed");
-      }
-    },
-    [active, serverId, source],
-  );
-
+  // biome-ignore lint/correctness/useExhaustiveDependencies: the range is keyed by rangeKey
   useEffect(() => {
     if (!active) {
       // Invalidate in-flight requests so their results are discarded.
@@ -95,21 +62,38 @@ const useGameServerMetrics = (
       return;
     }
 
-    if (skipInitialLoadRef.current) {
-      skipInitialLoadRef.current = false;
-    } else {
-      loadRange();
-    }
+    const requestId = ++requestIdRef.current;
+    // Presets are relative to now, so resolve at fetch time rather than at selection time.
+    const { start, end } = resolveTimeRange(rangeRef.current);
+    const params = { start: start.toISOString(), end: end?.toISOString() };
+
+    setState("loading");
+    (source === "public"
+      ? getPublicEvaluableMetrics(serverId, params)
+      : getMetrics(serverId, params)
+    )
+      .then((fetchedMetrics) => {
+        if (requestIdRef.current !== requestId) return;
+        setMetrics(fetchedMetrics.map((metric) => ({ ...metric, uuid: generateUuid() })));
+        setState("idle");
+      })
+      .catch(() => {
+        if (requestIdRef.current !== requestId) return;
+        notificationModal.error({
+          message: `Failed to load metrics for server: ${serverId}`,
+        });
+        setState("failed");
+      });
 
     return () => {
       requestIdRef.current++;
       setMetrics([]);
       setState("idle");
     };
-  }, [active, loadRange]);
+  }, [active, serverId, source, rangeKey]);
 
   useSubscription(
-    active && liveUpdatesEnabled
+    active && isLive
       ? [
           authorized
             ? `/topics/game-servers/${serverId}/metrics`
@@ -122,7 +106,7 @@ const useGameServerMetrics = (
     },
   );
 
-  return { metrics, state, liveUpdatesEnabled, setLiveUpdatesEnabled, loadRange };
+  return { metrics, state };
 };
 
 export default useGameServerMetrics;

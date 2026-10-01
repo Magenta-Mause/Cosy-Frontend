@@ -1,5 +1,6 @@
 import GameServerStartStopButton from "@/components/display/GameServer/GameServerStartStopButton/GameServerStartStopButton.tsx";
 import GameServerStatusIndicator from "@/components/display/GameServer/GameServerStatusIndicator/GameServerStatusIndicator.tsx";
+import ServerTimeRangeSelector from "@/components/display/GameServer/ServerTimeRangeSelector/ServerTimeRangeSelector.tsx";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/Icon.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper";
@@ -9,6 +10,7 @@ import type { GameServerDto } from "@/api/generated/model";
 import globeIcon from "@/assets/icons/globe.webp";
 import globePrivateIcon from "@/assets/icons/globePrivate.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { pickTimeRangeSearch } from "@/lib/timeRange.ts";
 import { cn } from "@/lib/utils.ts";
 
 const DashboardViewToggle = (props: {
@@ -24,7 +26,11 @@ const DashboardViewToggle = (props: {
     navigate({
       to: "/server/$serverId",
       params: { serverId: props.gameServer.uuid },
-      search: isPublic ? {} : { view: "public" },
+      // Keep the selected time range when switching between the dashboards.
+      search: (prev: Record<string, unknown>) => ({
+        ...pickTimeRangeSearch(prev),
+        view: isPublic ? undefined : "public",
+      }),
     });
   };
 
@@ -54,6 +60,7 @@ const GameServerDetailPageHeader = (props: {
   buttonVariant?: "primary" | "secondary";
   hideStartButton?: boolean;
   dashboardView?: "private" | "public";
+  showTimeRange?: boolean;
 }) => {
   return (
     <div className={cn("text-foreground", props.className)} style={props.style}>
@@ -75,6 +82,12 @@ const GameServerDetailPageHeader = (props: {
           </div>
         </div>
         <div className={"flex gap-5 items-center"}>
+          {props.showTimeRange && (
+            <ServerTimeRangeSelector
+              serverId={props.gameServer.uuid}
+              buttonVariant={props.buttonVariant}
+            />
+          )}
           <GameServerStatusIndicator gameServer={props.gameServer} />
           {!props.hideStartButton && (
             <GameServerStartStopButton

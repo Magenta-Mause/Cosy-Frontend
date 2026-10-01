@@ -1,4 +1,5 @@
 import LogMessage from "@/components/display/LogDisplay/LogMessage";
+import LogRangeNotice from "@/components/display/LogDisplay/LogRangeNotice.tsx";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/Icon.tsx";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,9 @@ import sendIcon from "@/assets/icons/send.webp";
 import { cn } from "@/lib/utils.ts";
 import type { DataLoadState } from "@/types/dataLoadState.ts";
 import type { GameServerLogWithUuid } from "@/types/logTypes";
+
+// Virtuoso needs a large start index to count down from when prepending items.
+const FIRST_ITEM_INDEX = 1_000_000;
 
 const LogDisplay = (
   props: {
@@ -27,6 +31,15 @@ const LogDisplay = (
     overridePermissionCheck?: boolean;
     /** Load state of the initial log fetch, used to render loading/error branches. */
     loadState?: DataLoadState;
+    /** The range holds older lines than the loaded ones. */
+    hasOlder?: boolean;
+    onLoadOlder?: () => void;
+    olderState?: DataLoadState;
+    /** Number of lines prepended by loading older ones, keeps the scroll position stable. */
+    prependedCount?: number;
+    /** Part of the selected range lies beyond log retention. */
+    exceedsRetention?: boolean;
+    onCommandSent?: () => void;
   } & Omit<React.ComponentProps<"div">, "children">,
 ) => {
   const { t } = useTranslation();
@@ -42,11 +55,23 @@ const LogDisplay = (
     disableBorder,
     overridePermissionCheck,
     loadState = "idle",
+    hasOlder = false,
+    onLoadOlder,
+    olderState = "idle",
+    prependedCount = 0,
+    exceedsRetention = false,
+    onCommandSent,
     ...divProps
   } = props;
 
   const logDisplayRef = useRef<VirtuosoHandle>(null);
-  const [displayLogs, setDisplayLogs] = useState<GameServerLogWithUuid[]>([]);
+  // Logs and the prepended count are applied together so Virtuoso's firstItemIndex always
+  // matches the list it renders — otherwise loading older lines makes the list jump.
+  const [display, setDisplay] = useState<{ logs: GameServerLogWithUuid[]; prepended: number }>({
+    logs: [],
+    prepended: 0,
+  });
+  const displayLogs = display.logs;
   const [sticky, setSticky] = useState(true);
   const [displayTimestamp, setDisplayTimestamp] = useState(true);
   const [commandInput, setCommandInput] = useState("");
@@ -56,7 +81,7 @@ const LogDisplay = (
 
   useEffect(() => {
     if (isInitialLoad.current && rawLogs.length > 0) {
-      setDisplayLogs(rawLogs);
+      setDisplay({ logs: rawLogs, prepended: prependedCount });
       setTimeout(() => {
         isInitialLoad.current = false;
       }, 500);
@@ -64,11 +89,11 @@ const LogDisplay = (
     }
 
     const handler = setTimeout(() => {
-      setDisplayLogs(rawLogs);
+      setDisplay({ logs: rawLogs, prepended: prependedCount });
     }, 100);
 
     return () => clearTimeout(handler);
-  }, [rawLogs]);
+  }, [rawLogs, prependedCount]);
 
   const handleSendCommand = () => {
     if (!commandInput.trim() || !gameServerUuid || isPending || !isServerRunning) {
@@ -80,6 +105,7 @@ const LogDisplay = (
       {
         onSuccess: () => {
           setCommandInput("");
+          onCommandSent?.();
         },
       },
     );
@@ -89,14 +115,15 @@ const LogDisplay = (
     setSticky(newVal);
   };
 
-  const scrollTo = useCallback((index: number) => {
-    logDisplayRef.current?.scrollToIndex({ index, align: "end", behavior: "smooth" });
+  // "LAST" instead of a numeric index: indices are offset by firstItemIndex.
+  const scrollToBottom = useCallback(() => {
+    logDisplayRef.current?.scrollToIndex({ index: "LAST", align: "end", behavior: "smooth" });
   }, []);
 
   useEffect(() => {
-    if (!sticky) return;
-    scrollTo(displayLogs.length - 1);
-  }, [displayLogs, scrollTo, sticky]);
+    if (!sticky || displayLogs.length === 0) return;
+    scrollToBottom();
+  }, [displayLogs, scrollToBottom, sticky]);
 
   return (
     <div
@@ -134,9 +161,21 @@ const LogDisplay = (
         </div>
       </div>
 
+      {(displayLogs.length > 0 || exceedsRetention) && (
+        <LogRangeNotice
+          loadedCount={displayLogs.length}
+          hasOlder={hasOlder}
+          onLoadOlder={onLoadOlder}
+          olderState={olderState}
+          exceedsRetention={exceedsRetention}
+        />
+      )}
+
       <div className="flex-1 min-h-0 relative" data-testid="console-log-list">
         <Virtuoso
           ref={logDisplayRef}
+          // Decreases as older lines are prepended, so Virtuoso keeps the viewport in place.
+          firstItemIndex={FIRST_ITEM_INDEX - display.prepended}
           key={displayLogs.length === 0 ? "empty" : "loaded"}
           data={displayLogs}
           followOutput={sticky ? "auto" : false}
@@ -151,7 +190,7 @@ const LogDisplay = (
           // Explicitly use the UUID as the key for better re-render tracking
           computeItemKey={(_index, item) => item.uuid}
           // Auto scroll to bottom when new logs are added
-          initialTopMostItemIndex={displayLogs.length > 0 ? displayLogs.length - 1 : 0}
+          initialTopMostItemIndex={{ index: "LAST", align: "end" }}
           itemContent={(_index, message) => (
             <div className="w-full overflow-hidden">
               <LogMessage

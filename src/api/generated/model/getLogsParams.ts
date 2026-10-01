@@ -7,14 +7,11 @@
  */
 
 export type GetLogsParams = {
+start?: string;
+end?: string;
 /**
  * @minimum 1
  * @maximum 2000
  */
 limit?: number;
-/**
- * @minimum 1
- * @maximum 400
- */
-sinceHours?: number;
 };
