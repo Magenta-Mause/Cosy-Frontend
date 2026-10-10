@@ -240,6 +240,11 @@ export type i18nLanguage = {
     displayTimestamp: string;
     loadingLogs: string;
     loadingLogsFailed: string;
+    showingLatest: ContainsVariable<"count">;
+    loadOlder: string;
+    loadingOlder: string;
+    loadingOlderFailed: string;
+    retentionNotice: ContainsVariable<"days">;
   };
 
   serverPage: {
@@ -1117,8 +1122,6 @@ export type i18nLanguage = {
       BLOCK_READ: string;
       BLOCK_WRITE: string;
     };
-    liveMetricsOn: string;
-    liveMetricsOff: string;
     loadingMetrics: string;
     loadingMetricsFailed: string;
   };
@@ -1131,10 +1134,12 @@ export type i18nLanguage = {
     day: ContainsVariable<"time">;
     apply: string;
     cancel: string;
+    restrictedHint: string;
   };
   datepicker: {
     title: string;
     des: string;
+    tooLong: ContainsVariable<"days">;
   };
   cardWidth: {
     SMALL: string;

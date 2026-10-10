@@ -9,6 +9,8 @@ import useGameServer from "@/hooks/useGameServer/useGameServer.tsx";
 import useGameServerLogs from "@/hooks/useGameServerLogs/useGameServerLogs.tsx";
 import useGameServerMetrics from "@/hooks/useGameServerMetrics/useGameServerMetrics";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions";
+import useServerTimeRange from "@/hooks/useServerTimeRange/useServerTimeRange.tsx";
+import { resolveTimeRange } from "@/lib/timeRange.ts";
 import { DashboardElementTypes } from "@/types/dashboardTypes";
 
 interface DashboardSearch {
@@ -80,12 +82,20 @@ function GameServerDetailPageDashboardPage() {
   const canReadLogs =
     hasPermission(GameServerAccessGroupDtoPermissionsItem.READ_SERVER_LOGS) || publiclyExposesLogs;
 
-  const { logs, state: logsLoadState } = useGameServerLogs(serverId ?? "", {
+  const { selection, ensureLive } = useServerTimeRange(serverId ?? "");
+  const {
+    logs,
+    state: logsLoadState,
+    loadOlder,
+    ...logPaging
+  } = useGameServerLogs(serverId ?? "", {
     enabled: showsLogs && canReadLogs,
+    range: selection,
   });
   const { metrics, state: metricsLoadState } = useGameServerMetrics(serverId ?? "", {
     enabled: showsMetrics && canReadMetrics,
     source: hasMetricsPermission ? "private" : "public",
+    range: selection,
   });
 
   if (!gameServer) {
@@ -108,6 +118,9 @@ function GameServerDetailPageDashboardPage() {
       overridePermissionCheck={currentlyVisibleDashboard === "public"}
       metricsLoadState={metricsLoadState}
       logsLoadState={logsLoadState}
+      metricsTimeUnit={resolveTimeRange(selection).displayUnit}
+      logPaging={{ ...logPaging, onLoadOlder: loadOlder }}
+      onCommandSent={ensureLive}
     />
   );
 }

@@ -7,6 +7,7 @@ import FancyNavigationButton from "@/components/display/GameServer/GameServerDet
 import GameServerDetailPageHeader from "@/components/display/GameServer/GameServerDetailPageLayout/GameServerDetailPageHeader/GameServerDetailPageHeader.tsx";
 import GameServerStartStopButton from "@/components/display/GameServer/GameServerStartStopButton/GameServerStartStopButton.tsx";
 import GameServerStatusIndicator from "@/components/display/GameServer/GameServerStatusIndicator/GameServerStatusIndicator.tsx";
+import ServerTimeRangeSelector from "@/components/display/GameServer/ServerTimeRangeSelector/ServerTimeRangeSelector.tsx";
 import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import Icon from "@/components/ui/Icon.tsx";
@@ -35,6 +36,7 @@ import chartIcon from "@/assets/icons/metrics.webp";
 import settingsIcon from "@/assets/icons/settings.webp";
 import useGameServerPermissions from "@/hooks/useGameServerPermissions/useGameServerPermissions.tsx";
 import useIsDesktop, { useIsUltraWide } from "@/hooks/useIsDesktop/useIsDesktop.tsx";
+import { pickTimeRangeSearch } from "@/lib/timeRange.ts";
 import { cn } from "@/lib/utils.ts";
 
 interface Tab {
@@ -119,6 +121,12 @@ const TABS: Tab[] = [
   },
 ];
 
+// Views that show logs or metrics and are therefore driven by the shared time range.
+const TIME_RANGE_TABS = new Set(["overview", "console", "metrics"]);
+
+// Carries the selected time range along when switching tabs.
+const keepTimeRange = (prev: Record<string, unknown>) => pickTimeRangeSearch(prev);
+
 function getActiveTab(pathname: string): Tab {
   // Tabs with an explicit regex pattern take priority
   const patternMatch = TABS.find((tab) => tab.activePathPattern?.test(pathname));
@@ -151,6 +159,7 @@ const GameServerDetailPageLayout = (props: {
   const { hasPermission } = useGameServerPermissions(props.gameServer.uuid);
   const activeTab = getActiveTab(location.pathname);
   const isOnDashboard = activeTab.label === "overview";
+  const showTimeRange = TIME_RANGE_TABS.has(activeTab.label);
   const canSeePrivateDashboard = hasPermission(
     GameServerAccessGroupDtoPermissionsItem.READ_SERVER_PRIVATE_DASHBOARD,
   );
@@ -210,6 +219,7 @@ const GameServerDetailPageLayout = (props: {
                 buttonVariant={activeTab.buttonVariant}
                 hideStartButton={!hasPermission(GameServerAccessGroupDtoPermissionsItem.SEE_SERVER)}
                 dashboardView={dashboardView}
+                showTimeRange={showTimeRange}
               />
               <div className={"overflow-y-auto h-auto w-full aspect-514/241 bg-background"}>
                 {props.children}
@@ -255,6 +265,11 @@ const GameServerDetailPageLayout = (props: {
               <GameServerStartStopButton gameServer={props.gameServer} />
             </div>
           </div>
+          {showTimeRange && (
+            <div className="flex justify-end px-3 py-2 border-b-4 border-foreground">
+              <ServerTimeRangeSelector serverId={props.gameServer.uuid} />
+            </div>
+          )}
 
           {/* Content area - scrollable */}
           <div className="flex-1 overflow-y-auto p-2">{props.children}</div>
@@ -284,6 +299,7 @@ const MobileTabBar = (props: { gameServer: GameServerDto }) => {
           <Link
             key={tab.label}
             to={tab.path}
+            search={keepTimeRange}
             disabled={!isReachable}
             className="flex-1 flex flex-col items-center py-2 gap-1"
           >
@@ -347,6 +363,7 @@ const SideBar = (props: { gameServer: GameServerDto; buttonVariant?: "primary" |
         <Link
           key={label}
           to={path}
+          search={keepTimeRange}
           activeOptions={{ exact: !activePathPattern }}
           className={
             "group block rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 pointer-events-auto"

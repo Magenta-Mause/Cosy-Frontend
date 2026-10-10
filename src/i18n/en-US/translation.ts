@@ -1074,6 +1074,11 @@ const translation: i18nLanguage = {
     displayTimestamp: "Display timestamp",
     loadingLogs: "Loading logs …",
     loadingLogsFailed: "Failed to load logs",
+    showingLatest: "Showing the latest {{count}} lines of this range",
+    loadOlder: "Load older",
+    loadingOlder: "Loading…",
+    loadingOlderFailed: "Failed to load older logs",
+    retentionNotice: "Logs are only kept for {{days}} days; older lines are no longer available.",
   },
   serverPage: {
     notFound: "404 - Server Not Found",
@@ -1131,8 +1136,6 @@ const translation: i18nLanguage = {
       BLOCK_READ: "Disk Read",
       BLOCK_WRITE: "Disk Write",
     },
-    liveMetricsOn: "Live Metrics: On",
-    liveMetricsOff: "Live Metrics: Off",
     loadingMetrics: "Loading metrics …",
     loadingMetricsFailed: "Failed to load metrics",
   },
@@ -1145,10 +1148,12 @@ const translation: i18nLanguage = {
     day: "Last {{time}} days",
     apply: "Confirm",
     cancel: "Cancel",
+    restrictedHint: "Public dashboards can show at most the last 24 hours.",
   },
   datepicker: {
     title: "Select Date Range",
     des: "Choose a start and end date for the range.",
+    tooLong: "A range can span at most {{days}} days.",
   },
   cardWidth: {
     SMALL: "Small",
