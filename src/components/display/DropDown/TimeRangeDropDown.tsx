@@ -1,6 +1,6 @@
 import DatePicker from "@/components/display/DatePicker/DatePicker";
 import Icon from "@/components/ui/Icon.tsx";
-import { format } from "date-fns";
+import { format, startOfDay } from "date-fns";
 import { useMemo, useState } from "react";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import arrowDownIcon from "@/assets/icons/arrowDown.webp";
@@ -15,7 +15,6 @@ import {
 import {
   customRangeFromDays,
   isAllowedForRestrictedViewer,
-  PUBLIC_MAX_LOOKBACK_MS,
   TIME_RANGE_PRESETS,
   type TimeRangeSelection,
 } from "@/lib/timeRange.ts";
@@ -89,7 +88,10 @@ const TimeRangeDropDown = (props: TimeRangeDropDownProps) => {
       <DatePicker
         open={openCustom}
         onOpenChange={setOpenCustom}
-        earliestDate={restricted ? new Date(Date.now() - PUBLIC_MAX_LOOKBACK_MS) : undefined}
+        // A custom range starts at midnight of its first day, so for restricted viewers
+        // (last 24 hours only) today is the only day that fits; the calendar compares whole
+        // days and would otherwise still offer yesterday.
+        earliestDate={restricted ? startOfDay(new Date()) : undefined}
         onRangeChange={({ startDate, endDate }) =>
           onChange(customRangeFromDays(startDate, endDate))
         }
