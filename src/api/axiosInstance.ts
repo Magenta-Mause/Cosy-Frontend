@@ -4,6 +4,7 @@ export interface ApiResponse<T> {
   success: boolean;
   data: T;
   error?: string;
+  error_code?: string;
   path?: string;
   statusCode?: number;
 }

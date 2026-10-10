@@ -31,6 +31,38 @@ const translation: i18nLanguage = {
       autoTooltip: "Tag 07:00–19:00\nNacht 19:00–07:00",
     },
   },
+  apiErrors: {
+    NETWORK: "Der Server ist nicht erreichbar. Prüfe deine Verbindung.",
+    TIMEOUT: "Der Server hat nicht rechtzeitig geantwortet. Versuch es noch einmal.",
+    UNAUTHORIZED: "Deine Anmeldung ist abgelaufen oder ungültig. Melde dich erneut an.",
+    FORBIDDEN: "Dafür fehlt dir die Berechtigung.",
+    NOT_FOUND: "Das angefragte Element wurde nicht gefunden.",
+    PAYLOAD_TOO_LARGE: "Die Datei ist zu groß.",
+    UPSTREAM_ERROR:
+      "Ein benötigter Dienst ist gerade nicht erreichbar. Versuch es gleich noch einmal.",
+    INTERNAL_ERROR: "Auf dem Server ist ein unerwarteter Fehler aufgetreten.",
+    VALIDATION_FAILED: "Einige Eingaben sind ungültig.",
+    INVALID_CREDENTIALS: "Benutzername oder Passwort ist falsch.",
+    OLD_PASSWORD_INCORRECT: "Das alte Passwort ist falsch.",
+    INSUFFICIENT_PERMISSIONS: "Dafür fehlt dir die Berechtigung.",
+    USER_NOT_FOUND: "Diesen Benutzer gibt es nicht.",
+    USERNAME_TAKEN: "Dieser Benutzername ist bereits vergeben.",
+    INVITE_NOT_FOUND: "Diese Einladung gibt es nicht mehr.",
+    INVITE_USERNAME_TAKEN: "Für diesen Benutzernamen gibt es bereits eine Einladung.",
+    GAME_SERVER_NOT_FOUND: "Diesen Gameserver gibt es nicht mehr.",
+    SERVER_ALREADY_STARTING: "Der Server startet bereits.",
+    SERVER_NOT_STOPPED: "Der Server muss dafür gestoppt sein.",
+    SERVER_RUNNING: "Stoppe den Server, bevor du das änderst.",
+    HOST_MOUNT_ADMIN_ONLY: "Nur Admins dürfen Host-Verzeichnisse einbinden.",
+    HARDWARE_QUOTA_EXCEEDED:
+      "Dein Ressourcenlimit reicht für diesen Server nicht aus. Stoppe einen anderen Server oder bitte einen Admin, dein Limit zu erhöhen.",
+    SERVER_RESOURCE_LIMIT_MISSING:
+      "Für dein Konto gilt ein Ressourcenlimit, dieser Server hat aber keines konfiguriert. Lege in den Servereinstellungen ein CPU- und Arbeitsspeicherlimit fest.",
+    HARDWARE_LIMIT_REQUIRED:
+      "Für dein Konto gilt ein Ressourcenlimit. Lege für den Server ein CPU- und Arbeitsspeicherlimit fest.",
+    ACCESS_GROUP_NOT_FOUND: "Diese Zugriffsgruppe gibt es nicht mehr.",
+    ACCESS_GROUP_NAME_TAKEN: "Eine Zugriffsgruppe mit diesem Namen gibt es bereits.",
+  },
   toasts: {
     notImplemented: "Noch nicht implementiert!",
     deleteGameServerSuccess: "Gameserver-Konfiguration erfolgreich gelöscht!",
@@ -38,7 +70,7 @@ const translation: i18nLanguage = {
     refreshGameServersSuccess: "Gameserver-Konfigurationen erfolgreich aktualisiert!",
     refreshGameServersError: "Fehler beim Aktualisieren der Gameserver-Konfigurationen!",
     inviteCreatedSuccess: "Einladung erfolgreich erstellt",
-    inviteCreateError: 'Fehler beim Erstellen der Einladung. "{{error}}"',
+    inviteCreateError: "Fehler beim Erstellen der Einladung.",
     inviteRevokedSuccess: "Einladung widerrufen",
     inviteRevokeError: "Fehler beim Widerrufen der Einladung",
     copyClipboardSuccess: "Link in die Zwischenablage kopiert",
@@ -46,15 +78,16 @@ const translation: i18nLanguage = {
     usernameRequired: "Benutzername ist erforderlich",
     accountCreatedSuccess:
       "Konto erfolgreich erstellt! Melde dich jetzt an, um dein Profil zu erstellen.",
-    accountCreateError: 'Fehler beim Erstellen des Kontos. "{{error}}"',
+    accountCreateError: "Fehler beim Erstellen des Kontos.",
     createGameServerSuccess: "Gameserver erfolgreich erstellt!",
     createGameServerError: "Fehler beim Erstellen des Gameservers.",
+    accessGroupCreateError: "Fehler beim Erstellen der Zugriffsgruppe.",
+    accessGroupUpdateError: "Fehler beim Aktualisieren der Zugriffsgruppe.",
+    accessGroupDeleteError: "Fehler beim Löschen der Zugriffsgruppe.",
+    loadMetricsError: "Metriken konnten nicht geladen werden.",
+    loadFileSystemError: "Dateien konnten nicht geladen werden.",
     serverStarting: "Server wird gestartet...",
     serverStartError: "Fehler beim Starten des Servers.",
-    serverStartQuotaError:
-      "Dein Ressourcenlimit reicht für diesen Server nicht aus. Stoppe einen anderen Server oder bitte einen Admin, dein Limit zu erhöhen.",
-    serverStartMissingLimitError:
-      "Für dein Konto gilt ein Ressourcenlimit, dieser Server hat aber keines konfiguriert. Lege in den Servereinstellungen ein CPU- und Arbeitsspeicherlimit fest.",
     serverStartSuccess: "Server erfolgreich gestartet.",
     serverStopError: "Fehler beim Stoppen des Servers.",
     serverStopSuccess: "Server erfolgreich gestoppt.",
@@ -209,6 +242,7 @@ const translation: i18nLanguage = {
     showPassword: "Zeigen",
     hidePassword: "Verstecken",
     question: "Du bist nicht angemeldet",
+    loginError: "Anmeldung fehlgeschlagen.",
     incorrectCredentials: "Falscher Benutzername oder Passwort.",
     loading: "Lädt...",
     logout: "Abmelden",
@@ -489,7 +523,8 @@ const translation: i18nLanguage = {
         subdirectoryNote: "Leer lassen, um direkt in das aktuelle Verzeichnis zu entpacken.",
         extract: "Entpacken",
         extracting: "Wird entpackt...",
-        extractionFailed: "Entpacken fehlgeschlagen. Stelle sicher, dass die Datei ein gültiges ZIP-Archiv ist.",
+        extractionFailed:
+          "Entpacken fehlgeschlagen. Stelle sicher, dass die Datei ein gültiges ZIP-Archiv ist.",
         cancel: "Abbrechen",
         clearExistingLabel: "Vorhandene Dateien löschen",
         clearExistingWarning:
@@ -508,7 +543,7 @@ const translation: i18nLanguage = {
         uncompressedSize: "Unkomprimierte Größe: {{size}}",
         chunkSizeLabel: "Chunk-Größe",
         firefoxWarning:
-          "Dein Browser unterstützt kein Streaming-Download. Dateien über ~500 MB können fehlschlagen oder den Tab zum Absturz bringen. Nutze Chrome oder Edge für große Verzeichnisse oder wähle \"Aufgeteilte Chunks\" unten.",
+          'Dein Browser unterstützt kein Streaming-Download. Dateien über ~500 MB können fehlschlagen oder den Tab zum Absturz bringen. Nutze Chrome oder Edge für große Verzeichnisse oder wähle "Aufgeteilte Chunks" unten.',
         downloadSingle: "Als einzelne Datei herunterladen",
         downloadSplit: "Als aufgeteilte Chunks herunterladen",
         mbPerChunk: "MB pro Chunk",
@@ -690,7 +725,6 @@ const translation: i18nLanguage = {
             cancel: "Abbrechen",
             confirm: "Server übergeben",
             transferring: "Server wird übergeben...",
-            transferError: "Fehler bei der Serverübergabe",
           },
         },
         delete: {
@@ -869,6 +903,7 @@ const translation: i18nLanguage = {
         addUserError: "Ungültiger Benutzername",
         addUserButton: "Hinzufügen",
         userAlreadyInGroup: "Benutzer bereits in Gruppe",
+        userLookupError: "Benutzer konnte nicht geprüft werden.",
         usernameNotFound: "Benutzername nicht gefunden",
         permissions: "Berechtigungen",
         adminNote: "ADMIN-Berechtigung gewährt alle anderen Berechtigungen",
@@ -1092,7 +1127,8 @@ const translation: i18nLanguage = {
     loadOlder: "Ältere laden",
     loadingOlder: "Lädt…",
     loadingOlderFailed: "Ältere Logs konnten nicht geladen werden",
-    retentionNotice: "Logs werden nur {{days}} Tage aufbewahrt; ältere Zeilen sind nicht mehr verfügbar.",
+    retentionNotice:
+      "Logs werden nur {{days}} Tage aufbewahrt; ältere Zeilen sind nicht mehr verfügbar.",
   },
   serverPage: {
     notFound: "404 - Server nicht gefunden",

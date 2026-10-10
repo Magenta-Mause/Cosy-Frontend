@@ -1,5 +1,4 @@
-import { Card } from "@/components/ui/card.tsx";
-import UnsavedModal from "@/components/ui/UnsavedModal.tsx";
+import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { getUUIDByUsername } from "@/api/generated/backend-api.ts";
 import type {
@@ -8,8 +7,11 @@ import type {
   UserEntityDto,
 } from "@/api/generated/model";
 import { GameServerAccessGroupDtoPermissionsItem as PermissionEnum } from "@/api/generated/model";
+import { Card } from "@/components/ui/card.tsx";
+import UnsavedModal from "@/components/ui/UnsavedModal.tsx";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { withApiErrorReason } from "@/lib/apiError";
 import { requiredStringValidator } from "@/lib/validators/requiredStringValidator.ts";
 import ActionButtons from "./ActionButtons";
 import GroupNameSection from "./GroupNameSection";
@@ -104,8 +106,11 @@ const SelectedAccessGroupDisplay = ({ accessGroup, onChangeStatusUpdate }: Props
       // Add user to local state
       setLocalUsers((prev) => [...prev, { uuid: userUuid, username: usernameInput.trim() }]);
       setUsernameInput("");
-    } catch (_error) {
-      setUsernameError(t("usernameNotFound"));
+    } catch (error) {
+      const isUnknownUser = axios.isAxiosError(error) && error.response?.status === 404;
+      setUsernameError(
+        isUnknownUser ? t("usernameNotFound") : withApiErrorReason(t("userLookupError"), error),
+      );
     }
   };
 

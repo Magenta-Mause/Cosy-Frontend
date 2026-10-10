@@ -46,7 +46,10 @@ export function NotificationModal({ item }: NotificationModalProps) {
               <div className="flex items-center gap-3">
                 <DialogTitle>{item.title ?? t(TITLE_KEYS[item.type])}</DialogTitle>
               </div>
-              <DialogDescription>{item.message}</DialogDescription>
+              <DialogDescription>
+                {item.message}
+                {item.reason && <span className="mt-2 block">{item.reason}</span>}
+              </DialogDescription>
             </DialogHeader>
             {item.details && (
               <pre className="bg-secondary-background rounded-lg p-3 text-xs scroller max-h-40">

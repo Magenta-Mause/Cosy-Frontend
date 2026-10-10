@@ -1,5 +1,4 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useAppDispatch } from "@/stores/hooks.ts";
 import {
   getGetAllUserInvitesQueryKey,
   useChangePasswordByAdmin,
@@ -15,9 +14,9 @@ import type {
   UserRoleUpdateDtoRole,
 } from "@/api/generated/model";
 import { notificationModal } from "@/lib/notificationModal";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { userInviteSliceActions } from "@/stores/slices/userInviteSlice.ts";
 import { userSliceActions } from "@/stores/slices/userSlice.ts";
-import type { InvalidRequestError } from "@/types/errors.ts";
 import useTranslationPrefix from "../useTranslationPrefix/useTranslationPrefix";
 
 const useUserDataInteractions = () => {
@@ -31,19 +30,7 @@ const useUserDataInteractions = () => {
         dispatch(userInviteSliceActions.addInvite(data));
       },
       onError: (err) => {
-        const typedError = err as InvalidRequestError;
-        const errorData = typedError.response?.data.data;
-        let errorMessage = "Unknown Error";
-        if (errorData && typeof errorData === "object") {
-          const error = Object.entries(errorData)[0];
-          errorMessage = error ? error[1] : "Unknown Error";
-        } else if (errorData) {
-          errorMessage = errorData;
-        }
-        notificationModal.error({
-          message: t("inviteCreateError", { error: errorMessage }),
-          cause: err,
-        });
+        notificationModal.error({ message: t("inviteCreateError"), cause: err });
         throw err;
       },
       onSettled: () => {

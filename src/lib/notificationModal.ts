@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getApiErrorReason } from "@/lib/apiError";
 
 export type NotificationType = "success" | "error" | "info";
 
@@ -7,6 +8,8 @@ export interface NotificationModalItem {
   type: NotificationType;
   title?: string;
   message: string;
+  /** Translated explanation of why it failed, shown below the message. */
+  reason?: string;
   details?: string;
 }
 
@@ -82,7 +85,13 @@ export const notificationModal = {
   },
   error(opts: { title?: string; message: string; details?: string; cause?: unknown }) {
     const details = opts.details ?? extractErrorDetails(opts.cause);
-    return enqueue({ type: "error", title: opts.title, message: opts.message, details });
+    return enqueue({
+      type: "error",
+      title: opts.title,
+      message: opts.message,
+      reason: getApiErrorReason(opts.cause),
+      details,
+    });
   },
   info(opts: { title?: string; message: string }) {
     return enqueue({ type: "info", ...opts });

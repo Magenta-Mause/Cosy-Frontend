@@ -1,7 +1,9 @@
 import { useNavigate } from "@tanstack/react-router";
+import i18n from "i18next";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { getFileSystemForVolume } from "@/api/generated/backend-api";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
+import { withApiErrorReason } from "@/lib/apiError";
 import { normalizePath } from "@/lib/fileSystemUtils";
 
 type CacheEntry = {
@@ -153,7 +155,7 @@ export function useFileBrowserCache(opts: {
         });
       } catch (e) {
         console.error(e);
-        setError("Failed to load file system");
+        setError(withApiErrorReason(i18n.t("toasts.loadFileSystemError"), e));
       } finally {
         setLoading(false);
       }
