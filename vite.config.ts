@@ -1,4 +1,3 @@
-import { NodeGlobalsPolyfillPlugin } from "@esbuild-plugins/node-globals-polyfill";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import * as path from "node:path";
@@ -20,7 +19,7 @@ export default defineConfig({
   ],
   // sockjs-client (via react-stomp-hooks) references the Node `global` identifier, which does
   // not exist in browsers. This must be a top-level `define` so it applies to the production
-  // build: the `optimizeDeps.esbuildOptions.define` below only covers dev pre-bundling, which
+  // build: the `optimizeDeps` define below only covers dev pre-bundling, which
   // is why the built app threw "global is not defined" while dev worked fine.
   define: {
     global: "globalThis",
@@ -34,16 +33,15 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    esbuildOptions: {
-      // Enable Node.js global polyfill
-      define: {
-        global: "globalThis",
+    // Vite 8 pre-bundles with Rolldown, which cannot run esbuild plugins (the former
+    // NodeGlobalsPolyfillPlugin crashed the dependency scan and left the dev app blank).
+    // Only `global` is needed (by sockjs-client), so define it for the pre-bundled deps too.
+    rolldownOptions: {
+      transform: {
+        define: {
+          global: "globalThis",
+        },
       },
-      plugins: [
-        NodeGlobalsPolyfillPlugin({
-          buffer: true,
-        }),
-      ],
     },
   },
   server: {
