@@ -3,8 +3,15 @@ import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPre
 import { useAppDispatch } from "@/stores/hooks.ts";
 import { startService, stopService } from "@/api/generated/backend-api.ts";
 import { GameServerDtoStatus } from "@/api/generated/model";
+import { getServerStartErrorKind, type ServerStartErrorKind } from "@/lib/apiError";
 import { notificationModal } from "@/lib/notificationModal";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
+
+const START_ERROR_KEYS = {
+  quotaExceeded: "serverStartQuotaError",
+  missingResourceLimit: "serverStartMissingLimitError",
+  generic: "serverStartError",
+} as const satisfies Record<ServerStartErrorKind, string>;
 
 const useServerInteractions = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +33,10 @@ const useServerInteractions = () => {
           serverState: GameServerDtoStatus.FAILED,
         }),
       );
-      notificationModal.error({ message: t("serverStartError", { error: String(e) }), cause: e });
+      notificationModal.error({
+        message: t(START_ERROR_KEYS[getServerStartErrorKind(e)]),
+        cause: e,
+      });
     }
   };
 
@@ -39,7 +49,7 @@ const useServerInteractions = () => {
         notificationModal.success({ message: t("serverStopSuccess") });
       }
     } catch (e) {
-      notificationModal.error({ message: t("serverStopError", { error: String(e) }), cause: e });
+      notificationModal.error({ message: t("serverStopError"), cause: e });
     }
   };
 

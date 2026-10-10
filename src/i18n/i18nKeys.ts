@@ -50,9 +50,11 @@ export type i18nLanguage = {
     createGameServerError: string;
     serverStarting: string;
     serverStartSuccess: string;
-    serverStartError: ContainsVariable<"error">;
+    serverStartError: string;
+    serverStartQuotaError: string;
+    serverStartMissingLimitError: string;
     serverStopSuccess: string;
-    serverStopError: ContainsVariable<"error">;
+    serverStopError: string;
     serverTransferError: string;
     updateGameServerSuccess: string;
     updateGameServerError: string;

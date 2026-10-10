@@ -54,9 +54,13 @@ const translation: i18nLanguage = {
     createGameServerSuccess: "Game Server created successfully!",
     createGameServerError: "Failed to create game server.",
     serverStarting: "Starting server...",
-    serverStartError: 'Failed to start server. "{{error}}"',
+    serverStartError: "Failed to start server.",
+    serverStartQuotaError:
+      "Your resource limit does not cover this server. Stop another server or ask an admin to raise your limit.",
+    serverStartMissingLimitError:
+      "Your account has a resource limit, but this server has none configured. Set a CPU and memory limit in the server settings.",
     serverStartSuccess: "Started server.",
-    serverStopError: 'Failed to stop server. "{{error}}"',
+    serverStopError: "Failed to stop server.",
     serverStopSuccess: "Stopped Server",
     serverTransferError: "Failed to transfer game server.",
     updateGameServerSuccess: "Game Server updated successfully!",
