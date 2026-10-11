@@ -1,12 +1,8 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { withApiErrorReason } from "@/lib/apiError";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -52,8 +48,8 @@ export const EditFileModal = ({
     try {
       await onSave(content);
       onClose();
-    } catch {
-      setError(t("saveError"));
+    } catch (e) {
+      setError(withApiErrorReason(t("saveError"), e));
     } finally {
       setSaving(false);
     }

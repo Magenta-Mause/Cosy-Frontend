@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { type UserEntityDto, UserRoleUpdateDtoRole } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,10 +17,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useEffect, useState } from "react";
-import { type UserEntityDto, UserRoleUpdateDtoRole } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { withApiErrorReason } from "@/lib/apiError";
 
 const ASSIGNABLE_ROLES = [UserRoleUpdateDtoRole.ADMIN, UserRoleUpdateDtoRole.QUOTA_USER] as const;
 
@@ -51,8 +52,8 @@ const ChangeRoleModal = (props: { user: UserEntityDto; open: boolean; onClose: (
     try {
       await changeRole(props.user.uuid, role);
       handleClose();
-    } catch {
-      setSubmitError(t("submitError"));
+    } catch (e) {
+      setSubmitError(withApiErrorReason(t("submitError"), e));
     } finally {
       setIsPending(false);
     }

@@ -61,18 +61,11 @@ const GameServerHouse = (props: {
       ? [
           {
             label: t("rightClickMenu.startServer"),
-            onClick: async () => {
-              try {
-                notificationModal.info({
-                  message: t("toasts.serverStarting"),
-                });
-                startServer(props.gameServer.uuid, true);
-              } catch (e) {
-                notificationModal.error({
-                  message: t("toasts.serverStartError", { error: String(e) }),
-                  cause: e,
-                });
-              }
+            onClick: () => {
+              notificationModal.info({
+                message: t("toasts.serverStarting"),
+              });
+              startServer(props.gameServer.uuid, true);
             },
           },
         ]
@@ -80,16 +73,7 @@ const GameServerHouse = (props: {
         ? [
             {
               label: t("rightClickMenu.stopServer"),
-              onClick: async () => {
-                try {
-                  await stopServer(props.gameServer.uuid, true);
-                } catch (e) {
-                  notificationModal.error({
-                    message: t("toasts.serverStopError", { error: String(e) }),
-                    cause: e,
-                  });
-                }
-              },
+              onClick: () => stopServer(props.gameServer.uuid, true),
             },
           ]
         : props.gameServer.status === "AWAITING_UPDATE" ||

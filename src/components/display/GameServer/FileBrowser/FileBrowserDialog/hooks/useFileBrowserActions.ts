@@ -76,8 +76,8 @@ export const useFileBrowserActions = ({
 
     try {
       await uploadSelectedFile(file);
-    } catch (_err) {
-      notificationModal.error({ message: t("fileUploadError") });
+    } catch (e) {
+      notificationModal.error({ message: t("fileUploadError"), cause: e });
     } finally {
       e.target.value = "";
     }
@@ -122,7 +122,7 @@ export const useFileBrowserActions = ({
       });
     } catch (e) {
       console.error(e);
-      notificationModal.error({ message: t("downloadZipFailure") });
+      notificationModal.error({ message: t("downloadZipFailure"), cause: e });
     } finally {
       setDownloading((prev) => prev.filter((p) => p !== path));
       setDownloadProgress(null);
@@ -141,7 +141,7 @@ export const useFileBrowserActions = ({
       });
     } catch (e) {
       console.error(e);
-      notificationModal.error({ message: t("downloadZipFailure") });
+      notificationModal.error({ message: t("downloadZipFailure"), cause: e });
     } finally {
       setDownloading((prev) => prev.filter((p) => p !== path));
       setDownloadProgress(null);
@@ -161,8 +161,8 @@ export const useFileBrowserActions = ({
         )) as unknown as Blob;
         const text = await blob.text();
         setEditingFile({ obj, content: text, fetching: false });
-      } catch {
-        notificationModal.error({ message: t("editFileFetchError") });
+      } catch (e) {
+        notificationModal.error({ message: t("editFileFetchError"), cause: e });
         setEditingFile(null);
       }
     },
@@ -280,8 +280,8 @@ export const useFileBrowserActions = ({
           parentPath: currentPath,
           name: obj.name,
         });
-      } catch (_err) {
-        notificationModal.error({ message: t("errorWhileDownload") });
+      } catch (e) {
+        notificationModal.error({ message: t("errorWhileDownload"), cause: e });
       } finally {
         setDownloading((prev) => prev.filter((p) => p !== fullPath));
       }

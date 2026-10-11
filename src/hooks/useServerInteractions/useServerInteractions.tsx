@@ -1,9 +1,9 @@
 import axios from "axios";
-import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
-import { useAppDispatch } from "@/stores/hooks.ts";
 import { startService, stopService } from "@/api/generated/backend-api.ts";
 import { GameServerDtoStatus } from "@/api/generated/model";
+import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix.tsx";
 import { notificationModal } from "@/lib/notificationModal";
+import { useAppDispatch } from "@/stores/hooks.ts";
 import { gameServerSliceActions } from "@/stores/slices/gameServerSlice.ts";
 
 const useServerInteractions = () => {
@@ -26,7 +26,7 @@ const useServerInteractions = () => {
           serverState: GameServerDtoStatus.FAILED,
         }),
       );
-      notificationModal.error({ message: t("serverStartError", { error: String(e) }), cause: e });
+      notificationModal.error({ message: t("serverStartError"), cause: e });
     }
   };
 
@@ -39,7 +39,7 @@ const useServerInteractions = () => {
         notificationModal.success({ message: t("serverStopSuccess") });
       }
     } catch (e) {
-      notificationModal.error({ message: t("serverStopError", { error: String(e) }), cause: e });
+      notificationModal.error({ message: t("serverStopError"), cause: e });
     }
   };
 

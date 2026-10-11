@@ -1,9 +1,10 @@
-import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
+import i18n from "i18next";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useSubscription } from "react-stomp-hooks";
 import { v7 as generateUuid } from "uuid";
 import { getMetrics, getPublicEvaluableMetrics } from "@/api/generated/backend-api.ts";
 import type { MetricPointDto } from "@/api/generated/model";
+import { AuthContext } from "@/components/technical/Providers/AuthProvider/AuthProvider.tsx";
 import { notificationModal } from "@/lib/notificationModal";
 import { resolveTimeRange, type TimeRangeSelection, timeRangeKey } from "@/lib/timeRange.ts";
 import type { DataLoadState } from "@/types/dataLoadState";
@@ -77,11 +78,9 @@ const useGameServerMetrics = (
         setMetrics(fetchedMetrics.map((metric) => ({ ...metric, uuid: generateUuid() })));
         setState("idle");
       })
-      .catch(() => {
+      .catch((error) => {
         if (requestIdRef.current !== requestId) return;
-        notificationModal.error({
-          message: `Failed to load metrics for server: ${serverId}`,
-        });
+        notificationModal.error({ message: i18n.t("toasts.loadMetricsError"), cause: error });
         setState("failed");
       });
 

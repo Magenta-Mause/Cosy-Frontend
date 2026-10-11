@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useGetUserInvite, useUseInvite } from "@/api/generated/backend-api.ts";
+import spinner from "@/assets/gifs/spinner.gif";
 import { Badge } from "@/components/ui/badge.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import {
@@ -10,13 +14,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useGetUserInvite, useUseInvite } from "@/api/generated/backend-api.ts";
-import spinner from "@/assets/gifs/spinner.gif";
+import { getApiErrorKey, getApiErrorMessage, withApiErrorReason } from "@/lib/apiError";
 import { formatMemoryLimit } from "@/lib/memoryFormatUtil.ts";
 import { notificationModal } from "@/lib/notificationModal";
-import type { InvalidRequestError } from "@/types/errors.ts";
 
 interface InviteRedemptionModalProps {
   inviteToken: string;
@@ -89,15 +89,14 @@ export function InviteRedemptionModal({ inviteToken, onClose }: InviteRedemption
           handleClose();
         },
         onError: (e) => {
-          const typedError = e as InvalidRequestError;
-          let error: string | undefined;
-          if (typedError.status === 400) {
-            const totalError = Object.entries(typedError.response?.data.data ?? {})[0];
-            error = totalError ? totalError[1] : undefined;
-          } else if (typedError.status === 409) {
-            error = typedError.response?.data.data as string;
-          }
-          setFormError(t("toasts.accountCreateError", { error: error ? error : "Unknown error" }));
+          // A validation failure names the offending field, which beats the generic reason.
+          const reason =
+            getApiErrorKey(e) === "VALIDATION_FAILED" ? getApiErrorMessage(e) : undefined;
+          setFormError(
+            reason
+              ? `${t("toasts.accountCreateError")} ${reason}`
+              : withApiErrorReason(t("toasts.accountCreateError"), e),
+          );
         },
       },
     );

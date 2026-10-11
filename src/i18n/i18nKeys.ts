@@ -1,3 +1,5 @@
+import type { ApiErrorKey } from "@/lib/apiError";
+
 export type i18nLanguage = {
   common: {
     yourLimit: string;
@@ -31,6 +33,7 @@ export type i18nLanguage = {
     };
   };
 
+  apiErrors: Record<ApiErrorKey, string>;
   toasts: {
     notImplemented: string;
     deleteGameServerSuccess: string;
@@ -38,21 +41,26 @@ export type i18nLanguage = {
     refreshGameServersSuccess: string;
     refreshGameServersError: string;
     inviteCreatedSuccess: string;
-    inviteCreateError: ContainsVariable<"error">;
+    inviteCreateError: string;
     inviteRevokedSuccess: string;
     inviteRevokeError: string;
     copyClipboardSuccess: string;
     passwordsDoNotMatch: string;
     usernameRequired: string;
     accountCreatedSuccess: string;
-    accountCreateError: ContainsVariable<"error">;
+    accountCreateError: string;
     createGameServerSuccess: string;
     createGameServerError: string;
+    accessGroupCreateError: string;
+    accessGroupUpdateError: string;
+    accessGroupDeleteError: string;
+    loadMetricsError: string;
+    loadFileSystemError: string;
     serverStarting: string;
     serverStartSuccess: string;
-    serverStartError: ContainsVariable<"error">;
+    serverStartError: string;
     serverStopSuccess: string;
-    serverStopError: ContainsVariable<"error">;
+    serverStopError: string;
     serverTransferError: string;
     updateGameServerSuccess: string;
     updateGameServerError: string;
@@ -210,6 +218,7 @@ export type i18nLanguage = {
     showPassword: string;
     hidePassword: string;
     question: string;
+    loginError: string;
     incorrectCredentials: string;
     loading: string;
     logout: string;
@@ -603,7 +612,6 @@ export type i18nLanguage = {
             confirm: string;
             cancel: string;
             transferring: string;
-            transferError: string;
           };
         };
         delete: {
@@ -1001,6 +1009,7 @@ export type i18nLanguage = {
         addUserError: string;
         addUserButton: string;
         userAlreadyInGroup: string;
+        userLookupError: string;
         usernameNotFound: string;
         permissions: string;
         adminNote: string;

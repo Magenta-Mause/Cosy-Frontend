@@ -1,3 +1,6 @@
+import { Dialog } from "@radix-ui/react-dialog";
+import { useState } from "react";
+import type { GameServerDto, TransferOwnershipDto } from "@/api/generated/model";
 import { Button } from "@/components/ui/button";
 import {
   DialogClose,
@@ -7,9 +10,6 @@ import {
   DialogMain,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Dialog } from "@radix-ui/react-dialog";
-import { useState } from "react";
-import type { GameServerDto, TransferOwnershipDto } from "@/api/generated/model";
 import useDataInteractions from "@/hooks/useDataInteractions/useDataInteractions";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 
@@ -25,7 +25,6 @@ const TransferOwnershipConfirmationDialog = (props: {
   );
   const { transferOwnership } = useDataInteractions();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleConfirm = async () => {
     setLoading(true);
@@ -36,9 +35,8 @@ const TransferOwnershipConfirmationDialog = (props: {
       };
       await transferOwnership(props.gameServer.uuid, dto);
       props.onSuccess();
-    } catch (e) {
-      const errorMessage = e instanceof Error ? e.message : t("transferError");
-      setError(errorMessage);
+    } catch {
+      // Error is already handled by the hook
     } finally {
       setLoading(false);
     }
@@ -61,8 +59,6 @@ const TransferOwnershipConfirmationDialog = (props: {
           <p className="font-bold text-base">{props.newOwnerName}</p>
         </DialogMain>
         <DialogFooter>
-          {error && <p className="text-base text-alarm">{error}</p>}
-
           <DialogClose asChild>
             <Button className="" variant="secondary" disabled={loading}>
               {t("cancel")}
