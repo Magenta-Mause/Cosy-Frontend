@@ -2,7 +2,9 @@ import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/Icon.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper";
 import closeIcon from "@/assets/icons/close.webp";
+import downloadIcon from "@/assets/icons/download.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { saveBlob } from "@/lib/fileSystemUtils";
 import { FilePreview } from "../FilePreview/FilePreview";
 
 interface FileBrowserPreviewContentProps {
@@ -35,6 +37,18 @@ export const FileBrowserPreviewContent = ({
             </TooltipWrapper>
           ) : null}
         </div>
+
+        <TooltipWrapper tooltip={t("downloadPreviewedFile")}>
+          <Button
+            size="icon"
+            onClick={() => blob && saveBlob(blob, selectedFileName || "download")}
+            disabled={!blob}
+            aria-label={t("downloadPreviewedFile")}
+            data-testid="file-preview-download-btn"
+          >
+            <Icon src={downloadIcon} className="size-4" />
+          </Button>
+        </TooltipWrapper>
 
         <TooltipWrapper tooltip={t("closePreview")}>
           <Button size="icon" onClick={onClose} aria-label={t("closePreview")}>
