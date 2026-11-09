@@ -449,6 +449,14 @@ const translation: i18nLanguage = {
         noPreviewAvailable: "No preview available{{textError}}",
         previewFailure: "Failed to preview file",
         selectPreview: "Select a file to preview",
+        viewAs: "View as",
+        cannotDisplayAs: "This file can't be displayed as {{mode}}",
+        modes: {
+          text: "Text",
+          image: "Image",
+          video: "Video",
+          audio: "Audio",
+        },
       },
       fileBrowserHeader: {
         newFolder: "New Directory",
@@ -492,6 +500,7 @@ const translation: i18nLanguage = {
       },
       fileBrowserDialog: {
         closePreview: "Close preview",
+        downloadPreviewedFile: "Download file",
         uploadFailure: "Failed to upload file",
         downloadZipFailure: "Failed to download zip",
         fileUploadError: "Failed to upload file",
