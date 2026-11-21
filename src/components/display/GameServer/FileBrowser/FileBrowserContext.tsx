@@ -24,6 +24,11 @@ export type FileBrowserActions = {
   onDownload?: (obj: FileSystemObjectDto) => Promise<unknown>;
   onEditFile?: (obj: FileSystemObjectDto) => void;
   onChangePermissions?: (obj: FileSystemObjectDto) => void;
+
+  /** Uploads files/folders dragged in from the OS into `targetPath`. */
+  onDropFiles?: (targetPath: string, dataTransfer: DataTransfer) => void;
+  /** Whether a drop may land in `path` (writable, inside a volume, nothing uploading). */
+  canDropAt?: (path: string) => boolean;
 };
 
 export type FileBrowserState = {
@@ -45,6 +50,7 @@ export type FileBrowserState = {
 
   downloadingFiles: string[];
   downloadProgress?: { done: number; total: number } | null;
+  uploadProgress?: { done: number; total: number } | null;
 
   volumes?: VolumeMountConfiguration[];
 };

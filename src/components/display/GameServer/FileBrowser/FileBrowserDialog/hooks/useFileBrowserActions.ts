@@ -1,7 +1,9 @@
+import axios from "axios";
 import type { TFunction } from "i18next";
 import { useCallback, useRef, useState } from "react";
 import { FILE_TRANSFER_OPTIONS } from "@/api/axiosInstance";
 import {
+  createDirectoryInVolume,
   readFileFromVolume,
   setPermissions,
   uploadArchiveToVolume,
@@ -11,7 +13,8 @@ import {
   useRenameInVolume,
 } from "@/api/generated/backend-api";
 import type { FileSystemObjectDto } from "@/api/generated/model";
-import { downloadSingleFile, joinRemotePath } from "@/lib/fileSystemUtils";
+import { collectDroppedItems, planDropUpload } from "@/lib/droppedFiles";
+import { downloadSingleFile, joinRemotePath, normalizePath } from "@/lib/fileSystemUtils";
 import { notificationModal } from "@/lib/notificationModal";
 import { zipAndDownload, zipAndDownloadChunked } from "@/lib/zipDownload";
 
@@ -56,6 +59,14 @@ export const useFileBrowserActions = ({
     fetching: boolean;
   } | null>(null);
 
+  const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number } | null>(
+    null,
+  );
+  const uploadingRef = useRef(false);
+  // Drops can outlive a navigation; the post-upload refresh must target where the user is now.
+  const currentPathRef = useRef(currentPath);
+  currentPathRef.current = currentPath;
+
   const [permissionsObj, setPermissionsObj] = useState<FileSystemObjectDto | null>(null);
 
   const renameMutation = useRenameInVolume();
@@ -82,6 +93,55 @@ export const useFileBrowserActions = ({
       e.target.value = "";
     }
   };
+
+  /**
+   * Uploads whatever was dropped (files and whole folders) into `targetPath`. Directories are
+   * created parents first; one that already exists (409) is reused, so dropping a folder onto
+   * its own copy merges into it and overwrites same-named files, like the upload button does.
+   */
+  const uploadDropped = useCallback(async (targetPath: string, dataTransfer: DataTransfer) => {
+    if (uploadingRef.current) return;
+    uploadingRef.current = true;
+    // Taken synchronously: the browser empties the DataTransfer once the drop handler returns.
+    const collecting = collectDroppedItems(dataTransfer);
+    let failedPath: string | null = null;
+    try {
+      const plan = planDropUpload(targetPath, await collecting);
+      if (plan.files.length === 0 && plan.directories.length === 0) return;
+      setUploadProgress({ done: 0, total: plan.files.length });
+
+      for (const dir of plan.directories) {
+        failedPath = dir;
+        try {
+          await createDirectoryInVolume(serverUuid, { path: dir });
+        } catch (e) {
+          if (!(axios.isAxiosError(e) && e.response?.status === 409)) throw e;
+        }
+      }
+      for (let i = 0; i < plan.files.length; i++) {
+        const { path, file } = plan.files[i];
+        failedPath = path;
+        await uploadFileToVolume(serverUuid, file, { path }, FILE_TRANSFER_OPTIONS);
+        setUploadProgress({ done: i + 1, total: plan.files.length });
+      }
+      failedPath = null;
+    } catch (e) {
+      notificationModal.error({
+        message: failedPath ? t("dropUploadError", { path: failedPath }) : t("fileUploadError"),
+        cause: e,
+      });
+    } finally {
+      uploadingRef.current = false;
+      setUploadProgress(null);
+      // Refresh whatever was touched, even after a partial failure. ensurePathFetched also
+      // swaps the visible listing, so the directory on screen must be fetched last.
+      const target = normalizePath(targetPath);
+      if (target !== normalizePath(currentPathRef.current)) {
+        await ensurePathFetched(target, fetchDepth, true).catch(() => undefined);
+      }
+      await ensurePathFetched(currentPathRef.current, fetchDepth, true);
+    }
+  }, [serverUuid, fetchDepth, ensurePathFetched, t]);
 
   const onArchivePicked: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const picked = Array.from(e.target.files ?? []);
@@ -296,6 +356,8 @@ export const useFileBrowserActions = ({
     setPendingArchives,
     onFilePicked,
     onArchivePicked,
+    uploadDropped,
+    uploadProgress,
     extractArchive,
     downloadModalPath,
     setDownloadModalPath,

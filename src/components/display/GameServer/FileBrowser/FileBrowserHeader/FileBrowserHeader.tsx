@@ -12,6 +12,8 @@ type Crumb = { label: string; path: string };
 type Props = {
   crumbs: Crumb[];
   loading?: boolean;
+  /** Path currently hovered by an OS file drag; the matching crumb is highlighted. */
+  dropTargetPath?: string | null;
 
   canWrite: boolean;
   canMkdir: boolean;
@@ -26,6 +28,7 @@ type Props = {
 export const FileBrowserHeader = ({
   crumbs,
   loading,
+  dropTargetPath,
   canWrite,
   canMkdir,
   onHome,
@@ -37,7 +40,15 @@ export const FileBrowserHeader = ({
 
   return (
     <div className="border-b border-b-border px-3 py-2 flex items-center gap-1 text-sm text-muted-foreground">
-      <button type="button" className="flex items-center gap-1 hover:underline" onClick={onHome}>
+      <button
+        type="button"
+        data-drop-path="/"
+        className={cn(
+          "flex items-center gap-1 rounded hover:underline",
+          dropTargetPath === "/" && "ring-2 ring-ring",
+        )}
+        onClick={onHome}
+      >
         <Icon src={houseIcon} variant="foreground" className="size-4" />
         <span className={cn(crumbs.length === 0 && "text-foreground font-medium")}>HOME</span>
       </button>
@@ -48,9 +59,11 @@ export const FileBrowserHeader = ({
           <TooltipWrapper tooltip={c.path}>
             <button
               type="button"
+              data-drop-path={c.path}
               className={cn(
-                "truncate hover:underline",
+                "truncate rounded hover:underline",
                 i === crumbs.length - 1 && "text-foreground font-medium",
+                dropTargetPath === c.path && "ring-2 ring-ring",
               )}
               onClick={() => onCrumbClick(c.path)}
             >

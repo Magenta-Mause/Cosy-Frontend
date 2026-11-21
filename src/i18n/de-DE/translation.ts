@@ -494,6 +494,11 @@ const translation: i18nLanguage = {
         changePermissionsAction: "Berechtigungen ändern",
         moreActions: "Weitere Aktionen",
         volumeMountTooltip: "Volume-Mount · {{uuid}}",
+        dropToUpload: "Hochladen nach",
+        dropOverlayTitle: "Dateien zum Hochladen loslassen",
+        dropNotAllowed: "Hier können keine Dateien hochgeladen werden",
+        dropWhileUploading: "Warte, bis der aktuelle Upload fertig ist",
+        uploadingFiles: "Lade {{done}} / {{total}} Dateien hoch...",
       },
       fileBrowserDialog: {
         closePreview: "Vorschau schließen",
@@ -513,6 +518,7 @@ const translation: i18nLanguage = {
         uploadArchive: "Archiv hochladen",
         editFileFetchError: "Datei konnte nicht zum Bearbeiten geladen werden.",
         errorWhileDownload: "Datei konnte nicht heruntergeladen werden",
+        dropUploadError: "{{path}} konnte nicht hochgeladen werden",
       },
       uploadArchiveModal: {
         title: "Archiv hochladen",

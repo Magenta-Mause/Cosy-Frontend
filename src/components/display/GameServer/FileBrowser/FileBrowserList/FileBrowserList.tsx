@@ -17,6 +17,8 @@ import { FileBrowserBody } from "../FileBrowserBody/FileBrowserBody";
 import { useFileBrowser } from "../FileBrowserContext";
 import { FileBrowserHeader } from "../FileBrowserHeader/FileBrowserHeader";
 import { FileBrowserPreviewPane } from "../FileBrowserPreviewPane/FileBrowserPreviewPane";
+import { FileDropOverlay } from "./FileDropOverlay";
+import { useFileDropZone } from "./useFileDropZone";
 
 export const FileBrowserList = () => {
   const {
@@ -39,6 +41,9 @@ export const FileBrowserList = () => {
     onEditFile,
     onChangePermissions,
     readOnly,
+    onDropFiles,
+    canDropAt,
+    uploadProgress,
   } = useFileBrowser();
 
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserList");
@@ -47,6 +52,12 @@ export const FileBrowserList = () => {
   const effectiveShowPreview = Boolean(showPreview && preview);
   const sorted = useMemo(() => [...objects].sort(sortDirsFirst), [objects]);
   const canWrite = !readOnly && Boolean(onMkdir || onRename || onDelete);
+
+  const { isDragging, dropTarget, isDroppingIntoCurrent, dropZoneProps } = useFileDropZone({
+    currentPath,
+    canDropAt,
+    onDropFiles,
+  });
 
   const [mkdirOpen, setMkdirOpen] = useState(false);
   const [mkdirName, setMkdirName] = useState("");
@@ -169,7 +180,11 @@ export const FileBrowserList = () => {
 
   return (
     <>
-      <div className="border-border border rounded-lg bg-primary-banner h-full flex overflow-hidden">
+      <div
+        data-testid="file-browser-drop-zone"
+        className="relative border-border border rounded-lg bg-primary-banner h-full flex overflow-hidden"
+        {...dropZoneProps}
+      >
         <div
           className={cn(
             "flex flex-col flex-1 min-w-0",
@@ -179,6 +194,7 @@ export const FileBrowserList = () => {
           <FileBrowserHeader
             crumbs={crumbs}
             loading={loading}
+            dropTargetPath={dropTarget}
             canWrite={canWrite && !isSynthetic}
             canMkdir={Boolean(onMkdir) && canWrite && !isSynthetic}
             onHome={() => onCrumbClick?.("/")}
@@ -192,6 +208,7 @@ export const FileBrowserList = () => {
             error={error}
             emptyText={t("noFiles")}
             objects={sorted}
+            dropTargetPath={dropTarget}
             canWrite={canWrite && !isSynthetic}
             onEntryClick={onEntryClick}
             onRename={onRename && canWrite && !isSynthetic ? openRename : undefined}
@@ -205,6 +222,13 @@ export const FileBrowserList = () => {
         </div>
 
         <FileBrowserPreviewPane show={effectiveShowPreview}>{preview}</FileBrowserPreviewPane>
+
+        <FileDropOverlay
+          isDragging={isDragging}
+          dropTarget={dropTarget}
+          isDroppingIntoCurrent={isDroppingIntoCurrent}
+          uploadProgress={uploadProgress}
+        />
       </div>
 
       <MkdirDialog

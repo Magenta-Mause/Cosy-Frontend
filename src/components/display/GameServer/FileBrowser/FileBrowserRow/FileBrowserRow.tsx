@@ -26,6 +26,9 @@ type Props = {
 
   canWrite: boolean;
   volumeUuid?: string;
+  /** Remote path a file drag dropped on this row lands in; set for directories only. */
+  dropPath?: string;
+  isDropTarget?: boolean;
 
   onEntryClick?: (obj: FileSystemObjectDto) => void;
   onRename?: (obj: FileSystemObjectDto) => void;
@@ -40,6 +43,8 @@ export const FileBrowserRow = ({
   loading,
   canWrite,
   volumeUuid,
+  dropPath,
+  isDropTarget,
   onEntryClick,
   onRename,
   onDelete,
@@ -63,6 +68,7 @@ export const FileBrowserRow = ({
     <div
       role="button"
       data-testid="file-row"
+      data-drop-path={dropPath}
       tabIndex={onEntryClick ? 0 : -1}
       aria-disabled={!onEntryClick || undefined}
       onClick={onEntryClick ? () => onEntryClick(obj) : undefined}
@@ -70,6 +76,7 @@ export const FileBrowserRow = ({
       className={cn(
         "w-full flex items-center gap-3 rounded-md px-2 py-2",
         onEntryClick && "hover:bg-black/5 cursor-pointer",
+        isDropTarget && "bg-black/10 ring-2 ring-ring",
       )}
     >
       {/* Icon + name + meta */}

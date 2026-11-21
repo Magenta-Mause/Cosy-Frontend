@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useMemo } from "react";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
+import { isPathInVolumes } from "@/lib/droppedFiles";
 import type { FileBrowserContextValue } from "../../FileBrowserContext";
 import type { useFileBrowserActions } from "./useFileBrowserActions";
 
@@ -57,6 +58,8 @@ export const useFileBrowserContextValue = ({
     onDownload,
     openEditModal,
     setPermissionsObj,
+    uploadDropped,
+    uploadProgress,
   } = actions;
 
   return useMemo(
@@ -76,6 +79,7 @@ export const useFileBrowserContextValue = ({
       navigating,
       downloadingFiles: downloading,
       downloadProgress,
+      uploadProgress,
       volumes,
 
       onEntryClick: (obj) => {
@@ -91,6 +95,11 @@ export const useFileBrowserContextValue = ({
 
       onEditFile: (obj) => openEditModal(obj),
       onChangePermissions: (obj) => setPermissionsObj(obj),
+
+      onDropFiles: (targetPath, dataTransfer) => {
+        void uploadDropped(targetPath, dataTransfer);
+      },
+      canDropAt: (path) => canChangeFiles && !uploadProgress && isPathInVolumes(path, volumes),
     }),
     [
       currentPath,
@@ -116,6 +125,8 @@ export const useFileBrowserContextValue = ({
       downloadProgress,
       openEditModal,
       setPermissionsObj,
+      uploadDropped,
+      uploadProgress,
       volumes,
     ],
   );

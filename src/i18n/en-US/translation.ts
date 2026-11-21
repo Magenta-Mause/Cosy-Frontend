@@ -489,6 +489,11 @@ const translation: i18nLanguage = {
         changePermissionsAction: "Change Permissions",
         moreActions: "More actions",
         volumeMountTooltip: "Volume mount · {{uuid}}",
+        dropToUpload: "Upload into",
+        dropOverlayTitle: "Drop files to upload",
+        dropNotAllowed: "Files can't be uploaded here",
+        dropWhileUploading: "Wait for the current upload to finish",
+        uploadingFiles: "Uploading {{done}} / {{total}} files...",
       },
       fileBrowserDialog: {
         closePreview: "Close preview",
@@ -508,6 +513,7 @@ const translation: i18nLanguage = {
         uploadArchive: "Upload Archive",
         editFileFetchError: "Failed to load file for editing.",
         errorWhileDownload: "Failed to download file",
+        dropUploadError: "Failed to upload {{path}}",
       },
       uploadArchiveModal: {
         title: "Upload Archive",
