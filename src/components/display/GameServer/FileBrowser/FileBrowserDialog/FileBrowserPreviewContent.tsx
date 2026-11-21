@@ -11,6 +11,7 @@ interface FileBrowserPreviewContentProps {
   readonly selectedFileName: string;
   readonly selectedFilePath?: string | null;
   readonly previewMode: PreviewMode | null;
+  readonly onPreviewModeChange: (mode: PreviewMode) => void;
   readonly onClose: () => void;
   readonly blob: Blob | null;
   readonly loading: boolean;
@@ -21,6 +22,7 @@ export const FileBrowserPreviewContent = ({
   selectedFileName,
   selectedFilePath,
   previewMode,
+  onPreviewModeChange,
   onClose,
   blob,
   loading,
@@ -65,6 +67,7 @@ export const FileBrowserPreviewContent = ({
         loading={loading}
         error={error}
         modeOverride={previewMode}
+        onModeChange={onPreviewModeChange}
       />
     </div>
   );

@@ -1,5 +1,6 @@
 import { act, cleanup, fireEvent, render, screen } from "@testing-library/react";
 import i18n from "i18next";
+import { useState } from "react";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import enUS from "@/i18n/en-US/translation";
@@ -49,6 +50,57 @@ const renderPreview = async (
     },
   };
 };
+
+// Mirrors the dialog: the inline picker writes the same override the ⋯ menu does.
+const WithPicker = ({ fileName, blob }: { fileName: string; blob: Blob }) => {
+  const [mode, setMode] = useState<PreviewMode | null>(null);
+  return (
+    <I18nextProvider i18n={i18n}>
+      <FilePreview fileName={fileName} blob={blob} modeOverride={mode} onModeChange={setMode} />
+    </I18nextProvider>
+  );
+};
+
+const renderWithPicker = async (fileName: string, blob: Blob) => {
+  const view = render(<WithPicker fileName={fileName} blob={blob} />);
+  await act(async () => {});
+  return view;
+};
+
+const pick = async (mode: PreviewMode) => {
+  await act(async () => {
+    fireEvent.click(screen.getByTestId(`file-preview-mode-${mode}`));
+  });
+};
+
+describe("FilePreview inline picker", () => {
+  it("is offered only when the extension doesn't identify the file", async () => {
+    await renderWithPicker("server.properties", new Blob(["motd=hi"]));
+    expect(screen.queryByTestId("file-preview-mode")).toBeNull();
+
+    cleanup();
+    await renderWithPicker("whitelist", new Blob(["steve"]));
+    expect(screen.getByTestId("file-preview-mode")).toBeTruthy();
+    expect(screen.getByText("steve")).toBeTruthy();
+  });
+
+  it("switches how the file is shown", async () => {
+    const { container } = await renderWithPicker("whitelist", new Blob(["steve"]));
+
+    await pick("audio");
+    expect(container.querySelector("audio")?.getAttribute("src")).toBe("blob:preview");
+  });
+
+  it("forces text when the already-active Text option is clicked", async () => {
+    await renderWithPicker("level", new Blob([new Uint8Array([0x00, 0x41, 0x42])]));
+    expect(screen.getByText(/No preview available/)).toBeTruthy();
+    // The picker is right there, so no pointer to the ⋯ menu.
+    expect(screen.queryByText(/Open as/)).toBeNull();
+
+    await pick("text");
+    expect(screen.getByText(/AB/)).toBeTruthy();
+  });
+});
 
 describe("FilePreview", () => {
   it("renders from the extension when nothing is overridden", async () => {

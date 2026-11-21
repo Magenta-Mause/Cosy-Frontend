@@ -115,6 +115,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     selectedFileName,
     selectedFilePath,
     previewMode,
+    setPreviewMode,
     closePreview,
   });
 

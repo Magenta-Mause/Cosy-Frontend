@@ -9,6 +9,7 @@ interface UseFilePreviewNodeArgs {
   selectedFileName: string;
   selectedFilePath?: string | null;
   previewMode: PreviewMode | null;
+  setPreviewMode: (mode: PreviewMode) => void;
   closePreview: () => void;
 }
 
@@ -18,6 +19,7 @@ export const useFilePreviewNode = ({
   selectedFileName,
   selectedFilePath,
   previewMode,
+  setPreviewMode,
   closePreview,
 }: UseFilePreviewNodeArgs): ReactNode => {
   const readParams = selectedFilePath
@@ -37,6 +39,7 @@ export const useFilePreviewNode = ({
         selectedFileName={selectedFileName}
         selectedFilePath={selectedFilePath}
         previewMode={previewMode}
+        onPreviewModeChange={setPreviewMode}
         onClose={closePreview}
         blob={(fileQuery.data as Blob) ?? null}
         loading={fileQuery.isLoading}
@@ -47,6 +50,7 @@ export const useFilePreviewNode = ({
       selectedFileName,
       selectedFilePath,
       previewMode,
+      setPreviewMode,
       closePreview,
       fileQuery.data,
       fileQuery.isLoading,

@@ -449,6 +449,7 @@ const translation: i18nLanguage = {
         noPreviewAvailable: "No preview available{{textError}}",
         previewFailure: "Failed to preview file",
         selectPreview: "Select a file to preview",
+        viewAs: "View as",
         openAsHint: 'Use "Open as" in the file\'s ⋯ menu to choose how to display it.',
         cannotDisplayAs: "This file can't be displayed as {{mode}}",
         modes: {
