@@ -53,6 +53,8 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     setSelectedFileName,
     setSelectedFilePath,
     setSelectedObj,
+    previewMode,
+    setPreviewMode,
   } = useFileSelection();
 
   const canReadFiles = props.canReadFiles ?? true;
@@ -66,7 +68,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
 
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserDialog");
 
-  const { navigating, onEntryClick, onCrumbClick } = useFileBrowserNavigation({
+  const { navigating, onEntryClick, onPreviewAs, onCrumbClick } = useFileBrowserNavigation({
     currentPath,
     fetchDepth,
     setCurrentPath,
@@ -74,6 +76,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     setSelectedFilePath,
     setSelectedFileName,
     setSelectedObj,
+    setPreviewMode,
   });
 
   const actions = useFileBrowserActions({
@@ -111,6 +114,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     serverUuid: props.serverUuid,
     selectedFileName,
     selectedFilePath,
+    previewMode,
     closePreview,
   });
 
@@ -130,6 +134,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     volumes: props.volumes,
     ensurePathFetched,
     onEntryClick,
+    onPreviewAs,
     onCrumbClick,
     actions,
   });

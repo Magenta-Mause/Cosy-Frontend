@@ -1,15 +1,16 @@
+import closeIcon from "@/assets/icons/close.webp";
+import downloadIcon from "@/assets/icons/download.webp";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/Icon.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper";
-import closeIcon from "@/assets/icons/close.webp";
-import downloadIcon from "@/assets/icons/download.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { saveBlob } from "@/lib/fileSystemUtils";
+import { type PreviewMode, saveBlob } from "@/lib/fileSystemUtils";
 import { FilePreview } from "../FilePreview/FilePreview";
 
 interface FileBrowserPreviewContentProps {
   readonly selectedFileName: string;
   readonly selectedFilePath?: string | null;
+  readonly previewMode: PreviewMode | null;
   readonly onClose: () => void;
   readonly blob: Blob | null;
   readonly loading: boolean;
@@ -19,6 +20,7 @@ interface FileBrowserPreviewContentProps {
 export const FileBrowserPreviewContent = ({
   selectedFileName,
   selectedFilePath,
+  previewMode,
   onClose,
   blob,
   loading,
@@ -57,7 +59,13 @@ export const FileBrowserPreviewContent = ({
         </TooltipWrapper>
       </div>
 
-      <FilePreview fileName={selectedFileName} blob={blob} loading={loading} error={error} />
+      <FilePreview
+        fileName={selectedFileName}
+        blob={blob}
+        loading={loading}
+        error={error}
+        modeOverride={previewMode}
+      />
     </div>
   );
 };

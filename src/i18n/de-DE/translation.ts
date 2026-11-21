@@ -453,7 +453,8 @@ const translation: i18nLanguage = {
         noPreviewAvailable: "Keine Dateivorschau verfügbar{{textError}}",
         previewFailure: "Dateivorschau konnte nicht geladen werden",
         selectPreview: "Wähle eine Datei zur Vorschau aus",
-        viewAs: "Anzeigen als",
+        openAsHint:
+          'Über "Öffnen als" im ⋯-Menü der Datei kannst du wählen, wie sie angezeigt wird.',
         cannotDisplayAs: "Diese Datei kann nicht als {{mode}} angezeigt werden",
         modes: {
           text: "Text",
@@ -467,6 +468,7 @@ const translation: i18nLanguage = {
         refresh: "Aktualisieren",
       },
       fileBrowserList: {
+        openAsAction: "Öffnen als",
         failedToCreateFolder: "Konnte keinen Ordner erstellen",
         failedToRename: "Umbenennen fehlgeschlagen",
         failedToDelete: "Löschen fehlgeschlagen",

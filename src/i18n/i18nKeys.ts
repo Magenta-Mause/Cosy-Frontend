@@ -727,11 +727,12 @@ export type i18nLanguage = {
         loadingPreview: string;
         selectPreview: string;
         noPreviewAvailable: ContainsVariable<"textError">;
-        viewAs: string;
+        openAsHint: string;
         cannotDisplayAs: ContainsVariable<"mode">;
         modes: Record<PreviewMode, string>;
       };
       fileBrowserList: {
+        openAsAction: string;
         failedToCreateFolder: string;
         failedToRename: string;
         failedToDelete: string;

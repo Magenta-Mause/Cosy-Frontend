@@ -3,6 +3,7 @@ import i18n from "i18next";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import enUS from "@/i18n/en-US/translation";
+import type { PreviewMode } from "@/lib/fileSystemUtils";
 import { FilePreview } from "./FilePreview";
 
 // jsdom implements neither object URLs nor media playback; the preview only needs a URL.
@@ -27,62 +28,84 @@ afterAll(() => {
 
 afterEach(cleanup);
 
-const renderPreview = async (fileName: string, blob: Blob) => {
-  const view = render(
+const renderPreview = async (
+  fileName: string,
+  blob: Blob,
+  modeOverride: PreviewMode | null = null,
+) => {
+  const ui = (mode: PreviewMode | null) => (
     <I18nextProvider i18n={i18n}>
-      <FilePreview fileName={fileName} blob={blob} />
-    </I18nextProvider>,
+      <FilePreview fileName={fileName} blob={blob} modeOverride={mode} />
+    </I18nextProvider>
   );
+  const view = render(ui(modeOverride));
   // Let the async text decode settle.
   await act(async () => {});
-  return view;
+  return {
+    ...view,
+    openAs: async (mode: PreviewMode | null) => {
+      view.rerender(ui(mode));
+      await act(async () => {});
+    },
+  };
 };
 
 describe("FilePreview", () => {
-  it("offers no mode picker when the extension identifies the file", async () => {
+  it("renders from the extension when nothing is overridden", async () => {
     await renderPreview("server.properties", new Blob(["motd=hi"]));
 
-    expect(screen.queryByTestId("file-preview-mode")).toBeNull();
     expect(screen.getByText("motd=hi")).toBeTruthy();
   });
 
-  it("shows a file without an extension as text and lets the user pick another mode", async () => {
-    const { container } = await renderPreview("whitelist", new Blob(["steve"]));
+  it("points to Open as when a file without an extension isn't text", async () => {
+    await renderPreview("level", new Blob([new Uint8Array([0x00, 0x41, 0x42])]));
 
-    expect(screen.getByTestId("file-preview-mode")).toBeTruthy();
-    expect(screen.getByText("steve")).toBeTruthy();
+    expect(screen.getByText(/No preview available/)).toBeTruthy();
+    expect(screen.getByText(/Open as/)).toBeTruthy();
+  });
 
-    await act(async () => {
-      fireEvent.click(screen.getByTestId("file-preview-mode-audio"));
-    });
+  it("overrides a recognised extension", async () => {
+    const { container } = await renderPreview("clip.txt", new Blob(["x"]), "audio");
+
     expect(container.querySelector("audio")?.getAttribute("src")).toBe("blob:preview");
+  });
+
+  it("keeps media hidden until the browser has decoded it", async () => {
+    const { container } = await renderPreview("whitelist", new Blob(["steve"]), "video");
+    const video = container.querySelector("video") as HTMLVideoElement;
+
+    expect(video.className).toContain("hidden");
+    expect(screen.getByText("Loading preview...")).toBeTruthy();
 
     await act(async () => {
-      fireEvent.click(screen.getByTestId("file-preview-mode-image"));
+      fireEvent.loadedMetadata(video);
     });
-    const img = container.querySelector("img");
-    expect(img).toBeTruthy();
+    expect(video.className).not.toContain("hidden");
+    expect(screen.queryByText("Loading preview...")).toBeNull();
+  });
 
-    // A file the browser can't decode as the chosen type says so instead of a broken image.
+  it("says so, without ever showing the element, when the file isn't the chosen type", async () => {
+    const { container, openAs } = await renderPreview("whitelist", new Blob(["steve"]), "image");
+    const img = container.querySelector("img") as HTMLImageElement;
+    expect(img.className).toContain("hidden");
+
     await act(async () => {
-      if (img) fireEvent.error(img);
+      fireEvent.error(img);
     });
+    expect(container.querySelector("img")).toBeNull();
     expect(screen.getByText("This file can't be displayed as Image")).toBeTruthy();
 
-    // Switching mode clears that error.
-    await act(async () => {
-      fireEvent.click(screen.getByTestId("file-preview-mode-video"));
-    });
+    // Choosing another type starts over instead of carrying the failure along.
+    await openAs("video");
     expect(container.querySelector("video")).toBeTruthy();
+    expect(screen.queryByText(/can't be displayed/)).toBeNull();
   });
 
   it("shows binary content as text when the user explicitly picks text", async () => {
-    await renderPreview("level", new Blob([new Uint8Array([0x00, 0x41, 0x42])]));
+    const { openAs } = await renderPreview("level", new Blob([new Uint8Array([0x00, 0x41, 0x42])]));
     expect(screen.getByText(/No preview available/)).toBeTruthy();
 
-    await act(async () => {
-      fireEvent.click(screen.getByTestId("file-preview-mode-text"));
-    });
+    await openAs("text");
     expect(screen.getByText(/AB/)).toBeTruthy();
   });
 });
