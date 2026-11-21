@@ -17,6 +17,11 @@ import type { GameServerLogWithUuid } from "@/types/logTypes";
 // Virtuoso needs a large start index to count down from when prepending items.
 const FIRST_ITEM_INDEX = 1_000_000;
 
+// A tiny bottom padding so the last log isn't flush against the edge. Defined at module level:
+// an inline component would be a new type on every render and remount each time.
+const LogListFooter = () => <div className="h-2" />;
+const LIST_COMPONENTS = { Footer: LogListFooter };
+
 const LogDisplay = (
   props: {
     logMessages: GameServerLogWithUuid[];
@@ -204,11 +209,7 @@ const LogDisplay = (
           // Increase the overscan to ensure that the last log is always visible.
           // This is necessary because the list is aligned to the bottom of the container.
           overscan={400}
-          // Adding a tiny bit of bottom padding to the list content
-          // ensures the last log isn't flush against the edge.
-          components={{
-            Footer: () => <div className="h-2" />,
-          }}
+          components={LIST_COMPONENTS}
         />
         {loadState === "loading" && displayLogs.length === 0 && (
           <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center">

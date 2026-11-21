@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import babel from "@rolldown/plugin-babel";
+import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import * as path from "node:path";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
@@ -9,13 +10,11 @@ export default defineConfig({
   plugins: [tanstackRouter({
     target: 'react',
     autoCodeSplitting: true,
-  }), react(
-    {
-      babel: {
-        plugins: [['babel-plugin-react-compiler']],
-      }
-    }
-  ), tailwindcss(),
+  }), react(),
+  // plugin-react 6 no longer runs Babel itself (its `babel` option is silently ignored), so the
+  // React Compiler has to go through @rolldown/plugin-babel with the preset it ships.
+  babel({ presets: [reactCompilerPreset()] }),
+  tailwindcss(),
   ],
   // sockjs-client (via react-stomp-hooks) references the Node `global` identifier, which does
   // not exist in browsers. This must be a top-level `define` so it applies to the production
@@ -29,7 +28,7 @@ export default defineConfig({
       // NOTE: there used to be a `global: "global"` alias here. It aliased to an npm package
       // that is not a dependency of this project, so it never resolved anything; the `define`
       // above is what actually provides `global`.
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(import.meta.dirname, "./src"),
     },
   },
   optimizeDeps: {
