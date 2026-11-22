@@ -728,7 +728,7 @@ export type i18nLanguage = {
         selectPreview: string;
         noPreviewAvailable: ContainsVariable<"textError">;
         viewAs: string;
-        openAsHint: string;
+        noPreviewOpenAs: ContainsVariable<"textError">;
         cannotDisplayAs: ContainsVariable<"mode">;
         modes: Record<PreviewMode, string>;
       };

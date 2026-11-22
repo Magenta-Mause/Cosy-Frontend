@@ -210,11 +210,11 @@ export function FilePreview(props: FilePreviewProps) {
       );
     }
 
+    const reason = { textError: textError ? ` (${textError})` : "" };
     return (
       <div className="p-3 text-sm text-muted-foreground">
-        {t("noPreviewAvailable", { textError: textError ? ` (${textError})` : "" })}
-        {/* With the picker on screen, pointing to the ⋯ menu would only distract. */}
-        {!showPicker && ` ${t("openAsHint")}`}
+        {/* With the picker on screen, pointing to the row menu would only distract. */}
+        {showPicker ? t("noPreviewAvailable", reason) : t("noPreviewOpenAs", reason)}
       </div>
     );
   }

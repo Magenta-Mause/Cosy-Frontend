@@ -112,8 +112,12 @@ describe("FilePreview", () => {
   it("points to Open as when a file without an extension isn't text", async () => {
     await renderPreview("level", new Blob([new Uint8Array([0x00, 0x41, 0x42])]));
 
-    expect(screen.getByText(/No preview available/)).toBeTruthy();
-    expect(screen.getByText(/Open as/)).toBeTruthy();
+    // One sentence, not two strings glued together.
+    expect(
+      screen.getByText(
+        'No preview available (Content doesn\'t look like plain text). To show it another way, choose "Open as" in the file\'s "..." menu.',
+      ),
+    ).toBeTruthy();
   });
 
   it("overrides a recognised extension", async () => {
