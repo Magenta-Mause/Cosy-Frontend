@@ -453,12 +453,23 @@ const translation: i18nLanguage = {
         noPreviewAvailable: "Keine Dateivorschau verfügbar{{textError}}",
         previewFailure: "Dateivorschau konnte nicht geladen werden",
         selectPreview: "Wähle eine Datei zur Vorschau aus",
+        viewAs: "Anzeigen als",
+        noPreviewOpenAs:
+          'Keine Dateivorschau verfügbar{{textError}}. Über "Öffnen als" im "..."-Menü der Datei kannst du eine andere Darstellung wählen.',
+        cannotDisplayAs: "Diese Datei kann nicht als {{mode}} angezeigt werden",
+        modes: {
+          text: "Text",
+          image: "Bild",
+          video: "Video",
+          audio: "Audio",
+        },
       },
       fileBrowserHeader: {
         newFolder: "Neuer Ordner",
         refresh: "Aktualisieren",
       },
       fileBrowserList: {
+        openAsAction: "Öffnen als",
         failedToCreateFolder: "Konnte keinen Ordner erstellen",
         failedToRename: "Umbenennen fehlgeschlagen",
         failedToDelete: "Löschen fehlgeschlagen",
@@ -497,6 +508,7 @@ const translation: i18nLanguage = {
       },
       fileBrowserDialog: {
         closePreview: "Vorschau schließen",
+        downloadPreviewedFile: "Datei herunterladen",
         uploadFailure: "Datei konnte nicht hochgeladen werden",
         downloadZipFailure: "Zip-Archiv konnte nicht heruntergeladen werden",
         fileUploadError: "Datei konnte nicht hochgeladen werden",

@@ -4,6 +4,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Icon from "@/components/ui/Icon.tsx";
@@ -17,7 +20,15 @@ import pencilWriteIcon from "@/assets/icons/pencilWrite.webp";
 import settingsIcon from "@/assets/icons/settings.webp";
 import trashIcon from "@/assets/icons/trash.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
-import { formatBytes, formatUnixPerms, isDirectory, isTextEditable, joinRemotePath } from "@/lib/fileSystemUtils";
+import {
+  formatBytes,
+  formatUnixPerms,
+  isDirectory,
+  isTextEditable,
+  joinRemotePath,
+  PREVIEW_MODES,
+  type PreviewMode,
+} from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -28,6 +39,7 @@ type Props = {
   volumeUuid?: string;
 
   onEntryClick?: (obj: FileSystemObjectDto) => void;
+  onPreviewAs?: (obj: FileSystemObjectDto, mode: PreviewMode) => void;
   onRename?: (obj: FileSystemObjectDto) => void;
   onDelete?: (obj: FileSystemObjectDto) => void;
   onDownload?: (obj: FileSystemObjectDto) => Promise<unknown>;
@@ -41,6 +53,7 @@ export const FileBrowserRow = ({
   canWrite,
   volumeUuid,
   onEntryClick,
+  onPreviewAs,
   onRename,
   onDelete,
   onDownload,
@@ -51,12 +64,18 @@ export const FileBrowserRow = ({
   const editable = isTextEditable(obj);
   const perms = formatUnixPerms(obj.permissions);
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserList");
+  const { t: tPreview } = useTranslationPrefix("components.fileBrowser.filePreview");
   const { downloadingFiles, downloadProgress, currentPath } = useFileBrowser();
   const filePath = joinRemotePath(currentPath, obj.name);
   const isBeingDownloaded = downloadingFiles.includes(filePath);
 
   const hasMenu =
-    onDownload || (onEdit && editable) || onRename || onChangePermissions || onDelete;
+    onDownload ||
+    (onPreviewAs && !dir) ||
+    (onEdit && editable) ||
+    onRename ||
+    onChangePermissions ||
+    onDelete;
 
   return (
     // biome-ignore lint/a11y/useSemanticElements: <button> cannot be used here — DropdownMenuTrigger is also a <button> and nested buttons are invalid HTML
@@ -148,6 +167,25 @@ export const FileBrowserRow = ({
 
           <DropdownMenuContent align="end">
             {/* Read / edit actions */}
+            {onPreviewAs && !dir && (
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger data-testid="file-row-open-as">
+                  <Icon src={fileIcon} variant="foreground" className="size-4 mr-2" />
+                  {t("openAsAction")}
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  {PREVIEW_MODES.map((mode) => (
+                    <DropdownMenuItem
+                      key={mode}
+                      onClick={() => onPreviewAs(obj, mode)}
+                      data-testid={`file-row-open-as-${mode}`}
+                    >
+                      {tPreview(`modes.${mode}`)}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+            )}
             {onEdit && editable && (
               <DropdownMenuItem onClick={() => onEdit(obj)}>
                 <Icon src={pencilWriteIcon} variant="foreground" className="size-4 mr-2" />

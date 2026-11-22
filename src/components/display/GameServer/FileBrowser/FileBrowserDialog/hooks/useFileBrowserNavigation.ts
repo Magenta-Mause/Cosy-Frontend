@@ -1,7 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import { useCallback, useState } from "react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
-import { joinDir, joinRemotePath, normalizePath } from "@/lib/fileSystemUtils";
+import { joinDir, joinRemotePath, normalizePath, type PreviewMode } from "@/lib/fileSystemUtils";
 
 interface UseFileBrowserNavigationArgs {
   currentPath: string;
@@ -11,6 +11,7 @@ interface UseFileBrowserNavigationArgs {
   setSelectedFilePath: Dispatch<SetStateAction<string | null>>;
   setSelectedFileName: Dispatch<SetStateAction<string>>;
   setSelectedObj: Dispatch<SetStateAction<FileSystemObjectDto | null>>;
+  setPreviewMode: Dispatch<SetStateAction<PreviewMode | null>>;
 }
 
 /** Directory navigation + file selection on entry/breadcrumb clicks. */
@@ -22,6 +23,7 @@ export const useFileBrowserNavigation = ({
   setSelectedFilePath,
   setSelectedFileName,
   setSelectedObj,
+  setPreviewMode,
 }: UseFileBrowserNavigationArgs) => {
   const [navigating, setNavigating] = useState(false);
 
@@ -44,6 +46,7 @@ export const useFileBrowserNavigation = ({
       setSelectedFilePath(fullPath);
       setSelectedFileName(obj.name);
       setSelectedObj(obj);
+      setPreviewMode(null);
     },
     [
       currentPath,
@@ -53,7 +56,19 @@ export const useFileBrowserNavigation = ({
       setSelectedFilePath,
       setSelectedFileName,
       setSelectedObj,
+      setPreviewMode,
     ],
+  );
+
+  /** "Open as" from a file's menu: select it and display it as the chosen type. */
+  const onPreviewAs = useCallback(
+    (obj: FileSystemObjectDto, mode: PreviewMode) => {
+      setSelectedFilePath(joinRemotePath(currentPath, obj.name));
+      setSelectedFileName(obj.name);
+      setSelectedObj(obj);
+      setPreviewMode(mode);
+    },
+    [currentPath, setSelectedFilePath, setSelectedFileName, setSelectedObj, setPreviewMode],
   );
 
   const onCrumbClick = useCallback(
@@ -61,5 +76,5 @@ export const useFileBrowserNavigation = ({
     [setCurrentPath],
   );
 
-  return { navigating, onEntryClick, onCrumbClick };
+  return { navigating, onEntryClick, onPreviewAs, onCrumbClick };
 };

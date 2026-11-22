@@ -1,13 +1,17 @@
+import closeIcon from "@/assets/icons/close.webp";
+import downloadIcon from "@/assets/icons/download.webp";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/Icon.tsx";
 import TooltipWrapper from "@/components/ui/TooltipWrapper";
-import closeIcon from "@/assets/icons/close.webp";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
+import { type PreviewMode, saveBlob } from "@/lib/fileSystemUtils";
 import { FilePreview } from "../FilePreview/FilePreview";
 
 interface FileBrowserPreviewContentProps {
   readonly selectedFileName: string;
   readonly selectedFilePath?: string | null;
+  readonly previewMode: PreviewMode | null;
+  readonly onPreviewModeChange: (mode: PreviewMode) => void;
   readonly onClose: () => void;
   readonly blob: Blob | null;
   readonly loading: boolean;
@@ -17,6 +21,8 @@ interface FileBrowserPreviewContentProps {
 export const FileBrowserPreviewContent = ({
   selectedFileName,
   selectedFilePath,
+  previewMode,
+  onPreviewModeChange,
   onClose,
   blob,
   loading,
@@ -36,6 +42,18 @@ export const FileBrowserPreviewContent = ({
           ) : null}
         </div>
 
+        <TooltipWrapper tooltip={t("downloadPreviewedFile")}>
+          <Button
+            size="icon"
+            onClick={() => blob && saveBlob(blob, selectedFileName || "download")}
+            disabled={!blob}
+            aria-label={t("downloadPreviewedFile")}
+            data-testid="file-preview-download-btn"
+          >
+            <Icon src={downloadIcon} className="size-4" />
+          </Button>
+        </TooltipWrapper>
+
         <TooltipWrapper tooltip={t("closePreview")}>
           <Button size="icon" onClick={onClose} aria-label={t("closePreview")}>
             <Icon src={closeIcon} className="size-4" />
@@ -43,7 +61,14 @@ export const FileBrowserPreviewContent = ({
         </TooltipWrapper>
       </div>
 
-      <FilePreview fileName={selectedFileName} blob={blob} loading={loading} error={error} />
+      <FilePreview
+        fileName={selectedFileName}
+        blob={blob}
+        loading={loading}
+        error={error}
+        modeOverride={previewMode}
+        onModeChange={onPreviewModeChange}
+      />
     </div>
   );
 };

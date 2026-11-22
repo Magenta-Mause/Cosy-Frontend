@@ -1,12 +1,15 @@
 import type { ReactNode } from "react";
 import { useMemo } from "react";
 import { useReadFileFromVolume } from "@/api/generated/backend-api";
+import type { PreviewMode } from "@/lib/fileSystemUtils";
 import { FileBrowserPreviewContent } from "../FileBrowserPreviewContent";
 
 interface UseFilePreviewNodeArgs {
   serverUuid: string;
   selectedFileName: string;
   selectedFilePath?: string | null;
+  previewMode: PreviewMode | null;
+  setPreviewMode: (mode: PreviewMode) => void;
   closePreview: () => void;
 }
 
@@ -15,6 +18,8 @@ export const useFilePreviewNode = ({
   serverUuid,
   selectedFileName,
   selectedFilePath,
+  previewMode,
+  setPreviewMode,
   closePreview,
 }: UseFilePreviewNodeArgs): ReactNode => {
   const readParams = selectedFilePath
@@ -33,6 +38,8 @@ export const useFilePreviewNode = ({
       <FileBrowserPreviewContent
         selectedFileName={selectedFileName}
         selectedFilePath={selectedFilePath}
+        previewMode={previewMode}
+        onPreviewModeChange={setPreviewMode}
         onClose={closePreview}
         blob={(fileQuery.data as Blob) ?? null}
         loading={fileQuery.isLoading}
@@ -42,6 +49,8 @@ export const useFilePreviewNode = ({
     [
       selectedFileName,
       selectedFilePath,
+      previewMode,
+      setPreviewMode,
       closePreview,
       fileQuery.data,
       fileQuery.isLoading,
