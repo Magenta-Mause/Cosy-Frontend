@@ -33,9 +33,13 @@ export const DeleteDialog = ({ open, onOpenChange, obj, busy, error, t, onSubmit
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         // Radix would focus Cancel (the first focusable); focus Delete so Enter confirms.
+        // Deliberate: opening the dialog already took a click on Delete, and bulk deletes stay
+        // quick. A disabled Delete can't take focus, so then Radix's default focus is kept.
         onOpenAutoFocus={(e) => {
+          const deleteButton = deleteButtonRef.current;
+          if (!deleteButton || deleteButton.disabled) return;
           e.preventDefault();
-          deleteButtonRef.current?.focus();
+          deleteButton.focus();
         }}
       >
         <DialogHeader>
