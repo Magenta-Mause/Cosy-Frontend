@@ -1,16 +1,18 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import arrowRightIcon from "@/assets/icons/arrowRight.webp";
 import folderIcon from "@/assets/icons/folder.webp";
 import uploadIcon from "@/assets/icons/upload.webp";
 import Icon from "@/components/ui/Icon.tsx";
 import useTranslationPrefix from "@/hooks/useTranslationPrefix/useTranslationPrefix";
 import { cn } from "@/lib/utils";
+import type { DropUploadState } from "../FileBrowserDialog/hooks/useFileBrowserActions";
 
 type Props = {
   isDragging: boolean;
   dropTarget: string | null;
   isDroppingIntoCurrent: boolean;
-  uploadProgress?: { done: number; total: number } | null;
+  uploadState?: DropUploadState | null;
+  onCancelUpload?: () => void;
 };
 
 /** Segments shown before the path collapses to "… › a › b › c". */
@@ -21,18 +23,25 @@ const MAX_SEGMENTS = 3;
  * instead of going blank mid-transition.
  */
 function useStickyValue<T>(value: T, active: boolean): T {
-  // State adjusted during render (not a ref) keeps this safe under the React Compiler.
-  // Values are small plain objects, so JSON equality stops the update from looping.
+  // `value` must be referentially stable (a primitive or memoized), or this effect re-runs
+  // every render. On the render that deactivates, `kept` already holds the last active value.
   const [kept, setKept] = useState(value);
-  if (active && JSON.stringify(kept) !== JSON.stringify(value)) setKept(value);
+  useEffect(() => {
+    if (active) setKept(value);
+  }, [active, value]);
   return active ? value : kept;
 }
+
+type Pill =
+  | { kind: "folder"; path: string }
+  | { kind: "blocked"; whileUploading: boolean }
+  | { kind: "preparing" }
+  | { kind: "uploading"; done: number; total: number; cancelling: boolean };
 
 /** The drop destination as plain breadcrumb text, matching the file browser header. */
 const DropPath = ({ path, className }: { path: string; className?: string }) => {
   const segments = path.split("/").filter(Boolean);
-  const shown =
-    segments.length > MAX_SEGMENTS ? ["…", ...segments.slice(-MAX_SEGMENTS)] : segments;
+  const shown = segments.length > MAX_SEGMENTS ? ["…", ...segments.slice(-MAX_SEGMENTS)] : segments;
   const labels = shown.length === 0 ? ["HOME"] : shown;
 
   return (
@@ -45,7 +54,11 @@ const DropPath = ({ path, className }: { path: string; className?: string }) => 
         // biome-ignore lint/suspicious/noArrayIndexKey: path segments can repeat ("a/a"); position is the identity
         <Fragment key={i}>
           {i > 0 && (
-            <Icon src={arrowRightIcon} variant="foreground" className="size-3 shrink-0 opacity-50" />
+            <Icon
+              src={arrowRightIcon}
+              variant="foreground"
+              className="size-3 shrink-0 opacity-50"
+            />
           )}
           <span
             className={cn(
@@ -70,27 +83,36 @@ export const FileDropOverlay = ({
   isDragging,
   dropTarget,
   isDroppingIntoCurrent,
-  uploadProgress,
+  uploadState,
+  onCancelUpload,
 }: Props) => {
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserList");
 
   const showCenter = isDragging && isDroppingIntoCurrent && dropTarget !== null;
-  const showPill = (isDragging && !isDroppingIntoCurrent) || (!isDragging && Boolean(uploadProgress));
+  const showPill = (isDragging && !isDroppingIntoCurrent) || (!isDragging && Boolean(uploadState));
 
   const centerPath = useStickyValue(dropTarget ?? "/", showCenter);
-  const pill = useStickyValue(
-    !isDragging && uploadProgress
-      ? ({ kind: "uploading", ...uploadProgress } as const)
-      : dropTarget
-        ? ({ kind: "folder", path: dropTarget } as const)
-        : ({ kind: "blocked", whileUploading: Boolean(uploadProgress) } as const),
-    showPill,
-  );
+  const currentPill = useMemo((): Pill => {
+    if (!isDragging && uploadState) {
+      return uploadState.phase === "preparing"
+        ? { kind: "preparing" }
+        : { kind: "uploading", ...uploadState };
+    }
+    if (dropTarget) return { kind: "folder", path: dropTarget };
+    return { kind: "blocked", whileUploading: Boolean(uploadState) };
+  }, [isDragging, uploadState, dropTarget]);
+  const pill = useStickyValue(currentPill, showPill);
+  // The cancel button is the only part of the overlay that takes clicks.
+  const canCancel =
+    showPill && pill.kind === "uploading" && !pill.cancelling && Boolean(onCancelUpload);
 
   const fade = "transition-opacity duration-200 ease-out";
 
   return (
-    <div className="pointer-events-none absolute inset-0 z-20" aria-hidden={!isDragging && !showPill}>
+    <div
+      className="pointer-events-none absolute inset-0 z-20"
+      aria-hidden={!isDragging && !showPill}
+    >
       {/* Dimmed backdrop + message: dropping into the open folder. */}
       <div
         data-testid="file-browser-drop-overlay"
@@ -144,8 +166,27 @@ export const FileDropOverlay = ({
               <DropPath path={pill.path} />
             </>
           )}
+          {pill.kind === "preparing" && t("preparingDrop")}
           {pill.kind === "uploading" &&
-            t("uploadingFiles", { done: pill.done, total: pill.total })}
+            (pill.cancelling
+              ? t("cancellingUpload")
+              : pill.total === 0
+                ? t("creatingFolders")
+                : t("uploadingFiles", { done: pill.done, total: pill.total }))}
+          {pill.kind === "uploading" && !pill.cancelling && (
+            <button
+              type="button"
+              data-testid="file-browser-cancel-upload"
+              disabled={!canCancel}
+              onClick={onCancelUpload}
+              className={cn(
+                "shrink-0 font-semibold text-muted-foreground underline-offset-2 hover:text-foreground hover:underline",
+                canCancel ? "pointer-events-auto cursor-pointer" : "pointer-events-none",
+              )}
+            >
+              {t("cancelUpload")}
+            </button>
+          )}
           {pill.kind === "blocked" &&
             (pill.whileUploading ? t("dropWhileUploading") : t("dropNotAllowed"))}
         </span>

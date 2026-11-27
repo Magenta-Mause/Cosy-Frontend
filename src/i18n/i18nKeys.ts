@@ -773,6 +773,14 @@ export type i18nLanguage = {
         dropNotAllowed: string;
         dropWhileUploading: string;
         uploadingFiles: ContainsVariable<"done"> & ContainsVariable<"total">;
+        preparingDrop: string;
+        creatingFolders: string;
+        cancelUpload: string;
+        cancellingUpload: string;
+        dropOverwriteTitle: string;
+        dropOverwriteDescription: ContainsVariable<"path">;
+        dropOverwriteNote: string;
+        dropOverwriteConfirm: string;
       };
       fileBrowserDialog: {
         closePreview: string;
@@ -794,6 +802,7 @@ export type i18nLanguage = {
         editFileFetchError: string;
         errorWhileDownload: string;
         dropUploadError: ContainsVariable<"path">;
+        dropUploadCancelled: ContainsVariable<"done"> & ContainsVariable<"total">;
       };
       uploadArchiveModal: {
         title: string;

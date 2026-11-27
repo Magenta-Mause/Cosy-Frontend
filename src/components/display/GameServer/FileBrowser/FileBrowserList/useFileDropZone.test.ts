@@ -79,4 +79,28 @@ describe("useFileDropZone", () => {
     expect(hook.result.current.dropTarget).toBeNull();
     expect(onDropFiles).not.toHaveBeenCalled();
   });
+
+  it("refuses file drops that land outside the list", () => {
+    setup();
+    const stray = (type: string) => {
+      const e = new Event(type, { bubbles: true, cancelable: true });
+      Object.defineProperty(e, "dataTransfer", { value: { types: ["Files"], dropEffect: "copy" } });
+      return e as DragEvent;
+    };
+    const over = stray("dragover");
+    const drop = stray("drop");
+    window.dispatchEvent(over);
+    window.dispatchEvent(drop);
+    expect(over.defaultPrevented).toBe(true);
+    expect(over.dataTransfer?.dropEffect).toBe("none");
+    expect(drop.defaultPrevented).toBe(true);
+  });
+
+  it("leaves non-file drags alone", () => {
+    setup();
+    const e = new Event("dragover", { cancelable: true });
+    Object.defineProperty(e, "dataTransfer", { value: { types: ["text/plain"] } });
+    window.dispatchEvent(e);
+    expect(e.defaultPrevented).toBe(false);
+  });
 });

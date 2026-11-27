@@ -1,3 +1,4 @@
+import { DropOverwriteDialog } from "../FileBrowserList/dialogs/DropOverwriteDialog";
 import { ChangePermissionsModal } from "./ChangePermissionsModal/ChangePermissionsModal";
 import { DownloadOptionsModal } from "./DownloadOptionsModal/DownloadOptionsModal";
 import { EditFileModal } from "./EditFileModal/EditFileModal";
@@ -26,6 +27,7 @@ export const FileBrowserModals = ({ serverUuid, currentPath, actions }: FileBrow
     downloading,
     startZipDownload,
     startZipChunkDownload,
+    pendingDropConfirm,
   } = actions;
 
   return (
@@ -67,6 +69,12 @@ export const FileBrowserModals = ({ serverUuid, currentPath, actions }: FileBrow
         onDownloadSplit={(chunkSizeMb) =>
           startZipChunkDownload(downloadModalPath ?? currentPath, chunkSizeMb)
         }
+      />
+
+      <DropOverwriteDialog
+        pending={pendingDropConfirm}
+        onConfirm={() => pendingDropConfirm?.resolve(true)}
+        onCancel={() => pendingDropConfirm?.resolve(false)}
       />
     </>
   );

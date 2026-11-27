@@ -4,6 +4,7 @@ import { useCallback, useRef, useState } from "react";
 import { FILE_TRANSFER_OPTIONS } from "@/api/axiosInstance";
 import {
   createDirectoryInVolume,
+  getFileSystemForVolume,
   readFileFromVolume,
   setPermissions,
   uploadArchiveToVolume,
@@ -13,18 +14,36 @@ import {
   useRenameInVolume,
 } from "@/api/generated/backend-api";
 import type { FileSystemObjectDto } from "@/api/generated/model";
-import { collectDroppedItems, planDropUpload } from "@/lib/droppedFiles";
+import {
+  collectDroppedItems,
+  type DropClash,
+  findDropClashes,
+  planDropUpload,
+} from "@/lib/droppedFiles";
 import { downloadSingleFile, joinRemotePath, normalizePath } from "@/lib/fileSystemUtils";
 import { notificationModal } from "@/lib/notificationModal";
 import { zipAndDownload, zipAndDownloadChunked } from "@/lib/zipDownload";
 
 type FileBrowserT = TFunction<"translation", "components.fileBrowser.fileBrowserDialog">;
 
+/** A drop in flight: reading the dropped folders, then uploading file by file. */
+export type DropUploadState =
+  | { phase: "preparing" }
+  | { phase: "uploading"; done: number; total: number; cancelling: boolean };
+
+/** A drop waiting for the user to confirm overwriting names that already exist. */
+export type PendingDropConfirm = {
+  targetPath: string;
+  clashes: DropClash[];
+  resolve: (confirmed: boolean) => void;
+};
+
 interface UseFileBrowserActionsArgs {
   serverUuid: string;
   currentPath: string;
   fetchDepth: number;
   ensurePathFetched: (path: string, depth: number, force?: boolean) => Promise<void>;
+  invalidatePathsUnder: (path: string) => void;
   selectedFilePath?: string | null;
   setSelectedFilePath: (path: string) => void;
   setSelectedFileName: (name: string) => void;
@@ -37,6 +56,7 @@ export const useFileBrowserActions = ({
   currentPath,
   fetchDepth,
   ensurePathFetched,
+  invalidatePathsUnder,
   selectedFilePath,
   setSelectedFilePath,
   setSelectedFileName,
@@ -59,10 +79,10 @@ export const useFileBrowserActions = ({
     fetching: boolean;
   } | null>(null);
 
-  const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number } | null>(
-    null,
-  );
+  const [uploadState, setUploadState] = useState<DropUploadState | null>(null);
+  const [pendingDropConfirm, setPendingDropConfirm] = useState<PendingDropConfirm | null>(null);
   const uploadingRef = useRef(false);
+  const cancelUploadRef = useRef(false);
   // Drops can outlive a navigation; the post-upload refresh must target where the user is now.
   const currentPathRef = useRef(currentPath);
   currentPathRef.current = currentPath;
@@ -97,51 +117,96 @@ export const useFileBrowserActions = ({
   /**
    * Uploads whatever was dropped (files and whole folders) into `targetPath`. Directories are
    * created parents first; one that already exists (409) is reused, so dropping a folder onto
-   * its own copy merges into it and overwrites same-named files, like the upload button does.
+   * its own copy merges into it. When a dropped name already exists in the target, the user
+   * confirms first, because same-named files are overwritten.
    */
-  const uploadDropped = useCallback(async (targetPath: string, dataTransfer: DataTransfer) => {
-    if (uploadingRef.current) return;
-    uploadingRef.current = true;
-    // Taken synchronously: the browser empties the DataTransfer once the drop handler returns.
-    const collecting = collectDroppedItems(dataTransfer);
-    let failedPath: string | null = null;
-    try {
-      const plan = planDropUpload(targetPath, await collecting);
-      if (plan.files.length === 0 && plan.directories.length === 0) return;
-      setUploadProgress({ done: 0, total: plan.files.length });
+  const uploadDropped = useCallback(
+    async (targetPath: string, dataTransfer: DataTransfer) => {
+      if (uploadingRef.current) return;
+      uploadingRef.current = true;
+      cancelUploadRef.current = false;
+      // Set before any await, so a second drop while folders are still being read is refused
+      // visibly instead of being accepted and then silently dropped.
+      setUploadState({ phase: "preparing" });
+      // Taken synchronously: the browser empties the DataTransfer once the drop handler returns.
+      const collecting = collectDroppedItems(dataTransfer);
+      let failedPath: string | null = null;
+      let uploaded = false;
+      try {
+        const items = await collecting;
+        const plan = planDropUpload(targetPath, items);
+        if (plan.files.length === 0 && plan.directories.length === 0) return;
 
-      for (const dir of plan.directories) {
-        failedPath = dir;
-        try {
-          await createDirectoryInVolume(serverUuid, { path: dir });
-        } catch (e) {
-          if (!(axios.isAxiosError(e) && e.response?.status === 409)) throw e;
+        // A fresh listing, not the cache: the target may be a folder that was never opened.
+        const target = normalizePath(targetPath);
+        const listing = await getFileSystemForVolume(serverUuid, {
+          path: target === "/" ? "" : target,
+          fetch_depth: 1,
+        });
+        const clashes = findDropClashes(items, listing.objects ?? []);
+        if (clashes.length > 0) {
+          const confirmed = await new Promise<boolean>((resolve) =>
+            setPendingDropConfirm({ targetPath: target, clashes, resolve }),
+          );
+          setPendingDropConfirm(null);
+          if (!confirmed) return;
+        }
+
+        uploaded = true;
+        const total = plan.files.length;
+        setUploadState({ phase: "uploading", done: 0, total, cancelling: false });
+        for (const dir of plan.directories) {
+          if (cancelUploadRef.current) break;
+          failedPath = dir;
+          try {
+            await createDirectoryInVolume(serverUuid, { path: dir });
+          } catch (e) {
+            if (!(axios.isAxiosError(e) && e.response?.status === 409)) throw e;
+          }
+        }
+        let done = 0;
+        // Cancelling stops between files: aborting a request mid-write would leave a
+        // truncated file on the server.
+        for (const { path, file } of plan.files) {
+          if (cancelUploadRef.current) break;
+          failedPath = path;
+          await uploadFileToVolume(serverUuid, file, { path }, FILE_TRANSFER_OPTIONS);
+          done += 1;
+          setUploadState((prev) => (prev?.phase === "uploading" ? { ...prev, done } : prev));
+        }
+        failedPath = null;
+        if (cancelUploadRef.current) {
+          notificationModal.info({ message: t("dropUploadCancelled", { done, total }) });
+        }
+      } catch (e) {
+        notificationModal.error({
+          message: failedPath ? t("dropUploadError", { path: failedPath }) : t("fileUploadError"),
+          cause: e,
+        });
+      } finally {
+        uploadingRef.current = false;
+        setUploadState(null);
+        if (uploaded) {
+          // Refresh whatever was touched, even after a partial failure. Deeper folders that
+          // were cached earlier are dropped so they refetch when opened. ensurePathFetched also
+          // swaps the visible listing, so the directory on screen must be fetched last.
+          invalidatePathsUnder(targetPath);
+          const target = normalizePath(targetPath);
+          if (target !== normalizePath(currentPathRef.current)) {
+            await ensurePathFetched(target, fetchDepth, true).catch(() => undefined);
+          }
+          await ensurePathFetched(currentPathRef.current, fetchDepth, true).catch(() => undefined);
         }
       }
-      for (let i = 0; i < plan.files.length; i++) {
-        const { path, file } = plan.files[i];
-        failedPath = path;
-        await uploadFileToVolume(serverUuid, file, { path }, FILE_TRANSFER_OPTIONS);
-        setUploadProgress({ done: i + 1, total: plan.files.length });
-      }
-      failedPath = null;
-    } catch (e) {
-      notificationModal.error({
-        message: failedPath ? t("dropUploadError", { path: failedPath }) : t("fileUploadError"),
-        cause: e,
-      });
-    } finally {
-      uploadingRef.current = false;
-      setUploadProgress(null);
-      // Refresh whatever was touched, even after a partial failure. ensurePathFetched also
-      // swaps the visible listing, so the directory on screen must be fetched last.
-      const target = normalizePath(targetPath);
-      if (target !== normalizePath(currentPathRef.current)) {
-        await ensurePathFetched(target, fetchDepth, true).catch(() => undefined);
-      }
-      await ensurePathFetched(currentPathRef.current, fetchDepth, true);
-    }
-  }, [serverUuid, fetchDepth, ensurePathFetched, t]);
+    },
+    [serverUuid, fetchDepth, ensurePathFetched, invalidatePathsUnder, t],
+  );
+
+  /** Stops a running drop upload after the file currently being sent. */
+  const cancelUpload = useCallback(() => {
+    cancelUploadRef.current = true;
+    setUploadState((prev) => (prev?.phase === "uploading" ? { ...prev, cancelling: true } : prev));
+  }, []);
 
   const onArchivePicked: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const picked = Array.from(e.target.files ?? []);
@@ -357,7 +422,9 @@ export const useFileBrowserActions = ({
     onFilePicked,
     onArchivePicked,
     uploadDropped,
-    uploadProgress,
+    uploadState,
+    cancelUpload,
+    pendingDropConfirm,
     extractArchive,
     downloadModalPath,
     setDownloadModalPath,

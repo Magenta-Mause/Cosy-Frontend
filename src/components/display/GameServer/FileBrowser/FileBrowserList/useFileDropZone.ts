@@ -69,6 +69,23 @@ export const useFileDropZone = ({ currentPath, canDropAt, onDropFiles }: Args) =
     if (onDropFiles && canDropAt?.(target)) onDropFiles(target, e.dataTransfer);
   };
 
+  // Only the list handles drops, but a file dropped anywhere else on the page (header, action
+  // bar, padding) would make the browser open it and leave Cosy. Refuse those while the file
+  // browser is mounted. React handles the list first, so its drops arrive already prevented.
+  useEffect(() => {
+    const refuseStrayDrop = (e: DragEvent) => {
+      if (e.defaultPrevented || !isFileDrag(e.dataTransfer)) return;
+      e.preventDefault();
+      if (e.dataTransfer) e.dataTransfer.dropEffect = "none";
+    };
+    window.addEventListener("dragover", refuseStrayDrop);
+    window.addEventListener("drop", refuseStrayDrop);
+    return () => {
+      window.removeEventListener("dragover", refuseStrayDrop);
+      window.removeEventListener("drop", refuseStrayDrop);
+    };
+  }, []);
+
   // Esc cancels the drop. Most browsers hand Esc to the OS during a file drag (which then
   // cancels the drag and only fires dragleave), but where the page does get it, honour it too.
   useEffect(() => {

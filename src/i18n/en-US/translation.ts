@@ -505,6 +505,15 @@ const translation: i18nLanguage = {
         dropNotAllowed: "Files can't be uploaded here",
         dropWhileUploading: "Wait for the current upload to finish",
         uploadingFiles: "Uploading {{done}} / {{total}} files...",
+        preparingDrop: "Reading dropped files...",
+        creatingFolders: "Creating folders...",
+        cancelUpload: "Cancel",
+        cancellingUpload: "Stopping after the current file...",
+        dropOverwriteTitle: "Overwrite existing items?",
+        dropOverwriteDescription: "These already exist in {{path}}:",
+        dropOverwriteNote:
+          "Files with the same name are replaced. Folders are merged: files only on the server stay, same-named files inside are replaced.",
+        dropOverwriteConfirm: "Upload and overwrite",
       },
       fileBrowserDialog: {
         closePreview: "Close preview",
@@ -526,6 +535,7 @@ const translation: i18nLanguage = {
         editFileFetchError: "Failed to load file for editing.",
         errorWhileDownload: "Failed to download file",
         dropUploadError: "Failed to upload {{path}}",
+        dropUploadCancelled: "Upload cancelled after {{done}} of {{total}} files",
       },
       uploadArchiveModal: {
         title: "Upload Archive",

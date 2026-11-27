@@ -1,4 +1,4 @@
-import type { VolumeMountConfiguration } from "@/api/generated/model";
+import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
 import { normalizePath } from "@/lib/fileSystemUtils";
 
 /** A file the user dropped, with its path relative to the drop (e.g. "world/level.dat"). */
@@ -117,4 +117,25 @@ export function planDropUpload(targetPath: string, items: DroppedItems): DropUpl
     directories: [...dirs].sort((a, b) => depth(a) - depth(b) || a.localeCompare(b)).map(abs),
     files: items.files.map((f) => ({ path: abs(f.relativePath), file: f.file })),
   };
+}
+
+/** A top-level dropped item whose name already exists in the drop target. */
+export type DropClash = { name: string; isDirectory: boolean };
+
+/**
+ * The dropped items whose top-level name already exists in the target listing. A clashing
+ * file is overwritten; a clashing folder is merged, overwriting same-named files inside it.
+ */
+export function findDropClashes(items: DroppedItems, existing: FileSystemObjectDto[]): DropClash[] {
+  const existingNames = new Set(existing.map((o) => o.name));
+  const topLevel = new Map<string, boolean>();
+  for (const d of items.directories) topLevel.set(d.split("/")[0], true);
+  for (const f of items.files) {
+    const [first, ...rest] = f.relativePath.split("/");
+    if (!topLevel.has(first)) topLevel.set(first, rest.length > 0);
+  }
+  return [...topLevel]
+    .filter(([name]) => existingNames.has(name))
+    .map(([name, isDirectory]) => ({ name, isDirectory }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 }

@@ -38,6 +38,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     error,
     ensurePathFetched,
     prefetchPath,
+    invalidatePathsUnder,
   } = useFileBrowserCache({
     serverUuid: props.serverUuid,
     initialPath: props.path ?? "/",
@@ -84,6 +85,7 @@ export const FileBrowserDialog = (props: FileBrowserDialogProps) => {
     currentPath,
     fetchDepth,
     ensurePathFetched,
+    invalidatePathsUnder,
     selectedFilePath,
     setSelectedFilePath,
     setSelectedFileName,

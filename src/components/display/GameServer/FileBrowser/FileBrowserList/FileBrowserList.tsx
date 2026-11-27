@@ -44,7 +44,8 @@ export const FileBrowserList = () => {
     readOnly,
     onDropFiles,
     canDropAt,
-    uploadProgress,
+    uploadState,
+    onCancelUpload,
   } = useFileBrowser();
 
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserList");
@@ -229,7 +230,8 @@ export const FileBrowserList = () => {
           isDragging={isDragging}
           dropTarget={dropTarget}
           isDroppingIntoCurrent={isDroppingIntoCurrent}
-          uploadProgress={uploadProgress}
+          uploadState={uploadState}
+          onCancelUpload={onCancelUpload}
         />
       </div>
 

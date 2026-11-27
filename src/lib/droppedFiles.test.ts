@@ -1,12 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { isFileDrag, isPathInVolumes, planDropUpload } from "@/lib/droppedFiles";
+import { findDropClashes, isFileDrag, isPathInVolumes, planDropUpload } from "@/lib/droppedFiles";
 
 const file = (name: string) => new File(["x"], name);
 
 describe("planDropUpload", () => {
   it("puts loose files directly into the target directory", () => {
     const a = file("a.txt");
-    const plan = planDropUpload("/data", { files: [{ relativePath: "a.txt", file: a }], directories: [] });
+    const plan = planDropUpload("/data", {
+      files: [{ relativePath: "a.txt", file: a }],
+      directories: [],
+    });
     expect(plan.directories).toEqual([]);
     expect(plan.files).toEqual([{ path: "/data/a.txt", file: a }]);
   });
@@ -51,5 +54,32 @@ describe("isFileDrag", () => {
     expect(isFileDrag({ types: ["Files"] } as unknown as DataTransfer)).toBe(true);
     expect(isFileDrag({ types: ["text/plain"] } as unknown as DataTransfer)).toBe(false);
     expect(isFileDrag(null)).toBe(false);
+  });
+});
+
+describe("findDropClashes", () => {
+  const entry = (relativePath: string) => ({ relativePath, file: file(relativePath) });
+
+  it("reports top-level names that already exist, folders as folders", () => {
+    const clashes = findDropClashes(
+      {
+        files: [entry("world/level.dat"), entry("server.properties"), entry("new.txt")],
+        directories: ["world", "world/region"],
+      },
+      [
+        { name: "world", type: "DIRECTORY" },
+        { name: "server.properties", type: "FILE" },
+      ],
+    );
+    expect(clashes).toEqual([
+      { name: "server.properties", isDirectory: false },
+      { name: "world", isDirectory: true },
+    ]);
+  });
+
+  it("finds nothing when the target has none of the names", () => {
+    expect(
+      findDropClashes({ files: [entry("a.txt")], directories: [] }, [{ name: "b.txt" }]),
+    ).toEqual([]);
   });
 });

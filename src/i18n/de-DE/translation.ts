@@ -510,6 +510,15 @@ const translation: i18nLanguage = {
         dropNotAllowed: "Hier können keine Dateien hochgeladen werden",
         dropWhileUploading: "Warte, bis der aktuelle Upload fertig ist",
         uploadingFiles: "Lade {{done}} / {{total}} Dateien hoch...",
+        preparingDrop: "Abgelegte Dateien werden gelesen...",
+        creatingFolders: "Ordner werden erstellt...",
+        cancelUpload: "Abbrechen",
+        cancellingUpload: "Stoppe nach der aktuellen Datei...",
+        dropOverwriteTitle: "Vorhandene Einträge überschreiben?",
+        dropOverwriteDescription: "Diese gibt es in {{path}} schon:",
+        dropOverwriteNote:
+          "Dateien mit gleichem Namen werden ersetzt. Ordner werden zusammengeführt: Dateien, die nur auf dem Server liegen, bleiben, gleichnamige Dateien darin werden ersetzt.",
+        dropOverwriteConfirm: "Hochladen und überschreiben",
       },
       fileBrowserDialog: {
         closePreview: "Vorschau schließen",
@@ -531,6 +540,7 @@ const translation: i18nLanguage = {
         editFileFetchError: "Datei konnte nicht zum Bearbeiten geladen werden.",
         errorWhileDownload: "Datei konnte nicht heruntergeladen werden",
         dropUploadError: "{{path}} konnte nicht hochgeladen werden",
+        dropUploadCancelled: "Upload nach {{done}} von {{total}} Dateien abgebrochen",
       },
       uploadArchiveModal: {
         title: "Archiv hochladen",

@@ -62,7 +62,8 @@ export const useFileBrowserContextValue = ({
     openEditModal,
     setPermissionsObj,
     uploadDropped,
-    uploadProgress,
+    uploadState,
+    cancelUpload,
   } = actions;
 
   return useMemo(
@@ -82,7 +83,7 @@ export const useFileBrowserContextValue = ({
       navigating,
       downloadingFiles: downloading,
       downloadProgress,
-      uploadProgress,
+      uploadState,
       volumes,
 
       onEntryClick: (obj) => {
@@ -103,7 +104,8 @@ export const useFileBrowserContextValue = ({
       onDropFiles: (targetPath, dataTransfer) => {
         void uploadDropped(targetPath, dataTransfer);
       },
-      canDropAt: (path) => canChangeFiles && !uploadProgress && isPathInVolumes(path, volumes),
+      canDropAt: (path) => canChangeFiles && !uploadState && isPathInVolumes(path, volumes),
+      onCancelUpload: cancelUpload,
     }),
     [
       currentPath,
@@ -131,7 +133,8 @@ export const useFileBrowserContextValue = ({
       openEditModal,
       setPermissionsObj,
       uploadDropped,
-      uploadProgress,
+      uploadState,
+      cancelUpload,
       volumes,
     ],
   );
