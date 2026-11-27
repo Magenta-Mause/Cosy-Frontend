@@ -30,7 +30,7 @@ export type FileBrowserActions = {
 
   /** Uploads files/folders dragged in from the OS into `targetPath`. */
   onDropFiles?: (targetPath: string, dataTransfer: DataTransfer) => void;
-  /** Whether a drop may land in `path` (writable, inside a volume, nothing uploading). */
+  /** Whether a drop may land in `path` (writable, inside a volume). */
   canDropAt?: (path: string) => boolean;
   /** Stops a running drop upload after the current file. */
   onCancelUpload?: () => void;

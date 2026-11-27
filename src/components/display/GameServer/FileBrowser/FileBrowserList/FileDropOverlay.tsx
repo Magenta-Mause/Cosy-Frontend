@@ -88,19 +88,23 @@ export const FileDropOverlay = ({
 }: Props) => {
   const { t } = useTranslationPrefix("components.fileBrowser.fileBrowserList");
 
-  const showCenter = isDragging && isDroppingIntoCurrent && dropTarget !== null;
-  const showPill = (isDragging && !isDroppingIntoCurrent) || (!isDragging && Boolean(uploadState));
+  // Dragging during an upload: the drop still fires (and explains itself in an error modal),
+  // but nothing here may look like it would be accepted.
+  const busy = Boolean(uploadState);
+  const acceptTarget = busy ? null : dropTarget;
+  const showCenter = isDragging && isDroppingIntoCurrent && acceptTarget !== null;
+  const showPill = (isDragging && (busy || !isDroppingIntoCurrent)) || (!isDragging && busy);
 
-  const centerPath = useStickyValue(dropTarget ?? "/", showCenter);
+  const centerPath = useStickyValue(acceptTarget ?? "/", showCenter);
   const currentPill = useMemo((): Pill => {
     if (!isDragging && uploadState) {
       return uploadState.phase === "preparing"
         ? { kind: "preparing" }
         : { kind: "uploading", ...uploadState };
     }
-    if (dropTarget) return { kind: "folder", path: dropTarget };
-    return { kind: "blocked", whileUploading: Boolean(uploadState) };
-  }, [isDragging, uploadState, dropTarget]);
+    if (acceptTarget) return { kind: "folder", path: acceptTarget };
+    return { kind: "blocked", whileUploading: busy };
+  }, [isDragging, uploadState, acceptTarget, busy]);
   const pill = useStickyValue(currentPill, showPill);
   // The cancel button is the only part of the overlay that takes clicks.
   const canCancel =
@@ -141,7 +145,7 @@ export const FileDropOverlay = ({
       <div
         className={cn(
           "absolute inset-0 rounded-lg border-2 border-dashed transition-[opacity,border-color] duration-200 ease-out",
-          dropTarget ? "border-ring" : "border-border",
+          acceptTarget ? "border-ring" : "border-border",
           isDragging ? "opacity-100" : "opacity-0",
         )}
       />

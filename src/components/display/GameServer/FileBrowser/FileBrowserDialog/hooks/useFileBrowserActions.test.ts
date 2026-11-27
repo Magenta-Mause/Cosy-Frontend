@@ -65,9 +65,9 @@ beforeEach(() => {
 });
 
 describe("useFileBrowserActions.uploadDropped", () => {
-  it("is busy while the drop is still being read, so a second drop is refused visibly", async () => {
+  it("is busy while the drop is being read and rejects a second drop with an error", async () => {
     const reading = deferred<{ files: never[]; directories: string[] }>();
-    dropped.collectDroppedItems.mockReturnValue(reading.promise);
+    dropped.collectDroppedItems.mockReturnValueOnce(reading.promise);
     const { hook } = setup();
 
     let run!: Promise<void>;
@@ -75,6 +75,10 @@ describe("useFileBrowserActions.uploadDropped", () => {
       run = hook.result.current.uploadDropped("/data", dataTransfer);
     });
     expect(hook.result.current.uploadState).toEqual({ phase: "preparing" });
+
+    await act(() => hook.result.current.uploadDropped("/data", dataTransfer));
+    expect(notify.error).toHaveBeenCalledWith({ message: "dropWhileUploadingError" });
+    expect(dropped.collectDroppedItems).toHaveBeenCalledTimes(1);
 
     await act(async () => {
       reading.resolve({ files: [], directories: [] });

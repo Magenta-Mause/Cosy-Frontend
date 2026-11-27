@@ -122,11 +122,14 @@ export const useFileBrowserActions = ({
    */
   const uploadDropped = useCallback(
     async (targetPath: string, dataTransfer: DataTransfer) => {
-      if (uploadingRef.current) return;
+      if (uploadingRef.current) {
+        notificationModal.error({ message: t("dropWhileUploadingError") });
+        return;
+      }
       uploadingRef.current = true;
       cancelUploadRef.current = false;
-      // Set before any await, so a second drop while folders are still being read is refused
-      // visibly instead of being accepted and then silently dropped.
+      // Set before any await, so the overlay already warns about a second drop while folders
+      // are still being read.
       setUploadState({ phase: "preparing" });
       // Taken synchronously: the browser empties the DataTransfer once the drop handler returns.
       const collecting = collectDroppedItems(dataTransfer);

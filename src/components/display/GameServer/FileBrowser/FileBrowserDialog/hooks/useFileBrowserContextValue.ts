@@ -104,7 +104,9 @@ export const useFileBrowserContextValue = ({
       onDropFiles: (targetPath, dataTransfer) => {
         void uploadDropped(targetPath, dataTransfer);
       },
-      canDropAt: (path) => canChangeFiles && !uploadState && isPathInVolumes(path, volumes),
+      // A running upload does not block the drop itself: the drop must still fire so
+      // uploadDropped can explain in an error modal why nothing was uploaded.
+      canDropAt: (path) => canChangeFiles && isPathInVolumes(path, volumes),
       onCancelUpload: cancelUpload,
     }),
     [

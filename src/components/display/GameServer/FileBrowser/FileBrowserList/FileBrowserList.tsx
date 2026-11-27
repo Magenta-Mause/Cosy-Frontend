@@ -196,7 +196,7 @@ export const FileBrowserList = () => {
           <FileBrowserHeader
             crumbs={crumbs}
             loading={loading}
-            dropTargetPath={dropTarget}
+            dropTargetPath={uploadState ? null : dropTarget}
             canWrite={canWrite && !isSynthetic}
             canMkdir={Boolean(onMkdir) && canWrite && !isSynthetic}
             onHome={() => onCrumbClick?.("/")}
@@ -210,7 +210,7 @@ export const FileBrowserList = () => {
             error={error}
             emptyText={t("noFiles")}
             objects={sorted}
-            dropTargetPath={dropTarget}
+            dropTargetPath={uploadState ? null : dropTarget}
             canWrite={canWrite && !isSynthetic}
             onEntryClick={onEntryClick}
             onPreviewAs={onPreviewAs}

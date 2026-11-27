@@ -803,6 +803,7 @@ export type i18nLanguage = {
         errorWhileDownload: string;
         dropUploadError: ContainsVariable<"path">;
         dropUploadCancelled: ContainsVariable<"done"> & ContainsVariable<"total">;
+        dropWhileUploadingError: string;
       };
       uploadArchiveModal: {
         title: string;

@@ -536,6 +536,7 @@ const translation: i18nLanguage = {
         errorWhileDownload: "Failed to download file",
         dropUploadError: "Failed to upload {{path}}",
         dropUploadCancelled: "Upload cancelled after {{done}} of {{total}} files",
+        dropWhileUploadingError: "An upload is already running. Wait until it finishes, then drop the files again.",
       },
       uploadArchiveModal: {
         title: "Upload Archive",

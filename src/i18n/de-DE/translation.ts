@@ -541,6 +541,7 @@ const translation: i18nLanguage = {
         errorWhileDownload: "Datei konnte nicht heruntergeladen werden",
         dropUploadError: "{{path}} konnte nicht hochgeladen werden",
         dropUploadCancelled: "Upload nach {{done}} von {{total}} Dateien abgebrochen",
+        dropWhileUploadingError: "Es läuft bereits ein Upload. Warte, bis er fertig ist, und lege die Dateien dann erneut ab.",
       },
       uploadArchiveModal: {
         title: "Archiv hochladen",
