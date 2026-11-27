@@ -184,7 +184,8 @@ export const FileBrowserList = () => {
     <>
       <div
         data-testid="file-browser-drop-zone"
-        className="relative border-border border rounded-lg bg-primary-banner h-full flex overflow-hidden"
+        data-file-dragging={isDragging || undefined}
+        className="group/drop relative border-border border rounded-lg bg-primary-banner h-full flex overflow-hidden"
         {...dropZoneProps}
       >
         <div
