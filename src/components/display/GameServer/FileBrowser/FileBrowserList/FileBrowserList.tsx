@@ -32,6 +32,7 @@ export const FileBrowserList = () => {
     isSynthetic,
     onClosePreview,
     onEntryClick,
+    onPreviewAs,
     onCrumbClick,
     onRefresh,
     onMkdir,
@@ -211,6 +212,7 @@ export const FileBrowserList = () => {
             dropTargetPath={dropTarget}
             canWrite={canWrite && !isSynthetic}
             onEntryClick={onEntryClick}
+            onPreviewAs={onPreviewAs}
             onRename={onRename && canWrite && !isSynthetic ? openRename : undefined}
             onDelete={onDelete && canWrite && !isSynthetic ? openDelete : undefined}
             onDownload={onDownload}

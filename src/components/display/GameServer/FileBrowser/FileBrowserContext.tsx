@@ -1,8 +1,10 @@
 import { createContext, useContext, useMemo } from "react";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
+import type { PreviewMode } from "@/lib/fileSystemUtils";
 
 export type FileBrowserActions = {
   onEntryClick?: (obj: FileSystemObjectDto) => void;
+  onPreviewAs?: (obj: FileSystemObjectDto, mode: PreviewMode) => void;
   onCrumbClick?: (path: string) => void;
   onRefresh?: () => void;
 

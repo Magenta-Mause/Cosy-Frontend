@@ -449,12 +449,23 @@ const translation: i18nLanguage = {
         noPreviewAvailable: "No preview available{{textError}}",
         previewFailure: "Failed to preview file",
         selectPreview: "Select a file to preview",
+        viewAs: "View as",
+        noPreviewOpenAs:
+          'No preview available{{textError}}. To show it another way, choose "Open as" in the file\'s "..." menu.',
+        cannotDisplayAs: "This file can't be displayed as {{mode}}",
+        modes: {
+          text: "Text",
+          image: "Image",
+          video: "Video",
+          audio: "Audio",
+        },
       },
       fileBrowserHeader: {
         newFolder: "New Directory",
         refresh: "Refresh",
       },
       fileBrowserList: {
+        openAsAction: "Open as",
         failedToCreateFolder: "Failed to create folder.",
         failedToRename: "Failed to rename.",
         failedToDelete: "Failed to delete.",
@@ -497,6 +508,7 @@ const translation: i18nLanguage = {
       },
       fileBrowserDialog: {
         closePreview: "Close preview",
+        downloadPreviewedFile: "Download file",
         uploadFailure: "Failed to upload file",
         downloadZipFailure: "Failed to download zip",
         fileUploadError: "Failed to upload file",

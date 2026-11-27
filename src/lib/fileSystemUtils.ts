@@ -99,6 +99,19 @@ export function validateName(name: string) {
 
 export const IMAGE_EXTS = new Set(["png", "jpg", "jpeg", "gif", "webp", "bmp", "svg"]);
 export const VIDEO_EXTS = new Set(["mp4", "webm", "ogg", "mov", "m4v"]);
+export const AUDIO_EXTS = new Set(["mp3", "wav", "oga", "opus", "flac", "aac", "m4a"]);
+
+export const PREVIEW_MODES = ["text", "image", "video", "audio"] as const;
+export type PreviewMode = (typeof PREVIEW_MODES)[number];
+
+/** The preview mode a file extension implies, or null when the extension doesn't say. */
+export function previewModeForExt(ext: string): PreviewMode | null {
+  if (IMAGE_EXTS.has(ext)) return "image";
+  if (VIDEO_EXTS.has(ext)) return "video";
+  if (AUDIO_EXTS.has(ext)) return "audio";
+  if (TEXT_EDITABLE_EXTS.has(ext)) return "text";
+  return null;
+}
 
 export const TEXT_EDITABLE_EXTS = new Set([
   // Config / properties
@@ -145,13 +158,14 @@ function isLikelyText(bytes: Uint8Array) {
   return printable / total >= 0.9;
 }
 
-export async function blobToTextIfLikely(blob: Blob) {
+/** With `force`, skips the binary-content check (the user explicitly asked for text). */
+export async function blobToTextIfLikely(blob: Blob, opts: { force?: boolean } = {}) {
   if (blob.size > 16 * 1024) return { ok: false as const, reason: "File is larger than 16KB" };
 
   const buf = await blob.arrayBuffer();
   const bytes = new Uint8Array(buf);
 
-  if (!isLikelyText(bytes)) {
+  if (!opts.force && !isLikelyText(bytes)) {
     return { ok: false as const, reason: "Content doesn't look like plain text" };
   }
 
@@ -175,11 +189,16 @@ export async function downloadSingleFile(opts: {
 
   const blob = (await readFileFromVolume(serverUuid, { path: apiPath }, FILE_TRANSFER_OPTIONS)) as Blob;
 
+  saveBlob(blob, filenameFromPath(fullPath));
+}
+
+/** Hands an already-fetched blob to the browser as a file download. */
+export function saveBlob(blob: Blob, fileName: string) {
   const a = document.createElement("a");
   const url = URL.createObjectURL(blob);
 
   a.href = url;
-  a.download = filenameFromPath(fullPath);
+  a.download = fileName;
   document.body.appendChild(a);
   a.click();
   a.remove();

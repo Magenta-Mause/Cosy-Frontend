@@ -1,6 +1,6 @@
-import type { FileSystemObjectDto } from "@/api/generated/model";
 import { useMemo } from "react";
-import { joinDir, joinRemotePath } from "@/lib/fileSystemUtils";
+import type { FileSystemObjectDto } from "@/api/generated/model";
+import { joinDir, joinRemotePath, type PreviewMode } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
 import { useFileBrowser } from "../FileBrowserContext";
 import { FileBrowserRow } from "../FileBrowserRow/FileBrowserRow";
@@ -16,6 +16,7 @@ type Props = {
   dropTargetPath?: string | null;
 
   onEntryClick?: (obj: FileSystemObjectDto) => void;
+  onPreviewAs?: (obj: FileSystemObjectDto, mode: PreviewMode) => void;
   onRename?: (obj: FileSystemObjectDto) => void;
   onDelete?: (obj: FileSystemObjectDto) => void;
   onDownload?: (obj: FileSystemObjectDto) => Promise<unknown>;
@@ -31,6 +32,7 @@ export const FileBrowserBody = ({
   canWrite,
   dropTargetPath,
   onEntryClick,
+  onPreviewAs,
   onRename,
   onDelete,
   onDownload,
@@ -87,6 +89,7 @@ export const FileBrowserBody = ({
                 canWrite={canWrite}
                 volumeUuid={volumeUuid}
                 onEntryClick={effectiveEntryClick}
+                onPreviewAs={navigating ? undefined : onPreviewAs}
                 onRename={navigating ? undefined : onRename}
                 onDelete={navigating ? undefined : onDelete}
                 onDownload={navigating ? undefined : onDownload}

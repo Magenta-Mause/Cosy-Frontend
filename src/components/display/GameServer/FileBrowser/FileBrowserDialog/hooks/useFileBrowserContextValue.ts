@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { useMemo } from "react";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
 import { isPathInVolumes } from "@/lib/droppedFiles";
+import type { PreviewMode } from "@/lib/fileSystemUtils";
 import type { FileBrowserContextValue } from "../../FileBrowserContext";
 import type { useFileBrowserActions } from "./useFileBrowserActions";
 
@@ -21,6 +22,7 @@ interface UseFileBrowserContextValueArgs {
   volumes?: VolumeMountConfiguration[];
   ensurePathFetched: (path: string, depth: number, force?: boolean) => Promise<void>;
   onEntryClick: (obj: FileSystemObjectDto) => void;
+  onPreviewAs: (obj: FileSystemObjectDto, mode: PreviewMode) => void;
   onCrumbClick: (path: string) => void;
   actions: ReturnType<typeof useFileBrowserActions>;
 }
@@ -46,6 +48,7 @@ export const useFileBrowserContextValue = ({
   volumes,
   ensurePathFetched,
   onEntryClick,
+  onPreviewAs,
   onCrumbClick,
   actions,
 }: UseFileBrowserContextValueArgs): FileBrowserContextValue => {
@@ -85,6 +88,7 @@ export const useFileBrowserContextValue = ({
       onEntryClick: (obj) => {
         onEntryClick(obj);
       },
+      onPreviewAs,
       onCrumbClick,
       onRefresh: () => ensurePathFetched(currentPath, fetchDepth, true),
 
@@ -118,6 +122,7 @@ export const useFileBrowserContextValue = ({
       onDownload,
       onCrumbClick,
       onEntryClick,
+      onPreviewAs,
       isSynthetic,
       canChangeFiles,
       navigating,

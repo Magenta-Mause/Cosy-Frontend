@@ -1,4 +1,5 @@
 import type { ApiErrorKey } from "@/lib/apiError";
+import type { PreviewMode } from "@/lib/fileSystemUtils";
 
 export type i18nLanguage = {
   common: {
@@ -726,8 +727,13 @@ export type i18nLanguage = {
         loadingPreview: string;
         selectPreview: string;
         noPreviewAvailable: ContainsVariable<"textError">;
+        viewAs: string;
+        noPreviewOpenAs: ContainsVariable<"textError">;
+        cannotDisplayAs: ContainsVariable<"mode">;
+        modes: Record<PreviewMode, string>;
       };
       fileBrowserList: {
+        openAsAction: string;
         failedToCreateFolder: string;
         failedToRename: string;
         failedToDelete: string;
@@ -770,6 +776,7 @@ export type i18nLanguage = {
       };
       fileBrowserDialog: {
         closePreview: string;
+        downloadPreviewedFile: string;
         uploadFailure: string;
         downloadZipFailure: string;
         fileUploadError: string;
