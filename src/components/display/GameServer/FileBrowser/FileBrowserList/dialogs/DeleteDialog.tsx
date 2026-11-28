@@ -1,4 +1,5 @@
 import type { TFunction } from "i18next";
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -26,9 +27,21 @@ type Props = {
 };
 
 export const DeleteDialog = ({ open, onOpenChange, obj, busy, error, t, onSubmit }: Props) => {
+  const deleteButtonRef = useRef<HTMLButtonElement>(null);
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent
+        // Radix would focus Cancel (the first focusable); focus Delete so Enter confirms.
+        // Deliberate: opening the dialog already took a click on Delete, and bulk deletes stay
+        // quick. A disabled Delete can't take focus, so then Radix's default focus is kept.
+        onOpenAutoFocus={(e) => {
+          const deleteButton = deleteButtonRef.current;
+          if (!deleteButton || deleteButton.disabled) return;
+          e.preventDefault();
+          deleteButton.focus();
+        }}
+      >
         <DialogHeader>
           <DialogTitle>{t("deleteAction")}</DialogTitle>
           <DialogDescription>
@@ -48,6 +61,7 @@ export const DeleteDialog = ({ open, onOpenChange, obj, busy, error, t, onSubmit
             {t("cancel")}
           </Button>
           <Button
+            ref={deleteButtonRef}
             variant="destructive"
             onClick={onSubmit}
             disabled={busy || !obj}

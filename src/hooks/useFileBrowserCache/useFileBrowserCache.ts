@@ -197,6 +197,21 @@ export function useFileBrowserCache(opts: {
     [mountTrie, opts.serverUuid],
   );
 
+  /**
+   * Drops every cached listing below `path` (not `path` itself), so folders that changed
+   * underneath, e.g. after an upload, are fetched again when opened instead of shown stale.
+   */
+  const invalidatePathsUnder = useCallback((path: string) => {
+    const norm = normalizePath(path);
+    const prefix = norm === "/" ? "/" : `${norm}/`;
+    const isBelow = (key: string) => key !== norm && key.startsWith(prefix);
+    if (![...cacheRef.current.keys()].some(isBelow)) return;
+    const next = new Map([...cacheRef.current].filter(([key]) => !isBelow(key)));
+    // Updated right away: a fetch issued in the same tick must already miss.
+    cacheRef.current = next;
+    setCache(next);
+  }, []);
+
   useEffect(() => {
     const norm = normalizePath(currentPath);
     const node = getNodeForPath(mountTrie, norm);
@@ -240,5 +255,6 @@ export function useFileBrowserCache(opts: {
     setError,
     ensurePathFetched,
     prefetchPath,
+    invalidatePathsUnder,
   };
 }

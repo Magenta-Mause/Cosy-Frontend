@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useMemo } from "react";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
+import { isPathInVolumes } from "@/lib/droppedFiles";
 import type { PreviewMode } from "@/lib/fileSystemUtils";
 import type { FileBrowserContextValue } from "../../FileBrowserContext";
 import type { useFileBrowserActions } from "./useFileBrowserActions";
@@ -60,6 +61,9 @@ export const useFileBrowserContextValue = ({
     onDownload,
     openEditModal,
     setPermissionsObj,
+    uploadDropped,
+    uploadState,
+    cancelUpload,
   } = actions;
 
   return useMemo(
@@ -79,6 +83,7 @@ export const useFileBrowserContextValue = ({
       navigating,
       downloadingFiles: downloading,
       downloadProgress,
+      uploadState,
       volumes,
 
       onEntryClick: (obj) => {
@@ -95,6 +100,14 @@ export const useFileBrowserContextValue = ({
 
       onEditFile: (obj) => openEditModal(obj),
       onChangePermissions: (obj) => setPermissionsObj(obj),
+
+      onDropFiles: (targetPath, dataTransfer) => {
+        void uploadDropped(targetPath, dataTransfer);
+      },
+      // A running upload does not block the drop itself: the drop must still fire so
+      // uploadDropped can explain in an error modal why nothing was uploaded.
+      canDropAt: (path) => canChangeFiles && isPathInVolumes(path, volumes),
+      onCancelUpload: cancelUpload,
     }),
     [
       currentPath,
@@ -121,6 +134,9 @@ export const useFileBrowserContextValue = ({
       downloadProgress,
       openEditModal,
       setPermissionsObj,
+      uploadDropped,
+      uploadState,
+      cancelUpload,
       volumes,
     ],
   );

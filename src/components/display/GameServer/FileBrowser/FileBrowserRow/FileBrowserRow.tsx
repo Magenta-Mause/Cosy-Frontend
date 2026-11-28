@@ -37,6 +37,9 @@ type Props = {
 
   canWrite: boolean;
   volumeUuid?: string;
+  /** Remote path a file drag dropped on this row lands in; set for directories only. */
+  dropPath?: string;
+  isDropTarget?: boolean;
 
   onEntryClick?: (obj: FileSystemObjectDto) => void;
   onPreviewAs?: (obj: FileSystemObjectDto, mode: PreviewMode) => void;
@@ -52,6 +55,8 @@ export const FileBrowserRow = ({
   loading,
   canWrite,
   volumeUuid,
+  dropPath,
+  isDropTarget,
   onEntryClick,
   onPreviewAs,
   onRename,
@@ -82,13 +87,18 @@ export const FileBrowserRow = ({
     <div
       role="button"
       data-testid="file-row"
+      data-drop-path={dropPath}
       tabIndex={onEntryClick ? 0 : -1}
       aria-disabled={!onEntryClick || undefined}
       onClick={onEntryClick ? () => onEntryClick(obj) : undefined}
       onKeyDown={onEntryClick ? (e) => { if (e.key === "Enter" || e.key === " ") onEntryClick(obj); } : undefined}
       className={cn(
         "w-full flex items-center gap-3 rounded-md px-2 py-2",
-        onEntryClick && "hover:bg-black/5 cursor-pointer",
+        // During an OS file drag, Chrome keeps :hover stuck on whatever was under the cursor
+        // at the last drop, so the hover background is switched off while a drag is active.
+        onEntryClick &&
+          "hover:bg-black/5 group-data-file-dragging/drop:hover:bg-transparent cursor-pointer",
+        isDropTarget && "bg-black/10! ring-2 ring-ring",
       )}
     >
       {/* Icon + name + meta */}

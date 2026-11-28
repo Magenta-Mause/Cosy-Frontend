@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import type { FileSystemObjectDto } from "@/api/generated/model";
-import { joinRemotePath, type PreviewMode } from "@/lib/fileSystemUtils";
+import { joinDir, joinRemotePath, type PreviewMode } from "@/lib/fileSystemUtils";
 import { cn } from "@/lib/utils";
 import { useFileBrowser } from "../FileBrowserContext";
 import { FileBrowserRow } from "../FileBrowserRow/FileBrowserRow";
@@ -12,6 +12,8 @@ type Props = {
 
   objects: FileSystemObjectDto[];
   canWrite: boolean;
+  /** Folder currently hovered by an OS file drag, highlighted as the drop destination. */
+  dropTargetPath?: string | null;
 
   onEntryClick?: (obj: FileSystemObjectDto) => void;
   onPreviewAs?: (obj: FileSystemObjectDto, mode: PreviewMode) => void;
@@ -28,6 +30,7 @@ export const FileBrowserBody = ({
   objects,
   emptyText,
   canWrite,
+  dropTargetPath,
   onEntryClick,
   onPreviewAs,
   onRename,
@@ -65,6 +68,8 @@ export const FileBrowserBody = ({
           <li>
             <FileBrowserRow
               obj={{ name: "..", type: "DIRECTORY" }}
+              dropPath={joinDir(currentPath, "..")}
+              isDropTarget={dropTargetPath === joinDir(currentPath, "..")}
               loading={navigating}
               canWrite={false}
               onEntryClick={effectiveEntryClick}
@@ -78,6 +83,8 @@ export const FileBrowserBody = ({
             <li key={`${obj.type ?? "UNKNOWN"}:${obj.name}`}>
               <FileBrowserRow
                 obj={obj}
+                dropPath={obj.type === "DIRECTORY" ? fullPath : undefined}
+                isDropTarget={obj.type === "DIRECTORY" && dropTargetPath === fullPath}
                 loading={effectiveLoading}
                 canWrite={canWrite}
                 volumeUuid={volumeUuid}

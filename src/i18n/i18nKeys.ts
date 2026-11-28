@@ -768,6 +768,19 @@ export type i18nLanguage = {
         changePermissionsAction: string;
         moreActions: string;
         volumeMountTooltip: string;
+        dropToUpload: string;
+        dropOverlayTitle: string;
+        dropNotAllowed: string;
+        dropWhileUploading: string;
+        uploadingFiles: ContainsVariable<"done"> & ContainsVariable<"total">;
+        preparingDrop: string;
+        creatingFolders: string;
+        cancelUpload: string;
+        cancellingUpload: string;
+        dropOverwriteTitle: string;
+        dropOverwriteDescription: ContainsVariable<"path">;
+        dropOverwriteNote: string;
+        dropOverwriteConfirm: string;
       };
       fileBrowserDialog: {
         closePreview: string;
@@ -788,6 +801,9 @@ export type i18nLanguage = {
         uploadArchive: string;
         editFileFetchError: string;
         errorWhileDownload: string;
+        dropUploadError: ContainsVariable<"path">;
+        dropUploadCancelled: ContainsVariable<"done"> & ContainsVariable<"total">;
+        dropWhileUploadingError: string;
       };
       uploadArchiveModal: {
         title: string;

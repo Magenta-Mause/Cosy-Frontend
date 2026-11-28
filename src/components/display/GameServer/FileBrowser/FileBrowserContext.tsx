@@ -1,6 +1,7 @@
 import { createContext, useContext, useMemo } from "react";
 import type { FileSystemObjectDto, VolumeMountConfiguration } from "@/api/generated/model";
 import type { PreviewMode } from "@/lib/fileSystemUtils";
+import type { DropUploadState } from "./FileBrowserDialog/hooks/useFileBrowserActions";
 
 export type FileBrowserActions = {
   onEntryClick?: (obj: FileSystemObjectDto) => void;
@@ -26,6 +27,13 @@ export type FileBrowserActions = {
   onDownload?: (obj: FileSystemObjectDto) => Promise<unknown>;
   onEditFile?: (obj: FileSystemObjectDto) => void;
   onChangePermissions?: (obj: FileSystemObjectDto) => void;
+
+  /** Uploads files/folders dragged in from the OS into `targetPath`. */
+  onDropFiles?: (targetPath: string, dataTransfer: DataTransfer) => void;
+  /** Whether a drop may land in `path` (writable, inside a volume). */
+  canDropAt?: (path: string) => boolean;
+  /** Stops a running drop upload after the current file. */
+  onCancelUpload?: () => void;
 };
 
 export type FileBrowserState = {
@@ -47,6 +55,7 @@ export type FileBrowserState = {
 
   downloadingFiles: string[];
   downloadProgress?: { done: number; total: number } | null;
+  uploadState?: DropUploadState | null;
 
   volumes?: VolumeMountConfiguration[];
 };
